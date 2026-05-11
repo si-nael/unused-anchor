@@ -1,0 +1,19 @@
+{
+    "name": "unused-anchor",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Bubbles language bootstrap for procedural world definition and inspection.",
+    "scripts": {
+        "build": "tsc -p tsconfig.json",
+        "check": "tsc -p tsconfig.json --noEmit",
+        "verify": "npm run check && npm test && npm run validate:example && npm run compile:example",
+        "validate:example": "tsx apps/hatchery/compile-bubble.ts --check examples/first-world.bubble",
+        "compile:example": "tsx apps/hatchery/compile-bubble.ts examples/first-world.bubble data/runs/first-world.ir.json",
+        "test": "tsx --test tests/unit/**/*.test.ts"
+    },
+    "devDependencies": {
+        "@types/node": "^24.0.1",
+        "tsx": "^4.19.3",
+        "typescript": "^5.8.3"
+    }
+}

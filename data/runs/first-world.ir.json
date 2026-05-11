@@ -1,0 +1,44 @@
+{
+  "version": "0.1.0",
+  "profile": "bubbles.v0.1",
+  "sourcePath": "examples/first-world.bubble",
+  "bubble": {
+    "name": "FirstLight",
+    "axioms": {
+      "coherence": "stable",
+      "membrane": "porous"
+    },
+    "worldWill": "preserve local consistency",
+    "seed": "cosmic_dust",
+    "observationMode": "local",
+    "effects": [
+      {
+        "kind": "observe",
+        "requirement": "optional",
+        "scope": "local"
+      },
+      {
+        "kind": "branch",
+        "requirement": "optional",
+        "scope": "local"
+      },
+      {
+        "kind": "commit",
+        "requirement": "required",
+        "scope": "local"
+      },
+      {
+        "kind": "debt",
+        "requirement": "optional",
+        "scope": "global"
+      }
+    ],
+    "obligations": [
+      {
+        "effectKind": "commit",
+        "scope": "local",
+        "description": "Author declared commit as a required local effect."
+      }
+    ]
+  }
+}

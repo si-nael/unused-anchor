@@ -1,0 +1,11 @@
+bubble FirstLight {
+  axiom coherence = stable
+  axiom membrane = porous
+  will "preserve local consistency"
+  seed cosmic_dust
+  observe local
+  effect observe optional
+  effect branch optional
+  effect commit required
+  effect debt optional scope global
+}
