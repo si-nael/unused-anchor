@@ -1,5 +1,22 @@
 # Work Log
 
+## 2026-05-15
+
+- Raised the product bar for Bubble Language again: it should not stop at a reference kernel, but become a deployable language stack that can be embedded into multiple serious projects.
+- Recorded the required delivery surface explicitly: stable grammar, semantic specification, validator, interpreter or runtime kernel, compile or planning path, tooling, examples, and compatibility rules.
+- Captured the implication that language design, semantics, compiler pipeline, execution stack, tooling, and adoption assets now need to be treated as parallel first-class workstreams.
+- Recorded the new meta-generative idea that bubbles may eventually generate bubble-language artifacts as well as descendant worlds, provided the design remains staged and inspectable.
+- Recorded the reflexive ontology point that Bubble Language itself can be treated as one bubble with its own axioms, boundaries, and contradiction surface inside the larger bubble system.
+- Promoted that reflexive ontology into the architecture strategy by treating Bubble Language as one governing bubble rather than as a hidden external layer.
+- Added a first staged meta-layer sketch built around `quote`, `generator`, `reflect`, and `emit`, together with activation and safety rules that keep self-generation inspectable.
+- Implemented the first `bubbles.v0.2` meta profile in code by adding AST, parser, IR, lowering, and validation support for `quote`, `generator`, `reflect`, and `emit`.
+- Added a dedicated `bubble.meta` IR section, profile/version promotion to `0.2.0`, unit coverage for meta declarations, and a new `examples/meta-grove.bubble` example plus a profile document.
+- Recorded the stronger execution hypothesis that Bubble Language should not keep the ordinary compile/run/build/input/output contract of a conventional programming language.
+- Added an architecture-level non-classical execution model: compilation as semantic planning, execution as on-demand materialization, build as world packaging, input as observation or perturbation, output as trace or materialized slice, and logic as constraint-plus-causality propagation.
+- Implemented the first executable runtime slice for that model by adding a semantic planner and a materializer that can activate `emit` declarations from `bubbles.v0.2` programs.
+- Added CLI commands for planning and materialization, runtime tests for descendant and artifact activation, and verification scripts that generate plan and materialization outputs for the meta example.
+- Added an inspection runtime and CLI that turn plan and materialization output into a stable report surface, plus unit coverage and a generated inspection artifact for the meta example.
+
 ## 2026-05-14
 
 - Reconfirmed the stronger language ambition: Bubble Language is not only a world-definition DSL but a language for generating bubble universes that may induce other bubbles under a governing world will.

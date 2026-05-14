@@ -1,5 +1,22 @@
 # Idea Log
 
+## 2026-05-15
+
+### Bubble as language generator
+
+- A bubble should be able to generate not only descendant worlds but further bubble-language artifacts.
+- That means Bubble Language may need a staged meta-level where bubbles can emit, transform, or constrain other bubble definitions.
+- World generation and language generation should remain related but not collapsed into one unrestricted eval surface.
+- A useful design target is stratified self-generation: object-level bubbles create worlds, meta-level bubbles create bubble schemas, fragments, or derived programs.
+- This would support reusable world families, reflective experiments, and eventually partial self-hosting without sacrificing inspectability.
+
+### Bubble language as a bubble
+
+- Under the project's own ontology, the Bubble Language system itself can be treated as one bubble among other bubbles.
+- Its grammar, compiler, runtime, and tooling are then not outside the model, but one locally coherent regime with its own axioms, world will, interfaces, and failure modes.
+- This suggests a useful reflexive design principle: the language should be able to describe its own construction and limits without collapsing into unrestricted self-execution.
+- In that framing, contradictions in the language stack are not only implementation bugs but also boundary events inside one special bubble that governs other bubbles.
+
 ## 2026-05-14
 
 ### Bubble language clarification

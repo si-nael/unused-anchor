@@ -95,6 +95,76 @@ test("compiles a valid v0.1 bubble world", () => {
     });
 });
 
+test("compiles a valid v0.2 meta bubble world", () => {
+    const source = [
+        "bubble Nursery {",
+        "  realization deterministic",
+        "  axiom coherence = stable",
+        "  will \"grow derived worlds\"",
+        "  seed nursery_seed",
+        "  effect spawn required",
+        "  quote Sapling = bubble Sapling { realization deterministic axiom coherence = stable will 'preserve inner symmetry' seed latent_seed effect spawn required }",
+        "  generator Grove(seedName) from Sapling",
+        "  reflect self.address",
+        "  reflect self.worldWill",
+        "  emit Grove(\"ember_seed\") as descendant",
+        "}",
+    ].join("\n");
+
+    const result = compileBubbleSource(source, { sourcePath: "nursery.bubble" });
+
+    assert.deepEqual(result.diagnostics, []);
+    assert.equal(result.program.version, "0.2.0");
+    assert.equal(result.program.profile, "bubbles.v0.2");
+    assert.deepEqual(result.program.bubble.meta, {
+        quotes: [
+            {
+                id: "quote:7:Sapling",
+                name: "Sapling",
+                sourceLine: 7,
+                artifactKind: "bubble-source",
+                artifactSource: "bubble Sapling { realization deterministic axiom coherence = stable will 'preserve inner symmetry' seed latent_seed effect spawn required }",
+            },
+        ],
+        generators: [
+            {
+                id: "generator:8:Grove",
+                name: "Grove",
+                sourceLine: 8,
+                parameterName: "seedName",
+                sourceQuoteName: "Sapling",
+            },
+        ],
+        reflections: [
+            {
+                id: "reflect:9:self.address",
+                sourceLine: 9,
+                path: "self.address",
+            },
+            {
+                id: "reflect:10:self.worldWill",
+                sourceLine: 10,
+                path: "self.worldWill",
+            },
+        ],
+        emissions: [
+            {
+                id: "emit:11:Grove",
+                sourceLine: 11,
+                sourceName: "Grove",
+                sourceKind: "generator",
+                argument: "ember_seed",
+                target: "descendant",
+                provenance: {
+                    quoteName: "Sapling",
+                    generatorName: "Grove",
+                    reflectionIds: ["reflect:9:self.address", "reflect:10:self.worldWill"],
+                },
+            },
+        ],
+    });
+});
+
 test("rejects unknown effect kinds", () => {
     const source = [
         "bubble Fault {",
@@ -248,6 +318,55 @@ test("rejects deterministic realization when a branch effect is declared", () =>
             assert.deepEqual(
                 error.diagnostics.map((diagnostic) => diagnostic.code),
                 ["BBL206", "BBL210"],
+            );
+            return true;
+        },
+    );
+});
+
+test("rejects generators that reference unknown quotes", () => {
+    const source = [
+        "bubble Workshop {",
+        "  axiom coherence = stable",
+        "  will \"grow carefully\"",
+        "  seed workshop_seed",
+        "  effect spawn required",
+        "  generator Grove(seedName) from MissingQuote",
+        "}",
+    ].join("\n");
+
+    assert.throws(
+        () => compileBubbleSource(source, { sourcePath: "workshop.bubble" }),
+        (error: unknown) => {
+            assert.ok(error instanceof BubbleCompilerError);
+            assert.deepEqual(
+                error.diagnostics.map((diagnostic) => diagnostic.code),
+                ["BBL212"],
+            );
+            return true;
+        },
+    );
+});
+
+test("rejects unsupported emit usage for quoted artifacts", () => {
+    const source = [
+        "bubble Studio {",
+        "  axiom coherence = stable",
+        "  will \"stage quoted worlds\"",
+        "  seed studio_seed",
+        "  effect spawn required",
+        "  quote Sapling = bubble Sapling { realization deterministic axiom coherence = stable will 'preserve inner symmetry' seed latent_seed effect spawn required }",
+        "  emit Sapling(\"ember_seed\") as descendant",
+        "}",
+    ].join("\n");
+
+    assert.throws(
+        () => compileBubbleSource(source, { sourcePath: "studio.bubble" }),
+        (error: unknown) => {
+            assert.ok(error instanceof BubbleCompilerError);
+            assert.deepEqual(
+                error.diagnostics.map((diagnostic) => diagnostic.code),
+                ["BBL215"],
             );
             return true;
         },

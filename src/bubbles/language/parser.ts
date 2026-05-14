@@ -10,14 +10,18 @@ import type {
     AxiomDeclaration,
     BubbleDocument,
     BubbleStatement,
+    EmitDeclaration,
     EffectDeclaration,
+    GeneratorDeclaration,
     ObserveDeclaration,
+    QuoteDeclaration,
     RealizationDeclaration,
+    ReflectDeclaration,
     SeedDeclaration,
     SpawnDeclaration,
     WillDeclaration,
 } from "./ast";
-import type { BubbleRealizationMode, ScalarValue } from "../ir";
+import type { BubbleEmissionTarget, BubbleRealizationMode, ScalarValue } from "../ir";
 
 const BUBBLE_HEADER_PATTERN = /^bubble\s+([A-Za-z_][\w-]*)\s*\{$/;
 const AXIOM_PATTERN = /^axiom\s+([A-Za-z_][\w-]*)\s*=\s*(.+)$/;
@@ -26,6 +30,10 @@ const WILL_PATTERN = /^will\s+(.+)$/;
 const SEED_PATTERN = /^seed\s+(.+)$/;
 const OBSERVE_PATTERN = /^observe\s+([A-Za-z_][\w-]*)$/;
 const SPAWN_PATTERN = /^spawn\s+([A-Za-z_][\w-]*)(?:\s+when\s+(.+))?$/;
+const QUOTE_PATTERN = /^quote\s+([A-Za-z_][\w-]*)\s*=\s*(.+)$/;
+const GENERATOR_PATTERN = /^generator\s+([A-Za-z_][\w-]*)(?:\s*\(([A-Za-z_][\w-]*)\))?\s+from\s+([A-Za-z_][\w-]*)$/;
+const REFLECT_PATTERN = /^reflect\s+(self\.[A-Za-z_][\w.]*)$/;
+const EMIT_PATTERN = /^emit\s+([A-Za-z_][\w-]*)(?:\((.+)\))?(?:\s+as\s+(descendant|artifact))?$/;
 const EFFECT_PATTERN = /^effect\s+([A-Za-z_][\w-]*)(?:\s+(required|optional))?(?:\s+scope\s+([A-Za-z_][\w-]*))?$/;
 
 export function parseBubbleSource(source: string, sourcePath: string | null = null): BubbleDocument {
@@ -151,6 +159,51 @@ function parseStatement(line: { lineNumber: number; text: string }, sourcePath: 
             line: line.lineNumber,
             familyName: spawnMatch[1],
             condition: spawnMatch[2] ? unquote(spawnMatch[2]) : null,
+        };
+        return statement;
+    }
+
+    const quoteMatch = line.text.match(QUOTE_PATTERN);
+    if (quoteMatch) {
+        const statement: QuoteDeclaration = {
+            kind: "quote",
+            line: line.lineNumber,
+            name: quoteMatch[1],
+            artifactSource: unquote(quoteMatch[2]),
+        };
+        return statement;
+    }
+
+    const generatorMatch = line.text.match(GENERATOR_PATTERN);
+    if (generatorMatch) {
+        const statement: GeneratorDeclaration = {
+            kind: "generator",
+            line: line.lineNumber,
+            name: generatorMatch[1],
+            parameterName: generatorMatch[2] ?? null,
+            sourceQuoteName: generatorMatch[3],
+        };
+        return statement;
+    }
+
+    const reflectMatch = line.text.match(REFLECT_PATTERN);
+    if (reflectMatch) {
+        const statement: ReflectDeclaration = {
+            kind: "reflect",
+            line: line.lineNumber,
+            path: reflectMatch[1],
+        };
+        return statement;
+    }
+
+    const emitMatch = line.text.match(EMIT_PATTERN);
+    if (emitMatch) {
+        const statement: EmitDeclaration = {
+            kind: "emit",
+            line: line.lineNumber,
+            sourceName: emitMatch[1],
+            argument: emitMatch[2] ? unquote(emitMatch[2]) : null,
+            target: (emitMatch[3] as BubbleEmissionTarget | undefined) ?? null,
         };
         return statement;
     }

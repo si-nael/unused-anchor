@@ -321,3 +321,73 @@ If realization mode and descendant-family birth stay purely inferred from effect
 Consequence:
 
 Add a `realization` declaration so authorial determinism or nondeterminism is explicit, and add `spawn ... when ...` declarations so descendant families and local birth conditions lower directly into Bubble IR instead of remaining implicit.
+
+### D-033: Build Bubble Language as a deployable language stack, not only a reference kernel
+
+Reason:
+
+If Bubble Language stops at an illustrative syntax, IR, and a few examples, it will remain a private prototype rather than a reusable tool for real projects. That would undercut both research reuse and external adoption.
+
+Consequence:
+
+Treat grammar specification, semantic specification, execution runtime, CLI and library tooling, example corpus, compatibility policy, and regression infrastructure as first-class deliverables rather than optional polish.
+
+### D-034: Treat Bubble Language itself as one governing bubble
+
+Reason:
+
+If the language stack is treated as if it stood outside the bubble ontology, the architecture will gain hidden assumptions and lose the ability to reason about its own boundaries, invariants, and contradiction surface.
+
+Consequence:
+
+Model the language stack itself as one special bubble with its own axioms, membranes, compatibility boundaries, and failure modes. Favor controlled self-description over unrestricted self-execution.
+
+### D-035: Use a staged meta layer for bubble-generated bubble artifacts
+
+Reason:
+
+If bubbles are allowed to generate further bubble-language artifacts through unrestricted same-stage evaluation, inspectability and semantic control will collapse quickly.
+
+Consequence:
+
+Start with a staged meta layer built around `quote`, `generator`, `reflect`, and `emit`. Require validation and provenance capture at the `emit` boundary, and treat unrestricted same-stage self-evaluation as out of scope.
+
+### D-036: Introduce `bubbles.v0.2` as the first explicit meta profile
+
+Reason:
+
+The staged meta layer needs a visible contract boundary. Without a named profile, quoted artifacts, generators, bounded reflections, and emission requests would appear as ad hoc extensions rather than a stable language step.
+
+Consequence:
+
+Emit `version: "0.2.0"` and `profile: "bubbles.v0.2"` whenever a source file uses `quote`, `generator`, `reflect`, or `emit`, and lower those declarations into an explicit `bubble.meta` IR section.
+
+### D-037: Use a non-classical world execution model rather than ordinary program execution as the primary semantic contract
+
+Reason:
+
+If Bubble Language inherits the same compile, run, build, input, and output model as an ordinary programming language, it will be forced toward explicit finite-state execution and will lose the core advantage of intensional world representation.
+
+Consequence:
+
+Treat compilation as semantic planning, execution as on-demand world materialization, build as world packaging, input as observation or perturbation, output as trace or materialized slice, and logic as constraint-and-causality propagation rather than only imperative instruction flow.
+
+### D-038: Add a first planner and materializer runtime on top of Bubble IR
+
+Reason:
+
+The non-classical execution model needs an executable slice. Without a planner and materializer that consume Bubble IR and meta emissions, `emit` remains only a compile-time annotation and the runtime model stays rhetorical.
+
+Consequence:
+
+Introduce a semantic plan layer derived from compiled Bubble IR, and a materializer that activates emitted quotes or generators into descendant bubbles or reusable artifacts while capturing reflections, traces, and commit records.
+
+### D-039: Add an inspector surface on top of plan and materialization outputs
+
+Reason:
+
+If the planner and materializer only emit raw JSON structures, the new runtime slice remains hard to query and difficult to use as a real inspection workflow.
+
+Consequence:
+
+Provide an inspection layer that summarizes plans, artifacts, commits, and trace events into a stable report surface, and expose it through a dedicated CLI command so users can inspect Bubble execution without manually traversing raw runtime output.

@@ -1,14 +1,28 @@
 import type {
     BubbleAddressIR,
     BubbleAddressTemplateIR,
+    BubbleEmissionIR,
+    BubbleGeneratorIR,
     BubbleGenerativeRelationIR,
     BubbleGenerationIR,
+    BubbleMetaIR,
+    BubbleProfile,
+    BubbleQuoteIR,
     BubbleRealizationMode,
     BubbleProgramIR,
+    BubbleReflectionIR,
+    BubbleVersion,
     EffectIR,
     ObligationIR,
 } from "../ir";
-import type { BubbleDocument, SpawnDeclaration } from "./ast";
+import type {
+    BubbleDocument,
+    EmitDeclaration,
+    GeneratorDeclaration,
+    QuoteDeclaration,
+    ReflectDeclaration,
+    SpawnDeclaration,
+} from "./ast";
 import { throwDiagnostic } from "./diagnostics";
 
 export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
@@ -18,6 +32,10 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
     let seed: string | null = null;
     let observationMode: string | null = null;
     const spawnDeclarations: SpawnDeclaration[] = [];
+    const quoteDeclarations: QuoteDeclaration[] = [];
+    const generatorDeclarations: GeneratorDeclaration[] = [];
+    const reflectDeclarations: ReflectDeclaration[] = [];
+    const emitDeclarations: EmitDeclaration[] = [];
     const effects: EffectIR[] = [];
 
     for (const declaration of document.bubble.declarations) {
@@ -90,6 +108,18 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
             case "spawn":
                 spawnDeclarations.push(declaration);
                 break;
+            case "quote":
+                quoteDeclarations.push(declaration);
+                break;
+            case "generator":
+                generatorDeclarations.push(declaration);
+                break;
+            case "reflect":
+                reflectDeclarations.push(declaration);
+                break;
+            case "emit":
+                emitDeclarations.push(declaration);
+                break;
             case "effect":
                 effects.push({
                     id: createEffectId(declaration.line, declaration.effectKind),
@@ -108,10 +138,13 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
     const address = buildBubbleAddress(document.sourcePath, document.bubble.name);
     const obligations = buildObligations(effects);
     const generation = buildGeneration(address, effects, worldWill, observationMode, authoredRealizationMode, spawnDeclarations);
+    const meta = buildMeta(quoteDeclarations, generatorDeclarations, reflectDeclarations, emitDeclarations);
+    const profile = meta === null ? "bubbles.v0.1" : "bubbles.v0.2";
+    const version = profile === "bubbles.v0.1" ? "0.1.0" : "0.2.0";
 
     return {
-        version: "0.1.0",
-        profile: "bubbles.v0.1",
+        version,
+        profile,
         sourcePath: document.sourcePath,
         bubble: {
             address,
@@ -123,7 +156,36 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
             effects,
             obligations,
             generation,
+            ...(meta === null ? {} : { meta }),
         },
+    };
+}
+
+function buildMeta(
+    quoteDeclarations: QuoteDeclaration[],
+    generatorDeclarations: GeneratorDeclaration[],
+    reflectDeclarations: ReflectDeclaration[],
+    emitDeclarations: EmitDeclaration[],
+): BubbleMetaIR | null {
+    if (
+        quoteDeclarations.length === 0 &&
+        generatorDeclarations.length === 0 &&
+        reflectDeclarations.length === 0 &&
+        emitDeclarations.length === 0
+    ) {
+        return null;
+    }
+
+    const quotes = quoteDeclarations.map((declaration) => buildQuote(declaration));
+    const generators = generatorDeclarations.map((declaration) => buildGenerator(declaration));
+    const reflections = reflectDeclarations.map((declaration) => buildReflection(declaration));
+    const emissions = buildEmissions(emitDeclarations, quotes, generators, reflections);
+
+    return {
+        quotes,
+        generators,
+        reflections,
+        emissions,
     };
 }
 
@@ -160,6 +222,66 @@ function buildGeneration(
         },
         relations: buildGenerativeRelations(address, effects, spawnDeclarations),
     };
+}
+
+function buildQuote(declaration: QuoteDeclaration): BubbleQuoteIR {
+    return {
+        id: createQuoteId(declaration.line, declaration.name),
+        name: declaration.name,
+        sourceLine: declaration.line,
+        artifactKind: "bubble-source",
+        artifactSource: declaration.artifactSource,
+    };
+}
+
+function buildGenerator(declaration: GeneratorDeclaration): BubbleGeneratorIR {
+    return {
+        id: createGeneratorId(declaration.line, declaration.name),
+        name: declaration.name,
+        sourceLine: declaration.line,
+        parameterName: declaration.parameterName,
+        sourceQuoteName: declaration.sourceQuoteName,
+    };
+}
+
+function buildReflection(declaration: ReflectDeclaration): BubbleReflectionIR {
+    return {
+        id: createReflectionId(declaration.line, declaration.path),
+        sourceLine: declaration.line,
+        path: declaration.path,
+    };
+}
+
+function buildEmissions(
+    emitDeclarations: EmitDeclaration[],
+    quotes: BubbleQuoteIR[],
+    generators: BubbleGeneratorIR[],
+    reflections: BubbleReflectionIR[],
+): BubbleEmissionIR[] {
+    const quotesByName = new Map(quotes.map((quote) => [quote.name, quote]));
+    const generatorsByName = new Map(generators.map((generator) => [generator.name, generator]));
+
+    return emitDeclarations.map((declaration) => {
+        const generator = generatorsByName.get(declaration.sourceName) ?? null;
+        const quote = quotesByName.get(declaration.sourceName) ?? null;
+        const sourceKind = generator !== null ? "generator" : quote !== null ? "quote" : "unknown";
+
+        return {
+            id: createEmitId(declaration.line, declaration.sourceName),
+            sourceLine: declaration.line,
+            sourceName: declaration.sourceName,
+            sourceKind,
+            argument: declaration.argument,
+            target: declaration.target,
+            provenance: {
+                quoteName: generator?.sourceQuoteName ?? quote?.name ?? null,
+                generatorName: generator?.name ?? null,
+                reflectionIds: reflections
+                    .filter((reflection) => reflection.sourceLine < declaration.line)
+                    .map((reflection) => reflection.id),
+            },
+        };
+    });
 }
 
 function buildGenerativeRelations(
@@ -301,6 +423,22 @@ function createAddressTemplateDescription(
 
 function createEffectId(line: number, kind: EffectIR["kind"]): string {
     return `effect:${line}:${kind}`;
+}
+
+function createQuoteId(line: number, name: string): string {
+    return `quote:${line}:${name}`;
+}
+
+function createGeneratorId(line: number, name: string): string {
+    return `generator:${line}:${name}`;
+}
+
+function createReflectionId(line: number, path: string): string {
+    return `reflect:${line}:${path}`;
+}
+
+function createEmitId(line: number, sourceName: string): string {
+    return `emit:${line}:${sourceName}`;
 }
 
 function createAddressId(

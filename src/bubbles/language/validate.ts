@@ -1,11 +1,23 @@
-import type { BubbleDocument, EffectDeclaration, RealizationDeclaration, SpawnDeclaration } from "./ast";
+import type {
+    BubbleDocument,
+    EffectDeclaration,
+    EmitDeclaration,
+    GeneratorDeclaration,
+    QuoteDeclaration,
+    RealizationDeclaration,
+    ReflectDeclaration,
+    SpawnDeclaration,
+} from "./ast";
 import type { BubbleProgramIR } from "../ir";
 import { createDiagnostic, type Diagnostic } from "./diagnostics";
+
+const SUPPORTED_REFLECT_PATHS = new Set(["self.address", "self.profile", "self.seed", "self.worldWill"]);
 
 export function validateBubbleCompilation(document: BubbleDocument, program: BubbleProgramIR): Diagnostic[] {
     const diagnostics: Diagnostic[] = [];
     const bubbleLine = document.bubble.line;
     const sourcePath = program.sourcePath;
+    const profile = program.profile;
     const effectDeclarations = document.bubble.declarations.filter(
         (declaration): declaration is EffectDeclaration => declaration.kind === "effect",
     );
@@ -16,13 +28,25 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
     const spawnDeclarations = document.bubble.declarations.filter(
         (declaration): declaration is SpawnDeclaration => declaration.kind === "spawn",
     );
+    const quoteDeclarations = document.bubble.declarations.filter(
+        (declaration): declaration is QuoteDeclaration => declaration.kind === "quote",
+    );
+    const generatorDeclarations = document.bubble.declarations.filter(
+        (declaration): declaration is GeneratorDeclaration => declaration.kind === "generator",
+    );
+    const reflectDeclarations = document.bubble.declarations.filter(
+        (declaration): declaration is ReflectDeclaration => declaration.kind === "reflect",
+    );
+    const emitDeclarations = document.bubble.declarations.filter(
+        (declaration): declaration is EmitDeclaration => declaration.kind === "emit",
+    );
 
     if (Object.keys(program.bubble.axioms).length === 0) {
         diagnostics.push(
             createDiagnostic({
                 code: "BBL201",
                 severity: "error",
-                message: "A bubble must declare at least one axiom in the v0.1 profile.",
+                message: `A bubble must declare at least one axiom in the ${profile} profile.`,
                 sourcePath,
                 line: bubbleLine,
             }),
@@ -34,7 +58,7 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
             createDiagnostic({
                 code: "BBL202",
                 severity: "error",
-                message: "A bubble must declare a world will in the v0.1 profile.",
+                message: `A bubble must declare a world will in the ${profile} profile.`,
                 sourcePath,
                 line: bubbleLine,
             }),
@@ -46,7 +70,7 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
             createDiagnostic({
                 code: "BBL203",
                 severity: "error",
-                message: "A bubble must declare a seed for reproducibility in the v0.1 profile.",
+                message: `A bubble must declare a seed for reproducibility in the ${profile} profile.`,
                 sourcePath,
                 line: bubbleLine,
             }),
@@ -58,7 +82,7 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
             createDiagnostic({
                 code: "BBL204",
                 severity: "error",
-                message: "A bubble must declare at least one explicit effect in the v0.1 profile.",
+                message: `A bubble must declare at least one explicit effect in the ${profile} profile.`,
                 sourcePath,
                 line: bubbleLine,
             }),
@@ -101,7 +125,7 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
             createDiagnostic({
                 code: "BBL207",
                 severity: "error",
-                message: "An observe declaration requires an explicit observe effect in the v0.1 profile.",
+                message: `An observe declaration requires an explicit observe effect in the ${profile} profile.`,
                 sourcePath,
                 line: observeDeclaration.line,
             }),
@@ -131,7 +155,7 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
                 createDiagnostic({
                     code: "BBL209",
                     severity: "error",
-                    message: "A spawn declaration requires an explicit spawn effect in the v0.1 profile.",
+                    message: `A spawn declaration requires an explicit spawn effect in the ${profile} profile.`,
                     sourcePath,
                     line: spawnDeclaration.line,
                 }),
@@ -149,6 +173,111 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
                 line: realizationDeclaration.line,
             }),
         );
+    }
+
+    const namedMetaDeclarations = [...quoteDeclarations, ...generatorDeclarations];
+    const namedMetaLines = new Map<string, number>();
+    for (const declaration of namedMetaDeclarations) {
+        const previousLine = namedMetaLines.get(declaration.name);
+        if (previousLine !== undefined) {
+            diagnostics.push(
+                createDiagnostic({
+                    code: "BBL211",
+                    severity: "error",
+                    message: `Meta artifact name '${declaration.name}' was already declared on line ${previousLine}.`,
+                    sourcePath,
+                    line: declaration.line,
+                }),
+            );
+            continue;
+        }
+
+        namedMetaLines.set(declaration.name, declaration.line);
+    }
+
+    const quoteNames = new Set(quoteDeclarations.map((declaration) => declaration.name));
+    const generatorsByName = new Map(generatorDeclarations.map((declaration) => [declaration.name, declaration]));
+
+    for (const generatorDeclaration of generatorDeclarations) {
+        if (!quoteNames.has(generatorDeclaration.sourceQuoteName)) {
+            diagnostics.push(
+                createDiagnostic({
+                    code: "BBL212",
+                    severity: "error",
+                    message: `Generator '${generatorDeclaration.name}' references unknown quote '${generatorDeclaration.sourceQuoteName}'.`,
+                    sourcePath,
+                    line: generatorDeclaration.line,
+                }),
+            );
+        }
+    }
+
+    for (const reflectDeclaration of reflectDeclarations) {
+        if (!SUPPORTED_REFLECT_PATHS.has(reflectDeclaration.path)) {
+            diagnostics.push(
+                createDiagnostic({
+                    code: "BBL213",
+                    severity: "error",
+                    message: `Reflect path '${reflectDeclaration.path}' is not supported in the current meta profile.`,
+                    sourcePath,
+                    line: reflectDeclaration.line,
+                }),
+            );
+        }
+    }
+
+    for (const emitDeclaration of emitDeclarations) {
+        const generatorDeclaration = generatorsByName.get(emitDeclaration.sourceName) ?? null;
+        const hasQuote = quoteNames.has(emitDeclaration.sourceName);
+
+        if (generatorDeclaration === null && !hasQuote) {
+            diagnostics.push(
+                createDiagnostic({
+                    code: "BBL214",
+                    severity: "error",
+                    message: `Emit references unknown meta artifact '${emitDeclaration.sourceName}'.`,
+                    sourcePath,
+                    line: emitDeclaration.line,
+                }),
+            );
+            continue;
+        }
+
+        if (hasQuote && emitDeclaration.argument !== null) {
+            diagnostics.push(
+                createDiagnostic({
+                    code: "BBL215",
+                    severity: "error",
+                    message: `Emit cannot pass an argument when activating quote '${emitDeclaration.sourceName}'.`,
+                    sourcePath,
+                    line: emitDeclaration.line,
+                }),
+            );
+        }
+
+        if (generatorDeclaration !== null && generatorDeclaration.parameterName !== null && emitDeclaration.argument === null) {
+            diagnostics.push(
+                createDiagnostic({
+                    code: "BBL216",
+                    severity: "error",
+                    message: `Emit must supply an argument for generator '${emitDeclaration.sourceName}'.`,
+                    sourcePath,
+                    line: emitDeclaration.line,
+                }),
+            );
+        }
+
+        if (generatorDeclaration !== null && generatorDeclaration.parameterName === null && emitDeclaration.argument !== null) {
+            diagnostics.push(
+                createDiagnostic({
+                    code: "BBL217",
+                    severity: "error",
+                    message: `Emit cannot pass an argument to generator '${emitDeclaration.sourceName}' because it declares no parameter.`,
+                    sourcePath,
+                    line: emitDeclaration.line,
+                }),
+            );
+        }
     }
 
     return diagnostics;

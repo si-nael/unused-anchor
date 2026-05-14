@@ -1,0 +1,12 @@
+bubble Nursery {
+  realization deterministic
+  axiom coherence = stable
+  will "grow derived worlds"
+  seed nursery_seed
+  effect spawn required
+  quote Sapling = bubble Sapling { realization deterministic axiom coherence = stable will 'preserve inner symmetry' seed latent_seed effect spawn required }
+  generator Grove(seedName) from Sapling
+  reflect self.address
+  reflect self.worldWill
+  emit Grove("ember_seed") as descendant
+}

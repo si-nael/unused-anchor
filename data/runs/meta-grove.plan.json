@@ -1,0 +1,78 @@
+{
+  "mode": "semantic-plan.v1",
+  "sourcePath": "examples/meta-grove.bubble",
+  "profile": "bubbles.v0.2",
+  "bubbleAddress": {
+    "scheme": "bubble-lineage.v1",
+    "locatorKind": "source-relative",
+    "anchor": "examples/meta-grove.bubble",
+    "path": [
+      {
+        "kind": "root",
+        "key": "Nursery"
+      }
+    ],
+    "id": "bubble:examples/meta-grove.bubble::root:Nursery"
+  },
+  "obligations": [
+    {
+      "effectId": "effect:6:spawn",
+      "effectKind": "spawn",
+      "scope": "local",
+      "description": "Author declared spawn as a required local effect."
+    }
+  ],
+  "plannedRelations": [
+    {
+      "kind": "spawn",
+      "sourceEffectId": "effect:6:spawn",
+      "requirement": "required",
+      "scope": "local",
+      "target": "descendant-bubble",
+      "familyName": null,
+      "condition": null,
+      "targetAddressTemplate": {
+        "locatorKind": "lineage-relative",
+        "baseAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+        "pathSuffix": [
+          {
+            "kind": "spawn",
+            "key": "effect:6:spawn"
+          }
+        ],
+        "description": "Derive a descendant-bubble address from bubble:examples/meta-grove.bubble::root:Nursery via required local spawn relation effect:6:spawn."
+      },
+      "description": "This bubble may bring descendant bubbles into existence through required local spawning."
+    }
+  ],
+  "emissionPlan": [
+    {
+      "emissionId": "emit:11:Grove",
+      "sourceName": "Grove",
+      "sourceKind": "generator",
+      "target": "descendant",
+      "quoteName": "Sapling",
+      "generatorName": "Grove",
+      "derivedAddress": {
+        "scheme": "bubble-lineage.v1",
+        "locatorKind": "lineage-relative",
+        "anchor": "examples/meta-grove.bubble",
+        "path": [
+          {
+            "kind": "root",
+            "key": "Nursery"
+          },
+          {
+            "kind": "spawn",
+            "key": "emit:11:Grove"
+          }
+        ],
+        "id": "bubble:examples/meta-grove.bubble::root:Nursery/spawn:emit:11:Grove"
+      },
+      "reflectionPaths": [
+        "self.address",
+        "self.worldWill"
+      ]
+    }
+  ]
+}
