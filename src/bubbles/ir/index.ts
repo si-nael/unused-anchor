@@ -2,8 +2,8 @@ import type { EffectKind, EffectScope, EffectSpec } from "../effects";
 
 export type ScalarValue = boolean | number | string;
 
-export type BubbleVersion = "0.1.0" | "0.2.0";
-export type BubbleProfile = "bubbles.v0.1" | "bubbles.v0.2";
+export type BubbleVersion = "0.1.0" | "0.2.0" | "0.3.0";
+export type BubbleProfile = "bubbles.v0.1" | "bubbles.v0.2" | "bubbles.v0.3";
 export type BubbleRealizationMode = "deterministic" | "nondeterministic";
 export type BubbleLifecycleMode = "latent" | "active";
 export type BubbleRelationKind = "branch" | "spawn" | "collapse";
@@ -11,6 +11,54 @@ export type BubbleRelationTarget = "alternative-bubble" | "descendant-bubble" | 
 export type BubbleAddressLocatorKind = "source-relative" | "lineage-relative";
 export type BubbleAddressStepKind = "root" | BubbleRelationKind;
 export type BubbleEmissionTarget = "descendant" | "artifact";
+export type BubbleExpressionLogicalOperator = "and" | "or";
+export type BubbleExpressionComparisonOperator = "=" | "!=" | ">" | ">=" | "<" | "<=";
+
+export interface BubbleTextExpressionIR {
+    kind: "text";
+    value: string;
+}
+
+export interface BubbleReferenceExpressionIR {
+    kind: "reference";
+    path: string;
+}
+
+export interface BubbleLiteralExpressionIR {
+    kind: "literal";
+    value: ScalarValue;
+}
+
+export interface BubbleComparisonExpressionIR {
+    kind: "comparison";
+    operator: BubbleExpressionComparisonOperator;
+    left: BubbleExpressionOperandIR;
+    right: BubbleExpressionOperandIR;
+}
+
+export interface BubbleLogicalExpressionIR {
+    kind: "logical";
+    operator: BubbleExpressionLogicalOperator;
+    left: BubbleExpressionIR;
+    right: BubbleExpressionIR;
+}
+
+export type BubbleExpressionOperandIR = BubbleReferenceExpressionIR | BubbleLiteralExpressionIR;
+export type BubbleExpressionIR =
+    | BubbleTextExpressionIR
+    | BubbleExpressionOperandIR
+    | BubbleComparisonExpressionIR
+    | BubbleLogicalExpressionIR;
+
+export type BubbleConditionLogicalOperator = BubbleExpressionLogicalOperator;
+export type BubbleConditionComparisonOperator = BubbleExpressionComparisonOperator;
+export type BubbleConditionTextIR = BubbleTextExpressionIR;
+export type BubbleConditionReferenceIR = BubbleReferenceExpressionIR;
+export type BubbleConditionLiteralIR = BubbleLiteralExpressionIR;
+export type BubbleConditionComparisonIR = BubbleComparisonExpressionIR;
+export type BubbleConditionLogicalIR = BubbleLogicalExpressionIR;
+export type BubbleConditionOperandIR = BubbleExpressionOperandIR;
+export type BubbleConditionExpressionIR = BubbleExpressionIR;
 
 export interface BubbleAddressStepIR {
     kind: BubbleAddressStepKind;
@@ -59,7 +107,7 @@ export interface BubbleGenerativeRelationIR {
     scope: EffectScope;
     target: BubbleRelationTarget;
     familyName: string | null;
-    condition: string | null;
+    condition: BubbleExpressionIR | null;
     targetAddressTemplate: BubbleAddressTemplateIR;
     description: string;
 }
@@ -88,6 +136,21 @@ export interface BubbleGeneratorIR {
     sourceQuoteName: string;
 }
 
+export interface BubbleGrammarIR {
+    id: string;
+    name: string;
+    sourceLine: number;
+    artifactKind: "grammar-source";
+    artifactSource: string;
+}
+
+export interface BubbleGrammarActivationIR {
+    id: string;
+    sourceLine: number;
+    grammarName: string;
+    profileName: string | null;
+}
+
 export interface BubbleReflectionIR {
     id: string;
     sourceLine: number;
@@ -105,7 +168,7 @@ export interface BubbleEmissionIR {
     sourceLine: number;
     sourceName: string;
     sourceKind: "quote" | "generator" | "unknown";
-    argument: string | null;
+    argument: BubbleExpressionIR | null;
     target: BubbleEmissionTarget | null;
     provenance: BubbleEmissionProvenanceIR;
 }
@@ -115,6 +178,8 @@ export interface BubbleMetaIR {
     generators: BubbleGeneratorIR[];
     reflections: BubbleReflectionIR[];
     emissions: BubbleEmissionIR[];
+    grammars?: BubbleGrammarIR[];
+    grammarActivations?: BubbleGrammarActivationIR[];
 }
 
 export interface BubbleIR {

@@ -33,6 +33,7 @@ test("inspects a meta bubble into a stable summary and artifact view", () => {
         descendantCount: 1,
         artifactCount: 0,
         commitCount: 1,
+        evidenceCount: 0,
         reflectionPaths: ["self.address", "self.worldWill"],
         traceKinds: [
             "materialization-started",
@@ -54,6 +55,7 @@ test("inspects a meta bubble into a stable summary and artifact view", () => {
             diagnosticsCount: 0,
         },
     ]);
+    assert.deepEqual(report.evidence, []);
 });
 
 test("inspection report reuses materialization results faithfully", () => {
@@ -78,4 +80,83 @@ test("inspection report reuses materialization results faithfully", () => {
     assert.equal(report.summary.descendantCount, 0);
     assert.equal(report.artifacts[0].target, "artifact");
     assert.equal(report.artifacts[0].addressId, null);
+    assert.equal(report.summary.evidenceCount, 0);
+});
+
+test("inspection queries can narrow reports by emission, address, and trace kind", () => {
+    const source = [
+        "bubble Observatory {",
+        "  realization deterministic",
+        "  axiom coherence = stable",
+        "  will \"observe staged worlds\"",
+        "  seed observatory_seed",
+        "  effect spawn required",
+        "  quote Sapling = bubble Sapling { realization deterministic axiom coherence = stable will 'preserve inner symmetry' seed latent_seed effect spawn required }",
+        "  generator Grove(seedName) from Sapling",
+        "  reflect self.address",
+        "  emit Sapling as artifact",
+        "  emit Grove(\"ember_seed\") as descendant",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "observatory.bubble" });
+    const unfiltered = inspectBubbleProgram(program);
+    const descendantEmission = unfiltered.plan.emissionPlan.find((emission) => emission.target === "descendant");
+
+    assert.ok(descendantEmission);
+
+    const byEmission = inspectBubbleProgram(program, { emissionId: descendantEmission.emissionId });
+    assert.equal(byEmission.summary.plannedEmissionCount, 1);
+    assert.equal(byEmission.summary.materializedArtifactCount, 1);
+    assert.deepEqual(byEmission.artifacts.map((artifact) => artifact.target), ["descendant"]);
+    assert.deepEqual(byEmission.commits.map((commit) => commit.emissionId), [descendantEmission.emissionId]);
+    assert.deepEqual(byEmission.trace.map((event) => event.kind), [
+        "reflection-captured",
+        "emission-materialized",
+        "materialization-committed",
+    ]);
+
+    assert.ok(descendantEmission.derivedAddress);
+
+    const byAddress = inspectBubbleProgram(program, { addressId: descendantEmission.derivedAddress.id });
+    assert.equal(byAddress.summary.plannedEmissionCount, 1);
+    assert.equal(byAddress.artifacts[0].addressId, descendantEmission.derivedAddress.id);
+    assert.equal(byAddress.commits[0].committedAddressId, descendantEmission.derivedAddress.id);
+
+    const byKind = inspectBubbleProgram(program, { kind: "reflection-captured" });
+    assert.equal(byKind.summary.plannedEmissionCount, 2);
+    assert.equal(byKind.trace.length, 2);
+    assert.ok(byKind.trace.every((event) => event.kind === "reflection-captured"));
+});
+
+test("inspection exposes observation evidence as a first-class report section", () => {
+    const source = [
+        "bubble Observatory {",
+        "  axiom coherence = stable",
+        "  will \"preserve observed history\"",
+        "  seed observatory_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "observatory-inspect.bubble" });
+    const report = inspectBubbleProgram(program);
+
+    assert.equal(report.summary.plannedEmissionCount, 0);
+    assert.equal(report.summary.evidenceCount, 1);
+    assert.deepEqual(report.evidence, [
+        {
+            id: "evidence:observe:bubble:observatory-inspect.bubble::root:Observatory",
+            kind: "observation-context",
+            bubbleAddressId: "bubble:observatory-inspect.bubble::root:Observatory",
+            subjectAddressId: "bubble:observatory-inspect.bubble::root:Observatory",
+            sourcePath: "observatory-inspect.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            description: "Bubble Observatory declares observation mode witness with durable history support.",
+        },
+    ]);
 });

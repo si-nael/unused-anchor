@@ -391,3 +391,83 @@ If the planner and materializer only emit raw JSON structures, the new runtime s
 Consequence:
 
 Provide an inspection layer that summarizes plans, artifacts, commits, and trace events into a stable report surface, and expose it through a dedicated CLI command so users can inspect Bubble execution without manually traversing raw runtime output.
+
+### D-040: Bind inspector queries at the runtime report layer, not only at the CLI formatting layer
+
+Reason:
+
+If filtering happens only after the CLI has already selected a section, summary counts and report slices will drift out of sync and different outputs will answer slightly different questions for the same query.
+
+Consequence:
+
+Apply `emission`, `address`, and trace-kind filters inside the inspection runtime before section selection so summary, plan, artifacts, commits, and trace all stay aligned under one query contract.
+
+### D-041: Persist materialized runs as replay records
+
+Reason:
+
+If every experiment query requires recompiling and re-materializing source bubbles, the runtime loses reproducibility and post-hoc analysis becomes coupled to the live execution path instead of to preserved experimental evidence.
+
+Consequence:
+
+Introduce a durable replay-record format that stores one materialization result together with its plan, artifacts, commits, and trace, and let later inspection queries operate against that stored record without rerunning the original bubble source.
+
+### D-043: Raise observation and commit into an explicit evidence layer
+
+Reason:
+
+If observation and durable history remain implicit in raw trace and commit arrays, research queries still depend on post-hoc interpretation rather than on a stable semantic object dedicated to evidence.
+
+Consequence:
+
+Emit first-class evidence records that attach observation mode and durable history commitments to the relevant bubble and address scope, and expose those records through inspection and replay surfaces.
+
+### D-044: Promote spawn conditions from opaque text into structured expression IR
+
+Reason:
+
+If `spawn ... when ...` remains only a raw string, the surface language has the shape of a condition but the compiler still cannot inspect, normalize, or later evaluate its internal structure.
+
+Consequence:
+
+Preserve quoted legacy condition text for compatibility, but allow unquoted `spawn ... when ...` clauses to parse into structured comparison and logical expression IR so the language has a real foothold for future condition semantics.
+
+### D-045: Promote the first shared expression layer beyond spawn conditions
+
+Reason:
+
+If structured expressions remain trapped inside `spawn ... when ...`, the language gains one isolated parser trick rather than a reusable grammar layer that future statements can share.
+
+Consequence:
+
+Use one shared expression grammar for both spawn conditions and `emit` arguments. Keep the current runtime conservative by accepting only scalar literal or reference expressions for generator arguments until fuller expression evaluation semantics exist.
+
+### D-046: Treat grammar generation as a staged meta-grammar problem, not as ambient parser mutation
+
+Reason:
+
+If Bubble is allowed to rewrite its own live grammar surface without explicit stage boundaries, the language may become novel but it will lose replayability, validation stability, and inspectable semantic contracts.
+
+Consequence:
+
+Allow bubbles to emit, transform, or constrain grammar artifacts, but require those artifacts to remain quoted, versioned, provenance-bearing, and separately activatable. Grammar generation should happen across explicit stage boundaries rather than through unrestricted same-stage mutation of the active parser.
+
+### D-047: Introduce `bubbles.v0.3` as the first staged meta-grammar profile
+
+Reason:
+
+The staged meta-grammar direction needs a visible contract boundary. Without an explicit profile, grammar artifacts and activation requests would appear as ad hoc extensions rather than as a stable next step beyond `v0.2`.
+
+Consequence:
+
+Emit `version: "0.3.0"` and `profile: "bubbles.v0.3"` whenever a source file declares grammar artifacts or grammar-activation requests. Lower those declarations into explicit `bubble.meta.grammars` and `bubble.meta.grammarActivations` structures while keeping activation staged rather than same-stage executable.
+
+### D-042: Treat bubble as the universal semantic unit of the architecture
+
+Reason:
+
+If bubbles are only one object family among many unrelated architectural primitives, the project will drift toward a split ontology in which the interesting semantics live in bubbles while execution, tooling, and evidence live in special-case machinery outside the model.
+
+Consequence:
+
+Treat authored worlds, descendant structures, governing language machinery, and preserved experiment evidence as bubbles or explicit relations among bubbles whenever possible. Prefer bubble-scoped semantics over global special cases, and treat abstractions that cannot be located in the bubble ontology as design smells unless they are explicitly justified.

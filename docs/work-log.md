@@ -16,6 +16,14 @@
 - Implemented the first executable runtime slice for that model by adding a semantic planner and a materializer that can activate `emit` declarations from `bubbles.v0.2` programs.
 - Added CLI commands for planning and materialization, runtime tests for descendant and artifact activation, and verification scripts that generate plan and materialization outputs for the meta example.
 - Added an inspection runtime and CLI that turn plan and materialization output into a stable report surface, plus unit coverage and a generated inspection artifact for the meta example.
+- Extended the inspector into a real query surface by adding runtime-level filtering for emission IDs, derived addresses, and trace-event kinds, then covered the new query behavior with unit tests and a direct CLI validation pass.
+- Added durable replay records plus record and replay CLIs so a materialized run can be persisted and queried later without recompiling the original bubble source, then covered the replay path with unit tests and verification scripts.
+- Recorded the ontology correction that bubble should be treated as the universal semantic unit of the architecture rather than as one domain object among several parallel object families.
+- Added a first evidence layer that turns observation mode and durable history commitments into explicit runtime records visible through materialization, inspection, and replay instead of leaving them implicit inside raw trace and commit arrays.
+- Tightened the syntax story by promoting `spawn ... when ...` from opaque text into a first structured expression grammar slice, while keeping quoted legacy condition text valid for compatibility.
+- Promoted that first expression slice into a shared grammar layer reused by `emit` arguments, and locked the current runtime boundary so generator emissions accept only scalar literal or reference expressions until fuller evaluation semantics exist.
+- Recorded the next meta-language direction explicitly: Bubble should eventually support grammar artifacts that generate or constrain further grammar, but only through staged, inspectable meta-grammar boundaries rather than same-stage parser mutation.
+- Implemented the first explicit `bubbles.v0.3` slice by adding grammar artifacts and staged grammar-activation requests to the compiler pipeline, plus validation, tests, a profile document, and a compileable example.
 
 ## 2026-05-14
 

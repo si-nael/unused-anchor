@@ -22,12 +22,14 @@ It adds these declarations inside a `bubble` body:
 - `reflect self.worldWill`
 - `reflect self.seed`
 - `reflect self.profile`
-- `emit <Name>(<arg>) as descendant`
+- `emit <Name>(<arg-expression>) as descendant`
 - `emit <Name> as artifact`
 
 The current implementation keeps the surface syntax line-oriented.
 
 Quoted artifacts are stored as staged source strings rather than nested parsed subtrees.
+
+The current implementation now uses the shared expression layer for `emit` arguments as well as spawn conditions, but generator emission currently accepts only scalar literal or reference expressions at runtime.
 
 ## Semantic Intent
 
@@ -45,6 +47,12 @@ It lowers into IR with provenance first.
 The current runtime now provides a separate materialization step that can activate emitted artifacts into derived bubbles or reusable artifacts while preserving trace and commit data.
 
 The current runtime also provides an inspection step that summarizes plans, materialized artifacts, commits, and trace events into a stable report surface.
+
+That inspection surface now supports narrow queries by emission identity, derived address, and trace-event kind so the runtime can be used as an actual research instrument rather than only a report dumper.
+
+The runtime now also provides a replay-record step that persists one materialized run into a durable bundle so later queries do not require recompiling or re-materializing the original source bubble.
+
+The runtime now exposes observation and commit evidence as first-class evidence records, so observation is no longer recoverable only by interpreting raw trace and commit structures after the fact.
 
 ## Lowering Contract
 
@@ -66,6 +74,9 @@ The current runtime layer can additionally produce:
 - reflection capture records used during materialization
 - trace and commit outputs for each materialized emission
 - inspection reports that summarize the resulting plan, artifacts, commits, and trace
+- filtered inspection views that can isolate one emission, one derived address, or one trace-event class
+- replay records that preserve one materialized run for later filtered inspection
+- evidence records that preserve observation context and durable history commitments
 
 If a source file contains any `quote`, `generator`, `reflect`, or `emit` declarations, the compiler emits:
 
@@ -85,6 +96,7 @@ The current `v0.2` layer adds these checks:
 5. emits from quotes may not pass call arguments
 6. emits from parameterized generators must supply an argument
 7. emits from zero-parameter generators may not supply an argument
+8. emits to parameterized generators may currently pass only scalar literal or reference expressions
 
 ## Non-Goals
 
@@ -92,6 +104,7 @@ The current `v0.2` profile does not yet provide:
 
 - unrestricted same-stage self-evaluation
 - nested block parsing for quoted artifacts
+- staged grammar artifacts or grammar activation requests
 - cross-file meta imports
 - optimizer or planner support for meta artifacts
 
@@ -108,7 +121,17 @@ Those belong to later versions.
 - `npm run plan:meta-example`
 - `npm run materialize:meta-example`
 - `npm run inspect:meta-example`
+- `npm run record:meta-example`
+- `npm run replay:meta-example`
 - `npm run verify`
+
+The inspector CLI additionally accepts:
+
+- `--section summary|plan|artifacts|commits|trace|report`
+- `--section evidence`
+- `--emission <emission-id>`
+- `--address <address-id>`
+- `--kind <trace-kind>`
 
 ## Example
 

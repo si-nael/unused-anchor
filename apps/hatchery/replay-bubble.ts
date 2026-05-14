@@ -1,33 +1,22 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { readFile, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import {
-    BubbleCompilerError,
-    compileBubbleSource,
-    formatDiagnostics,
-} from "../../src/bubbles/language";
-import {
-    inspectBubbleProgram,
+    replayBubbleRecord,
     type BubbleInspectionQuery,
     type BubbleInspectionReport,
     type BubbleInspectionSection,
+    type BubbleReplayRecord,
 } from "../../src/bubbles/runtime";
 
 async function main(): Promise<void> {
-    const { inputPath, outputPath, section, query } = parseCliArgs(process.argv.slice(2));
+    const { inputPath, outputPath, query, section } = parseCliArgs(process.argv.slice(2));
 
     if (!inputPath) {
-        throw new Error("Usage: tsx apps/hatchery/inspect-bubble.ts <input.bubble> [output.json] [--section summary|plan|artifacts|commits|evidence|trace|report] [--emission <id>] [--address <id>] [--kind <trace-kind>]");
+        throw new Error("Usage: tsx apps/hatchery/replay-bubble.ts <record.json> [output.json] [--section summary|plan|artifacts|commits|evidence|trace|report] [--emission <id>] [--address <id>] [--kind <trace-kind>]");
     }
 
-    const source = await readFile(inputPath, "utf8");
-    const result = compileBubbleSource(source, { sourcePath: inputPath });
-
-    if (result.diagnostics.length > 0) {
-        process.stderr.write(`${formatDiagnostics(result.diagnostics)}\n`);
-    }
-
-    const report = inspectBubbleProgram(result.program, query);
-    const payload = selectSection(report, section);
+    const record = JSON.parse(await readFile(inputPath, "utf8")) as BubbleReplayRecord;
+    const payload = selectSection(replayBubbleRecord(record, query), section);
     const serialized = JSON.stringify(payload, null, 2);
 
     if (!outputPath) {
@@ -37,16 +26,11 @@ async function main(): Promise<void> {
 
     await mkdir(path.dirname(outputPath), { recursive: true });
     await writeFile(outputPath, `${serialized}\n`, "utf8");
-    process.stdout.write(`Inspected ${inputPath} -> ${outputPath}\n`);
+    process.stdout.write(`Replayed ${inputPath} -> ${outputPath}\n`);
 }
 
 main().catch((error: unknown) => {
-    const message =
-        error instanceof BubbleCompilerError
-            ? formatDiagnostics(error.diagnostics)
-            : error instanceof Error
-                ? error.message
-                : String(error);
+    const message = error instanceof Error ? error.message : String(error);
     process.stderr.write(`${message}\n`);
     process.exitCode = 1;
 });
@@ -75,8 +59,8 @@ function selectSection(report: BubbleInspectionReport, section: BubbleInspection
 function parseCliArgs(argv: string[]): {
     inputPath: string | null;
     outputPath: string | null;
-    section: BubbleInspectionSection;
     query: BubbleInspectionQuery;
+    section: BubbleInspectionSection;
 } {
     let section: BubbleInspectionSection = "report";
     const query: BubbleInspectionQuery = {};
@@ -138,8 +122,8 @@ function parseCliArgs(argv: string[]): {
     return {
         inputPath: positional[0] ?? null,
         outputPath: positional[1] ?? null,
-        section,
         query,
+        section,
     };
 }
 
@@ -162,5 +146,5 @@ function isTraceKind(value: string): value is NonNullable<BubbleInspectionQuery[
 }
 
 function assertNever(value: never): never {
-    throw new Error(`Unhandled inspection section: ${String(value)}`);
+    throw new Error(`Unhandled replay section: ${String(value)}`);
 }

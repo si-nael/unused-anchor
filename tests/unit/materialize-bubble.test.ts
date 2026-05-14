@@ -86,3 +86,36 @@ test("materializes direct quoted artifacts without generator arguments", () => {
     assert.equal(materialized.artifacts[0].program.bubble.seed, "latent_seed");
     assert.equal(materialized.trace.at(-1)?.kind, "materialization-committed");
 });
+
+test("records observation evidence even when no staged emissions exist", () => {
+    const source = [
+        "bubble Observatory {",
+        "  axiom coherence = stable",
+        "  will \"preserve observed history\"",
+        "  seed observatory_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "observatory.bubble" });
+    const materialized = materializeBubbleProgram(program);
+
+    assert.equal(materialized.artifacts.length, 0);
+    assert.equal(materialized.commits.length, 0);
+    assert.deepEqual(materialized.evidence, [
+        {
+            id: "evidence:observe:bubble:observatory.bubble::root:Observatory",
+            kind: "observation-context",
+            bubbleAddressId: "bubble:observatory.bubble::root:Observatory",
+            subjectAddressId: "bubble:observatory.bubble::root:Observatory",
+            sourcePath: "observatory.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            description: "Bubble Observatory declares observation mode witness with durable history support.",
+        },
+    ]);
+    assert.equal(materialized.trace.at(-1)?.kind, "no-emissions");
+});

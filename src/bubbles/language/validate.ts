@@ -1,13 +1,16 @@
 import type {
+    ActivateGrammarDeclaration,
     BubbleDocument,
     EffectDeclaration,
     EmitDeclaration,
+    GrammarDeclaration,
     GeneratorDeclaration,
     QuoteDeclaration,
     RealizationDeclaration,
     ReflectDeclaration,
     SpawnDeclaration,
 } from "./ast";
+import { isBubbleScalarExpression } from "./expressions";
 import type { BubbleProgramIR } from "../ir";
 import { createDiagnostic, type Diagnostic } from "./diagnostics";
 
@@ -33,6 +36,12 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
     );
     const generatorDeclarations = document.bubble.declarations.filter(
         (declaration): declaration is GeneratorDeclaration => declaration.kind === "generator",
+    );
+    const grammarDeclarations = document.bubble.declarations.filter(
+        (declaration): declaration is GrammarDeclaration => declaration.kind === "grammar",
+    );
+    const grammarActivationDeclarations = document.bubble.declarations.filter(
+        (declaration): declaration is ActivateGrammarDeclaration => declaration.kind === "activate-grammar",
     );
     const reflectDeclarations = document.bubble.declarations.filter(
         (declaration): declaration is ReflectDeclaration => declaration.kind === "reflect",
@@ -175,7 +184,7 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
         );
     }
 
-    const namedMetaDeclarations = [...quoteDeclarations, ...generatorDeclarations];
+    const namedMetaDeclarations = [...quoteDeclarations, ...generatorDeclarations, ...grammarDeclarations];
     const namedMetaLines = new Map<string, number>();
     for (const declaration of namedMetaDeclarations) {
         const previousLine = namedMetaLines.get(declaration.name);
@@ -207,6 +216,22 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
                     message: `Generator '${generatorDeclaration.name}' references unknown quote '${generatorDeclaration.sourceQuoteName}'.`,
                     sourcePath,
                     line: generatorDeclaration.line,
+                }),
+            );
+        }
+    }
+
+    const grammarNames = new Set(grammarDeclarations.map((declaration) => declaration.name));
+
+    for (const grammarActivationDeclaration of grammarActivationDeclarations) {
+        if (!grammarNames.has(grammarActivationDeclaration.grammarName)) {
+            diagnostics.push(
+                createDiagnostic({
+                    code: "BBL219",
+                    severity: "error",
+                    message: `Grammar activation references unknown grammar artifact '${grammarActivationDeclaration.grammarName}'.`,
+                    sourcePath,
+                    line: grammarActivationDeclaration.line,
                 }),
             );
         }
@@ -273,6 +298,23 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
                     code: "BBL217",
                     severity: "error",
                     message: `Emit cannot pass an argument to generator '${emitDeclaration.sourceName}' because it declares no parameter.`,
+                    sourcePath,
+                    line: emitDeclaration.line,
+                }),
+            );
+        }
+
+        if (
+            generatorDeclaration !== null
+            && generatorDeclaration.parameterName !== null
+            && emitDeclaration.argument !== null
+            && !isBubbleScalarExpression(emitDeclaration.argument)
+        ) {
+            diagnostics.push(
+                createDiagnostic({
+                    code: "BBL218",
+                    severity: "error",
+                    message: `Emit argument for generator '${emitDeclaration.sourceName}' must currently be a scalar literal or reference expression.`,
                     sourcePath,
                     line: emitDeclaration.line,
                 }),

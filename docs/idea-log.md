@@ -2,6 +2,13 @@
 
 ## 2026-05-15
 
+### Bubble as universal semantic unit
+
+- Bubble should not be treated as one domain object among many peer object types.
+- It should be the universal semantic unit of the project, with other important structures modeled as bubbles or as explicit relations among bubbles.
+- That universality should include authored worlds, latent descendants, the language stack, and preserved experiment evidence.
+- The point is not to flatten everything into one implementation type, but to keep one coherent ontology instead of splitting the architecture into visible bubbles and hidden non-bubble machinery.
+
 ### Bubble as language generator
 
 - A bubble should be able to generate not only descendant worlds but further bubble-language artifacts.
@@ -9,6 +16,15 @@
 - World generation and language generation should remain related but not collapsed into one unrestricted eval surface.
 - A useful design target is stratified self-generation: object-level bubbles create worlds, meta-level bubbles create bubble schemas, fragments, or derived programs.
 - This would support reusable world families, reflective experiments, and eventually partial self-hosting without sacrificing inspectability.
+
+### Grammar making grammar
+
+- A very strong version of Bubble is that grammar artifacts themselves can be emitted, transformed, or constrained by bubbles.
+- This should not mean unrestricted same-stage parser mutation.
+- The useful version is staged meta-grammar: one bubble emits grammar fragments or profile extensions, and a later boundary validates and activates them.
+- Grammar artifacts should therefore be treated like other high-value bubble outputs: quoted, inspectable, replayable, versioned, and provenance-bearing.
+- If this works, Bubble would not only define worlds inside one language; it could define families of languages appropriate for different bubble ecologies.
+- The first practical slice is small: explicit grammar artifacts plus explicit grammar-activation requests, without live parser mutation.
 
 ### Bubble language as a bubble
 

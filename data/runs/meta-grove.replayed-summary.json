@@ -1,0 +1,23 @@
+{
+  "bubbleName": "Nursery",
+  "profile": "bubbles.v0.2",
+  "addressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+  "obligationCount": 1,
+  "plannedRelationCount": 1,
+  "plannedEmissionCount": 1,
+  "materializedArtifactCount": 1,
+  "descendantCount": 1,
+  "artifactCount": 0,
+  "commitCount": 1,
+  "evidenceCount": 0,
+  "reflectionPaths": [
+    "self.address",
+    "self.worldWill"
+  ],
+  "traceKinds": [
+    "materialization-started",
+    "reflection-captured",
+    "emission-materialized",
+    "materialization-committed"
+  ]
+}

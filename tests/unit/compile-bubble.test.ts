@@ -153,7 +153,10 @@ test("compiles a valid v0.2 meta bubble world", () => {
                 sourceLine: 11,
                 sourceName: "Grove",
                 sourceKind: "generator",
-                argument: "ember_seed",
+                argument: {
+                    kind: "literal",
+                    value: "ember_seed",
+                },
                 target: "descendant",
                 provenance: {
                     quoteName: "Sapling",
@@ -163,6 +166,42 @@ test("compiles a valid v0.2 meta bubble world", () => {
             },
         ],
     });
+});
+
+test("compiles a valid v0.3 grammar bubble world", () => {
+    const source = [
+        "bubble GrammarNursery {",
+        "  axiom coherence = stable",
+        "  will \"grow language variants\"",
+        "  seed grammar_seed",
+        "  effect spawn required",
+        "  grammar TwigSyntax = \"profile twig.v0.3 extends bubbles.v0.2\"",
+        "  activate grammar TwigSyntax as twig.v0.3",
+        "}",
+    ].join("\n");
+
+    const result = compileBubbleSource(source, { sourcePath: "grammar-nursery.bubble" });
+
+    assert.deepEqual(result.diagnostics, []);
+    assert.equal(result.program.version, "0.3.0");
+    assert.equal(result.program.profile, "bubbles.v0.3");
+    assert.deepEqual(result.program.bubble.meta?.grammars, [
+        {
+            id: "grammar:6:TwigSyntax",
+            name: "TwigSyntax",
+            sourceLine: 6,
+            artifactKind: "grammar-source",
+            artifactSource: "profile twig.v0.3 extends bubbles.v0.2",
+        },
+    ]);
+    assert.deepEqual(result.program.bubble.meta?.grammarActivations, [
+        {
+            id: "activate-grammar:7:TwigSyntax",
+            sourceLine: 7,
+            grammarName: "TwigSyntax",
+            profileName: "twig.v0.3",
+        },
+    ]);
 });
 
 test("rejects unknown effect kinds", () => {
@@ -251,7 +290,10 @@ test("captures generative relations for spawn effects", () => {
             scope: "membrane",
             target: "descendant-bubble",
             familyName: "GroveChild",
-            condition: "boundary pressure exceeds threshold",
+            condition: {
+                kind: "text",
+                value: "boundary pressure exceeds threshold",
+            },
             targetAddressTemplate: {
                 locatorKind: "lineage-relative",
                 baseAddressId: "bubble:orchard.bubble::root:Orchard",
@@ -300,6 +342,102 @@ test("requires spawn declarations to declare a spawn effect", () => {
     );
 });
 
+test("parses structured spawn conditions into expression IR", () => {
+    const source = [
+        "bubble Lattice {",
+        "  axiom coherence = stable",
+        "  will \"branch under pressure\"",
+        "  seed lattice_seed",
+        "  effect spawn required",
+        "  spawn LatticeChild when boundary.pressure > 3 and membrane.state = \"thin\"",
+        "}",
+    ].join("\n");
+
+    const result = compileBubbleSource(source, { sourcePath: "lattice-conditions.bubble" });
+
+    assert.deepEqual(result.diagnostics, []);
+    assert.deepEqual(result.program.bubble.generation.relations[0]?.condition, {
+        kind: "logical",
+        operator: "and",
+        left: {
+            kind: "comparison",
+            operator: ">",
+            left: {
+                kind: "reference",
+                path: "boundary.pressure",
+            },
+            right: {
+                kind: "literal",
+                value: 3,
+            },
+        },
+        right: {
+            kind: "comparison",
+            operator: "=",
+            left: {
+                kind: "reference",
+                path: "membrane.state",
+            },
+            right: {
+                kind: "literal",
+                value: "thin",
+            },
+        },
+    });
+    assert.equal(
+        result.program.bubble.generation.relations[0]?.description,
+        'This bubble may bring descendant family \'LatticeChild\' into existence through required local spawning when boundary.pressure > 3 and membrane.state = "thin".',
+    );
+});
+
+test("parses emit arguments into shared expression IR", () => {
+    const source = [
+        "bubble Nursery {",
+        "  axiom coherence = stable",
+        "  will \"grow derived worlds\"",
+        "  seed nursery_seed",
+        "  effect spawn required",
+        "  quote Sapling = bubble Sapling { realization deterministic axiom coherence = stable will 'preserve inner symmetry' seed latent_seed effect spawn required }",
+        "  generator Grove(seedName) from Sapling",
+        "  emit Grove(seed_lineage) as descendant",
+        "}",
+    ].join("\n");
+
+    const result = compileBubbleSource(source, { sourcePath: "nursery-emit-arg.bubble" });
+
+    assert.deepEqual(result.diagnostics, []);
+    assert.deepEqual(result.program.bubble.meta?.emissions[0]?.argument, {
+        kind: "reference",
+        path: "seed_lineage",
+    });
+});
+
+test("rejects non-scalar emit expressions for generators in the current profile", () => {
+    const source = [
+        "bubble Nursery {",
+        "  axiom coherence = stable",
+        "  will \"grow derived worlds\"",
+        "  seed nursery_seed",
+        "  effect spawn required",
+        "  quote Sapling = bubble Sapling { realization deterministic axiom coherence = stable will 'preserve inner symmetry' seed latent_seed effect spawn required }",
+        "  generator Grove(seedName) from Sapling",
+        "  emit Grove(boundary.pressure > 3) as descendant",
+        "}",
+    ].join("\n");
+
+    assert.throws(
+        () => compileBubbleSource(source, { sourcePath: "nursery-emit-expression.bubble" }),
+        (error: unknown) => {
+            assert.ok(error instanceof BubbleCompilerError);
+            assert.deepEqual(
+                error.diagnostics.map((diagnostic) => diagnostic.code),
+                ["BBL218"],
+            );
+            return true;
+        },
+    );
+});
+
 test("rejects deterministic realization when a branch effect is declared", () => {
     const source = [
         "bubble Lattice {",
@@ -342,6 +480,30 @@ test("rejects generators that reference unknown quotes", () => {
             assert.deepEqual(
                 error.diagnostics.map((diagnostic) => diagnostic.code),
                 ["BBL212"],
+            );
+            return true;
+        },
+    );
+});
+
+test("rejects grammar activations that reference unknown grammar artifacts", () => {
+    const source = [
+        "bubble GrammarNursery {",
+        "  axiom coherence = stable",
+        "  will \"grow language variants\"",
+        "  seed grammar_seed",
+        "  effect spawn required",
+        "  activate grammar MissingSyntax as missing.v0.3",
+        "}",
+    ].join("\n");
+
+    assert.throws(
+        () => compileBubbleSource(source, { sourcePath: "missing-grammar.bubble" }),
+        (error: unknown) => {
+            assert.ok(error instanceof BubbleCompilerError);
+            assert.deepEqual(
+                error.diagnostics.map((diagnostic) => diagnostic.code),
+                ["BBL219"],
             );
             return true;
         },

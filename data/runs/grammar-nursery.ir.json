@@ -1,0 +1,101 @@
+{
+  "version": "0.3.0",
+  "profile": "bubbles.v0.3",
+  "sourcePath": "examples/grammar-nursery.bubble",
+  "bubble": {
+    "address": {
+      "scheme": "bubble-lineage.v1",
+      "locatorKind": "source-relative",
+      "anchor": "examples/grammar-nursery.bubble",
+      "path": [
+        {
+          "kind": "root",
+          "key": "GrammarNursery"
+        }
+      ],
+      "id": "bubble:examples/grammar-nursery.bubble::root:GrammarNursery"
+    },
+    "name": "GrammarNursery",
+    "axioms": {
+      "coherence": "stable"
+    },
+    "worldWill": "grow language variants",
+    "seed": "grammar_seed",
+    "observationMode": null,
+    "effects": [
+      {
+        "id": "effect:5:spawn",
+        "sourceLine": 5,
+        "sourceConstruct": "effect",
+        "kind": "spawn",
+        "requirement": "required",
+        "scope": "local"
+      }
+    ],
+    "obligations": [
+      {
+        "effectId": "effect:5:spawn",
+        "effectKind": "spawn",
+        "scope": "local",
+        "description": "Author declared spawn as a required local effect."
+      }
+    ],
+    "generation": {
+      "realizationMode": "deterministic",
+      "realizationSource": "inferred",
+      "worldWillMode": "governing-principle",
+      "lifecycle": {
+        "initialMode": "latent",
+        "observationMode": null,
+        "commitsHistory": false,
+        "supportsCollapse": false
+      },
+      "relations": [
+        {
+          "kind": "spawn",
+          "sourceEffectId": "effect:5:spawn",
+          "requirement": "required",
+          "scope": "local",
+          "target": "descendant-bubble",
+          "familyName": null,
+          "condition": null,
+          "targetAddressTemplate": {
+            "locatorKind": "lineage-relative",
+            "baseAddressId": "bubble:examples/grammar-nursery.bubble::root:GrammarNursery",
+            "pathSuffix": [
+              {
+                "kind": "spawn",
+                "key": "effect:5:spawn"
+              }
+            ],
+            "description": "Derive a descendant-bubble address from bubble:examples/grammar-nursery.bubble::root:GrammarNursery via required local spawn relation effect:5:spawn."
+          },
+          "description": "This bubble may bring descendant bubbles into existence through required local spawning."
+        }
+      ]
+    },
+    "meta": {
+      "quotes": [],
+      "generators": [],
+      "reflections": [],
+      "emissions": [],
+      "grammars": [
+        {
+          "id": "grammar:6:TwigSyntax",
+          "name": "TwigSyntax",
+          "sourceLine": 6,
+          "artifactKind": "grammar-source",
+          "artifactSource": "profile twig.v0.3 extends bubbles.v0.2"
+        }
+      ],
+      "grammarActivations": [
+        {
+          "id": "activate-grammar:7:TwigSyntax",
+          "sourceLine": 7,
+          "grammarName": "TwigSyntax",
+          "profileName": "twig.v0.3"
+        }
+      ]
+    }
+  }
+}

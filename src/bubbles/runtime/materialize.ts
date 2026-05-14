@@ -1,6 +1,7 @@
 import type {
     BubbleAddressIR,
     BubbleEmissionIR,
+    BubbleExpressionIR,
     BubbleGeneratorIR,
     BubbleProgramIR,
     BubbleQuoteIR,
@@ -8,7 +9,7 @@ import type {
     BubbleEmissionTarget,
     ObligationIR,
 } from "../ir";
-import { compileBubbleSource } from "../language";
+import { compileBubbleSource, formatBubbleExpression } from "../language";
 import type { Diagnostic } from "../language";
 
 export interface BubbleEmissionPlan {
@@ -50,6 +51,20 @@ export interface BubbleMaterializationCommit {
     description: string;
 }
 
+export type BubbleEvidenceKind = "observation-context" | "history-commit";
+
+export interface BubbleEvidenceRecord {
+    id: string;
+    kind: BubbleEvidenceKind;
+    bubbleAddressId: string;
+    subjectAddressId: string;
+    sourcePath: string | null;
+    observationMode: string | null;
+    emissionId: string | null;
+    commitId: string | null;
+    description: string;
+}
+
 export interface BubbleMaterializationTraceEvent {
     kind:
     | "materialization-started"
@@ -66,6 +81,7 @@ export interface BubbleMaterializationResult {
     plan: BubbleExecutionPlan;
     artifacts: MaterializedBubbleArtifact[];
     commits: BubbleMaterializationCommit[];
+    evidence: BubbleEvidenceRecord[];
     trace: BubbleMaterializationTraceEvent[];
 }
 
@@ -97,6 +113,7 @@ export function planBubbleProgram(program: BubbleProgramIR): BubbleExecutionPlan
 
 export function materializeBubbleProgram(program: BubbleProgramIR): BubbleMaterializationResult {
     const plan = planBubbleProgram(program);
+    const evidence = createObservationEvidence(program);
     const trace: BubbleMaterializationTraceEvent[] = [
         {
             kind: "materialization-started",
@@ -118,6 +135,7 @@ export function materializeBubbleProgram(program: BubbleProgramIR): BubbleMateri
             plan,
             artifacts: [],
             commits: [],
+            evidence,
             trace,
         };
     }
@@ -176,6 +194,10 @@ export function materializeBubbleProgram(program: BubbleProgramIR): BubbleMateri
         } satisfies BubbleMaterializationCommit;
         commits.push(commit);
 
+        if (program.bubble.generation.lifecycle.commitsHistory) {
+            evidence.push(createCommitEvidence(program, commit));
+        }
+
         trace.push({
             kind: "materialization-committed",
             emissionId: emission.id,
@@ -190,7 +212,49 @@ export function materializeBubbleProgram(program: BubbleProgramIR): BubbleMateri
         plan,
         artifacts,
         commits,
+        evidence,
         trace,
+    };
+}
+
+function createObservationEvidence(program: BubbleProgramIR): BubbleEvidenceRecord[] {
+    const observationMode = program.bubble.generation.lifecycle.observationMode;
+    if (observationMode === null) {
+        return [];
+    }
+
+    const rootAddressId = program.bubble.address.id;
+    return [
+        {
+            id: `evidence:observe:${rootAddressId}`,
+            kind: "observation-context",
+            bubbleAddressId: rootAddressId,
+            subjectAddressId: rootAddressId,
+            sourcePath: program.sourcePath,
+            observationMode,
+            emissionId: null,
+            commitId: null,
+            description: program.bubble.generation.lifecycle.commitsHistory
+                ? `Bubble ${program.bubble.name} declares observation mode ${observationMode} with durable history support.`
+                : `Bubble ${program.bubble.name} declares observation mode ${observationMode}.`,
+        },
+    ];
+}
+
+function createCommitEvidence(
+    program: BubbleProgramIR,
+    commit: BubbleMaterializationCommit,
+): BubbleEvidenceRecord {
+    return {
+        id: `evidence:${commit.id}`,
+        kind: "history-commit",
+        bubbleAddressId: program.bubble.address.id,
+        subjectAddressId: commit.committedAddressId ?? program.bubble.address.id,
+        sourcePath: program.sourcePath,
+        observationMode: program.bubble.generation.lifecycle.observationMode,
+        emissionId: commit.emissionId,
+        commitId: commit.id,
+        description: `Recorded durable history for ${commit.emissionId} at ${commit.committedAddressId ?? program.bubble.address.id}.`,
     };
 }
 
@@ -263,7 +327,7 @@ function resolveReflectionValue(program: BubbleProgramIR, path: string): unknown
 function deriveEmissionSource(
     quote: BubbleQuoteIR,
     generator: BubbleGeneratorIR | null,
-    argument: string | null,
+    argument: BubbleExpressionIR | null,
 ): string {
     const normalizedSource = normalizeQuotedArtifactSource(quote.artifactSource);
 
@@ -271,7 +335,7 @@ function deriveEmissionSource(
         return normalizedSource;
     }
 
-    const formattedArgument = formatBubbleScalar(argument);
+    const formattedArgument = formatBubbleExpression(argument);
     const replacedSource = normalizedSource.replace(
         /\bseed\s+("[^"]*"|'[^']*'|[^\s{}]+)/,
         `seed ${formattedArgument}`,
@@ -319,10 +383,6 @@ function createAddressId(
 ): string {
     const encodedPath = path.map((step) => `${step.kind}:${step.key}`).join("/");
     return `bubble:${anchor}::${encodedPath}`;
-}
-
-function formatBubbleScalar(value: string): string {
-    return /^[A-Za-z_][\w-]*$/.test(value) ? value : JSON.stringify(value);
 }
 
 function normalizeQuotedArtifactSource(source: string): string {

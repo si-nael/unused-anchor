@@ -1,0 +1,8 @@
+bubble GrammarNursery {
+  axiom coherence = stable
+  will "grow language variants"
+  seed grammar_seed
+  effect spawn required
+  grammar TwigSyntax = "profile twig.v0.3 extends bubbles.v0.2"
+  activate grammar TwigSyntax as twig.v0.3
+}

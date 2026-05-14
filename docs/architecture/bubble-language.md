@@ -71,6 +71,26 @@ Practical consequences include:
 
 This is part of what it means for the language to reach beyond what an ordinary configuration DSL can do.
 
+## Universal Bubble Principle
+
+Bubble should be treated as the universal semantic unit of the system.
+
+That does not mean every structure is operationally identical.
+
+It means the core objects this project cares about should be representable either as bubbles or as explicit relations among bubbles rather than as a parallel hidden ontology.
+
+In practice, this means:
+
+- authored worlds are bubbles
+- descendant families are bubbles in latent, active, or committed relation
+- the language stack itself is one governing bubble
+- traces, replay records, and experiment evidence are attached to bubbles rather than treated as foreign infrastructure
+- future runtime features should prefer bubble-scoped semantics over global special cases
+
+This universality is one reason Bubble can remain coherent as the system scales.
+
+If a new feature cannot be located inside the bubble ontology at all, that is a warning to justify it carefully or redesign it.
+
 ## Reflexive Bubble Principle
 
 Under the project's own ontology, Bubble Language itself can be treated as one bubble among other bubbles.
@@ -89,6 +109,38 @@ In that framing:
 - version boundaries and compatibility rules are part of its membrane
 - compiler and runtime failures are boundary events inside one governing bubble
 - self-description is desirable, but same-stage unrestricted self-evaluation is not
+
+## Staged Meta-Grammar
+
+Yes, Bubble should eventually be able to participate in grammar generation.
+
+That is one of the strongest consequences of treating bubble as the universal semantic unit.
+
+But the right version is not ambient parser mutation.
+
+The right version is staged meta-grammar.
+
+A bubble should be able to emit or constrain grammar artifacts such as:
+
+- derived syntax fragments
+- schema-level grammar templates
+- profile extensions with explicit compatibility boundaries
+- parsable quoted grammar objects
+- transformations from one bubble-language profile into another
+
+This should still preserve inspectability.
+
+The first explicit step toward that direction is `bubbles.v0.3`, which adds grammar artifacts and staged grammar-activation requests without allowing same-stage parser mutation.
+
+So the safe target is:
+
+- one stage authors or emits grammar artifacts
+- a later stage validates, selects, and activates them
+- every grammar artifact carries provenance, profile boundaries, and replayable evidence
+
+If grammar generation skips those boundaries and mutates the live language surface directly, Bubble would gain expressive novelty at the cost of semantic control.
+
+That tradeoff is wrong for this project.
 
 ## Why A Language Helps
 
@@ -114,6 +166,7 @@ It should express concepts such as:
 - world will declarations
 - seed generators
 - bubble birth or spawning conditions
+- structured expressions for local birth conditions and staged arguments
 - membranes and boundary policies
 - observation interfaces
 - anomaly or exception policies
@@ -206,6 +259,7 @@ Possible build outputs include:
 - reusable law packs
 - persisted seeds and lineage templates
 - inspector fixtures and replay traces
+- durable replay records that preserve a materialized run for later re-inspection
 
 ### Input As Observation Or Perturbation
 
@@ -227,10 +281,21 @@ The primary outputs of a Bubble system are things like:
 
 - materialized world slices
 - committed histories
+- observation and history evidence records
 - effect traces
 - inspector reports
+- queryable inspector views narrowed by emission, address, or trace kind
+- durable replay bundles that can be queried without re-running the source bubble
 - derived bubble artifacts
 - replayable evidence for what happened and why
+
+Those outputs should be queryable, not just serializable.
+
+If the runtime only emits large undifferentiated reports, Bubble Language becomes harder to use as a research instrument for local causal questions.
+
+Observation should therefore not remain only an implicit runtime fact.
+
+It should produce explicit evidence objects that connect a bubble, its observation mode, and any committed history into a durable inspection surface.
 
 ### Logic As Constraint And Propagation
 

@@ -2,6 +2,8 @@ import type {
     BubbleAddressIR,
     BubbleAddressTemplateIR,
     BubbleEmissionIR,
+    BubbleGrammarActivationIR,
+    BubbleGrammarIR,
     BubbleGeneratorIR,
     BubbleGenerativeRelationIR,
     BubbleGenerationIR,
@@ -15,9 +17,12 @@ import type {
     EffectIR,
     ObligationIR,
 } from "../ir";
+import { formatBubbleExpression } from "./expressions";
 import type {
+    ActivateGrammarDeclaration,
     BubbleDocument,
     EmitDeclaration,
+    GrammarDeclaration,
     GeneratorDeclaration,
     QuoteDeclaration,
     ReflectDeclaration,
@@ -34,6 +39,8 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
     const spawnDeclarations: SpawnDeclaration[] = [];
     const quoteDeclarations: QuoteDeclaration[] = [];
     const generatorDeclarations: GeneratorDeclaration[] = [];
+    const grammarDeclarations: GrammarDeclaration[] = [];
+    const grammarActivationDeclarations: ActivateGrammarDeclaration[] = [];
     const reflectDeclarations: ReflectDeclaration[] = [];
     const emitDeclarations: EmitDeclaration[] = [];
     const effects: EffectIR[] = [];
@@ -114,6 +121,12 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
             case "generator":
                 generatorDeclarations.push(declaration);
                 break;
+            case "grammar":
+                grammarDeclarations.push(declaration);
+                break;
+            case "activate-grammar":
+                grammarActivationDeclarations.push(declaration);
+                break;
             case "reflect":
                 reflectDeclarations.push(declaration);
                 break;
@@ -138,9 +151,17 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
     const address = buildBubbleAddress(document.sourcePath, document.bubble.name);
     const obligations = buildObligations(effects);
     const generation = buildGeneration(address, effects, worldWill, observationMode, authoredRealizationMode, spawnDeclarations);
-    const meta = buildMeta(quoteDeclarations, generatorDeclarations, reflectDeclarations, emitDeclarations);
-    const profile = meta === null ? "bubbles.v0.1" : "bubbles.v0.2";
-    const version = profile === "bubbles.v0.1" ? "0.1.0" : "0.2.0";
+    const meta = buildMeta(
+        quoteDeclarations,
+        generatorDeclarations,
+        grammarDeclarations,
+        grammarActivationDeclarations,
+        reflectDeclarations,
+        emitDeclarations,
+    );
+    const hasV03Meta = grammarDeclarations.length > 0 || grammarActivationDeclarations.length > 0;
+    const profile = hasV03Meta ? "bubbles.v0.3" : meta === null ? "bubbles.v0.1" : "bubbles.v0.2";
+    const version = profile === "bubbles.v0.3" ? "0.3.0" : profile === "bubbles.v0.2" ? "0.2.0" : "0.1.0";
 
     return {
         version,
@@ -164,12 +185,16 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
 function buildMeta(
     quoteDeclarations: QuoteDeclaration[],
     generatorDeclarations: GeneratorDeclaration[],
+    grammarDeclarations: GrammarDeclaration[],
+    grammarActivationDeclarations: ActivateGrammarDeclaration[],
     reflectDeclarations: ReflectDeclaration[],
     emitDeclarations: EmitDeclaration[],
 ): BubbleMetaIR | null {
     if (
         quoteDeclarations.length === 0 &&
         generatorDeclarations.length === 0 &&
+        grammarDeclarations.length === 0 &&
+        grammarActivationDeclarations.length === 0 &&
         reflectDeclarations.length === 0 &&
         emitDeclarations.length === 0
     ) {
@@ -178,6 +203,8 @@ function buildMeta(
 
     const quotes = quoteDeclarations.map((declaration) => buildQuote(declaration));
     const generators = generatorDeclarations.map((declaration) => buildGenerator(declaration));
+    const grammars = grammarDeclarations.map((declaration) => buildGrammar(declaration));
+    const grammarActivations = grammarActivationDeclarations.map((declaration) => buildGrammarActivation(declaration));
     const reflections = reflectDeclarations.map((declaration) => buildReflection(declaration));
     const emissions = buildEmissions(emitDeclarations, quotes, generators, reflections);
 
@@ -186,6 +213,8 @@ function buildMeta(
         generators,
         reflections,
         emissions,
+        ...(grammars.length === 0 ? {} : { grammars }),
+        ...(grammarActivations.length === 0 ? {} : { grammarActivations }),
     };
 }
 
@@ -241,6 +270,25 @@ function buildGenerator(declaration: GeneratorDeclaration): BubbleGeneratorIR {
         sourceLine: declaration.line,
         parameterName: declaration.parameterName,
         sourceQuoteName: declaration.sourceQuoteName,
+    };
+}
+
+function buildGrammar(declaration: GrammarDeclaration): BubbleGrammarIR {
+    return {
+        id: createGrammarId(declaration.line, declaration.name),
+        name: declaration.name,
+        sourceLine: declaration.line,
+        artifactKind: "grammar-source",
+        artifactSource: declaration.artifactSource,
+    };
+}
+
+function buildGrammarActivation(declaration: ActivateGrammarDeclaration): BubbleGrammarActivationIR {
+    return {
+        id: createGrammarActivationId(declaration.line, declaration.grammarName),
+        sourceLine: declaration.line,
+        grammarName: declaration.grammarName,
+        profileName: declaration.profileName,
     };
 }
 
@@ -405,7 +453,7 @@ function createSpawnDescription(
     const familyName = spawnDeclaration === null ? "descendant bubbles" : `descendant family '${spawnDeclaration.familyName}'`;
     const condition = spawnDeclaration?.condition === null || spawnDeclaration === null
         ? ""
-        : ` when ${spawnDeclaration.condition}`;
+        : ` when ${formatBubbleExpression(spawnDeclaration.condition)}`;
     return `This bubble may bring ${familyName} into existence through ${effect.requirement} ${effect.scope} spawning${condition}.`;
 }
 
@@ -431,6 +479,14 @@ function createQuoteId(line: number, name: string): string {
 
 function createGeneratorId(line: number, name: string): string {
     return `generator:${line}:${name}`;
+}
+
+function createGrammarId(line: number, name: string): string {
+    return `grammar:${line}:${name}`;
+}
+
+function createGrammarActivationId(line: number, grammarName: string): string {
+    return `activate-grammar:${line}:${grammarName}`;
 }
 
 function createReflectionId(line: number, path: string): string {

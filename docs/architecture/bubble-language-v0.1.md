@@ -16,8 +16,10 @@ It supports:
 - one optional `will` declaration
 - one optional `seed` declaration
 - one optional `observe` declaration
-- zero or more `spawn` declarations for descendant bubble families
+- zero or more `spawn` declarations for descendant bubble families, with either legacy text conditions or structured condition expressions
 - explicit `effect` declarations with typed requirement and scope
+
+The profile now includes a first reusable expression layer, but in `v0.1` it is used only for `spawn ... when ...` conditions.
 
 The goal of the profile is not broad expressiveness. It is a clean end-to-end contract:
 
@@ -76,7 +78,8 @@ The current implementation exposes:
 This profile does not yet support:
 
 - multiple bubbles per file
-- nested blocks or expression grammars
+- nested blocks or a general-purpose expression language beyond spawn conditions
+- reusable expression support across all future statement kinds
 - `unknown`, `constraint`, `generator`, `quote`, or `reflect`
 - cross-file imports
 - effect execution in a runtime kernel
@@ -97,6 +100,7 @@ If a source file compiles successfully, the project should be able to answer:
 - which bubble-generative relations are implied by the declared effects
 - whether the current realization mode was authored or inferred
 - which descendant bubble families and spawn conditions were authored directly
+- whether a spawn condition remained legacy text or compiled into structured expression IR
 - how the current bubble is addressed without assuming a cheap global absolute coordinate
 - how adjacent descendant or branch addresses can be derived locally from the current bubble
 - why the compiler accepted it

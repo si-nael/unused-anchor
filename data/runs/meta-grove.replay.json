@@ -1,0 +1,265 @@
+{
+  "mode": "bubble-replay.v1",
+  "sourcePath": "examples/meta-grove.bubble",
+  "bubbleName": "Nursery",
+  "profile": "bubbles.v0.2",
+  "rootAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+  "commitCount": 1,
+  "evidenceCount": 0,
+  "traceCount": 4,
+  "materialization": {
+    "plan": {
+      "mode": "semantic-plan.v1",
+      "sourcePath": "examples/meta-grove.bubble",
+      "profile": "bubbles.v0.2",
+      "bubbleAddress": {
+        "scheme": "bubble-lineage.v1",
+        "locatorKind": "source-relative",
+        "anchor": "examples/meta-grove.bubble",
+        "path": [
+          {
+            "kind": "root",
+            "key": "Nursery"
+          }
+        ],
+        "id": "bubble:examples/meta-grove.bubble::root:Nursery"
+      },
+      "obligations": [
+        {
+          "effectId": "effect:6:spawn",
+          "effectKind": "spawn",
+          "scope": "local",
+          "description": "Author declared spawn as a required local effect."
+        }
+      ],
+      "plannedRelations": [
+        {
+          "kind": "spawn",
+          "sourceEffectId": "effect:6:spawn",
+          "requirement": "required",
+          "scope": "local",
+          "target": "descendant-bubble",
+          "familyName": null,
+          "condition": null,
+          "targetAddressTemplate": {
+            "locatorKind": "lineage-relative",
+            "baseAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+            "pathSuffix": [
+              {
+                "kind": "spawn",
+                "key": "effect:6:spawn"
+              }
+            ],
+            "description": "Derive a descendant-bubble address from bubble:examples/meta-grove.bubble::root:Nursery via required local spawn relation effect:6:spawn."
+          },
+          "description": "This bubble may bring descendant bubbles into existence through required local spawning."
+        }
+      ],
+      "emissionPlan": [
+        {
+          "emissionId": "emit:11:Grove",
+          "sourceName": "Grove",
+          "sourceKind": "generator",
+          "target": "descendant",
+          "quoteName": "Sapling",
+          "generatorName": "Grove",
+          "derivedAddress": {
+            "scheme": "bubble-lineage.v1",
+            "locatorKind": "lineage-relative",
+            "anchor": "examples/meta-grove.bubble",
+            "path": [
+              {
+                "kind": "root",
+                "key": "Nursery"
+              },
+              {
+                "kind": "spawn",
+                "key": "emit:11:Grove"
+              }
+            ],
+            "id": "bubble:examples/meta-grove.bubble::root:Nursery/spawn:emit:11:Grove"
+          },
+          "reflectionPaths": [
+            "self.address",
+            "self.worldWill"
+          ]
+        }
+      ]
+    },
+    "artifacts": [
+      {
+        "emissionId": "emit:11:Grove",
+        "target": "descendant",
+        "address": {
+          "scheme": "bubble-lineage.v1",
+          "locatorKind": "lineage-relative",
+          "anchor": "examples/meta-grove.bubble",
+          "path": [
+            {
+              "kind": "root",
+              "key": "Nursery"
+            },
+            {
+              "kind": "spawn",
+              "key": "emit:11:Grove"
+            }
+          ],
+          "id": "bubble:examples/meta-grove.bubble::root:Nursery/spawn:emit:11:Grove"
+        },
+        "sourcePath": "examples/meta-grove.bubble#emit:11:Grove",
+        "source": "bubble Sapling {\n  realization deterministic\n  axiom coherence = stable\n  will 'preserve inner symmetry'\n  seed \"ember_seed\"\n  effect spawn required\n}",
+        "program": {
+          "version": "0.1.0",
+          "profile": "bubbles.v0.1",
+          "sourcePath": "examples/meta-grove.bubble#emit:11:Grove",
+          "bubble": {
+            "address": {
+              "scheme": "bubble-lineage.v1",
+              "locatorKind": "source-relative",
+              "anchor": "examples/meta-grove.bubble#emit:11:Grove",
+              "path": [
+                {
+                  "kind": "root",
+                  "key": "Sapling"
+                }
+              ],
+              "id": "bubble:examples/meta-grove.bubble#emit:11:Grove::root:Sapling"
+            },
+            "name": "Sapling",
+            "axioms": {
+              "coherence": "stable"
+            },
+            "worldWill": "preserve inner symmetry",
+            "seed": "ember_seed",
+            "observationMode": null,
+            "effects": [
+              {
+                "id": "effect:6:spawn",
+                "sourceLine": 6,
+                "sourceConstruct": "effect",
+                "kind": "spawn",
+                "requirement": "required",
+                "scope": "local"
+              }
+            ],
+            "obligations": [
+              {
+                "effectId": "effect:6:spawn",
+                "effectKind": "spawn",
+                "scope": "local",
+                "description": "Author declared spawn as a required local effect."
+              }
+            ],
+            "generation": {
+              "realizationMode": "deterministic",
+              "realizationSource": "authored",
+              "worldWillMode": "governing-principle",
+              "lifecycle": {
+                "initialMode": "latent",
+                "observationMode": null,
+                "commitsHistory": false,
+                "supportsCollapse": false
+              },
+              "relations": [
+                {
+                  "kind": "spawn",
+                  "sourceEffectId": "effect:6:spawn",
+                  "requirement": "required",
+                  "scope": "local",
+                  "target": "descendant-bubble",
+                  "familyName": null,
+                  "condition": null,
+                  "targetAddressTemplate": {
+                    "locatorKind": "lineage-relative",
+                    "baseAddressId": "bubble:examples/meta-grove.bubble#emit:11:Grove::root:Sapling",
+                    "pathSuffix": [
+                      {
+                        "kind": "spawn",
+                        "key": "effect:6:spawn"
+                      }
+                    ],
+                    "description": "Derive a descendant-bubble address from bubble:examples/meta-grove.bubble#emit:11:Grove::root:Sapling via required local spawn relation effect:6:spawn."
+                  },
+                  "description": "This bubble may bring descendant bubbles into existence through required local spawning."
+                }
+              ]
+            }
+          }
+        },
+        "diagnostics": [],
+        "reflections": {
+          "self.address": {
+            "scheme": "bubble-lineage.v1",
+            "locatorKind": "source-relative",
+            "anchor": "examples/meta-grove.bubble",
+            "path": [
+              {
+                "kind": "root",
+                "key": "Nursery"
+              }
+            ],
+            "id": "bubble:examples/meta-grove.bubble::root:Nursery"
+          },
+          "self.worldWill": "grow derived worlds"
+        }
+      }
+    ],
+    "commits": [
+      {
+        "id": "commit:emit:11:Grove",
+        "emissionId": "emit:11:Grove",
+        "committedAddressId": "bubble:examples/meta-grove.bubble::root:Nursery/spawn:emit:11:Grove",
+        "description": "Committed descendant materialization for emit:11:Grove at bubble:examples/meta-grove.bubble::root:Nursery/spawn:emit:11:Grove."
+      }
+    ],
+    "evidence": [],
+    "trace": [
+      {
+        "kind": "materialization-started",
+        "message": "Started materialization for Nursery.",
+        "details": {
+          "profile": "bubbles.v0.2",
+          "address": "bubble:examples/meta-grove.bubble::root:Nursery"
+        }
+      },
+      {
+        "kind": "reflection-captured",
+        "emissionId": "emit:11:Grove",
+        "message": "Captured 2 reflections for emit:11:Grove.",
+        "details": {
+          "self.address": {
+            "scheme": "bubble-lineage.v1",
+            "locatorKind": "source-relative",
+            "anchor": "examples/meta-grove.bubble",
+            "path": [
+              {
+                "kind": "root",
+                "key": "Nursery"
+              }
+            ],
+            "id": "bubble:examples/meta-grove.bubble::root:Nursery"
+          },
+          "self.worldWill": "grow derived worlds"
+        }
+      },
+      {
+        "kind": "emission-materialized",
+        "emissionId": "emit:11:Grove",
+        "message": "Materialized emission emit:11:Grove from Grove.",
+        "details": {
+          "target": "descendant",
+          "address": "bubble:examples/meta-grove.bubble::root:Nursery/spawn:emit:11:Grove",
+          "sourceName": "Grove"
+        }
+      },
+      {
+        "kind": "materialization-committed",
+        "emissionId": "emit:11:Grove",
+        "message": "Committed descendant materialization for emit:11:Grove at bubble:examples/meta-grove.bubble::root:Nursery/spawn:emit:11:Grove.",
+        "details": {
+          "commitId": "commit:emit:11:Grove"
+        }
+      }
+    ]
+  }
+}

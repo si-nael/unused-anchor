@@ -28,6 +28,10 @@ Store:
 
 The world is then reconstructed on demand.
 
+For research use, that reconstruction path also needs a durable run record.
+
+Some questions should be answered against a preserved materialized run rather than by silently regenerating the world from source and hoping the same query surface appears again.
+
 ## Proposed Representation
 
 Represent each bubble universe by something like:
@@ -39,6 +43,7 @@ Represent each bubble universe by something like:
 - Patch Set: deviations from default generative output
 - History Log: irreversible observed or committed events
 - Summary State: compressed statistics for inactive regions
+- Replay Record: a persisted materialization bundle that keeps plan, artifacts, commits, and trace together for later inspection
 
 ## Hierarchical Addressing
 
@@ -76,6 +81,8 @@ Once an agent observes something, the system may need to preserve:
 - under which world laws it was observed
 - which later states must remain compatible with that observation
 
+That preservation should become an explicit evidence layer rather than remaining only an implicit side effect of trace accumulation.
+
 This turns observation traces into part of the world's committed structure.
 
 ## Star Problem
@@ -111,6 +118,7 @@ The implementation should instead optimize for:
 
 - lazy materialization of only causally relevant hierarchy slices
 - stable replay from compact generative descriptions
+- durable replay of already materialized experiment runs
 - bounded inspection queries over large latent world families
 - summaries and caches that preserve semantics rather than hiding them
 

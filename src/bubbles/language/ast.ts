@@ -1,5 +1,10 @@
 import type { EffectKind, EffectRequirement, EffectScope } from "../effects";
-import type { BubbleEmissionTarget, BubbleRealizationMode, ScalarValue } from "../ir";
+import type {
+    BubbleExpressionIR,
+    BubbleEmissionTarget,
+    BubbleRealizationMode,
+    ScalarValue,
+} from "../ir";
 
 export interface SourceSpan {
     line: number;
@@ -25,6 +30,8 @@ export type BubbleStatement =
     | SpawnDeclaration
     | QuoteDeclaration
     | GeneratorDeclaration
+    | GrammarDeclaration
+    | ActivateGrammarDeclaration
     | ReflectDeclaration
     | EmitDeclaration
     | EffectDeclaration;
@@ -58,7 +65,7 @@ export interface ObserveDeclaration extends SourceSpan {
 export interface SpawnDeclaration extends SourceSpan {
     kind: "spawn";
     familyName: string;
-    condition: string | null;
+    condition: BubbleExpressionIR | null;
 }
 
 export interface QuoteDeclaration extends SourceSpan {
@@ -74,6 +81,18 @@ export interface GeneratorDeclaration extends SourceSpan {
     sourceQuoteName: string;
 }
 
+export interface GrammarDeclaration extends SourceSpan {
+    kind: "grammar";
+    name: string;
+    artifactSource: string;
+}
+
+export interface ActivateGrammarDeclaration extends SourceSpan {
+    kind: "activate-grammar";
+    grammarName: string;
+    profileName: string | null;
+}
+
 export interface ReflectDeclaration extends SourceSpan {
     kind: "reflect";
     path: string;
@@ -82,7 +101,7 @@ export interface ReflectDeclaration extends SourceSpan {
 export interface EmitDeclaration extends SourceSpan {
     kind: "emit";
     sourceName: string;
-    argument: string | null;
+    argument: BubbleExpressionIR | null;
     target: BubbleEmissionTarget | null;
 }
 

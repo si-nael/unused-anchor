@@ -6,12 +6,15 @@ import {
     type EffectScope,
 } from "../effects";
 import { throwDiagnostic } from "./diagnostics";
+import { parseBubbleExpression } from "./expressions";
 import type {
+    ActivateGrammarDeclaration,
     AxiomDeclaration,
     BubbleDocument,
     BubbleStatement,
     EmitDeclaration,
     EffectDeclaration,
+    GrammarDeclaration,
     GeneratorDeclaration,
     ObserveDeclaration,
     QuoteDeclaration,
@@ -32,6 +35,8 @@ const OBSERVE_PATTERN = /^observe\s+([A-Za-z_][\w-]*)$/;
 const SPAWN_PATTERN = /^spawn\s+([A-Za-z_][\w-]*)(?:\s+when\s+(.+))?$/;
 const QUOTE_PATTERN = /^quote\s+([A-Za-z_][\w-]*)\s*=\s*(.+)$/;
 const GENERATOR_PATTERN = /^generator\s+([A-Za-z_][\w-]*)(?:\s*\(([A-Za-z_][\w-]*)\))?\s+from\s+([A-Za-z_][\w-]*)$/;
+const GRAMMAR_PATTERN = /^grammar\s+([A-Za-z_][\w-]*)\s*=\s*(.+)$/;
+const ACTIVATE_GRAMMAR_PATTERN = /^activate\s+grammar\s+([A-Za-z_][\w-]*)(?:\s+as\s+([A-Za-z_][\w.-]*))?$/;
 const REFLECT_PATTERN = /^reflect\s+(self\.[A-Za-z_][\w.]*)$/;
 const EMIT_PATTERN = /^emit\s+([A-Za-z_][\w-]*)(?:\((.+)\))?(?:\s+as\s+(descendant|artifact))?$/;
 const EFFECT_PATTERN = /^effect\s+([A-Za-z_][\w-]*)(?:\s+(required|optional))?(?:\s+scope\s+([A-Za-z_][\w-]*))?$/;
@@ -158,7 +163,14 @@ function parseStatement(line: { lineNumber: number; text: string }, sourcePath: 
             kind: "spawn",
             line: line.lineNumber,
             familyName: spawnMatch[1],
-            condition: spawnMatch[2] ? unquote(spawnMatch[2]) : null,
+            condition: spawnMatch[2]
+                ? parseBubbleExpression(spawnMatch[2], {
+                    context: "spawn condition",
+                    lineNumber: line.lineNumber,
+                    sourcePath,
+                    allowLegacyText: true,
+                })
+                : null,
         };
         return statement;
     }
@@ -186,6 +198,28 @@ function parseStatement(line: { lineNumber: number; text: string }, sourcePath: 
         return statement;
     }
 
+    const grammarMatch = line.text.match(GRAMMAR_PATTERN);
+    if (grammarMatch) {
+        const statement: GrammarDeclaration = {
+            kind: "grammar",
+            line: line.lineNumber,
+            name: grammarMatch[1],
+            artifactSource: unquote(grammarMatch[2]),
+        };
+        return statement;
+    }
+
+    const activateGrammarMatch = line.text.match(ACTIVATE_GRAMMAR_PATTERN);
+    if (activateGrammarMatch) {
+        const statement: ActivateGrammarDeclaration = {
+            kind: "activate-grammar",
+            line: line.lineNumber,
+            grammarName: activateGrammarMatch[1],
+            profileName: activateGrammarMatch[2] ?? null,
+        };
+        return statement;
+    }
+
     const reflectMatch = line.text.match(REFLECT_PATTERN);
     if (reflectMatch) {
         const statement: ReflectDeclaration = {
@@ -202,7 +236,13 @@ function parseStatement(line: { lineNumber: number; text: string }, sourcePath: 
             kind: "emit",
             line: line.lineNumber,
             sourceName: emitMatch[1],
-            argument: emitMatch[2] ? unquote(emitMatch[2]) : null,
+            argument: emitMatch[2]
+                ? parseBubbleExpression(emitMatch[2], {
+                    context: "emit argument",
+                    lineNumber: line.lineNumber,
+                    sourcePath,
+                })
+                : null,
             target: (emitMatch[3] as BubbleEmissionTarget | undefined) ?? null,
         };
         return statement;
