@@ -1,4 +1,5 @@
 bubble FirstLight {
+  realization nondeterministic
   axiom coherence = stable
   axiom membrane = porous
   will "preserve local consistency"

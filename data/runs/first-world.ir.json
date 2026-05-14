@@ -3,6 +3,18 @@
   "profile": "bubbles.v0.1",
   "sourcePath": "examples/first-world.bubble",
   "bubble": {
+    "address": {
+      "scheme": "bubble-lineage.v1",
+      "locatorKind": "source-relative",
+      "anchor": "examples/first-world.bubble",
+      "path": [
+        {
+          "kind": "root",
+          "key": "FirstLight"
+        }
+      ],
+      "id": "bubble:examples/first-world.bubble::root:FirstLight"
+    },
     "name": "FirstLight",
     "axioms": {
       "coherence": "stable",
@@ -13,21 +25,33 @@
     "observationMode": "local",
     "effects": [
       {
+        "id": "effect:8:observe",
+        "sourceLine": 8,
+        "sourceConstruct": "effect",
         "kind": "observe",
         "requirement": "optional",
         "scope": "local"
       },
       {
+        "id": "effect:9:branch",
+        "sourceLine": 9,
+        "sourceConstruct": "effect",
         "kind": "branch",
         "requirement": "optional",
         "scope": "local"
       },
       {
+        "id": "effect:10:commit",
+        "sourceLine": 10,
+        "sourceConstruct": "effect",
         "kind": "commit",
         "requirement": "required",
         "scope": "local"
       },
       {
+        "id": "effect:11:debt",
+        "sourceLine": 11,
+        "sourceConstruct": "effect",
         "kind": "debt",
         "requirement": "optional",
         "scope": "global"
@@ -35,10 +59,45 @@
     ],
     "obligations": [
       {
+        "effectId": "effect:10:commit",
         "effectKind": "commit",
         "scope": "local",
         "description": "Author declared commit as a required local effect."
       }
-    ]
+    ],
+    "generation": {
+      "realizationMode": "nondeterministic",
+      "realizationSource": "authored",
+      "worldWillMode": "governing-principle",
+      "lifecycle": {
+        "initialMode": "latent",
+        "observationMode": "local",
+        "commitsHistory": true,
+        "supportsCollapse": false
+      },
+      "relations": [
+        {
+          "kind": "branch",
+          "sourceEffectId": "effect:9:branch",
+          "requirement": "optional",
+          "scope": "local",
+          "target": "alternative-bubble",
+          "familyName": null,
+          "condition": null,
+          "targetAddressTemplate": {
+            "locatorKind": "lineage-relative",
+            "baseAddressId": "bubble:examples/first-world.bubble::root:FirstLight",
+            "pathSuffix": [
+              {
+                "kind": "branch",
+                "key": "effect:9:branch"
+              }
+            ],
+            "description": "Derive a alternative-bubble address from bubble:examples/first-world.bubble::root:FirstLight via optional local branch relation effect:9:branch."
+          },
+          "description": "This bubble may realize alternative bubble continuations through optional local branching."
+        }
+      ]
+    }
   }
 }

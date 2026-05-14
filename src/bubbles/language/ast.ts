@@ -1,5 +1,5 @@
 import type { EffectKind, EffectRequirement, EffectScope } from "../effects";
-import type { ScalarValue } from "../ir";
+import type { BubbleRealizationMode, ScalarValue } from "../ir";
 
 export interface SourceSpan {
     line: number;
@@ -18,15 +18,22 @@ export interface BubbleDeclaration extends SourceSpan {
 
 export type BubbleStatement =
     | AxiomDeclaration
+    | RealizationDeclaration
     | WillDeclaration
     | SeedDeclaration
     | ObserveDeclaration
+    | SpawnDeclaration
     | EffectDeclaration;
 
 export interface AxiomDeclaration extends SourceSpan {
     kind: "axiom";
     name: string;
     value: ScalarValue;
+}
+
+export interface RealizationDeclaration extends SourceSpan {
+    kind: "realization";
+    mode: BubbleRealizationMode;
 }
 
 export interface WillDeclaration extends SourceSpan {
@@ -42,6 +49,12 @@ export interface SeedDeclaration extends SourceSpan {
 export interface ObserveDeclaration extends SourceSpan {
     kind: "observe";
     mode: string;
+}
+
+export interface SpawnDeclaration extends SourceSpan {
+    kind: "spawn";
+    familyName: string;
+    condition: string | null;
 }
 
 export interface EffectDeclaration extends SourceSpan {

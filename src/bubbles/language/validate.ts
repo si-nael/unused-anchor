@@ -1,5 +1,4 @@
-import type { EffectDeclaration } from "./ast";
-import type { BubbleDocument } from "./ast";
+import type { BubbleDocument, EffectDeclaration, RealizationDeclaration, SpawnDeclaration } from "./ast";
 import type { BubbleProgramIR } from "../ir";
 import { createDiagnostic, type Diagnostic } from "./diagnostics";
 
@@ -11,6 +10,12 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
         (declaration): declaration is EffectDeclaration => declaration.kind === "effect",
     );
     const observeDeclaration = document.bubble.declarations.find((declaration) => declaration.kind === "observe");
+    const realizationDeclaration = document.bubble.declarations.find(
+        (declaration): declaration is RealizationDeclaration => declaration.kind === "realization",
+    );
+    const spawnDeclarations = document.bubble.declarations.filter(
+        (declaration): declaration is SpawnDeclaration => declaration.kind === "spawn",
+    );
 
     if (Object.keys(program.bubble.axioms).length === 0) {
         diagnostics.push(
@@ -116,6 +121,32 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
                 message: "An observe declaration requires a required commit effect so observation can become durable history.",
                 sourcePath,
                 line: observeDeclaration.line,
+            }),
+        );
+    }
+
+    if (spawnDeclarations.length > 0 && !effectDeclarations.some((declaration) => declaration.effectKind === "spawn")) {
+        for (const spawnDeclaration of spawnDeclarations) {
+            diagnostics.push(
+                createDiagnostic({
+                    code: "BBL209",
+                    severity: "error",
+                    message: "A spawn declaration requires an explicit spawn effect in the v0.1 profile.",
+                    sourcePath,
+                    line: spawnDeclaration.line,
+                }),
+            );
+        }
+    }
+
+    if (realizationDeclaration?.mode === "deterministic" && effectDeclarations.some((declaration) => declaration.effectKind === "branch")) {
+        diagnostics.push(
+            createDiagnostic({
+                code: "BBL210",
+                severity: "error",
+                message: "A deterministic realization declaration cannot coexist with a branch effect in the current profile.",
+                sourcePath,
+                line: realizationDeclaration.line,
             }),
         );
     }

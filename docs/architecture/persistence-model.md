@@ -40,6 +40,21 @@ Represent each bubble universe by something like:
 - History Log: irreversible observed or committed events
 - Summary State: compressed statistics for inactive regions
 
+## Hierarchical Addressing
+
+If worlds can generate further worlds, a world address should not be treated as a flat identifier only.
+
+It should be able to encode hierarchical or generative position.
+
+That may include components such as:
+
+- ancestor path or generative lineage
+- local branch identity
+- spawned descendant index or family key
+- latent family descriptor for worlds that are not yet fully materialized
+
+This allows the system to reason about large or open-ended world-of-world structure without pretending the full hierarchy is already concrete.
+
 ## Materialization Rule
 
 A world or region should be materialized only if at least one of the following holds:
@@ -85,6 +100,19 @@ Therefore the practical goal is not to store infinity itself, but to store:
 - a finite rule system that defines an unbounded family of worlds
 - an addressable subset that can be queried or generated
 - a finite committed history induced by actual interaction
+
+## Performance Consequence
+
+This intensional model is also the performance model.
+
+If the system tries to eagerly expand every implied world, it will fail both as research infrastructure and as a multiverse model.
+
+The implementation should instead optimize for:
+
+- lazy materialization of only causally relevant hierarchy slices
+- stable replay from compact generative descriptions
+- bounded inspection queries over large latent world families
+- summaries and caches that preserve semantics rather than hiding them
 
 ## Research Consequence
 

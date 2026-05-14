@@ -12,16 +12,20 @@ import type {
     BubbleStatement,
     EffectDeclaration,
     ObserveDeclaration,
+    RealizationDeclaration,
     SeedDeclaration,
+    SpawnDeclaration,
     WillDeclaration,
 } from "./ast";
-import type { ScalarValue } from "../ir";
+import type { BubbleRealizationMode, ScalarValue } from "../ir";
 
 const BUBBLE_HEADER_PATTERN = /^bubble\s+([A-Za-z_][\w-]*)\s*\{$/;
 const AXIOM_PATTERN = /^axiom\s+([A-Za-z_][\w-]*)\s*=\s*(.+)$/;
+const REALIZATION_PATTERN = /^realization\s+(deterministic|nondeterministic)$/;
 const WILL_PATTERN = /^will\s+(.+)$/;
 const SEED_PATTERN = /^seed\s+(.+)$/;
 const OBSERVE_PATTERN = /^observe\s+([A-Za-z_][\w-]*)$/;
+const SPAWN_PATTERN = /^spawn\s+([A-Za-z_][\w-]*)(?:\s+when\s+(.+))?$/;
 const EFFECT_PATTERN = /^effect\s+([A-Za-z_][\w-]*)(?:\s+(required|optional))?(?:\s+scope\s+([A-Za-z_][\w-]*))?$/;
 
 export function parseBubbleSource(source: string, sourcePath: string | null = null): BubbleDocument {
@@ -100,6 +104,16 @@ function parseStatement(line: { lineNumber: number; text: string }, sourcePath: 
         return statement;
     }
 
+    const realizationMatch = line.text.match(REALIZATION_PATTERN);
+    if (realizationMatch) {
+        const statement: RealizationDeclaration = {
+            kind: "realization",
+            line: line.lineNumber,
+            mode: realizationMatch[1] as BubbleRealizationMode,
+        };
+        return statement;
+    }
+
     const willMatch = line.text.match(WILL_PATTERN);
     if (willMatch) {
         const statement: WillDeclaration = {
@@ -126,6 +140,17 @@ function parseStatement(line: { lineNumber: number; text: string }, sourcePath: 
             kind: "observe",
             line: line.lineNumber,
             mode: observeMatch[1],
+        };
+        return statement;
+    }
+
+    const spawnMatch = line.text.match(SPAWN_PATTERN);
+    if (spawnMatch) {
+        const statement: SpawnDeclaration = {
+            kind: "spawn",
+            line: line.lineNumber,
+            familyName: spawnMatch[1],
+            condition: spawnMatch[2] ? unquote(spawnMatch[2]) : null,
         };
         return statement;
     }

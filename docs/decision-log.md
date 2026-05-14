@@ -261,3 +261,63 @@ If parsing, lowering, CLI behavior, and validation each invent their own checks,
 Consequence:
 
 Use one compile entrypoint that runs parse, lower, validate, and diagnostic formatting through a shared contract.
+
+### D-027: Treat Bubble Language as a multiverse-generative language
+
+Reason:
+
+If the language is framed only as a small DSL for describing one world at a time, the implementation will optimize for configuration syntax rather than for bubble birth, branching, latent existence, and world-will-driven world creation.
+
+Consequence:
+
+Treat each bubble definition as a generative semantic unit that may imply other bubbles, not merely one explicit local world state. Future IR work should preserve bubble lifecycle mode, generative relations, and world-will participation rather than storing only flat declarations.
+
+### D-028: Add effect provenance and generation summaries to Bubble IR
+
+Reason:
+
+If the IR stores only flat effect declarations, later runtime, inspection, and multiverse tooling will have no stable handle for tracing which declaration created an obligation or which declared effects imply branching or bubble birth.
+
+Consequence:
+
+Emit effect IDs and source lines in Bubble IR, let obligations refer back to their originating effect declarations, and derive a first-generation multiverse summary that captures realization mode, lifecycle hints, and bubble-generative relations.
+
+### D-029: Model bubble hierarchy intensionally rather than by eager expansion
+
+Reason:
+
+If Bubble Language is meant to span open-ended world-of-world structure, any design that assumes the full hierarchy can be explicitly materialized will collapse under scale and will fail to represent latent families faithfully.
+
+Consequence:
+
+Treat hierarchical bubble structure as an intensional object. Favor generative addresses, ancestry-aware identifiers, latent family descriptors, and on-demand traversal over full expansion of descendant worlds.
+
+### D-030: Hold Bubble Language to a research-grade quality and performance bar
+
+Reason:
+
+If the language is intended for serious research use, toy-grade semantics, unstable outputs, opaque traces, or avoidable performance collapse would directly undermine its value as an experimental instrument.
+
+Consequence:
+
+Design the language stack for reproducibility, typed and auditable outputs, stable IR contracts, benchmarkable performance, and predictable scaling on large latent multiverse structures.
+
+### D-031: Prefer lineage-relative bubble addressing over cheap absolute localization
+
+Reason:
+
+If bubble identity collapses into a cheap absolute coordinate from an imagined infinite origin, the multiverse risks degenerating into a flat lookup space and agents or tooling gain shortcuts that bypass world-law, ancestry, and trace structure.
+
+Consequence:
+
+Use source-relative root addresses and lineage-relative derivation templates as the cheap operational model. Keep local replay, ancestry traversal, and adjacent bubble derivation tractable, while leaving exact global absolute localization outside the core cheap path.
+
+### D-032: Promote realization and spawn intent into the surface language
+
+Reason:
+
+If realization mode and descendant-family birth stay purely inferred from effect declarations, the author cannot directly state whether branching is intended or which descendant family a spawn relation is meant to introduce.
+
+Consequence:
+
+Add a `realization` declaration so authorial determinism or nondeterminism is explicit, and add `spawn ... when ...` declarations so descendant families and local birth conditions lower directly into Bubble IR instead of remaining implicit.

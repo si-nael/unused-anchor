@@ -1,5 +1,21 @@
 # Work Log
 
+## 2026-05-14
+
+- Reconfirmed the stronger language ambition: Bubble Language is not only a world-definition DSL but a language for generating bubble universes that may induce other bubbles under a governing world will.
+- Recorded the clarification that deterministic and nondeterministic bubble realization are both first-class language concerns.
+- Locked the framing that a bubble should be treated as a generative semantic unit inside a larger multiverse field rather than as a static configuration object.
+- Set the next implementation target to IR work that can represent bubble lifecycle, latent existence, branching, and generative relations instead of only flat effect declarations.
+- Implemented the first generative IR expansion: effect declarations now lower into identifiable IR nodes with source provenance, obligations reference their originating effect IDs, and compiled bubbles emit a generation summary for realization mode, lifecycle hints, and generative relations.
+- Added unit coverage for spawn-driven bubble generation summaries and reran the full `verify` pipeline successfully.
+- Tightened the language strategy around open-ended bubble hierarchies: the system should traverse and represent unbounded world-of-world structure intensionally rather than by eager expansion.
+- Raised the explicit quality bar from a useful prototype to research-grade infrastructure with reproducibility, auditability, stable IR contracts, and performance expectations suitable for serious external use.
+- Recorded the stronger localization philosophy: the system should not depend on a cheap deterministic absolute coordinate for every bubble from an infinite origin, and should prefer locally tractable lineage and replay operations instead.
+- Implemented the next IR step toward that philosophy by adding source-relative root addresses for compiled bubbles and lineage-relative address templates for branch and spawn relations.
+- Promoted generation intent into the surface syntax by adding authored `realization` declarations and `spawn ... when ...` declarations for descendant families and local birth conditions.
+- Added semantic checks that reject spawn declarations without a matching spawn effect and reject deterministic realization declarations that still declare branching.
+- Extended unit coverage for authored realization, named descendant families, and the new validation rules.
+
 ## 2026-05-11
 
 - Reviewed the initial idea list and selected ideas 3, 4, 9, and 11 as the project basis.

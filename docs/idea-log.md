@@ -1,5 +1,19 @@
 # Idea Log
 
+## 2026-05-14
+
+### Bubble language clarification
+
+- Bubble Language should be understood first as a language for generating bubble universes, not merely for describing one finished world.
+- A bubble may define its own realization and also imply the existence, birth, branching, or latency of other bubbles.
+- Deterministic and nondeterministic world creation both belong to the core semantics rather than to incidental runtime behavior.
+- The world will should participate in world creation, persistence, interaction, and collapse as an active governing principle.
+- The language should therefore support higher-order world creation structures rather than stopping at flat world-local declarations.
+- The language should be able to speak about open-ended or effectively unbounded world hierarchies without requiring explicit materialization of the whole hierarchy.
+- The implementation target should be a research-grade instrument: reproducible, inspectable, performant, and credible enough for use by serious external research groups.
+- If the world-of-worlds would require effectively unbounded memory and computation to resolve globally, the practical system should still admit cheap local replay and traversal without exposing a cheap absolute coordinate for the whole multiverse.
+- Bubble identity should lean on lineage, local derivation, and committed trace rather than on a globally canonical position that collapses the ontology into indexing.
+
 ## 2026-05-11
 
 ### Source cluster

@@ -12,9 +12,11 @@ It supports:
 
 - one `bubble` declaration per source file
 - `axiom` declarations
+- one optional `realization` declaration
 - one optional `will` declaration
 - one optional `seed` declaration
 - one optional `observe` declaration
+- zero or more `spawn` declarations for descendant bubble families
 - explicit `effect` declarations with typed requirement and scope
 
 The goal of the profile is not broad expressiveness. It is a clean end-to-end contract:
@@ -32,6 +34,8 @@ Under the current profile, a valid bubble world should satisfy these constraints
 5. each effect kind is declared at most once
 6. if it declares `observe`, it also declares an `observe` effect
 7. if it declares `observe`, it also declares a required `commit` effect
+8. if it declares `spawn`, it also declares a `spawn` effect
+9. if it declares `realization deterministic`, it does not declare a `branch` effect
 
 The compiler may also emit warnings when the world is technically valid but semantically weak, such as when every effect is optional.
 
@@ -40,7 +44,9 @@ The compiler may also emit warnings when the world is technically valid but sema
 - axioms make the world more than a label
 - world will makes the project's core ontology explicit
 - seed preserves reproducibility
+- realization lets authors declare whether branching should be inferred or intended explicitly
 - effect declarations expose semantic cost instead of hiding it in runtime behavior
+- spawn declarations let authors name descendant bubble families and attach local birth conditions
 - observe plus commit ties observation to durable history
 
 ## Compiler Surface
@@ -52,6 +58,10 @@ The current implementation exposes:
 - validator: `validateBubbleCompilation`
 - compiler entry: `compileBubbleSource`
 - CLI: `apps/hatchery/compile-bubble.ts`
+- Bubble IR effect nodes with declaration provenance
+- Bubble IR generation summaries for realization mode, lifecycle hints, and generative relations
+- Bubble IR source-relative root addresses and lineage-relative address templates for derived bubbles
+- authored realization lowering and spawn-family lowering into generation relations
 
 ## Validation Commands
 
@@ -82,4 +92,11 @@ If a source file compiles successfully, the project should be able to answer:
 - what world was authored
 - what effects were declared
 - what obligations were introduced
+- which effect declaration introduced each obligation
+- whether the authored bubble defaults to deterministic or branching realization under the current IR summary
+- which bubble-generative relations are implied by the declared effects
+- whether the current realization mode was authored or inferred
+- which descendant bubble families and spawn conditions were authored directly
+- how the current bubble is addressed without assuming a cheap global absolute coordinate
+- how adjacent descendant or branch addresses can be derived locally from the current bubble
 - why the compiler accepted it

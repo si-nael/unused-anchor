@@ -12,6 +12,8 @@ The right first move is a constrained world-definition DSL that can later evolve
 
 The ambitious version of the project is not merely to define worlds.
 
+It is to define how worlds give rise to other worlds.
+
 It is to build a language that can talk about structures that are inexpressible in a lower descriptive layer.
 
 That goal needs careful wording.
@@ -28,6 +30,46 @@ Instead, it should raise the representability frontier by making the following f
 - reflective statements about worlds, models, or other laws
 
 This is the useful technical reading of a language for "making the unimaginable."
+
+## Bubble-Of-Bubbles Model
+
+A bubble definition should not be treated as a static configuration object.
+
+It should be treated as a generative law node inside a larger field of bubble universes.
+
+That means a bubble may do more than describe one locally coherent world.
+
+It may also:
+
+- determine whether its own realization is deterministic or nondeterministic
+- bias world birth, persistence, or collapse through a world will
+- induce adjacent, descendant, rival, or latent bubbles as a consequence of its laws
+- leave some bubbles merely potential until observation, interaction, or commitment makes them operationally relevant
+
+The language therefore targets a multiverse-generative structure, not only a single-world state description.
+
+The world will matters here as an active governing principle.
+
+It is not merely lore.
+
+It is part of what decides which bubbles can appear, persist, interact, or vanish.
+
+## Infinite-Hierarchy Requirement
+
+The language should be able to talk about worlds that contain or induce further worlds across open-ended semantic depth.
+
+That does not mean the system should try to enumerate an actually infinite hierarchy.
+
+It means the language, IR, and runtime should be able to represent and traverse unbounded world-of-world structure intensionally.
+
+Practical consequences include:
+
+- addressing worlds and sub-worlds by generative position rather than by full materialized state
+- treating latent world families as real semantic objects even when only a finite slice is active
+- allowing higher-order laws to govern bubble creation across multiple levels of descent
+- supporting inspection and replay across local, adjacent, ancestor, and descendant bubble structure without flattening everything into one state table
+
+This is part of what it means for the language to reach beyond what an ordinary configuration DSL can do.
 
 ## Why A Language Helps
 
@@ -52,6 +94,7 @@ It should express concepts such as:
 - axiom declarations
 - world will declarations
 - seed generators
+- bubble birth or spawning conditions
 - membranes and boundary policies
 - observation interfaces
 - anomaly or exception policies
@@ -67,6 +110,8 @@ This layer should:
 - expose explicit dependency graphs
 - support static analyses
 - make serialization and replay straightforward
+- preserve hierarchical world addresses and generative ancestry without requiring full expansion
+- represent latent, active, branching, and collapsed bubble modes explicitly
 - preserve unknowns and obligations explicitly instead of pretending everything is already resolved
 
 ### 3. Execution Kernel
@@ -77,6 +122,8 @@ This layer should own:
 
 - event stepping
 - causal scheduling
+- bubble birth, branching, and collapse scheduling
+- bounded on-demand traversal of large latent bubble hierarchies
 - persistence hooks
 - observation commits
 - state evolution under world laws
@@ -162,6 +209,36 @@ To move beyond ordinary configuration syntax, the language should eventually sup
 These should still lower into explicit IR nodes.
 
 The same rule applies to nondeterministic and effectful constructs.
+
+## Research Instrument Standard
+
+This language is not only a creative authoring medium.
+
+It is a research instrument.
+
+That means the standard is closer to scientific infrastructure than to experimental syntax play.
+
+At minimum, the implementation should eventually provide:
+
+- deterministic compilation for deterministic source profiles
+- explicit semantics for nondeterministic constructs and branch realization
+- stable, versioned IR contracts that can survive long-running experiments
+- machine-readable diagnostics and traces suitable for external analysis
+- reproducible replay from source, seed, and committed history
+- enough semantic transparency that another research team can audit what happened and why
+
+## Quality And Performance Bar
+
+If the system is meant to be usable by serious research groups, quality and performance are part of the semantics, not a postscript.
+
+The language stack should therefore be designed around:
+
+- predictable scaling under large latent multiverse graphs
+- on-demand materialization instead of eager expansion
+- clear complexity boundaries for compilation, inspection, and replay
+- memory discipline for unbounded or effectively unbounded world families
+- benchmarking and regression checks for compiler and runtime performance
+- outputs that remain inspectable even when the represented world structure exceeds what can be fully materialized
 
 ## Design Goal
 
