@@ -84,8 +84,11 @@
           "id": "grammar:6:TwigSyntax",
           "name": "TwigSyntax",
           "sourceLine": 6,
-          "artifactKind": "grammar-source",
-          "artifactSource": "profile twig.v0.3 extends bubbles.v0.2"
+          "artifact": {
+            "kind": "profile-extension",
+            "profileName": "twig.v0.3",
+            "extendsProfile": "bubbles.v0.2"
+          }
         }
       ],
       "grammarActivations": [

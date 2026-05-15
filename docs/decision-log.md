@@ -462,6 +462,16 @@ Consequence:
 
 Emit `version: "0.3.0"` and `profile: "bubbles.v0.3"` whenever a source file declares grammar artifacts or grammar-activation requests. Lower those declarations into explicit `bubble.meta.grammars` and `bubble.meta.grammarActivations` structures while keeping activation staged rather than same-stage executable.
 
+### D-048: Make grammar artifacts structured and grammar activation queryable
+
+Reason:
+
+If grammar artifacts remain only raw source strings, and grammar activations appear only as inert declarations, `v0.3` gains syntax without gaining enough semantic surface for inspection, replay, or later activation tooling.
+
+Consequence:
+
+Parse grammar artifacts into explicit structured IR forms, starting with `profile <Name> extends <BaseProfile>`, and surface grammar activations as staged plan entries and trace events that inspection and replay tooling can query directly.
+
 ### D-042: Treat bubble as the universal semantic unit of the architecture
 
 Reason:

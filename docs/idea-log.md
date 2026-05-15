@@ -25,6 +25,7 @@
 - Grammar artifacts should therefore be treated like other high-value bubble outputs: quoted, inspectable, replayable, versioned, and provenance-bearing.
 - If this works, Bubble would not only define worlds inside one language; it could define families of languages appropriate for different bubble ecologies.
 - The first practical slice is small: explicit grammar artifacts plus explicit grammar-activation requests, without live parser mutation.
+- The next useful constraint is to keep those artifacts structured enough that inspection can answer which profile is being introduced, what it extends, and which staged activation requests are targeting it.
 
 ### Bubble language as a bubble
 

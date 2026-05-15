@@ -24,6 +24,7 @@
 - Promoted that first expression slice into a shared grammar layer reused by `emit` arguments, and locked the current runtime boundary so generator emissions accept only scalar literal or reference expressions until fuller evaluation semantics exist.
 - Recorded the next meta-language direction explicitly: Bubble should eventually support grammar artifacts that generate or constrain further grammar, but only through staged, inspectable meta-grammar boundaries rather than same-stage parser mutation.
 - Implemented the first explicit `bubbles.v0.3` slice by adding grammar artifacts and staged grammar-activation requests to the compiler pipeline, plus validation, tests, a profile document, and a compileable example.
+- Promoted `v0.3` grammar artifacts from raw source strings into structured grammar IR, then exposed staged grammar-activation plans and trace events through runtime inspection, replay queries, CLI sections, and a generated grammar inspection artifact.
 
 ## 2026-05-14
 

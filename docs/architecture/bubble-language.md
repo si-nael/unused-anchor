@@ -132,6 +132,8 @@ This should still preserve inspectability.
 
 The first explicit step toward that direction is `bubbles.v0.3`, which adds grammar artifacts and staged grammar-activation requests without allowing same-stage parser mutation.
 
+The current `v0.3` implementation now lowers those grammar artifacts into structured grammar IR and exposes staged activation plans through runtime inspection and replay surfaces.
+
 So the safe target is:
 
 - one stage authors or emits grammar artifacts

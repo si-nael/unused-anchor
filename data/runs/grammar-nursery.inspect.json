@@ -1,0 +1,22 @@
+{
+  "artifacts": [
+    {
+      "grammarId": "grammar:6:TwigSyntax",
+      "grammarName": "TwigSyntax",
+      "artifactKind": "profile-extension",
+      "profileName": "twig.v0.3",
+      "extendsProfile": "bubbles.v0.2"
+    }
+  ],
+  "activations": [
+    {
+      "activationId": "activate-grammar:7:TwigSyntax",
+      "grammarId": "grammar:6:TwigSyntax",
+      "grammarName": "TwigSyntax",
+      "requestedProfileName": "twig.v0.3",
+      "resolvedProfileName": "twig.v0.3",
+      "extendsProfile": "bubbles.v0.2",
+      "staged": true
+    }
+  ]
+}

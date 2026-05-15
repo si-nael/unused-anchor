@@ -4,6 +4,8 @@
   "addressId": "bubble:examples/meta-grove.bubble::root:Nursery",
   "obligationCount": 1,
   "plannedRelationCount": 1,
+  "plannedGrammarCount": 0,
+  "plannedGrammarActivationCount": 0,
   "plannedEmissionCount": 1,
   "materializedArtifactCount": 1,
   "descendantCount": 1,

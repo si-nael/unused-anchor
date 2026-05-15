@@ -5,6 +5,8 @@
     "addressId": "bubble:examples/meta-grove.bubble::root:Nursery",
     "obligationCount": 1,
     "plannedRelationCount": 1,
+    "plannedGrammarCount": 0,
+    "plannedGrammarActivationCount": 0,
     "plannedEmissionCount": 1,
     "materializedArtifactCount": 1,
     "descendantCount": 1,
@@ -69,6 +71,8 @@
         "description": "This bubble may bring descendant bubbles into existence through required local spawning."
       }
     ],
+    "grammars": [],
+    "grammarActivationPlan": [],
     "emissionPlan": [
       {
         "emissionId": "emit:11:Grove",
@@ -99,6 +103,10 @@
         ]
       }
     ]
+  },
+  "grammars": {
+    "artifacts": [],
+    "activations": []
   },
   "artifacts": [
     {

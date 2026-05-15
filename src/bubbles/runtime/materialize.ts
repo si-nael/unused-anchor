@@ -2,6 +2,9 @@ import type {
     BubbleAddressIR,
     BubbleEmissionIR,
     BubbleExpressionIR,
+    BubbleGrammarArtifactIR,
+    BubbleGrammarActivationIR,
+    BubbleGrammarIR,
     BubbleGeneratorIR,
     BubbleProgramIR,
     BubbleQuoteIR,
@@ -23,6 +26,24 @@ export interface BubbleEmissionPlan {
     reflectionPaths: string[];
 }
 
+export interface BubbleGrammarPlan {
+    grammarId: string;
+    grammarName: string;
+    artifactKind: BubbleGrammarArtifactIR["kind"];
+    profileName: string;
+    extendsProfile: string;
+}
+
+export interface BubbleGrammarActivationPlan {
+    activationId: string;
+    grammarId: string | null;
+    grammarName: string;
+    requestedProfileName: string | null;
+    resolvedProfileName: string | null;
+    extendsProfile: string | null;
+    staged: true;
+}
+
 export interface BubbleExecutionPlan {
     mode: "semantic-plan.v1";
     sourcePath: string | null;
@@ -30,6 +51,8 @@ export interface BubbleExecutionPlan {
     bubbleAddress: BubbleAddressIR;
     obligations: ObligationIR[];
     plannedRelations: BubbleProgramIR["bubble"]["generation"]["relations"];
+    grammars: BubbleGrammarPlan[];
+    grammarActivationPlan: BubbleGrammarActivationPlan[];
     emissionPlan: BubbleEmissionPlan[];
 }
 
@@ -68,12 +91,14 @@ export interface BubbleEvidenceRecord {
 export interface BubbleMaterializationTraceEvent {
     kind:
     | "materialization-started"
+    | "grammar-activation-staged"
     | "no-emissions"
     | "reflection-captured"
     | "emission-materialized"
     | "materialization-committed";
     message: string;
     emissionId?: string;
+    activationId?: string;
     details?: Record<string, unknown>;
 }
 
@@ -88,6 +113,8 @@ export interface BubbleMaterializationResult {
 export function planBubbleProgram(program: BubbleProgramIR): BubbleExecutionPlan {
     const meta = program.bubble.meta;
     const emissions = meta?.emissions ?? [];
+    const grammars = buildGrammarPlan(meta?.grammars ?? []);
+    const grammarActivationPlan = buildGrammarActivationPlan(meta?.grammarActivations ?? [], grammars);
 
     return {
         mode: "semantic-plan.v1",
@@ -96,6 +123,8 @@ export function planBubbleProgram(program: BubbleProgramIR): BubbleExecutionPlan
         bubbleAddress: program.bubble.address,
         obligations: program.bubble.obligations,
         plannedRelations: program.bubble.generation.relations,
+        grammars,
+        grammarActivationPlan,
         emissionPlan: emissions.map((emission) => ({
             emissionId: emission.id,
             sourceName: emission.sourceName,
@@ -124,6 +153,24 @@ export function materializeBubbleProgram(program: BubbleProgramIR): BubbleMateri
             },
         },
     ];
+
+    for (const activation of plan.grammarActivationPlan) {
+        trace.push({
+            kind: "grammar-activation-staged",
+            activationId: activation.activationId,
+            message: activation.resolvedProfileName === null
+                ? `Staged grammar activation ${activation.activationId} for ${activation.grammarName}.`
+                : `Staged grammar activation ${activation.activationId} for ${activation.grammarName} as ${activation.resolvedProfileName}.`,
+            details: {
+                grammarId: activation.grammarId,
+                grammarName: activation.grammarName,
+                requestedProfileName: activation.requestedProfileName,
+                resolvedProfileName: activation.resolvedProfileName,
+                extendsProfile: activation.extendsProfile,
+                staged: activation.staged,
+            },
+        });
+    }
 
     const meta = program.bubble.meta;
     if (!meta || meta.emissions.length === 0) {
@@ -215,6 +262,36 @@ export function materializeBubbleProgram(program: BubbleProgramIR): BubbleMateri
         evidence,
         trace,
     };
+}
+
+function buildGrammarPlan(grammars: BubbleGrammarIR[]): BubbleGrammarPlan[] {
+    return grammars.map((grammar) => ({
+        grammarId: grammar.id,
+        grammarName: grammar.name,
+        artifactKind: grammar.artifact.kind,
+        profileName: grammar.artifact.profileName,
+        extendsProfile: grammar.artifact.extendsProfile,
+    }));
+}
+
+function buildGrammarActivationPlan(
+    activations: BubbleGrammarActivationIR[],
+    grammars: BubbleGrammarPlan[],
+): BubbleGrammarActivationPlan[] {
+    const grammarsByName = new Map(grammars.map((grammar) => [grammar.grammarName, grammar]));
+
+    return activations.map((activation) => {
+        const grammar = grammarsByName.get(activation.grammarName) ?? null;
+        return {
+            activationId: activation.id,
+            grammarId: grammar?.grammarId ?? null,
+            grammarName: activation.grammarName,
+            requestedProfileName: activation.profileName,
+            resolvedProfileName: activation.profileName ?? grammar?.profileName ?? null,
+            extendsProfile: grammar?.extendsProfile ?? null,
+            staged: true,
+        };
+    });
 }
 
 function createObservationEvidence(program: BubbleProgramIR): BubbleEvidenceRecord[] {

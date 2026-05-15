@@ -80,3 +80,35 @@ test("replay preserves inspection semantics for stored records", () => {
     assert.equal(byKind.trace.length, 2);
     assert.ok(byKind.trace.every((event) => event.kind === "materialization-committed"));
 });
+
+test("replay preserves staged grammar activation queries", () => {
+    const source = [
+        "bubble GrammarArchive {",
+        "  axiom coherence = stable",
+        "  will \"preserve language variants\"",
+        "  seed archive_seed",
+        "  effect spawn required",
+        "  grammar TwigSyntax = \"profile twig.v0.3 extends bubbles.v0.2\"",
+        "  activate grammar TwigSyntax as twig.v0.3",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "grammar-archive.bubble" });
+    const record = recordBubbleProgram(program);
+    const replayed = replayBubbleRecord(record, { activationId: "activate-grammar:7:TwigSyntax" });
+
+    assert.equal(replayed.summary.plannedGrammarCount, 1);
+    assert.equal(replayed.summary.plannedGrammarActivationCount, 1);
+    assert.deepEqual(replayed.grammars.activations, [
+        {
+            activationId: "activate-grammar:7:TwigSyntax",
+            grammarId: "grammar:6:TwigSyntax",
+            grammarName: "TwigSyntax",
+            requestedProfileName: "twig.v0.3",
+            resolvedProfileName: "twig.v0.3",
+            extendsProfile: "bubbles.v0.2",
+            staged: true,
+        },
+    ]);
+    assert.deepEqual(replayed.trace.map((event) => event.kind), ["grammar-activation-staged"]);
+});

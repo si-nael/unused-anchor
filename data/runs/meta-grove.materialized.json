@@ -46,6 +46,8 @@
         "description": "This bubble may bring descendant bubbles into existence through required local spawning."
       }
     ],
+    "grammars": [],
+    "grammarActivationPlan": [],
     "emissionPlan": [
       {
         "emissionId": "emit:11:Grove",

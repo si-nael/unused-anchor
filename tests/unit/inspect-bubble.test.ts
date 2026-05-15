@@ -28,6 +28,8 @@ test("inspects a meta bubble into a stable summary and artifact view", () => {
         addressId: "bubble:nursery.bubble::root:Nursery",
         obligationCount: 1,
         plannedRelationCount: 1,
+        plannedGrammarCount: 0,
+        plannedGrammarActivationCount: 0,
         plannedEmissionCount: 1,
         materializedArtifactCount: 1,
         descendantCount: 1,
@@ -56,6 +58,64 @@ test("inspects a meta bubble into a stable summary and artifact view", () => {
         },
     ]);
     assert.deepEqual(report.evidence, []);
+});
+
+test("inspection exposes staged grammar activations as a queryable grammar section", () => {
+    const source = [
+        "bubble GrammarNursery {",
+        "  axiom coherence = stable",
+        "  will \"grow language variants\"",
+        "  seed grammar_seed",
+        "  effect spawn required",
+        "  grammar TwigSyntax = \"profile twig.v0.3 extends bubbles.v0.2\"",
+        "  activate grammar TwigSyntax as twig.v0.3",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "grammar-nursery.bubble" });
+    const report = inspectBubbleProgram(program);
+
+    assert.equal(report.summary.plannedGrammarCount, 1);
+    assert.equal(report.summary.plannedGrammarActivationCount, 1);
+    assert.equal(report.summary.plannedEmissionCount, 0);
+    assert.deepEqual(report.grammars, {
+        artifacts: [
+            {
+                grammarId: "grammar:6:TwigSyntax",
+                grammarName: "TwigSyntax",
+                artifactKind: "profile-extension",
+                profileName: "twig.v0.3",
+                extendsProfile: "bubbles.v0.2",
+            },
+        ],
+        activations: [
+            {
+                activationId: "activate-grammar:7:TwigSyntax",
+                grammarId: "grammar:6:TwigSyntax",
+                grammarName: "TwigSyntax",
+                requestedProfileName: "twig.v0.3",
+                resolvedProfileName: "twig.v0.3",
+                extendsProfile: "bubbles.v0.2",
+                staged: true,
+            },
+        ],
+    });
+    assert.deepEqual(report.trace.map((event) => event.kind), [
+        "materialization-started",
+        "grammar-activation-staged",
+        "no-emissions",
+    ]);
+
+    const byActivation = inspectBubbleProgram(program, { activationId: "activate-grammar:7:TwigSyntax" });
+    assert.equal(byActivation.summary.plannedGrammarActivationCount, 1);
+    assert.equal(byActivation.summary.materializedArtifactCount, 0);
+    assert.equal(byActivation.summary.commitCount, 0);
+    assert.deepEqual(byActivation.trace.map((event) => event.kind), ["grammar-activation-staged"]);
+
+    const byGrammarProfile = inspectBubbleProgram(program, { grammarProfile: "twig.v0.3" });
+    assert.equal(byGrammarProfile.grammars.artifacts.length, 1);
+    assert.equal(byGrammarProfile.grammars.activations.length, 1);
+    assert.deepEqual(byGrammarProfile.trace.map((event) => event.kind), ["grammar-activation-staged"]);
 });
 
 test("inspection report reuses materialization results faithfully", () => {

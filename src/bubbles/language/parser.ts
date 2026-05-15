@@ -7,6 +7,7 @@ import {
 } from "../effects";
 import { throwDiagnostic } from "./diagnostics";
 import { parseBubbleExpression } from "./expressions";
+import { parseBubbleGrammarArtifact } from "./grammars";
 import type {
     ActivateGrammarDeclaration,
     AxiomDeclaration,
@@ -204,7 +205,10 @@ function parseStatement(line: { lineNumber: number; text: string }, sourcePath: 
             kind: "grammar",
             line: line.lineNumber,
             name: grammarMatch[1],
-            artifactSource: unquote(grammarMatch[2]),
+            artifact: parseBubbleGrammarArtifact(unquote(grammarMatch[2]), {
+                lineNumber: line.lineNumber,
+                sourcePath,
+            }),
         };
         return statement;
     }

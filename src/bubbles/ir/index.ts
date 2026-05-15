@@ -136,12 +136,19 @@ export interface BubbleGeneratorIR {
     sourceQuoteName: string;
 }
 
+export interface BubbleProfileExtensionGrammarIR {
+    kind: "profile-extension";
+    profileName: string;
+    extendsProfile: string;
+}
+
+export type BubbleGrammarArtifactIR = BubbleProfileExtensionGrammarIR;
+
 export interface BubbleGrammarIR {
     id: string;
     name: string;
     sourceLine: number;
-    artifactKind: "grammar-source";
-    artifactSource: string;
+    artifact: BubbleGrammarArtifactIR;
 }
 
 export interface BubbleGrammarActivationIR {

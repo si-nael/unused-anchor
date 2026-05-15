@@ -190,8 +190,11 @@ test("compiles a valid v0.3 grammar bubble world", () => {
             id: "grammar:6:TwigSyntax",
             name: "TwigSyntax",
             sourceLine: 6,
-            artifactKind: "grammar-source",
-            artifactSource: "profile twig.v0.3 extends bubbles.v0.2",
+            artifact: {
+                kind: "profile-extension",
+                profileName: "twig.v0.3",
+                extendsProfile: "bubbles.v0.2",
+            },
         },
     ]);
     assert.deepEqual(result.program.bubble.meta?.grammarActivations, [
@@ -202,6 +205,23 @@ test("compiles a valid v0.3 grammar bubble world", () => {
             profileName: "twig.v0.3",
         },
     ]);
+});
+
+test("rejects invalid grammar artifact syntax", () => {
+    const source = [
+        "bubble BrokenGrammar {",
+        "  axiom coherence = stable",
+        "  will \"fail loudly\"",
+        "  seed broken_seed",
+        "  effect spawn required",
+        "  grammar TwigSyntax = \"profile twig.v0.3 over bubbles.v0.2\"",
+        "}",
+    ].join("\n");
+
+    assert.throws(
+        () => compileBubbleSource(source, { sourcePath: "broken-grammar.bubble" }),
+        /Expected 'profile <Name> extends <BaseProfile>'/,
+    );
 });
 
 test("rejects unknown effect kinds", () => {

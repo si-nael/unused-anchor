@@ -6,10 +6,11 @@
     "scripts": {
         "build": "tsc -p tsconfig.json",
         "check": "tsc -p tsconfig.json --noEmit",
-        "verify": "npm run check && npm test && npm run validate:example && npm run compile:example && npm run compile:grammar-example && npm run plan:meta-example && npm run materialize:meta-example && npm run inspect:meta-example && npm run record:meta-example && npm run replay:meta-example",
+        "verify": "npm run check && npm test && npm run validate:example && npm run compile:example && npm run compile:grammar-example && npm run inspect:grammar-example && npm run plan:meta-example && npm run materialize:meta-example && npm run inspect:meta-example && npm run record:meta-example && npm run replay:meta-example",
         "validate:example": "tsx apps/hatchery/compile-bubble.ts --check examples/first-world.bubble",
         "compile:example": "tsx apps/hatchery/compile-bubble.ts examples/first-world.bubble data/runs/first-world.ir.json",
         "compile:grammar-example": "tsx apps/hatchery/compile-bubble.ts examples/grammar-nursery.bubble data/runs/grammar-nursery.ir.json",
+        "inspect:grammar-example": "tsx apps/hatchery/inspect-bubble.ts examples/grammar-nursery.bubble data/runs/grammar-nursery.inspect.json --section grammars",
         "plan:meta-example": "tsx apps/hatchery/plan-bubble.ts examples/meta-grove.bubble data/runs/meta-grove.plan.json",
         "materialize:meta-example": "tsx apps/hatchery/materialize-bubble.ts examples/meta-grove.bubble data/runs/meta-grove.materialized.json",
         "inspect:meta-example": "tsx apps/hatchery/inspect-bubble.ts examples/meta-grove.bubble data/runs/meta-grove.inspect.json --section report",

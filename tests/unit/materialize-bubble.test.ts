@@ -51,6 +51,8 @@ test("plans and materializes descendant emissions from a meta bubble", () => {
             reflectionPaths: ["self.address", "self.worldWill"],
         },
     ]);
+    assert.deepEqual(plan.grammars, []);
+    assert.deepEqual(plan.grammarActivationPlan, []);
 
     assert.equal(materialized.artifacts.length, 1);
     assert.equal(materialized.commits.length, 1);
@@ -118,4 +120,49 @@ test("records observation evidence even when no staged emissions exist", () => {
         },
     ]);
     assert.equal(materialized.trace.at(-1)?.kind, "no-emissions");
+});
+
+test("plans staged grammar activations without mutating the current parser", () => {
+    const source = [
+        "bubble GrammarNursery {",
+        "  axiom coherence = stable",
+        "  will \"grow language variants\"",
+        "  seed grammar_seed",
+        "  effect spawn required",
+        "  grammar TwigSyntax = \"profile twig.v0.3 extends bubbles.v0.2\"",
+        "  activate grammar TwigSyntax as twig.v0.3",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "grammar-nursery.bubble" });
+    const plan = planBubbleProgram(program);
+    const materialized = materializeBubbleProgram(program);
+
+    assert.deepEqual(plan.grammars, [
+        {
+            grammarId: "grammar:6:TwigSyntax",
+            grammarName: "TwigSyntax",
+            artifactKind: "profile-extension",
+            profileName: "twig.v0.3",
+            extendsProfile: "bubbles.v0.2",
+        },
+    ]);
+    assert.deepEqual(plan.grammarActivationPlan, [
+        {
+            activationId: "activate-grammar:7:TwigSyntax",
+            grammarId: "grammar:6:TwigSyntax",
+            grammarName: "TwigSyntax",
+            requestedProfileName: "twig.v0.3",
+            resolvedProfileName: "twig.v0.3",
+            extendsProfile: "bubbles.v0.2",
+            staged: true,
+        },
+    ]);
+    assert.deepEqual(materialized.trace.map((event) => event.kind), [
+        "materialization-started",
+        "grammar-activation-staged",
+        "no-emissions",
+    ]);
+    assert.equal(materialized.trace[1].activationId, "activate-grammar:7:TwigSyntax");
+    assert.equal(materialized.artifacts.length, 0);
 });

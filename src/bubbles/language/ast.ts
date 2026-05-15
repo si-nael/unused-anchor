@@ -2,6 +2,7 @@ import type { EffectKind, EffectRequirement, EffectScope } from "../effects";
 import type {
     BubbleExpressionIR,
     BubbleEmissionTarget,
+    BubbleGrammarArtifactIR,
     BubbleRealizationMode,
     ScalarValue,
 } from "../ir";
@@ -84,7 +85,7 @@ export interface GeneratorDeclaration extends SourceSpan {
 export interface GrammarDeclaration extends SourceSpan {
     kind: "grammar";
     name: string;
-    artifactSource: string;
+    artifact: BubbleGrammarArtifactIR;
 }
 
 export interface ActivateGrammarDeclaration extends SourceSpan {

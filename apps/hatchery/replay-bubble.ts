@@ -12,7 +12,7 @@ async function main(): Promise<void> {
     const { inputPath, outputPath, query, section } = parseCliArgs(process.argv.slice(2));
 
     if (!inputPath) {
-        throw new Error("Usage: tsx apps/hatchery/replay-bubble.ts <record.json> [output.json] [--section summary|plan|artifacts|commits|evidence|trace|report] [--emission <id>] [--address <id>] [--kind <trace-kind>]");
+        throw new Error("Usage: tsx apps/hatchery/replay-bubble.ts <record.json> [output.json] [--section summary|plan|grammars|artifacts|commits|evidence|trace|report] [--emission <id>] [--address <id>] [--activation <id>] [--grammar-profile <name>] [--kind <trace-kind>]");
     }
 
     const record = JSON.parse(await readFile(inputPath, "utf8")) as BubbleReplayRecord;
@@ -41,6 +41,8 @@ function selectSection(report: BubbleInspectionReport, section: BubbleInspection
             return report.summary;
         case "plan":
             return report.plan;
+        case "grammars":
+            return report.grammars;
         case "artifacts":
             return report.artifacts;
         case "commits":
@@ -71,7 +73,7 @@ function parseCliArgs(argv: string[]): {
         if (argument === "--section") {
             const rawSection = argv[index + 1];
             if (!rawSection || !isInspectionSection(rawSection)) {
-                throw new Error("--section requires one of: summary, plan, artifacts, commits, evidence, trace, report");
+                throw new Error("--section requires one of: summary, plan, grammars, artifacts, commits, evidence, trace, report");
             }
 
             section = rawSection;
@@ -101,10 +103,32 @@ function parseCliArgs(argv: string[]): {
             continue;
         }
 
+        if (argument === "--activation") {
+            const activationId = argv[index + 1];
+            if (!activationId) {
+                throw new Error("--activation requires a grammar activation id value");
+            }
+
+            query.activationId = activationId;
+            index += 1;
+            continue;
+        }
+
+        if (argument === "--grammar-profile") {
+            const grammarProfile = argv[index + 1];
+            if (!grammarProfile) {
+                throw new Error("--grammar-profile requires a profile name value");
+            }
+
+            query.grammarProfile = grammarProfile;
+            index += 1;
+            continue;
+        }
+
         if (argument === "--kind" || argument === "--trace-kind") {
             const rawKind = argv[index + 1];
             if (!rawKind || !isTraceKind(rawKind)) {
-                throw new Error("--kind requires one of: materialization-started, no-emissions, reflection-captured, emission-materialized, materialization-committed");
+                throw new Error("--kind requires one of: materialization-started, grammar-activation-staged, no-emissions, reflection-captured, emission-materialized, materialization-committed");
             }
 
             query.kind = rawKind;
@@ -130,6 +154,7 @@ function parseCliArgs(argv: string[]): {
 function isInspectionSection(value: string): value is BubbleInspectionSection {
     return value === "summary"
         || value === "plan"
+        || value === "grammars"
         || value === "artifacts"
         || value === "commits"
         || value === "evidence"
@@ -139,6 +164,7 @@ function isInspectionSection(value: string): value is BubbleInspectionSection {
 
 function isTraceKind(value: string): value is NonNullable<BubbleInspectionQuery["kind"]> {
     return value === "materialization-started"
+        || value === "grammar-activation-staged"
         || value === "no-emissions"
         || value === "reflection-captured"
         || value === "emission-materialized"

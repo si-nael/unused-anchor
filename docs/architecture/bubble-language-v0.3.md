@@ -21,7 +21,13 @@ It adds these declarations inside a `bubble` body:
 
 The current implementation keeps the surface syntax line-oriented.
 
-Grammar artifacts are stored as quoted staged source strings rather than as executable parser mutations.
+Grammar artifacts no longer lower as opaque source strings.
+
+They now lower into a first structured grammar-artifact IR shape.
+
+The current structured artifact kind is:
+
+- `profile <Name> extends <BaseProfile>`
 
 Activation requests are also staged.
 
@@ -45,11 +51,14 @@ It lets bubbles define or stage grammar artifacts, but it does not let those art
 A `v0.3` compilation should answer at least these questions:
 
 - which grammar artifacts were declared
+- which structured grammar artifact shape each declaration produced
 - which staged grammar activations were requested
 - which profile name, if any, each activation requested
 - whether those activations referenced known local grammar artifacts
 
 These declarations lower into `bubble.meta.grammars` and `bubble.meta.grammarActivations` in Bubble IR.
+
+The runtime also exposes these declarations as staged grammar plans and staged grammar-activation plans inside inspection and replay reports.
 
 If a source file contains any `grammar` or `activate grammar` declarations, the compiler emits:
 
@@ -62,6 +71,7 @@ The current `v0.3` layer adds these checks:
 
 1. grammar names share the meta namespace with quotes and generators and may not collide
 2. every grammar activation must reference an existing local grammar artifact
+3. every grammar artifact must parse into a supported structured grammar-artifact form
 
 ## Non-Goals
 
@@ -73,11 +83,18 @@ The current `v0.3` profile does not yet provide:
 - grammar artifact materialization in the runtime kernel
 - automatic parser regeneration from grammar artifacts
 
+The current runtime does provide:
+
+- staged grammar activation planning
+- staged grammar activation trace events
+- inspection and replay queries by grammar activation id or grammar profile name
+
 Those belong to later versions.
 
 ## Commands
 
 - `npm run compile:grammar-example`
+- `npm run inspect:grammar-example`
 - `npm run verify`
 
 ## Example

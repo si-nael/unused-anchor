@@ -278,8 +278,7 @@ function buildGrammar(declaration: GrammarDeclaration): BubbleGrammarIR {
         id: createGrammarId(declaration.line, declaration.name),
         name: declaration.name,
         sourceLine: declaration.line,
-        artifactKind: "grammar-source",
-        artifactSource: declaration.artifactSource,
+        artifact: declaration.artifact,
     };
 }
 
