@@ -1,0 +1,29 @@
+{
+  "artifacts": [
+    {
+      "grammarId": "grammar:6:BranchSyntax",
+      "grammarName": "BranchSyntax",
+      "artifactKind": "profile-extension",
+      "profileName": "branch.v0.3",
+      "extendsProfile": "bubbles.v0.2"
+    },
+    {
+      "grammarId": "grammar:7:LeafSyntax",
+      "grammarName": "LeafSyntax",
+      "artifactKind": "profile-extension",
+      "profileName": "leaf.v0.3",
+      "extendsProfile": "branch.v0.3"
+    }
+  ],
+  "activations": [
+    {
+      "activationId": "activate-grammar:8:LeafSyntax",
+      "grammarId": "grammar:7:LeafSyntax",
+      "grammarName": "LeafSyntax",
+      "requestedProfileName": null,
+      "resolvedProfileName": "leaf.v0.3",
+      "extendsProfile": "branch.v0.3",
+      "staged": true
+    }
+  ]
+}

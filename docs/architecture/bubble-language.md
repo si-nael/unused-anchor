@@ -1,5 +1,7 @@
 # Bubble Language Strategy
 
+For the current user-facing syntax, command, and output reference, see `docs/reference/bubble-language-reference.md`.
+
 ## Position
 
 Yes, a dedicated language is a strong direction for this project.
@@ -30,6 +32,56 @@ Instead, it should raise the representability frontier by making the following f
 - reflective statements about worlds, models, or other laws
 
 This is the useful technical reading of a language for "making the unimaginable."
+
+## Uniqueness Requirement
+
+Bubble Language must not justify itself by novelty alone.
+
+It must justify itself by necessity.
+
+If the same target work can be done just as well with a host language, a small config layer, and a few ad hoc tools, then Bubble has not earned its existence yet.
+
+The language therefore needs to do something more specific than "define interesting examples."
+
+It needs to make certain classes of world construction, inspection, replay, contradiction analysis, and language-generation work possible in a form that ordinary alternatives do not preserve cleanly.
+
+That means Bubble should be judged against a hard bar:
+
+- does it express bubble-generative structure that simpler alternatives flatten or hide
+- does it preserve inspectability where a host-language embedding would become opaque
+- does it keep replay, provenance, and compatibility explicit where ordinary tooling would scatter them across code and runtime convention
+- does it let the project study higher-order world and language formation as first-class semantic objects rather than as incidental implementation tricks
+
+If Bubble cannot eventually clear that bar, then it risks becoming a decorative DSL.
+
+That outcome is not acceptable for this project.
+
+## Universal Core And Particular Layers
+
+Bubble should be universal.
+
+That does not mean every concrete project concern belongs inside the language core.
+
+It means the Bubble core should define semantic machinery that can be reused across many bubble systems, while project-specific goals should be implemented as separate layers, profiles, runtimes, benchmarks, or applications built on top of that core.
+
+For this repository, the bubble-universe AI research agenda is one such particular layer.
+
+That research agenda is important, but it should not be allowed to narrow Bubble into a language that only serves one experiment family.
+
+The practical rule is:
+
+- Bubble core should own universal ontology, IR contracts, effect typing, planning and materialization semantics, inspection and replay surfaces, addressing, provenance, and staged meta-language boundaries
+- research-specific layers should own concrete benchmark worlds, agent interfaces, observer policies, evaluation metrics, anomaly labels, and experiment orchestration specific to the bubble-universe AI program
+
+This separation matters for both sides.
+
+If the core absorbs too many project-specific assumptions, Bubble stops being a reusable language.
+
+If the research layer stays too abstract and refuses to specialize, the original research goal never becomes executable.
+
+So the right design is not one neutral blob.
+
+It is a universal Bubble substrate with explicit particular instantiations built on top of it.
 
 ## Bubble-Of-Bubbles Model
 
@@ -110,6 +162,21 @@ In that framing:
 - compiler and runtime failures are boundary events inside one governing bubble
 - self-description is desirable, but same-stage unrestricted self-evaluation is not
 
+This principle also changes the status of language development itself.
+
+Designing Bubble is not only an engineering support task for the larger project.
+
+It is itself one of the research problems.
+
+The Bubble Language bubble has to be solved, stabilized, and studied like any other important bubble in the system.
+
+That means the project should treat the language stack itself as an object of inquiry:
+
+- which contradictions arise inside the language bubble first
+- which membranes and compatibility boundaries keep it coherent
+- which semantic artifacts must become explicit for the language to remain inspectable as it grows
+- which self-referential powers are productive, and which ones dissolve the very structure the project is trying to study
+
 ## Staged Meta-Grammar
 
 Yes, Bubble should eventually be able to participate in grammar generation.
@@ -155,6 +222,12 @@ If worlds are defined directly in a host language, several things become harder:
 - cross-world transformations and normalization
 
 A dedicated language makes the world definition itself a first-class research object.
+
+For this project, that statement applies twice.
+
+The authored bubble worlds are research objects.
+
+The Bubble Language system that defines, validates, materializes, and inspects them is also a research object.
 
 ## Recommended Three-Layer Model
 

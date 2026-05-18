@@ -1,0 +1,467 @@
+{
+  "plan": {
+    "mode": "semantic-plan.v1",
+    "sourcePath": "examples/observatory-loop.bubble",
+    "profile": "bubbles.v0.2",
+    "bubbleAddress": {
+      "scheme": "bubble-lineage.v1",
+      "locatorKind": "source-relative",
+      "anchor": "examples/observatory-loop.bubble",
+      "path": [
+        {
+          "kind": "root",
+          "key": "ObservatoryLoop"
+        }
+      ],
+      "id": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop"
+    },
+    "obligations": [
+      {
+        "effectId": "effect:8:observe",
+        "effectKind": "observe",
+        "scope": "local",
+        "description": "Author declared observe as a required local effect."
+      },
+      {
+        "effectId": "effect:9:commit",
+        "effectKind": "commit",
+        "scope": "local",
+        "description": "Author declared commit as a required local effect."
+      },
+      {
+        "effectId": "effect:10:spawn",
+        "effectKind": "spawn",
+        "scope": "local",
+        "description": "Author declared spawn as a required local effect."
+      }
+    ],
+    "plannedRelations": [
+      {
+        "kind": "spawn",
+        "sourceEffectId": "effect:10:spawn",
+        "requirement": "required",
+        "scope": "local",
+        "target": "descendant-bubble",
+        "familyName": null,
+        "condition": null,
+        "targetAddressTemplate": {
+          "locatorKind": "lineage-relative",
+          "baseAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "pathSuffix": [
+            {
+              "kind": "spawn",
+              "key": "effect:10:spawn"
+            }
+          ],
+          "description": "Derive a descendant-bubble address from bubble:examples/observatory-loop.bubble::root:ObservatoryLoop via required local spawn relation effect:10:spawn."
+        },
+        "description": "This bubble may bring descendant bubbles into existence through required local spawning."
+      }
+    ],
+    "grammars": [],
+    "grammarActivationPlan": [],
+    "emissionPlan": [
+      {
+        "emissionId": "emit:16:Probe",
+        "sourceName": "Probe",
+        "sourceKind": "quote",
+        "target": "artifact",
+        "quoteName": "Probe",
+        "generatorName": null,
+        "derivedAddress": null,
+        "reflectionPaths": [
+          "self.address",
+          "self.profile",
+          "self.worldWill"
+        ]
+      },
+      {
+        "emissionId": "emit:17:DerivedProbe",
+        "sourceName": "DerivedProbe",
+        "sourceKind": "generator",
+        "target": "descendant",
+        "quoteName": "Probe",
+        "generatorName": "DerivedProbe",
+        "derivedAddress": {
+          "scheme": "bubble-lineage.v1",
+          "locatorKind": "lineage-relative",
+          "anchor": "examples/observatory-loop.bubble",
+          "path": [
+            {
+              "kind": "root",
+              "key": "ObservatoryLoop"
+            },
+            {
+              "kind": "spawn",
+              "key": "emit:17:DerivedProbe"
+            }
+          ],
+          "id": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop/spawn:emit:17:DerivedProbe"
+        },
+        "reflectionPaths": [
+          "self.address",
+          "self.profile",
+          "self.worldWill"
+        ]
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "emissionId": "emit:16:Probe",
+      "target": "artifact",
+      "address": null,
+      "sourcePath": "examples/observatory-loop.bubble#emit:16:Probe",
+      "source": "bubble Probe {\n  realization deterministic\n  axiom coherence = stable\n  will 'preserve sampled symmetry'\n  seed latent_seed\n  effect spawn required\n}",
+      "program": {
+        "version": "0.1.0",
+        "profile": "bubbles.v0.1",
+        "sourcePath": "examples/observatory-loop.bubble#emit:16:Probe",
+        "bubble": {
+          "address": {
+            "scheme": "bubble-lineage.v1",
+            "locatorKind": "source-relative",
+            "anchor": "examples/observatory-loop.bubble#emit:16:Probe",
+            "path": [
+              {
+                "kind": "root",
+                "key": "Probe"
+              }
+            ],
+            "id": "bubble:examples/observatory-loop.bubble#emit:16:Probe::root:Probe"
+          },
+          "name": "Probe",
+          "axioms": {
+            "coherence": "stable"
+          },
+          "worldWill": "preserve sampled symmetry",
+          "seed": "latent_seed",
+          "observationMode": null,
+          "effects": [
+            {
+              "id": "effect:6:spawn",
+              "sourceLine": 6,
+              "sourceConstruct": "effect",
+              "kind": "spawn",
+              "requirement": "required",
+              "scope": "local"
+            }
+          ],
+          "obligations": [
+            {
+              "effectId": "effect:6:spawn",
+              "effectKind": "spawn",
+              "scope": "local",
+              "description": "Author declared spawn as a required local effect."
+            }
+          ],
+          "generation": {
+            "realizationMode": "deterministic",
+            "realizationSource": "authored",
+            "worldWillMode": "governing-principle",
+            "lifecycle": {
+              "initialMode": "latent",
+              "observationMode": null,
+              "commitsHistory": false,
+              "supportsCollapse": false
+            },
+            "relations": [
+              {
+                "kind": "spawn",
+                "sourceEffectId": "effect:6:spawn",
+                "requirement": "required",
+                "scope": "local",
+                "target": "descendant-bubble",
+                "familyName": null,
+                "condition": null,
+                "targetAddressTemplate": {
+                  "locatorKind": "lineage-relative",
+                  "baseAddressId": "bubble:examples/observatory-loop.bubble#emit:16:Probe::root:Probe",
+                  "pathSuffix": [
+                    {
+                      "kind": "spawn",
+                      "key": "effect:6:spawn"
+                    }
+                  ],
+                  "description": "Derive a descendant-bubble address from bubble:examples/observatory-loop.bubble#emit:16:Probe::root:Probe via required local spawn relation effect:6:spawn."
+                },
+                "description": "This bubble may bring descendant bubbles into existence through required local spawning."
+              }
+            ]
+          }
+        }
+      },
+      "diagnostics": [],
+      "reflections": {
+        "self.address": {
+          "scheme": "bubble-lineage.v1",
+          "locatorKind": "source-relative",
+          "anchor": "examples/observatory-loop.bubble",
+          "path": [
+            {
+              "kind": "root",
+              "key": "ObservatoryLoop"
+            }
+          ],
+          "id": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop"
+        },
+        "self.profile": "bubbles.v0.2",
+        "self.worldWill": "study descendants under finite evidence"
+      }
+    },
+    {
+      "emissionId": "emit:17:DerivedProbe",
+      "target": "descendant",
+      "address": {
+        "scheme": "bubble-lineage.v1",
+        "locatorKind": "lineage-relative",
+        "anchor": "examples/observatory-loop.bubble",
+        "path": [
+          {
+            "kind": "root",
+            "key": "ObservatoryLoop"
+          },
+          {
+            "kind": "spawn",
+            "key": "emit:17:DerivedProbe"
+          }
+        ],
+        "id": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop/spawn:emit:17:DerivedProbe"
+      },
+      "sourcePath": "examples/observatory-loop.bubble#emit:17:DerivedProbe",
+      "source": "bubble Probe {\n  realization deterministic\n  axiom coherence = stable\n  will 'preserve sampled symmetry'\n  seed \"field_seed\"\n  effect spawn required\n}",
+      "program": {
+        "version": "0.1.0",
+        "profile": "bubbles.v0.1",
+        "sourcePath": "examples/observatory-loop.bubble#emit:17:DerivedProbe",
+        "bubble": {
+          "address": {
+            "scheme": "bubble-lineage.v1",
+            "locatorKind": "source-relative",
+            "anchor": "examples/observatory-loop.bubble#emit:17:DerivedProbe",
+            "path": [
+              {
+                "kind": "root",
+                "key": "Probe"
+              }
+            ],
+            "id": "bubble:examples/observatory-loop.bubble#emit:17:DerivedProbe::root:Probe"
+          },
+          "name": "Probe",
+          "axioms": {
+            "coherence": "stable"
+          },
+          "worldWill": "preserve sampled symmetry",
+          "seed": "field_seed",
+          "observationMode": null,
+          "effects": [
+            {
+              "id": "effect:6:spawn",
+              "sourceLine": 6,
+              "sourceConstruct": "effect",
+              "kind": "spawn",
+              "requirement": "required",
+              "scope": "local"
+            }
+          ],
+          "obligations": [
+            {
+              "effectId": "effect:6:spawn",
+              "effectKind": "spawn",
+              "scope": "local",
+              "description": "Author declared spawn as a required local effect."
+            }
+          ],
+          "generation": {
+            "realizationMode": "deterministic",
+            "realizationSource": "authored",
+            "worldWillMode": "governing-principle",
+            "lifecycle": {
+              "initialMode": "latent",
+              "observationMode": null,
+              "commitsHistory": false,
+              "supportsCollapse": false
+            },
+            "relations": [
+              {
+                "kind": "spawn",
+                "sourceEffectId": "effect:6:spawn",
+                "requirement": "required",
+                "scope": "local",
+                "target": "descendant-bubble",
+                "familyName": null,
+                "condition": null,
+                "targetAddressTemplate": {
+                  "locatorKind": "lineage-relative",
+                  "baseAddressId": "bubble:examples/observatory-loop.bubble#emit:17:DerivedProbe::root:Probe",
+                  "pathSuffix": [
+                    {
+                      "kind": "spawn",
+                      "key": "effect:6:spawn"
+                    }
+                  ],
+                  "description": "Derive a descendant-bubble address from bubble:examples/observatory-loop.bubble#emit:17:DerivedProbe::root:Probe via required local spawn relation effect:6:spawn."
+                },
+                "description": "This bubble may bring descendant bubbles into existence through required local spawning."
+              }
+            ]
+          }
+        }
+      },
+      "diagnostics": [],
+      "reflections": {
+        "self.address": {
+          "scheme": "bubble-lineage.v1",
+          "locatorKind": "source-relative",
+          "anchor": "examples/observatory-loop.bubble",
+          "path": [
+            {
+              "kind": "root",
+              "key": "ObservatoryLoop"
+            }
+          ],
+          "id": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop"
+        },
+        "self.profile": "bubbles.v0.2",
+        "self.worldWill": "study descendants under finite evidence"
+      }
+    }
+  ],
+  "commits": [
+    {
+      "id": "commit:emit:16:Probe",
+      "emissionId": "emit:16:Probe",
+      "committedAddressId": null,
+      "description": "Committed artifact materialization for emit:16:Probe."
+    },
+    {
+      "id": "commit:emit:17:DerivedProbe",
+      "emissionId": "emit:17:DerivedProbe",
+      "committedAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop/spawn:emit:17:DerivedProbe",
+      "description": "Committed descendant materialization for emit:17:DerivedProbe at bubble:examples/observatory-loop.bubble::root:ObservatoryLoop/spawn:emit:17:DerivedProbe."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "kind": "observation-context",
+      "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "subjectAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "sourcePath": "examples/observatory-loop.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "description": "Bubble ObservatoryLoop declares observation mode witness with durable history support."
+    },
+    {
+      "id": "evidence:commit:emit:16:Probe",
+      "kind": "history-commit",
+      "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "subjectAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "sourcePath": "examples/observatory-loop.bubble",
+      "observationMode": "witness",
+      "emissionId": "emit:16:Probe",
+      "commitId": "commit:emit:16:Probe",
+      "description": "Recorded durable history for emit:16:Probe at bubble:examples/observatory-loop.bubble::root:ObservatoryLoop."
+    },
+    {
+      "id": "evidence:commit:emit:17:DerivedProbe",
+      "kind": "history-commit",
+      "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "subjectAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop/spawn:emit:17:DerivedProbe",
+      "sourcePath": "examples/observatory-loop.bubble",
+      "observationMode": "witness",
+      "emissionId": "emit:17:DerivedProbe",
+      "commitId": "commit:emit:17:DerivedProbe",
+      "description": "Recorded durable history for emit:17:DerivedProbe at bubble:examples/observatory-loop.bubble::root:ObservatoryLoop/spawn:emit:17:DerivedProbe."
+    }
+  ],
+  "trace": [
+    {
+      "kind": "materialization-started",
+      "message": "Started materialization for ObservatoryLoop.",
+      "details": {
+        "profile": "bubbles.v0.2",
+        "address": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop"
+      }
+    },
+    {
+      "kind": "reflection-captured",
+      "emissionId": "emit:16:Probe",
+      "message": "Captured 3 reflections for emit:16:Probe.",
+      "details": {
+        "self.address": {
+          "scheme": "bubble-lineage.v1",
+          "locatorKind": "source-relative",
+          "anchor": "examples/observatory-loop.bubble",
+          "path": [
+            {
+              "kind": "root",
+              "key": "ObservatoryLoop"
+            }
+          ],
+          "id": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop"
+        },
+        "self.profile": "bubbles.v0.2",
+        "self.worldWill": "study descendants under finite evidence"
+      }
+    },
+    {
+      "kind": "emission-materialized",
+      "emissionId": "emit:16:Probe",
+      "message": "Materialized emission emit:16:Probe from Probe.",
+      "details": {
+        "target": "artifact",
+        "address": null,
+        "sourceName": "Probe"
+      }
+    },
+    {
+      "kind": "materialization-committed",
+      "emissionId": "emit:16:Probe",
+      "message": "Committed artifact materialization for emit:16:Probe.",
+      "details": {
+        "commitId": "commit:emit:16:Probe"
+      }
+    },
+    {
+      "kind": "reflection-captured",
+      "emissionId": "emit:17:DerivedProbe",
+      "message": "Captured 3 reflections for emit:17:DerivedProbe.",
+      "details": {
+        "self.address": {
+          "scheme": "bubble-lineage.v1",
+          "locatorKind": "source-relative",
+          "anchor": "examples/observatory-loop.bubble",
+          "path": [
+            {
+              "kind": "root",
+              "key": "ObservatoryLoop"
+            }
+          ],
+          "id": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop"
+        },
+        "self.profile": "bubbles.v0.2",
+        "self.worldWill": "study descendants under finite evidence"
+      }
+    },
+    {
+      "kind": "emission-materialized",
+      "emissionId": "emit:17:DerivedProbe",
+      "message": "Materialized emission emit:17:DerivedProbe from DerivedProbe.",
+      "details": {
+        "target": "descendant",
+        "address": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop/spawn:emit:17:DerivedProbe",
+        "sourceName": "DerivedProbe"
+      }
+    },
+    {
+      "kind": "materialization-committed",
+      "emissionId": "emit:17:DerivedProbe",
+      "message": "Committed descendant materialization for emit:17:DerivedProbe at bubble:examples/observatory-loop.bubble::root:ObservatoryLoop/spawn:emit:17:DerivedProbe.",
+      "details": {
+        "commitId": "commit:emit:17:DerivedProbe"
+      }
+    }
+  ]
+}

@@ -1,5 +1,9 @@
 # Work Log
 
+## 2026-05-18
+
+- Evaluated introducing a "quantum sea" concept into Bubble Language and concluded that the right near-term framing is a latent substrate concept above or alongside the current bubble ontology, not an immediate new core keyword. If the idea survives, it should first sharpen nucleation, branching, membrane interaction, observation-driven commitment, and replay-visible substrate pressure rather than widening the surface syntax prematurely.
+
 ## 2026-05-15
 
 - Raised the product bar for Bubble Language again: it should not stop at a reference kernel, but become a deployable language stack that can be embedded into multiple serious projects.
@@ -25,6 +29,15 @@
 - Recorded the next meta-language direction explicitly: Bubble should eventually support grammar artifacts that generate or constrain further grammar, but only through staged, inspectable meta-grammar boundaries rather than same-stage parser mutation.
 - Implemented the first explicit `bubbles.v0.3` slice by adding grammar artifacts and staged grammar-activation requests to the compiler pipeline, plus validation, tests, a profile document, and a compileable example.
 - Promoted `v0.3` grammar artifacts from raw source strings into structured grammar IR, then exposed staged grammar-activation plans and trace events through runtime inspection, replay queries, CLI sections, and a generated grammar inspection artifact.
+- Raised the acceptance bar again: Bubble should not count as successful because it can run a few examples, but because it enables uniquely bubble-native semantic work that ordinary host-language alternatives would not preserve cleanly.
+- Recorded the sharper reflexive framing that solving the Bubble Language bubble itself is one of the core research tasks, not only an engineering prerequisite for other bubbles.
+- Tightened `v0.3` into a more language-like contract by rejecting unknown grammar base profiles, rejecting explicit activation targets that disagree with declared grammar profiles, and locking the default activation-profile resolution path with unit coverage.
+- Pushed H-007 from claim into implementation by adding the first local contradiction-surface checks for duplicate grammar profile identities and local profile-extension cycles, then recorded the initial contradiction catalog for the Bubble Language bubble.
+- Assessed readiness against the original bubble-universe AI research goal and concluded that the repository is not yet directly deployable for end-to-end agent experiments: the language, IR, planning, materialization, inspection, replay, and contradiction logging surfaces exist, but there is still no executable benchmark world, agent observation or action loop, baseline observer agent, or evaluator that distinguishes contradiction from ignorance.
+- Identified the highest-priority gap-closing tasks for direct research use: define one operational micro-world profile with step semantics, expose a narrow observation and action interface for an embedded agent, build a labeled anomaly or contradiction benchmark corpus, and add a baseline law-inference or contradiction-detection evaluation harness.
+- Reframed that readiness gap through the universality requirement: Bubble itself should stay a universal substrate, while the bubble-universe AI program should be built as one explicit particular layer above it rather than baked into the core language contract.
+- Added a broader executable example corpus across `v0.1`, `v0.2`, and `v0.3`, together with package scripts and an examples guide so the repository demonstrates more than one happy-path source file and each example can be run directly through the current CLI surface.
+- Added a shared user-facing Bubble Language reference manual under `docs/reference/` so readers can see the current source forms, semantic interpretation rules, runtime pipeline, command surface, and output-reading guidance in one place instead of reconstructing them from scattered architecture and version notes.
 
 ## 2026-05-14
 

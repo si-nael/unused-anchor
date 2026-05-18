@@ -1,5 +1,16 @@
 # Idea Log
 
+## 2026-05-18
+
+### Quantum sea as latent substrate
+
+- A "quantum sea" could be a strong research-facing concept if it names the latent substrate from which bubbles nucleate, interact, branch, and become committed under observation.
+- It should not enter Bubble core merely as poetic ontology or imported physics vocabulary.
+- In the universal core, the more stable abstraction is a latent substrate, possibility field, or pre-materialized medium.
+- "Quantum sea" can then be one particular interpretation of that substrate for the bubble-universe research layer.
+- The concept becomes useful only if it sharpens semantics that Bubble already cares about: latent existence, spawn, branching, membrane coupling, observation, commit, and unresolved pressure or debt.
+- A good bar is whether the concept changes planning, materialization, inspection, or replay in a way that a thin host-language embedding would not express cleanly.
+
 ## 2026-05-15
 
 ### Bubble as universal semantic unit
@@ -33,6 +44,14 @@
 - Its grammar, compiler, runtime, and tooling are then not outside the model, but one locally coherent regime with its own axioms, world will, interfaces, and failure modes.
 - This suggests a useful reflexive design principle: the language should be able to describe its own construction and limits without collapsing into unrestricted self-execution.
 - In that framing, contradictions in the language stack are not only implementation bugs but also boundary events inside one special bubble that governs other bubbles.
+- The language bubble is therefore not just a means to an end; understanding how it stays coherent is itself a research problem.
+
+### Bubble must earn its existence
+
+- Bubble should not survive as a project merely because it has elegant ontology or interesting examples.
+- It has to become necessary.
+- The right bar is not whether Bubble can express something somehow, but whether it can preserve bubble-native semantics, inspectability, replayability, and higher-order generation more cleanly than a host-language embedding.
+- Features that do not strengthen that unique capability should be treated cautiously, because they can make the language broader without making it more necessary.
 
 ## 2026-05-14
 

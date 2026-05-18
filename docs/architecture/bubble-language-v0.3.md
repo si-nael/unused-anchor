@@ -54,6 +54,7 @@ A `v0.3` compilation should answer at least these questions:
 - which structured grammar artifact shape each declaration produced
 - which staged grammar activations were requested
 - which profile name, if any, each activation requested
+- which profile name each activation resolves to when no explicit target name is provided
 - whether those activations referenced known local grammar artifacts
 
 These declarations lower into `bubble.meta.grammars` and `bubble.meta.grammarActivations` in Bubble IR.
@@ -72,6 +73,8 @@ The current `v0.3` layer adds these checks:
 1. grammar names share the meta namespace with quotes and generators and may not collide
 2. every grammar activation must reference an existing local grammar artifact
 3. every grammar artifact must parse into a supported structured grammar-artifact form
+4. profile-extension grammars must extend either a built-in Bubble profile or another locally declared grammar profile until cross-file grammar imports exist
+5. if an activation names a target profile explicitly, that profile must match the one declared by the grammar artifact
 
 ## Non-Goals
 
@@ -87,6 +90,7 @@ The current runtime does provide:
 
 - staged grammar activation planning
 - staged grammar activation trace events
+- default resolution from `activate grammar <Name>` to the grammar artifact's declared profile name
 - inspection and replay queries by grammar activation id or grammar profile name
 
 Those belong to later versions.

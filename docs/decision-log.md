@@ -472,6 +472,46 @@ Consequence:
 
 Parse grammar artifacts into explicit structured IR forms, starting with `profile <Name> extends <BaseProfile>`, and surface grammar activations as staged plan entries and trace events that inspection and replay tooling can query directly.
 
+### D-049: Bubble must earn its existence by unique semantic capability
+
+Reason:
+
+If Bubble is allowed to succeed merely by running a few examples or by restating host-language behavior in a specialized syntax, the project will accumulate language surface without proving that the language is necessary.
+
+Consequence:
+
+Judge Bubble against a stronger bar: it must support bubble-generative world construction, inspection, replay, contradiction analysis, and higher-order language work in ways that ordinary host-language embeddings do not preserve cleanly. Prefer features that increase this unique semantic leverage over features that only widen syntax.
+
+### D-050: Treat the Bubble Language bubble itself as a research task
+
+Reason:
+
+If the language stack is treated only as implementation scaffolding, the project will miss one of its most important subjects: how a governing bubble describing other bubbles remains coherent, inspectable, and self-descriptive without collapsing into opaque self-execution.
+
+Consequence:
+
+Treat language design, compatibility boundaries, contradiction surfaces, self-reference limits, and semantic membranes inside Bubble Language as first-class research work rather than as secondary plumbing. Evaluate language changes partly by what they reveal about the Bubble Language bubble itself.
+
+### D-051: Give `activate grammar` a real compatibility contract before runtime activation
+
+Reason:
+
+If grammar activation remains only a named staged request with no static compatibility rules, `v0.3` still looks more like a reference sketch than a usable language boundary.
+
+Consequence:
+
+Require profile-extension grammars to extend a built-in or locally declared base profile, and require explicit activation targets to match the grammar artifact's declared profile name. If no explicit target is provided, resolve the staged activation to the grammar artifact's declared profile.
+
+### D-052: Keep Bubble universal and push project-specific research logic outward
+
+Reason:
+
+If the Bubble core absorbs assumptions that belong only to the bubble-universe AI research agenda, the language will become narrower, harder to reuse, and less credible as a general bubble substrate.
+
+Consequence:
+
+Keep universal semantics such as ontology, IR, effect typing, addressing, planning, materialization, inspection, replay, and staged meta-language boundaries inside Bubble itself. Implement benchmark worlds, agent observation or action loops, evaluator logic, anomaly labels, and experiment orchestration as separate research-specific layers on top of that core.
+
 ### D-042: Treat bubble as the universal semantic unit of the architecture
 
 Reason:

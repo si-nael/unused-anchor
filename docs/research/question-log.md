@@ -81,3 +81,35 @@ Status: open
 Question:
 
 Which effects should exist as first-class language primitives, such as branch, spawn, collapse, commit, leak, debt, perturb, or observe, so that nondeterministic world generation remains analyzable rather than opaque?
+
+### Q-011: What work can only Bubble do cleanly?
+
+Status: open
+
+Question:
+
+Which concrete tasks in world generation, replay, contradiction analysis, or staged language formation become materially cleaner or more faithful in Bubble than in a host-language embedding with ordinary tooling?
+
+### Q-012: What are the first contradiction surfaces inside the Bubble Language bubble itself?
+
+Status: open
+
+Question:
+
+If Bubble Language is itself one governing bubble, where do incoherence and failure first appear inside it: profile compatibility, staged activation, reflective scope, runtime escape hatches, provenance loss, or some other membrane?
+
+### Q-013: What is the first directly usable Bubble-universe AI benchmark loop?
+
+Status: open
+
+Question:
+
+What is the smallest end-to-end combination of Bubble-authored world, operational step semantics, observation or action interface, baseline observer agent, and evaluation metric that would let the project run immediate law-inference or contradiction-detection experiments rather than only language and runtime validation?
+
+### Q-014: Should Bubble expose a latent substrate beneath explicit bubbles?
+
+Status: open
+
+Question:
+
+Should Bubble's semantics include a first-class latent substrate from which bubbles nucleate, interact, and decohere under observation, and if so, should that substrate remain a universal core abstraction or appear only as a particular research profile such as a "quantum sea"?

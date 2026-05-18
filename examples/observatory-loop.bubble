@@ -1,0 +1,18 @@
+bubble ObservatoryLoop {
+  realization deterministic
+  axiom coherence = stable
+  axiom membrane = tuned
+  will "study descendants under finite evidence"
+  seed observatory_seed
+  observe witness
+  effect observe required
+  effect commit required
+  effect spawn required
+  quote Probe = bubble Probe { realization deterministic axiom coherence = stable will 'preserve sampled symmetry' seed latent_seed effect spawn required }
+  generator DerivedProbe(seedName) from Probe
+  reflect self.address
+  reflect self.profile
+  reflect self.worldWill
+  emit Probe as artifact
+  emit DerivedProbe("field_seed") as descendant
+}

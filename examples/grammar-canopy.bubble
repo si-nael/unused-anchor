@@ -1,0 +1,9 @@
+bubble GrammarCanopy {
+  axiom coherence = stable
+  will "grow layered language variants"
+  seed grammar_canopy_seed
+  effect spawn required
+  grammar BranchSyntax = "profile branch.v0.3 extends bubbles.v0.2"
+  grammar LeafSyntax = "profile leaf.v0.3 extends branch.v0.3"
+  activate grammar LeafSyntax
+}

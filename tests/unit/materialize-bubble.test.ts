@@ -166,3 +166,31 @@ test("plans staged grammar activations without mutating the current parser", () 
     assert.equal(materialized.trace[1].activationId, "activate-grammar:7:TwigSyntax");
     assert.equal(materialized.artifacts.length, 0);
 });
+
+test("resolves staged grammar activations to the declared profile when none is requested explicitly", () => {
+    const source = [
+        "bubble GrammarNursery {",
+        "  axiom coherence = stable",
+        "  will \"grow language variants\"",
+        "  seed grammar_seed",
+        "  effect spawn required",
+        "  grammar TwigSyntax = \"profile twig.v0.3 extends bubbles.v0.2\"",
+        "  activate grammar TwigSyntax",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "grammar-nursery-default-profile.bubble" });
+    const plan = planBubbleProgram(program);
+
+    assert.deepEqual(plan.grammarActivationPlan, [
+        {
+            activationId: "activate-grammar:7:TwigSyntax",
+            grammarId: "grammar:6:TwigSyntax",
+            grammarName: "TwigSyntax",
+            requestedProfileName: null,
+            resolvedProfileName: "twig.v0.3",
+            extendsProfile: "bubbles.v0.2",
+            staged: true,
+        },
+    ]);
+});

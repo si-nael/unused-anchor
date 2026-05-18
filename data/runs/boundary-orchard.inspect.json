@@ -1,0 +1,166 @@
+{
+  "summary": {
+    "bubbleName": "BoundaryOrchard",
+    "profile": "bubbles.v0.1",
+    "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+    "obligationCount": 3,
+    "plannedRelationCount": 2,
+    "plannedGrammarCount": 0,
+    "plannedGrammarActivationCount": 0,
+    "plannedEmissionCount": 0,
+    "materializedArtifactCount": 0,
+    "descendantCount": 0,
+    "artifactCount": 0,
+    "commitCount": 0,
+    "evidenceCount": 1,
+    "reflectionPaths": [],
+    "traceKinds": [
+      "materialization-started",
+      "no-emissions"
+    ]
+  },
+  "plan": {
+    "mode": "semantic-plan.v1",
+    "sourcePath": "examples/boundary-orchard.bubble",
+    "profile": "bubbles.v0.1",
+    "bubbleAddress": {
+      "scheme": "bubble-lineage.v1",
+      "locatorKind": "source-relative",
+      "anchor": "examples/boundary-orchard.bubble",
+      "path": [
+        {
+          "kind": "root",
+          "key": "BoundaryOrchard"
+        }
+      ],
+      "id": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard"
+    },
+    "obligations": [
+      {
+        "effectId": "effect:8:observe",
+        "effectKind": "observe",
+        "scope": "local",
+        "description": "Author declared observe as a required local effect."
+      },
+      {
+        "effectId": "effect:9:commit",
+        "effectKind": "commit",
+        "scope": "local",
+        "description": "Author declared commit as a required local effect."
+      },
+      {
+        "effectId": "effect:10:spawn",
+        "effectKind": "spawn",
+        "scope": "membrane",
+        "description": "Author declared spawn as a required membrane effect."
+      }
+    ],
+    "plannedRelations": [
+      {
+        "kind": "branch",
+        "sourceEffectId": "effect:11:branch",
+        "requirement": "optional",
+        "scope": "local",
+        "target": "alternative-bubble",
+        "familyName": null,
+        "condition": null,
+        "targetAddressTemplate": {
+          "locatorKind": "lineage-relative",
+          "baseAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "pathSuffix": [
+            {
+              "kind": "branch",
+              "key": "effect:11:branch"
+            }
+          ],
+          "description": "Derive a alternative-bubble address from bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard via optional local branch relation effect:11:branch."
+        },
+        "description": "This bubble may realize alternative bubble continuations through optional local branching."
+      },
+      {
+        "kind": "spawn",
+        "sourceEffectId": "effect:10:spawn",
+        "requirement": "required",
+        "scope": "membrane",
+        "target": "descendant-bubble",
+        "familyName": "GroveChild",
+        "condition": {
+          "kind": "logical",
+          "operator": "and",
+          "left": {
+            "kind": "comparison",
+            "operator": ">",
+            "left": {
+              "kind": "reference",
+              "path": "boundary.pressure"
+            },
+            "right": {
+              "kind": "literal",
+              "value": 3
+            }
+          },
+          "right": {
+            "kind": "comparison",
+            "operator": "=",
+            "left": {
+              "kind": "reference",
+              "path": "membrane.state"
+            },
+            "right": {
+              "kind": "literal",
+              "value": "thin"
+            }
+          }
+        },
+        "targetAddressTemplate": {
+          "locatorKind": "lineage-relative",
+          "baseAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "pathSuffix": [
+            {
+              "kind": "spawn",
+              "key": "GroveChild:12"
+            }
+          ],
+          "description": "Derive a descendant-bubble address from bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard via required membrane spawn family GroveChild at line 12."
+        },
+        "description": "This bubble may bring descendant family 'GroveChild' into existence through required membrane spawning when boundary.pressure > 3 and membrane.state = \"thin\"."
+      }
+    ],
+    "grammars": [],
+    "grammarActivationPlan": [],
+    "emissionPlan": []
+  },
+  "grammars": {
+    "artifacts": [],
+    "activations": []
+  },
+  "artifacts": [],
+  "commits": [],
+  "evidence": [
+    {
+      "id": "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "kind": "observation-context",
+      "bubbleAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "subjectAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "sourcePath": "examples/boundary-orchard.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "description": "Bubble BoundaryOrchard declares observation mode witness with durable history support."
+    }
+  ],
+  "trace": [
+    {
+      "kind": "materialization-started",
+      "message": "Started materialization for BoundaryOrchard.",
+      "details": {
+        "profile": "bubbles.v0.1",
+        "address": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard"
+      }
+    },
+    {
+      "kind": "no-emissions",
+      "message": "Bubble BoundaryOrchard has no staged emissions to materialize."
+    }
+  ]
+}

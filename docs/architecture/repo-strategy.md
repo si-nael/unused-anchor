@@ -66,6 +66,10 @@ Likely centers of gravity:
 - `src/bubbles/effects/`
 - language-facing validation and compiler tooling
 
+This workstream should stay universal as long as possible.
+
+If a feature is needed only for one research program, benchmark family, or agent protocol, prefer implementing it above the language core rather than embedding it directly into the universal Bubble contract.
+
 ### 3. Shared semantic kernel
 
 Primary concerns:
@@ -81,6 +85,10 @@ Likely centers of gravity:
 - `src/runtime/`
 - `src/traces/`
 - selected parts of `src/bubbles/`
+
+This kernel should contain semantics that many Bubble-based systems could plausibly share.
+
+It should not quietly accumulate experiment-specific assumptions about one observer model, one anomaly taxonomy, or one benchmark loop.
 
 ## Decision Rule
 
@@ -104,3 +112,8 @@ Make the split conceptual first, not infrastructural.
 Use one repository, one log system, one ontology, and two clearly named workstreams.
 
 That keeps the project's color sharp without introducing premature repository boundaries.
+
+In particular:
+
+- keep Bubble itself universal
+- build the bubble-universe AI research stack as one explicit particular instantiation on top of it

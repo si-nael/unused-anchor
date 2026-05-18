@@ -87,3 +87,38 @@ Would be weakened by:
 Next check:
 
 Define a minimal effect vocabulary and show how a nondeterministic world fragment lowers into explicit IR plus an effect trace.
+
+### H-006: Bubble can justify itself only through unique semantic leverage
+
+Status: active
+
+Claim:
+
+Bubble Language will be worth keeping only if it can represent and preserve bubble-generative semantics, replay structure, contradiction surfaces, and higher-order language artifacts more coherently than a host-language embedding plus ad hoc tooling.
+
+Would be weakened by:
+
+- representative target problems turning out to be equally clear in a host language with a thin configuration layer
+- Bubble features repeatedly lowering to little more than reorganized syntax over ordinary implementation machinery
+- the language needing opaque escape hatches for the very semantics it claims to make first-class
+
+Next check:
+
+Choose one target task involving world generation, inspection, replay, or grammar staging and compare the Bubble path against a realistic host-language alternative.
+
+### H-007: The Bubble Language bubble has its own contradiction surface that can be studied directly
+
+Status: active
+
+Claim:
+
+The language stack itself has identifiable membranes, invariants, and failure modes, and studying those boundaries will produce useful research insight rather than only implementation cleanup.
+
+Would be weakened by:
+
+- the language stack proving to have no meaningful internal contradiction classes beyond ordinary software bugs
+- reflexive language features providing no analyzable structure beyond convenience
+
+Next check:
+
+Extend the current contradiction catalog beyond grammar-profile compatibility into reflective scope, activation-graph, provenance, and runtime-escape-hatch failures.

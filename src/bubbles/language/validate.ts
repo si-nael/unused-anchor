@@ -15,6 +15,7 @@ import type { BubbleProgramIR } from "../ir";
 import { createDiagnostic, type Diagnostic } from "./diagnostics";
 
 const SUPPORTED_REFLECT_PATHS = new Set(["self.address", "self.profile", "self.seed", "self.worldWill"]);
+const SUPPORTED_GRAMMAR_BASE_PROFILES = new Set(["bubbles.v0.1", "bubbles.v0.2", "bubbles.v0.3"]);
 
 export function validateBubbleCompilation(document: BubbleDocument, program: BubbleProgramIR): Diagnostic[] {
     const diagnostics: Diagnostic[] = [];
@@ -221,7 +222,70 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
         }
     }
 
-    const grammarNames = new Set(grammarDeclarations.map((declaration) => declaration.name));
+    const grammarsByName = new Map(grammarDeclarations.map((declaration) => [declaration.name, declaration]));
+    const grammarNames = new Set(grammarsByName.keys());
+    const localGrammarProfiles = new Set(grammarDeclarations.map((declaration) => declaration.artifact.profileName));
+    const grammarLinesByProfile = new Map<string, number>();
+
+    for (const grammarDeclaration of grammarDeclarations) {
+        const { profileName, extendsProfile } = grammarDeclaration.artifact;
+        const previousProfileLine = grammarLinesByProfile.get(profileName);
+        if (previousProfileLine !== undefined) {
+            diagnostics.push(
+                createDiagnostic({
+                    code: "BBL222",
+                    severity: "error",
+                    message: `Grammar profile '${profileName}' was already declared on line ${previousProfileLine}.`,
+                    sourcePath,
+                    line: grammarDeclaration.line,
+                }),
+            );
+        } else {
+            grammarLinesByProfile.set(profileName, grammarDeclaration.line);
+        }
+
+        if (!SUPPORTED_GRAMMAR_BASE_PROFILES.has(extendsProfile) && !localGrammarProfiles.has(extendsProfile)) {
+            diagnostics.push(
+                createDiagnostic({
+                    code: "BBL220",
+                    severity: "error",
+                    message: `Grammar '${grammarDeclaration.name}' extends unknown base profile '${extendsProfile}'.`,
+                    sourcePath,
+                    line: grammarDeclaration.line,
+                }),
+            );
+        }
+
+        if (extendsProfile === profileName) {
+            diagnostics.push(
+                createDiagnostic({
+                    code: "BBL220",
+                    severity: "error",
+                    message: `Grammar '${grammarDeclaration.name}' cannot extend its own profile '${profileName}'.`,
+                    sourcePath,
+                    line: grammarDeclaration.line,
+                }),
+            );
+        }
+    }
+
+    const grammarByProfile = new Map(grammarDeclarations.map((declaration) => [declaration.artifact.profileName, declaration]));
+    for (const grammarDeclaration of grammarDeclarations) {
+        const cycle = findGrammarProfileCycle(grammarDeclaration.artifact.profileName, grammarByProfile);
+        if (!cycle) {
+            continue;
+        }
+
+        diagnostics.push(
+            createDiagnostic({
+                code: "BBL223",
+                severity: "error",
+                message: `Grammar '${grammarDeclaration.name}' participates in a local profile-extension cycle: ${cycle.join(" -> ")}.`,
+                sourcePath,
+                line: grammarDeclaration.line,
+            }),
+        );
+    }
 
     for (const grammarActivationDeclaration of grammarActivationDeclarations) {
         if (!grammarNames.has(grammarActivationDeclaration.grammarName)) {
@@ -230,6 +294,24 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
                     code: "BBL219",
                     severity: "error",
                     message: `Grammar activation references unknown grammar artifact '${grammarActivationDeclaration.grammarName}'.`,
+                    sourcePath,
+                    line: grammarActivationDeclaration.line,
+                }),
+            );
+            continue;
+        }
+
+        const grammarDeclaration = grammarsByName.get(grammarActivationDeclaration.grammarName);
+        if (
+            grammarDeclaration
+            && grammarActivationDeclaration.profileName !== null
+            && grammarActivationDeclaration.profileName !== grammarDeclaration.artifact.profileName
+        ) {
+            diagnostics.push(
+                createDiagnostic({
+                    code: "BBL221",
+                    severity: "error",
+                    message: `Grammar activation for '${grammarActivationDeclaration.grammarName}' requests profile '${grammarActivationDeclaration.profileName}', but the grammar declares '${grammarDeclaration.artifact.profileName}'.`,
                     sourcePath,
                     line: grammarActivationDeclaration.line,
                 }),
@@ -323,4 +405,35 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
     }
 
     return diagnostics;
+}
+
+function findGrammarProfileCycle(
+    startProfile: string,
+    grammarByProfile: Map<string, GrammarDeclaration>,
+): string[] | null {
+    const path: string[] = [];
+    const pathIndexByProfile = new Map<string, number>();
+    let currentProfile = startProfile;
+
+    while (true) {
+        const currentGrammar = grammarByProfile.get(currentProfile);
+        if (!currentGrammar) {
+            return null;
+        }
+
+        pathIndexByProfile.set(currentProfile, path.length);
+        path.push(currentProfile);
+
+        const nextProfile = currentGrammar.artifact.extendsProfile;
+        const cycleStartIndex = pathIndexByProfile.get(nextProfile);
+        if (cycleStartIndex !== undefined) {
+            return [...path.slice(cycleStartIndex), nextProfile];
+        }
+
+        if (!grammarByProfile.has(nextProfile)) {
+            return null;
+        }
+
+        currentProfile = nextProfile;
+    }
 }

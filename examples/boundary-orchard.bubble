@@ -1,0 +1,13 @@
+bubble BoundaryOrchard {
+  realization nondeterministic
+  axiom coherence = stable
+  axiom canopy = dense
+  will "grow through porous edges"
+  seed orchard_seed
+  observe witness
+  effect observe required
+  effect commit required
+  effect spawn required scope membrane
+  effect branch optional
+  spawn GroveChild when boundary.pressure > 3 and membrane.state = "thin"
+}

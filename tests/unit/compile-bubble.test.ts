@@ -530,6 +530,127 @@ test("rejects grammar activations that reference unknown grammar artifacts", () 
     );
 });
 
+test("rejects grammar artifacts that extend unknown base profiles", () => {
+    const source = [
+        "bubble GrammarNursery {",
+        "  axiom coherence = stable",
+        "  will \"grow language variants\"",
+        "  seed grammar_seed",
+        "  effect spawn required",
+        "  grammar TwigSyntax = \"profile twig.v0.3 extends moss.v0.1\"",
+        "  activate grammar TwigSyntax as twig.v0.3",
+        "}",
+    ].join("\n");
+
+    assert.throws(
+        () => compileBubbleSource(source, { sourcePath: "unknown-base-profile.bubble" }),
+        (error: unknown) => {
+            assert.ok(error instanceof BubbleCompilerError);
+            assert.deepEqual(
+                error.diagnostics.map((diagnostic) => diagnostic.code),
+                ["BBL220"],
+            );
+            return true;
+        },
+    );
+});
+
+test("rejects grammar activations that request a mismatched profile name", () => {
+    const source = [
+        "bubble GrammarNursery {",
+        "  axiom coherence = stable",
+        "  will \"grow language variants\"",
+        "  seed grammar_seed",
+        "  effect spawn required",
+        "  grammar TwigSyntax = \"profile twig.v0.3 extends bubbles.v0.2\"",
+        "  activate grammar TwigSyntax as moss.v0.1",
+        "}",
+    ].join("\n");
+
+    assert.throws(
+        () => compileBubbleSource(source, { sourcePath: "mismatched-activation-profile.bubble" }),
+        (error: unknown) => {
+            assert.ok(error instanceof BubbleCompilerError);
+            assert.deepEqual(
+                error.diagnostics.map((diagnostic) => diagnostic.code),
+                ["BBL221"],
+            );
+            return true;
+        },
+    );
+});
+
+test("allows grammars to extend locally declared grammar profiles", () => {
+    const source = [
+        "bubble GrammarNursery {",
+        "  axiom coherence = stable",
+        "  will \"grow language variants\"",
+        "  seed grammar_seed",
+        "  effect spawn required",
+        "  grammar BaseSyntax = \"profile twig.base.v0.3 extends bubbles.v0.2\"",
+        "  grammar LeafSyntax = \"profile twig.leaf.v0.3 extends twig.base.v0.3\"",
+        "  activate grammar LeafSyntax as twig.leaf.v0.3",
+        "}",
+    ].join("\n");
+
+    const result = compileBubbleSource(source, { sourcePath: "local-grammar-chain.bubble" });
+
+    assert.deepEqual(result.diagnostics, []);
+    assert.equal(result.program.profile, "bubbles.v0.3");
+    assert.equal(result.program.bubble.meta?.grammars?.length, 2);
+});
+
+test("rejects duplicate declared grammar profile names", () => {
+    const source = [
+        "bubble GrammarNursery {",
+        "  axiom coherence = stable",
+        "  will \"grow language variants\"",
+        "  seed grammar_seed",
+        "  effect spawn required",
+        "  grammar TwigSyntaxA = \"profile twig.v0.3 extends bubbles.v0.2\"",
+        "  grammar TwigSyntaxB = \"profile twig.v0.3 extends bubbles.v0.2\"",
+        "}",
+    ].join("\n");
+
+    assert.throws(
+        () => compileBubbleSource(source, { sourcePath: "duplicate-grammar-profile.bubble" }),
+        (error: unknown) => {
+            assert.ok(error instanceof BubbleCompilerError);
+            assert.deepEqual(
+                error.diagnostics.map((diagnostic) => diagnostic.code),
+                ["BBL222"],
+            );
+            return true;
+        },
+    );
+});
+
+test("rejects local grammar profile-extension cycles", () => {
+    const source = [
+        "bubble GrammarNursery {",
+        "  axiom coherence = stable",
+        "  will \"grow language variants\"",
+        "  seed grammar_seed",
+        "  effect spawn required",
+        "  grammar TwigSyntax = \"profile twig.v0.3 extends moss.v0.3\"",
+        "  grammar MossSyntax = \"profile moss.v0.3 extends twig.v0.3\"",
+        "  activate grammar TwigSyntax as twig.v0.3",
+        "}",
+    ].join("\n");
+
+    assert.throws(
+        () => compileBubbleSource(source, { sourcePath: "grammar-cycle.bubble" }),
+        (error: unknown) => {
+            assert.ok(error instanceof BubbleCompilerError);
+            assert.deepEqual(
+                error.diagnostics.map((diagnostic) => diagnostic.code),
+                ["BBL223", "BBL223"],
+            );
+            return true;
+        },
+    );
+});
+
 test("rejects unsupported emit usage for quoted artifacts", () => {
     const source = [
         "bubble Studio {",
