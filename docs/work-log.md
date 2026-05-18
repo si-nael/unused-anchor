@@ -2,7 +2,10 @@
 
 ## 2026-05-18
 
-- Evaluated introducing a "quantum sea" concept into Bubble Language and concluded that the right near-term framing is a latent substrate concept above or alongside the current bubble ontology, not an immediate new core keyword. If the idea survives, it should first sharpen nucleation, branching, membrane interaction, observation-driven commitment, and replay-visible substrate pressure rather than widening the surface syntax prematurely.
+- Stabilized a new outer-world ontology for Bubble around three connected concepts: the negative sea, the positive sea, and the anchor point.
+- Wrote a dedicated architecture note describing those concepts as a working operational model rather than as loose lore, and linked the multiverse vision document to it.
+- Recorded the design consequence that Bubble should distinguish world-internal contradiction from outside residue and anchor-driven record drift instead of flattening all three into one anomaly bucket.
+- Added a new open research question focused on whether embedded observers can separate contradiction, negative-sea intrusion, and anchor weakness under finite observation.
 
 ## 2026-05-15
 

@@ -520,4 +520,16 @@ If bubbles are only one object family among many unrelated architectural primiti
 
 Consequence:
 
+Model authored worlds, descendants, language machinery, and preserved evidence as bubbles or explicit relations among bubbles whenever practical. Treat non-bubble machinery as suspect until it is justified clearly.
+
+### D-053: Adopt the negative-sea, positive-sea, and anchor-point model as the current outer-world ontology
+
+Reason:
+
+If Bubble treats worlds only as isolated bubbles with internal laws, it will remain weak at describing instability, lineage, outside residue, identity drift, and the difference between true contradiction and boundary disturbance.
+
+Consequence:
+
+Treat each bubble universe as an independent world suspended between a negative sea and a positive sea, with an anchor point that keeps the world identifiable as itself. Use the negative sea to frame erosion, leakage, residue, and external pressure; use the positive sea to frame lineage, placement, continuity, and stabilization; use the anchor point to frame identity, trusted history, and replay-preserving fixation. Keep this ontology ahead of surface syntax and only promote it into Bubble core where the semantics can be inspected, replayed, and operationalized clearly.
+
 Treat authored worlds, descendant structures, governing language machinery, and preserved experiment evidence as bubbles or explicit relations among bubbles whenever possible. Prefer bubble-scoped semantics over global special cases, and treat abstractions that cannot be located in the bubble ontology as design smells unless they are explicitly justified.

@@ -2,14 +2,15 @@
 
 ## 2026-05-18
 
-### Quantum sea as latent substrate
+### Sea-anchor world structure
 
-- A "quantum sea" could be a strong research-facing concept if it names the latent substrate from which bubbles nucleate, interact, branch, and become committed under observation.
-- It should not enter Bubble core merely as poetic ontology or imported physics vocabulary.
-- In the universal core, the more stable abstraction is a latent substrate, possibility field, or pre-materialized medium.
-- "Quantum sea" can then be one particular interpretation of that substrate for the bubble-universe research layer.
-- The concept becomes useful only if it sharpens semantics that Bubble already cares about: latent existence, spawn, branching, membrane coupling, observation, commit, and unresolved pressure or debt.
-- A good bar is whether the concept changes planning, materialization, inspection, or replay in a way that a thin host-language embedding would not express cleanly.
+- Bubble needs a stronger outer-world ontology than bubbles alone.
+- A useful current model is that each bubble universe exists between a negative sea and a positive sea, and remains itself through an anchor point.
+- The negative sea should name the dissolving side of world structure: erosion, outside residue, leakage, boundary shaking, and unresolved fragments.
+- The positive sea should name the structuring side of world structure: lineage, placement, continuity, growth, and stable relation among worlds.
+- The anchor point should name the world-identity fixpoint that holds laws, history, trusted observation, and boundary coherence together.
+- This model becomes especially valuable if it helps distinguish three failure classes that would otherwise blur together: true contradiction, foreign trace intrusion, and anchor-driven record drift.
+- These concepts should become operational semantics gradually, not immediate decorative syntax.
 
 ## 2026-05-15
 

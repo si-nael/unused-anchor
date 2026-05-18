@@ -6,6 +6,8 @@ This project should eventually become more than a single world simulator.
 
 The intended system is a multiverse made of bubble universes. Each bubble universe is a locally coherent world with its own axioms, history, internal agents, and world will.
 
+The current working ontology also treats each bubble universe as suspended between a negative sea and a positive sea, with an anchor point holding the world to its own identity. See `docs/architecture/sea-anchor-model.md` for the current operational reading of that structure.
+
 ## Bubble Universe Model
 
 Each world should eventually contain:

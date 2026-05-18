@@ -106,10 +106,10 @@ Question:
 
 What is the smallest end-to-end combination of Bubble-authored world, operational step semantics, observation or action interface, baseline observer agent, and evaluation metric that would let the project run immediate law-inference or contradiction-detection experiments rather than only language and runtime validation?
 
-### Q-014: Should Bubble expose a latent substrate beneath explicit bubbles?
+### Q-014: Can an observer separate contradiction, negative-sea residue, and anchor drift?
 
 Status: open
 
 Question:
 
-Should Bubble's semantics include a first-class latent substrate from which bubbles nucleate, interact, and decohere under observation, and if so, should that substrate remain a universal core abstraction or appear only as a particular research profile such as a "quantum sea"?
+When a weakly anchored bubble world is observed under pressure from outside residue or boundary disturbance, can an embedded observer tell whether an anomaly is caused by genuine internal contradiction, negative-sea intrusion, or record instability from anchor weakness?
