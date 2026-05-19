@@ -6,21 +6,21 @@
 
 Reason:
 
-The central novelty is not rendering realism. It is whether a compact rule system can generate a world rich enough for embedded agents to infer laws and detect contradictions.
+The central novelty is not rendering realism. It is whether a compact rule system can generate a world rich enough to preserve identity, lineage, and anchor structure under pressure.
 
 Consequence:
 
 The first implementation should use a discrete graph or grid world with a clear event model.
 
-### D-002: Make contradiction detection the primary objective
+### D-002: Make independent bubble-world formation the primary objective
 
 Reason:
 
-This gives the project a crisp success criterion and cleanly unifies ideas 4 and 11.
+This gives the project a crisp success criterion and keeps the language centered on world formation rather than on one downstream methodology.
 
 Consequence:
 
-Agent evaluation should prioritize law discovery, anomaly detection, and boundary inference.
+Language and runtime design should prioritize world identity, boundary behavior, lineage, and anchor support.
 
 ### D-003: Treat emergence as a secondary layer
 
@@ -46,41 +46,41 @@ Document the multiverse architecture now, but implement the first version as a s
 
 Reason:
 
-It provides a natural boundary for local laws, world-specific histories, and controlled anomalies.
+It provides a natural boundary for local laws, world-specific histories, anchor placement, and sea exposure.
 
 Consequence:
 
-The eventual core model should include concepts such as Axiom Pack, World Will, World State, Agent Memory, and Boundary Protocol.
+The eventual core model should include concepts such as Axiom Pack, World Will, World State, Anchor Point, Sea Exposure, and Boundary Protocol.
 
 ### D-006: Make the world will operational
 
 Reason:
 
-If the world will is only narrative flavor, it will not generate measurable behavior or meaningful contradiction patterns.
+If the world will is only narrative flavor, it will not generate measurable behavior or meaningful world-shaping patterns.
 
 Consequence:
 
 Treat the world will as a formal constraint, objective, or invariant that shapes world evolution and can be inferred or violated.
 
-### D-007: Treat consistency as the deepest project layer
+### D-007: Treat world identity and boundary stability as the deepest project layer
 
 Reason:
 
-The motivating question is not merely how to generate worlds, but whether rich artificial worlds can remain free of contradiction in a meaningful formal sense.
+The motivating question is not merely how to generate worlds, but how rich artificial worlds remain identifiable, bounded, and placeable inside a larger field.
 
 Consequence:
 
-World generation, agent design, and evaluation should all be framed around consistency classes, contradiction modes, and observability limits.
+World generation, runtime design, and later evaluation should all be framed around identity classes, boundary modes, lineage structure, and observability limits.
 
-### D-008: Separate formal contradiction from epistemic mismatch
+### D-008: Separate anchor drift from observer underdetermination
 
 Reason:
 
-An agent can fail to explain observations because the world is inconsistent, because the agent's model class is too weak, or because the observation budget is too small.
+A system can fail to explain observations because the world has drifted, because the observer's model class is too weak, or because the observation budget is too small.
 
 Consequence:
 
-The project must distinguish at least formal inconsistency, simulation inconsistency, and observer-relative model failure.
+The project must distinguish at least anchor drift, boundary disturbance, and observer-relative model failure.
 
 ### D-009: Enforce research logging as an operating rule
 
@@ -186,7 +186,7 @@ Any higher-order or reflective construct must lower into explicit IR nodes with 
 
 Reason:
 
-Nondeterminism is useful for modeling world birth, unresolved possibilities, observer-relative branching, anomaly injection, and latent choice, but hidden randomness destroys replay and analysis.
+Nondeterminism is useful for modeling world birth, unresolved possibilities, observer-relative branching, boundary pressure, and latent choice, but hidden randomness destroys replay and analysis.
 
 Consequence:
 
@@ -196,7 +196,7 @@ Represent nondeterministic choice as explicit language and IR nodes with branch 
 
 Reason:
 
-If world generation can cause arbitrary hidden side effects, the language becomes impossible to inspect and contradictions become uninterpretable.
+If world generation can cause arbitrary hidden side effects, the language becomes impossible to inspect and world behavior becomes uninterpretable.
 
 Consequence:
 
@@ -336,7 +336,7 @@ Treat grammar specification, semantic specification, execution runtime, CLI and 
 
 Reason:
 
-If the language stack is treated as if it stood outside the bubble ontology, the architecture will gain hidden assumptions and lose the ability to reason about its own boundaries, invariants, and contradiction surface.
+If the language stack is treated as if it stood outside the bubble ontology, the architecture will gain hidden assumptions and lose the ability to reason about its own boundaries, invariants, and membrane surface.
 
 Consequence:
 
@@ -480,7 +480,7 @@ If Bubble is allowed to succeed merely by running a few examples or by restating
 
 Consequence:
 
-Judge Bubble against a stronger bar: it must support bubble-generative world construction, inspection, replay, contradiction analysis, and higher-order language work in ways that ordinary host-language embeddings do not preserve cleanly. Prefer features that increase this unique semantic leverage over features that only widen syntax.
+Judge Bubble against a stronger bar: it must support bubble-generative world construction, inspection, replay, sea-anchor analysis, and higher-order language work in ways that ordinary host-language embeddings do not preserve cleanly. Prefer features that increase this unique semantic leverage over features that only widen syntax.
 
 ### D-050: Treat the Bubble Language bubble itself as a research task
 
@@ -490,7 +490,7 @@ If the language stack is treated only as implementation scaffolding, the project
 
 Consequence:
 
-Treat language design, compatibility boundaries, contradiction surfaces, self-reference limits, and semantic membranes inside Bubble Language as first-class research work rather than as secondary plumbing. Evaluate language changes partly by what they reveal about the Bubble Language bubble itself.
+Treat language design, compatibility boundaries, membrane surfaces, self-reference limits, and semantic membranes inside Bubble Language as first-class research work rather than as secondary plumbing. Evaluate language changes partly by what they reveal about the Bubble Language bubble itself.
 
 ### D-051: Give `activate grammar` a real compatibility contract before runtime activation
 
@@ -510,7 +510,7 @@ If the Bubble core absorbs assumptions that belong only to the bubble-universe A
 
 Consequence:
 
-Keep universal semantics such as ontology, IR, effect typing, addressing, planning, materialization, inspection, replay, and staged meta-language boundaries inside Bubble itself. Implement benchmark worlds, agent observation or action loops, evaluator logic, anomaly labels, and experiment orchestration as separate research-specific layers on top of that core.
+Keep universal semantics such as ontology, IR, effect typing, addressing, planning, materialization, inspection, replay, and staged meta-language boundaries inside Bubble itself. Implement benchmark worlds, agent observation or action loops, evaluator logic, boundary labels, and experiment orchestration as separate research-specific layers on top of that core.
 
 ### D-042: Treat bubble as the universal semantic unit of the architecture
 
@@ -526,7 +526,7 @@ Model authored worlds, descendants, language machinery, and preserved evidence a
 
 Reason:
 
-If Bubble treats worlds only as isolated bubbles with internal laws, it will remain weak at describing instability, lineage, outside residue, identity drift, and the difference between true contradiction and boundary disturbance.
+If Bubble treats worlds only as isolated bubbles with internal laws, it will remain weak at describing instability, lineage, outside residue, identity drift, and the difference between internal world events and boundary disturbance.
 
 Consequence:
 

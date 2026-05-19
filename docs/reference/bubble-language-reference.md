@@ -238,6 +238,9 @@ Interpretation:
 - required effects become obligations in planning output
 - optional effects describe permitted but not mandatory behavior
 - scope defaults locally unless another scope is declared
+- `commit` currently lowers into durable-history lifecycle and evidence behavior
+- `collapse` currently lowers into lifecycle support for retirement or merge semantics
+- `leak`, `debt`, and `perturb` currently lower into runtime stress signals used by ontology and evidence output
 
 Current effect kinds used by the implementation and examples include:
 
@@ -245,7 +248,10 @@ Current effect kinds used by the implementation and examples include:
 - `commit`
 - `spawn`
 - `branch`
+- `collapse`
+- `leak`
 - `debt`
+- `perturb`
 
 ### `spawn`
 
@@ -468,6 +474,7 @@ The inspector supports stable sections including:
 
 - `summary`
 - `plan`
+- `ontology`
 - `grammars`
 - `artifacts`
 - `commits`
@@ -540,6 +547,16 @@ Look for:
 - evidence
 - trace events
 
+Evidence now includes authored observation or commit records, per-effect runtime `effect-trace` records, and derived sea-anchor state records for the root bubble.
+
+Current `effect-trace` evidence records carry authored provenance plus current-run runtime interpretation, including:
+
+- effect id and kind
+- requirement and scope
+- source line
+- `materializationState`: whether the effect remained potential or became materialized in this run
+- `runtimeSignals`: the current runtime reasons attached to that effect in this run
+
 ### Inspection Output
 
 Inspection outputs are the most shareable runtime view.
@@ -550,6 +567,7 @@ Typical fields include:
 
 - `summary`
 - `plan`
+- `ontology`
 - `artifacts`
 - `commits`
 - `evidence`
@@ -561,6 +579,37 @@ Interpretation guidelines:
 - if `plannedGrammarActivationCount` is non-zero, the bubble authored staged grammar work
 - `reflectionPaths` tell you which bounded self-views were captured during materialization
 - `traceKinds` tell you which runtime events actually occurred in the run
+
+### Ontology Output
+
+The inspection runtime now exposes one derived `ontology` section for the root bubble.
+
+This section is the first runtime landing zone for the sea-anchor model.
+
+It does not claim to read metaphysical truth from source text.
+
+It exposes a conservative runtime assessment derived from current Bubble signals such as realization mode, boundary-scoped relations, descendant lineage, seed continuity, observation mode, durable history support, and explicit leak, debt, or perturb capability.
+
+Current fields include:
+
+- `negativeSea.pressure`: current instability pressure inferred from branching, nondeterminism, boundary exposure, and explicit leak or perturb capability
+- `positiveSea.support`: current structural support inferred from lineage, seed, descendant growth, and durable history
+- `anchorPoint.strength`: current world-identity support inferred from axioms, world will, seed continuity, observation, durable history, and present stress such as unresolved debt or perturbation
+- `anchorPoint.trustedHistory`: whether the current world has durable history support in the runtime model
+- `anchorPoint.rewindStability`: whether replaying or rewinding is currently assessed as fragile, guarded, or stable
+- `theoremWitness`: the current formal witness for Bubble worldhood, including ordinal ranks for $N$, $P$, and $A$, plus `worldhoodDelta = A + P - N` and the derived condition `stable | stressed | dissolving`
+- `signals`: explainable reasons for each assessment
+
+This is intentionally a runtime assessment layer, not a new core syntax commitment.
+
+The materializer now also emits these assessments as first-class evidence records:
+
+- `negative-sea-state`
+- `positive-sea-state`
+- `anchor-point-state`
+- `effect-trace`
+
+Those evidence records travel through inspection and replay the same way observation and history-commit records do.
 
 ### Replay Bundles
 

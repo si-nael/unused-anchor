@@ -43,7 +43,7 @@ If the same target work can be done just as well with a host language, a small c
 
 The language therefore needs to do something more specific than "define interesting examples."
 
-It needs to make certain classes of world construction, inspection, replay, contradiction analysis, and language-generation work possible in a form that ordinary alternatives do not preserve cleanly.
+It needs to make certain classes of world construction, inspection, replay, sea-anchor analysis, and language-generation work possible in a form that ordinary alternatives do not preserve cleanly.
 
 That means Bubble should be judged against a hard bar:
 
@@ -71,7 +71,7 @@ That research agenda is important, but it should not be allowed to narrow Bubble
 The practical rule is:
 
 - Bubble core should own universal ontology, IR contracts, effect typing, planning and materialization semantics, inspection and replay surfaces, addressing, provenance, and staged meta-language boundaries
-- research-specific layers should own concrete benchmark worlds, agent interfaces, observer policies, evaluation metrics, anomaly labels, and experiment orchestration specific to the bubble-universe AI program
+- research-specific layers should own concrete benchmark worlds, agent interfaces, observer policies, evaluation metrics, boundary or residue labels, and experiment orchestration specific to the bubble-universe AI program
 
 This separation matters for both sides.
 
@@ -153,7 +153,7 @@ They form one especially important bubble that governs how other bubbles are aut
 
 This is useful because it keeps the architecture honest.
 
-The language stack should be able to describe its own assumptions, interfaces, limits, and contradiction surface without collapsing into unrestricted self-execution.
+The language stack should be able to describe its own assumptions, interfaces, limits, and membrane surface without collapsing into unrestricted self-execution.
 
 In that framing:
 
@@ -172,7 +172,7 @@ The Bubble Language bubble has to be solved, stabilized, and studied like any ot
 
 That means the project should treat the language stack itself as an object of inquiry:
 
-- which contradictions arise inside the language bubble first
+- which boundary failures or membrane tensions arise inside the language bubble first
 - which membranes and compatibility boundaries keep it coherent
 - which semantic artifacts must become explicit for the language to remain inspectable as it grows
 - which self-referential powers are productive, and which ones dissolve the very structure the project is trying to study
@@ -218,7 +218,7 @@ If worlds are defined directly in a host language, several things become harder:
 - static validation of consistency-related structure
 - replay and deterministic regeneration
 - comparison between authored law and executed behavior
-- inspection tooling for contradictions and anomalies
+- inspection tooling for boundaries, lineage, and sea-anchor state
 - cross-world transformations and normalization
 
 A dedicated language makes the world definition itself a first-class research object.
@@ -244,7 +244,7 @@ It should express concepts such as:
 - structured expressions for local birth conditions and staged arguments
 - membranes and boundary policies
 - observation interfaces
-- anomaly or exception policies
+- anchor and boundary policies
 - lifecycle rules for birth, persistence, and collapse
 
 ### 2. Bubble IR
@@ -599,7 +599,7 @@ The language should be powerful enough to define rich worlds, but narrow enough 
 - what laws were authored
 - what laws were compiled
 - what laws were actually executed
-- where contradictions or mismatches entered
+- where boundary stress, lineage drift, or materialization mismatch entered
 
 And, in richer cases:
 

@@ -6,9 +6,10 @@ import {
     type BubbleMaterializationCommit,
     type BubbleMaterializationResult,
     type BubbleMaterializationTraceEvent,
+    type BubbleSeaAnchorAssessment,
 } from "./materialize";
 
-export type BubbleInspectionSection = "summary" | "plan" | "grammars" | "artifacts" | "commits" | "evidence" | "trace" | "report";
+export type BubbleInspectionSection = "summary" | "plan" | "ontology" | "grammars" | "artifacts" | "commits" | "evidence" | "trace" | "report";
 
 export interface BubbleInspectionQuery {
     emissionId?: string;
@@ -56,6 +57,7 @@ export interface BubbleInspectionSummary {
 export interface BubbleInspectionReport {
     summary: BubbleInspectionSummary;
     plan: BubbleExecutionPlan;
+    ontology: BubbleSeaAnchorAssessment;
     grammars: BubbleGrammarInspectionReport;
     artifacts: BubbleArtifactInspection[];
     commits: BubbleMaterializationCommit[];
@@ -123,6 +125,7 @@ export function inspectMaterializationResult(
             traceKinds: trace.map((event) => event.kind),
         },
         plan,
+        ontology: plan.ontology,
         grammars: {
             artifacts: plan.grammars,
             activations: plan.grammarActivationPlan,

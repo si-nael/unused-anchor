@@ -68,6 +68,9 @@ test("compiles a valid v0.1 bubble world", () => {
             observationMode: "local",
             commitsHistory: true,
             supportsCollapse: false,
+            supportsLeakage: false,
+            carriesDebt: false,
+            supportsPerturbation: false,
         },
         relations: [
             {
@@ -92,6 +95,35 @@ test("compiles a valid v0.1 bubble world", () => {
                 description: "This bubble may realize alternative bubble continuations through optional local branching.",
             },
         ],
+    });
+});
+
+test("lowers leak, debt, and perturb effects into lifecycle semantics", () => {
+    const source = [
+        "bubble MembraneArchive {",
+        "  axiom coherence = stable",
+        "  will \"hold a porous record\"",
+        "  seed archive_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect leak required scope membrane",
+        "  effect debt required",
+        "  effect perturb optional",
+        "}",
+    ].join("\n");
+
+    const result = compileBubbleSource(source, { sourcePath: "membrane-archive.bubble" });
+
+    assert.deepEqual(result.diagnostics, []);
+    assert.deepEqual(result.program.bubble.generation.lifecycle, {
+        initialMode: "latent",
+        observationMode: "witness",
+        commitsHistory: true,
+        supportsCollapse: false,
+        supportsLeakage: true,
+        carriesDebt: true,
+        supportsPerturbation: true,
     });
 });
 

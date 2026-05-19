@@ -14,6 +14,42 @@
     ],
     "id": "bubble:examples/meta-grove.bubble::root:Nursery"
   },
+  "ontology": {
+    "negativeSea": {
+      "pressure": "low",
+      "signals": []
+    },
+    "positiveSea": {
+      "support": "strong",
+      "signals": [
+        "source-lineage-address",
+        "seeded-origin",
+        "descendant-lineage",
+        "staged-growth"
+      ]
+    },
+    "anchorPoint": {
+      "strength": "steady",
+      "trustedHistory": false,
+      "rewindStability": "guarded",
+      "signals": [
+        "axiomatic-basis",
+        "world-will",
+        "seed-continuity"
+      ]
+    },
+    "theoremWitness": {
+      "theorem": "sea-anchor-necessity.v1",
+      "negativeRank": 0,
+      "positiveRank": 2,
+      "anchorRank": 1,
+      "worldhoodDelta": 3,
+      "identityDelta": 1,
+      "sustained": true,
+      "condition": "stable",
+      "explanation": "Bubble worldhood remains stable because A=1, P=2, N=0, so A + P - N = 3."
+    }
+  },
   "obligations": [
     {
       "effectId": "effect:6:spawn",

@@ -2,55 +2,56 @@
 
 ## Active Hypotheses
 
-### H-001: Contradiction-free artificial worlds are possible
+### H-001: Explicit anchor structure can stabilize independent bubble worlds
 
 Status: active
 
 Claim:
 
-Artificial worlds can remain contradiction-free if they use explicit operational semantics, controlled expressive power, and disciplined subsystem composition.
+Bubble worlds can remain identifiable as themselves if anchor support is represented explicitly enough to bind laws, history, and replay.
 
 Would be weakened by:
 
-- a minimal world class that still generates unavoidable contradictions under faithful execution
-- evidence that practical richness always forces incompatible constraints even in tightly controlled languages
+- minimal anchor-aware worlds still losing identity under light pressure
+- replay repeatedly failing to return to the same world identity even when the authored support is strong
 
 Next check:
 
-Define a minimal world schema and state what consistency guarantee it is supposed to satisfy.
+Define one minimal anchor-aware world schema and compare strong-anchor and weak-anchor runs.
 
-### H-002: Contradictions emerge first at composition boundaries
+### H-002: Negative sea and positive sea can be lowered into operational semantics
 
 Status: active
 
 Claim:
 
-Most meaningful contradictions in rich artificial worlds will arise where local rule systems, narrative layers, or bubble-universe boundaries interact.
+The negative sea and positive sea can become inspectable runtime semantics rather than remaining only ontology prose.
 
 Would be weakened by:
 
-- repeated examples of contradictions inside isolated single-rule worlds with no composition pressure
+- repeated need to explain sea behavior only in external notes rather than in IR or runtime output
+- no stable runtime signals for pressure, placement, lineage, or stabilization
 
 Next check:
 
-Build examples that compare isolated worlds against composed or boundary-crossing worlds.
+Extend the current runtime slice beyond ontology assessment into explicit evidence or trace categories.
 
-### H-003: Synthetic consistency training can improve anomaly detection
+### H-003: Anchor-aware replay can preserve world identity across materialization boundaries
 
 Status: active
 
 Claim:
 
-Agents trained to infer laws and detect contradiction in controlled artificial worlds will learn reusable strategies for identifying mismatch, anomaly, or incoherence in external domains.
+Replay and rewind can be made identity-aware if Bubble preserves enough anchor, lineage, and history structure at the runtime boundary.
 
 Would be weakened by:
 
-- failure to transfer beyond the exact synthetic training distribution
-- agents learning only shallow world-specific cues instead of general inspection strategies
+- replay bundles that reproduce events but not recognizable world identity
+- repeated ambiguity about whether a rewound world is the same world or a nearby regenerated variant
 
 Next check:
 
-Define evaluation tasks that require transfer outside the original world family.
+Define the first replay checks that are explicitly about identity preservation rather than only artifact equality.
 
 ### H-004: Apparent inexpressibility can often be lifted into higher-order representation
 
@@ -70,7 +71,7 @@ Next check:
 
 Define a minimal set of IR nodes for unknowns, constraints, generator schemas, and quoted law fragments.
 
-### H-005: Explicit effect typing can preserve inspectability under nondeterminism
+### H-005: Explicit effect typing can preserve inspectability under world formation
 
 Status: active
 
@@ -81,12 +82,12 @@ World definitions can remain replayable and inspectable even when the language i
 Would be weakened by:
 
 - ordinary authored worlds requiring hidden runtime effects outside the declared effect system
-- effect traces growing too ambiguous to explain which law caused which consequence
+- effect traces growing too ambiguous to explain which law caused which world transition
 - explicit branching proving too costly to replay or inspect in practice
 
 Next check:
 
-Define a minimal effect vocabulary and show how a nondeterministic world fragment lowers into explicit IR plus an effect trace.
+Define a minimal effect vocabulary and show how a world fragment lowers into explicit IR plus an effect trace.
 
 ### H-006: Bubble can justify itself only through unique semantic leverage
 
@@ -94,7 +95,7 @@ Status: active
 
 Claim:
 
-Bubble Language will be worth keeping only if it can represent and preserve bubble-generative semantics, replay structure, contradiction surfaces, and higher-order language artifacts more coherently than a host-language embedding plus ad hoc tooling.
+Bubble Language will be worth keeping only if it can represent and preserve bubble-generative semantics, replay structure, sea-anchor state, and higher-order language artifacts more coherently than a host-language embedding plus ad hoc tooling.
 
 Would be weakened by:
 
@@ -106,19 +107,19 @@ Next check:
 
 Choose one target task involving world generation, inspection, replay, or grammar staging and compare the Bubble path against a realistic host-language alternative.
 
-### H-007: The Bubble Language bubble has its own contradiction surface that can be studied directly
+### H-007: The Bubble Language bubble has its own membrane surface that can be studied directly
 
 Status: active
 
 Claim:
 
-The language stack itself has identifiable membranes, invariants, and failure modes, and studying those boundaries will produce useful research insight rather than only implementation cleanup.
+The language stack itself has identifiable membranes, invariants, and failure modes, and studying those boundaries will produce useful design insight rather than only implementation cleanup.
 
 Would be weakened by:
 
-- the language stack proving to have no meaningful internal contradiction classes beyond ordinary software bugs
+- the language stack proving to have no meaningful internal membrane classes beyond ordinary software bugs
 - reflexive language features providing no analyzable structure beyond convenience
 
 Next check:
 
-Extend the current contradiction catalog beyond grammar-profile compatibility into reflective scope, activation-graph, provenance, and runtime-escape-hatch failures.
+Extend the current boundary catalog beyond grammar-profile compatibility into reflective scope, activation-graph, provenance, and runtime-escape-hatch failures.

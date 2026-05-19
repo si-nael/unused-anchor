@@ -4,6 +4,8 @@
 
 This document records a working ontology for the Bubble multiverse.
 
+For the formal derivation that proves why these three terms are necessary inside Bubble's semantic model, see `docs/architecture/sea-anchor-proof.md`.
+
 It is not a claim that the final system must literally implement every word here exactly as written.
 
 It is a stabilization document for three concepts that now matter enough to guide later language, runtime, and research design:
@@ -101,9 +103,9 @@ The negative sea is one of the main sources of instability in Bubble research.
 
 It is also one of the main sources of interesting questions.
 
-When an observer encounters an anomaly, the observer may need to distinguish among at least three possibilities:
+When an observer encounters an unstable or ambiguous event, the observer may need to distinguish among at least three possibilities:
 
-- a genuine internal contradiction
+- an internally generated world event or law-local shift
 - a trace imported from outside the world
 - record instability caused by weak anchoring
 
@@ -196,7 +198,7 @@ Typical consequences:
 - boundary interpretation stays clearer
 - outside residue is easier to separate from internal events
 - replay and rewind are more likely to return to the same world identity
-- contradictions are easier to localize and diagnose
+- instabilities are easier to localize and diagnose
 
 These worlds are useful as calibration worlds for research.
 
@@ -214,7 +216,7 @@ Typical consequences:
 
 These worlds are risky operationally, but they are high-value research targets.
 
-They are where the distinction between contradiction, leakage, and identity drift becomes hardest.
+They are where the distinction between internal event, leakage, and identity drift becomes hardest.
 
 ## Interaction Model
 
@@ -252,7 +254,7 @@ The implementation consequence is that later Bubble work should preserve room fo
 - negative-sea pressure, erosion, leakage, or residue
 - positive-sea lineage, placement, growth, and stabilization
 - anchor strength, trusted record, and identity-preserving rewind
-- explicit distinction between internal contradiction and external trace intrusion
+- explicit distinction between internal event and external trace intrusion
 
 That does not mean the next step is to immediately add `negativeSea`, `positiveSea`, or `anchor` syntax.
 
@@ -278,7 +280,7 @@ These should begin as research and runtime concepts before they become heavy syn
 
 Under weak anchoring and finite observation, can an embedded observer distinguish:
 
-- true contradiction
+- internal world event
 - negative-sea residue
 - anchor-induced record drift
 

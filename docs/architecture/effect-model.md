@@ -87,6 +87,15 @@ The runtime should preserve:
 - unresolved obligations
 - enough information for replay or postmortem inspection
 
+Current implemented slice:
+
+- `commit` lowers into durable-history lifecycle support and commit evidence
+- `collapse` lowers into lifecycle support for retirement semantics
+- `leak` raises negative-sea pressure as explicit membrane stress
+- `debt` weakens anchor support and guards rewind stability as an unresolved obligation signal
+- `perturb` raises negative-sea pressure and anchor stress as explicit law disturbance
+- authored effects now also emit first-class `effect-trace` runtime records with provenance, scope, current-run signals, and whether they remained potential or became materialized in that run
+
 ## Non-Goal
 
 Do not confuse this with "anything can mutate anything."
@@ -98,17 +107,14 @@ That is not a powerful effect model. It is just loss of semantic control.
 An explicit effect model lets the project study questions such as:
 
 - which worlds are expensive in branching
-- which laws generate deferred contradictions
+- which laws generate deferred obligations or anchor stress
 - which observations are history-forcing
 - whether agents can infer hidden effect structure from finite traces
 
 ## Suggested Next Step
 
-The next concrete step is to define a minimal Bubble IR effect schema with fields such as:
+The next concrete step is to make effect traces more causal by linking them to the exact runtime records they explain, for example:
 
-- effect kind
-- source law or construct
-- scope
-- branch id
-- commit status
-- obligation payload
+- which commits were history-forced by a `commit` effect
+- which descendant or branch records were enabled by `spawn` or `branch`
+- which ontology or boundary signals were influenced by `leak`, `debt`, or `perturb`

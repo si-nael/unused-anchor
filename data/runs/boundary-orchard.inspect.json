@@ -12,7 +12,7 @@
     "descendantCount": 0,
     "artifactCount": 0,
     "commitCount": 0,
-    "evidenceCount": 1,
+    "evidenceCount": 8,
     "reflectionPaths": [],
     "traceKinds": [
       "materialization-started",
@@ -34,6 +34,51 @@
         }
       ],
       "id": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard"
+    },
+    "ontology": {
+      "negativeSea": {
+        "pressure": "high",
+        "signals": [
+          "nondeterministic-realization",
+          "branch-pressure",
+          "boundary-exposure"
+        ]
+      },
+      "positiveSea": {
+        "support": "strong",
+        "signals": [
+          "source-lineage-address",
+          "seeded-origin",
+          "descendant-lineage",
+          "durable-history"
+        ]
+      },
+      "anchorPoint": {
+        "strength": "steady",
+        "trustedHistory": true,
+        "rewindStability": "guarded",
+        "signals": [
+          "axiomatic-basis",
+          "world-will",
+          "seed-continuity",
+          "durable-history",
+          "observation-surface",
+          "negative-pressure",
+          "boundary-stress",
+          "branch-instability"
+        ]
+      },
+      "theoremWitness": {
+        "theorem": "sea-anchor-necessity.v1",
+        "negativeRank": 2,
+        "positiveRank": 2,
+        "anchorRank": 1,
+        "worldhoodDelta": 1,
+        "identityDelta": -1,
+        "sustained": true,
+        "condition": "stressed",
+        "explanation": "Bubble worldhood remains stressed but sustained because A=1, P=2, N=2, so A + P - N = 1."
+      }
     },
     "obligations": [
       {
@@ -130,6 +175,51 @@
     "grammarActivationPlan": [],
     "emissionPlan": []
   },
+  "ontology": {
+    "negativeSea": {
+      "pressure": "high",
+      "signals": [
+        "nondeterministic-realization",
+        "branch-pressure",
+        "boundary-exposure"
+      ]
+    },
+    "positiveSea": {
+      "support": "strong",
+      "signals": [
+        "source-lineage-address",
+        "seeded-origin",
+        "descendant-lineage",
+        "durable-history"
+      ]
+    },
+    "anchorPoint": {
+      "strength": "steady",
+      "trustedHistory": true,
+      "rewindStability": "guarded",
+      "signals": [
+        "axiomatic-basis",
+        "world-will",
+        "seed-continuity",
+        "durable-history",
+        "observation-surface",
+        "negative-pressure",
+        "boundary-stress",
+        "branch-instability"
+      ]
+    },
+    "theoremWitness": {
+      "theorem": "sea-anchor-necessity.v1",
+      "negativeRank": 2,
+      "positiveRank": 2,
+      "anchorRank": 1,
+      "worldhoodDelta": 1,
+      "identityDelta": -1,
+      "sustained": true,
+      "condition": "stressed",
+      "explanation": "Bubble worldhood remains stressed but sustained because A=1, P=2, N=2, so A + P - N = 1."
+    }
+  },
   "grammars": {
     "artifacts": [],
     "activations": []
@@ -137,6 +227,65 @@
   "artifacts": [],
   "commits": [],
   "evidence": [
+    {
+      "id": "evidence:negative-sea:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "kind": "negative-sea-state",
+      "bubbleAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "subjectAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "sourcePath": "examples/boundary-orchard.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "pressure": "high",
+      "signals": [
+        "nondeterministic-realization",
+        "branch-pressure",
+        "boundary-exposure"
+      ],
+      "description": "Bubble BoundaryOrchard currently shows high negative-sea pressure via nondeterministic-realization, branch-pressure, boundary-exposure."
+    },
+    {
+      "id": "evidence:positive-sea:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "kind": "positive-sea-state",
+      "bubbleAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "subjectAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "sourcePath": "examples/boundary-orchard.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "support": "strong",
+      "signals": [
+        "source-lineage-address",
+        "seeded-origin",
+        "descendant-lineage",
+        "durable-history"
+      ],
+      "description": "Bubble BoundaryOrchard currently shows strong positive-sea support via source-lineage-address, seeded-origin, descendant-lineage, durable-history."
+    },
+    {
+      "id": "evidence:anchor-point:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "kind": "anchor-point-state",
+      "bubbleAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "subjectAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "sourcePath": "examples/boundary-orchard.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "strength": "steady",
+      "trustedHistory": true,
+      "rewindStability": "guarded",
+      "signals": [
+        "axiomatic-basis",
+        "world-will",
+        "seed-continuity",
+        "durable-history",
+        "observation-surface",
+        "negative-pressure",
+        "boundary-stress",
+        "branch-instability"
+      ],
+      "description": "Bubble BoundaryOrchard currently shows steady anchor support with guarded rewind stability."
+    },
     {
       "id": "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
       "kind": "observation-context",
@@ -147,6 +296,86 @@
       "emissionId": null,
       "commitId": null,
       "description": "Bubble BoundaryOrchard declares observation mode witness with durable history support."
+    },
+    {
+      "id": "evidence:effect:effect:8:observe",
+      "kind": "effect-trace",
+      "bubbleAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "subjectAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "sourcePath": "examples/boundary-orchard.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "effectId": "effect:8:observe",
+      "effectKind": "observe",
+      "requirement": "required",
+      "scope": "local",
+      "sourceLine": 8,
+      "materializationState": "materialized",
+      "runtimeSignals": [
+        "observation-surface"
+      ],
+      "description": "Bubble BoundaryOrchard recorded required local observe as materialized in this run via observation-surface."
+    },
+    {
+      "id": "evidence:effect:effect:9:commit",
+      "kind": "effect-trace",
+      "bubbleAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "subjectAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "sourcePath": "examples/boundary-orchard.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "effectId": "effect:9:commit",
+      "effectKind": "commit",
+      "requirement": "required",
+      "scope": "local",
+      "sourceLine": 9,
+      "materializationState": "potential",
+      "runtimeSignals": [
+        "durable-history"
+      ],
+      "description": "Bubble BoundaryOrchard recorded required local commit as potential in this run via durable-history."
+    },
+    {
+      "id": "evidence:effect:effect:10:spawn",
+      "kind": "effect-trace",
+      "bubbleAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "subjectAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "sourcePath": "examples/boundary-orchard.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "effectId": "effect:10:spawn",
+      "effectKind": "spawn",
+      "requirement": "required",
+      "scope": "membrane",
+      "sourceLine": 10,
+      "materializationState": "potential",
+      "runtimeSignals": [
+        "descendant-capability"
+      ],
+      "description": "Bubble BoundaryOrchard recorded required membrane spawn as potential in this run via descendant-capability."
+    },
+    {
+      "id": "evidence:effect:effect:11:branch",
+      "kind": "effect-trace",
+      "bubbleAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "subjectAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "sourcePath": "examples/boundary-orchard.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "effectId": "effect:11:branch",
+      "effectKind": "branch",
+      "requirement": "optional",
+      "scope": "local",
+      "sourceLine": 11,
+      "materializationState": "potential",
+      "runtimeSignals": [
+        "branch-pressure"
+      ],
+      "description": "Bubble BoundaryOrchard recorded optional local branch as potential in this run via branch-pressure."
     }
   ],
   "trace": [

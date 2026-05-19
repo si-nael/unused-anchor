@@ -48,7 +48,10 @@
         "initialMode": "latent",
         "observationMode": null,
         "commitsHistory": false,
-        "supportsCollapse": false
+        "supportsCollapse": false,
+        "supportsLeakage": false,
+        "carriesDebt": false,
+        "supportsPerturbation": false
       },
       "relations": [
         {

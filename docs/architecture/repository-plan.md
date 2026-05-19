@@ -54,13 +54,13 @@ The discarded AIPS layout is a good reference for separation of concerns. It sho
 - docs/: theory, vision, scenarios, and architecture notes
 - apps/hatchery/: births, collapses, and lifecycle experiments for bubble universes
 - apps/companion/: embedded agent experience inside a local world slice
-- apps/inspector/: contradiction, consistency, and anomaly analysis
+- apps/inspector/: world inspection, boundary analysis, and lineage views
 - apps/observatory/: multiverse browsing, summaries, and experimental views
 - src/cosmos/: multiverse index, scheduling, lifecycle control, and cross-bubble coordination
 - src/bubbles/: the main ontology layer for bubble universes, their language, and their internal structure
 - src/beings/: agent memory, belief state, learning, and action policies
 - src/traces/: observations, committed history, summaries, and evidence interfaces
-- src/inspectors/: contradiction detection, consistency checks, and law inference
+- src/inspectors/: world-state inspection, boundary checks, and law inference
 - src/runtime/: events, clocks, causality, and execution services
 - data/: seeds, local patches, traces, saved runs, and experiment outputs
 - tests/: unit, integration, and scenario validation
@@ -94,7 +94,7 @@ See [repo-strategy.md](repo-strategy.md) for how to run research and language wo
 
 The project currently has two strong centers of gravity:
 
-- research: contradiction-free worlds, anomaly detection, experiments, and evaluation
+- research: sea-anchor worlds, boundary behavior, experiments, and evaluation
 - language: world-definition syntax, IR, effects, validation, and compilation
 
 These should be treated as separate workstreams inside one repository, not as separate repositories yet.

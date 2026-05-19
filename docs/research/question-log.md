@@ -2,45 +2,45 @@
 
 ## Open Questions
 
-### Q-001: Are rich artificial worlds inevitably contradictory?
+### Q-001: What is the minimal independent bubble-world schema?
 
 Status: open
 
 Question:
 
-Can a virtual world remain globally coherent as its axioms, narratives, local exceptions, and agent ecology become more expressive?
+What is the smallest Bubble world definition that still deserves to count as an independent world rather than as a loose generated fragment?
 
-### Q-002: What class of worlds admits enforceable consistency?
-
-Status: open
-
-Question:
-
-Which world languages or operational semantics allow machine-checkable consistency guarantees strong enough to support meaningful complexity?
-
-### Q-003: Can embedded agents distinguish contradiction from ignorance?
+### Q-002: How should the negative sea be represented operationally?
 
 Status: open
 
 Question:
 
-Under finite observation, when can an agent tell whether its failures come from a broken world, hidden structure, or an inadequate model class?
+Which runtime and IR structures should carry erosion, outside residue, leakage, and boundary pressure without reducing the negative sea to decorative vocabulary?
 
-### Q-004: Where do contradictions enter first?
-
-Status: open
-
-Question:
-
-In practice, do contradictions arise first in axioms, subsystem composition, simulation code, observation interfaces, or narrative layers?
-
-### Q-005: Does contradiction-detection skill transfer outward?
+### Q-003: How should the positive sea be represented operationally?
 
 Status: open
 
 Question:
 
-If agents are trained inside carefully controlled synthetic worlds, can their learned inspection strategies improve anomaly detection for mathematical, scientific, or empirical models of our world?
+Which runtime and IR structures should carry lineage, placement, growth, and stabilization across related worlds?
+
+### Q-004: What makes an anchor point strong enough?
+
+Status: open
+
+Question:
+
+Which combination of laws, seed continuity, history commitment, observation support, and lineage placement is sufficient to hold a world to its own identity?
+
+### Q-005: When does replay return to the same world?
+
+Status: open
+
+Question:
+
+Under what conditions should rewind or replay be interpreted as returning to the same world identity rather than to a nearby reconstructed variant?
 
 ### Q-006: How should an unbounded multiverse be represented?
 
@@ -64,7 +64,7 @@ Status: open
 
 Question:
 
-What is the smallest language expressive enough to define rich bubble universes while still supporting static checks, replay, compilation, and consistency analysis?
+What is the smallest language expressive enough to define rich bubble universes while still supporting static checks, replay, compilation, and explicit world semantics?
 
 ### Q-009: How can the language raise the representability frontier without becoming opaque?
 
@@ -74,13 +74,13 @@ Question:
 
 Which constructs such as partial specifications, constraint objects, generator schemas, quotations, or reflective laws let the language describe structures that lower layers cannot express while still preserving validation and inspection?
 
-### Q-010: What should be primitive nondeterministic effects?
+### Q-010: What should be the primitive sea-anchor effects?
 
 Status: open
 
 Question:
 
-Which effects should exist as first-class language primitives, such as branch, spawn, collapse, commit, leak, debt, perturb, or observe, so that nondeterministic world generation remains analyzable rather than opaque?
+Which effects should exist as first-class Bubble primitives, such as branch, spawn, collapse, commit, leak, debt, perturb, or observe, so that world formation remains analyzable rather than opaque?
 
 ### Q-011: What work can only Bubble do cleanly?
 
@@ -88,28 +88,28 @@ Status: open
 
 Question:
 
-Which concrete tasks in world generation, replay, contradiction analysis, or staged language formation become materially cleaner or more faithful in Bubble than in a host-language embedding with ordinary tooling?
+Which concrete tasks in world generation, replay, sea-anchor modeling, or staged language formation become materially cleaner or more faithful in Bubble than in a host-language embedding with ordinary tooling?
 
-### Q-012: What are the first contradiction surfaces inside the Bubble Language bubble itself?
-
-Status: open
-
-Question:
-
-If Bubble Language is itself one governing bubble, where do incoherence and failure first appear inside it: profile compatibility, staged activation, reflective scope, runtime escape hatches, provenance loss, or some other membrane?
-
-### Q-013: What is the first directly usable Bubble-universe AI benchmark loop?
+### Q-012: What are the first membrane surfaces inside the Bubble Language bubble itself?
 
 Status: open
 
 Question:
 
-What is the smallest end-to-end combination of Bubble-authored world, operational step semantics, observation or action interface, baseline observer agent, and evaluation metric that would let the project run immediate law-inference or contradiction-detection experiments rather than only language and runtime validation?
+If Bubble Language is itself one governing bubble, where do membrane pressure and boundary failure first appear inside it: profile compatibility, staged activation, reflective scope, runtime escape hatches, provenance loss, or some other boundary?
 
-### Q-014: Can an observer separate contradiction, negative-sea residue, and anchor drift?
+### Q-013: What is the first directly usable sea-anchor benchmark loop?
 
 Status: open
 
 Question:
 
-When a weakly anchored bubble world is observed under pressure from outside residue or boundary disturbance, can an embedded observer tell whether an anomaly is caused by genuine internal contradiction, negative-sea intrusion, or record instability from anchor weakness?
+What is the smallest end-to-end combination of Bubble-authored world, operational step semantics, lineage or boundary signals, and evaluation surface that would let the project run immediate sea-anchor experiments rather than only language validation?
+
+### Q-014: How should runtime distinguish internal event, negative-sea residue, and anchor drift?
+
+Status: open
+
+Question:
+
+When a weakly anchored bubble world is observed under pressure from outside residue or boundary disturbance, how should the runtime classify what appears to be an internal event, a negative-sea intrusion, or record instability from anchor weakness?

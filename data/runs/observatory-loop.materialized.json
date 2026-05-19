@@ -15,6 +15,45 @@
       ],
       "id": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop"
     },
+    "ontology": {
+      "negativeSea": {
+        "pressure": "low",
+        "signals": []
+      },
+      "positiveSea": {
+        "support": "strong",
+        "signals": [
+          "source-lineage-address",
+          "seeded-origin",
+          "descendant-lineage",
+          "staged-growth",
+          "durable-history"
+        ]
+      },
+      "anchorPoint": {
+        "strength": "strong",
+        "trustedHistory": true,
+        "rewindStability": "stable",
+        "signals": [
+          "axiomatic-basis",
+          "world-will",
+          "seed-continuity",
+          "durable-history",
+          "observation-surface"
+        ]
+      },
+      "theoremWitness": {
+        "theorem": "sea-anchor-necessity.v1",
+        "negativeRank": 0,
+        "positiveRank": 2,
+        "anchorRank": 2,
+        "worldhoodDelta": 4,
+        "identityDelta": 2,
+        "sustained": true,
+        "condition": "stable",
+        "explanation": "Bubble worldhood remains stable because A=2, P=2, N=0, so A + P - N = 4."
+      }
+    },
     "obligations": [
       {
         "effectId": "effect:8:observe",
@@ -163,7 +202,10 @@
               "initialMode": "latent",
               "observationMode": null,
               "commitsHistory": false,
-              "supportsCollapse": false
+              "supportsCollapse": false,
+              "supportsLeakage": false,
+              "carriesDebt": false,
+              "supportsPerturbation": false
             },
             "relations": [
               {
@@ -280,7 +322,10 @@
               "initialMode": "latent",
               "observationMode": null,
               "commitsHistory": false,
-              "supportsCollapse": false
+              "supportsCollapse": false,
+              "supportsLeakage": false,
+              "carriesDebt": false,
+              "supportsPerturbation": false
             },
             "relations": [
               {
@@ -343,6 +388,59 @@
   ],
   "evidence": [
     {
+      "id": "evidence:negative-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "kind": "negative-sea-state",
+      "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "subjectAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "sourcePath": "examples/observatory-loop.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "pressure": "low",
+      "signals": [],
+      "description": "Bubble ObservatoryLoop currently shows low negative-sea pressure."
+    },
+    {
+      "id": "evidence:positive-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "kind": "positive-sea-state",
+      "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "subjectAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "sourcePath": "examples/observatory-loop.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "support": "strong",
+      "signals": [
+        "source-lineage-address",
+        "seeded-origin",
+        "descendant-lineage",
+        "staged-growth",
+        "durable-history"
+      ],
+      "description": "Bubble ObservatoryLoop currently shows strong positive-sea support via source-lineage-address, seeded-origin, descendant-lineage, staged-growth, durable-history."
+    },
+    {
+      "id": "evidence:anchor-point:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "kind": "anchor-point-state",
+      "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "subjectAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "sourcePath": "examples/observatory-loop.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "strength": "strong",
+      "trustedHistory": true,
+      "rewindStability": "stable",
+      "signals": [
+        "axiomatic-basis",
+        "world-will",
+        "seed-continuity",
+        "durable-history",
+        "observation-surface"
+      ],
+      "description": "Bubble ObservatoryLoop currently shows strong anchor support with stable rewind stability."
+    },
+    {
       "id": "evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
       "kind": "observation-context",
       "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
@@ -374,6 +472,67 @@
       "emissionId": "emit:17:DerivedProbe",
       "commitId": "commit:emit:17:DerivedProbe",
       "description": "Recorded durable history for emit:17:DerivedProbe at bubble:examples/observatory-loop.bubble::root:ObservatoryLoop/spawn:emit:17:DerivedProbe."
+    },
+    {
+      "id": "evidence:effect:effect:8:observe",
+      "kind": "effect-trace",
+      "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "subjectAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "sourcePath": "examples/observatory-loop.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "effectId": "effect:8:observe",
+      "effectKind": "observe",
+      "requirement": "required",
+      "scope": "local",
+      "sourceLine": 8,
+      "materializationState": "materialized",
+      "runtimeSignals": [
+        "observation-surface"
+      ],
+      "description": "Bubble ObservatoryLoop recorded required local observe as materialized in this run via observation-surface."
+    },
+    {
+      "id": "evidence:effect:effect:9:commit",
+      "kind": "effect-trace",
+      "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "subjectAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "sourcePath": "examples/observatory-loop.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "effectId": "effect:9:commit",
+      "effectKind": "commit",
+      "requirement": "required",
+      "scope": "local",
+      "sourceLine": 9,
+      "materializationState": "materialized",
+      "runtimeSignals": [
+        "durable-history",
+        "history-commit"
+      ],
+      "description": "Bubble ObservatoryLoop recorded required local commit as materialized in this run via durable-history, history-commit."
+    },
+    {
+      "id": "evidence:effect:effect:10:spawn",
+      "kind": "effect-trace",
+      "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "subjectAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "sourcePath": "examples/observatory-loop.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "effectId": "effect:10:spawn",
+      "effectKind": "spawn",
+      "requirement": "required",
+      "scope": "local",
+      "sourceLine": 10,
+      "materializationState": "materialized",
+      "runtimeSignals": [
+        "descendant-materialization"
+      ],
+      "description": "Bubble ObservatoryLoop recorded required local spawn as materialized in this run via descendant-materialization."
     }
   ],
   "trace": [

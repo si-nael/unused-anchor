@@ -9,7 +9,7 @@
 - The negative sea should name the dissolving side of world structure: erosion, outside residue, leakage, boundary shaking, and unresolved fragments.
 - The positive sea should name the structuring side of world structure: lineage, placement, continuity, growth, and stable relation among worlds.
 - The anchor point should name the world-identity fixpoint that holds laws, history, trusted observation, and boundary coherence together.
-- This model becomes especially valuable if it helps distinguish three failure classes that would otherwise blur together: true contradiction, foreign trace intrusion, and anchor-driven record drift.
+- This model becomes especially valuable if it helps distinguish three classes that would otherwise blur together: internal world event, foreign trace intrusion, and anchor-driven record drift.
 - These concepts should become operational semantics gradually, not immediate decorative syntax.
 
 ## 2026-05-15
@@ -44,7 +44,7 @@
 - Under the project's own ontology, the Bubble Language system itself can be treated as one bubble among other bubbles.
 - Its grammar, compiler, runtime, and tooling are then not outside the model, but one locally coherent regime with its own axioms, world will, interfaces, and failure modes.
 - This suggests a useful reflexive design principle: the language should be able to describe its own construction and limits without collapsing into unrestricted self-execution.
-- In that framing, contradictions in the language stack are not only implementation bugs but also boundary events inside one special bubble that governs other bubbles.
+- In that framing, membrane failures in the language stack are not only implementation bugs but also boundary events inside one special bubble that governs other bubbles.
 - The language bubble is therefore not just a means to an end; understanding how it stays coherent is itself a research problem.
 
 ### Bubble must earn its existence
@@ -73,9 +73,9 @@
 ### Source cluster
 
 - Idea 3: the world may be representable by compact generative rules rather than full explicit state.
-- Idea 4: an AI companion can be embedded inside a generated world and asked to find contradictions.
+- Idea 4: an embedded observer can be placed inside a generated world and asked to recover laws, boundaries, and anchor behavior.
 - Idea 9: interaction among simple algorithmic agents may yield emergent structures or protocols.
-- Idea 11: the world can be formalized as a small axiom system with a "world will," anomalies, and bubble universes.
+- Idea 11: the world can be formalized as a small axiom system with a "world will," boundaries, and bubble universes.
 
 ### Core project direction
 
@@ -84,19 +84,19 @@ Treat the project as an embedded epistemology lab:
 - A world exists as a rule engine, not a brute-force rendered object.
 - Agents observe only a narrow interface to that world.
 - Agents build models of the world from finite evidence.
-- The system deliberately injects anomalies, hidden boundaries, or alternative local laws.
-- Success means discovering laws, boundaries, and contradictions.
+- The system deliberately varies boundary pressure, anchor strength, or local law exposure.
+- Success means discovering laws, boundaries, anchor behavior, and lineage structure.
 
 ### Foundational motivation
 
-- Our own world appears extremely rich yet still describable without overt contradiction in ordinary scientific practice.
+- Our own world appears extremely rich yet still capable of maintaining identity, history, and stable local structure.
 - That suggests a stronger design target than merely making interesting simulations.
-- The target is to construct artificial worlds that are both complex and coherent, then study where coherence breaks.
-- If contradiction-free artificial worlds can be defined precisely, agents trained inside them may learn reusable methods for anomaly and inconsistency detection.
+- The target is to construct artificial worlds that are both complex and world-like, then study how they form, persist, and drift.
+- If durable artificial worlds can be defined precisely, they may become reusable substrates for many later research programs.
 
 ### Strongest formulation
 
-"Can an AI embedded in a compact procedural universe infer the latent axioms of its world and detect when the world becomes inconsistent under finite observation?"
+"Can an embedded observer inside a compact procedural universe recover the latent laws, boundaries, and anchor structure of its world under finite observation?"
 
 ### Expanded formulation
 
@@ -105,7 +105,7 @@ The larger ambition is a world-of-worlds:
 - Many bubble universes coexist.
 - Each universe has its own axioms, narrative history, and world will.
 - Agents do not begin with privileged access to those laws.
-- Some contradictions are local anomalies, while others arise at world boundaries or from multiverse-level inconsistency.
+- Some disturbances are local world events, while others arise at boundaries, from negative-sea residue, or from anchor weakness.
 - Bubble universes may also appear and disappear dynamically rather than existing as a fixed catalog.
 
 This reframes the project from a single simulation into a layered epistemic system.
@@ -122,7 +122,7 @@ This reframes the project from a single simulation into a layered epistemic syst
 
 - It may be worth designing a dedicated language for defining worlds rather than expressing everything in a host language.
 - The strongest version is not a fully open general-purpose language at the start.
-- It is a constrained authoring language for axioms, world will, lifecycle, membranes, observations, and anomaly policies.
+- It is a constrained authoring language for axioms, world will, lifecycle, membranes, observations, and anchor or boundary policies.
 - A dedicated language would make consistency checks, compilation, inspection, and replay much cleaner.
 - The language can later grow into a richer programming environment if the core semantics stay inspectable.
 
@@ -138,7 +138,7 @@ This reframes the project from a single simulation into a layered epistemic syst
 
 - A genuinely interesting version of the language may be nondeterministic at the semantic level.
 - The key is not hidden randomness. It is explicit branching, explicit unresolved choice, and explicit side effects.
-- In this model, generating the intended world can itself force effects such as branch creation, observation debt, history commitment, boundary leakage, or anomaly obligations.
+- In this model, generating the intended world can itself force effects such as branch creation, observation debt, history commitment, boundary leakage, or anchor-related obligations.
 - That means the language does not only describe worlds. It describes the unavoidable consequences of bringing those worlds into being.
 - This could make the language feel alive, but only if the effect surface remains inspectable.
 
@@ -164,6 +164,6 @@ This reframes the project from a single simulation into a layered epistemic syst
 
 - World-model learning under partial observability.
 - Emergent communication and coordination.
-- Finite-observation consistency testing.
+- Finite-observation world recovery.
 - Minimal generative descriptions of complex-seeming environments.
-- Transfer of contradiction-detection skills from synthetic worlds to scientific reasoning.
+- Transfer of boundary and world-structure reasoning across different bubble families.

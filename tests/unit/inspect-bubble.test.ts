@@ -35,7 +35,7 @@ test("inspects a meta bubble into a stable summary and artifact view", () => {
         descendantCount: 1,
         artifactCount: 0,
         commitCount: 1,
-        evidenceCount: 0,
+        evidenceCount: 4,
         reflectionPaths: ["self.address", "self.worldWill"],
         traceKinds: [
             "materialization-started",
@@ -57,7 +57,12 @@ test("inspects a meta bubble into a stable summary and artifact view", () => {
             diagnosticsCount: 0,
         },
     ]);
-    assert.deepEqual(report.evidence, []);
+    assert.deepEqual(report.evidence.map((entry) => entry.kind), [
+        "negative-sea-state",
+        "positive-sea-state",
+        "anchor-point-state",
+        "effect-trace",
+    ]);
 });
 
 test("inspection exposes staged grammar activations as a queryable grammar section", () => {
@@ -140,7 +145,7 @@ test("inspection report reuses materialization results faithfully", () => {
     assert.equal(report.summary.descendantCount, 0);
     assert.equal(report.artifacts[0].target, "artifact");
     assert.equal(report.artifacts[0].addressId, null);
-    assert.equal(report.summary.evidenceCount, 0);
+    assert.equal(report.summary.evidenceCount, 4);
 });
 
 test("inspection queries can narrow reports by emission, address, and trace kind", () => {
@@ -205,8 +210,49 @@ test("inspection exposes observation evidence as a first-class report section", 
     const report = inspectBubbleProgram(program);
 
     assert.equal(report.summary.plannedEmissionCount, 0);
-    assert.equal(report.summary.evidenceCount, 1);
+    assert.equal(report.summary.evidenceCount, 6);
     assert.deepEqual(report.evidence, [
+        {
+            id: "evidence:negative-sea:bubble:observatory-inspect.bubble::root:Observatory",
+            kind: "negative-sea-state",
+            bubbleAddressId: "bubble:observatory-inspect.bubble::root:Observatory",
+            subjectAddressId: "bubble:observatory-inspect.bubble::root:Observatory",
+            sourcePath: "observatory-inspect.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            pressure: "low",
+            signals: [],
+            description: "Bubble Observatory currently shows low negative-sea pressure.",
+        },
+        {
+            id: "evidence:positive-sea:bubble:observatory-inspect.bubble::root:Observatory",
+            kind: "positive-sea-state",
+            bubbleAddressId: "bubble:observatory-inspect.bubble::root:Observatory",
+            subjectAddressId: "bubble:observatory-inspect.bubble::root:Observatory",
+            sourcePath: "observatory-inspect.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            support: "present",
+            signals: ["source-lineage-address", "seeded-origin", "durable-history"],
+            description: "Bubble Observatory currently shows present positive-sea support via source-lineage-address, seeded-origin, durable-history.",
+        },
+        {
+            id: "evidence:anchor-point:bubble:observatory-inspect.bubble::root:Observatory",
+            kind: "anchor-point-state",
+            bubbleAddressId: "bubble:observatory-inspect.bubble::root:Observatory",
+            subjectAddressId: "bubble:observatory-inspect.bubble::root:Observatory",
+            sourcePath: "observatory-inspect.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            strength: "strong",
+            trustedHistory: true,
+            rewindStability: "stable",
+            signals: ["axiomatic-basis", "world-will", "seed-continuity", "durable-history", "observation-surface"],
+            description: "Bubble Observatory currently shows strong anchor support with stable rewind stability.",
+        },
         {
             id: "evidence:observe:bubble:observatory-inspect.bubble::root:Observatory",
             kind: "observation-context",
@@ -217,6 +263,308 @@ test("inspection exposes observation evidence as a first-class report section", 
             emissionId: null,
             commitId: null,
             description: "Bubble Observatory declares observation mode witness with durable history support.",
+        },
+        {
+            id: "evidence:effect:effect:6:observe",
+            kind: "effect-trace",
+            bubbleAddressId: "bubble:observatory-inspect.bubble::root:Observatory",
+            subjectAddressId: "bubble:observatory-inspect.bubble::root:Observatory",
+            sourcePath: "observatory-inspect.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            effectId: "effect:6:observe",
+            effectKind: "observe",
+            requirement: "required",
+            scope: "local",
+            sourceLine: 6,
+            materializationState: "materialized",
+            runtimeSignals: ["observation-surface"],
+            description: "Bubble Observatory recorded required local observe as materialized in this run via observation-surface.",
+        },
+        {
+            id: "evidence:effect:effect:7:commit",
+            kind: "effect-trace",
+            bubbleAddressId: "bubble:observatory-inspect.bubble::root:Observatory",
+            subjectAddressId: "bubble:observatory-inspect.bubble::root:Observatory",
+            sourcePath: "observatory-inspect.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            effectId: "effect:7:commit",
+            effectKind: "commit",
+            requirement: "required",
+            scope: "local",
+            sourceLine: 7,
+            materializationState: "potential",
+            runtimeSignals: ["durable-history"],
+            description: "Bubble Observatory recorded required local commit as potential in this run via durable-history.",
+        },
+    ]);
+});
+
+test("inspection exposes sea-anchor ontology for stressed boundary worlds", () => {
+    const source = [
+        "bubble BoundaryOrchard {",
+        "  realization nondeterministic",
+        "  axiom coherence = stable",
+        "  axiom canopy = dense",
+        "  will \"grow through porous edges\"",
+        "  seed orchard_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect spawn required scope membrane",
+        "  effect branch optional",
+        "  spawn GroveChild when boundary.pressure > 3 and membrane.state = \"thin\"",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "boundary-orchard.bubble" });
+    const report = inspectBubbleProgram(program);
+
+    assert.deepEqual(report.ontology, {
+        negativeSea: {
+            pressure: "high",
+            signals: ["nondeterministic-realization", "branch-pressure", "boundary-exposure"],
+        },
+        positiveSea: {
+            support: "strong",
+            signals: ["source-lineage-address", "seeded-origin", "descendant-lineage", "durable-history"],
+        },
+        anchorPoint: {
+            strength: "steady",
+            trustedHistory: true,
+            rewindStability: "guarded",
+            signals: [
+                "axiomatic-basis",
+                "world-will",
+                "seed-continuity",
+                "durable-history",
+                "observation-surface",
+                "negative-pressure",
+                "boundary-stress",
+                "branch-instability",
+            ],
+        },
+        theoremWitness: {
+            theorem: "sea-anchor-necessity.v1",
+            negativeRank: 2,
+            positiveRank: 2,
+            anchorRank: 1,
+            worldhoodDelta: 1,
+            identityDelta: -1,
+            sustained: true,
+            condition: "stressed",
+            explanation: "Bubble worldhood remains stressed but sustained because A=1, P=2, N=2, so A + P - N = 1.",
+        },
+    });
+    assert.deepEqual(report.plan.ontology, report.ontology);
+    assert.deepEqual(report.evidence.slice(0, 3).map((entry) => entry.kind), [
+        "negative-sea-state",
+        "positive-sea-state",
+        "anchor-point-state",
+    ]);
+});
+
+test("inspection reflects leak, debt, and perturb as runtime ontology stress", () => {
+    const source = [
+        "bubble MembraneArchive {",
+        "  axiom coherence = stable",
+        "  will \"hold a porous record\"",
+        "  seed archive_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect leak required scope membrane",
+        "  effect debt required",
+        "  effect perturb optional",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "membrane-archive.bubble" });
+    const report = inspectBubbleProgram(program);
+
+    assert.deepEqual(report.ontology, {
+        negativeSea: {
+            pressure: "high",
+            signals: ["boundary-exposure", "membrane-leak", "law-perturbation"],
+        },
+        positiveSea: {
+            support: "present",
+            signals: ["source-lineage-address", "seeded-origin", "durable-history"],
+        },
+        anchorPoint: {
+            strength: "weak",
+            trustedHistory: true,
+            rewindStability: "guarded",
+            signals: [
+                "axiomatic-basis",
+                "world-will",
+                "seed-continuity",
+                "durable-history",
+                "observation-surface",
+                "negative-pressure",
+                "boundary-stress",
+                "unresolved-debt",
+                "perturbation-stress",
+            ],
+        },
+        theoremWitness: {
+            theorem: "sea-anchor-necessity.v1",
+            negativeRank: 2,
+            positiveRank: 1,
+            anchorRank: 0,
+            worldhoodDelta: -1,
+            identityDelta: -2,
+            sustained: false,
+            condition: "dissolving",
+            explanation: "Bubble worldhood is dissolving because A=0, P=1, N=2, so A + P - N = -1 with identity margin -2.",
+        },
+    });
+    assert.deepEqual(report.evidence.slice(0, 3), [
+        {
+            id: "evidence:negative-sea:bubble:membrane-archive.bubble::root:MembraneArchive",
+            kind: "negative-sea-state",
+            bubbleAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            subjectAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            sourcePath: "membrane-archive.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            pressure: "high",
+            signals: ["boundary-exposure", "membrane-leak", "law-perturbation"],
+            description: "Bubble MembraneArchive currently shows high negative-sea pressure via boundary-exposure, membrane-leak, law-perturbation.",
+        },
+        {
+            id: "evidence:positive-sea:bubble:membrane-archive.bubble::root:MembraneArchive",
+            kind: "positive-sea-state",
+            bubbleAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            subjectAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            sourcePath: "membrane-archive.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            support: "present",
+            signals: ["source-lineage-address", "seeded-origin", "durable-history"],
+            description: "Bubble MembraneArchive currently shows present positive-sea support via source-lineage-address, seeded-origin, durable-history.",
+        },
+        {
+            id: "evidence:anchor-point:bubble:membrane-archive.bubble::root:MembraneArchive",
+            kind: "anchor-point-state",
+            bubbleAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            subjectAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            sourcePath: "membrane-archive.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            strength: "weak",
+            trustedHistory: true,
+            rewindStability: "guarded",
+            signals: [
+                "axiomatic-basis",
+                "world-will",
+                "seed-continuity",
+                "durable-history",
+                "observation-surface",
+                "negative-pressure",
+                "boundary-stress",
+                "unresolved-debt",
+                "perturbation-stress",
+            ],
+            description: "Bubble MembraneArchive currently shows weak anchor support with guarded rewind stability.",
+        },
+    ]);
+    assert.deepEqual(report.evidence.slice(4), [
+        {
+            id: "evidence:effect:effect:6:observe",
+            kind: "effect-trace",
+            bubbleAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            subjectAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            sourcePath: "membrane-archive.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            effectId: "effect:6:observe",
+            effectKind: "observe",
+            requirement: "required",
+            scope: "local",
+            sourceLine: 6,
+            materializationState: "materialized",
+            runtimeSignals: ["observation-surface"],
+            description: "Bubble MembraneArchive recorded required local observe as materialized in this run via observation-surface.",
+        },
+        {
+            id: "evidence:effect:effect:7:commit",
+            kind: "effect-trace",
+            bubbleAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            subjectAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            sourcePath: "membrane-archive.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            effectId: "effect:7:commit",
+            effectKind: "commit",
+            requirement: "required",
+            scope: "local",
+            sourceLine: 7,
+            materializationState: "potential",
+            runtimeSignals: ["durable-history"],
+            description: "Bubble MembraneArchive recorded required local commit as potential in this run via durable-history.",
+        },
+        {
+            id: "evidence:effect:effect:8:leak",
+            kind: "effect-trace",
+            bubbleAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            subjectAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            sourcePath: "membrane-archive.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            effectId: "effect:8:leak",
+            effectKind: "leak",
+            requirement: "required",
+            scope: "membrane",
+            sourceLine: 8,
+            materializationState: "potential",
+            runtimeSignals: ["membrane-leak"],
+            description: "Bubble MembraneArchive recorded required membrane leak as potential in this run via membrane-leak.",
+        },
+        {
+            id: "evidence:effect:effect:9:debt",
+            kind: "effect-trace",
+            bubbleAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            subjectAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            sourcePath: "membrane-archive.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            effectId: "effect:9:debt",
+            effectKind: "debt",
+            requirement: "required",
+            scope: "local",
+            sourceLine: 9,
+            materializationState: "potential",
+            runtimeSignals: ["unresolved-debt"],
+            description: "Bubble MembraneArchive recorded required local debt as potential in this run via unresolved-debt.",
+        },
+        {
+            id: "evidence:effect:effect:10:perturb",
+            kind: "effect-trace",
+            bubbleAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            subjectAddressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+            sourcePath: "membrane-archive.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            effectId: "effect:10:perturb",
+            effectKind: "perturb",
+            requirement: "optional",
+            scope: "local",
+            sourceLine: 10,
+            materializationState: "potential",
+            runtimeSignals: ["law-perturbation"],
+            description: "Bubble MembraneArchive recorded optional local perturb as potential in this run via law-perturbation.",
         },
     ]);
 });

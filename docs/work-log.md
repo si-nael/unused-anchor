@@ -1,11 +1,20 @@
 # Work Log
 
+## 2026-05-20
+
+- Added a formal sea-anchor proof document that derives negative sea, positive sea, and anchor point as necessary and irreducible roles inside Bubble's own semantic model rather than treating them as practical metaphors.
+- Promoted that proof into the runtime by adding a theorem witness to ontology output, including ordinal ranks for negative pressure, positive support, and anchor strength, plus `worldhoodDelta = A + P - N`, `identityDelta = A - N`, and a derived worldhood condition of `stable`, `stressed`, or `dissolving`.
+
 ## 2026-05-18
 
 - Stabilized a new outer-world ontology for Bubble around three connected concepts: the negative sea, the positive sea, and the anchor point.
 - Wrote a dedicated architecture note describing those concepts as a working operational model rather than as loose lore, and linked the multiverse vision document to it.
-- Recorded the design consequence that Bubble should distinguish world-internal contradiction from outside residue and anchor-driven record drift instead of flattening all three into one anomaly bucket.
-- Added a new open research question focused on whether embedded observers can separate contradiction, negative-sea intrusion, and anchor weakness under finite observation.
+- Recorded the design consequence that Bubble should distinguish internal world events from outside residue and anchor-driven record drift instead of flattening all three into one generic instability bucket.
+- Added a new open research question focused on how runtime should separate internal world events, negative-sea intrusion, and anchor weakness under finite observation.
+- Lowered the first sea-anchor slice into the runtime by deriving a root-bubble ontology assessment during planning and exposing it through inspection and replay as a new `ontology` section covering negative-sea pressure, positive-sea support, anchor strength, trusted history, rewind stability, and the signals that produced those assessments.
+- Promoted that runtime ontology slice into first-class evidence records by emitting `negative-sea-state`, `positive-sea-state`, and `anchor-point-state` alongside authored observation and history-commit evidence, so sea-anchor status now survives materialization, inspection, and replay as data rather than only as a report section.
+- Lowered explicit `leak`, `debt`, and `perturb` effect declarations into real language semantics by adding lifecycle flags in Bubble IR and letting inspection and evidence surfaces treat them as membrane stress, unresolved obligation, and law-disturbance signals inside the sea-anchor assessment.
+- Promoted authored effects themselves into replayable runtime `effect-trace` records, so `observe`, `commit`, `spawn`, `branch`, `leak`, `debt`, and `perturb` now survive materialization, inspection, and replay with effect provenance, scope, current-run signals, and a per-run `potential` vs `materialized` state.
 
 ## 2026-05-15
 
@@ -13,7 +22,7 @@
 - Recorded the required delivery surface explicitly: stable grammar, semantic specification, validator, interpreter or runtime kernel, compile or planning path, tooling, examples, and compatibility rules.
 - Captured the implication that language design, semantics, compiler pipeline, execution stack, tooling, and adoption assets now need to be treated as parallel first-class workstreams.
 - Recorded the new meta-generative idea that bubbles may eventually generate bubble-language artifacts as well as descendant worlds, provided the design remains staged and inspectable.
-- Recorded the reflexive ontology point that Bubble Language itself can be treated as one bubble with its own axioms, boundaries, and contradiction surface inside the larger bubble system.
+- Recorded the reflexive ontology point that Bubble Language itself can be treated as one bubble with its own axioms, boundaries, and membrane surface inside the larger bubble system.
 - Promoted that reflexive ontology into the architecture strategy by treating Bubble Language as one governing bubble rather than as a hidden external layer.
 - Added a first staged meta-layer sketch built around `quote`, `generator`, `reflect`, and `emit`, together with activation and safety rules that keep self-generation inspectable.
 - Implemented the first `bubbles.v0.2` meta profile in code by adding AST, parser, IR, lowering, and validation support for `quote`, `generator`, `reflect`, and `emit`.
@@ -35,9 +44,9 @@
 - Raised the acceptance bar again: Bubble should not count as successful because it can run a few examples, but because it enables uniquely bubble-native semantic work that ordinary host-language alternatives would not preserve cleanly.
 - Recorded the sharper reflexive framing that solving the Bubble Language bubble itself is one of the core research tasks, not only an engineering prerequisite for other bubbles.
 - Tightened `v0.3` into a more language-like contract by rejecting unknown grammar base profiles, rejecting explicit activation targets that disagree with declared grammar profiles, and locking the default activation-profile resolution path with unit coverage.
-- Pushed H-007 from claim into implementation by adding the first local contradiction-surface checks for duplicate grammar profile identities and local profile-extension cycles, then recorded the initial contradiction catalog for the Bubble Language bubble.
-- Assessed readiness against the original bubble-universe AI research goal and concluded that the repository is not yet directly deployable for end-to-end agent experiments: the language, IR, planning, materialization, inspection, replay, and contradiction logging surfaces exist, but there is still no executable benchmark world, agent observation or action loop, baseline observer agent, or evaluator that distinguishes contradiction from ignorance.
-- Identified the highest-priority gap-closing tasks for direct research use: define one operational micro-world profile with step semantics, expose a narrow observation and action interface for an embedded agent, build a labeled anomaly or contradiction benchmark corpus, and add a baseline law-inference or contradiction-detection evaluation harness.
+- Pushed H-007 from claim into implementation by adding the first local membrane checks for duplicate grammar profile identities and local profile-extension cycles, then recorded the initial boundary catalog for the Bubble Language bubble.
+- Assessed readiness against the original bubble-universe AI research goal and concluded that the repository is not yet directly deployable for end-to-end agent experiments: the language, IR, planning, materialization, inspection, replay, and boundary logging surfaces exist, but there is still no executable benchmark world, agent observation or action loop, baseline observer agent, or evaluator for sea-anchor world behavior.
+- Identified the highest-priority gap-closing tasks for direct research use: define one operational micro-world profile with step semantics, expose a narrow observation and action interface for an embedded agent, build a labeled boundary or anchor benchmark corpus, and add a baseline world-state or boundary-tracking evaluation harness.
 - Reframed that readiness gap through the universality requirement: Bubble itself should stay a universal substrate, while the bubble-universe AI program should be built as one explicit particular layer above it rather than baked into the core language contract.
 - Added a broader executable example corpus across `v0.1`, `v0.2`, and `v0.3`, together with package scripts and an examples guide so the repository demonstrates more than one happy-path source file and each example can be run directly through the current CLI surface.
 - Added a shared user-facing Bubble Language reference manual under `docs/reference/` so readers can see the current source forms, semantic interpretation rules, runtime pipeline, command surface, and output-reading guidance in one place instead of reconstructing them from scattered architecture and version notes.
@@ -61,14 +70,14 @@
 ## 2026-05-11
 
 - Reviewed the initial idea list and selected ideas 3, 4, 9, and 11 as the project basis.
-- Chose the project framing: embedded AI agents infer world laws and detect contradictions inside a compact procedural universe.
+- Chose the project framing: Bubble should support compact procedural universes whose laws, boundaries, and identities can be authored and inspected explicitly.
 - Expanded the repository README into a project seed document.
 - Added persistent workspace logs for ideas, decisions, and progress.
 - Recommended starting from a formal discrete micro-world before any graphics or large-scale simulation.
 - Reviewed the discarded AIPS repository structure and kept its separation of world, agent, simulation, and inspection concerns as a reference.
 - Added the larger vision explicitly: a multiverse of bubble universes, each with its own world will and story logic.
 - Recorded the rule that long-range vision and first executable scope must stay separate.
-- Added the user's stronger foundational motivation: our world appears complex yet coherent, so the project should ask whether artificial worlds can also remain contradiction-free.
+- Added the user's stronger foundational motivation: our world appears complex yet stable enough to sustain laws, history, and identity, so the project should ask how artificial worlds can achieve the same kind of worldhood.
 - Added a stricter documentation and memory-management scheme with dedicated research logs.
 - Added the new multiverse direction: generate many bubble universes that can appear and disappear dynamically under hidden governing laws.
 - Recorded the storage principle that very large or unbounded world collections must be represented generatively, not as full explicit state.

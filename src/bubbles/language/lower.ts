@@ -248,6 +248,9 @@ function buildGeneration(
             observationMode,
             commitsHistory: effects.some((effect) => effect.kind === "commit"),
             supportsCollapse: effects.some((effect) => effect.kind === "collapse"),
+            supportsLeakage: effects.some((effect) => effect.kind === "leak"),
+            carriesDebt: effects.some((effect) => effect.kind === "debt"),
+            supportsPerturbation: effects.some((effect) => effect.kind === "perturb"),
         },
         relations: buildGenerativeRelations(address, effects, spawnDeclarations),
     };

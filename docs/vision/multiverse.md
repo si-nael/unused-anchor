@@ -32,9 +32,9 @@ The project becomes interesting when worlds are not only generated, but investig
 The core question is whether internal agents can:
 
 - recover the effective laws of their world
-- detect local contradictions and anomalies
+- trace local boundary stress, residue intrusion, and anchor drift
 - infer the existence of boundaries or adjacent worlds
-- distinguish ordinary uncertainty from world-level inconsistency
+- distinguish partial knowledge from boundary disturbance or anchor weakness
 
 ## Intended Novelty
 
@@ -45,7 +45,7 @@ The goal is to build a formal environment where:
 - reality is generated from compact rules
 - meaning and narrative arise inside local worlds
 - agents reason under finite observation
-- contradictions can be measured, not only narrated
+- world pressure, drift, and stabilization can be measured, not only narrated
 
 ## Persistence View
 

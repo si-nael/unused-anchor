@@ -15,6 +15,42 @@
       ],
       "id": "bubble:examples/meta-grove.bubble::root:Nursery"
     },
+    "ontology": {
+      "negativeSea": {
+        "pressure": "low",
+        "signals": []
+      },
+      "positiveSea": {
+        "support": "strong",
+        "signals": [
+          "source-lineage-address",
+          "seeded-origin",
+          "descendant-lineage",
+          "staged-growth"
+        ]
+      },
+      "anchorPoint": {
+        "strength": "steady",
+        "trustedHistory": false,
+        "rewindStability": "guarded",
+        "signals": [
+          "axiomatic-basis",
+          "world-will",
+          "seed-continuity"
+        ]
+      },
+      "theoremWitness": {
+        "theorem": "sea-anchor-necessity.v1",
+        "negativeRank": 0,
+        "positiveRank": 2,
+        "anchorRank": 1,
+        "worldhoodDelta": 3,
+        "identityDelta": 1,
+        "sustained": true,
+        "condition": "stable",
+        "explanation": "Bubble worldhood remains stable because A=1, P=2, N=0, so A + P - N = 3."
+      }
+    },
     "obligations": [
       {
         "effectId": "effect:6:spawn",
@@ -151,7 +187,10 @@
               "initialMode": "latent",
               "observationMode": null,
               "commitsHistory": false,
-              "supportsCollapse": false
+              "supportsCollapse": false,
+              "supportsLeakage": false,
+              "carriesDebt": false,
+              "supportsPerturbation": false
             },
             "relations": [
               {
@@ -205,7 +244,78 @@
       "description": "Committed descendant materialization for emit:11:Grove at bubble:examples/meta-grove.bubble::root:Nursery/spawn:emit:11:Grove."
     }
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "evidence:negative-sea:bubble:examples/meta-grove.bubble::root:Nursery",
+      "kind": "negative-sea-state",
+      "bubbleAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+      "subjectAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+      "sourcePath": "examples/meta-grove.bubble",
+      "observationMode": null,
+      "emissionId": null,
+      "commitId": null,
+      "pressure": "low",
+      "signals": [],
+      "description": "Bubble Nursery currently shows low negative-sea pressure."
+    },
+    {
+      "id": "evidence:positive-sea:bubble:examples/meta-grove.bubble::root:Nursery",
+      "kind": "positive-sea-state",
+      "bubbleAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+      "subjectAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+      "sourcePath": "examples/meta-grove.bubble",
+      "observationMode": null,
+      "emissionId": null,
+      "commitId": null,
+      "support": "strong",
+      "signals": [
+        "source-lineage-address",
+        "seeded-origin",
+        "descendant-lineage",
+        "staged-growth"
+      ],
+      "description": "Bubble Nursery currently shows strong positive-sea support via source-lineage-address, seeded-origin, descendant-lineage, staged-growth."
+    },
+    {
+      "id": "evidence:anchor-point:bubble:examples/meta-grove.bubble::root:Nursery",
+      "kind": "anchor-point-state",
+      "bubbleAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+      "subjectAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+      "sourcePath": "examples/meta-grove.bubble",
+      "observationMode": null,
+      "emissionId": null,
+      "commitId": null,
+      "strength": "steady",
+      "trustedHistory": false,
+      "rewindStability": "guarded",
+      "signals": [
+        "axiomatic-basis",
+        "world-will",
+        "seed-continuity"
+      ],
+      "description": "Bubble Nursery currently shows steady anchor support with guarded rewind stability."
+    },
+    {
+      "id": "evidence:effect:effect:6:spawn",
+      "kind": "effect-trace",
+      "bubbleAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+      "subjectAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+      "sourcePath": "examples/meta-grove.bubble",
+      "observationMode": null,
+      "emissionId": null,
+      "commitId": null,
+      "effectId": "effect:6:spawn",
+      "effectKind": "spawn",
+      "requirement": "required",
+      "scope": "local",
+      "sourceLine": 6,
+      "materializationState": "materialized",
+      "runtimeSignals": [
+        "descendant-materialization"
+      ],
+      "description": "Bubble Nursery recorded required local spawn as materialized in this run via descendant-materialization."
+    }
+  ],
   "trace": [
     {
       "kind": "materialization-started",

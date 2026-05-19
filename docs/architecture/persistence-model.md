@@ -133,4 +133,4 @@ A world can exist in different modes:
 - committed history
 - summarized residue
 
-Those modes should influence what agents can infer about reality and where contradictions may appear.
+Those modes should influence what agents can infer about reality and where identity drift, residue pressure, or boundary ambiguity may appear.

@@ -12,7 +12,7 @@ This document defines how the main slices may depend on each other.
 - `src/cosmos/`: multiverse-wide orchestration, scheduling, indexing, and lifecycle coordination
 - `src/beings/`: agent memory, belief, policy, and learning logic
 - `src/traces/`: observations, summaries, evidence records, and committed history interfaces
-- `src/inspectors/`: contradiction analysis, consistency checks, and law inference
+- `src/inspectors/`: world inspection, boundary analysis, and law inference
 - `src/runtime/`: clocks, events, causality, execution primitives, and shared low-level services
 
 ## Allowed Dependency Direction

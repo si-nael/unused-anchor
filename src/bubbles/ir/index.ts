@@ -98,6 +98,9 @@ export interface BubbleLifecycleIR {
     observationMode: string | null;
     commitsHistory: boolean;
     supportsCollapse: boolean;
+    supportsLeakage: boolean;
+    carriesDebt: boolean;
+    supportsPerturbation: boolean;
 }
 
 export interface BubbleGenerativeRelationIR {

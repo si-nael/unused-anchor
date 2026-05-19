@@ -16,7 +16,7 @@ async function main(): Promise<void> {
     const { inputPath, outputPath, section, query } = parseCliArgs(process.argv.slice(2));
 
     if (!inputPath) {
-        throw new Error("Usage: tsx apps/hatchery/inspect-bubble.ts <input.bubble> [output.json] [--section summary|plan|grammars|artifacts|commits|evidence|trace|report] [--emission <id>] [--address <id>] [--activation <id>] [--grammar-profile <name>] [--kind <trace-kind>]");
+        throw new Error("Usage: tsx apps/hatchery/inspect-bubble.ts <input.bubble> [output.json] [--section summary|plan|ontology|grammars|artifacts|commits|evidence|trace|report] [--emission <id>] [--address <id>] [--activation <id>] [--grammar-profile <name>] [--kind <trace-kind>]");
     }
 
     const source = await readFile(inputPath, "utf8");
@@ -57,6 +57,8 @@ function selectSection(report: BubbleInspectionReport, section: BubbleInspection
             return report.summary;
         case "plan":
             return report.plan;
+        case "ontology":
+            return report.ontology;
         case "grammars":
             return report.grammars;
         case "artifacts":
@@ -89,7 +91,7 @@ function parseCliArgs(argv: string[]): {
         if (argument === "--section") {
             const rawSection = argv[index + 1];
             if (!rawSection || !isInspectionSection(rawSection)) {
-                throw new Error("--section requires one of: summary, plan, grammars, artifacts, commits, evidence, trace, report");
+                throw new Error("--section requires one of: summary, plan, ontology, grammars, artifacts, commits, evidence, trace, report");
             }
 
             section = rawSection;
@@ -170,6 +172,7 @@ function parseCliArgs(argv: string[]): {
 function isInspectionSection(value: string): value is BubbleInspectionSection {
     return value === "summary"
         || value === "plan"
+        || value === "ontology"
         || value === "grammars"
         || value === "artifacts"
         || value === "commits"

@@ -33,12 +33,18 @@ test("records a materialized bubble into a replayable run bundle", () => {
     assert.equal(record.sourcePath, "archive.bubble");
     assert.equal(record.bubbleName, "Archive");
     assert.equal(record.commitCount, 1);
-    assert.equal(record.evidenceCount, 2);
+    assert.equal(record.evidenceCount, 8);
     assert.equal(record.traceCount, 4);
     assert.equal(record.materialization.plan.sourcePath, "archive.bubble");
     assert.deepEqual(record.materialization.evidence.map((entry) => entry.kind), [
+        "negative-sea-state",
+        "positive-sea-state",
+        "anchor-point-state",
         "observation-context",
         "history-commit",
+        "effect-trace",
+        "effect-trace",
+        "effect-trace",
     ]);
 });
 
@@ -64,6 +70,7 @@ test("replay preserves inspection semantics for stored records", () => {
     const replayed = replayBubbleRecord(record);
 
     assert.deepEqual(replayed.summary, live.summary);
+    assert.deepEqual(replayed.ontology, live.ontology);
     assert.deepEqual(replayed.artifacts, live.artifacts);
     assert.deepEqual(replayed.commits, live.commits);
     assert.deepEqual(replayed.evidence, live.evidence);

@@ -51,6 +51,33 @@ test("plans and materializes descendant emissions from a meta bubble", () => {
             reflectionPaths: ["self.address", "self.worldWill"],
         },
     ]);
+    assert.deepEqual(plan.ontology, {
+        negativeSea: {
+            pressure: "low",
+            signals: [],
+        },
+        positiveSea: {
+            support: "strong",
+            signals: ["source-lineage-address", "seeded-origin", "descendant-lineage", "staged-growth"],
+        },
+        anchorPoint: {
+            strength: "steady",
+            trustedHistory: false,
+            rewindStability: "guarded",
+            signals: ["axiomatic-basis", "world-will", "seed-continuity"],
+        },
+        theoremWitness: {
+            theorem: "sea-anchor-necessity.v1",
+            negativeRank: 0,
+            positiveRank: 2,
+            anchorRank: 1,
+            worldhoodDelta: 3,
+            identityDelta: 1,
+            sustained: true,
+            condition: "stable",
+            explanation: "Bubble worldhood remains stable because A=1, P=2, N=0, so A + P - N = 3.",
+        },
+    });
     assert.deepEqual(plan.grammars, []);
     assert.deepEqual(plan.grammarActivationPlan, []);
 
@@ -64,6 +91,12 @@ test("plans and materializes descendant emissions from a meta bubble", () => {
         "self.address": program.bubble.address,
         "self.worldWill": "grow derived worlds",
     });
+    assert.deepEqual(materialized.evidence.map((entry) => entry.kind), [
+        "negative-sea-state",
+        "positive-sea-state",
+        "anchor-point-state",
+        "effect-trace",
+    ]);
     assert.equal(materialized.commits[0].committedAddressId, "bubble:nursery.bubble::root:Nursery/spawn:emit:11:Grove");
 });
 
@@ -108,6 +141,47 @@ test("records observation evidence even when no staged emissions exist", () => {
     assert.equal(materialized.commits.length, 0);
     assert.deepEqual(materialized.evidence, [
         {
+            id: "evidence:negative-sea:bubble:observatory.bubble::root:Observatory",
+            kind: "negative-sea-state",
+            bubbleAddressId: "bubble:observatory.bubble::root:Observatory",
+            subjectAddressId: "bubble:observatory.bubble::root:Observatory",
+            sourcePath: "observatory.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            pressure: "low",
+            signals: [],
+            description: "Bubble Observatory currently shows low negative-sea pressure.",
+        },
+        {
+            id: "evidence:positive-sea:bubble:observatory.bubble::root:Observatory",
+            kind: "positive-sea-state",
+            bubbleAddressId: "bubble:observatory.bubble::root:Observatory",
+            subjectAddressId: "bubble:observatory.bubble::root:Observatory",
+            sourcePath: "observatory.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            support: "present",
+            signals: ["source-lineage-address", "seeded-origin", "durable-history"],
+            description: "Bubble Observatory currently shows present positive-sea support via source-lineage-address, seeded-origin, durable-history.",
+        },
+        {
+            id: "evidence:anchor-point:bubble:observatory.bubble::root:Observatory",
+            kind: "anchor-point-state",
+            bubbleAddressId: "bubble:observatory.bubble::root:Observatory",
+            subjectAddressId: "bubble:observatory.bubble::root:Observatory",
+            sourcePath: "observatory.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            strength: "strong",
+            trustedHistory: true,
+            rewindStability: "stable",
+            signals: ["axiomatic-basis", "world-will", "seed-continuity", "durable-history", "observation-surface"],
+            description: "Bubble Observatory currently shows strong anchor support with stable rewind stability.",
+        },
+        {
             id: "evidence:observe:bubble:observatory.bubble::root:Observatory",
             kind: "observation-context",
             bubbleAddressId: "bubble:observatory.bubble::root:Observatory",
@@ -117,6 +191,42 @@ test("records observation evidence even when no staged emissions exist", () => {
             emissionId: null,
             commitId: null,
             description: "Bubble Observatory declares observation mode witness with durable history support.",
+        },
+        {
+            id: "evidence:effect:effect:6:observe",
+            kind: "effect-trace",
+            bubbleAddressId: "bubble:observatory.bubble::root:Observatory",
+            subjectAddressId: "bubble:observatory.bubble::root:Observatory",
+            sourcePath: "observatory.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            effectId: "effect:6:observe",
+            effectKind: "observe",
+            requirement: "required",
+            scope: "local",
+            sourceLine: 6,
+            materializationState: "materialized",
+            runtimeSignals: ["observation-surface"],
+            description: "Bubble Observatory recorded required local observe as materialized in this run via observation-surface.",
+        },
+        {
+            id: "evidence:effect:effect:7:commit",
+            kind: "effect-trace",
+            bubbleAddressId: "bubble:observatory.bubble::root:Observatory",
+            subjectAddressId: "bubble:observatory.bubble::root:Observatory",
+            sourcePath: "observatory.bubble",
+            observationMode: "witness",
+            emissionId: null,
+            commitId: null,
+            effectId: "effect:7:commit",
+            effectKind: "commit",
+            requirement: "required",
+            scope: "local",
+            sourceLine: 7,
+            materializationState: "potential",
+            runtimeSignals: ["durable-history"],
+            description: "Bubble Observatory recorded required local commit as potential in this run via durable-history.",
         },
     ]);
     assert.equal(materialized.trace.at(-1)?.kind, "no-emissions");

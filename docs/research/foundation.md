@@ -2,71 +2,78 @@
 
 ## Core Premise
 
-Our world appears immensely complex, yet it can still be described without obvious contradiction across large parts of science and ordinary reasoning. That observation motivates a foundational project question.
+Bubble is not primarily a failure-analysis methodology.
+
+It is a language and runtime for independent bubble worlds.
+
+Each bubble world should be able to exist with its own laws, history, boundary, lineage, and anchor point inside a larger field shaped by the negative sea and the positive sea.
 
 ## Foundational Question
 
-Can an artificial world be both rich and contradiction-free, or do sufficiently expressive virtual worlds inevitably generate contradiction somewhere in their axioms, execution, interfaces, or interpretations?
+How can independent bubble worlds form, persist, drift, connect, and remain identifiable within a multiverse field shaped by negative-sea pressure, positive-sea structure, and anchor points?
 
 ## Why This Question Matters
 
-If contradiction-free artificial worlds can be defined and constructed precisely, then embedded AI agents can be trained in environments where:
+If Bubble can represent those conditions explicitly, the project gains a way to study:
 
-- coherence is intended, not accidental
-- anomalies can be deliberately introduced and labeled
-- the difference between inconsistency and ignorance can be studied
-- contradiction detection becomes a measurable skill
+- how worlds become worlds rather than loose residue
+- how identity is preserved across observation, replay, and growth
+- how boundaries, lineage, and placement shape world behavior
+- how large multiverse structure can stay inspectable without full eager materialization
 
-That makes the project useful not only for simulation, but also for model criticism and scientific reasoning.
+That makes Bubble useful as a world-forming and world-inspecting system, not just as a configuration DSL.
 
-## Four Layers of Consistency
+## Four Layers Of Worldhood
 
-### 1. Formal consistency
+### 1. World identity
 
-The axiom system or rule specification should not imply incompatible statements inside the intended semantics.
+A bubble world should be identifiable as this world rather than as an interchangeable generated artifact.
 
-### 2. Operational consistency
+### 2. Boundary and membrane behavior
 
-The simulator should not produce state transitions that violate the formal rules it claims to implement.
+A bubble world should expose how it is separated from, or coupled to, other worlds and outside residue.
 
-### 3. Interface consistency
+### 3. Lineage and placement
 
-Observations, memory, and action channels should not expose artifacts that contradict the world definition unintentionally.
+A bubble world should be able to occupy a place within a larger field of related worlds rather than floating as an unstructured isolated object.
 
-### 4. Epistemic consistency
+### 4. Materialization and replay
 
-An embedded agent should be able to maintain a nontrivial explanatory model of its world, even if the model is incomplete.
+A bubble world should support latent existence, partial activation, durable history, and replayable identity without collapsing into one flat state table.
 
 ## Important Distinction
 
-Failure to explain a world does not by itself prove contradiction.
+Failure to explain a world does not by itself mean the world has failed.
 
 It may instead indicate:
 
 - insufficient observations
+- weak anchor support
+- negative-sea residue entering the local view
+- partial or delayed materialization
 - an observer with a weak hypothesis class
-- hidden variables or hidden boundaries
-- nondeterminism that was not modeled correctly
 
-This means the project must study contradiction and underdetermination separately.
+This means Bubble should separate world identity, boundary disturbance, and limited knowledge rather than flattening them into one method problem.
 
 ## Working Position
 
 The strongest current working position is this:
 
-- contradiction-free artificial worlds are possible in principle if their semantics are explicit and their expressive scope is controlled
-- contradictions become more likely as worlds are composed from many subsystems, narratives, interfaces, and local rule exceptions
-- embedded agents trained to detect these failures may develop transferable anomaly-detection skills
-- such transfer can help critique models of our world, but it cannot automatically prove that our world itself is contradictory
+- independent bubble worlds can be represented explicitly if their ontology is kept clear
+- negative-sea pressure, positive-sea structure, and anchor support should become operational semantics rather than decorative lore
+- replay, inspection, and materialization should preserve world identity and lineage rather than only raw event output
+- observer or benchmark layers may later be built on top, but they should not define the language core
 
 ## Research Program
 
-1. Define classes of worlds with machine-checkable or operationally enforceable consistency.
-2. Identify which forms of richness break those guarantees.
-3. Train agents to infer world laws under finite observation.
-4. Measure whether they can separate contradiction from uncertainty.
-5. Test transfer to external scientific or mathematical anomaly-detection tasks.
+1. Define a minimal independent bubble-world schema with laws, will, seed, boundary, lineage, and anchor support.
+2. Lower negative sea, positive sea, and anchor semantics into inspectable runtime concepts.
+3. Define replay and materialization rules that preserve world identity rather than only serializing events.
+4. Build example worlds that vary anchor strength, boundary exposure, lineage growth, and residue pressure.
+5. Add observer-facing or application-specific layers only after the world core is stable enough to carry them.
 
 ## Caution
 
-For sufficiently expressive formal systems, global guarantees about proof, completeness, and internal self-certification become limited. Therefore the project should begin with constrained world languages and only later expand toward richer multiverse settings.
+The project should not lock Bubble to one evaluation methodology too early.
+
+The language needs room to remain a general bubble substrate before any one observer workflow or benchmark family becomes dominant.

@@ -35,11 +35,11 @@ Treat the repository as having three layers.
 
 Primary concerns:
 
-- contradiction classes
-- anomaly-detection tasks
+- sea-anchor regimes
+- boundary and placement scenarios
 - scenario design
 - evaluation and inspection
-- transfer experiments
+- reusable world-family experiments
 
 Likely centers of gravity:
 
@@ -88,7 +88,7 @@ Likely centers of gravity:
 
 This kernel should contain semantics that many Bubble-based systems could plausibly share.
 
-It should not quietly accumulate experiment-specific assumptions about one observer model, one anomaly taxonomy, or one benchmark loop.
+It should not quietly accumulate experiment-specific assumptions about one observer model, one residue taxonomy, or one benchmark loop.
 
 ## Decision Rule
 
