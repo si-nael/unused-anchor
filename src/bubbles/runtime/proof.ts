@@ -1,0 +1,544 @@
+import type {
+    BubbleAddressIR,
+    BubbleEmissionTarget,
+    BubbleProgramIR,
+    BubbleUnresolvedSemanticIR,
+    EffectIR,
+} from "../ir";
+import type { BubbleSeaAnchorAssessment } from "./materialize";
+import type { BubbleSemanticEvaluationPlan } from "./semantics";
+
+export type BubbleConsistencyClaimStatus = "certified" | "contradicted" | "undetermined";
+export type BubbleConsistencyCertificateVerdict = "certified" | "partially-certified" | "contradicted" | "undetermined";
+export type BubbleConsistencyClaimKind = "syntax" | "worldhood" | "effect" | "anchor" | "lineage" | "consistency" | "replay";
+
+export interface BubbleConsistencyClaim {
+    id: string;
+    kind: BubbleConsistencyClaimKind;
+    status: BubbleConsistencyClaimStatus;
+    basis: string[];
+    explanation: string;
+}
+
+export interface BubbleConsistencyCertificate {
+    mode: "bubble-consistency-certificate.v1";
+    bubbleAddressId: string;
+    profile: BubbleProgramIR["profile"];
+    verdict: BubbleConsistencyCertificateVerdict;
+    claims: BubbleConsistencyClaim[];
+}
+
+export function deriveConsistencyVerdict(claims: BubbleConsistencyClaim[]): BubbleConsistencyCertificateVerdict {
+    if (claims.length === 0) {
+        return "undetermined";
+    }
+
+    if (claims.some((claim) => claim.status === "contradicted")) {
+        return "contradicted";
+    }
+
+    if (claims.every((claim) => claim.status === "certified")) {
+        return "certified";
+    }
+
+    if (claims.some((claim) => claim.status === "certified") && claims.some((claim) => claim.status === "undetermined")) {
+        return "partially-certified";
+    }
+
+    return "undetermined";
+}
+
+export interface BubbleProofEmissionPlan {
+    emissionId: string;
+    target: BubbleEmissionTarget | null;
+    derivedAddress: BubbleAddressIR | null;
+}
+
+export interface BubbleProofGrammarActivationPlan {
+    activationId: string;
+    grammarId: string | null;
+    grammarName: string;
+    requestedProfileName: string | null;
+    resolvedProfileName: string | null;
+    extendsProfile: string | null;
+    staged: true;
+}
+
+export function buildConsistencyCertificate(
+    program: BubbleProgramIR,
+    emissionPlan: BubbleProofEmissionPlan[],
+    grammarActivationPlan: BubbleProofGrammarActivationPlan[],
+    ontology: BubbleSeaAnchorAssessment,
+    semantics: BubbleSemanticEvaluationPlan,
+): BubbleConsistencyCertificate {
+    const claims = [
+        buildWellFormedSourceClaim(program),
+        buildMinimumWorldhoodClaim(program),
+        buildRequiredEffectClaim(program, emissionPlan),
+        buildAnchorIdentityClaim(program, ontology, semantics),
+        buildLineageTraceabilityClaim(program, emissionPlan, grammarActivationPlan),
+        buildReplayIdentityClaim(program, ontology, semantics),
+        buildInternalConsistencyClaim(program, semantics),
+    ];
+
+    return {
+        mode: "bubble-consistency-certificate.v1",
+        bubbleAddressId: program.bubble.address.id,
+        profile: program.profile,
+        verdict: deriveConsistencyVerdict(claims),
+        claims,
+    };
+}
+
+function buildWellFormedSourceClaim(program: BubbleProgramIR): BubbleConsistencyClaim {
+    return {
+        id: "claim:well-formed-source",
+        kind: "syntax",
+        status: "certified",
+        basis: ["parser", "profile-validator"],
+        explanation: `Bubble ${program.bubble.name} compiled into a semantic plan under ${program.profile}.`,
+    };
+}
+
+function buildMinimumWorldhoodClaim(program: BubbleProgramIR): BubbleConsistencyClaim {
+    const basis: string[] = [];
+    const missing: string[] = [];
+
+    if (Object.keys(program.bubble.axioms).length > 0) {
+        basis.push("axiom");
+    } else {
+        missing.push("axiom");
+    }
+
+    if (program.bubble.worldWill !== null) {
+        basis.push("worldWill");
+    } else {
+        missing.push("worldWill");
+    }
+
+    if (program.bubble.seed !== null) {
+        basis.push("seed");
+    } else {
+        missing.push("seed");
+    }
+
+    if (program.bubble.effects.length > 0) {
+        basis.push("effect");
+    } else {
+        missing.push("effect");
+    }
+
+    return {
+        id: "claim:minimum-worldhood",
+        kind: "worldhood",
+        status: missing.length === 0 ? "certified" : "contradicted",
+        basis: missing.length === 0 ? basis : missing,
+        explanation: missing.length === 0
+            ? `Bubble ${program.bubble.name} satisfies the current minimum worldhood basis through ${basis.join(", ")}.`
+            : `Bubble ${program.bubble.name} is missing minimum worldhood requirements: ${missing.join(", ")}.`,
+    };
+}
+
+function buildRequiredEffectClaim(
+    program: BubbleProgramIR,
+    emissionPlan: BubbleProofEmissionPlan[],
+): BubbleConsistencyClaim {
+    const requiredEffects = program.bubble.effects.filter((effect) => effect.requirement === "required");
+    if (requiredEffects.length === 0) {
+        return {
+            id: "claim:required-effect-obligations",
+            kind: "effect",
+            status: "undetermined",
+            basis: ["no-required-effects"],
+            explanation: `Bubble ${program.bubble.name} declares no required effects, so no effect obligation proof was generated.`,
+        };
+    }
+
+    const statuses = requiredEffects.map((effect) => resolveRequiredEffectCertification(effect, program, emissionPlan));
+    const claimStatus = statuses.some((status) => status.status === "contradicted")
+        ? "contradicted"
+        : statuses.some((status) => status.status === "undetermined")
+            ? "undetermined"
+            : "certified";
+
+    return {
+        id: "claim:required-effect-obligations",
+        kind: "effect",
+        status: claimStatus,
+        basis: Array.from(new Set(statuses.flatMap((status) => status.basis))),
+        explanation: statuses.map((status) => status.explanation).join(" "),
+    };
+}
+
+function resolveRequiredEffectCertification(
+    effect: EffectIR,
+    program: BubbleProgramIR,
+    emissionPlan: BubbleProofEmissionPlan[],
+): Pick<BubbleConsistencyClaim, "status" | "basis" | "explanation"> {
+    const { generation } = program.bubble;
+
+    switch (effect.kind) {
+        case "observe":
+            return generation.lifecycle.observationMode === null
+                ? {
+                    status: "contradicted",
+                    basis: ["missing-observation-surface"],
+                    explanation: `Required effect ${effect.id} is contradicted because no observation surface is declared.`,
+                }
+                : {
+                    status: "certified",
+                    basis: ["observation-surface"],
+                    explanation: `Required effect ${effect.id} is certified by the declared observation surface.`,
+                };
+        case "commit":
+            return generation.lifecycle.commitsHistory
+                ? {
+                    status: "certified",
+                    basis: ["durable-history"],
+                    explanation: `Required effect ${effect.id} is certified by durable history support.`,
+                }
+                : {
+                    status: "contradicted",
+                    basis: ["missing-durable-history"],
+                    explanation: `Required effect ${effect.id} is contradicted because durable history support is absent.`,
+                };
+        case "spawn": {
+            const hasRelationWitness = generation.relations.some((relation) => relation.sourceEffectId === effect.id);
+            const hasEmissionWitness = emissionPlan.some((emission) => emission.target === "descendant");
+            if (hasRelationWitness || hasEmissionWitness) {
+                return {
+                    status: "certified",
+                    basis: ["descendant-lineage", ...(hasEmissionWitness ? ["staged-growth"] : [])],
+                    explanation: `Required effect ${effect.id} is certified by descendant lineage ${hasEmissionWitness ? "and staged descendant materialization" : "support"}.`,
+                };
+            }
+
+            return {
+                status: "undetermined",
+                basis: ["no-descendant-witness"],
+                explanation: `Required effect ${effect.id} remains undetermined because the current plan has no descendant relation or descendant emission witness.`,
+            };
+        }
+        case "branch":
+            return generation.realizationMode === "nondeterministic"
+                ? {
+                    status: "certified",
+                    basis: ["nondeterministic-realization"],
+                    explanation: `Required effect ${effect.id} is certified by nondeterministic realization semantics.`,
+                }
+                : {
+                    status: "contradicted",
+                    basis: ["deterministic-realization"],
+                    explanation: `Required effect ${effect.id} is contradicted because the world is deterministic.`,
+                };
+        case "collapse":
+            return {
+                status: "undetermined",
+                basis: ["collapse-support", "no-collapse-execution-semantics"],
+                explanation: `Required effect ${effect.id} remains undetermined because collapse support exists but executable collapse semantics are not yet defined.`,
+            };
+        case "leak":
+            return {
+                status: "certified",
+                basis: [resolveLeakSignal(effect.scope)],
+                explanation: `Required effect ${effect.id} is certified by explicit ${effect.scope} leak semantics.`,
+            };
+        case "debt":
+            return {
+                status: "certified",
+                basis: ["unresolved-debt"],
+                explanation: `Required effect ${effect.id} is certified by explicit unresolved debt semantics.`,
+            };
+        case "perturb":
+            return {
+                status: "certified",
+                basis: ["law-perturbation"],
+                explanation: `Required effect ${effect.id} is certified by explicit perturbation semantics.`,
+            };
+        default:
+            return assertNever(effect.kind);
+    }
+}
+
+function resolveLeakSignal(scope: EffectIR["scope"]): string {
+    switch (scope) {
+        case "local":
+            return "local-leak";
+        case "membrane":
+            return "membrane-leak";
+        case "global":
+            return "global-leak";
+        default:
+            return assertNever(scope);
+    }
+}
+
+function buildAnchorIdentityClaim(
+    program: BubbleProgramIR,
+    ontology: BubbleSeaAnchorAssessment,
+    semantics: BubbleSemanticEvaluationPlan,
+): BubbleConsistencyClaim {
+    const anchorCriterion = semantics.anchorCriterion;
+    const identityBasis = ontology.anchorPoint.signals.filter((signal) =>
+        signal === "axiomatic-basis"
+        || signal === "world-will"
+        || signal === "seed-continuity"
+        || signal === "durable-history"
+        || signal === "observation-surface",
+    );
+
+    if (anchorCriterion?.status === "violated") {
+        return {
+            id: "claim:anchor-identity",
+            kind: "anchor",
+            status: "contradicted",
+            basis: Array.from(new Set([...identityBasis, ...anchorCriterion.basis])),
+            explanation: `${anchorCriterion.explanation} Bubble ${program.bubble.name} therefore does not currently certify same-world anchor identity.`,
+        };
+    }
+
+    if (!ontology.theoremWitness.sustained) {
+        return {
+            id: "claim:anchor-identity",
+            kind: "anchor",
+            status: "contradicted",
+            basis: identityBasis.length > 0 ? identityBasis : ["missing-anchor-basis"],
+            explanation: `Bubble ${program.bubble.name} does not currently sustain same-world identity under the theorem witness and is classified as ${ontology.theoremWitness.condition}.`,
+        };
+    }
+
+    if (anchorCriterion?.status === "undetermined") {
+        return {
+            id: "claim:anchor-identity",
+            kind: "anchor",
+            status: "undetermined",
+            basis: Array.from(new Set([...identityBasis, ...anchorCriterion.basis])),
+            explanation: `${anchorCriterion.explanation} Bubble ${program.bubble.name} keeps an inferred anchor basis, but authored same-world identity remains undetermined.`,
+        };
+    }
+
+    return {
+        id: "claim:anchor-identity",
+        kind: "anchor",
+        status: "certified",
+        basis: Array.from(new Set([
+            ...identityBasis,
+            ...(anchorCriterion?.basis ?? []),
+        ])),
+        explanation: `Bubble ${program.bubble.name} currently certifies anchor identity as ${ontology.anchorPoint.strength} with theorem condition ${ontology.theoremWitness.condition}${anchorCriterion ? " under the authored anchor criterion" : ""}.`,
+    };
+}
+
+function buildLineageTraceabilityClaim(
+    program: BubbleProgramIR,
+    emissionPlan: BubbleProofEmissionPlan[],
+    grammarActivationPlan: BubbleProofGrammarActivationPlan[],
+): BubbleConsistencyClaim {
+    const hasDescendantRelation = program.bubble.generation.relations.some((relation) => relation.target === "descendant-bubble");
+    const descendantEmissions = emissionPlan.filter((emission) => emission.target === "descendant");
+    const hasStagedLineage = hasDescendantRelation || descendantEmissions.length > 0 || grammarActivationPlan.length > 0;
+
+    if (!hasStagedLineage) {
+        return {
+            id: "claim:lineage-traceability",
+            kind: "lineage",
+            status: "undetermined",
+            basis: ["no-descendant-lineage-claim"],
+            explanation: `Bubble ${program.bubble.name} declares no descendant or staged grammar lineage that needs certification in the current plan.`,
+        };
+    }
+
+    const unresolvedDescendants = descendantEmissions.some((emission) => emission.derivedAddress === null);
+    const brokenRelations = program.bubble.generation.relations.some((relation) =>
+        relation.target === "descendant-bubble" && relation.targetAddressTemplate.baseAddressId !== program.bubble.address.id,
+    );
+
+    if (unresolvedDescendants || brokenRelations) {
+        return {
+            id: "claim:lineage-traceability",
+            kind: "lineage",
+            status: "contradicted",
+            basis: ["lineage-address-mismatch"],
+            explanation: `Bubble ${program.bubble.name} has descendant or staged lineage that cannot be traced back cleanly to the current root bubble.`,
+        };
+    }
+
+    return {
+        id: "claim:lineage-traceability",
+        kind: "lineage",
+        status: "certified",
+        basis: Array.from(new Set([
+            "source-lineage-address",
+            ...(hasDescendantRelation ? ["descendant-lineage"] : []),
+            ...(descendantEmissions.length > 0 ? ["staged-growth"] : []),
+            ...(grammarActivationPlan.length > 0 ? ["staged-grammar-lineage"] : []),
+        ])),
+        explanation: `Bubble ${program.bubble.name} preserves traceable lineage for every currently declared descendant or staged generation path.`,
+    };
+}
+
+function buildReplayIdentityClaim(
+    program: BubbleProgramIR,
+    ontology: BubbleSeaAnchorAssessment,
+    semantics: BubbleSemanticEvaluationPlan,
+): BubbleConsistencyClaim {
+    const anchorCriterion = semantics.anchorCriterion;
+    const basis = [
+        ...(program.bubble.seed === null ? [] : ["seed-continuity"]),
+        ...(program.bubble.address.locatorKind === "source-relative" ? ["source-lineage-address"] : ["lineage-relative-address"]),
+        ...(program.bubble.generation.lifecycle.commitsHistory ? ["durable-history"] : []),
+        ...(anchorCriterion?.basis ?? []),
+    ];
+
+    if (anchorCriterion?.status === "violated") {
+        return {
+            id: "claim:replay-identity",
+            kind: "replay",
+            status: "contradicted",
+            basis,
+            explanation: `${anchorCriterion.explanation} Bubble ${program.bubble.name} therefore does not currently certify same-world replay.`,
+        };
+    }
+
+    if (!ontology.theoremWitness.sustained) {
+        return {
+            id: "claim:replay-identity",
+            kind: "replay",
+            status: "contradicted",
+            basis,
+            explanation: `Bubble ${program.bubble.name} does not currently certify same-world replay because the theorem witness is ${ontology.theoremWitness.condition}.`,
+        };
+    }
+
+    if (anchorCriterion?.status === "undetermined") {
+        return {
+            id: "claim:replay-identity",
+            kind: "replay",
+            status: "undetermined",
+            basis,
+            explanation: `${anchorCriterion.explanation} Bubble ${program.bubble.name} keeps a replay basis, but explicit same-world replay remains undetermined.`,
+        };
+    }
+
+    if (program.bubble.seed !== null && program.bubble.generation.lifecycle.commitsHistory) {
+        return {
+            id: "claim:replay-identity",
+            kind: "replay",
+            status: "certified",
+            basis,
+            explanation: `Bubble ${program.bubble.name} currently certifies replay identity through seed continuity, stable root addressing, and durable history.`,
+        };
+    }
+
+    return {
+        id: "claim:replay-identity",
+        kind: "replay",
+        status: "undetermined",
+        basis: [...basis, ...(program.bubble.generation.lifecycle.commitsHistory ? [] : ["missing-durable-history"])],
+        explanation: `Bubble ${program.bubble.name} preserves a replay basis, but same-world replay remains undetermined without durable history fixation.`,
+    };
+}
+
+function buildInternalConsistencyClaim(
+    program: BubbleProgramIR,
+    semantics: BubbleSemanticEvaluationPlan,
+): BubbleConsistencyClaim {
+    const unresolvedSemantics = program.bubble.unresolvedSemantics ?? [];
+    const executableChecks = [...semantics.constraints, ...semantics.partialLaws];
+    const checkedFragmentIds = new Set(executableChecks.map((check) => check.subjectId));
+    const residualFragments = unresolvedSemantics.filter((fragment) => !checkedFragmentIds.has(fragment.id));
+
+    if (executableChecks.some((check) => check.status === "violated")) {
+        return {
+            id: "claim:internal-law-consistency",
+            kind: "consistency",
+            status: "contradicted",
+            basis: Array.from(new Set([
+                ...executableChecks.flatMap((check) => check.basis),
+                ...residualFragments.map((fragment) => unresolvedSemanticBasis(fragment)),
+            ])),
+            explanation: executableChecks
+                .filter((check) => check.status === "violated")
+                .map((check) => check.explanation)
+                .join(" "),
+        };
+    }
+
+    if (executableChecks.length > 0 && executableChecks.every((check) => check.status === "satisfied") && residualFragments.length === 0) {
+        return {
+            id: "claim:internal-law-consistency",
+            kind: "consistency",
+            status: "certified",
+            basis: Array.from(new Set(executableChecks.flatMap((check) => check.basis))),
+            explanation: executableChecks.map((check) => check.explanation).join(" "),
+        };
+    }
+
+    if (unresolvedSemantics.length > 0) {
+        const unresolvedKinds = Array.from(new Set(residualFragments.map((fragment) => fragment.kind)));
+        const basis = Array.from(new Set([
+            ...executableChecks.flatMap((check) => check.basis),
+            ...residualFragments.map((fragment) => unresolvedSemanticBasis(fragment)),
+            ...(executableChecks.length > 0 ? [] : ["no-executable-law-semantics-yet"]),
+        ]));
+        const certifiedConstraintCount = semantics.constraints.filter((check) => check.status === "satisfied").length;
+        const certifiedPartialLawCount = semantics.partialLaws.filter((check) => check.status === "satisfied").length;
+        const undeterminedConstraintExplanations = executableChecks
+            .filter((check) => check.status === "undetermined")
+            .map((check) => check.explanation);
+
+        return {
+            id: "claim:internal-law-consistency",
+            kind: "consistency",
+            status: "undetermined",
+            basis,
+            explanation: [
+                certifiedConstraintCount > 0
+                    ? `Bubble ${program.bubble.name} certified ${certifiedConstraintCount} authored constraint${certifiedConstraintCount === 1 ? "" : "s"} through the executable checker.`
+                    : null,
+                certifiedPartialLawCount > 0
+                    ? `Bubble ${program.bubble.name} certified ${certifiedPartialLawCount} authored partial law fragment${certifiedPartialLawCount === 1 ? "" : "s"} through the executable checker.`
+                    : null,
+                undeterminedConstraintExplanations.length > 0
+                    ? undeterminedConstraintExplanations.join(" ")
+                    : null,
+                unresolvedKinds.length > 0
+                    ? `Residual unresolved semantic fragments (${unresolvedKinds.join(", ")}) keep overall internal semantic consistency undetermined.`
+                    : null,
+            ].filter((part): part is string => part !== null).join(" "),
+        };
+    }
+
+    return {
+        id: "claim:internal-law-consistency",
+        kind: "consistency",
+        status: "undetermined",
+        basis: ["no-executable-law-semantics-yet"],
+        explanation: `Bubble ${program.bubble.name} does not yet have a full executable law solver, so internal semantic consistency remains undetermined.`,
+    };
+}
+
+function unresolvedSemanticBasis(fragment: BubbleUnresolvedSemanticIR): string {
+    switch (fragment.kind) {
+        case "unknown-value":
+            return "unknown-value";
+        case "unknown-entity":
+            return "unknown-entity";
+        case "constraint":
+            return "unresolved-constraint";
+        case "partial-law":
+            return "unknown-law-fragment";
+        case "hidden-region":
+            return "hidden-region";
+        case "unobservable-relation":
+            return "unobservable-relation";
+        case "latent-bubble":
+            return "latent-admitted-bubble";
+        default:
+            return assertNever(fragment.kind);
+    }
+}
+
+function assertNever(value: never): never {
+    throw new Error(`Unhandled proof variant: ${String(value)}`);
+}

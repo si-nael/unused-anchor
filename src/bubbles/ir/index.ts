@@ -2,8 +2,8 @@ import type { EffectKind, EffectScope, EffectSpec } from "../effects";
 
 export type ScalarValue = boolean | number | string;
 
-export type BubbleVersion = "0.1.0" | "0.2.0" | "0.3.0";
-export type BubbleProfile = "bubbles.v0.1" | "bubbles.v0.2" | "bubbles.v0.3";
+export type BubbleVersion = "0.1.0" | "0.2.0" | "0.3.0" | "0.4.0";
+export type BubbleProfile = "bubbles.v0.1" | "bubbles.v0.2" | "bubbles.v0.3" | "bubbles.v0.4";
 export type BubbleRealizationMode = "deterministic" | "nondeterministic";
 export type BubbleLifecycleMode = "latent" | "active";
 export type BubbleRelationKind = "branch" | "spawn" | "collapse";
@@ -192,6 +192,30 @@ export interface BubbleMetaIR {
     grammarActivations?: BubbleGrammarActivationIR[];
 }
 
+export type BubbleUnresolvedSemanticKind =
+    | "unknown-value"
+    | "unknown-entity"
+    | "constraint"
+    | "partial-law"
+    | "hidden-region"
+    | "unobservable-relation"
+    | "latent-bubble";
+
+export interface BubbleUnresolvedSemanticIR {
+    id: string;
+    kind: BubbleUnresolvedSemanticKind;
+    description: string;
+    expression?: BubbleExpressionIR;
+    sourceLine: number | null;
+}
+
+export interface BubbleAnchorCriterionIR {
+    id: string;
+    sourceLine: number;
+    description: string;
+    expression: BubbleExpressionIR;
+}
+
 export interface BubbleIR {
     address: BubbleAddressIR;
     name: string;
@@ -202,6 +226,8 @@ export interface BubbleIR {
     effects: EffectIR[];
     obligations: ObligationIR[];
     generation: BubbleGenerationIR;
+    anchorCriterion?: BubbleAnchorCriterionIR;
+    unresolvedSemantics?: BubbleUnresolvedSemanticIR[];
     meta?: BubbleMetaIR;
 }
 

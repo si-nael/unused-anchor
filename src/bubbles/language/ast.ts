@@ -4,6 +4,7 @@ import type {
     BubbleEmissionTarget,
     BubbleGrammarArtifactIR,
     BubbleRealizationMode,
+    BubbleUnresolvedSemanticKind,
     ScalarValue,
 } from "../ir";
 
@@ -28,6 +29,8 @@ export type BubbleStatement =
     | WillDeclaration
     | SeedDeclaration
     | ObserveDeclaration
+    | AnchorDeclaration
+    | UnresolvedSemanticDeclaration
     | SpawnDeclaration
     | QuoteDeclaration
     | GeneratorDeclaration
@@ -61,6 +64,20 @@ export interface SeedDeclaration extends SourceSpan {
 export interface ObserveDeclaration extends SourceSpan {
     kind: "observe";
     mode: string;
+}
+
+export interface AnchorDeclaration extends SourceSpan {
+    kind: "anchor";
+    expression: BubbleExpressionIR;
+    description: string;
+}
+
+export interface UnresolvedSemanticDeclaration extends SourceSpan {
+    kind: "unresolved-semantic";
+    semanticKind: BubbleUnresolvedSemanticKind;
+    name: string;
+    description: string;
+    expression: BubbleExpressionIR | null;
 }
 
 export interface SpawnDeclaration extends SourceSpan {

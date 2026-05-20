@@ -1,22 +1,41 @@
 import type { BubbleProgramIR } from "../ir";
 import {
     materializeBubbleProgram,
+    type BubbleBundlePlan,
     type BubbleEvidenceRecord,
-    type BubbleConsistencyCertificate,
     type BubbleExecutionPlan,
     type BubbleMaterializationCommit,
     type BubbleMaterializationResult,
     type BubbleMaterializationTraceEvent,
     type BubbleSeaAnchorAssessment,
 } from "./materialize";
+import {
+    deriveConsistencyVerdict,
+    type BubbleConsistencyCertificate,
+    type BubbleConsistencyClaim,
+    type BubbleConsistencyClaimKind,
+    type BubbleConsistencyClaimStatus,
+} from "./proof";
+import type {
+    BubbleExecutableCheckStatus,
+    BubbleSemanticEvaluation,
+    BubbleSemanticEvaluationKind,
+    BubbleSemanticEvaluationPlan,
+} from "./semantics";
 
-export type BubbleInspectionSection = "summary" | "plan" | "ontology" | "proof" | "grammars" | "artifacts" | "commits" | "evidence" | "trace" | "report";
+export type BubbleInspectionSection = "summary" | "plan" | "ontology" | "semantics" | "proof" | "bundle" | "grammars" | "artifacts" | "commits" | "evidence" | "trace" | "report";
 
 export interface BubbleInspectionQuery {
     emissionId?: string;
     addressId?: string;
     activationId?: string;
     grammarProfile?: string;
+    semanticId?: string;
+    semanticKind?: BubbleSemanticEvaluationKind;
+    semanticStatus?: BubbleExecutableCheckStatus;
+    claimId?: string;
+    claimKind?: BubbleConsistencyClaimKind;
+    claimStatus?: BubbleConsistencyClaimStatus;
     kind?: BubbleMaterializationTraceEvent["kind"];
 }
 
@@ -46,6 +65,13 @@ export interface BubbleInspectionSummary {
     plannedGrammarCount: number;
     plannedGrammarActivationCount: number;
     plannedEmissionCount: number;
+    plannedSemanticCount: number;
+    semanticKinds: BubbleSemanticEvaluationKind[];
+    semanticStatusCounts: Record<BubbleExecutableCheckStatus, number>;
+    proofVerdict: BubbleConsistencyCertificate["verdict"];
+    proofClaimCount: number;
+    proofClaimKinds: BubbleConsistencyClaimKind[];
+    proofClaimStatusCounts: Record<BubbleConsistencyClaimStatus, number>;
     materializedArtifactCount: number;
     descendantCount: number;
     artifactCount: number;
@@ -59,7 +85,9 @@ export interface BubbleInspectionReport {
     summary: BubbleInspectionSummary;
     plan: BubbleExecutionPlan;
     ontology: BubbleSeaAnchorAssessment;
+    semantics: BubbleExecutionPlan["semantics"];
     proof: BubbleConsistencyCertificate;
+    bundle: BubbleBundlePlan;
     grammars: BubbleGrammarInspectionReport;
     artifacts: BubbleArtifactInspection[];
     commits: BubbleMaterializationCommit[];
@@ -104,6 +132,8 @@ export function inspectMaterializationResult(
         query,
     ));
 
+    const selectedSemantics = collectSemanticEvaluations(plan.semantics);
+    const selectedProofClaims = plan.proof.claims;
     const reflectionPaths = Array.from(new Set(plan.emissionPlan.flatMap((emission) => emission.reflectionPaths)));
     const descendantCount = artifacts.filter((artifact) => artifact.target === "descendant").length;
     const artifactCount = artifacts.filter((artifact) => artifact.target === "artifact").length;
@@ -118,6 +148,13 @@ export function inspectMaterializationResult(
             plannedGrammarCount: plan.grammars.length,
             plannedGrammarActivationCount: plan.grammarActivationPlan.length,
             plannedEmissionCount: plan.emissionPlan.length,
+            plannedSemanticCount: selectedSemantics.length,
+            semanticKinds: listSemanticKinds(selectedSemantics),
+            semanticStatusCounts: countSemanticStatuses(selectedSemantics),
+            proofVerdict: plan.proof.verdict,
+            proofClaimCount: selectedProofClaims.length,
+            proofClaimKinds: listProofClaimKinds(selectedProofClaims),
+            proofClaimStatusCounts: countProofClaimStatuses(selectedProofClaims),
             materializedArtifactCount: artifacts.length,
             descendantCount,
             artifactCount,
@@ -128,7 +165,9 @@ export function inspectMaterializationResult(
         },
         plan,
         ontology: plan.ontology,
+        semantics: plan.semantics,
         proof: plan.proof,
+        bundle: plan.bundle,
         grammars: {
             artifacts: plan.grammars,
             activations: plan.grammarActivationPlan,
@@ -142,11 +181,134 @@ export function inspectMaterializationResult(
 
 function filterExecutionPlan(plan: BubbleExecutionPlan, query: BubbleInspectionQuery): BubbleExecutionPlan {
     const grammarActivationPlan = plan.grammarActivationPlan.filter((activation) => matchesGrammarActivationQuery(activation, query));
+    const emissionPlan = plan.emissionPlan.filter((emission) => matchesPlanQuery(emission, plan.bubbleAddress.id, query));
+
     return {
         ...plan,
+        bundle: filterBundlePlan(plan.bundle, emissionPlan, grammarActivationPlan),
         grammars: filterGrammarPlan(plan.grammars, grammarActivationPlan, query),
+        semantics: filterSemanticPlan(plan.semantics, query),
+        proof: filterProofCertificate(plan.proof, query),
         grammarActivationPlan,
-        emissionPlan: plan.emissionPlan.filter((emission) => matchesPlanQuery(emission, plan.bubbleAddress.id, query)),
+        emissionPlan,
+    };
+}
+
+function filterSemanticPlan(
+    semantics: BubbleSemanticEvaluationPlan,
+    query: BubbleInspectionQuery,
+): BubbleSemanticEvaluationPlan {
+    if (!hasSemanticQuery(query)) {
+        return semantics;
+    }
+
+    return {
+        ...semantics,
+        constraints: semantics.constraints.filter((evaluation) => matchesSemanticQuery(evaluation, query)),
+        partialLaws: semantics.partialLaws.filter((evaluation) => matchesSemanticQuery(evaluation, query)),
+        anchorCriterion: semantics.anchorCriterion && matchesSemanticQuery(semantics.anchorCriterion, query)
+            ? semantics.anchorCriterion
+            : null,
+    };
+}
+
+function collectSemanticEvaluations(semantics: BubbleSemanticEvaluationPlan): BubbleSemanticEvaluation[] {
+    return [
+        ...semantics.constraints,
+        ...semantics.partialLaws,
+        ...(semantics.anchorCriterion ? [semantics.anchorCriterion] : []),
+    ];
+}
+
+function listSemanticKinds(evaluations: BubbleSemanticEvaluation[]): BubbleSemanticEvaluationKind[] {
+    const kinds: BubbleSemanticEvaluationKind[] = [];
+
+    for (const evaluation of evaluations) {
+        if (!kinds.includes(evaluation.subjectKind)) {
+            kinds.push(evaluation.subjectKind);
+        }
+    }
+
+    return kinds;
+}
+
+function countSemanticStatuses(evaluations: BubbleSemanticEvaluation[]): Record<BubbleExecutableCheckStatus, number> {
+    const counts: Record<BubbleExecutableCheckStatus, number> = {
+        satisfied: 0,
+        violated: 0,
+        undetermined: 0,
+    };
+
+    for (const evaluation of evaluations) {
+        counts[evaluation.status] += 1;
+    }
+
+    return counts;
+}
+
+function filterProofCertificate(
+    proof: BubbleConsistencyCertificate,
+    query: BubbleInspectionQuery,
+): BubbleConsistencyCertificate {
+    if (!hasProofQuery(query)) {
+        return proof;
+    }
+
+    const claims = proof.claims.filter((claim) => matchesProofQuery(claim, query));
+
+    return {
+        ...proof,
+        verdict: deriveConsistencyVerdict(claims),
+        claims,
+    };
+}
+
+function listProofClaimKinds(claims: BubbleConsistencyClaim[]): BubbleConsistencyClaimKind[] {
+    const kinds: BubbleConsistencyClaimKind[] = [];
+
+    for (const claim of claims) {
+        if (!kinds.includes(claim.kind)) {
+            kinds.push(claim.kind);
+        }
+    }
+
+    return kinds;
+}
+
+function countProofClaimStatuses(claims: BubbleConsistencyClaim[]): Record<BubbleConsistencyClaimStatus, number> {
+    const counts: Record<BubbleConsistencyClaimStatus, number> = {
+        certified: 0,
+        contradicted: 0,
+        undetermined: 0,
+    };
+
+    for (const claim of claims) {
+        counts[claim.status] += 1;
+    }
+
+    return counts;
+}
+
+function filterBundlePlan(
+    bundle: BubbleBundlePlan,
+    emissionPlan: BubbleExecutionPlan["emissionPlan"],
+    grammarActivationPlan: BubbleExecutionPlan["grammarActivationPlan"],
+): BubbleBundlePlan {
+    const selectedEmissionIds = new Set(emissionPlan.map((emission) => emission.emissionId));
+    const selectedActivationIds = new Set(grammarActivationPlan.map((activation) => activation.activationId));
+
+    return {
+        ...bundle,
+        members: bundle.members.filter((member) =>
+            member.kind === "root-bubble"
+            || (member.emissionId !== null && selectedEmissionIds.has(member.emissionId))
+            || (member.activationId !== null && selectedActivationIds.has(member.activationId)),
+        ),
+        materializationScopes: bundle.materializationScopes.filter((scope) =>
+            scope.target === "root-bubble"
+            || (scope.emissionId !== null && selectedEmissionIds.has(scope.emissionId))
+            || (scope.activationId !== null && selectedActivationIds.has(scope.activationId)),
+        ),
     };
 }
 
@@ -278,10 +440,58 @@ function matchesEvidenceQuery(evidence: BubbleEvidenceRecord, query: BubbleInspe
     return evidence.subjectAddressId === query.addressId || evidence.bubbleAddressId === query.addressId;
 }
 
+function matchesSemanticQuery(evaluation: BubbleSemanticEvaluation, query: BubbleInspectionQuery): boolean {
+    if (
+        query.semanticId
+        && evaluation.subjectId !== query.semanticId
+        && evaluation.evaluationId !== query.semanticId
+    ) {
+        return false;
+    }
+
+    if (query.semanticKind && evaluation.subjectKind !== query.semanticKind) {
+        return false;
+    }
+
+    if (query.semanticStatus && evaluation.status !== query.semanticStatus) {
+        return false;
+    }
+
+    return true;
+}
+
+function matchesProofQuery(claim: BubbleConsistencyClaim, query: BubbleInspectionQuery): boolean {
+    if (query.claimId && claim.id !== query.claimId) {
+        return false;
+    }
+
+    if (query.claimKind && claim.kind !== query.claimKind) {
+        return false;
+    }
+
+    if (query.claimStatus && claim.status !== query.claimStatus) {
+        return false;
+    }
+
+    return true;
+}
+
 function hasEmissionQuery(query: BubbleInspectionQuery): boolean {
     return query.emissionId !== undefined || query.addressId !== undefined;
 }
 
 function hasGrammarQuery(query: BubbleInspectionQuery): boolean {
     return query.activationId !== undefined || query.grammarProfile !== undefined;
+}
+
+function hasSemanticQuery(query: BubbleInspectionQuery): boolean {
+    return query.semanticId !== undefined
+        || query.semanticKind !== undefined
+        || query.semanticStatus !== undefined;
+}
+
+function hasProofQuery(query: BubbleInspectionQuery): boolean {
+    return query.claimId !== undefined
+        || query.claimKind !== undefined
+        || query.claimStatus !== undefined;
 }

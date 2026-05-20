@@ -8,6 +8,29 @@
     "plannedGrammarCount": 0,
     "plannedGrammarActivationCount": 0,
     "plannedEmissionCount": 0,
+    "plannedSemanticCount": 0,
+    "semanticKinds": [],
+    "semanticStatusCounts": {
+      "satisfied": 0,
+      "violated": 0,
+      "undetermined": 0
+    },
+    "proofVerdict": "partially-certified",
+    "proofClaimCount": 7,
+    "proofClaimKinds": [
+      "syntax",
+      "worldhood",
+      "effect",
+      "anchor",
+      "lineage",
+      "replay",
+      "consistency"
+    ],
+    "proofClaimStatusCounts": {
+      "certified": 6,
+      "contradicted": 0,
+      "undetermined": 1
+    },
     "materializedArtifactCount": 0,
     "descendantCount": 0,
     "artifactCount": 0,
@@ -34,6 +57,12 @@
         }
       ],
       "id": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard"
+    },
+    "semantics": {
+      "mode": "bubble-executable-semantics.v1",
+      "constraints": [],
+      "partialLaws": [],
+      "anchorCriterion": null
     },
     "ontology": {
       "negativeSea": {
@@ -161,6 +190,34 @@
             "no-executable-law-semantics-yet"
           ],
           "explanation": "Bubble BoundaryOrchard does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
+        }
+      ]
+    },
+    "bundle": {
+      "mode": "bubble-bundle-plan.v1",
+      "bundleId": "bundle:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "rootAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "members": [
+        {
+          "memberId": "bundle-member:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "kind": "root-bubble",
+          "emissionId": null,
+          "activationId": null,
+          "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "profileName": "bubbles.v0.1",
+          "sourcePath": "examples/boundary-orchard.bubble",
+          "provenance": "root-bubble",
+          "description": "Root bubble BoundaryOrchard anchors this bundle."
+        }
+      ],
+      "materializationScopes": [
+        {
+          "scopeId": "bundle-scope:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "target": "root-bubble",
+          "emissionId": null,
+          "activationId": null,
+          "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "description": "The root bubble BoundaryOrchard is always inside its own materialization scope."
         }
       ]
     },
@@ -304,6 +361,12 @@
       "explanation": "Bubble worldhood remains stressed but sustained because A=1, P=2, N=2, so A + P - N = 1."
     }
   },
+  "semantics": {
+    "mode": "bubble-executable-semantics.v1",
+    "constraints": [],
+    "partialLaws": [],
+    "anchorCriterion": null
+  },
   "proof": {
     "mode": "bubble-consistency-certificate.v1",
     "bubbleAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
@@ -385,6 +448,34 @@
           "no-executable-law-semantics-yet"
         ],
         "explanation": "Bubble BoundaryOrchard does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
+      }
+    ]
+  },
+  "bundle": {
+    "mode": "bubble-bundle-plan.v1",
+    "bundleId": "bundle:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+    "rootAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+    "members": [
+      {
+        "memberId": "bundle-member:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+        "kind": "root-bubble",
+        "emissionId": null,
+        "activationId": null,
+        "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+        "profileName": "bubbles.v0.1",
+        "sourcePath": "examples/boundary-orchard.bubble",
+        "provenance": "root-bubble",
+        "description": "Root bubble BoundaryOrchard anchors this bundle."
+      }
+    ],
+    "materializationScopes": [
+      {
+        "scopeId": "bundle-scope:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+        "target": "root-bubble",
+        "emissionId": null,
+        "activationId": null,
+        "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+        "description": "The root bubble BoundaryOrchard is always inside its own materialization scope."
       }
     ]
   },

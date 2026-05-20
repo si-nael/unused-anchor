@@ -6,10 +6,11 @@ import {
     type EffectScope,
 } from "../effects";
 import { throwDiagnostic } from "./diagnostics";
-import { parseBubbleExpression } from "./expressions";
+import { formatBubbleExpression, parseBubbleExpression } from "./expressions";
 import { parseBubbleGrammarArtifact } from "./grammars";
 import type {
     ActivateGrammarDeclaration,
+    AnchorDeclaration,
     AxiomDeclaration,
     BubbleDocument,
     BubbleStatement,
@@ -23,9 +24,10 @@ import type {
     ReflectDeclaration,
     SeedDeclaration,
     SpawnDeclaration,
+    UnresolvedSemanticDeclaration,
     WillDeclaration,
 } from "./ast";
-import type { BubbleEmissionTarget, BubbleRealizationMode, ScalarValue } from "../ir";
+import type { BubbleEmissionTarget, BubbleRealizationMode, BubbleUnresolvedSemanticKind, ScalarValue } from "../ir";
 
 const BUBBLE_HEADER_PATTERN = /^bubble\s+([A-Za-z_][\w-]*)\s*\{$/;
 const AXIOM_PATTERN = /^axiom\s+([A-Za-z_][\w-]*)\s*=\s*(.+)$/;
@@ -33,6 +35,14 @@ const REALIZATION_PATTERN = /^realization\s+(deterministic|nondeterministic)$/;
 const WILL_PATTERN = /^will\s+(.+)$/;
 const SEED_PATTERN = /^seed\s+(.+)$/;
 const OBSERVE_PATTERN = /^observe\s+([A-Za-z_][\w-]*)$/;
+const ANCHOR_PATTERN = /^anchor\s+identity\s*=\s*(.+)$/;
+const UNKNOWN_VALUE_PATTERN = /^unknown\s+value\s+([A-Za-z_][\w-]*)(?:\s*=\s*(.+))?$/;
+const UNKNOWN_ENTITY_PATTERN = /^unknown\s+entity\s+([A-Za-z_][\w-]*)(?:\s*=\s*(.+))?$/;
+const CONSTRAINT_PATTERN = /^constraint\s+([A-Za-z_][\w-]*)\s*=\s*(.+)$/;
+const PARTIAL_LAW_PATTERN = /^partial\s+law\s+([A-Za-z_][\w-]*)\s*=\s*(.+)$/;
+const HIDDEN_REGION_PATTERN = /^hidden\s+region\s+([A-Za-z_][\w-]*)(?:\s*=\s*(.+))?$/;
+const UNOBSERVABLE_RELATION_PATTERN = /^unobservable\s+relation\s+([A-Za-z_][\w-]*)(?:\s*=\s*(.+))?$/;
+const LATENT_BUBBLE_PATTERN = /^latent\s+bubble\s+([A-Za-z_][\w-]*)(?:\s*=\s*(.+))?$/;
 const SPAWN_PATTERN = /^spawn\s+([A-Za-z_][\w-]*)(?:\s+when\s+(.+))?$/;
 const QUOTE_PATTERN = /^quote\s+([A-Za-z_][\w-]*)\s*=\s*(.+)$/;
 const GENERATOR_PATTERN = /^generator\s+([A-Za-z_][\w-]*)(?:\s*\(([A-Za-z_][\w-]*)\))?\s+from\s+([A-Za-z_][\w-]*)$/;
@@ -156,6 +166,28 @@ function parseStatement(line: { lineNumber: number; text: string }, sourcePath: 
             mode: observeMatch[1],
         };
         return statement;
+    }
+
+    const anchorMatch = line.text.match(ANCHOR_PATTERN);
+    if (anchorMatch) {
+        const expression = parseBubbleExpression(anchorMatch[1], {
+            context: "anchor identity criterion",
+            lineNumber: line.lineNumber,
+            sourcePath,
+            allowLegacyText: true,
+        });
+        const statement: AnchorDeclaration = {
+            kind: "anchor",
+            line: line.lineNumber,
+            expression,
+            description: expression.kind === "text" ? expression.value : formatBubbleExpression(expression),
+        };
+        return statement;
+    }
+
+    const unresolvedSemantic = parseUnresolvedSemanticStatement(line, sourcePath);
+    if (unresolvedSemantic) {
+        return unresolvedSemantic;
     }
 
     const spawnMatch = line.text.match(SPAWN_PATTERN);
@@ -321,6 +353,103 @@ function parseScope(rawScope: string | undefined, lineNumber: number, sourcePath
     }
 
     return rawScope;
+}
+
+function parseUnresolvedSemanticStatement(
+    line: { lineNumber: number; text: string },
+    sourcePath: string | null,
+): UnresolvedSemanticDeclaration | null {
+    const unknownValueMatch = line.text.match(UNKNOWN_VALUE_PATTERN);
+    if (unknownValueMatch) {
+        return createUnresolvedSemanticDeclaration(line.lineNumber, sourcePath, "unknown-value", unknownValueMatch[1], unknownValueMatch[2]);
+    }
+
+    const unknownEntityMatch = line.text.match(UNKNOWN_ENTITY_PATTERN);
+    if (unknownEntityMatch) {
+        return createUnresolvedSemanticDeclaration(line.lineNumber, sourcePath, "unknown-entity", unknownEntityMatch[1], unknownEntityMatch[2]);
+    }
+
+    const constraintMatch = line.text.match(CONSTRAINT_PATTERN);
+    if (constraintMatch) {
+        return createUnresolvedSemanticDeclaration(line.lineNumber, sourcePath, "constraint", constraintMatch[1], constraintMatch[2]);
+    }
+
+    const partialLawMatch = line.text.match(PARTIAL_LAW_PATTERN);
+    if (partialLawMatch) {
+        return createUnresolvedSemanticDeclaration(line.lineNumber, sourcePath, "partial-law", partialLawMatch[1], partialLawMatch[2]);
+    }
+
+    const hiddenRegionMatch = line.text.match(HIDDEN_REGION_PATTERN);
+    if (hiddenRegionMatch) {
+        return createUnresolvedSemanticDeclaration(line.lineNumber, sourcePath, "hidden-region", hiddenRegionMatch[1], hiddenRegionMatch[2]);
+    }
+
+    const unobservableRelationMatch = line.text.match(UNOBSERVABLE_RELATION_PATTERN);
+    if (unobservableRelationMatch) {
+        return createUnresolvedSemanticDeclaration(line.lineNumber, sourcePath, "unobservable-relation", unobservableRelationMatch[1], unobservableRelationMatch[2]);
+    }
+
+    const latentBubbleMatch = line.text.match(LATENT_BUBBLE_PATTERN);
+    if (latentBubbleMatch) {
+        return createUnresolvedSemanticDeclaration(line.lineNumber, sourcePath, "latent-bubble", latentBubbleMatch[1], latentBubbleMatch[2]);
+    }
+
+    return null;
+}
+
+function createUnresolvedSemanticDeclaration(
+    line: number,
+    sourcePath: string | null,
+    semanticKind: BubbleUnresolvedSemanticKind,
+    name: string,
+    rawDescription: string | undefined,
+): UnresolvedSemanticDeclaration {
+    const expression = (semanticKind === "constraint" || semanticKind === "partial-law") && rawDescription
+        ? parseBubbleExpression(rawDescription, {
+            context: semanticKind === "constraint" ? `constraint ${name}` : `partial law ${name}`,
+            lineNumber: line,
+            sourcePath,
+            allowLegacyText: true,
+        })
+        : null;
+
+    return {
+        kind: "unresolved-semantic",
+        line,
+        semanticKind,
+        name,
+        description: rawDescription
+            ? expression && expression.kind !== "text"
+                ? formatBubbleExpression(expression)
+                : unquote(rawDescription)
+            : defaultUnresolvedSemanticDescription(semanticKind, name),
+        expression: expression && expression.kind !== "text" ? expression : null,
+    };
+}
+
+function defaultUnresolvedSemanticDescription(kind: BubbleUnresolvedSemanticKind, name: string): string {
+    switch (kind) {
+        case "unknown-value":
+            return `Unknown value ${name} remains unresolved.`;
+        case "unknown-entity":
+            return `Unknown entity ${name} remains unresolved.`;
+        case "constraint":
+            return `Constraint ${name} remains unresolved.`;
+        case "partial-law":
+            return `Partial law ${name} remains unresolved.`;
+        case "hidden-region":
+            return `Hidden region ${name} remains outside the current observation surface.`;
+        case "unobservable-relation":
+            return `Unobservable relation ${name} remains outside the current observation map.`;
+        case "latent-bubble":
+            return `Latent bubble ${name} is admitted but not yet materialized.`;
+        default:
+            return assertNever(kind);
+    }
+}
+
+function assertNever(value: never): never {
+    throw new Error(`Unhandled parser variant: ${String(value)}`);
 }
 
 function parseScalar(rawValue: string): ScalarValue {

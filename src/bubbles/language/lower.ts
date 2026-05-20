@@ -1,6 +1,7 @@
 import type {
     BubbleAddressIR,
     BubbleAddressTemplateIR,
+    BubbleAnchorCriterionIR,
     BubbleEmissionIR,
     BubbleGrammarActivationIR,
     BubbleGrammarIR,
@@ -13,6 +14,7 @@ import type {
     BubbleRealizationMode,
     BubbleProgramIR,
     BubbleReflectionIR,
+    BubbleUnresolvedSemanticIR,
     BubbleVersion,
     EffectIR,
     ObligationIR,
@@ -20,6 +22,7 @@ import type {
 import { formatBubbleExpression } from "./expressions";
 import type {
     ActivateGrammarDeclaration,
+    AnchorDeclaration,
     BubbleDocument,
     EmitDeclaration,
     GrammarDeclaration,
@@ -27,6 +30,7 @@ import type {
     QuoteDeclaration,
     ReflectDeclaration,
     SpawnDeclaration,
+    UnresolvedSemanticDeclaration,
 } from "./ast";
 import { throwDiagnostic } from "./diagnostics";
 
@@ -36,6 +40,8 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
     let worldWill: string | null = null;
     let seed: string | null = null;
     let observationMode: string | null = null;
+    let anchorDeclaration: AnchorDeclaration | null = null;
+    const unresolvedSemanticDeclarations: UnresolvedSemanticDeclaration[] = [];
     const spawnDeclarations: SpawnDeclaration[] = [];
     const quoteDeclarations: QuoteDeclaration[] = [];
     const generatorDeclarations: GeneratorDeclaration[] = [];
@@ -112,6 +118,22 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
 
                 observationMode = declaration.mode;
                 break;
+            case "anchor":
+                if (anchorDeclaration !== null) {
+                    throwDiagnostic({
+                        code: "BBL106",
+                        severity: "error",
+                        message: `Duplicate anchor identity declaration on line ${declaration.line}.`,
+                        sourcePath: document.sourcePath,
+                        line: declaration.line,
+                    });
+                }
+
+                anchorDeclaration = declaration;
+                break;
+            case "unresolved-semantic":
+                unresolvedSemanticDeclarations.push(declaration);
+                break;
             case "spawn":
                 spawnDeclarations.push(declaration);
                 break;
@@ -151,6 +173,8 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
     const address = buildBubbleAddress(document.sourcePath, document.bubble.name);
     const obligations = buildObligations(effects);
     const generation = buildGeneration(address, effects, worldWill, observationMode, authoredRealizationMode, spawnDeclarations);
+    const anchorCriterion = buildAnchorCriterion(anchorDeclaration);
+    const unresolvedSemantics = buildUnresolvedSemantics(unresolvedSemanticDeclarations);
     const meta = buildMeta(
         quoteDeclarations,
         generatorDeclarations,
@@ -159,9 +183,22 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
         reflectDeclarations,
         emitDeclarations,
     );
+    const hasV04Semantics = unresolvedSemantics.length > 0 || anchorCriterion !== null;
     const hasV03Meta = grammarDeclarations.length > 0 || grammarActivationDeclarations.length > 0;
-    const profile = hasV03Meta ? "bubbles.v0.3" : meta === null ? "bubbles.v0.1" : "bubbles.v0.2";
-    const version = profile === "bubbles.v0.3" ? "0.3.0" : profile === "bubbles.v0.2" ? "0.2.0" : "0.1.0";
+    const profile = hasV04Semantics
+        ? "bubbles.v0.4"
+        : hasV03Meta
+            ? "bubbles.v0.3"
+            : meta === null
+                ? "bubbles.v0.1"
+                : "bubbles.v0.2";
+    const version = profile === "bubbles.v0.4"
+        ? "0.4.0"
+        : profile === "bubbles.v0.3"
+            ? "0.3.0"
+            : profile === "bubbles.v0.2"
+                ? "0.2.0"
+                : "0.1.0";
 
     return {
         version,
@@ -177,9 +214,36 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
             effects,
             obligations,
             generation,
+            ...(anchorCriterion === null ? {} : { anchorCriterion }),
+            ...(unresolvedSemantics.length === 0 ? {} : { unresolvedSemantics }),
             ...(meta === null ? {} : { meta }),
         },
     };
+}
+
+function buildAnchorCriterion(declaration: AnchorDeclaration | null): BubbleAnchorCriterionIR | null {
+    if (declaration === null) {
+        return null;
+    }
+
+    return {
+        id: `anchor:${declaration.line}:identity`,
+        sourceLine: declaration.line,
+        description: declaration.description,
+        expression: declaration.expression,
+    };
+}
+
+function buildUnresolvedSemantics(
+    declarations: UnresolvedSemanticDeclaration[],
+): BubbleUnresolvedSemanticIR[] {
+    return declarations.map((declaration) => ({
+        id: `semantic:${declaration.line}:${declaration.semanticKind}:${declaration.name}`,
+        kind: declaration.semanticKind,
+        description: declaration.description,
+        ...(declaration.expression === null ? {} : { expression: declaration.expression }),
+        sourceLine: declaration.line,
+    }));
 }
 
 function buildMeta(

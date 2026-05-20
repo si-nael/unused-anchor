@@ -239,6 +239,169 @@ test("compiles a valid v0.3 grammar bubble world", () => {
     ]);
 });
 
+test("compiles a valid v0.4 unresolved semantic bubble world", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  effect observe required",
+        "  unknown value horizonDepth",
+        "  unknown entity DistantWitness = \"observer exists beyond the current membrane\"",
+        "  constraint membraneBalance = \"boundary.pressure <= 3\"",
+        "  partial law driftRule = \"drift depends on unresolved membrane topology\"",
+        "  hidden region OuterCanopy",
+        "  unobservable relation RootKnot = \"relation exists but cannot yet be observed\"",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const result = compileBubbleSource(source, { sourcePath: "threshold-field.bubble" });
+
+    assert.deepEqual(result.diagnostics, []);
+    assert.equal(result.program.version, "0.4.0");
+    assert.equal(result.program.profile, "bubbles.v0.4");
+    assert.deepEqual(result.program.bubble.unresolvedSemantics, [
+        {
+            id: "semantic:6:unknown-value:horizonDepth",
+            kind: "unknown-value",
+            description: "Unknown value horizonDepth remains unresolved.",
+            sourceLine: 6,
+        },
+        {
+            id: "semantic:7:unknown-entity:DistantWitness",
+            kind: "unknown-entity",
+            description: "observer exists beyond the current membrane",
+            sourceLine: 7,
+        },
+        {
+            id: "semantic:8:constraint:membraneBalance",
+            kind: "constraint",
+            description: "boundary.pressure <= 3",
+            sourceLine: 8,
+        },
+        {
+            id: "semantic:9:partial-law:driftRule",
+            kind: "partial-law",
+            description: "drift depends on unresolved membrane topology",
+            sourceLine: 9,
+        },
+        {
+            id: "semantic:10:hidden-region:OuterCanopy",
+            kind: "hidden-region",
+            description: "Hidden region OuterCanopy remains outside the current observation surface.",
+            sourceLine: 10,
+        },
+        {
+            id: "semantic:11:unobservable-relation:RootKnot",
+            kind: "unobservable-relation",
+            description: "relation exists but cannot yet be observed",
+            sourceLine: 11,
+        },
+        {
+            id: "semantic:12:latent-bubble:WaitingArchive",
+            kind: "latent-bubble",
+            description: "Latent bubble WaitingArchive is admitted but not yet materialized.",
+            sourceLine: 12,
+        },
+    ]);
+});
+
+test("compiles executable constraints, partial laws, and explicit anchor criteria", () => {
+    const source = [
+        "bubble AnchoredThreshold {",
+        "  axiom coherence = stable",
+        "  will \"hold a bounded membrane\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  constraint membraneBalance = boundary.pressure <= 0",
+        "  partial law continuityRule = history.commits and world.seeded",
+        "  anchor identity = world.seeded and history.commits",
+        "}",
+    ].join("\n");
+
+    const result = compileBubbleSource(source, { sourcePath: "anchored-threshold.bubble" });
+
+    assert.equal(result.program.profile, "bubbles.v0.4");
+    assert.deepEqual(result.program.bubble.unresolvedSemantics?.[0], {
+        id: "semantic:8:constraint:membraneBalance",
+        kind: "constraint",
+        description: "boundary.pressure <= 0",
+        expression: {
+            kind: "comparison",
+            operator: "<=",
+            left: {
+                kind: "reference",
+                path: "boundary.pressure",
+            },
+            right: {
+                kind: "literal",
+                value: 0,
+            },
+        },
+        sourceLine: 8,
+    });
+    assert.deepEqual(result.program.bubble.unresolvedSemantics?.[1], {
+        id: "semantic:9:partial-law:continuityRule",
+        kind: "partial-law",
+        description: "history.commits and world.seeded",
+        expression: {
+            kind: "logical",
+            operator: "and",
+            left: {
+                kind: "reference",
+                path: "history.commits",
+            },
+            right: {
+                kind: "reference",
+                path: "world.seeded",
+            },
+        },
+        sourceLine: 9,
+    });
+    assert.deepEqual(result.program.bubble.anchorCriterion, {
+        id: "anchor:10:identity",
+        sourceLine: 10,
+        description: "world.seeded and history.commits",
+        expression: {
+            kind: "logical",
+            operator: "and",
+            left: {
+                kind: "reference",
+                path: "world.seeded",
+            },
+            right: {
+                kind: "reference",
+                path: "history.commits",
+            },
+        },
+    });
+});
+
+test("rejects duplicate unresolved semantic names", () => {
+    const source = [
+        "bubble DuplicateUnknown {",
+        "  axiom coherence = stable",
+        "  will \"fail loudly\"",
+        "  seed duplicate_seed",
+        "  effect observe required",
+        "  unknown value horizonDepth",
+        "  hidden region horizonDepth",
+        "}",
+    ].join("\n");
+
+    assert.throws(
+        () => compileBubbleSource(source, { sourcePath: "duplicate-unknown.bubble" }),
+        (error: unknown) => {
+            assert.ok(error instanceof BubbleCompilerError);
+            assert.deepEqual(error.diagnostics.map((diagnostic) => diagnostic.code), ["BBL223"]);
+            return true;
+        },
+    );
+});
+
 test("rejects invalid grammar artifact syntax", () => {
     const source = [
         "bubble BrokenGrammar {",

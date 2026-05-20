@@ -37,6 +37,7 @@ test("records a materialized bubble into a replayable run bundle", () => {
     assert.equal(record.traceCount, 4);
     assert.equal(record.materialization.plan.proof.mode, "bubble-consistency-certificate.v1");
     assert.equal(record.materialization.plan.proof.verdict, "partially-certified");
+    assert.equal(record.materialization.plan.bundle.mode, "bubble-bundle-plan.v1");
     assert.equal(record.materialization.plan.sourcePath, "archive.bubble");
     assert.deepEqual(record.materialization.evidence.map((entry) => entry.kind), [
         "negative-sea-state",
@@ -73,7 +74,9 @@ test("replay preserves inspection semantics for stored records", () => {
 
     assert.deepEqual(replayed.summary, live.summary);
     assert.deepEqual(replayed.ontology, live.ontology);
+    assert.deepEqual(replayed.semantics, live.semantics);
     assert.deepEqual(replayed.proof, live.proof);
+    assert.deepEqual(replayed.bundle, live.bundle);
     assert.deepEqual(replayed.artifacts, live.artifacts);
     assert.deepEqual(replayed.commits, live.commits);
     assert.deepEqual(replayed.evidence, live.evidence);
@@ -84,6 +87,10 @@ test("replay preserves inspection semantics for stored records", () => {
 
     const byEmission = replayBubbleRecord(record, { emissionId: descendantEmission.emissionId });
     assert.equal(byEmission.summary.plannedEmissionCount, 1);
+    assert.deepEqual(byEmission.bundle.members.map((member) => member.kind), [
+        "root-bubble",
+        "descendant-bubble",
+    ]);
     assert.deepEqual(byEmission.artifacts.map((artifact) => artifact.target), ["descendant"]);
 
     const byKind = replayBubbleRecord(record, { kind: "materialization-committed" });
@@ -109,6 +116,10 @@ test("replay preserves staged grammar activation queries", () => {
 
     assert.equal(replayed.summary.plannedGrammarCount, 1);
     assert.equal(replayed.summary.plannedGrammarActivationCount, 1);
+    assert.deepEqual(replayed.bundle.members.map((member) => member.kind), [
+        "root-bubble",
+        "grammar-activation",
+    ]);
     assert.deepEqual(replayed.grammars.activations, [
         {
             activationId: "activate-grammar:7:TwigSyntax",
@@ -121,4 +132,139 @@ test("replay preserves staged grammar activation queries", () => {
         },
     ]);
     assert.deepEqual(replayed.trace.map((event) => event.kind), ["grammar-activation-staged"]);
+});
+
+test("replay can filter executable semantics by semantic id and kind", () => {
+    const source = [
+        "bubble AnchoredThreshold {",
+        "  axiom coherence = stable",
+        "  will \"hold a bounded membrane\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  constraint membraneBalance = boundary.pressure <= 0",
+        "  partial law continuityRule = history.commits and world.seeded",
+        "  anchor identity = world.seeded and history.commits",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "anchored-threshold-replay.bubble" });
+    const record = recordBubbleProgram(program);
+
+    const byKind = replayBubbleRecord(record, { semanticKind: "partial-law" });
+    assert.equal(byKind.summary.plannedSemanticCount, 1);
+    assert.deepEqual(byKind.summary.semanticKinds, ["partial-law"]);
+    assert.deepEqual(byKind.summary.semanticStatusCounts, {
+        satisfied: 1,
+        violated: 0,
+        undetermined: 0,
+    });
+    assert.deepEqual(
+        byKind.semantics.partialLaws.map(({ name, status }) => ({ name, status })),
+        [{ name: "continuityRule", status: "satisfied" }],
+    );
+    assert.deepEqual(byKind.semantics.constraints, []);
+    assert.equal(byKind.semantics.anchorCriterion, null);
+
+    const anchorSubjectId = replayBubbleRecord(record).semantics.anchorCriterion?.subjectId;
+    assert.ok(anchorSubjectId);
+
+    const byId = replayBubbleRecord(record, { semanticId: anchorSubjectId });
+    assert.equal(byId.summary.plannedSemanticCount, 1);
+    assert.deepEqual(byId.summary.semanticKinds, ["anchor-criterion"]);
+    assert.deepEqual(byId.summary.semanticStatusCounts, {
+        satisfied: 1,
+        violated: 0,
+        undetermined: 0,
+    });
+    assert.deepEqual(byId.semantics.constraints, []);
+    assert.deepEqual(byId.semantics.partialLaws, []);
+    assert.equal(byId.semantics.anchorCriterion?.subjectId, anchorSubjectId);
+});
+
+test("replay can filter executable semantics by status", () => {
+    const source = [
+        "bubble BrokenLaw {",
+        "  axiom coherence = stable",
+        "  will \"hold a bounded membrane\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  partial law continuityRule = history.commits = false",
+        "  anchor identity = history.commits = false",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "broken-law-replay.bubble" });
+    const record = recordBubbleProgram(program);
+    const violated = replayBubbleRecord(record, { semanticStatus: "violated" });
+
+    assert.equal(violated.summary.plannedSemanticCount, 2);
+    assert.deepEqual(violated.summary.semanticKinds, ["partial-law", "anchor-criterion"]);
+    assert.deepEqual(violated.summary.semanticStatusCounts, {
+        satisfied: 0,
+        violated: 2,
+        undetermined: 0,
+    });
+    assert.deepEqual(
+        violated.semantics.partialLaws.map(({ name, status }) => ({ name, status })),
+        [{ name: "continuityRule", status: "violated" }],
+    );
+    assert.equal(violated.semantics.anchorCriterion?.status, "violated");
+});
+
+test("replay can filter proof claims by id, kind, and status", () => {
+    const source = [
+        "bubble BrokenAnchor {",
+        "  axiom coherence = stable",
+        "  will \"hold a bounded membrane\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  constraint membraneBalance = boundary.pressure <= 0",
+        "  anchor identity = history.commits = false",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "broken-anchor-proof-replay.bubble" });
+    const record = recordBubbleProgram(program);
+
+    const byStatus = replayBubbleRecord(record, { claimStatus: "contradicted" });
+    assert.equal(byStatus.summary.proofVerdict, "contradicted");
+    assert.equal(byStatus.summary.proofClaimCount, 2);
+    assert.deepEqual(byStatus.summary.proofClaimKinds, ["anchor", "replay"]);
+    assert.deepEqual(byStatus.summary.proofClaimStatusCounts, {
+        certified: 0,
+        contradicted: 2,
+        undetermined: 0,
+    });
+    assert.deepEqual(byStatus.proof.claims.map((claim) => claim.id), [
+        "claim:anchor-identity",
+        "claim:replay-identity",
+    ]);
+
+    const byKind = replayBubbleRecord(record, { claimKind: "consistency" });
+    assert.equal(byKind.summary.proofVerdict, "certified");
+    assert.equal(byKind.summary.proofClaimCount, 1);
+    assert.deepEqual(byKind.summary.proofClaimKinds, ["consistency"]);
+    assert.deepEqual(byKind.summary.proofClaimStatusCounts, {
+        certified: 1,
+        contradicted: 0,
+        undetermined: 0,
+    });
+    assert.deepEqual(byKind.proof.claims.map((claim) => claim.id), ["claim:internal-law-consistency"]);
+
+    const byId = replayBubbleRecord(record, { claimId: "claim:lineage-traceability" });
+    assert.equal(byId.summary.proofVerdict, "undetermined");
+    assert.equal(byId.summary.proofClaimCount, 1);
+    assert.deepEqual(byId.summary.proofClaimKinds, ["lineage"]);
+    assert.deepEqual(byId.summary.proofClaimStatusCounts, {
+        certified: 0,
+        contradicted: 0,
+        undetermined: 1,
+    });
+    assert.deepEqual(byId.proof.claims.map((claim) => claim.id), ["claim:lineage-traceability"]);
 });

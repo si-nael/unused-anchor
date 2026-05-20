@@ -553,3 +553,63 @@ If Bubble can generate and replay worlds but cannot leave a machine-readable rec
 Consequence:
 
 Attach a bounded consistency certificate to the semantic plan and preserve it through inspection and replay. The certificate should stay relative to the declared profile and current executable semantics, use explicit `certified | contradicted | undetermined` claim states, and avoid pretending to prove more than the current model can actually justify.
+
+### D-056: Use `v0.4` to expose unresolved semantics before adding solvers or full composition syntax
+
+Reason:
+
+If Bubble claims to model partially knowable multiverses but its authored source still cannot name unknown values, partial laws, hidden regions, latent bubbles, or unresolved constraints, the language will keep collapsing back toward an explicit state DSL.
+
+Consequence:
+
+Introduce a `bubbles.v0.4` profile that lets source preserve unresolved semantic objects directly and lowers them into IR and proof basis. Pair that with a first bundle-plan surface in runtime planning so composition becomes explicit at the package level before same-file multi-bubble syntax or cross-file imports exist.
+
+### D-057: Open one executable semantic path before widening the unresolved surface further
+
+Reason:
+
+If Bubble keeps unresolved semantics and anchor identity entirely descriptive, proof will remain trapped at structural diagnostics and inferred scoring even after `v0.4` makes those objects visible in source and IR.
+
+Consequence:
+
+Use the shared expression grammar to make exactly two authored surfaces executable first: `constraint` and `anchor identity`. Lower executable constraints into IR and evaluate them against the current semantic environment so `internal-law-consistency` can be certified or contradicted locally. Lower one explicit `anchor identity` declaration into IR and let it tighten or contradict inferred anchor and replay claims before any broader law solver, partial-law algebra, or richer anchor language is added.
+
+### D-058: Preserve semantic layer shape in summary views, not only in detailed sections
+
+Reason:
+
+If semantic queries narrow inspection or replay output but the summary header only reports emissions, grammar counts, or one flattened scalar, Bubble will quietly demote executable law, anchor, and contradiction structure back into auxiliary detail. That would make the language look like a conventional tool with a semantic appendix instead of a language whose layers remain visible even in compressed views.
+
+Consequence:
+
+When inspection or replay is narrowed by semantic subject or semantic kind, the summary layer should also preserve the selected executable semantic slice through count, kind, and status-distribution fields. Bubble summaries should stay compressed, but they must not erase which semantic layer remains active or whether it is satisfied, contradicted, or underdetermined.
+
+### D-059: Close `v0.4.1` as a stabilization boundary, not as a feature-expansion window
+
+Reason:
+
+`v0.4` already opened unresolved semantics, executable constraints, explicit anchor identity, minimal executable partial-law checking, proof preservation, and inspect/replay semantic query surfaces. If `v0.4.1` keeps absorbing adjacent ideas, it will stop behaving like a closure step and turn into another moving target.
+
+Consequence:
+
+Treat `v0.4.1` as a scope-freeze milestone. Its purpose is to close and stabilize the current semantic stack, not to widen the language again. From this point, changes that belong inside `v0.4.1` should be limited to correctness repairs, report-shape consistency, verification hardening, and documentation needed to make the current surface legible. New semantic classes, richer solvers, stochastic world semantics, cross-file composition, and other expansion work should wait for a later profile or milestone.
+
+### D-060: Semantic query must preserve verdict polarity, not only identity and kind
+
+Reason:
+
+If inspection can narrow executable semantics only by subject identity or semantic class, then contradiction and underdetermination remain second-order facts that users must rediscover by manual scanning. Bubble would still expose semantic objects, but it would fail to make their current necessity boundary directly queryable.
+
+Consequence:
+
+Expose executable semantic status itself as a first-class query axis. Inspection and replay should let users isolate `satisfied`, `violated`, or `undetermined` semantic slices directly, and compressed summary views should preserve the resulting status distribution instead of flattening it away.
+
+### D-061: Proof query must preserve bounded-certificate shape, not only raw claim rows
+
+Reason:
+
+If inspection can filter proof output only as a bag of matching claims while leaving verdicts and summary headers tied to the full unfiltered certificate, Bubble will present contradictory local views: the visible claim slice will say one thing while the visible verdict still describes another world. That breaks the idea that a query exposes one coherent bounded semantic object.
+
+Consequence:
+
+Expose proof claim id, proof family, and proof claim status as first-class query axes. When proof is narrowed, both the proof section and the summary layer should recompute their bounded-certificate shape from the selected claim slice, including verdict and claim-status distribution, instead of preserving stale global values.

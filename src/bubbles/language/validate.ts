@@ -9,13 +9,14 @@ import type {
     RealizationDeclaration,
     ReflectDeclaration,
     SpawnDeclaration,
+    UnresolvedSemanticDeclaration,
 } from "./ast";
 import { isBubbleScalarExpression } from "./expressions";
 import type { BubbleProgramIR } from "../ir";
 import { createDiagnostic, type Diagnostic } from "./diagnostics";
 
 const SUPPORTED_REFLECT_PATHS = new Set(["self.address", "self.profile", "self.seed", "self.worldWill"]);
-const SUPPORTED_GRAMMAR_BASE_PROFILES = new Set(["bubbles.v0.1", "bubbles.v0.2", "bubbles.v0.3"]);
+const SUPPORTED_GRAMMAR_BASE_PROFILES = new Set(["bubbles.v0.1", "bubbles.v0.2", "bubbles.v0.3", "bubbles.v0.4"]);
 
 export function validateBubbleCompilation(document: BubbleDocument, program: BubbleProgramIR): Diagnostic[] {
     const diagnostics: Diagnostic[] = [];
@@ -31,6 +32,9 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
     );
     const spawnDeclarations = document.bubble.declarations.filter(
         (declaration): declaration is SpawnDeclaration => declaration.kind === "spawn",
+    );
+    const unresolvedSemanticDeclarations = document.bubble.declarations.filter(
+        (declaration): declaration is UnresolvedSemanticDeclaration => declaration.kind === "unresolved-semantic",
     );
     const quoteDeclarations = document.bubble.declarations.filter(
         (declaration): declaration is QuoteDeclaration => declaration.kind === "quote",
@@ -183,6 +187,25 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
                 line: realizationDeclaration.line,
             }),
         );
+    }
+
+    const unresolvedSemanticLines = new Map<string, number>();
+    for (const declaration of unresolvedSemanticDeclarations) {
+        const previousLine = unresolvedSemanticLines.get(declaration.name);
+        if (previousLine !== undefined) {
+            diagnostics.push(
+                createDiagnostic({
+                    code: "BBL223",
+                    severity: "error",
+                    message: `Unresolved semantic '${declaration.name}' was already declared on line ${previousLine}.`,
+                    sourcePath,
+                    line: declaration.line,
+                }),
+            );
+            continue;
+        }
+
+        unresolvedSemanticLines.set(declaration.name, declaration.line);
     }
 
     const namedMetaDeclarations = [...quoteDeclarations, ...generatorDeclarations, ...grammarDeclarations];

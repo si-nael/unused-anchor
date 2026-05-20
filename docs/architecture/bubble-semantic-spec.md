@@ -147,6 +147,24 @@ Current implementation:
 - lowers into typed effect IR, obligations, runtime effect traces, and ontology pressure signals
 - still combines several semantic roles that should later be separated more cleanly
 
+### unresolved semantic declarations
+
+Meaning:
+
+Declare semantic objects that the world admits without pretending they are already fully resolved.
+
+Guarantee:
+
+- preserve unresolved semantic structure as first-class authored content
+- keep that structure available to later proof, inspection, and completion procedures
+- avoid collapsing unknown, partial, hidden, or latent structure into fake explicit certainty
+
+Current implementation:
+
+- `v0.4` source can now declare `unknown value`, `unknown entity`, `constraint`, `partial law`, `hidden region`, `unobservable relation`, and `latent bubble`
+- those declarations lower into `bubble.unresolvedSemantics`
+- they currently feed proof basis and inspection surfaces, not an executable solver
+
 ### `spawn`
 
 Meaning:
@@ -310,8 +328,9 @@ Primary guarantee:
 
 Current implementation:
 
-- anchor strength is inferred from multiple runtime signals
-- the semantic center is clear, but explicit source-level anchor semantics are not yet surfaced
+- anchor strength is still inferred from multiple runtime signals
+- source may now author one `anchor identity = <expression-or-description>` declaration as an explicit same-world criterion
+- the current runtime can execute only the shared expression subset for that criterion; broader anchor semantics remain open
 
 ## Replay Identity
 
@@ -390,6 +409,7 @@ The semantic composition target is:
 
 Current implementation status:
 
+- semantic plans now carry a first bundle plan containing the root bubble, staged emissions, staged grammar activations, and explicit materialization scopes
 - one root bubble per file
 - descendant relations within one compiled root bubble
 - no multi-bubble source unit or cross-file bubble import yet
@@ -417,7 +437,10 @@ Without them, Bubble reduces toward a DSL for explicit generated state instead o
 
 Current implementation status:
 
-- this area is still mostly a stated semantic requirement rather than an implemented core feature
+- Bubble IR now has a first minimal unresolved semantic-fragment surface for `unknown-value`, `unknown-entity`, `constraint`, `partial-law`, `hidden-region`, `unobservable-relation`, and `latent-bubble`
+- `bubbles.v0.4` source now has a first authoring surface for those unresolved semantic objects
+- the current proof certificate can use those fragments as explicit `undetermined` basis for internal semantic consistency claims
+- there is still no solver or completion engine for this area, so it remains a partially implemented core feature rather than a completed one
 
 ## Core Versus Profile
 

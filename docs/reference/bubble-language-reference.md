@@ -255,6 +255,35 @@ Current effect kinds used by the implementation and examples include:
 - `debt`
 - `perturb`
 
+### Unresolved Semantic Declarations
+
+Bubble `v0.4` adds a first authored surface for unresolved semantic objects.
+
+Syntax:
+
+```bubbles
+unknown value horizonDepth
+unknown entity DistantWitness = "observer exists beyond the current membrane"
+constraint membraneBalance = boundary.pressure <= 3
+partial law continuityRule = history.commits and world.seeded
+anchor identity = world.seeded and history.commits
+partial law driftRule = "drift depends on unresolved membrane topology"
+hidden region OuterCanopy
+unobservable relation RootKnot = "relation exists but cannot yet be observed"
+latent bubble WaitingArchive
+```
+
+Interpretation:
+
+- these declarations preserve admitted but unresolved world structure
+- they do not yet solve or materialize that structure automatically
+- they lower into `bubble.unresolvedSemantics` in compiled IR
+- `constraint` is the first unresolved kind with executable checking when it is authored in the shared expression subset
+- `partial law` now also has one minimal executable path when it is authored in that same shared expression subset
+- `anchor identity` lowers into `bubble.anchorCriterion` and can tighten anchor-identity and replay-identity proof claims
+- inspect and replay now expose those executable evaluations directly through a `semantics` section instead of leaving them visible only through proof-claim text
+- they currently matter most because the proof layer can either cite them as explicit reasons that a claim remains `undetermined` or directly contradict one authored executable constraint or partial-law fragment
+
 ### `spawn`
 
 Declares a descendant bubble family and optional local birth condition.
@@ -477,6 +506,9 @@ The inspector supports stable sections including:
 - `summary`
 - `plan`
 - `ontology`
+- `semantics`
+- `proof`
+- `bundle`
 - `grammars`
 - `artifacts`
 - `commits`
@@ -490,6 +522,12 @@ The current inspection and replay path also supports narrowing by:
 - address identity
 - activation identity
 - grammar profile
+- semantic subject or evaluation identity
+- semantic subject kind
+- semantic execution status
+- proof claim identity
+- proof claim family
+- proof claim status
 - trace-event kind
 
 ## Reading Outputs
@@ -516,6 +554,7 @@ Inside `bubble`, current outputs may include:
 - `effects`
 - `obligations`
 - `generation`
+- `unresolvedSemantics`
 - `meta`
 
 Interpret them as follows:
@@ -524,6 +563,7 @@ Interpret them as follows:
 - `effects`: authored effect declarations with provenance
 - `obligations`: required semantic commitments implied by authored effects
 - `generation`: realization mode, lifecycle hints, and bubble-generative relations
+- `unresolvedSemantics`: authored unknown, partial, hidden, latent, or constraint-bearing semantic fragments
 - `meta`: quotes, generators, reflections, emissions, grammars, and grammar activations
 
 ### Semantic Plan
@@ -533,6 +573,7 @@ Plan outputs summarize what the runtime would need to honor without yet material
 Look for:
 
 - obligations to satisfy
+- bundle members and materialization scopes
 - planned descendant or branch relations
 - grammar activation plans
 - emission plans
@@ -571,6 +612,7 @@ Typical fields include:
 - `plan`
 - `ontology`
 - `proof`
+- `bundle`
 - `artifacts`
 - `commits`
 - `evidence`
@@ -580,6 +622,13 @@ Interpretation guidelines:
 
 - if `plannedEmissionCount` is non-zero, the bubble authored staged artifact or descendant requests
 - if `plannedGrammarActivationCount` is non-zero, the bubble authored staged grammar work
+- `plannedSemanticCount` tells you how many executable semantic checks remain in the currently selected inspection slice
+- `semanticKinds` tells you which semantic layers are still present in that slice instead of collapsing them into one undifferentiated count
+- `semanticStatusCounts` tells you how the selected semantic layer is currently distributed across satisfied, violated, and underdetermined checks
+- `proofVerdict` tells you the current bounded-certificate verdict for the selected proof slice, not only for the full unfiltered certificate
+- `proofClaimCount` tells you how many proof claims remain in the currently selected inspection slice
+- `proofClaimKinds` tells you which proof families remain active in that slice
+- `proofClaimStatusCounts` tells you how that selected proof slice is distributed across certified, contradicted, and undetermined claims
 - `reflectionPaths` tell you which bounded self-views were captured during materialization
 - `traceKinds` tell you which runtime events actually occurred in the run
 
@@ -626,6 +675,14 @@ Current runtime shape:
 - `verdict: certified | partially-certified | contradicted | undetermined`
 - `claims[]` with per-claim `status: certified | contradicted | undetermined`
 
+The inspect and replay CLIs can now narrow this section with:
+
+- `--claim <id>` for one proof claim id
+- `--claim-kind <syntax|worldhood|effect|anchor|lineage|consistency|replay>` for one proof-claim family
+- `--claim-status <certified|contradicted|undetermined>` for one proof verdict slice
+
+When the proof section is narrowed this way, the reported `verdict` is recalculated from the selected claim slice instead of staying pinned to the full unfiltered certificate.
+
 Current claim families include:
 
 - well-formed source
@@ -635,6 +692,76 @@ Current claim families include:
 - lineage traceability
 - replay identity basis
 - internal law consistency
+
+The current runtime can also preserve unresolved semantic fragments in IR for:
+
+- `unknown-value`
+- `unknown-entity`
+- `constraint`
+- `partial-law`
+- `hidden-region`
+- `unobservable-relation`
+- `latent-bubble`
+
+Current `v0.4` source now does have a surface syntax for these fragments.
+
+What it still does not have is a general solver.
+
+Today the runtime can directly execute authored `constraint`, minimal `partial law`, and `anchor identity` expressions inside the shared expression subset.
+
+Other unresolved fragments still matter because the `internal-law-consistency` claim can cite them directly as reasons that a proof remains `undetermined`.
+
+### Executable Semantics Output
+
+The inspection and replay runtime now also exposes one derived `semantics` section.
+
+Current runtime shape:
+
+- `mode: bubble-executable-semantics.v1`
+- `constraints[]`
+- `partialLaws[]`
+- `anchorCriterion`
+
+Each executable evaluation currently records:
+
+- the semantic subject kind
+- the source identifier and source line
+- the authored name and preserved expression text when available
+- `status: satisfied | violated | undetermined`
+- basis tags and explanation text
+
+Use this section when you want to see how one constraint, partial-law fragment, or authored anchor criterion evaluated directly in the current executable environment without first reconstructing that result from proof-claim prose.
+
+The inspect and replay CLIs can now narrow this section with:
+
+- `--semantic <id>` for a semantic subject id or executable evaluation id
+- `--semantic-kind <constraint|partial-law|anchor-criterion>` for one semantic subject class
+- `--semantic-status <satisfied|violated|undetermined>` for one executable semantic verdict slice
+
+### Bundle Output
+
+The inspection runtime now also exposes one derived `bundle` section.
+
+This is the first minimal composition surface for Bubble.
+
+Current runtime shape:
+
+- `mode: bubble-bundle-plan.v1`
+- `bundleId`
+- `rootAddressId`
+- `members[]`
+- `materializationScopes[]`
+
+At this stage, bundle members can include:
+
+- the root bubble
+- staged descendant members
+- staged artifact members
+- staged grammar-activation members
+
+This does not yet mean Bubble has full multi-bubble source composition.
+
+It means the semantic plan now records one provenance-bearing package shape instead of leaving composition entirely implicit in one root bubble.
 
 Interpret the verdict conservatively:
 

@@ -8,6 +8,29 @@
     "plannedGrammarCount": 0,
     "plannedGrammarActivationCount": 0,
     "plannedEmissionCount": 2,
+    "plannedSemanticCount": 0,
+    "semanticKinds": [],
+    "semanticStatusCounts": {
+      "satisfied": 0,
+      "violated": 0,
+      "undetermined": 0
+    },
+    "proofVerdict": "partially-certified",
+    "proofClaimCount": 7,
+    "proofClaimKinds": [
+      "syntax",
+      "worldhood",
+      "effect",
+      "anchor",
+      "lineage",
+      "replay",
+      "consistency"
+    ],
+    "proofClaimStatusCounts": {
+      "certified": 6,
+      "contradicted": 0,
+      "undetermined": 1
+    },
     "materializedArtifactCount": 2,
     "descendantCount": 1,
     "artifactCount": 1,
@@ -43,6 +66,12 @@
         }
       ],
       "id": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop"
+    },
+    "semantics": {
+      "mode": "bubble-executable-semantics.v1",
+      "constraints": [],
+      "partialLaws": [],
+      "anchorCriterion": null
     },
     "ontology": {
       "negativeSea": {
@@ -166,6 +195,72 @@
             "no-executable-law-semantics-yet"
           ],
           "explanation": "Bubble ObservatoryLoop does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
+        }
+      ]
+    },
+    "bundle": {
+      "mode": "bubble-bundle-plan.v1",
+      "bundleId": "bundle:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "rootAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "members": [
+        {
+          "memberId": "bundle-member:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "kind": "root-bubble",
+          "emissionId": null,
+          "activationId": null,
+          "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "profileName": "bubbles.v0.2",
+          "sourcePath": "examples/observatory-loop.bubble",
+          "provenance": "root-bubble",
+          "description": "Root bubble ObservatoryLoop anchors this bundle."
+        },
+        {
+          "memberId": "bundle-member:emit:16:Probe",
+          "kind": "artifact",
+          "emissionId": "emit:16:Probe",
+          "activationId": null,
+          "addressId": null,
+          "profileName": null,
+          "sourcePath": "examples/observatory-loop.bubble",
+          "provenance": "staged-emission",
+          "description": "Emission emit:16:Probe stages one artifact member inside the bundle."
+        },
+        {
+          "memberId": "bundle-member:emit:17:DerivedProbe",
+          "kind": "descendant-bubble",
+          "emissionId": "emit:17:DerivedProbe",
+          "activationId": null,
+          "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop/spawn:emit:17:DerivedProbe",
+          "profileName": null,
+          "sourcePath": "examples/observatory-loop.bubble",
+          "provenance": "staged-emission",
+          "description": "Emission emit:17:DerivedProbe stages one descendant member inside the bundle."
+        }
+      ],
+      "materializationScopes": [
+        {
+          "scopeId": "bundle-scope:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "target": "root-bubble",
+          "emissionId": null,
+          "activationId": null,
+          "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "description": "The root bubble ObservatoryLoop is always inside its own materialization scope."
+        },
+        {
+          "scopeId": "bundle-scope:emit:16:Probe",
+          "target": "emission",
+          "emissionId": "emit:16:Probe",
+          "activationId": null,
+          "addressId": null,
+          "description": "Emission emit:16:Probe defines one staged materialization scope within the bundle."
+        },
+        {
+          "scopeId": "bundle-scope:emit:17:DerivedProbe",
+          "target": "emission",
+          "emissionId": "emit:17:DerivedProbe",
+          "activationId": null,
+          "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop/spawn:emit:17:DerivedProbe",
+          "description": "Emission emit:17:DerivedProbe defines one staged materialization scope within the bundle."
         }
       ]
     },
@@ -299,6 +394,12 @@
       "explanation": "Bubble worldhood remains stable because A=2, P=2, N=0, so A + P - N = 4."
     }
   },
+  "semantics": {
+    "mode": "bubble-executable-semantics.v1",
+    "constraints": [],
+    "partialLaws": [],
+    "anchorCriterion": null
+  },
   "proof": {
     "mode": "bubble-consistency-certificate.v1",
     "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
@@ -382,6 +483,72 @@
           "no-executable-law-semantics-yet"
         ],
         "explanation": "Bubble ObservatoryLoop does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
+      }
+    ]
+  },
+  "bundle": {
+    "mode": "bubble-bundle-plan.v1",
+    "bundleId": "bundle:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+    "rootAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+    "members": [
+      {
+        "memberId": "bundle-member:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+        "kind": "root-bubble",
+        "emissionId": null,
+        "activationId": null,
+        "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+        "profileName": "bubbles.v0.2",
+        "sourcePath": "examples/observatory-loop.bubble",
+        "provenance": "root-bubble",
+        "description": "Root bubble ObservatoryLoop anchors this bundle."
+      },
+      {
+        "memberId": "bundle-member:emit:16:Probe",
+        "kind": "artifact",
+        "emissionId": "emit:16:Probe",
+        "activationId": null,
+        "addressId": null,
+        "profileName": null,
+        "sourcePath": "examples/observatory-loop.bubble",
+        "provenance": "staged-emission",
+        "description": "Emission emit:16:Probe stages one artifact member inside the bundle."
+      },
+      {
+        "memberId": "bundle-member:emit:17:DerivedProbe",
+        "kind": "descendant-bubble",
+        "emissionId": "emit:17:DerivedProbe",
+        "activationId": null,
+        "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop/spawn:emit:17:DerivedProbe",
+        "profileName": null,
+        "sourcePath": "examples/observatory-loop.bubble",
+        "provenance": "staged-emission",
+        "description": "Emission emit:17:DerivedProbe stages one descendant member inside the bundle."
+      }
+    ],
+    "materializationScopes": [
+      {
+        "scopeId": "bundle-scope:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+        "target": "root-bubble",
+        "emissionId": null,
+        "activationId": null,
+        "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+        "description": "The root bubble ObservatoryLoop is always inside its own materialization scope."
+      },
+      {
+        "scopeId": "bundle-scope:emit:16:Probe",
+        "target": "emission",
+        "emissionId": "emit:16:Probe",
+        "activationId": null,
+        "addressId": null,
+        "description": "Emission emit:16:Probe defines one staged materialization scope within the bundle."
+      },
+      {
+        "scopeId": "bundle-scope:emit:17:DerivedProbe",
+        "target": "emission",
+        "emissionId": "emit:17:DerivedProbe",
+        "activationId": null,
+        "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop/spawn:emit:17:DerivedProbe",
+        "description": "Emission emit:17:DerivedProbe defines one staged materialization scope within the bundle."
       }
     ]
   },

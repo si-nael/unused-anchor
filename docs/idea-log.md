@@ -1,5 +1,21 @@
 # Idea Log
 
+## 2026-05-20
+
+### Future research: deterministic substrate, probabilistic fractal worldhood
+
+Research note: [Deterministic Substrate and Probabilistic-Fractal Worldhood](research/probabilistic-fractal-worldhood.md)
+
+- Bubble should not assume that authored world semantics must map one-to-one onto a fully explicit deterministic implementation of every event.
+- A deterministic machine may still host an operationally probabilistic universe if embedded observers only access bounded projections of a deeper generative process.
+- The useful research target is not fake coin-flipping for its own sake, but a world where deterministic recurrence, chaotic sensitivity, finite precision, pseudorandom structure, or other machine-level limits generate observer-real stochastic structure.
+- In that framing, branch, perturb, and unresolved semantics would no longer be only explicitly declared choice points; some of the world's apparent uncertainty could arise from deterministic substrate dynamics that behave like a probabilistic fractal.
+- This suggests a future Bubble direction closer to quantum-information style reasoning than to a purely classical explicit-state simulator: amplify viable world trajectories, suppress incompatible ones, and treat uncertainty as a structured property of world formation rather than as a host-language random call.
+- The strongest version of this idea would treat machine limits themselves as part of world law, so the deterministic substrate becomes the generator of a stochastic-looking multiverse rather than merely an engine that samples external randomness.
+- The current Bubble runtime should not implement this yet.
+- Before any implementation, the project would need a clearer semantics for probabilistic anchor identity, replay under probability clouds, and the difference between a genuine contradiction and an extreme but lawful tail event.
+- Keep this as an explicit deferred research direction, not as an immediate language feature.
+
 ## 2026-05-18
 
 ### Sea-anchor world structure

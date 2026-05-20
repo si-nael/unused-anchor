@@ -16,7 +16,7 @@ async function main(): Promise<void> {
     const { inputPath, outputPath, section, query } = parseCliArgs(process.argv.slice(2));
 
     if (!inputPath) {
-        throw new Error("Usage: tsx apps/hatchery/inspect-bubble.ts <input.bubble> [output.json] [--section summary|plan|ontology|proof|grammars|artifacts|commits|evidence|trace|report] [--emission <id>] [--address <id>] [--activation <id>] [--grammar-profile <name>] [--kind <trace-kind>]");
+        throw new Error("Usage: tsx apps/hatchery/inspect-bubble.ts <input.bubble> [output.json] [--section summary|plan|ontology|semantics|proof|bundle|grammars|artifacts|commits|evidence|trace|report] [--emission <id>] [--address <id>] [--activation <id>] [--grammar-profile <name>] [--semantic <id>] [--semantic-kind <constraint|partial-law|anchor-criterion>] [--semantic-status <satisfied|violated|undetermined>] [--claim <id>] [--claim-kind <syntax|worldhood|effect|anchor|lineage|consistency|replay>] [--claim-status <certified|contradicted|undetermined>] [--kind <trace-kind>]");
     }
 
     const source = await readFile(inputPath, "utf8");
@@ -59,8 +59,12 @@ function selectSection(report: BubbleInspectionReport, section: BubbleInspection
             return report.plan;
         case "ontology":
             return report.ontology;
+        case "semantics":
+            return report.semantics;
         case "proof":
             return report.proof;
+        case "bundle":
+            return report.bundle;
         case "grammars":
             return report.grammars;
         case "artifacts":
@@ -93,7 +97,7 @@ function parseCliArgs(argv: string[]): {
         if (argument === "--section") {
             const rawSection = argv[index + 1];
             if (!rawSection || !isInspectionSection(rawSection)) {
-                throw new Error("--section requires one of: summary, plan, ontology, proof, grammars, artifacts, commits, evidence, trace, report");
+                throw new Error("--section requires one of: summary, plan, ontology, semantics, proof, bundle, grammars, artifacts, commits, evidence, trace, report");
             }
 
             section = rawSection;
@@ -145,6 +149,72 @@ function parseCliArgs(argv: string[]): {
             continue;
         }
 
+        if (argument === "--semantic") {
+            const semanticId = argv[index + 1];
+            if (!semanticId) {
+                throw new Error("--semantic requires a semantic subject or evaluation id value");
+            }
+
+            query.semanticId = semanticId;
+            index += 1;
+            continue;
+        }
+
+        if (argument === "--semantic-kind") {
+            const rawKind = argv[index + 1];
+            if (!rawKind || !isSemanticKind(rawKind)) {
+                throw new Error("--semantic-kind requires one of: constraint, partial-law, anchor-criterion");
+            }
+
+            query.semanticKind = rawKind;
+            index += 1;
+            continue;
+        }
+
+        if (argument === "--semantic-status") {
+            const rawStatus = argv[index + 1];
+            if (!rawStatus || !isSemanticStatus(rawStatus)) {
+                throw new Error("--semantic-status requires one of: satisfied, violated, undetermined");
+            }
+
+            query.semanticStatus = rawStatus;
+            index += 1;
+            continue;
+        }
+
+        if (argument === "--claim") {
+            const claimId = argv[index + 1];
+            if (!claimId) {
+                throw new Error("--claim requires a proof claim id value");
+            }
+
+            query.claimId = claimId;
+            index += 1;
+            continue;
+        }
+
+        if (argument === "--claim-kind") {
+            const rawKind = argv[index + 1];
+            if (!rawKind || !isClaimKind(rawKind)) {
+                throw new Error("--claim-kind requires one of: syntax, worldhood, effect, anchor, lineage, consistency, replay");
+            }
+
+            query.claimKind = rawKind;
+            index += 1;
+            continue;
+        }
+
+        if (argument === "--claim-status") {
+            const rawStatus = argv[index + 1];
+            if (!rawStatus || !isClaimStatus(rawStatus)) {
+                throw new Error("--claim-status requires one of: certified, contradicted, undetermined");
+            }
+
+            query.claimStatus = rawStatus;
+            index += 1;
+            continue;
+        }
+
         if (argument === "--kind" || argument === "--trace-kind") {
             const rawKind = argv[index + 1];
             if (!rawKind || !isTraceKind(rawKind)) {
@@ -175,7 +245,9 @@ function isInspectionSection(value: string): value is BubbleInspectionSection {
     return value === "summary"
         || value === "plan"
         || value === "ontology"
+        || value === "semantics"
         || value === "proof"
+        || value === "bundle"
         || value === "grammars"
         || value === "artifacts"
         || value === "commits"
@@ -191,6 +263,34 @@ function isTraceKind(value: string): value is NonNullable<BubbleInspectionQuery[
         || value === "reflection-captured"
         || value === "emission-materialized"
         || value === "materialization-committed";
+}
+
+function isSemanticKind(value: string): value is NonNullable<BubbleInspectionQuery["semanticKind"]> {
+    return value === "constraint"
+        || value === "partial-law"
+        || value === "anchor-criterion";
+}
+
+function isSemanticStatus(value: string): value is NonNullable<BubbleInspectionQuery["semanticStatus"]> {
+    return value === "satisfied"
+        || value === "violated"
+        || value === "undetermined";
+}
+
+function isClaimKind(value: string): value is NonNullable<BubbleInspectionQuery["claimKind"]> {
+    return value === "syntax"
+        || value === "worldhood"
+        || value === "effect"
+        || value === "anchor"
+        || value === "lineage"
+        || value === "consistency"
+        || value === "replay";
+}
+
+function isClaimStatus(value: string): value is NonNullable<BubbleInspectionQuery["claimStatus"]> {
+    return value === "certified"
+        || value === "contradicted"
+        || value === "undetermined";
 }
 
 function assertNever(value: never): never {

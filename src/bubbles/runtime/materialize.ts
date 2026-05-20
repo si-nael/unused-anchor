@@ -15,6 +15,21 @@ import type {
 } from "../ir";
 import { compileBubbleSource, formatBubbleExpression } from "../language";
 import type { Diagnostic } from "../language";
+import {
+    createCommitEvidence,
+    createEffectTraceEvidence,
+    createObservationEvidence,
+    createSeaAnchorEvidence,
+} from "./evidence";
+import { buildSeaAnchorAssessment } from "./ontology";
+import {
+    buildConsistencyCertificate,
+    type BubbleConsistencyCertificate,
+} from "./proof";
+import {
+    buildSemanticEvaluationPlan,
+    type BubbleSemanticEvaluationPlan,
+} from "./semantics";
 
 export interface BubbleEmissionPlan {
     emissionId: string;
@@ -88,24 +103,37 @@ export interface BubbleSeaAnchorAssessment {
     theoremWitness: BubbleSeaAnchorTheoremWitness;
 }
 
-export type BubbleConsistencyClaimStatus = "certified" | "contradicted" | "undetermined";
-export type BubbleConsistencyCertificateVerdict = "certified" | "partially-certified" | "contradicted" | "undetermined";
-export type BubbleConsistencyClaimKind = "syntax" | "worldhood" | "effect" | "anchor" | "lineage" | "consistency" | "replay";
+export type BubbleBundleMemberKind = "root-bubble" | "descendant-bubble" | "artifact" | "staged-emission" | "grammar-activation";
+export type BubbleBundleMemberProvenance = "root-bubble" | "staged-emission" | "staged-grammar-activation";
+export type BubbleMaterializationScopeTarget = "root-bubble" | "emission" | "grammar-activation";
 
-export interface BubbleConsistencyClaim {
-    id: string;
-    kind: BubbleConsistencyClaimKind;
-    status: BubbleConsistencyClaimStatus;
-    basis: string[];
-    explanation: string;
+export interface BubbleBundleMemberPlan {
+    memberId: string;
+    kind: BubbleBundleMemberKind;
+    emissionId: string | null;
+    activationId: string | null;
+    addressId: string | null;
+    profileName: string | null;
+    sourcePath: string | null;
+    provenance: BubbleBundleMemberProvenance;
+    description: string;
 }
 
-export interface BubbleConsistencyCertificate {
-    mode: "bubble-consistency-certificate.v1";
-    bubbleAddressId: string;
-    profile: BubbleProgramIR["profile"];
-    verdict: BubbleConsistencyCertificateVerdict;
-    claims: BubbleConsistencyClaim[];
+export interface BubbleMaterializationScopePlan {
+    scopeId: string;
+    target: BubbleMaterializationScopeTarget;
+    emissionId: string | null;
+    activationId: string | null;
+    addressId: string | null;
+    description: string;
+}
+
+export interface BubbleBundlePlan {
+    mode: "bubble-bundle-plan.v1";
+    bundleId: string;
+    rootAddressId: string;
+    members: BubbleBundleMemberPlan[];
+    materializationScopes: BubbleMaterializationScopePlan[];
 }
 
 export interface BubbleExecutionPlan {
@@ -113,8 +141,10 @@ export interface BubbleExecutionPlan {
     sourcePath: string | null;
     profile: BubbleProgramIR["profile"];
     bubbleAddress: BubbleAddressIR;
+    semantics: BubbleSemanticEvaluationPlan;
     ontology: BubbleSeaAnchorAssessment;
     proof: BubbleConsistencyCertificate;
+    bundle: BubbleBundlePlan;
     obligations: ObligationIR[];
     plannedRelations: BubbleProgramIR["bubble"]["generation"]["relations"];
     grammars: BubbleGrammarPlan[];
@@ -248,16 +278,20 @@ export function planBubbleProgram(program: BubbleProgramIR): BubbleExecutionPlan
             .map((reflectionId) => meta?.reflections.find((reflection) => reflection.id === reflectionId)?.path)
             .filter((path): path is string => path !== undefined),
     }));
-    const ontology = buildSeaAnchorAssessment(program, emissionPlan);
-    const proof = buildConsistencyCertificate(program, emissionPlan, grammarActivationPlan, ontology);
+    const semantics = buildSemanticEvaluationPlan(program, emissionPlan, grammarActivationPlan);
+    const ontology = buildSeaAnchorAssessment(program, emissionPlan, semantics);
+    const proof = buildConsistencyCertificate(program, emissionPlan, grammarActivationPlan, ontology, semantics);
+    const bundle = buildBundlePlan(program, emissionPlan, grammarActivationPlan);
 
     return {
         mode: "semantic-plan.v1",
         sourcePath: program.sourcePath,
         profile: program.profile,
         bubbleAddress: program.bubble.address,
+        semantics,
         ontology,
         proof,
+        bundle,
         obligations: program.bubble.obligations,
         plannedRelations: program.bubble.generation.relations,
         grammars,
@@ -423,779 +457,87 @@ function buildGrammarActivationPlan(
     });
 }
 
-function buildSeaAnchorAssessment(
-    program: BubbleProgramIR,
-    emissionPlan: BubbleEmissionPlan[],
-): BubbleSeaAnchorAssessment {
-    const { bubble } = program;
-    const { relations, lifecycle, realizationMode } = bubble.generation;
-    const boundaryExposureCount = countBoundaryExposure(program);
-    const branchRelationCount = relations.filter((relation) => relation.kind === "branch").length;
-    const descendantRelationCount = relations.filter((relation) => relation.kind === "spawn").length;
-    const descendantEmissionCount = emissionPlan.filter((emission) => emission.target === "descendant").length;
-
-    const negativeSignals: string[] = [];
-    let negativeScore = 0;
-    if (realizationMode === "nondeterministic") {
-        negativeScore += 1;
-        negativeSignals.push("nondeterministic-realization");
-    }
-
-    if (branchRelationCount > 0) {
-        negativeScore += 1;
-        negativeSignals.push("branch-pressure");
-    }
-
-    if (boundaryExposureCount > 0) {
-        negativeScore += boundaryExposureCount > 1 ? 2 : 1;
-        negativeSignals.push("boundary-exposure");
-    }
-
-    if (lifecycle.supportsLeakage) {
-        negativeScore += 1;
-        negativeSignals.push("membrane-leak");
-    }
-
-    if (lifecycle.supportsPerturbation) {
-        negativeScore += 1;
-        negativeSignals.push("law-perturbation");
-    }
-
-    const negativePressure = negativeScore >= 3 ? "high"
-        : negativeScore >= 1 ? "elevated"
-            : "low";
-
-    const positiveSignals: string[] = [];
-    let positiveScore = 0;
-    if (bubble.address.locatorKind === "source-relative") {
-        positiveScore += 1;
-        positiveSignals.push("source-lineage-address");
-    }
-
-    if (bubble.seed !== null) {
-        positiveScore += 1;
-        positiveSignals.push("seeded-origin");
-    }
-
-    if (descendantRelationCount > 0) {
-        positiveScore += 1;
-        positiveSignals.push("descendant-lineage");
-    }
-
-    if (descendantEmissionCount > 0) {
-        positiveScore += 1;
-        positiveSignals.push("staged-growth");
-    }
-
-    if (lifecycle.commitsHistory) {
-        positiveScore += 1;
-        positiveSignals.push("durable-history");
-    }
-
-    const positiveSupport = positiveScore >= 4 ? "strong"
-        : positiveScore >= 2 ? "present"
-            : "weak";
-
-    const anchorSignals: string[] = [];
-    let anchorScore = 0;
-    if (Object.keys(bubble.axioms).length > 0) {
-        anchorScore += 1;
-        anchorSignals.push("axiomatic-basis");
-    }
-
-    if (bubble.worldWill !== null) {
-        anchorScore += 1;
-        anchorSignals.push("world-will");
-    }
-
-    if (bubble.seed !== null) {
-        anchorScore += 1;
-        anchorSignals.push("seed-continuity");
-    }
-
-    if (lifecycle.commitsHistory) {
-        anchorScore += 1;
-        anchorSignals.push("durable-history");
-    }
-
-    if (lifecycle.observationMode !== null) {
-        anchorScore += 1;
-        anchorSignals.push("observation-surface");
-    }
-
-    if (negativePressure === "high") {
-        anchorScore -= 1;
-        anchorSignals.push("negative-pressure");
-    }
-
-    if (boundaryExposureCount > 0) {
-        anchorScore -= 1;
-        anchorSignals.push("boundary-stress");
-    }
-
-    if (branchRelationCount > 0) {
-        anchorScore -= 1;
-        anchorSignals.push("branch-instability");
-    }
-
-    if (lifecycle.carriesDebt) {
-        anchorScore -= 1;
-        anchorSignals.push("unresolved-debt");
-    }
-
-    if (lifecycle.supportsPerturbation) {
-        anchorScore -= 1;
-        anchorSignals.push("perturbation-stress");
-    }
-
-    const anchorStrength = anchorScore >= 4 ? "strong"
-        : anchorScore >= 2 ? "steady"
-            : "weak";
-    const rewindStress = negativePressure === "high" || branchRelationCount > 0 || lifecycle.carriesDebt;
-    const rewindStability = bubble.seed !== null && lifecycle.commitsHistory
-        ? rewindStress ? "guarded" : "stable"
-        : bubble.seed !== null || lifecycle.commitsHistory ? "guarded" : "fragile";
-    const theoremWitness = buildSeaAnchorTheoremWitness(negativePressure, positiveSupport, anchorStrength);
-
-    return {
-        negativeSea: {
-            pressure: negativePressure,
-            signals: negativeSignals,
-        },
-        positiveSea: {
-            support: positiveSupport,
-            signals: positiveSignals,
-        },
-        anchorPoint: {
-            strength: anchorStrength,
-            trustedHistory: lifecycle.commitsHistory,
-            rewindStability,
-            signals: anchorSignals,
-        },
-        theoremWitness,
-    };
-}
-
-function buildSeaAnchorTheoremWitness(
-    negativePressure: BubbleNegativeSeaPressure,
-    positiveSupport: BubblePositiveSeaSupport,
-    anchorStrength: BubbleAnchorPointStrength,
-): BubbleSeaAnchorTheoremWitness {
-    const negativeRank = rankNegativeSeaPressure(negativePressure);
-    const positiveRank = rankPositiveSeaSupport(positiveSupport);
-    const anchorRank = rankAnchorStrength(anchorStrength);
-    const worldhoodDelta = anchorRank + positiveRank - negativeRank;
-    const identityDelta = anchorRank - negativeRank;
-    const sustained = anchorRank > 0 && worldhoodDelta > 0;
-    const condition = !sustained
-        ? "dissolving"
-        : worldhoodDelta >= 2
-            ? "stable"
-            : "stressed";
-    const explanation = condition === "stable"
-        ? `Bubble worldhood remains stable because A=${anchorRank}, P=${positiveRank}, N=${negativeRank}, so A + P - N = ${worldhoodDelta}.`
-        : condition === "stressed"
-            ? `Bubble worldhood remains stressed but sustained because A=${anchorRank}, P=${positiveRank}, N=${negativeRank}, so A + P - N = ${worldhoodDelta}.`
-            : `Bubble worldhood is dissolving because A=${anchorRank}, P=${positiveRank}, N=${negativeRank}, so A + P - N = ${worldhoodDelta} with identity margin ${identityDelta}.`;
-
-    return {
-        theorem: "sea-anchor-necessity.v1",
-        negativeRank,
-        positiveRank,
-        anchorRank,
-        worldhoodDelta,
-        identityDelta,
-        sustained,
-        condition,
-        explanation,
-    };
-}
-
-function buildConsistencyCertificate(
+function buildBundlePlan(
     program: BubbleProgramIR,
     emissionPlan: BubbleEmissionPlan[],
     grammarActivationPlan: BubbleGrammarActivationPlan[],
-    ontology: BubbleSeaAnchorAssessment,
-): BubbleConsistencyCertificate {
-    const claims = [
-        buildWellFormedSourceClaim(program),
-        buildMinimumWorldhoodClaim(program),
-        buildRequiredEffectClaim(program, emissionPlan),
-        buildAnchorIdentityClaim(program, ontology),
-        buildLineageTraceabilityClaim(program, emissionPlan, grammarActivationPlan),
-        buildReplayIdentityClaim(program, ontology),
-        buildInternalConsistencyClaim(program),
-    ];
-
-    return {
-        mode: "bubble-consistency-certificate.v1",
-        bubbleAddressId: program.bubble.address.id,
-        profile: program.profile,
-        verdict: deriveConsistencyVerdict(claims),
-        claims,
-    };
-}
-
-function buildWellFormedSourceClaim(program: BubbleProgramIR): BubbleConsistencyClaim {
-    return {
-        id: "claim:well-formed-source",
-        kind: "syntax",
-        status: "certified",
-        basis: ["parser", "profile-validator"],
-        explanation: `Bubble ${program.bubble.name} compiled into a semantic plan under ${program.profile}.`,
-    };
-}
-
-function buildMinimumWorldhoodClaim(program: BubbleProgramIR): BubbleConsistencyClaim {
-    const basis: string[] = [];
-    const missing: string[] = [];
-
-    if (Object.keys(program.bubble.axioms).length > 0) {
-        basis.push("axiom");
-    } else {
-        missing.push("axiom");
-    }
-
-    if (program.bubble.worldWill !== null) {
-        basis.push("worldWill");
-    } else {
-        missing.push("worldWill");
-    }
-
-    if (program.bubble.seed !== null) {
-        basis.push("seed");
-    } else {
-        missing.push("seed");
-    }
-
-    if (program.bubble.effects.length > 0) {
-        basis.push("effect");
-    } else {
-        missing.push("effect");
-    }
-
-    return {
-        id: "claim:minimum-worldhood",
-        kind: "worldhood",
-        status: missing.length === 0 ? "certified" : "contradicted",
-        basis: missing.length === 0 ? basis : missing,
-        explanation: missing.length === 0
-            ? `Bubble ${program.bubble.name} satisfies the current minimum worldhood basis through ${basis.join(", ")}.`
-            : `Bubble ${program.bubble.name} is missing minimum worldhood requirements: ${missing.join(", ")}.`,
-    };
-}
-
-function buildRequiredEffectClaim(
-    program: BubbleProgramIR,
-    emissionPlan: BubbleEmissionPlan[],
-): BubbleConsistencyClaim {
-    const requiredEffects = program.bubble.effects.filter((effect) => effect.requirement === "required");
-    if (requiredEffects.length === 0) {
-        return {
-            id: "claim:required-effect-obligations",
-            kind: "effect",
-            status: "undetermined",
-            basis: ["no-required-effects"],
-            explanation: `Bubble ${program.bubble.name} declares no required effects, so no effect obligation proof was generated.`,
-        };
-    }
-
-    const statuses = requiredEffects.map((effect) => resolveRequiredEffectCertification(effect, program, emissionPlan));
-    const claimStatus = statuses.some((status) => status.status === "contradicted")
-        ? "contradicted"
-        : statuses.some((status) => status.status === "undetermined")
-            ? "undetermined"
-            : "certified";
-
-    return {
-        id: "claim:required-effect-obligations",
-        kind: "effect",
-        status: claimStatus,
-        basis: Array.from(new Set(statuses.flatMap((status) => status.basis))),
-        explanation: statuses.map((status) => status.explanation).join(" "),
-    };
-}
-
-function resolveRequiredEffectCertification(
-    effect: EffectIR,
-    program: BubbleProgramIR,
-    emissionPlan: BubbleEmissionPlan[],
-): Pick<BubbleConsistencyClaim, "status" | "basis" | "explanation"> {
-    const { generation } = program.bubble;
-
-    switch (effect.kind) {
-        case "observe":
-            return generation.lifecycle.observationMode === null
-                ? {
-                    status: "contradicted",
-                    basis: ["missing-observation-surface"],
-                    explanation: `Required effect ${effect.id} is contradicted because no observation surface is declared.`,
-                }
-                : {
-                    status: "certified",
-                    basis: ["observation-surface"],
-                    explanation: `Required effect ${effect.id} is certified by the declared observation surface.`,
-                };
-        case "commit":
-            return generation.lifecycle.commitsHistory
-                ? {
-                    status: "certified",
-                    basis: ["durable-history"],
-                    explanation: `Required effect ${effect.id} is certified by durable history support.`,
-                }
-                : {
-                    status: "contradicted",
-                    basis: ["missing-durable-history"],
-                    explanation: `Required effect ${effect.id} is contradicted because durable history support is absent.`,
-                };
-        case "spawn": {
-            const hasRelationWitness = generation.relations.some((relation) => relation.sourceEffectId === effect.id);
-            const hasEmissionWitness = emissionPlan.some((emission) => emission.target === "descendant");
-            if (hasRelationWitness || hasEmissionWitness) {
-                return {
-                    status: "certified",
-                    basis: ["descendant-lineage", ...(hasEmissionWitness ? ["staged-growth"] : [])],
-                    explanation: `Required effect ${effect.id} is certified by descendant lineage ${hasEmissionWitness ? "and staged descendant materialization" : "support"}.`,
-                };
-            }
-
-            return {
-                status: "undetermined",
-                basis: ["no-descendant-witness"],
-                explanation: `Required effect ${effect.id} remains undetermined because the current plan has no descendant relation or descendant emission witness.`,
-            };
-        }
-        case "branch":
-            return generation.realizationMode === "nondeterministic"
-                ? {
-                    status: "certified",
-                    basis: ["nondeterministic-realization"],
-                    explanation: `Required effect ${effect.id} is certified by nondeterministic realization semantics.`,
-                }
-                : {
-                    status: "contradicted",
-                    basis: ["deterministic-realization"],
-                    explanation: `Required effect ${effect.id} is contradicted because the world is deterministic.`,
-                };
-        case "collapse":
-            return {
-                status: "undetermined",
-                basis: ["collapse-support", "no-collapse-execution-semantics"],
-                explanation: `Required effect ${effect.id} remains undetermined because collapse support exists but executable collapse semantics are not yet defined.`,
-            };
-        case "leak":
-            return {
-                status: "certified",
-                basis: [resolveLeakSignal(effect.scope)],
-                explanation: `Required effect ${effect.id} is certified by explicit ${effect.scope} leak semantics.`,
-            };
-        case "debt":
-            return {
-                status: "certified",
-                basis: ["unresolved-debt"],
-                explanation: `Required effect ${effect.id} is certified by explicit unresolved debt semantics.`,
-            };
-        case "perturb":
-            return {
-                status: "certified",
-                basis: ["law-perturbation"],
-                explanation: `Required effect ${effect.id} is certified by explicit perturbation semantics.`,
-            };
-        default:
-            return assertNever(effect.kind);
-    }
-}
-
-function resolveLeakSignal(scope: EffectIR["scope"]): string {
-    switch (scope) {
-        case "local":
-            return "local-leak";
-        case "membrane":
-            return "membrane-leak";
-        case "global":
-            return "global-leak";
-        default:
-            return assertNever(scope);
-    }
-}
-
-function buildAnchorIdentityClaim(
-    program: BubbleProgramIR,
-    ontology: BubbleSeaAnchorAssessment,
-): BubbleConsistencyClaim {
-    const identityBasis = ontology.anchorPoint.signals.filter((signal) =>
-        signal === "axiomatic-basis"
-        || signal === "world-will"
-        || signal === "seed-continuity"
-        || signal === "durable-history"
-        || signal === "observation-surface",
-    );
-
-    if (!ontology.theoremWitness.sustained) {
-        return {
-            id: "claim:anchor-identity",
-            kind: "anchor",
-            status: "contradicted",
-            basis: identityBasis.length > 0 ? identityBasis : ["missing-anchor-basis"],
-            explanation: `Bubble ${program.bubble.name} does not currently sustain same-world identity under the theorem witness and is classified as ${ontology.theoremWitness.condition}.`,
-        };
-    }
-
-    return {
-        id: "claim:anchor-identity",
-        kind: "anchor",
-        status: "certified",
-        basis: identityBasis,
-        explanation: `Bubble ${program.bubble.name} currently certifies anchor identity as ${ontology.anchorPoint.strength} with theorem condition ${ontology.theoremWitness.condition}.`,
-    };
-}
-
-function buildLineageTraceabilityClaim(
-    program: BubbleProgramIR,
-    emissionPlan: BubbleEmissionPlan[],
-    grammarActivationPlan: BubbleGrammarActivationPlan[],
-): BubbleConsistencyClaim {
-    const hasDescendantRelation = program.bubble.generation.relations.some((relation) => relation.target === "descendant-bubble");
-    const descendantEmissions = emissionPlan.filter((emission) => emission.target === "descendant");
-    const hasStagedLineage = hasDescendantRelation || descendantEmissions.length > 0 || grammarActivationPlan.length > 0;
-
-    if (!hasStagedLineage) {
-        return {
-            id: "claim:lineage-traceability",
-            kind: "lineage",
-            status: "undetermined",
-            basis: ["no-descendant-lineage-claim"],
-            explanation: `Bubble ${program.bubble.name} declares no descendant or staged grammar lineage that needs certification in the current plan.`,
-        };
-    }
-
-    const unresolvedDescendants = descendantEmissions.some((emission) => emission.derivedAddress === null);
-    const brokenRelations = program.bubble.generation.relations.some((relation) =>
-        relation.target === "descendant-bubble" && relation.targetAddressTemplate.baseAddressId !== program.bubble.address.id,
-    );
-
-    if (unresolvedDescendants || brokenRelations) {
-        return {
-            id: "claim:lineage-traceability",
-            kind: "lineage",
-            status: "contradicted",
-            basis: ["lineage-address-mismatch"],
-            explanation: `Bubble ${program.bubble.name} has descendant or staged lineage that cannot be traced back cleanly to the current root bubble.`,
-        };
-    }
-
-    return {
-        id: "claim:lineage-traceability",
-        kind: "lineage",
-        status: "certified",
-        basis: Array.from(new Set([
-            "source-lineage-address",
-            ...(hasDescendantRelation ? ["descendant-lineage"] : []),
-            ...(descendantEmissions.length > 0 ? ["staged-growth"] : []),
-            ...(grammarActivationPlan.length > 0 ? ["staged-grammar-lineage"] : []),
-        ])),
-        explanation: `Bubble ${program.bubble.name} preserves traceable lineage for every currently declared descendant or staged generation path.`,
-    };
-}
-
-function buildReplayIdentityClaim(
-    program: BubbleProgramIR,
-    ontology: BubbleSeaAnchorAssessment,
-): BubbleConsistencyClaim {
-    const basis = [
-        ...(program.bubble.seed === null ? [] : ["seed-continuity"]),
-        ...(program.bubble.address.locatorKind === "source-relative" ? ["source-lineage-address"] : ["lineage-relative-address"]),
-        ...(program.bubble.generation.lifecycle.commitsHistory ? ["durable-history"] : []),
-    ];
-
-    if (!ontology.theoremWitness.sustained) {
-        return {
-            id: "claim:replay-identity",
-            kind: "replay",
-            status: "contradicted",
-            basis,
-            explanation: `Bubble ${program.bubble.name} does not currently certify same-world replay because the theorem witness is ${ontology.theoremWitness.condition}.`,
-        };
-    }
-
-    if (program.bubble.seed !== null && program.bubble.generation.lifecycle.commitsHistory) {
-        return {
-            id: "claim:replay-identity",
-            kind: "replay",
-            status: "certified",
-            basis,
-            explanation: `Bubble ${program.bubble.name} currently certifies replay identity through seed continuity, stable root addressing, and durable history.`,
-        };
-    }
-
-    return {
-        id: "claim:replay-identity",
-        kind: "replay",
-        status: "undetermined",
-        basis: [...basis, ...(program.bubble.generation.lifecycle.commitsHistory ? [] : ["missing-durable-history"])],
-        explanation: `Bubble ${program.bubble.name} preserves a replay basis, but same-world replay remains undetermined without durable history fixation.`,
-    };
-}
-
-function buildInternalConsistencyClaim(program: BubbleProgramIR): BubbleConsistencyClaim {
-    return {
-        id: "claim:internal-law-consistency",
-        kind: "consistency",
-        status: "undetermined",
-        basis: ["no-executable-law-semantics-yet"],
-        explanation: `Bubble ${program.bubble.name} does not yet have a full executable law solver, so internal semantic consistency remains undetermined.`,
-    };
-}
-
-function deriveConsistencyVerdict(claims: BubbleConsistencyClaim[]): BubbleConsistencyCertificateVerdict {
-    if (claims.some((claim) => claim.status === "contradicted")) {
-        return "contradicted";
-    }
-
-    if (claims.every((claim) => claim.status === "certified")) {
-        return "certified";
-    }
-
-    if (claims.some((claim) => claim.status === "certified") && claims.some((claim) => claim.status === "undetermined")) {
-        return "partially-certified";
-    }
-
-    return "undetermined";
-}
-
-function rankNegativeSeaPressure(pressure: BubbleNegativeSeaPressure): number {
-    switch (pressure) {
-        case "low":
-            return 0;
-        case "elevated":
-            return 1;
-        case "high":
-            return 2;
-        default:
-            return assertNever(pressure);
-    }
-}
-
-function rankPositiveSeaSupport(support: BubblePositiveSeaSupport): number {
-    switch (support) {
-        case "weak":
-            return 0;
-        case "present":
-            return 1;
-        case "strong":
-            return 2;
-        default:
-            return assertNever(support);
-    }
-}
-
-function rankAnchorStrength(strength: BubbleAnchorPointStrength): number {
-    switch (strength) {
-        case "weak":
-            return 0;
-        case "steady":
-            return 1;
-        case "strong":
-            return 2;
-        default:
-            return assertNever(strength);
-    }
-}
-
-function countBoundaryExposure(program: BubbleProgramIR): number {
-    const boundaryScopes = new Set(["membrane", "global"]);
-    const obligationExposure = program.bubble.obligations.filter((obligation) => boundaryScopes.has(obligation.scope)).length;
-    const relationExposure = program.bubble.generation.relations.filter((relation) => boundaryScopes.has(relation.scope)).length;
-
-    return obligationExposure + relationExposure;
-}
-
-function createSeaAnchorEvidence(
-    program: BubbleProgramIR,
-    assessment: BubbleSeaAnchorAssessment,
-): BubbleEvidenceRecord[] {
+): BubbleBundlePlan {
     const rootAddressId = program.bubble.address.id;
 
-    return [
-        {
-            id: `evidence:negative-sea:${rootAddressId}`,
-            kind: "negative-sea-state",
-            bubbleAddressId: rootAddressId,
-            subjectAddressId: rootAddressId,
-            sourcePath: program.sourcePath,
-            observationMode: program.bubble.generation.lifecycle.observationMode,
-            emissionId: null,
-            commitId: null,
-            pressure: assessment.negativeSea.pressure,
-            signals: assessment.negativeSea.signals,
-            description: assessment.negativeSea.signals.length === 0
-                ? `Bubble ${program.bubble.name} currently shows low negative-sea pressure.`
-                : `Bubble ${program.bubble.name} currently shows ${assessment.negativeSea.pressure} negative-sea pressure via ${assessment.negativeSea.signals.join(", ")}.`,
-        },
-        {
-            id: `evidence:positive-sea:${rootAddressId}`,
-            kind: "positive-sea-state",
-            bubbleAddressId: rootAddressId,
-            subjectAddressId: rootAddressId,
-            sourcePath: program.sourcePath,
-            observationMode: program.bubble.generation.lifecycle.observationMode,
-            emissionId: null,
-            commitId: null,
-            support: assessment.positiveSea.support,
-            signals: assessment.positiveSea.signals,
-            description: assessment.positiveSea.signals.length === 0
-                ? `Bubble ${program.bubble.name} currently shows weak positive-sea support.`
-                : `Bubble ${program.bubble.name} currently shows ${assessment.positiveSea.support} positive-sea support via ${assessment.positiveSea.signals.join(", ")}.`,
-        },
-        {
-            id: `evidence:anchor-point:${rootAddressId}`,
-            kind: "anchor-point-state",
-            bubbleAddressId: rootAddressId,
-            subjectAddressId: rootAddressId,
-            sourcePath: program.sourcePath,
-            observationMode: program.bubble.generation.lifecycle.observationMode,
-            emissionId: null,
-            commitId: null,
-            strength: assessment.anchorPoint.strength,
-            trustedHistory: assessment.anchorPoint.trustedHistory,
-            rewindStability: assessment.anchorPoint.rewindStability,
-            signals: assessment.anchorPoint.signals,
-            description: `Bubble ${program.bubble.name} currently shows ${assessment.anchorPoint.strength} anchor support with ${assessment.anchorPoint.rewindStability} rewind stability.`,
-        },
-    ];
-}
-
-function createObservationEvidence(program: BubbleProgramIR): BubbleObservationEvidenceRecord[] {
-    const observationMode = program.bubble.generation.lifecycle.observationMode;
-    if (observationMode === null) {
-        return [];
-    }
-
-    const rootAddressId = program.bubble.address.id;
-    return [
-        {
-            id: `evidence:observe:${rootAddressId}`,
-            kind: "observation-context",
-            bubbleAddressId: rootAddressId,
-            subjectAddressId: rootAddressId,
-            sourcePath: program.sourcePath,
-            observationMode,
-            emissionId: null,
-            commitId: null,
-            description: program.bubble.generation.lifecycle.commitsHistory
-                ? `Bubble ${program.bubble.name} declares observation mode ${observationMode} with durable history support.`
-                : `Bubble ${program.bubble.name} declares observation mode ${observationMode}.`,
-        },
-    ];
-}
-
-function createEffectTraceEvidence(
-    program: BubbleProgramIR,
-    plan: BubbleExecutionPlan,
-    artifacts: MaterializedBubbleArtifact[],
-    commits: BubbleMaterializationCommit[],
-): BubbleEffectTraceEvidenceRecord[] {
-    const rootAddressId = program.bubble.address.id;
-
-    return program.bubble.effects.map((effect) => {
-        const runtimeSignals = resolveEffectRuntimeSignals(effect, plan, artifacts, commits, program);
-        const materializationState = resolveEffectMaterializationState(effect, artifacts, commits, program);
-
-        return {
-            id: `evidence:effect:${effect.id}`,
-            kind: "effect-trace",
-            bubbleAddressId: rootAddressId,
-            subjectAddressId: rootAddressId,
-            sourcePath: program.sourcePath,
-            observationMode: program.bubble.generation.lifecycle.observationMode,
-            emissionId: null,
-            commitId: null,
-            effectId: effect.id,
-            effectKind: effect.kind,
-            requirement: effect.requirement,
-            scope: effect.scope,
-            sourceLine: effect.sourceLine,
-            materializationState,
-            runtimeSignals,
-            description: runtimeSignals.length === 0
-                ? `Bubble ${program.bubble.name} recorded ${effect.requirement} ${effect.scope} ${effect.kind} as ${materializationState} in this run.`
-                : `Bubble ${program.bubble.name} recorded ${effect.requirement} ${effect.scope} ${effect.kind} as ${materializationState} in this run via ${runtimeSignals.join(", ")}.`,
-        };
-    });
-}
-
-function createCommitEvidence(
-    program: BubbleProgramIR,
-    commit: BubbleMaterializationCommit,
-): BubbleHistoryCommitEvidenceRecord {
     return {
-        id: `evidence:${commit.id}`,
-        kind: "history-commit",
-        bubbleAddressId: program.bubble.address.id,
-        subjectAddressId: commit.committedAddressId ?? program.bubble.address.id,
-        sourcePath: program.sourcePath,
-        observationMode: program.bubble.generation.lifecycle.observationMode,
-        emissionId: commit.emissionId,
-        commitId: commit.id,
-        description: `Recorded durable history for ${commit.emissionId} at ${commit.committedAddressId ?? program.bubble.address.id}.`,
+        mode: "bubble-bundle-plan.v1",
+        bundleId: `bundle:${rootAddressId}`,
+        rootAddressId,
+        members: [
+            {
+                memberId: `bundle-member:${rootAddressId}`,
+                kind: "root-bubble",
+                emissionId: null,
+                activationId: null,
+                addressId: rootAddressId,
+                profileName: program.profile,
+                sourcePath: program.sourcePath,
+                provenance: "root-bubble",
+                description: `Root bubble ${program.bubble.name} anchors this bundle.`,
+            },
+            ...emissionPlan.map<BubbleBundleMemberPlan>((emission) => ({
+                memberId: `bundle-member:${emission.emissionId}`,
+                kind: emission.target === "descendant"
+                    ? "descendant-bubble"
+                    : emission.target === "artifact"
+                        ? "artifact"
+                        : "staged-emission",
+                emissionId: emission.emissionId,
+                activationId: null,
+                addressId: emission.derivedAddress?.id ?? null,
+                profileName: null,
+                sourcePath: program.sourcePath,
+                provenance: "staged-emission",
+                description: emission.target === "descendant"
+                    ? `Emission ${emission.emissionId} stages one descendant member inside the bundle.`
+                    : emission.target === "artifact"
+                        ? `Emission ${emission.emissionId} stages one artifact member inside the bundle.`
+                        : `Emission ${emission.emissionId} remains staged inside the bundle without a fixed target.`,
+            })),
+            ...grammarActivationPlan.map<BubbleBundleMemberPlan>((activation) => ({
+                memberId: `bundle-member:${activation.activationId}`,
+                kind: "grammar-activation",
+                emissionId: null,
+                activationId: activation.activationId,
+                addressId: rootAddressId,
+                profileName: activation.resolvedProfileName,
+                sourcePath: program.sourcePath,
+                provenance: "staged-grammar-activation",
+                description: `Grammar activation ${activation.activationId} contributes a staged language-boundary member to the bundle.`,
+            })),
+        ],
+        materializationScopes: [
+            {
+                scopeId: `bundle-scope:${rootAddressId}`,
+                target: "root-bubble",
+                emissionId: null,
+                activationId: null,
+                addressId: rootAddressId,
+                description: `The root bubble ${program.bubble.name} is always inside its own materialization scope.`,
+            },
+            ...emissionPlan.map<BubbleMaterializationScopePlan>((emission) => ({
+                scopeId: `bundle-scope:${emission.emissionId}`,
+                target: "emission",
+                emissionId: emission.emissionId,
+                activationId: null,
+                addressId: emission.derivedAddress?.id ?? null,
+                description: `Emission ${emission.emissionId} defines one staged materialization scope within the bundle.`,
+            })),
+            ...grammarActivationPlan.map<BubbleMaterializationScopePlan>((activation) => ({
+                scopeId: `bundle-scope:${activation.activationId}`,
+                target: "grammar-activation",
+                emissionId: null,
+                activationId: activation.activationId,
+                addressId: rootAddressId,
+                description: `Grammar activation ${activation.activationId} defines one staged language-boundary scope within the bundle.`,
+            })),
+        ],
     };
-}
-
-function resolveEffectMaterializationState(
-    effect: EffectIR,
-    artifacts: MaterializedBubbleArtifact[],
-    commits: BubbleMaterializationCommit[],
-    program: BubbleProgramIR,
-): BubbleEffectTraceMaterializationState {
-    switch (effect.kind) {
-        case "observe":
-            return program.bubble.generation.lifecycle.observationMode === null ? "potential" : "materialized";
-        case "commit":
-            return commits.length > 0 ? "materialized" : "potential";
-        case "spawn":
-            return artifacts.some((artifact) => artifact.target === "descendant") ? "materialized" : "potential";
-        case "branch":
-        case "collapse":
-        case "leak":
-        case "debt":
-        case "perturb":
-            return "potential";
-        default:
-            return assertNever(effect.kind);
-    }
-}
-
-function resolveEffectRuntimeSignals(
-    effect: EffectIR,
-    plan: BubbleExecutionPlan,
-    artifacts: MaterializedBubbleArtifact[],
-    commits: BubbleMaterializationCommit[],
-    program: BubbleProgramIR,
-): string[] {
-    switch (effect.kind) {
-        case "observe":
-            return program.bubble.generation.lifecycle.observationMode === null ? [] : ["observation-surface"];
-        case "commit":
-            return commits.length > 0 ? ["durable-history", "history-commit"] : ["durable-history"];
-        case "spawn":
-            return artifacts.some((artifact) => artifact.target === "descendant")
-                ? ["descendant-materialization"]
-                : plan.plannedRelations.some((relation) => relation.sourceEffectId === effect.id)
-                    ? ["descendant-capability"]
-                    : [];
-        case "branch":
-            return plan.plannedRelations.some((relation) => relation.sourceEffectId === effect.id) ? ["branch-pressure"] : [];
-        case "collapse":
-            return plan.plannedRelations.some((relation) => relation.sourceEffectId === effect.id) ? ["collapse-capability"] : [];
-        case "leak":
-            return [effect.scope === "global" ? "global-leak" : effect.scope === "membrane" ? "membrane-leak" : "local-leak"];
-        case "debt":
-            return ["unresolved-debt"];
-        case "perturb":
-            return ["law-perturbation"];
-        default:
-            return assertNever(effect.kind);
-    }
 }
 
 function resolveEmissionQuote(

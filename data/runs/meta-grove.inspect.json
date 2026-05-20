@@ -8,6 +8,29 @@
     "plannedGrammarCount": 0,
     "plannedGrammarActivationCount": 0,
     "plannedEmissionCount": 1,
+    "plannedSemanticCount": 0,
+    "semanticKinds": [],
+    "semanticStatusCounts": {
+      "satisfied": 0,
+      "violated": 0,
+      "undetermined": 0
+    },
+    "proofVerdict": "partially-certified",
+    "proofClaimCount": 7,
+    "proofClaimKinds": [
+      "syntax",
+      "worldhood",
+      "effect",
+      "anchor",
+      "lineage",
+      "replay",
+      "consistency"
+    ],
+    "proofClaimStatusCounts": {
+      "certified": 5,
+      "contradicted": 0,
+      "undetermined": 2
+    },
     "materializedArtifactCount": 1,
     "descendantCount": 1,
     "artifactCount": 0,
@@ -39,6 +62,12 @@
         }
       ],
       "id": "bubble:examples/meta-grove.bubble::root:Nursery"
+    },
+    "semantics": {
+      "mode": "bubble-executable-semantics.v1",
+      "constraints": [],
+      "partialLaws": [],
+      "anchorCriterion": null
     },
     "ontology": {
       "negativeSea": {
@@ -158,6 +187,53 @@
         }
       ]
     },
+    "bundle": {
+      "mode": "bubble-bundle-plan.v1",
+      "bundleId": "bundle:bubble:examples/meta-grove.bubble::root:Nursery",
+      "rootAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+      "members": [
+        {
+          "memberId": "bundle-member:bubble:examples/meta-grove.bubble::root:Nursery",
+          "kind": "root-bubble",
+          "emissionId": null,
+          "activationId": null,
+          "addressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+          "profileName": "bubbles.v0.2",
+          "sourcePath": "examples/meta-grove.bubble",
+          "provenance": "root-bubble",
+          "description": "Root bubble Nursery anchors this bundle."
+        },
+        {
+          "memberId": "bundle-member:emit:11:Grove",
+          "kind": "descendant-bubble",
+          "emissionId": "emit:11:Grove",
+          "activationId": null,
+          "addressId": "bubble:examples/meta-grove.bubble::root:Nursery/spawn:emit:11:Grove",
+          "profileName": null,
+          "sourcePath": "examples/meta-grove.bubble",
+          "provenance": "staged-emission",
+          "description": "Emission emit:11:Grove stages one descendant member inside the bundle."
+        }
+      ],
+      "materializationScopes": [
+        {
+          "scopeId": "bundle-scope:bubble:examples/meta-grove.bubble::root:Nursery",
+          "target": "root-bubble",
+          "emissionId": null,
+          "activationId": null,
+          "addressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+          "description": "The root bubble Nursery is always inside its own materialization scope."
+        },
+        {
+          "scopeId": "bundle-scope:emit:11:Grove",
+          "target": "emission",
+          "emissionId": "emit:11:Grove",
+          "activationId": null,
+          "addressId": "bubble:examples/meta-grove.bubble::root:Nursery/spawn:emit:11:Grove",
+          "description": "Emission emit:11:Grove defines one staged materialization scope within the bundle."
+        }
+      ]
+    },
     "obligations": [
       {
         "effectId": "effect:6:spawn",
@@ -258,6 +334,12 @@
       "explanation": "Bubble worldhood remains stable because A=1, P=2, N=0, so A + P - N = 3."
     }
   },
+  "semantics": {
+    "mode": "bubble-executable-semantics.v1",
+    "constraints": [],
+    "partialLaws": [],
+    "anchorCriterion": null
+  },
   "proof": {
     "mode": "bubble-consistency-certificate.v1",
     "bubbleAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
@@ -337,6 +419,53 @@
           "no-executable-law-semantics-yet"
         ],
         "explanation": "Bubble Nursery does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
+      }
+    ]
+  },
+  "bundle": {
+    "mode": "bubble-bundle-plan.v1",
+    "bundleId": "bundle:bubble:examples/meta-grove.bubble::root:Nursery",
+    "rootAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+    "members": [
+      {
+        "memberId": "bundle-member:bubble:examples/meta-grove.bubble::root:Nursery",
+        "kind": "root-bubble",
+        "emissionId": null,
+        "activationId": null,
+        "addressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+        "profileName": "bubbles.v0.2",
+        "sourcePath": "examples/meta-grove.bubble",
+        "provenance": "root-bubble",
+        "description": "Root bubble Nursery anchors this bundle."
+      },
+      {
+        "memberId": "bundle-member:emit:11:Grove",
+        "kind": "descendant-bubble",
+        "emissionId": "emit:11:Grove",
+        "activationId": null,
+        "addressId": "bubble:examples/meta-grove.bubble::root:Nursery/spawn:emit:11:Grove",
+        "profileName": null,
+        "sourcePath": "examples/meta-grove.bubble",
+        "provenance": "staged-emission",
+        "description": "Emission emit:11:Grove stages one descendant member inside the bundle."
+      }
+    ],
+    "materializationScopes": [
+      {
+        "scopeId": "bundle-scope:bubble:examples/meta-grove.bubble::root:Nursery",
+        "target": "root-bubble",
+        "emissionId": null,
+        "activationId": null,
+        "addressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+        "description": "The root bubble Nursery is always inside its own materialization scope."
+      },
+      {
+        "scopeId": "bundle-scope:emit:11:Grove",
+        "target": "emission",
+        "emissionId": "emit:11:Grove",
+        "activationId": null,
+        "addressId": "bubble:examples/meta-grove.bubble::root:Nursery/spawn:emit:11:Grove",
+        "description": "Emission emit:11:Grove defines one staged materialization scope within the bundle."
       }
     ]
   },
