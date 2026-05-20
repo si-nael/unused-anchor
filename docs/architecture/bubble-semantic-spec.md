@@ -18,6 +18,14 @@ How can a finite source artifact define a potentially vast multiverse whose full
 
 Every core construct should be read against that question.
 
+Stated more directly, Bubble's governing philosophy is this:
+
+use finite memory to represent an effectively infinite bubble multiverse.
+
+That does not mean pretending an infinite world is secretly stored somewhere in full.
+
+It means Bubble must preserve worlds intensionally as law, seed, lineage, latent structure, and committed deviation, while materializing only the local slice forced by observation, interaction, proof, or replay.
+
 ## Scope
 
 Bubble core is universal.
@@ -37,6 +45,8 @@ Bubble profiles extend the core surface and IR while preserving those contracts.
 Applications, benchmarks, agent loops, contradiction search procedures, and evaluator logic are not Bubble core.
 
 They are particular layers built on top.
+
+One non-negotiable consequence follows from this scope: Bubble core should never require extensional storage of the whole multiverse as a precondition for semantic correctness. If one design choice demands global explicit world-state where an intensional representation would preserve the same meaning, that design choice is working against the language's philosophy.
 
 ## What Is A Bubble?
 
@@ -372,6 +382,67 @@ The minimum current semantic set is:
 Important distinction:
 
 - `potential` versus `materialized` in current `effect-trace` records is effect-state vocabulary, not full world lifecycle vocabulary
+
+### Observation-Induced Transition Envelope
+
+If Bubble later reopens observation-induced materialization, the first implementation slice should not begin from full stochastic world semantics.
+
+It should begin from one narrow state-transition contract.
+
+For one latent region or latent descendant candidate, the minimum transition model is:
+
+- `latent -> observed` when an authored observation surface or explicit cross-boundary interaction causes local materialization
+- `latent -> committed` is invalid; nothing should become durable history without first becoming concrete in one run
+- `observed -> observed` when a later interaction changes local state lawfully but does not yet fix durable history
+- `observed -> committed` when commit or an equivalent anchor-bearing history event fixes the current observation result as same-world history
+- `committed -> observed` means revisitation of committed history, not regeneration of pristine latent possibility
+- `committed -> latent` is invalid for same-world replay; that would erase history rather than revisit it
+
+The first implementation slice should therefore treat observation as a state transition that may emit evidence, perturbation residue, and anchor consequences rather than as a silent read.
+
+### Observation-Induced Materialization Invariants
+
+Any future implementation of this branch must preserve at least these invariants.
+
+- latent regions remain compact semantic objects rather than hidden full-state snapshots
+- observation may localize and deform a region, but only through authored Bubble semantics plus explicit runtime state, not opaque host randomness
+- commit fixes one observed trajectory as history; replay of the same world must revisit that committed trajectory rather than regenerate the untouched latent law
+- contradiction, lawful observation-induced divergence, and anchor drift must remain distinguishable in proof
+- observation path, nearby history, and boundary pressure may affect materialization only if the resulting causal basis remains inspectable
+
+### Minimal First Slice For Implementation
+
+The first implementable version of observation-induced materialization should stay smaller than the full research vision.
+
+It should include only:
+
+- one explicitly marked latent region or latent descendant site
+- one authored observation-triggered materialization rule
+- one explicit perturb contribution that can modify the first concrete realization
+- one commit path that records the observed result into history
+- one replay check that distinguishes revisiting committed history from first-time latent realization
+- one proof surface that can still say `certified | contradicted | undetermined` about same-world identity after observation
+
+It should exclude, for the first slice:
+
+- probability clouds
+- hidden host randomness
+- multi-region collapse coupling
+- distributional replay identity
+- generalized observer-dependent semantics across the whole language
+
+### Required Semantic Surfaces Before Code Widening
+
+Before Bubble adds new source syntax for this branch, the semantic contract should be explicit for at least these objects.
+
+- latent-region descriptor: what is stored before observation
+- observation event: what counts as a causal read-write boundary
+- perturb contribution: how authored perturbation mixes into first realization
+- collapse record: what evidence proves that a latent region became concrete
+- commit boundary: what makes the realized result durable same-world history
+- replay judgment: what distinguishes revisitation of committed history from nearby-world drift
+
+Without that contract, observation-induced materialization would widen syntax faster than it strengthens Bubble semantics.
 
 ## Effect Semantics
 

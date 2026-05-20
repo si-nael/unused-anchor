@@ -65,6 +65,145 @@
         "description": "Author declared commit as a required local effect."
       }
     ],
+    "effectRoles": {
+      "declarations": [
+        {
+          "id": "effect:8:observe",
+          "sourceLine": 8,
+          "sourceConstruct": "effect",
+          "kind": "observe",
+          "requirement": "optional",
+          "scope": "local"
+        },
+        {
+          "id": "effect:9:branch",
+          "sourceLine": 9,
+          "sourceConstruct": "effect",
+          "kind": "branch",
+          "requirement": "optional",
+          "scope": "local"
+        },
+        {
+          "id": "effect:10:commit",
+          "sourceLine": 10,
+          "sourceConstruct": "effect",
+          "kind": "commit",
+          "requirement": "required",
+          "scope": "local"
+        },
+        {
+          "id": "effect:11:debt",
+          "sourceLine": 11,
+          "sourceConstruct": "effect",
+          "kind": "debt",
+          "requirement": "optional",
+          "scope": "global"
+        }
+      ],
+      "obligations": [
+        {
+          "effectId": "effect:10:commit",
+          "effectKind": "commit",
+          "scope": "local",
+          "description": "Author declared commit as a required local effect."
+        }
+      ],
+      "permissions": [
+        {
+          "effectId": "effect:8:observe",
+          "effectKind": "observe",
+          "scope": "local",
+          "requirement": "optional",
+          "description": "Author permits optional local observe within the current bubble boundary."
+        },
+        {
+          "effectId": "effect:9:branch",
+          "effectKind": "branch",
+          "scope": "local",
+          "requirement": "optional",
+          "description": "Author permits optional local branch within the current bubble boundary."
+        },
+        {
+          "effectId": "effect:10:commit",
+          "effectKind": "commit",
+          "scope": "local",
+          "requirement": "required",
+          "description": "Author permits required local commit within the current bubble boundary."
+        },
+        {
+          "effectId": "effect:11:debt",
+          "effectKind": "debt",
+          "scope": "global",
+          "requirement": "optional",
+          "description": "Author permits optional global debt within the current bubble boundary."
+        }
+      ],
+      "pressures": [
+        {
+          "effectId": "effect:9:branch",
+          "effectKind": "branch",
+          "scope": "local",
+          "pressureKind": "branch-pressure",
+          "description": "Effect effect:9:branch contributes branch pressure inside the current bubble boundary."
+        },
+        {
+          "effectId": "effect:11:debt",
+          "effectKind": "debt",
+          "scope": "global",
+          "pressureKind": "unresolved-debt",
+          "description": "Effect effect:11:debt contributes unresolved debt pressure inside the current bubble boundary."
+        }
+      ],
+      "events": [
+        {
+          "effectId": "effect:8:observe",
+          "effectKind": "observe",
+          "scope": "local",
+          "eventKind": "observation-surface",
+          "description": "Effect effect:8:observe opens an observation-surface event role for the current bubble."
+        },
+        {
+          "effectId": "effect:9:branch",
+          "effectKind": "branch",
+          "scope": "local",
+          "eventKind": "alternative-branch",
+          "description": "Effect effect:9:branch opens an alternative-branch event role for the current bubble."
+        },
+        {
+          "effectId": "effect:10:commit",
+          "effectKind": "commit",
+          "scope": "local",
+          "eventKind": "history-commit",
+          "description": "Effect effect:10:commit opens a history-commit event role for the current bubble."
+        }
+      ],
+      "traces": [
+        {
+          "effectId": "effect:8:observe",
+          "sourceLine": 8,
+          "traceKind": "declared-effect",
+          "description": "Effect effect:8:observe preserves one declared-effect trace origin for downstream planning and runtime evidence."
+        },
+        {
+          "effectId": "effect:9:branch",
+          "sourceLine": 9,
+          "traceKind": "declared-effect",
+          "description": "Effect effect:9:branch preserves one declared-effect trace origin for downstream planning and runtime evidence."
+        },
+        {
+          "effectId": "effect:10:commit",
+          "sourceLine": 10,
+          "traceKind": "declared-effect",
+          "description": "Effect effect:10:commit preserves one declared-effect trace origin for downstream planning and runtime evidence."
+        },
+        {
+          "effectId": "effect:11:debt",
+          "sourceLine": 11,
+          "traceKind": "declared-effect",
+          "description": "Effect effect:11:debt preserves one declared-effect trace origin for downstream planning and runtime evidence."
+        }
+      ]
+    },
     "generation": {
       "realizationMode": "nondeterministic",
       "realizationSource": "authored",

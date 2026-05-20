@@ -240,7 +240,7 @@ Interpretation:
 - required effects become obligations in planning output
 - optional effects describe permitted but not mandatory behavior
 - scope defaults locally unless another scope is declared
-- `commit` currently lowers into durable-history lifecycle and evidence behavior
+- `commit` currently lowers into declared-history-support lifecycle behavior and can later materialize concrete `history-commit` evidence when one run actually commits
 - `collapse` currently lowers into lifecycle support for retirement or merge semantics
 - `leak`, `debt`, and `perturb` currently lower into runtime stress signals used by ontology and evidence output
 
@@ -553,8 +553,10 @@ Inside `bubble`, current outputs may include:
 - `observationMode`
 - `effects`
 - `obligations`
+- `effectRoles`
 - `generation`
 - `unresolvedSemantics`
+- `latentTopology`
 - `meta`
 
 Interpret them as follows:
@@ -562,8 +564,10 @@ Interpret them as follows:
 - `address`: lineage-aware identity of the root bubble
 - `effects`: authored effect declarations with provenance
 - `obligations`: required semantic commitments implied by authored effects
+- `effectRoles`: one role-split projection of the authored effect layer into declarations, obligations, permissions, pressures, events, and declaration traces
 - `generation`: realization mode, lifecycle hints, and bubble-generative relations
-- `unresolvedSemantics`: authored unknown, partial, hidden, latent, or constraint-bearing semantic fragments
+- `unresolvedSemantics`: authored unknown, partial, hidden, latent, or constraint-bearing semantic fragments, each preserving a stable `id`, authored `name`, description, source line, and optional executable expression witness
+- `latentTopology`: a first IR draft that projects `hidden-region` and `latent-bubble` fragments into explicit latent-region descriptors plus collapse-evidence drafts tied to declared observe, perturb, and commit capabilities
 - `meta`: quotes, generators, reflections, emissions, grammars, and grammar activations
 
 ### Semantic Plan
@@ -573,6 +577,7 @@ Plan outputs summarize what the runtime would need to honor without yet material
 Look for:
 
 - obligations to satisfy
+- latent-region descriptors and collapse-evidence drafts when the bubble admits hidden regions or latent bubbles
 - bundle members and materialization scopes
 - planned descendant or branch relations
 - grammar activation plans
@@ -640,17 +645,20 @@ This section is the first runtime landing zone for the sea-anchor model.
 
 It does not claim to read metaphysical truth from source text.
 
-It exposes a conservative runtime assessment derived from current Bubble signals such as realization mode, boundary-scoped relations, descendant lineage, seed continuity, observation mode, durable history support, and explicit leak, debt, or perturb capability.
+It exposes a conservative runtime assessment derived from current Bubble signals such as realization mode, boundary-scoped relations, descendant lineage, seed continuity, observation mode, declared history support, actual materialized history evidence, and explicit leak, debt, or perturb capability.
 
 Current fields include:
 
 - `negativeSea.pressure`: current instability pressure inferred from branching, nondeterminism, boundary exposure, and explicit leak or perturb capability
-- `positiveSea.support`: current structural support inferred from lineage, seed, descendant growth, and durable history
-- `anchorPoint.strength`: current world-identity support inferred from axioms, world will, seed continuity, observation, durable history, and present stress such as unresolved debt or perturbation
-- `anchorPoint.trustedHistory`: whether the current world has durable history support in the runtime model
+- `positiveSea.support`: current structural support inferred from lineage, seed, descendant growth, and declared history support
+- `anchorPoint.strength`: current world-identity support inferred from axioms, world will, seed continuity, observation, declared history support, and present stress such as unresolved debt or perturbation
+- `anchorPoint.declaredHistorySupport`: whether the source bubble declares history support at the lifecycle level
+- `anchorPoint.materializedHistoryEvidence`: whether the current run actually emitted `history-commit` evidence
 - `anchorPoint.rewindStability`: whether replaying or rewinding is currently assessed as fragile, guarded, or stable
 - `theoremWitness`: the current formal witness for Bubble worldhood, including ordinal ranks for $N$, $P$, and $A$, plus `worldhoodDelta = A + P - N` and the derived condition `stable | stressed | dissolving`
 - `signals`: explainable reasons for each assessment
+
+The plan-level ontology remains declaration- and plan-based. The inspection/replay `ontology` section may therefore diverge from `plan.ontology` when the current run actually produced materialized history evidence.
 
 This is intentionally a runtime assessment layer, not a new core syntax commitment.
 
@@ -674,6 +682,13 @@ Current runtime shape:
 - `mode: bubble-consistency-certificate.v1`
 - `verdict: certified | partially-certified | contradicted | undetermined`
 - `claims[]` with per-claim `status: certified | contradicted | undetermined`
+
+Each proof claim now also records:
+
+- `scope: source | plan | materialized-run | replay`
+- `evidenceIds[]`: linked evidence records when the current runtime can name them deterministically
+- `dependsOnClaims[]`: upstream proof claims that bound the current claim
+- `assumptions[]`: explicit model assumptions that keep the current claim bounded instead of absolute
 
 The inspect and replay CLIs can now narrow this section with:
 
@@ -710,6 +725,8 @@ What it still does not have is a general solver.
 Today the runtime can directly execute authored `constraint`, minimal `partial law`, and `anchor identity` expressions inside the shared expression subset.
 
 Other unresolved fragments still matter because the `internal-law-consistency` claim can cite them directly as reasons that a proof remains `undetermined`.
+
+When `latentTopology` exists, the bounded proof layer now also cites that draft directly. In particular, `replay-identity` and `internal-law-consistency` may remain `undetermined` with basis such as `latent-topology` or `latent-observation-ready` until one real observation-collapse record exists and later becomes committed history.
 
 ### Executable Semantics Output
 

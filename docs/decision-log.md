@@ -613,3 +613,43 @@ If inspection can filter proof output only as a bag of matching claims while lea
 Consequence:
 
 Expose proof claim id, proof family, and proof claim status as first-class query axes. When proof is narrowed, both the proof section and the summary layer should recompute their bounded-certificate shape from the selected claim slice, including verdict and claim-status distribution, instead of preserving stale global values.
+
+### D-062: Separate declared history support from materialized history evidence
+
+Reason:
+
+If Bubble uses one field to mean both "the source declared durable history support" and "this run actually produced history evidence," then ontology and proof will quietly overstate what has really been witnessed. That would blur the boundary between declared semantic intent and run-grounded evidence.
+
+Consequence:
+
+Replace the overloaded history bit with at least two explicit states: declaration-level history support and run-level materialized history evidence. Plan ontology may remain declaration-based, but inspection and replay should expose the runtime distinction whenever concrete history evidence exists.
+
+### D-063: Split authored effects into role projections inside IR before changing syntax
+
+Reason:
+
+One authored `effect` currently carries declaration, obligation, permission, pressure, event, and trace consequences at once. If Bubble leaves those roles collapsed inside one flat list, future semantics will keep leaking between unrelated concerns and the effect model will stay harder to reason about than it needs to be.
+
+Consequence:
+
+Keep the current surface syntax for now, but lower authored effects into one explicit IR role projection that separates declarations, obligations, permissions, pressures, events, and declaration traces. Runtime layers may continue using the legacy `effects` list while newer tooling migrates toward the split role model.
+
+### D-064: Observation-induced materialization must begin from a narrow transition contract, not from new syntax
+
+Reason:
+
+If Bubble tries to implement observation-induced materialization by adding surface syntax or runtime heuristics before a minimal transition model is fixed, the project will blur together latent possibility, first observation, committed history, and replay identity. That would expand the language while weakening its most important guarantees.
+
+Consequence:
+
+Before any code or syntax widening for this branch, define one minimal semantic contract covering `latent -> observed -> committed` transitions, one inspectable perturb-mixing rule, one collapse-evidence shape, and one replay judgment that distinguishes revisiting committed history from regenerating latent possibility. The first runnable slice should stay local to one micro-world and must not introduce hidden randomness, probability-cloud replay semantics, or generalized observer-dependent behavior across the whole language.
+
+### D-065: Adopt a staged observation-collapse roadmap inside Bubble core
+
+Reason:
+
+If observation-induced materialization remains only a research note, the repository will oscillate between abstract ambition and unrelated local implementation steps. That would make it too easy either to postpone the idea indefinitely or to smuggle it into the runtime without one clear contract.
+
+Consequence:
+
+Treat observation-collapse as one staged next-core roadmap. Keep current Bubble core grounded in explicit effects, bounded proof, replay, and latent-topology drafts. Move next through collapse records, one local observation-triggered materialization kernel, replay hardening, and only then any new author-facing syntax. Keep probabilistic clouds, distributional replay, generalized observer-dependent semantics, and hidden randomness explicitly deferred.

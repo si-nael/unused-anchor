@@ -89,7 +89,7 @@ The runtime should preserve:
 
 Current implemented slice:
 
-- `commit` lowers into durable-history lifecycle support and commit evidence
+- `commit` lowers into declared-history-support lifecycle behavior and, when one run actually commits, concrete `history-commit` evidence
 - `collapse` lowers into lifecycle support for retirement semantics
 - `leak` raises negative-sea pressure as explicit membrane stress
 - `debt` weakens anchor support and guards rewind stability as an unresolved obligation signal

@@ -2,6 +2,20 @@
 
 ## 2026-05-20
 
+### Future research: observation-induced materialization and perturbative collapse
+
+Research note: [Observation-Induced Materialization and Perturbative Collapse](research/observation-induced-materialization.md)
+
+- Governing philosophy: Bubble should use finite memory to represent an effectively infinite bubble multiverse, not by pretending the whole world already exists in explicit state but by storing latent law and materializing only the required slice.
+- An unobserved bubble region may exist intensionally as compact generative law rather than as fully explicit stored state.
+- Observation should not necessarily behave like a passive read from a fixed procedural lookup table.
+- A stronger Bubble direction is that observation or interaction becomes a causal world event that participates in local materialization.
+- In that model, the realized local world may depend not only on seed and latent law but also on perturbation, boundary stress, anchor condition, nearby committed history, and the authored Bubble semantics governing collapse.
+- This would make Bubble fundamentally different from classical chunk generation: the same latent region would not have to resolve the same way if the observation or interaction path is meaningfully different.
+- The point is not to inject opaque randomness, but to let authored Bubble law determine how latent possibility becomes historical world state.
+- Once such a region is committed, replay should return to the observed-and-deformed history rather than to a pristine pre-observation seed answer.
+- This is a powerful research direction, but it should remain deferred until the project can formalize observation-induced divergence, same-world replay, and contradiction versus lawful collapse variance.
+
 ### Future research: deterministic substrate, probabilistic fractal worldhood
 
 Research note: [Deterministic Substrate and Probabilistic-Fractal Worldhood](research/probabilistic-fractal-worldhood.md)

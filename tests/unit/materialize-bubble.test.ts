@@ -62,7 +62,8 @@ test("plans and materializes descendant emissions from a meta bubble", () => {
         },
         anchorPoint: {
             strength: "steady",
-            trustedHistory: false,
+            declaredHistorySupport: false,
+            materializedHistoryEvidence: false,
             rewindStability: "guarded",
             signals: ["axiomatic-basis", "world-will", "seed-continuity"],
         },
@@ -161,6 +162,170 @@ test("plans and materializes descendant emissions from a meta bubble", () => {
     assert.equal(materialized.commits[0].committedAddressId, "bubble:nursery.bubble::root:Nursery/spawn:emit:11:Grove");
 });
 
+test("semantic plans preserve latent topology drafts for hidden regions and latent bubbles", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "threshold-plan.bubble" });
+    const plan = planBubbleProgram(program);
+
+    assert.deepEqual(plan.latentTopology, program.bubble.latentTopology ?? null);
+    assert.deepEqual(plan.latentTopology, {
+        mode: "bubble-latent-topology.v1",
+        regions: [
+            {
+                id: "latent-region:semantic:9:hidden-region:OuterCanopy",
+                sourceSemanticId: "semantic:9:hidden-region:OuterCanopy",
+                name: "OuterCanopy",
+                kind: "hidden-region",
+                description: "Hidden region OuterCanopy remains outside the current observation surface.",
+                sourceLine: 9,
+                initialState: "latent",
+                observationBoundary: "declared-observation-surface",
+                commitBoundary: "declared-history-support",
+                perturbationMode: "declared-perturbation",
+            },
+            {
+                id: "latent-region:semantic:10:latent-bubble:WaitingArchive",
+                sourceSemanticId: "semantic:10:latent-bubble:WaitingArchive",
+                name: "WaitingArchive",
+                kind: "latent-bubble",
+                description: "Latent bubble WaitingArchive is admitted but not yet materialized.",
+                sourceLine: 10,
+                initialState: "latent",
+                observationBoundary: "declared-observation-surface",
+                commitBoundary: "declared-history-support",
+                perturbationMode: "declared-perturbation",
+            },
+        ],
+        collapseEvidenceDrafts: [
+            {
+                id: "collapse-evidence-draft:semantic:9:hidden-region:OuterCanopy",
+                latentRegionId: "latent-region:semantic:9:hidden-region:OuterCanopy",
+                sourceSemanticId: "semantic:9:hidden-region:OuterCanopy",
+                observationEffectIds: ["effect:6:observe"],
+                perturbEffectIds: ["effect:8:perturb"],
+                commitEffectIds: ["effect:7:commit"],
+                draftStatus: "observation-ready",
+                description: "Latent region OuterCanopy can materialize under the declared observation surface with declared perturbation support and later anchor that collapse through declared history support.",
+            },
+            {
+                id: "collapse-evidence-draft:semantic:10:latent-bubble:WaitingArchive",
+                latentRegionId: "latent-region:semantic:10:latent-bubble:WaitingArchive",
+                sourceSemanticId: "semantic:10:latent-bubble:WaitingArchive",
+                observationEffectIds: ["effect:6:observe"],
+                perturbEffectIds: ["effect:8:perturb"],
+                commitEffectIds: ["effect:7:commit"],
+                draftStatus: "observation-ready",
+                description: "Latent region WaitingArchive can materialize under the declared observation surface with declared perturbation support and later anchor that collapse through declared history support.",
+            },
+        ],
+    });
+});
+
+test("latent topology keeps replay identity and internal consistency bounded before collapse history exists", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "threshold-proof.bubble" });
+    const plan = planBubbleProgram(program);
+    const claimById = Object.fromEntries(plan.proof.claims.map((claim) => [claim.id, claim]));
+
+    assert.equal(claimById["claim:replay-identity"]?.status, "undetermined");
+    assert.ok(claimById["claim:replay-identity"]?.basis.includes("latent-topology"));
+    assert.ok(claimById["claim:replay-identity"]?.basis.includes("latent-observation-ready"));
+    assert.deepEqual(claimById["claim:replay-identity"]?.assumptions, [
+        "same-world-replay-is-evaluated-from-the-current-plan-basis",
+        "latent-collapse-history-is-not-yet-materialized",
+    ]);
+    assert.match(claimById["claim:replay-identity"]?.explanation ?? "", /latent regions/);
+    assert.match(claimById["claim:replay-identity"]?.explanation ?? "", /observation-ready/);
+
+    assert.equal(claimById["claim:internal-law-consistency"]?.status, "undetermined");
+    assert.ok(claimById["claim:internal-law-consistency"]?.basis.includes("latent-topology"));
+    assert.ok(claimById["claim:internal-law-consistency"]?.basis.includes("latent-observation-ready"));
+    assert.ok(claimById["claim:internal-law-consistency"]?.basis.includes("hidden-region"));
+    assert.ok(claimById["claim:internal-law-consistency"]?.basis.includes("latent-admitted-bubble"));
+    assert.ok(claimById["claim:internal-law-consistency"]?.assumptions?.includes("observation-induced-collapse-is-not-yet-executed"));
+    assert.match(claimById["claim:internal-law-consistency"]?.explanation ?? "", /Latent collapse drafts/);
+});
+test("materialization distinguishes declared history support from materialized history evidence and links proof claims to evidence", () => {
+    const source = [
+        "bubble Archive {",
+        "  realization deterministic",
+        "  axiom coherence = stable",
+        "  will \"preserve experiment history\"",
+        "  seed archive_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect spawn required",
+        "  quote Sapling = bubble Sapling { realization deterministic axiom coherence = stable will 'preserve inner symmetry' seed latent_seed effect spawn required }",
+        "  generator Grove(seedName) from Sapling",
+        "  emit Grove(\"ember_seed\") as descendant",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "archive-history.bubble" });
+    const plan = planBubbleProgram(program);
+    const materialized = materializeBubbleProgram(program);
+
+    assert.equal(plan.ontology.anchorPoint.declaredHistorySupport, true);
+    assert.equal(plan.ontology.anchorPoint.materializedHistoryEvidence, false);
+    assert.equal(materialized.runtimeOntology.anchorPoint.declaredHistorySupport, true);
+    assert.equal(materialized.runtimeOntology.anchorPoint.materializedHistoryEvidence, true);
+
+    const anchorEvidence = materialized.evidence.find((entry) => entry.kind === "anchor-point-state");
+    assert.equal(anchorEvidence?.declaredHistorySupport, true);
+    assert.equal(anchorEvidence?.materializedHistoryEvidence, true);
+
+    const requiredEffectsClaim = plan.proof.claims.find((claim) => claim.id === "claim:required-effect-obligations");
+    assert.ok(requiredEffectsClaim);
+    assert.equal(requiredEffectsClaim.scope, "plan");
+    assert.deepEqual(requiredEffectsClaim.dependsOnClaims, ["claim:minimum-worldhood"]);
+    assert.deepEqual(requiredEffectsClaim.evidenceIds, [
+        "evidence:effect:effect:7:observe",
+        "evidence:effect:effect:8:commit",
+        "evidence:effect:effect:9:spawn",
+    ]);
+
+    const replayClaim = plan.proof.claims.find((claim) => claim.id === "claim:replay-identity");
+    assert.ok(replayClaim);
+    assert.equal(replayClaim.scope, "plan");
+    assert.deepEqual(replayClaim.dependsOnClaims, ["claim:anchor-identity"]);
+    assert.deepEqual(replayClaim.assumptions, ["same-world-replay-is-evaluated-from-the-current-plan-basis"]);
+    assert.deepEqual(replayClaim.evidenceIds, [
+        "evidence:anchor-point:bubble:archive-history.bubble::root:Archive",
+        "evidence:positive-sea:bubble:archive-history.bubble::root:Archive",
+        "evidence:negative-sea:bubble:archive-history.bubble::root:Archive",
+        "evidence:observe:bubble:archive-history.bubble::root:Archive",
+        "evidence:effect:effect:7:observe",
+        "evidence:effect:effect:8:commit",
+    ]);
+});
+
 test("materializes direct quoted artifacts without generator arguments", () => {
     const source = [
         "bubble Studio {",
@@ -224,8 +389,8 @@ test("records observation evidence even when no staged emissions exist", () => {
             emissionId: null,
             commitId: null,
             support: "present",
-            signals: ["source-lineage-address", "seeded-origin", "durable-history"],
-            description: "Bubble Observatory currently shows present positive-sea support via source-lineage-address, seeded-origin, durable-history.",
+            signals: ["source-lineage-address", "seeded-origin", "declared-history-support"],
+            description: "Bubble Observatory currently shows present positive-sea support via source-lineage-address, seeded-origin, declared-history-support.",
         },
         {
             id: "evidence:anchor-point:bubble:observatory.bubble::root:Observatory",
@@ -237,9 +402,10 @@ test("records observation evidence even when no staged emissions exist", () => {
             emissionId: null,
             commitId: null,
             strength: "strong",
-            trustedHistory: true,
+            declaredHistorySupport: true,
+            materializedHistoryEvidence: false,
             rewindStability: "stable",
-            signals: ["axiomatic-basis", "world-will", "seed-continuity", "durable-history", "observation-surface"],
+            signals: ["axiomatic-basis", "world-will", "seed-continuity", "declared-history-support", "observation-surface"],
             description: "Bubble Observatory currently shows strong anchor support with stable rewind stability.",
         },
         {
@@ -251,7 +417,7 @@ test("records observation evidence even when no staged emissions exist", () => {
             observationMode: "witness",
             emissionId: null,
             commitId: null,
-            description: "Bubble Observatory declares observation mode witness with durable history support.",
+            description: "Bubble Observatory declares observation mode witness with declared history support.",
         },
         {
             id: "evidence:effect:effect:6:observe",
@@ -286,8 +452,8 @@ test("records observation evidence even when no staged emissions exist", () => {
             scope: "local",
             sourceLine: 7,
             materializationState: "potential",
-            runtimeSignals: ["durable-history"],
-            description: "Bubble Observatory recorded required local commit as potential in this run via durable-history.",
+            runtimeSignals: ["declared-history-support"],
+            description: "Bubble Observatory recorded required local commit as potential in this run via declared-history-support.",
         },
     ]);
     assert.equal(materialized.trace.at(-1)?.kind, "no-emissions");
@@ -308,18 +474,21 @@ test("internal consistency proof records unresolved semantic fragments as undete
         {
             id: "semantic:unknown-law",
             kind: "partial-law",
+            name: "unknown-law",
             description: "One law fragment remains only partially specified.",
             sourceLine: null,
         },
         {
             id: "semantic:constraint",
             kind: "constraint",
+            name: "constraint",
             description: "One governing constraint remains unresolved.",
             sourceLine: null,
         },
         {
             id: "semantic:hidden-region",
             kind: "hidden-region",
+            name: "hidden-region",
             description: "One region is admitted but hidden from the current observation surface.",
             sourceLine: null,
         },

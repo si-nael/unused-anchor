@@ -165,6 +165,7 @@ Only after those are stronger should the project revisit probabilistic-fractal w
 
 ## Related Notes
 
+- [Observation-Induced Materialization and Perturbative Collapse](observation-induced-materialization.md)
 - [Foundation](foundation.md)
 - [Question Log](question-log.md)
 - [Idea Log](../idea-log.md)

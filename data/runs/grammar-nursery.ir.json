@@ -40,6 +40,53 @@
         "description": "Author declared spawn as a required local effect."
       }
     ],
+    "effectRoles": {
+      "declarations": [
+        {
+          "id": "effect:5:spawn",
+          "sourceLine": 5,
+          "sourceConstruct": "effect",
+          "kind": "spawn",
+          "requirement": "required",
+          "scope": "local"
+        }
+      ],
+      "obligations": [
+        {
+          "effectId": "effect:5:spawn",
+          "effectKind": "spawn",
+          "scope": "local",
+          "description": "Author declared spawn as a required local effect."
+        }
+      ],
+      "permissions": [
+        {
+          "effectId": "effect:5:spawn",
+          "effectKind": "spawn",
+          "scope": "local",
+          "requirement": "required",
+          "description": "Author permits required local spawn within the current bubble boundary."
+        }
+      ],
+      "pressures": [],
+      "events": [
+        {
+          "effectId": "effect:5:spawn",
+          "effectKind": "spawn",
+          "scope": "local",
+          "eventKind": "descendant-generation",
+          "description": "Effect effect:5:spawn opens a descendant-generation event role for the current bubble."
+        }
+      ],
+      "traces": [
+        {
+          "effectId": "effect:5:spawn",
+          "sourceLine": 5,
+          "traceKind": "declared-effect",
+          "description": "Effect effect:5:spawn preserves one declared-effect trace origin for downstream planning and runtime evidence."
+        }
+      ]
+    },
     "generation": {
       "realizationMode": "deterministic",
       "realizationSource": "inferred",

@@ -53,6 +53,7 @@ The current declarations should therefore be read conservatively:
 A `v0.4` compilation should answer at least these questions:
 
 - which unresolved semantic fragments were authored
+- which authored name each unresolved fragment preserved in IR
 - which unresolved kind each declaration named
 - what stable identifier and source line each fragment received
 - which descriptive text, explicit or defaulted, was preserved
@@ -64,11 +65,19 @@ A `v0.4` compilation should answer at least these questions:
 
 Unresolved-semantic declarations lower into `bubble.unresolvedSemantics` in Bubble IR.
 
+Each lowered unresolved fragment now also preserves its authored `name` directly in IR instead of forcing later tooling to recover that name from the synthetic id.
+
 `anchor identity` lowers into `bubble.anchorCriterion`.
+
+When one bubble contains `hidden region` or `latent bubble` declarations, the compiler also emits a first `bubble.latentTopology` projection. That draft IR records explicit latent-region descriptors together with collapse-evidence drafts connected to any declared `observe`, `perturb`, and `commit` effects. It is still only a preparation surface, not a full observation-collapse runtime.
 
 The runtime proof layer can cite unresolved fragments directly as `undetermined` basis for `internal-law-consistency`, and it can now execute authored `constraint`, `partial law`, and `anchor identity` expressions inside the current shared expression subset.
 
+When latent-topology drafts exist, the bounded proof layer may also keep `replay identity` or `internal-law-consistency` `undetermined` with latent-collapse basis rather than over-certifying same-world replay before any actual collapse history exists.
+
 The semantic plan now also carries a dedicated executable-semantics surface that records per-constraint, per-partial-law, and anchor-criterion evaluation results directly instead of leaving them visible only through proof-claim text.
+
+When `bubble.latentTopology` exists, the semantic plan now preserves that latent-topology draft directly instead of leaving it visible only in compiled IR.
 
 The semantic plan also now carries a first `bundle` surface that groups the root bubble, staged emissions, staged grammar activations, and their current materialization scopes into one provenance-bearing package shape.
 

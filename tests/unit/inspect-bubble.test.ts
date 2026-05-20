@@ -284,8 +284,8 @@ test("inspection exposes observation evidence as a first-class report section", 
             emissionId: null,
             commitId: null,
             support: "present",
-            signals: ["source-lineage-address", "seeded-origin", "durable-history"],
-            description: "Bubble Observatory currently shows present positive-sea support via source-lineage-address, seeded-origin, durable-history.",
+            signals: ["source-lineage-address", "seeded-origin", "declared-history-support"],
+            description: "Bubble Observatory currently shows present positive-sea support via source-lineage-address, seeded-origin, declared-history-support.",
         },
         {
             id: "evidence:anchor-point:bubble:observatory-inspect.bubble::root:Observatory",
@@ -297,9 +297,10 @@ test("inspection exposes observation evidence as a first-class report section", 
             emissionId: null,
             commitId: null,
             strength: "strong",
-            trustedHistory: true,
+            declaredHistorySupport: true,
+            materializedHistoryEvidence: false,
             rewindStability: "stable",
-            signals: ["axiomatic-basis", "world-will", "seed-continuity", "durable-history", "observation-surface"],
+            signals: ["axiomatic-basis", "world-will", "seed-continuity", "declared-history-support", "observation-surface"],
             description: "Bubble Observatory currently shows strong anchor support with stable rewind stability.",
         },
         {
@@ -311,7 +312,7 @@ test("inspection exposes observation evidence as a first-class report section", 
             observationMode: "witness",
             emissionId: null,
             commitId: null,
-            description: "Bubble Observatory declares observation mode witness with durable history support.",
+            description: "Bubble Observatory declares observation mode witness with declared history support.",
         },
         {
             id: "evidence:effect:effect:6:observe",
@@ -346,12 +347,84 @@ test("inspection exposes observation evidence as a first-class report section", 
             scope: "local",
             sourceLine: 7,
             materializationState: "potential",
-            runtimeSignals: ["durable-history"],
-            description: "Bubble Observatory recorded required local commit as potential in this run via durable-history.",
+            runtimeSignals: ["declared-history-support"],
+            description: "Bubble Observatory recorded required local commit as potential in this run via declared-history-support.",
         },
     ]);
 });
 
+test("inspection distinguishes declared history support from materialized history evidence", () => {
+    const source = [
+        "bubble Archive {",
+        "  realization deterministic",
+        "  axiom coherence = stable",
+        "  will \"preserve experiment history\"",
+        "  seed archive_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect spawn required",
+        "  quote Sapling = bubble Sapling { realization deterministic axiom coherence = stable will 'preserve inner symmetry' seed latent_seed effect spawn required }",
+        "  generator Grove(seedName) from Sapling",
+        "  emit Grove(\"ember_seed\") as descendant",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "archive-inspect-history.bubble" });
+    const report = inspectBubbleProgram(program);
+
+    assert.equal(report.plan.ontology.anchorPoint.declaredHistorySupport, true);
+    assert.equal(report.plan.ontology.anchorPoint.materializedHistoryEvidence, false);
+    assert.equal(report.ontology.anchorPoint.declaredHistorySupport, true);
+    assert.equal(report.ontology.anchorPoint.materializedHistoryEvidence, true);
+});
+
+test("inspection preserves latent topology on the plan surface", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "threshold-inspect-plan.bubble" });
+    const report = inspectBubbleProgram(program);
+
+    assert.deepEqual(report.plan.latentTopology, program.bubble.latentTopology ?? null);
+    assert.deepEqual(report.plan.latentTopology?.regions.map((region) => region.name), ["OuterCanopy", "WaitingArchive"]);
+    assert.deepEqual(report.plan.latentTopology?.collapseEvidenceDrafts.map((draft) => draft.draftStatus), ["observation-ready", "observation-ready"]);
+});
+
+test("inspection preserves proof boundedness for latent topology drafts", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "threshold-inspect-proof.bubble" });
+    const report = inspectBubbleProgram(program);
+    const claimById = Object.fromEntries(report.proof.claims.map((claim) => [claim.id, claim]));
+
+    assert.equal(claimById["claim:replay-identity"]?.status, "undetermined");
+    assert.ok(claimById["claim:replay-identity"]?.basis.includes("latent-topology"));
+    assert.ok(claimById["claim:internal-law-consistency"]?.basis.includes("latent-observation-ready"));
+    assert.ok(report.summary.proofClaimStatusCounts.undetermined >= 2);
+});
 test("inspection exposes sea-anchor ontology for stressed boundary worlds", () => {
     const source = [
         "bubble BoundaryOrchard {",
@@ -379,17 +452,18 @@ test("inspection exposes sea-anchor ontology for stressed boundary worlds", () =
         },
         positiveSea: {
             support: "strong",
-            signals: ["source-lineage-address", "seeded-origin", "descendant-lineage", "durable-history"],
+            signals: ["source-lineage-address", "seeded-origin", "descendant-lineage", "declared-history-support"],
         },
         anchorPoint: {
             strength: "steady",
-            trustedHistory: true,
+            declaredHistorySupport: true,
+            materializedHistoryEvidence: false,
             rewindStability: "guarded",
             signals: [
                 "axiomatic-basis",
                 "world-will",
                 "seed-continuity",
-                "durable-history",
+                "declared-history-support",
                 "observation-surface",
                 "negative-pressure",
                 "boundary-stress",
@@ -455,17 +529,18 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
         },
         positiveSea: {
             support: "present",
-            signals: ["source-lineage-address", "seeded-origin", "durable-history"],
+            signals: ["source-lineage-address", "seeded-origin", "declared-history-support"],
         },
         anchorPoint: {
             strength: "weak",
-            trustedHistory: true,
+            declaredHistorySupport: true,
+            materializedHistoryEvidence: false,
             rewindStability: "guarded",
             signals: [
                 "axiomatic-basis",
                 "world-will",
                 "seed-continuity",
-                "durable-history",
+                "declared-history-support",
                 "observation-surface",
                 "negative-pressure",
                 "boundary-stress",
@@ -523,8 +598,8 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
             emissionId: null,
             commitId: null,
             support: "present",
-            signals: ["source-lineage-address", "seeded-origin", "durable-history"],
-            description: "Bubble MembraneArchive currently shows present positive-sea support via source-lineage-address, seeded-origin, durable-history.",
+            signals: ["source-lineage-address", "seeded-origin", "declared-history-support"],
+            description: "Bubble MembraneArchive currently shows present positive-sea support via source-lineage-address, seeded-origin, declared-history-support.",
         },
         {
             id: "evidence:anchor-point:bubble:membrane-archive.bubble::root:MembraneArchive",
@@ -536,13 +611,14 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
             emissionId: null,
             commitId: null,
             strength: "weak",
-            trustedHistory: true,
+            declaredHistorySupport: true,
+            materializedHistoryEvidence: false,
             rewindStability: "guarded",
             signals: [
                 "axiomatic-basis",
                 "world-will",
                 "seed-continuity",
-                "durable-history",
+                "declared-history-support",
                 "observation-surface",
                 "negative-pressure",
                 "boundary-stress",
@@ -586,8 +662,8 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
             scope: "local",
             sourceLine: 7,
             materializationState: "potential",
-            runtimeSignals: ["durable-history"],
-            description: "Bubble MembraneArchive recorded required local commit as potential in this run via durable-history.",
+            runtimeSignals: ["declared-history-support"],
+            description: "Bubble MembraneArchive recorded required local commit as potential in this run via declared-history-support.",
         },
         {
             id: "evidence:effect:effect:8:leak",
@@ -757,12 +833,14 @@ test("inspection can narrow executable semantics by status", () => {
         {
             id: "semantic:unknown-law",
             kind: "partial-law",
+            name: "unknown-law",
             description: "One law fragment remains only partially specified.",
             sourceLine: null,
         },
         {
             id: "semantic:constraint",
             kind: "constraint",
+            name: "constraint",
             description: "One governing constraint remains unresolved.",
             sourceLine: null,
         },

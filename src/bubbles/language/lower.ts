@@ -3,11 +3,14 @@ import type {
     BubbleAddressTemplateIR,
     BubbleAnchorCriterionIR,
     BubbleEmissionIR,
+    BubbleEffectRolesIR,
+    EffectEventIR,
     BubbleGrammarActivationIR,
     BubbleGrammarIR,
     BubbleGeneratorIR,
     BubbleGenerativeRelationIR,
     BubbleGenerationIR,
+    BubbleLatentTopologyIR,
     BubbleMetaIR,
     BubbleProfile,
     BubbleQuoteIR,
@@ -16,7 +19,10 @@ import type {
     BubbleReflectionIR,
     BubbleUnresolvedSemanticIR,
     BubbleVersion,
+    EffectPermissionIR,
+    EffectPressureIR,
     EffectIR,
+    EffectTraceIR,
     ObligationIR,
 } from "../ir";
 import { formatBubbleExpression } from "./expressions";
@@ -172,9 +178,11 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
 
     const address = buildBubbleAddress(document.sourcePath, document.bubble.name);
     const obligations = buildObligations(effects);
+    const effectRoles = buildEffectRoles(effects, obligations);
     const generation = buildGeneration(address, effects, worldWill, observationMode, authoredRealizationMode, spawnDeclarations);
     const anchorCriterion = buildAnchorCriterion(anchorDeclaration);
     const unresolvedSemantics = buildUnresolvedSemantics(unresolvedSemanticDeclarations);
+    const latentTopology = buildLatentTopology(unresolvedSemantics, effects);
     const meta = buildMeta(
         quoteDeclarations,
         generatorDeclarations,
@@ -213,9 +221,11 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
             observationMode,
             effects,
             obligations,
+            effectRoles,
             generation,
             ...(anchorCriterion === null ? {} : { anchorCriterion }),
             ...(unresolvedSemantics.length === 0 ? {} : { unresolvedSemantics }),
+            ...(latentTopology === null ? {} : { latentTopology }),
             ...(meta === null ? {} : { meta }),
         },
     };
@@ -240,10 +250,79 @@ function buildUnresolvedSemantics(
     return declarations.map((declaration) => ({
         id: `semantic:${declaration.line}:${declaration.semanticKind}:${declaration.name}`,
         kind: declaration.semanticKind,
+        name: declaration.name,
         description: declaration.description,
         ...(declaration.expression === null ? {} : { expression: declaration.expression }),
         sourceLine: declaration.line,
     }));
+}
+
+function buildLatentTopology(
+    unresolvedSemantics: BubbleUnresolvedSemanticIR[],
+    effects: EffectIR[],
+): BubbleLatentTopologyIR | null {
+    const latentRegions = unresolvedSemantics.filter(
+        (
+            fragment,
+        ): fragment is BubbleUnresolvedSemanticIR & { kind: "hidden-region" | "latent-bubble" } => fragment.kind === "hidden-region" || fragment.kind === "latent-bubble",
+    );
+
+    if (latentRegions.length === 0) {
+        return null;
+    }
+
+    const observationEffectIds = effects
+        .filter((effect) => effect.kind === "observe")
+        .map((effect) => effect.id);
+    const perturbEffectIds = effects
+        .filter((effect) => effect.kind === "perturb")
+        .map((effect) => effect.id);
+    const commitEffectIds = effects
+        .filter((effect) => effect.kind === "commit")
+        .map((effect) => effect.id);
+    const observationBoundary = observationEffectIds.length === 0
+        ? "undeclared-observation-surface"
+        : "declared-observation-surface";
+    const commitBoundary = commitEffectIds.length === 0
+        ? "undeclared-history-support"
+        : "declared-history-support";
+    const perturbationMode = perturbEffectIds.length === 0
+        ? "no-declared-perturbation"
+        : "declared-perturbation";
+
+    return {
+        mode: "bubble-latent-topology.v1",
+        regions: latentRegions.map((fragment) => ({
+            id: `latent-region:${fragment.id}`,
+            sourceSemanticId: fragment.id,
+            name: fragment.name,
+            kind: fragment.kind,
+            description: fragment.description,
+            sourceLine: fragment.sourceLine,
+            initialState: "latent",
+            observationBoundary,
+            commitBoundary,
+            perturbationMode,
+        })),
+        collapseEvidenceDrafts: latentRegions.map((fragment) => ({
+            id: `collapse-evidence-draft:${fragment.id}`,
+            latentRegionId: `latent-region:${fragment.id}`,
+            sourceSemanticId: fragment.id,
+            observationEffectIds,
+            perturbEffectIds,
+            commitEffectIds,
+            draftStatus: observationEffectIds.length === 0
+                ? "underspecified"
+                : commitEffectIds.length === 0
+                    ? "history-open"
+                    : "observation-ready",
+            description: observationEffectIds.length === 0
+                ? `Latent region ${fragment.name} has no declared observation surface, so collapse evidence remains underspecified in the current IR draft.`
+                : commitEffectIds.length === 0
+                    ? `Latent region ${fragment.name} can materialize under the declared observation surface${perturbEffectIds.length === 0 ? "" : " with declared perturbation support"}, but no history-commit boundary is declared yet.`
+                    : `Latent region ${fragment.name} can materialize under the declared observation surface${perturbEffectIds.length === 0 ? "" : " with declared perturbation support"} and later anchor that collapse through declared history support.`,
+        })),
+    };
 }
 
 function buildMeta(
@@ -291,6 +370,133 @@ function buildObligations(effects: EffectIR[]): ObligationIR[] {
             scope: effect.scope,
             description: `Author declared ${effect.kind} as a required ${effect.scope} effect.`,
         }));
+}
+
+function buildEffectRoles(
+    effects: EffectIR[],
+    obligations: ObligationIR[],
+): BubbleEffectRolesIR {
+    return {
+        declarations: effects.map((effect) => ({ ...effect })),
+        obligations: obligations.map((obligation) => ({ ...obligation })),
+        permissions: effects.map((effect) => ({
+            effectId: effect.id,
+            effectKind: effect.kind,
+            scope: effect.scope,
+            requirement: effect.requirement,
+            description: `Author permits ${effect.requirement} ${effect.scope} ${effect.kind} within the current bubble boundary.`,
+        } satisfies EffectPermissionIR)),
+        pressures: effects.flatMap((effect) => buildEffectPressures(effect)),
+        events: effects.flatMap((effect) => buildEffectEvents(effect)),
+        traces: effects.map((effect) => ({
+            effectId: effect.id,
+            sourceLine: effect.sourceLine,
+            traceKind: "declared-effect",
+            description: `Effect ${effect.id} preserves one declared-effect trace origin for downstream planning and runtime evidence.`,
+        } satisfies EffectTraceIR)),
+    };
+}
+
+function buildEffectPressures(effect: EffectIR): EffectPressureIR[] {
+    switch (effect.kind) {
+        case "branch":
+            return [{
+                effectId: effect.id,
+                effectKind: effect.kind,
+                scope: effect.scope,
+                pressureKind: "branch-pressure",
+                description: `Effect ${effect.id} contributes branch pressure inside the current bubble boundary.`,
+            }];
+        case "collapse":
+            return [{
+                effectId: effect.id,
+                effectKind: effect.kind,
+                scope: effect.scope,
+                pressureKind: "collapse-pressure",
+                description: `Effect ${effect.id} contributes collapse pressure inside the current bubble boundary.`,
+            }];
+        case "leak":
+            return [{
+                effectId: effect.id,
+                effectKind: effect.kind,
+                scope: effect.scope,
+                pressureKind: effect.scope === "global" ? "global-leak" : effect.scope === "membrane" ? "membrane-leak" : "local-leak",
+                description: `Effect ${effect.id} contributes ${effect.scope} leak pressure inside the current bubble boundary.`,
+            }];
+        case "debt":
+            return [{
+                effectId: effect.id,
+                effectKind: effect.kind,
+                scope: effect.scope,
+                pressureKind: "unresolved-debt",
+                description: `Effect ${effect.id} contributes unresolved debt pressure inside the current bubble boundary.`,
+            }];
+        case "perturb":
+            return [{
+                effectId: effect.id,
+                effectKind: effect.kind,
+                scope: effect.scope,
+                pressureKind: "law-perturbation",
+                description: `Effect ${effect.id} contributes perturbation pressure inside the current bubble boundary.`,
+            }];
+        case "observe":
+        case "commit":
+        case "spawn":
+            return [];
+        default:
+            return assertNever(effect.kind);
+    }
+}
+
+function buildEffectEvents(effect: EffectIR): EffectEventIR[] {
+    switch (effect.kind) {
+        case "observe":
+            return [{
+                effectId: effect.id,
+                effectKind: effect.kind,
+                scope: effect.scope,
+                eventKind: "observation-surface",
+                description: `Effect ${effect.id} opens an observation-surface event role for the current bubble.`,
+            }];
+        case "commit":
+            return [{
+                effectId: effect.id,
+                effectKind: effect.kind,
+                scope: effect.scope,
+                eventKind: "history-commit",
+                description: `Effect ${effect.id} opens a history-commit event role for the current bubble.`,
+            }];
+        case "spawn":
+            return [{
+                effectId: effect.id,
+                effectKind: effect.kind,
+                scope: effect.scope,
+                eventKind: "descendant-generation",
+                description: `Effect ${effect.id} opens a descendant-generation event role for the current bubble.`,
+            }];
+        case "branch":
+            return [{
+                effectId: effect.id,
+                effectKind: effect.kind,
+                scope: effect.scope,
+                eventKind: "alternative-branch",
+                description: `Effect ${effect.id} opens an alternative-branch event role for the current bubble.`,
+            }];
+        case "collapse":
+            return [{
+                effectId: effect.id,
+                effectKind: effect.kind,
+                scope: effect.scope,
+                eventKind: "retirement-collapse",
+                description: `Effect ${effect.id} opens a retirement-collapse event role for the current bubble.`,
+            }];
+        case "leak":
+        case "debt":
+        case "perturb":
+            return [];
+        default:
+            return assertNever(effect.kind);
+    }
 }
 
 function buildGeneration(

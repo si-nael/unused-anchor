@@ -59,6 +59,85 @@ test("compiles a valid v0.1 bubble world", () => {
             description: "Author declared commit as a required local effect.",
         },
     ]);
+    assert.deepEqual(program.bubble.effectRoles, {
+        declarations: program.bubble.effects,
+        obligations: program.bubble.obligations,
+        permissions: [
+            {
+                effectId: "effect:7:observe",
+                effectKind: "observe",
+                scope: "local",
+                requirement: "optional",
+                description: "Author permits optional local observe within the current bubble boundary.",
+            },
+            {
+                effectId: "effect:8:branch",
+                effectKind: "branch",
+                scope: "local",
+                requirement: "optional",
+                description: "Author permits optional local branch within the current bubble boundary.",
+            },
+            {
+                effectId: "effect:9:commit",
+                effectKind: "commit",
+                scope: "local",
+                requirement: "required",
+                description: "Author permits required local commit within the current bubble boundary.",
+            },
+        ],
+        pressures: [
+            {
+                effectId: "effect:8:branch",
+                effectKind: "branch",
+                scope: "local",
+                pressureKind: "branch-pressure",
+                description: "Effect effect:8:branch contributes branch pressure inside the current bubble boundary.",
+            },
+        ],
+        events: [
+            {
+                effectId: "effect:7:observe",
+                effectKind: "observe",
+                scope: "local",
+                eventKind: "observation-surface",
+                description: "Effect effect:7:observe opens an observation-surface event role for the current bubble.",
+            },
+            {
+                effectId: "effect:8:branch",
+                effectKind: "branch",
+                scope: "local",
+                eventKind: "alternative-branch",
+                description: "Effect effect:8:branch opens an alternative-branch event role for the current bubble.",
+            },
+            {
+                effectId: "effect:9:commit",
+                effectKind: "commit",
+                scope: "local",
+                eventKind: "history-commit",
+                description: "Effect effect:9:commit opens a history-commit event role for the current bubble.",
+            },
+        ],
+        traces: [
+            {
+                effectId: "effect:7:observe",
+                sourceLine: 7,
+                traceKind: "declared-effect",
+                description: "Effect effect:7:observe preserves one declared-effect trace origin for downstream planning and runtime evidence.",
+            },
+            {
+                effectId: "effect:8:branch",
+                sourceLine: 8,
+                traceKind: "declared-effect",
+                description: "Effect effect:8:branch preserves one declared-effect trace origin for downstream planning and runtime evidence.",
+            },
+            {
+                effectId: "effect:9:commit",
+                sourceLine: 9,
+                traceKind: "declared-effect",
+                description: "Effect effect:9:commit preserves one declared-effect trace origin for downstream planning and runtime evidence.",
+            },
+        ],
+    });
     assert.deepEqual(program.bubble.generation, {
         realizationMode: "nondeterministic",
         realizationSource: "authored",
@@ -125,6 +204,29 @@ test("lowers leak, debt, and perturb effects into lifecycle semantics", () => {
         carriesDebt: true,
         supportsPerturbation: true,
     });
+    assert.deepEqual(result.program.bubble.effectRoles.pressures, [
+        {
+            effectId: "effect:8:leak",
+            effectKind: "leak",
+            scope: "membrane",
+            pressureKind: "membrane-leak",
+            description: "Effect effect:8:leak contributes membrane leak pressure inside the current bubble boundary.",
+        },
+        {
+            effectId: "effect:9:debt",
+            effectKind: "debt",
+            scope: "local",
+            pressureKind: "unresolved-debt",
+            description: "Effect effect:9:debt contributes unresolved debt pressure inside the current bubble boundary.",
+        },
+        {
+            effectId: "effect:10:perturb",
+            effectKind: "perturb",
+            scope: "local",
+            pressureKind: "law-perturbation",
+            description: "Effect effect:10:perturb contributes perturbation pressure inside the current bubble boundary.",
+        },
+    ]);
 });
 
 test("compiles a valid v0.2 meta bubble world", () => {
@@ -265,46 +367,104 @@ test("compiles a valid v0.4 unresolved semantic bubble world", () => {
         {
             id: "semantic:6:unknown-value:horizonDepth",
             kind: "unknown-value",
+            name: "horizonDepth",
             description: "Unknown value horizonDepth remains unresolved.",
             sourceLine: 6,
         },
         {
             id: "semantic:7:unknown-entity:DistantWitness",
             kind: "unknown-entity",
+            name: "DistantWitness",
             description: "observer exists beyond the current membrane",
             sourceLine: 7,
         },
         {
             id: "semantic:8:constraint:membraneBalance",
             kind: "constraint",
+            name: "membraneBalance",
             description: "boundary.pressure <= 3",
             sourceLine: 8,
         },
         {
             id: "semantic:9:partial-law:driftRule",
             kind: "partial-law",
+            name: "driftRule",
             description: "drift depends on unresolved membrane topology",
             sourceLine: 9,
         },
         {
             id: "semantic:10:hidden-region:OuterCanopy",
             kind: "hidden-region",
+            name: "OuterCanopy",
             description: "Hidden region OuterCanopy remains outside the current observation surface.",
             sourceLine: 10,
         },
         {
             id: "semantic:11:unobservable-relation:RootKnot",
             kind: "unobservable-relation",
+            name: "RootKnot",
             description: "relation exists but cannot yet be observed",
             sourceLine: 11,
         },
         {
             id: "semantic:12:latent-bubble:WaitingArchive",
             kind: "latent-bubble",
+            name: "WaitingArchive",
             description: "Latent bubble WaitingArchive is admitted but not yet materialized.",
             sourceLine: 12,
         },
     ]);
+    assert.deepEqual(result.program.bubble.latentTopology, {
+        mode: "bubble-latent-topology.v1",
+        regions: [
+            {
+                id: "latent-region:semantic:10:hidden-region:OuterCanopy",
+                sourceSemanticId: "semantic:10:hidden-region:OuterCanopy",
+                name: "OuterCanopy",
+                kind: "hidden-region",
+                description: "Hidden region OuterCanopy remains outside the current observation surface.",
+                sourceLine: 10,
+                initialState: "latent",
+                observationBoundary: "declared-observation-surface",
+                commitBoundary: "undeclared-history-support",
+                perturbationMode: "no-declared-perturbation",
+            },
+            {
+                id: "latent-region:semantic:12:latent-bubble:WaitingArchive",
+                sourceSemanticId: "semantic:12:latent-bubble:WaitingArchive",
+                name: "WaitingArchive",
+                kind: "latent-bubble",
+                description: "Latent bubble WaitingArchive is admitted but not yet materialized.",
+                sourceLine: 12,
+                initialState: "latent",
+                observationBoundary: "declared-observation-surface",
+                commitBoundary: "undeclared-history-support",
+                perturbationMode: "no-declared-perturbation",
+            },
+        ],
+        collapseEvidenceDrafts: [
+            {
+                id: "collapse-evidence-draft:semantic:10:hidden-region:OuterCanopy",
+                latentRegionId: "latent-region:semantic:10:hidden-region:OuterCanopy",
+                sourceSemanticId: "semantic:10:hidden-region:OuterCanopy",
+                observationEffectIds: ["effect:5:observe"],
+                perturbEffectIds: [],
+                commitEffectIds: [],
+                draftStatus: "history-open",
+                description: "Latent region OuterCanopy can materialize under the declared observation surface, but no history-commit boundary is declared yet.",
+            },
+            {
+                id: "collapse-evidence-draft:semantic:12:latent-bubble:WaitingArchive",
+                latentRegionId: "latent-region:semantic:12:latent-bubble:WaitingArchive",
+                sourceSemanticId: "semantic:12:latent-bubble:WaitingArchive",
+                observationEffectIds: ["effect:5:observe"],
+                perturbEffectIds: [],
+                commitEffectIds: [],
+                draftStatus: "history-open",
+                description: "Latent region WaitingArchive can materialize under the declared observation surface, but no history-commit boundary is declared yet.",
+            },
+        ],
+    });
 });
 
 test("compiles executable constraints, partial laws, and explicit anchor criteria", () => {
@@ -328,6 +488,7 @@ test("compiles executable constraints, partial laws, and explicit anchor criteri
     assert.deepEqual(result.program.bubble.unresolvedSemantics?.[0], {
         id: "semantic:8:constraint:membraneBalance",
         kind: "constraint",
+        name: "membraneBalance",
         description: "boundary.pressure <= 0",
         expression: {
             kind: "comparison",
@@ -346,6 +507,7 @@ test("compiles executable constraints, partial laws, and explicit anchor criteri
     assert.deepEqual(result.program.bubble.unresolvedSemantics?.[1], {
         id: "semantic:9:partial-law:continuityRule",
         kind: "partial-law",
+        name: "continuityRule",
         description: "history.commits and world.seeded",
         expression: {
             kind: "logical",

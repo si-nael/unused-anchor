@@ -6,6 +6,7 @@ import type {
     BubbleGrammarActivationIR,
     BubbleGrammarIR,
     BubbleGeneratorIR,
+    BubbleLatentTopologyIR,
     BubbleProgramIR,
     BubbleQuoteIR,
     BubbleReflectionIR,
@@ -21,11 +22,35 @@ import {
     createObservationEvidence,
     createSeaAnchorEvidence,
 } from "./evidence";
-import { buildSeaAnchorAssessment } from "./ontology";
+import {
+    buildSeaAnchorAssessment,
+    withMaterializedHistoryEvidence,
+    type BubbleAnchorPointAssessment as OntologyBubbleAnchorPointAssessment,
+    type BubbleAnchorPointStrength as OntologyBubbleAnchorPointStrength,
+    type BubbleAnchorRewindStability as OntologyBubbleAnchorRewindStability,
+    type BubbleNegativeSeaAssessment as OntologyBubbleNegativeSeaAssessment,
+    type BubbleNegativeSeaPressure as OntologyBubbleNegativeSeaPressure,
+    type BubblePositiveSeaAssessment as OntologyBubblePositiveSeaAssessment,
+    type BubblePositiveSeaSupport as OntologyBubblePositiveSeaSupport,
+    type BubbleSeaAnchorAssessment as OntologyBubbleSeaAnchorAssessment,
+    type BubbleSeaAnchorTheoremWitness as OntologyBubbleSeaAnchorTheoremWitness,
+    type BubbleWorldhoodCondition as OntologyBubbleWorldhoodCondition,
+} from "./ontology";
 import {
     buildConsistencyCertificate,
     type BubbleConsistencyCertificate,
 } from "./proof";
+import type {
+    BubbleAnchorPointEvidenceRecord as EvidenceBubbleAnchorPointEvidenceRecord,
+    BubbleEffectTraceEvidenceRecord as EvidenceBubbleEffectTraceEvidenceRecord,
+    BubbleEffectTraceMaterializationState as EvidenceBubbleEffectTraceMaterializationState,
+    BubbleEvidenceKind as EvidenceBubbleEvidenceKind,
+    BubbleEvidenceRecord as EvidenceBubbleEvidenceRecord,
+    BubbleHistoryCommitEvidenceRecord as EvidenceBubbleHistoryCommitEvidenceRecord,
+    BubbleNegativeSeaEvidenceRecord as EvidenceBubbleNegativeSeaEvidenceRecord,
+    BubbleObservationEvidenceRecord as EvidenceBubbleObservationEvidenceRecord,
+    BubblePositiveSeaEvidenceRecord as EvidenceBubblePositiveSeaEvidenceRecord,
+} from "./evidence";
 import {
     buildSemanticEvaluationPlan,
     type BubbleSemanticEvaluationPlan,
@@ -60,48 +85,16 @@ export interface BubbleGrammarActivationPlan {
     staged: true;
 }
 
-export type BubbleNegativeSeaPressure = "low" | "elevated" | "high";
-export type BubblePositiveSeaSupport = "weak" | "present" | "strong";
-export type BubbleAnchorPointStrength = "weak" | "steady" | "strong";
-export type BubbleAnchorRewindStability = "fragile" | "guarded" | "stable";
-
-export interface BubbleNegativeSeaAssessment {
-    pressure: BubbleNegativeSeaPressure;
-    signals: string[];
-}
-
-export interface BubblePositiveSeaAssessment {
-    support: BubblePositiveSeaSupport;
-    signals: string[];
-}
-
-export interface BubbleAnchorPointAssessment {
-    strength: BubbleAnchorPointStrength;
-    trustedHistory: boolean;
-    rewindStability: BubbleAnchorRewindStability;
-    signals: string[];
-}
-
-export type BubbleWorldhoodCondition = "stable" | "stressed" | "dissolving";
-
-export interface BubbleSeaAnchorTheoremWitness {
-    theorem: "sea-anchor-necessity.v1";
-    negativeRank: number;
-    positiveRank: number;
-    anchorRank: number;
-    worldhoodDelta: number;
-    identityDelta: number;
-    sustained: boolean;
-    condition: BubbleWorldhoodCondition;
-    explanation: string;
-}
-
-export interface BubbleSeaAnchorAssessment {
-    negativeSea: BubbleNegativeSeaAssessment;
-    positiveSea: BubblePositiveSeaAssessment;
-    anchorPoint: BubbleAnchorPointAssessment;
-    theoremWitness: BubbleSeaAnchorTheoremWitness;
-}
+export type BubbleNegativeSeaPressure = OntologyBubbleNegativeSeaPressure;
+export type BubblePositiveSeaSupport = OntologyBubblePositiveSeaSupport;
+export type BubbleAnchorPointStrength = OntologyBubbleAnchorPointStrength;
+export type BubbleAnchorRewindStability = OntologyBubbleAnchorRewindStability;
+export type BubbleNegativeSeaAssessment = OntologyBubbleNegativeSeaAssessment;
+export type BubblePositiveSeaAssessment = OntologyBubblePositiveSeaAssessment;
+export type BubbleAnchorPointAssessment = OntologyBubbleAnchorPointAssessment;
+export type BubbleWorldhoodCondition = OntologyBubbleWorldhoodCondition;
+export type BubbleSeaAnchorTheoremWitness = OntologyBubbleSeaAnchorTheoremWitness;
+export type BubbleSeaAnchorAssessment = OntologyBubbleSeaAnchorAssessment;
 
 export type BubbleBundleMemberKind = "root-bubble" | "descendant-bubble" | "artifact" | "staged-emission" | "grammar-activation";
 export type BubbleBundleMemberProvenance = "root-bubble" | "staged-emission" | "staged-grammar-activation";
@@ -145,6 +138,7 @@ export interface BubbleExecutionPlan {
     ontology: BubbleSeaAnchorAssessment;
     proof: BubbleConsistencyCertificate;
     bundle: BubbleBundlePlan;
+    latentTopology: BubbleLatentTopologyIR | null;
     obligations: ObligationIR[];
     plannedRelations: BubbleProgramIR["bubble"]["generation"]["relations"];
     grammars: BubbleGrammarPlan[];
@@ -170,74 +164,15 @@ export interface BubbleMaterializationCommit {
     description: string;
 }
 
-export type BubbleEvidenceKind =
-    | "observation-context"
-    | "history-commit"
-    | "negative-sea-state"
-    | "positive-sea-state"
-    | "anchor-point-state"
-    | "effect-trace";
-
-export type BubbleEffectTraceMaterializationState = "potential" | "materialized";
-
-interface BubbleEvidenceRecordBase {
-    id: string;
-    kind: BubbleEvidenceKind;
-    bubbleAddressId: string;
-    subjectAddressId: string;
-    sourcePath: string | null;
-    observationMode: string | null;
-    emissionId: string | null;
-    commitId: string | null;
-    description: string;
-}
-
-export interface BubbleObservationEvidenceRecord extends BubbleEvidenceRecordBase {
-    kind: "observation-context";
-}
-
-export interface BubbleHistoryCommitEvidenceRecord extends BubbleEvidenceRecordBase {
-    kind: "history-commit";
-}
-
-export interface BubbleNegativeSeaEvidenceRecord extends BubbleEvidenceRecordBase {
-    kind: "negative-sea-state";
-    pressure: BubbleNegativeSeaPressure;
-    signals: string[];
-}
-
-export interface BubblePositiveSeaEvidenceRecord extends BubbleEvidenceRecordBase {
-    kind: "positive-sea-state";
-    support: BubblePositiveSeaSupport;
-    signals: string[];
-}
-
-export interface BubbleAnchorPointEvidenceRecord extends BubbleEvidenceRecordBase {
-    kind: "anchor-point-state";
-    strength: BubbleAnchorPointStrength;
-    trustedHistory: boolean;
-    rewindStability: BubbleAnchorRewindStability;
-    signals: string[];
-}
-
-export interface BubbleEffectTraceEvidenceRecord extends BubbleEvidenceRecordBase {
-    kind: "effect-trace";
-    effectId: string;
-    effectKind: EffectIR["kind"];
-    requirement: EffectIR["requirement"];
-    scope: EffectIR["scope"];
-    sourceLine: number;
-    materializationState: BubbleEffectTraceMaterializationState;
-    runtimeSignals: string[];
-}
-
-export type BubbleEvidenceRecord =
-    | BubbleObservationEvidenceRecord
-    | BubbleHistoryCommitEvidenceRecord
-    | BubbleNegativeSeaEvidenceRecord
-    | BubblePositiveSeaEvidenceRecord
-    | BubbleAnchorPointEvidenceRecord
-    | BubbleEffectTraceEvidenceRecord;
+export type BubbleEvidenceKind = EvidenceBubbleEvidenceKind;
+export type BubbleEffectTraceMaterializationState = EvidenceBubbleEffectTraceMaterializationState;
+export type BubbleObservationEvidenceRecord = EvidenceBubbleObservationEvidenceRecord;
+export type BubbleHistoryCommitEvidenceRecord = EvidenceBubbleHistoryCommitEvidenceRecord;
+export type BubbleNegativeSeaEvidenceRecord = EvidenceBubbleNegativeSeaEvidenceRecord;
+export type BubblePositiveSeaEvidenceRecord = EvidenceBubblePositiveSeaEvidenceRecord;
+export type BubbleAnchorPointEvidenceRecord = EvidenceBubbleAnchorPointEvidenceRecord;
+export type BubbleEffectTraceEvidenceRecord = EvidenceBubbleEffectTraceEvidenceRecord;
+export type BubbleEvidenceRecord = EvidenceBubbleEvidenceRecord;
 
 export interface BubbleMaterializationTraceEvent {
     kind:
@@ -255,6 +190,7 @@ export interface BubbleMaterializationTraceEvent {
 
 export interface BubbleMaterializationResult {
     plan: BubbleExecutionPlan;
+    runtimeOntology: BubbleSeaAnchorAssessment;
     artifacts: MaterializedBubbleArtifact[];
     commits: BubbleMaterializationCommit[];
     evidence: BubbleEvidenceRecord[];
@@ -292,6 +228,7 @@ export function planBubbleProgram(program: BubbleProgramIR): BubbleExecutionPlan
         ontology,
         proof,
         bundle,
+        latentTopology: program.bubble.latentTopology ?? null,
         obligations: program.bubble.obligations,
         plannedRelations: program.bubble.generation.relations,
         grammars,
@@ -302,10 +239,7 @@ export function planBubbleProgram(program: BubbleProgramIR): BubbleExecutionPlan
 
 export function materializeBubbleProgram(program: BubbleProgramIR): BubbleMaterializationResult {
     const plan = planBubbleProgram(program);
-    const evidence = [
-        ...createSeaAnchorEvidence(program, plan.ontology),
-        ...createObservationEvidence(program),
-    ];
+    const baseEvidence = createObservationEvidence(program);
     const trace: BubbleMaterializationTraceEvent[] = [
         {
             kind: "materialization-started",
@@ -341,11 +275,17 @@ export function materializeBubbleProgram(program: BubbleProgramIR): BubbleMateri
             kind: "no-emissions",
             message: `Bubble ${program.bubble.name} has no staged emissions to materialize.`,
         });
+        const runtimeOntology = withMaterializedHistoryEvidence(plan.ontology, false);
         return {
             plan,
+            runtimeOntology,
             artifacts: [],
             commits: [],
-            evidence: [...evidence, ...createEffectTraceEvidence(program, plan, [], [])],
+            evidence: [
+                ...createSeaAnchorEvidence(program, runtimeOntology),
+                ...baseEvidence,
+                ...createEffectTraceEvidence(program, plan, [], []),
+            ],
             trace,
         };
     }
@@ -355,6 +295,7 @@ export function materializeBubbleProgram(program: BubbleProgramIR): BubbleMateri
     const reflectionsById = new Map(meta.reflections.map((reflection) => [reflection.id, reflection]));
     const artifacts: MaterializedBubbleArtifact[] = [];
     const commits: BubbleMaterializationCommit[] = [];
+    const commitEvidence: BubbleHistoryCommitEvidenceRecord[] = [];
 
     for (const emission of meta.emissions) {
         const quote = resolveEmissionQuote(emission, quotesByName, generatorsByName);
@@ -405,7 +346,7 @@ export function materializeBubbleProgram(program: BubbleProgramIR): BubbleMateri
         commits.push(commit);
 
         if (program.bubble.generation.lifecycle.commitsHistory) {
-            evidence.push(createCommitEvidence(program, commit));
+            commitEvidence.push(createCommitEvidence(program, commit));
         }
 
         trace.push({
@@ -418,11 +359,19 @@ export function materializeBubbleProgram(program: BubbleProgramIR): BubbleMateri
         });
     }
 
+    const runtimeOntology = withMaterializedHistoryEvidence(plan.ontology, commitEvidence.length > 0);
+
     return {
         plan,
+        runtimeOntology,
         artifacts,
         commits,
-        evidence: [...evidence, ...createEffectTraceEvidence(program, plan, artifacts, commits)],
+        evidence: [
+            ...createSeaAnchorEvidence(program, runtimeOntology),
+            ...baseEvidence,
+            ...commitEvidence,
+            ...createEffectTraceEvidence(program, plan, artifacts, commits),
+        ],
         trace,
     };
 }

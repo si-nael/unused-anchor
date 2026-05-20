@@ -93,6 +93,65 @@ export interface ObligationIR {
     description: string;
 }
 
+export type EffectDeclarationIR = EffectIR;
+export type EffectObligationIR = ObligationIR;
+
+export interface EffectPermissionIR {
+    effectId: string;
+    effectKind: EffectKind;
+    scope: EffectScope;
+    requirement: EffectIR["requirement"];
+    description: string;
+}
+
+export type EffectPressureKind =
+    | "branch-pressure"
+    | "collapse-pressure"
+    | "local-leak"
+    | "membrane-leak"
+    | "global-leak"
+    | "unresolved-debt"
+    | "law-perturbation";
+
+export interface EffectPressureIR {
+    effectId: string;
+    effectKind: EffectKind;
+    scope: EffectScope;
+    pressureKind: EffectPressureKind;
+    description: string;
+}
+
+export type EffectEventKind =
+    | "observation-surface"
+    | "history-commit"
+    | "descendant-generation"
+    | "alternative-branch"
+    | "retirement-collapse";
+
+export interface EffectEventIR {
+    effectId: string;
+    effectKind: EffectKind;
+    scope: EffectScope;
+    eventKind: EffectEventKind;
+    description: string;
+}
+
+export interface EffectTraceIR {
+    effectId: string;
+    sourceLine: number;
+    traceKind: "declared-effect";
+    description: string;
+}
+
+export interface BubbleEffectRolesIR {
+    declarations: EffectDeclarationIR[];
+    obligations: EffectObligationIR[];
+    permissions: EffectPermissionIR[];
+    pressures: EffectPressureIR[];
+    events: EffectEventIR[];
+    traces: EffectTraceIR[];
+}
+
 export interface BubbleLifecycleIR {
     initialMode: BubbleLifecycleMode;
     observationMode: string | null;
@@ -204,9 +263,46 @@ export type BubbleUnresolvedSemanticKind =
 export interface BubbleUnresolvedSemanticIR {
     id: string;
     kind: BubbleUnresolvedSemanticKind;
+    name: string;
     description: string;
     expression?: BubbleExpressionIR;
     sourceLine: number | null;
+}
+
+export type BubbleLatentRegionKind = Extract<BubbleUnresolvedSemanticKind, "hidden-region" | "latent-bubble">;
+export type BubbleLatentObservationBoundaryIR = "declared-observation-surface" | "undeclared-observation-surface";
+export type BubbleLatentCommitBoundaryIR = "declared-history-support" | "undeclared-history-support";
+export type BubbleLatentPerturbationModeIR = "declared-perturbation" | "no-declared-perturbation";
+export type BubbleCollapseEvidenceDraftStatus = "observation-ready" | "history-open" | "underspecified";
+
+export interface BubbleLatentRegionDescriptorIR {
+    id: string;
+    sourceSemanticId: string;
+    name: string;
+    kind: BubbleLatentRegionKind;
+    description: string;
+    sourceLine: number | null;
+    initialState: "latent";
+    observationBoundary: BubbleLatentObservationBoundaryIR;
+    commitBoundary: BubbleLatentCommitBoundaryIR;
+    perturbationMode: BubbleLatentPerturbationModeIR;
+}
+
+export interface BubbleCollapseEvidenceDraftIR {
+    id: string;
+    latentRegionId: string;
+    sourceSemanticId: string;
+    observationEffectIds: string[];
+    perturbEffectIds: string[];
+    commitEffectIds: string[];
+    draftStatus: BubbleCollapseEvidenceDraftStatus;
+    description: string;
+}
+
+export interface BubbleLatentTopologyIR {
+    mode: "bubble-latent-topology.v1";
+    regions: BubbleLatentRegionDescriptorIR[];
+    collapseEvidenceDrafts: BubbleCollapseEvidenceDraftIR[];
 }
 
 export interface BubbleAnchorCriterionIR {
@@ -225,9 +321,11 @@ export interface BubbleIR {
     observationMode: string | null;
     effects: EffectIR[];
     obligations: ObligationIR[];
+    effectRoles: BubbleEffectRolesIR;
     generation: BubbleGenerationIR;
     anchorCriterion?: BubbleAnchorCriterionIR;
     unresolvedSemantics?: BubbleUnresolvedSemanticIR[];
+    latentTopology?: BubbleLatentTopologyIR;
     meta?: BubbleMetaIR;
 }
 

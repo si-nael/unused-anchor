@@ -2,14 +2,51 @@ import type {
     BubbleEmissionTarget,
     BubbleProgramIR,
 } from "../ir";
-import type {
-    BubbleAnchorPointStrength,
-    BubbleNegativeSeaPressure,
-    BubblePositiveSeaSupport,
-    BubbleSeaAnchorAssessment,
-    BubbleSeaAnchorTheoremWitness,
-} from "./materialize";
 import type { BubbleSemanticEvaluationPlan } from "./semantics";
+
+export type BubbleNegativeSeaPressure = "low" | "elevated" | "high";
+export type BubblePositiveSeaSupport = "weak" | "present" | "strong";
+export type BubbleAnchorPointStrength = "weak" | "steady" | "strong";
+export type BubbleAnchorRewindStability = "fragile" | "guarded" | "stable";
+
+export interface BubbleNegativeSeaAssessment {
+    pressure: BubbleNegativeSeaPressure;
+    signals: string[];
+}
+
+export interface BubblePositiveSeaAssessment {
+    support: BubblePositiveSeaSupport;
+    signals: string[];
+}
+
+export interface BubbleAnchorPointAssessment {
+    strength: BubbleAnchorPointStrength;
+    declaredHistorySupport: boolean;
+    materializedHistoryEvidence: boolean;
+    rewindStability: BubbleAnchorRewindStability;
+    signals: string[];
+}
+
+export type BubbleWorldhoodCondition = "stable" | "stressed" | "dissolving";
+
+export interface BubbleSeaAnchorTheoremWitness {
+    theorem: "sea-anchor-necessity.v1";
+    negativeRank: number;
+    positiveRank: number;
+    anchorRank: number;
+    worldhoodDelta: number;
+    identityDelta: number;
+    sustained: boolean;
+    condition: BubbleWorldhoodCondition;
+    explanation: string;
+}
+
+export interface BubbleSeaAnchorAssessment {
+    negativeSea: BubbleNegativeSeaAssessment;
+    positiveSea: BubblePositiveSeaAssessment;
+    anchorPoint: BubbleAnchorPointAssessment;
+    theoremWitness: BubbleSeaAnchorTheoremWitness;
+}
 
 interface BubbleOntologyEmissionPlan {
     target: BubbleEmissionTarget | null;
@@ -82,7 +119,7 @@ export function buildSeaAnchorAssessment(
 
     if (lifecycle.commitsHistory) {
         positiveScore += 1;
-        positiveSignals.push("durable-history");
+        positiveSignals.push("declared-history-support");
     }
 
     const positiveSupport = positiveScore >= 4 ? "strong"
@@ -108,7 +145,7 @@ export function buildSeaAnchorAssessment(
 
     if (lifecycle.commitsHistory) {
         anchorScore += 1;
-        anchorSignals.push("durable-history");
+        anchorSignals.push("declared-history-support");
     }
 
     if (lifecycle.observationMode !== null) {
@@ -172,11 +209,29 @@ export function buildSeaAnchorAssessment(
         },
         anchorPoint: {
             strength: anchorStrength,
-            trustedHistory: lifecycle.commitsHistory,
+            declaredHistorySupport: lifecycle.commitsHistory,
+            materializedHistoryEvidence: false,
             rewindStability,
             signals: anchorSignals,
         },
         theoremWitness,
+    };
+}
+
+export function withMaterializedHistoryEvidence(
+    assessment: BubbleSeaAnchorAssessment,
+    hasMaterializedHistoryEvidence: boolean,
+): BubbleSeaAnchorAssessment {
+    if (assessment.anchorPoint.materializedHistoryEvidence === hasMaterializedHistoryEvidence) {
+        return assessment;
+    }
+
+    return {
+        ...assessment,
+        anchorPoint: {
+            ...assessment.anchorPoint,
+            materializedHistoryEvidence: hasMaterializedHistoryEvidence,
+        },
     };
 }
 

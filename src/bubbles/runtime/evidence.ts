@@ -1,21 +1,90 @@
 import type {
+    BubbleAnchorPointAssessment,
+    BubbleAnchorPointStrength,
+    BubbleAnchorRewindStability,
+    BubbleNegativeSeaPressure,
+    BubblePositiveSeaSupport,
+    BubbleSeaAnchorAssessment,
+} from "./ontology";
+import type {
     BubbleProgramIR,
     EffectIR,
 } from "../ir";
 import type {
-    BubbleAnchorPointEvidenceRecord,
-    BubbleEffectTraceEvidenceRecord,
-    BubbleEffectTraceMaterializationState,
-    BubbleEvidenceRecord,
     BubbleExecutionPlan,
-    BubbleHistoryCommitEvidenceRecord,
     BubbleMaterializationCommit,
-    BubbleObservationEvidenceRecord,
-    BubblePositiveSeaEvidenceRecord,
-    BubbleNegativeSeaEvidenceRecord,
     MaterializedBubbleArtifact,
 } from "./materialize";
-import type { BubbleSeaAnchorAssessment } from "./materialize";
+
+export type BubbleEvidenceKind =
+    | "observation-context"
+    | "history-commit"
+    | "negative-sea-state"
+    | "positive-sea-state"
+    | "anchor-point-state"
+    | "effect-trace";
+
+export type BubbleEffectTraceMaterializationState = "potential" | "materialized";
+
+interface BubbleEvidenceRecordBase {
+    id: string;
+    kind: BubbleEvidenceKind;
+    bubbleAddressId: string;
+    subjectAddressId: string;
+    sourcePath: string | null;
+    observationMode: string | null;
+    emissionId: string | null;
+    commitId: string | null;
+    description: string;
+}
+
+export interface BubbleObservationEvidenceRecord extends BubbleEvidenceRecordBase {
+    kind: "observation-context";
+}
+
+export interface BubbleHistoryCommitEvidenceRecord extends BubbleEvidenceRecordBase {
+    kind: "history-commit";
+}
+
+export interface BubbleNegativeSeaEvidenceRecord extends BubbleEvidenceRecordBase {
+    kind: "negative-sea-state";
+    pressure: BubbleNegativeSeaPressure;
+    signals: string[];
+}
+
+export interface BubblePositiveSeaEvidenceRecord extends BubbleEvidenceRecordBase {
+    kind: "positive-sea-state";
+    support: BubblePositiveSeaSupport;
+    signals: string[];
+}
+
+export interface BubbleAnchorPointEvidenceRecord extends BubbleEvidenceRecordBase {
+    kind: "anchor-point-state";
+    strength: BubbleAnchorPointStrength;
+    declaredHistorySupport: BubbleAnchorPointAssessment["declaredHistorySupport"];
+    materializedHistoryEvidence: BubbleAnchorPointAssessment["materializedHistoryEvidence"];
+    rewindStability: BubbleAnchorRewindStability;
+    signals: string[];
+}
+
+export interface BubbleEffectTraceEvidenceRecord extends BubbleEvidenceRecordBase {
+    kind: "effect-trace";
+    effectId: string;
+    effectKind: EffectIR["kind"];
+    requirement: EffectIR["requirement"];
+    scope: EffectIR["scope"];
+    sourceLine: number;
+    materializationState: BubbleEffectTraceMaterializationState;
+    runtimeSignals: string[];
+}
+
+export type BubbleEvidenceRecord =
+    | BubbleObservationEvidenceRecord
+    | BubbleHistoryCommitEvidenceRecord
+    | BubbleNegativeSeaEvidenceRecord
+    | BubblePositiveSeaEvidenceRecord
+    | BubbleAnchorPointEvidenceRecord
+    | BubbleEffectTraceEvidenceRecord;
 
 export function createSeaAnchorEvidence(
     program: BubbleProgramIR,
@@ -64,7 +133,8 @@ export function createSeaAnchorEvidence(
             emissionId: null,
             commitId: null,
             strength: assessment.anchorPoint.strength,
-            trustedHistory: assessment.anchorPoint.trustedHistory,
+            declaredHistorySupport: assessment.anchorPoint.declaredHistorySupport,
+            materializedHistoryEvidence: assessment.anchorPoint.materializedHistoryEvidence,
             rewindStability: assessment.anchorPoint.rewindStability,
             signals: assessment.anchorPoint.signals,
             description: `Bubble ${program.bubble.name} currently shows ${assessment.anchorPoint.strength} anchor support with ${assessment.anchorPoint.rewindStability} rewind stability.`,
@@ -90,7 +160,7 @@ export function createObservationEvidence(program: BubbleProgramIR): BubbleObser
             emissionId: null,
             commitId: null,
             description: program.bubble.generation.lifecycle.commitsHistory
-                ? `Bubble ${program.bubble.name} declares observation mode ${observationMode} with durable history support.`
+                ? `Bubble ${program.bubble.name} declares observation mode ${observationMode} with declared history support.`
                 : `Bubble ${program.bubble.name} declares observation mode ${observationMode}.`,
         },
     ];
@@ -183,7 +253,7 @@ function resolveEffectRuntimeSignals(
         case "observe":
             return program.bubble.generation.lifecycle.observationMode === null ? [] : ["observation-surface"];
         case "commit":
-            return commits.length > 0 ? ["durable-history", "history-commit"] : ["durable-history"];
+            return commits.length > 0 ? ["declared-history-support", "history-commit"] : ["declared-history-support"];
         case "spawn":
             return artifacts.some((artifact) => artifact.target === "descendant")
                 ? ["descendant-materialization"]

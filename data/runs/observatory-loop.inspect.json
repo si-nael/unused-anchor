@@ -85,18 +85,19 @@
           "seeded-origin",
           "descendant-lineage",
           "staged-growth",
-          "durable-history"
+          "declared-history-support"
         ]
       },
       "anchorPoint": {
         "strength": "strong",
-        "trustedHistory": true,
+        "declaredHistorySupport": true,
+        "materializedHistoryEvidence": false,
         "rewindStability": "stable",
         "signals": [
           "axiomatic-basis",
           "world-will",
           "seed-continuity",
-          "durable-history",
+          "declared-history-support",
           "observation-surface"
         ]
       },
@@ -126,6 +127,10 @@
             "parser",
             "profile-validator"
           ],
+          "evidenceIds": [],
+          "dependsOnClaims": [],
+          "assumptions": [],
+          "scope": "source",
           "explanation": "Bubble ObservatoryLoop compiled into a semantic plan under bubbles.v0.2."
         },
         {
@@ -138,6 +143,12 @@
             "seed",
             "effect"
           ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [],
+          "scope": "source",
           "explanation": "Bubble ObservatoryLoop satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
         },
         {
@@ -146,11 +157,23 @@
           "status": "certified",
           "basis": [
             "observation-surface",
-            "durable-history",
+            "declared-history-support",
             "descendant-lineage",
             "staged-growth"
           ],
-          "explanation": "Required effect effect:8:observe is certified by the declared observation surface. Required effect effect:9:commit is certified by durable history support. Required effect effect:10:spawn is certified by descendant lineage and staged descendant materialization."
+          "evidenceIds": [
+            "evidence:effect:effect:8:observe",
+            "evidence:effect:effect:9:commit",
+            "evidence:effect:effect:10:spawn"
+          ],
+          "dependsOnClaims": [
+            "claim:minimum-worldhood"
+          ],
+          "assumptions": [
+            "effect-trace-records-mirror-the-current-materialization-plan"
+          ],
+          "scope": "plan",
+          "explanation": "Required effect effect:8:observe is certified by the declared observation surface. Required effect effect:9:commit is certified by declared history support. Required effect effect:10:spawn is certified by descendant lineage and staged descendant materialization."
         },
         {
           "id": "claim:anchor-identity",
@@ -160,9 +183,22 @@
             "axiomatic-basis",
             "world-will",
             "seed-continuity",
-            "durable-history",
+            "declared-history-support",
             "observation-surface"
           ],
+          "evidenceIds": [
+            "evidence:anchor-point:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+            "evidence:positive-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+            "evidence:negative-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+            "evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop"
+          ],
+          "dependsOnClaims": [
+            "claim:minimum-worldhood"
+          ],
+          "assumptions": [
+            "sea-anchor-theorem-witness-is-bounded"
+          ],
+          "scope": "plan",
           "explanation": "Bubble ObservatoryLoop currently certifies anchor identity as strong with theorem condition stable."
         },
         {
@@ -174,6 +210,14 @@
             "descendant-lineage",
             "staged-growth"
           ],
+          "evidenceIds": [
+            "evidence:effect:effect:10:spawn"
+          ],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [],
+          "scope": "plan",
           "explanation": "Bubble ObservatoryLoop preserves traceable lineage for every currently declared descendant or staged generation path."
         },
         {
@@ -183,9 +227,24 @@
           "basis": [
             "seed-continuity",
             "source-lineage-address",
-            "durable-history"
+            "declared-history-support"
           ],
-          "explanation": "Bubble ObservatoryLoop currently certifies replay identity through seed continuity, stable root addressing, and durable history."
+          "evidenceIds": [
+            "evidence:anchor-point:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+            "evidence:positive-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+            "evidence:negative-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+            "evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+            "evidence:effect:effect:8:observe",
+            "evidence:effect:effect:9:commit"
+          ],
+          "dependsOnClaims": [
+            "claim:anchor-identity"
+          ],
+          "assumptions": [
+            "same-world-replay-is-evaluated-from-the-current-plan-basis"
+          ],
+          "scope": "plan",
+          "explanation": "Bubble ObservatoryLoop currently certifies replay identity through seed continuity, stable root addressing, and declared history support."
         },
         {
           "id": "claim:internal-law-consistency",
@@ -194,6 +253,14 @@
           "basis": [
             "no-executable-law-semantics-yet"
           ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [
+            "no-general-law-solver-is-present"
+          ],
+          "scope": "plan",
           "explanation": "Bubble ObservatoryLoop does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
         }
       ]
@@ -367,18 +434,19 @@
         "seeded-origin",
         "descendant-lineage",
         "staged-growth",
-        "durable-history"
+        "declared-history-support"
       ]
     },
     "anchorPoint": {
       "strength": "strong",
-      "trustedHistory": true,
+      "declaredHistorySupport": true,
+      "materializedHistoryEvidence": true,
       "rewindStability": "stable",
       "signals": [
         "axiomatic-basis",
         "world-will",
         "seed-continuity",
-        "durable-history",
+        "declared-history-support",
         "observation-surface"
       ]
     },
@@ -414,6 +482,10 @@
           "parser",
           "profile-validator"
         ],
+        "evidenceIds": [],
+        "dependsOnClaims": [],
+        "assumptions": [],
+        "scope": "source",
         "explanation": "Bubble ObservatoryLoop compiled into a semantic plan under bubbles.v0.2."
       },
       {
@@ -426,6 +498,12 @@
           "seed",
           "effect"
         ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [],
+        "scope": "source",
         "explanation": "Bubble ObservatoryLoop satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
       },
       {
@@ -434,11 +512,23 @@
         "status": "certified",
         "basis": [
           "observation-surface",
-          "durable-history",
+          "declared-history-support",
           "descendant-lineage",
           "staged-growth"
         ],
-        "explanation": "Required effect effect:8:observe is certified by the declared observation surface. Required effect effect:9:commit is certified by durable history support. Required effect effect:10:spawn is certified by descendant lineage and staged descendant materialization."
+        "evidenceIds": [
+          "evidence:effect:effect:8:observe",
+          "evidence:effect:effect:9:commit",
+          "evidence:effect:effect:10:spawn"
+        ],
+        "dependsOnClaims": [
+          "claim:minimum-worldhood"
+        ],
+        "assumptions": [
+          "effect-trace-records-mirror-the-current-materialization-plan"
+        ],
+        "scope": "plan",
+        "explanation": "Required effect effect:8:observe is certified by the declared observation surface. Required effect effect:9:commit is certified by declared history support. Required effect effect:10:spawn is certified by descendant lineage and staged descendant materialization."
       },
       {
         "id": "claim:anchor-identity",
@@ -448,9 +538,22 @@
           "axiomatic-basis",
           "world-will",
           "seed-continuity",
-          "durable-history",
+          "declared-history-support",
           "observation-surface"
         ],
+        "evidenceIds": [
+          "evidence:anchor-point:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "evidence:positive-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "evidence:negative-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop"
+        ],
+        "dependsOnClaims": [
+          "claim:minimum-worldhood"
+        ],
+        "assumptions": [
+          "sea-anchor-theorem-witness-is-bounded"
+        ],
+        "scope": "plan",
         "explanation": "Bubble ObservatoryLoop currently certifies anchor identity as strong with theorem condition stable."
       },
       {
@@ -462,6 +565,14 @@
           "descendant-lineage",
           "staged-growth"
         ],
+        "evidenceIds": [
+          "evidence:effect:effect:10:spawn"
+        ],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [],
+        "scope": "plan",
         "explanation": "Bubble ObservatoryLoop preserves traceable lineage for every currently declared descendant or staged generation path."
       },
       {
@@ -471,9 +582,24 @@
         "basis": [
           "seed-continuity",
           "source-lineage-address",
-          "durable-history"
+          "declared-history-support"
         ],
-        "explanation": "Bubble ObservatoryLoop currently certifies replay identity through seed continuity, stable root addressing, and durable history."
+        "evidenceIds": [
+          "evidence:anchor-point:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "evidence:positive-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "evidence:negative-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "evidence:effect:effect:8:observe",
+          "evidence:effect:effect:9:commit"
+        ],
+        "dependsOnClaims": [
+          "claim:anchor-identity"
+        ],
+        "assumptions": [
+          "same-world-replay-is-evaluated-from-the-current-plan-basis"
+        ],
+        "scope": "plan",
+        "explanation": "Bubble ObservatoryLoop currently certifies replay identity through seed continuity, stable root addressing, and declared history support."
       },
       {
         "id": "claim:internal-law-consistency",
@@ -482,6 +608,14 @@
         "basis": [
           "no-executable-law-semantics-yet"
         ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [
+          "no-general-law-solver-is-present"
+        ],
+        "scope": "plan",
         "explanation": "Bubble ObservatoryLoop does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
       }
     ]
@@ -623,9 +757,9 @@
         "seeded-origin",
         "descendant-lineage",
         "staged-growth",
-        "durable-history"
+        "declared-history-support"
       ],
-      "description": "Bubble ObservatoryLoop currently shows strong positive-sea support via source-lineage-address, seeded-origin, descendant-lineage, staged-growth, durable-history."
+      "description": "Bubble ObservatoryLoop currently shows strong positive-sea support via source-lineage-address, seeded-origin, descendant-lineage, staged-growth, declared-history-support."
     },
     {
       "id": "evidence:anchor-point:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
@@ -637,13 +771,14 @@
       "emissionId": null,
       "commitId": null,
       "strength": "strong",
-      "trustedHistory": true,
+      "declaredHistorySupport": true,
+      "materializedHistoryEvidence": true,
       "rewindStability": "stable",
       "signals": [
         "axiomatic-basis",
         "world-will",
         "seed-continuity",
-        "durable-history",
+        "declared-history-support",
         "observation-surface"
       ],
       "description": "Bubble ObservatoryLoop currently shows strong anchor support with stable rewind stability."
@@ -657,7 +792,7 @@
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
-      "description": "Bubble ObservatoryLoop declares observation mode witness with durable history support."
+      "description": "Bubble ObservatoryLoop declares observation mode witness with declared history support."
     },
     {
       "id": "evidence:commit:emit:16:Probe",
@@ -717,10 +852,10 @@
       "sourceLine": 9,
       "materializationState": "materialized",
       "runtimeSignals": [
-        "durable-history",
+        "declared-history-support",
         "history-commit"
       ],
-      "description": "Bubble ObservatoryLoop recorded required local commit as materialized in this run via durable-history, history-commit."
+      "description": "Bubble ObservatoryLoop recorded required local commit as materialized in this run via declared-history-support, history-commit."
     },
     {
       "id": "evidence:effect:effect:10:spawn",

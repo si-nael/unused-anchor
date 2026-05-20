@@ -79,18 +79,19 @@
           "source-lineage-address",
           "seeded-origin",
           "descendant-lineage",
-          "durable-history"
+          "declared-history-support"
         ]
       },
       "anchorPoint": {
         "strength": "steady",
-        "trustedHistory": true,
+        "declaredHistorySupport": true,
+        "materializedHistoryEvidence": false,
         "rewindStability": "guarded",
         "signals": [
           "axiomatic-basis",
           "world-will",
           "seed-continuity",
-          "durable-history",
+          "declared-history-support",
           "observation-surface",
           "negative-pressure",
           "boundary-stress",
@@ -123,6 +124,10 @@
             "parser",
             "profile-validator"
           ],
+          "evidenceIds": [],
+          "dependsOnClaims": [],
+          "assumptions": [],
+          "scope": "source",
           "explanation": "Bubble BoundaryOrchard compiled into a semantic plan under bubbles.v0.1."
         },
         {
@@ -135,6 +140,12 @@
             "seed",
             "effect"
           ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [],
+          "scope": "source",
           "explanation": "Bubble BoundaryOrchard satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
         },
         {
@@ -143,10 +154,22 @@
           "status": "certified",
           "basis": [
             "observation-surface",
-            "durable-history",
+            "declared-history-support",
             "descendant-lineage"
           ],
-          "explanation": "Required effect effect:8:observe is certified by the declared observation surface. Required effect effect:9:commit is certified by durable history support. Required effect effect:10:spawn is certified by descendant lineage support."
+          "evidenceIds": [
+            "evidence:effect:effect:8:observe",
+            "evidence:effect:effect:9:commit",
+            "evidence:effect:effect:10:spawn"
+          ],
+          "dependsOnClaims": [
+            "claim:minimum-worldhood"
+          ],
+          "assumptions": [
+            "effect-trace-records-mirror-the-current-materialization-plan"
+          ],
+          "scope": "plan",
+          "explanation": "Required effect effect:8:observe is certified by the declared observation surface. Required effect effect:9:commit is certified by declared history support. Required effect effect:10:spawn is certified by descendant lineage support."
         },
         {
           "id": "claim:anchor-identity",
@@ -156,9 +179,22 @@
             "axiomatic-basis",
             "world-will",
             "seed-continuity",
-            "durable-history",
+            "declared-history-support",
             "observation-surface"
           ],
+          "evidenceIds": [
+            "evidence:anchor-point:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+            "evidence:positive-sea:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+            "evidence:negative-sea:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+            "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard"
+          ],
+          "dependsOnClaims": [
+            "claim:minimum-worldhood"
+          ],
+          "assumptions": [
+            "sea-anchor-theorem-witness-is-bounded"
+          ],
+          "scope": "plan",
           "explanation": "Bubble BoundaryOrchard currently certifies anchor identity as steady with theorem condition stressed."
         },
         {
@@ -169,6 +205,15 @@
             "source-lineage-address",
             "descendant-lineage"
           ],
+          "evidenceIds": [
+            "evidence:effect:effect:10:spawn",
+            "evidence:effect:effect:11:branch"
+          ],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [],
+          "scope": "plan",
           "explanation": "Bubble BoundaryOrchard preserves traceable lineage for every currently declared descendant or staged generation path."
         },
         {
@@ -178,9 +223,24 @@
           "basis": [
             "seed-continuity",
             "source-lineage-address",
-            "durable-history"
+            "declared-history-support"
           ],
-          "explanation": "Bubble BoundaryOrchard currently certifies replay identity through seed continuity, stable root addressing, and durable history."
+          "evidenceIds": [
+            "evidence:anchor-point:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+            "evidence:positive-sea:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+            "evidence:negative-sea:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+            "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+            "evidence:effect:effect:8:observe",
+            "evidence:effect:effect:9:commit"
+          ],
+          "dependsOnClaims": [
+            "claim:anchor-identity"
+          ],
+          "assumptions": [
+            "same-world-replay-is-evaluated-from-the-current-plan-basis"
+          ],
+          "scope": "plan",
+          "explanation": "Bubble BoundaryOrchard currently certifies replay identity through seed continuity, stable root addressing, and declared history support."
         },
         {
           "id": "claim:internal-law-consistency",
@@ -189,6 +249,14 @@
           "basis": [
             "no-executable-law-semantics-yet"
           ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [
+            "no-general-law-solver-is-present"
+          ],
+          "scope": "plan",
           "explanation": "Bubble BoundaryOrchard does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
         }
       ]
@@ -331,18 +399,19 @@
         "source-lineage-address",
         "seeded-origin",
         "descendant-lineage",
-        "durable-history"
+        "declared-history-support"
       ]
     },
     "anchorPoint": {
       "strength": "steady",
-      "trustedHistory": true,
+      "declaredHistorySupport": true,
+      "materializedHistoryEvidence": false,
       "rewindStability": "guarded",
       "signals": [
         "axiomatic-basis",
         "world-will",
         "seed-continuity",
-        "durable-history",
+        "declared-history-support",
         "observation-surface",
         "negative-pressure",
         "boundary-stress",
@@ -381,6 +450,10 @@
           "parser",
           "profile-validator"
         ],
+        "evidenceIds": [],
+        "dependsOnClaims": [],
+        "assumptions": [],
+        "scope": "source",
         "explanation": "Bubble BoundaryOrchard compiled into a semantic plan under bubbles.v0.1."
       },
       {
@@ -393,6 +466,12 @@
           "seed",
           "effect"
         ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [],
+        "scope": "source",
         "explanation": "Bubble BoundaryOrchard satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
       },
       {
@@ -401,10 +480,22 @@
         "status": "certified",
         "basis": [
           "observation-surface",
-          "durable-history",
+          "declared-history-support",
           "descendant-lineage"
         ],
-        "explanation": "Required effect effect:8:observe is certified by the declared observation surface. Required effect effect:9:commit is certified by durable history support. Required effect effect:10:spawn is certified by descendant lineage support."
+        "evidenceIds": [
+          "evidence:effect:effect:8:observe",
+          "evidence:effect:effect:9:commit",
+          "evidence:effect:effect:10:spawn"
+        ],
+        "dependsOnClaims": [
+          "claim:minimum-worldhood"
+        ],
+        "assumptions": [
+          "effect-trace-records-mirror-the-current-materialization-plan"
+        ],
+        "scope": "plan",
+        "explanation": "Required effect effect:8:observe is certified by the declared observation surface. Required effect effect:9:commit is certified by declared history support. Required effect effect:10:spawn is certified by descendant lineage support."
       },
       {
         "id": "claim:anchor-identity",
@@ -414,9 +505,22 @@
           "axiomatic-basis",
           "world-will",
           "seed-continuity",
-          "durable-history",
+          "declared-history-support",
           "observation-surface"
         ],
+        "evidenceIds": [
+          "evidence:anchor-point:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "evidence:positive-sea:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "evidence:negative-sea:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard"
+        ],
+        "dependsOnClaims": [
+          "claim:minimum-worldhood"
+        ],
+        "assumptions": [
+          "sea-anchor-theorem-witness-is-bounded"
+        ],
+        "scope": "plan",
         "explanation": "Bubble BoundaryOrchard currently certifies anchor identity as steady with theorem condition stressed."
       },
       {
@@ -427,6 +531,15 @@
           "source-lineage-address",
           "descendant-lineage"
         ],
+        "evidenceIds": [
+          "evidence:effect:effect:10:spawn",
+          "evidence:effect:effect:11:branch"
+        ],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [],
+        "scope": "plan",
         "explanation": "Bubble BoundaryOrchard preserves traceable lineage for every currently declared descendant or staged generation path."
       },
       {
@@ -436,9 +549,24 @@
         "basis": [
           "seed-continuity",
           "source-lineage-address",
-          "durable-history"
+          "declared-history-support"
         ],
-        "explanation": "Bubble BoundaryOrchard currently certifies replay identity through seed continuity, stable root addressing, and durable history."
+        "evidenceIds": [
+          "evidence:anchor-point:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "evidence:positive-sea:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "evidence:negative-sea:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "evidence:effect:effect:8:observe",
+          "evidence:effect:effect:9:commit"
+        ],
+        "dependsOnClaims": [
+          "claim:anchor-identity"
+        ],
+        "assumptions": [
+          "same-world-replay-is-evaluated-from-the-current-plan-basis"
+        ],
+        "scope": "plan",
+        "explanation": "Bubble BoundaryOrchard currently certifies replay identity through seed continuity, stable root addressing, and declared history support."
       },
       {
         "id": "claim:internal-law-consistency",
@@ -447,6 +575,14 @@
         "basis": [
           "no-executable-law-semantics-yet"
         ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [
+          "no-general-law-solver-is-present"
+        ],
+        "scope": "plan",
         "explanation": "Bubble BoundaryOrchard does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
       }
     ]
@@ -517,9 +653,9 @@
         "source-lineage-address",
         "seeded-origin",
         "descendant-lineage",
-        "durable-history"
+        "declared-history-support"
       ],
-      "description": "Bubble BoundaryOrchard currently shows strong positive-sea support via source-lineage-address, seeded-origin, descendant-lineage, durable-history."
+      "description": "Bubble BoundaryOrchard currently shows strong positive-sea support via source-lineage-address, seeded-origin, descendant-lineage, declared-history-support."
     },
     {
       "id": "evidence:anchor-point:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
@@ -531,13 +667,14 @@
       "emissionId": null,
       "commitId": null,
       "strength": "steady",
-      "trustedHistory": true,
+      "declaredHistorySupport": true,
+      "materializedHistoryEvidence": false,
       "rewindStability": "guarded",
       "signals": [
         "axiomatic-basis",
         "world-will",
         "seed-continuity",
-        "durable-history",
+        "declared-history-support",
         "observation-surface",
         "negative-pressure",
         "boundary-stress",
@@ -554,7 +691,7 @@
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
-      "description": "Bubble BoundaryOrchard declares observation mode witness with durable history support."
+      "description": "Bubble BoundaryOrchard declares observation mode witness with declared history support."
     },
     {
       "id": "evidence:effect:effect:8:observe",
@@ -592,9 +729,9 @@
       "sourceLine": 9,
       "materializationState": "potential",
       "runtimeSignals": [
-        "durable-history"
+        "declared-history-support"
       ],
-      "description": "Bubble BoundaryOrchard recorded required local commit as potential in this run via durable-history."
+      "description": "Bubble BoundaryOrchard recorded required local commit as potential in this run via declared-history-support."
     },
     {
       "id": "evidence:effect:effect:10:spawn",

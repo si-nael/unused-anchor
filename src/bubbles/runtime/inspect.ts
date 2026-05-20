@@ -2,13 +2,13 @@ import type { BubbleProgramIR } from "../ir";
 import {
     materializeBubbleProgram,
     type BubbleBundlePlan,
-    type BubbleEvidenceRecord,
     type BubbleExecutionPlan,
     type BubbleMaterializationCommit,
     type BubbleMaterializationResult,
     type BubbleMaterializationTraceEvent,
-    type BubbleSeaAnchorAssessment,
 } from "./materialize";
+import type { BubbleEvidenceRecord } from "./evidence";
+import type { BubbleSeaAnchorAssessment } from "./ontology";
 import {
     deriveConsistencyVerdict,
     type BubbleConsistencyCertificate,
@@ -104,6 +104,7 @@ export function inspectMaterializationResult(
     query: BubbleInspectionQuery = {},
 ): BubbleInspectionReport {
     const plan = filterExecutionPlan(result.plan, query);
+    const ontology = result.runtimeOntology;
     const selectedEmissionIds = new Set(plan.emissionPlan.map((emission) => emission.emissionId));
     const selectedActivationIds = new Set(plan.grammarActivationPlan.map((activation) => activation.activationId));
     const hideEmissionResults = hasGrammarQuery(query) && !hasEmissionQuery(query);
@@ -164,7 +165,7 @@ export function inspectMaterializationResult(
             traceKinds: trace.map((event) => event.kind),
         },
         plan,
-        ontology: plan.ontology,
+        ontology,
         semantics: plan.semantics,
         proof: plan.proof,
         bundle: plan.bundle,

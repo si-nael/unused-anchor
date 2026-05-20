@@ -85,7 +85,8 @@
       },
       "anchorPoint": {
         "strength": "steady",
-        "trustedHistory": false,
+        "declaredHistorySupport": false,
+        "materializedHistoryEvidence": false,
         "rewindStability": "guarded",
         "signals": [
           "axiomatic-basis",
@@ -119,6 +120,10 @@
             "parser",
             "profile-validator"
           ],
+          "evidenceIds": [],
+          "dependsOnClaims": [],
+          "assumptions": [],
+          "scope": "source",
           "explanation": "Bubble Nursery compiled into a semantic plan under bubbles.v0.2."
         },
         {
@@ -131,6 +136,12 @@
             "seed",
             "effect"
           ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [],
+          "scope": "source",
           "explanation": "Bubble Nursery satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
         },
         {
@@ -141,6 +152,16 @@
             "descendant-lineage",
             "staged-growth"
           ],
+          "evidenceIds": [
+            "evidence:effect:effect:6:spawn"
+          ],
+          "dependsOnClaims": [
+            "claim:minimum-worldhood"
+          ],
+          "assumptions": [
+            "effect-trace-records-mirror-the-current-materialization-plan"
+          ],
+          "scope": "plan",
           "explanation": "Required effect effect:6:spawn is certified by descendant lineage and staged descendant materialization."
         },
         {
@@ -152,6 +173,18 @@
             "world-will",
             "seed-continuity"
           ],
+          "evidenceIds": [
+            "evidence:anchor-point:bubble:examples/meta-grove.bubble::root:Nursery",
+            "evidence:positive-sea:bubble:examples/meta-grove.bubble::root:Nursery",
+            "evidence:negative-sea:bubble:examples/meta-grove.bubble::root:Nursery"
+          ],
+          "dependsOnClaims": [
+            "claim:minimum-worldhood"
+          ],
+          "assumptions": [
+            "sea-anchor-theorem-witness-is-bounded"
+          ],
+          "scope": "plan",
           "explanation": "Bubble Nursery currently certifies anchor identity as steady with theorem condition stable."
         },
         {
@@ -163,6 +196,14 @@
             "descendant-lineage",
             "staged-growth"
           ],
+          "evidenceIds": [
+            "evidence:effect:effect:6:spawn"
+          ],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [],
+          "scope": "plan",
           "explanation": "Bubble Nursery preserves traceable lineage for every currently declared descendant or staged generation path."
         },
         {
@@ -172,9 +213,21 @@
           "basis": [
             "seed-continuity",
             "source-lineage-address",
-            "missing-durable-history"
+            "missing-declared-history-support"
           ],
-          "explanation": "Bubble Nursery preserves a replay basis, but same-world replay remains undetermined without durable history fixation."
+          "evidenceIds": [
+            "evidence:anchor-point:bubble:examples/meta-grove.bubble::root:Nursery",
+            "evidence:positive-sea:bubble:examples/meta-grove.bubble::root:Nursery",
+            "evidence:negative-sea:bubble:examples/meta-grove.bubble::root:Nursery"
+          ],
+          "dependsOnClaims": [
+            "claim:anchor-identity"
+          ],
+          "assumptions": [
+            "same-world-replay-is-evaluated-from-the-current-plan-basis"
+          ],
+          "scope": "plan",
+          "explanation": "Bubble Nursery preserves a replay basis, but same-world replay remains undetermined without declared history support fixation."
         },
         {
           "id": "claim:internal-law-consistency",
@@ -183,6 +236,14 @@
           "basis": [
             "no-executable-law-semantics-yet"
           ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [
+            "no-general-law-solver-is-present"
+          ],
+          "scope": "plan",
           "explanation": "Bubble Nursery does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
         }
       ]
@@ -314,7 +375,8 @@
     },
     "anchorPoint": {
       "strength": "steady",
-      "trustedHistory": false,
+      "declaredHistorySupport": false,
+      "materializedHistoryEvidence": false,
       "rewindStability": "guarded",
       "signals": [
         "axiomatic-basis",
@@ -354,6 +416,10 @@
           "parser",
           "profile-validator"
         ],
+        "evidenceIds": [],
+        "dependsOnClaims": [],
+        "assumptions": [],
+        "scope": "source",
         "explanation": "Bubble Nursery compiled into a semantic plan under bubbles.v0.2."
       },
       {
@@ -366,6 +432,12 @@
           "seed",
           "effect"
         ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [],
+        "scope": "source",
         "explanation": "Bubble Nursery satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
       },
       {
@@ -376,6 +448,16 @@
           "descendant-lineage",
           "staged-growth"
         ],
+        "evidenceIds": [
+          "evidence:effect:effect:6:spawn"
+        ],
+        "dependsOnClaims": [
+          "claim:minimum-worldhood"
+        ],
+        "assumptions": [
+          "effect-trace-records-mirror-the-current-materialization-plan"
+        ],
+        "scope": "plan",
         "explanation": "Required effect effect:6:spawn is certified by descendant lineage and staged descendant materialization."
       },
       {
@@ -387,6 +469,18 @@
           "world-will",
           "seed-continuity"
         ],
+        "evidenceIds": [
+          "evidence:anchor-point:bubble:examples/meta-grove.bubble::root:Nursery",
+          "evidence:positive-sea:bubble:examples/meta-grove.bubble::root:Nursery",
+          "evidence:negative-sea:bubble:examples/meta-grove.bubble::root:Nursery"
+        ],
+        "dependsOnClaims": [
+          "claim:minimum-worldhood"
+        ],
+        "assumptions": [
+          "sea-anchor-theorem-witness-is-bounded"
+        ],
+        "scope": "plan",
         "explanation": "Bubble Nursery currently certifies anchor identity as steady with theorem condition stable."
       },
       {
@@ -398,6 +492,14 @@
           "descendant-lineage",
           "staged-growth"
         ],
+        "evidenceIds": [
+          "evidence:effect:effect:6:spawn"
+        ],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [],
+        "scope": "plan",
         "explanation": "Bubble Nursery preserves traceable lineage for every currently declared descendant or staged generation path."
       },
       {
@@ -407,9 +509,21 @@
         "basis": [
           "seed-continuity",
           "source-lineage-address",
-          "missing-durable-history"
+          "missing-declared-history-support"
         ],
-        "explanation": "Bubble Nursery preserves a replay basis, but same-world replay remains undetermined without durable history fixation."
+        "evidenceIds": [
+          "evidence:anchor-point:bubble:examples/meta-grove.bubble::root:Nursery",
+          "evidence:positive-sea:bubble:examples/meta-grove.bubble::root:Nursery",
+          "evidence:negative-sea:bubble:examples/meta-grove.bubble::root:Nursery"
+        ],
+        "dependsOnClaims": [
+          "claim:anchor-identity"
+        ],
+        "assumptions": [
+          "same-world-replay-is-evaluated-from-the-current-plan-basis"
+        ],
+        "scope": "plan",
+        "explanation": "Bubble Nursery preserves a replay basis, but same-world replay remains undetermined without declared history support fixation."
       },
       {
         "id": "claim:internal-law-consistency",
@@ -418,6 +532,14 @@
         "basis": [
           "no-executable-law-semantics-yet"
         ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [
+          "no-general-law-solver-is-present"
+        ],
+        "scope": "plan",
         "explanation": "Bubble Nursery does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
       }
     ]
@@ -536,7 +658,8 @@
       "emissionId": null,
       "commitId": null,
       "strength": "steady",
-      "trustedHistory": false,
+      "declaredHistorySupport": false,
+      "materializedHistoryEvidence": false,
       "rewindStability": "guarded",
       "signals": [
         "axiomatic-basis",

@@ -1,22 +1,28 @@
 import type {
     BubbleAddressIR,
+    BubbleCollapseEvidenceDraftIR,
     BubbleEmissionTarget,
     BubbleProgramIR,
     BubbleUnresolvedSemanticIR,
     EffectIR,
 } from "../ir";
-import type { BubbleSeaAnchorAssessment } from "./materialize";
+import type { BubbleSeaAnchorAssessment } from "./ontology";
 import type { BubbleSemanticEvaluationPlan } from "./semantics";
 
 export type BubbleConsistencyClaimStatus = "certified" | "contradicted" | "undetermined";
 export type BubbleConsistencyCertificateVerdict = "certified" | "partially-certified" | "contradicted" | "undetermined";
 export type BubbleConsistencyClaimKind = "syntax" | "worldhood" | "effect" | "anchor" | "lineage" | "consistency" | "replay";
+export type BubbleConsistencyClaimScope = "source" | "plan" | "materialized-run" | "replay";
 
 export interface BubbleConsistencyClaim {
     id: string;
     kind: BubbleConsistencyClaimKind;
     status: BubbleConsistencyClaimStatus;
     basis: string[];
+    evidenceIds?: string[];
+    dependsOnClaims?: string[];
+    assumptions?: string[];
+    scope: BubbleConsistencyClaimScope;
     explanation: string;
 }
 
@@ -96,6 +102,10 @@ function buildWellFormedSourceClaim(program: BubbleProgramIR): BubbleConsistency
         kind: "syntax",
         status: "certified",
         basis: ["parser", "profile-validator"],
+        evidenceIds: [],
+        dependsOnClaims: [],
+        assumptions: [],
+        scope: "source",
         explanation: `Bubble ${program.bubble.name} compiled into a semantic plan under ${program.profile}.`,
     };
 }
@@ -133,6 +143,10 @@ function buildMinimumWorldhoodClaim(program: BubbleProgramIR): BubbleConsistency
         kind: "worldhood",
         status: missing.length === 0 ? "certified" : "contradicted",
         basis: missing.length === 0 ? basis : missing,
+        evidenceIds: [],
+        dependsOnClaims: ["claim:well-formed-source"],
+        assumptions: [],
+        scope: "source",
         explanation: missing.length === 0
             ? `Bubble ${program.bubble.name} satisfies the current minimum worldhood basis through ${basis.join(", ")}.`
             : `Bubble ${program.bubble.name} is missing minimum worldhood requirements: ${missing.join(", ")}.`,
@@ -150,6 +164,10 @@ function buildRequiredEffectClaim(
             kind: "effect",
             status: "undetermined",
             basis: ["no-required-effects"],
+            evidenceIds: [],
+            dependsOnClaims: ["claim:well-formed-source"],
+            assumptions: [],
+            scope: "source",
             explanation: `Bubble ${program.bubble.name} declares no required effects, so no effect obligation proof was generated.`,
         };
     }
@@ -166,6 +184,10 @@ function buildRequiredEffectClaim(
         kind: "effect",
         status: claimStatus,
         basis: Array.from(new Set(statuses.flatMap((status) => status.basis))),
+        evidenceIds: requiredEffects.map((effect) => `evidence:effect:${effect.id}`),
+        dependsOnClaims: ["claim:minimum-worldhood"],
+        assumptions: ["effect-trace-records-mirror-the-current-materialization-plan"],
+        scope: "plan",
         explanation: statuses.map((status) => status.explanation).join(" "),
     };
 }
@@ -194,13 +216,13 @@ function resolveRequiredEffectCertification(
             return generation.lifecycle.commitsHistory
                 ? {
                     status: "certified",
-                    basis: ["durable-history"],
-                    explanation: `Required effect ${effect.id} is certified by durable history support.`,
+                    basis: ["declared-history-support"],
+                    explanation: `Required effect ${effect.id} is certified by declared history support.`,
                 }
                 : {
                     status: "contradicted",
-                    basis: ["missing-durable-history"],
-                    explanation: `Required effect ${effect.id} is contradicted because durable history support is absent.`,
+                    basis: ["missing-declared-history-support"],
+                    explanation: `Required effect ${effect.id} is contradicted because declared history support is absent.`,
                 };
         case "spawn": {
             const hasRelationWitness = generation.relations.some((relation) => relation.sourceEffectId === effect.id);
@@ -283,7 +305,7 @@ function buildAnchorIdentityClaim(
         signal === "axiomatic-basis"
         || signal === "world-will"
         || signal === "seed-continuity"
-        || signal === "durable-history"
+        || signal === "declared-history-support"
         || signal === "observation-surface",
     );
 
@@ -293,6 +315,10 @@ function buildAnchorIdentityClaim(
             kind: "anchor",
             status: "contradicted",
             basis: Array.from(new Set([...identityBasis, ...anchorCriterion.basis])),
+            evidenceIds: resolveAnchorEvidenceIds(program),
+            dependsOnClaims: ["claim:minimum-worldhood"],
+            assumptions: ["sea-anchor-theorem-witness-is-bounded", "anchor-criterion-evaluation-uses-the-current-executable-subset"],
+            scope: "plan",
             explanation: `${anchorCriterion.explanation} Bubble ${program.bubble.name} therefore does not currently certify same-world anchor identity.`,
         };
     }
@@ -303,6 +329,10 @@ function buildAnchorIdentityClaim(
             kind: "anchor",
             status: "contradicted",
             basis: identityBasis.length > 0 ? identityBasis : ["missing-anchor-basis"],
+            evidenceIds: resolveAnchorEvidenceIds(program),
+            dependsOnClaims: ["claim:minimum-worldhood"],
+            assumptions: ["sea-anchor-theorem-witness-is-bounded"],
+            scope: "plan",
             explanation: `Bubble ${program.bubble.name} does not currently sustain same-world identity under the theorem witness and is classified as ${ontology.theoremWitness.condition}.`,
         };
     }
@@ -313,6 +343,10 @@ function buildAnchorIdentityClaim(
             kind: "anchor",
             status: "undetermined",
             basis: Array.from(new Set([...identityBasis, ...anchorCriterion.basis])),
+            evidenceIds: resolveAnchorEvidenceIds(program),
+            dependsOnClaims: ["claim:minimum-worldhood"],
+            assumptions: ["sea-anchor-theorem-witness-is-bounded", "anchor-criterion-evaluation-uses-the-current-executable-subset"],
+            scope: "plan",
             explanation: `${anchorCriterion.explanation} Bubble ${program.bubble.name} keeps an inferred anchor basis, but authored same-world identity remains undetermined.`,
         };
     }
@@ -325,6 +359,10 @@ function buildAnchorIdentityClaim(
             ...identityBasis,
             ...(anchorCriterion?.basis ?? []),
         ])),
+        evidenceIds: resolveAnchorEvidenceIds(program),
+        dependsOnClaims: ["claim:minimum-worldhood"],
+        assumptions: ["sea-anchor-theorem-witness-is-bounded", ...(anchorCriterion ? ["anchor-criterion-evaluation-uses-the-current-executable-subset"] : [])],
+        scope: "plan",
         explanation: `Bubble ${program.bubble.name} currently certifies anchor identity as ${ontology.anchorPoint.strength} with theorem condition ${ontology.theoremWitness.condition}${anchorCriterion ? " under the authored anchor criterion" : ""}.`,
     };
 }
@@ -344,6 +382,10 @@ function buildLineageTraceabilityClaim(
             kind: "lineage",
             status: "undetermined",
             basis: ["no-descendant-lineage-claim"],
+            evidenceIds: resolveLineageEvidenceIds(program),
+            dependsOnClaims: ["claim:well-formed-source"],
+            assumptions: [],
+            scope: "plan",
             explanation: `Bubble ${program.bubble.name} declares no descendant or staged grammar lineage that needs certification in the current plan.`,
         };
     }
@@ -359,6 +401,10 @@ function buildLineageTraceabilityClaim(
             kind: "lineage",
             status: "contradicted",
             basis: ["lineage-address-mismatch"],
+            evidenceIds: resolveLineageEvidenceIds(program),
+            dependsOnClaims: ["claim:well-formed-source"],
+            assumptions: [],
+            scope: "plan",
             explanation: `Bubble ${program.bubble.name} has descendant or staged lineage that cannot be traced back cleanly to the current root bubble.`,
         };
     }
@@ -373,6 +419,10 @@ function buildLineageTraceabilityClaim(
             ...(descendantEmissions.length > 0 ? ["staged-growth"] : []),
             ...(grammarActivationPlan.length > 0 ? ["staged-grammar-lineage"] : []),
         ])),
+        evidenceIds: resolveLineageEvidenceIds(program),
+        dependsOnClaims: ["claim:well-formed-source"],
+        assumptions: [],
+        scope: "plan",
         explanation: `Bubble ${program.bubble.name} preserves traceable lineage for every currently declared descendant or staged generation path.`,
     };
 }
@@ -383,10 +433,12 @@ function buildReplayIdentityClaim(
     semantics: BubbleSemanticEvaluationPlan,
 ): BubbleConsistencyClaim {
     const anchorCriterion = semantics.anchorCriterion;
+    const latentCollapseDrafts = collectLatentCollapseDrafts(program);
     const basis = [
         ...(program.bubble.seed === null ? [] : ["seed-continuity"]),
         ...(program.bubble.address.locatorKind === "source-relative" ? ["source-lineage-address"] : ["lineage-relative-address"]),
-        ...(program.bubble.generation.lifecycle.commitsHistory ? ["durable-history"] : []),
+        ...(program.bubble.generation.lifecycle.commitsHistory ? ["declared-history-support"] : []),
+        ...collectLatentCollapseBasis(latentCollapseDrafts),
         ...(anchorCriterion?.basis ?? []),
     ];
 
@@ -396,6 +448,10 @@ function buildReplayIdentityClaim(
             kind: "replay",
             status: "contradicted",
             basis,
+            evidenceIds: resolveReplayEvidenceIds(program),
+            dependsOnClaims: ["claim:anchor-identity"],
+            assumptions: ["same-world-replay-is-evaluated-from-the-current-plan-basis"],
+            scope: "plan",
             explanation: `${anchorCriterion.explanation} Bubble ${program.bubble.name} therefore does not currently certify same-world replay.`,
         };
     }
@@ -406,7 +462,32 @@ function buildReplayIdentityClaim(
             kind: "replay",
             status: "contradicted",
             basis,
+            evidenceIds: resolveReplayEvidenceIds(program),
+            dependsOnClaims: ["claim:anchor-identity"],
+            assumptions: ["same-world-replay-is-evaluated-from-the-current-plan-basis"],
+            scope: "plan",
             explanation: `Bubble ${program.bubble.name} does not currently certify same-world replay because the theorem witness is ${ontology.theoremWitness.condition}.`,
+        };
+    }
+
+    if (latentCollapseDrafts.length > 0) {
+        return {
+            id: "claim:replay-identity",
+            kind: "replay",
+            status: "undetermined",
+            basis,
+            evidenceIds: resolveReplayEvidenceIds(program),
+            dependsOnClaims: ["claim:anchor-identity"],
+            assumptions: [
+                "same-world-replay-is-evaluated-from-the-current-plan-basis",
+                "latent-collapse-history-is-not-yet-materialized",
+                ...(anchorCriterion ? ["anchor-criterion-evaluation-uses-the-current-executable-subset"] : []),
+            ],
+            scope: "plan",
+            explanation: [
+                anchorCriterion?.status === "undetermined" ? anchorCriterion.explanation : null,
+                `Bubble ${program.bubble.name} preserves a replay basis for currently declared history, but same-world replay across latent regions remains undetermined while collapse drafts are only ${describeLatentCollapseDrafts(latentCollapseDrafts)}.`,
+            ].filter((part): part is string => part !== null).join(" "),
         };
     }
 
@@ -416,6 +497,10 @@ function buildReplayIdentityClaim(
             kind: "replay",
             status: "undetermined",
             basis,
+            evidenceIds: resolveReplayEvidenceIds(program),
+            dependsOnClaims: ["claim:anchor-identity"],
+            assumptions: ["same-world-replay-is-evaluated-from-the-current-plan-basis", "anchor-criterion-evaluation-uses-the-current-executable-subset"],
+            scope: "plan",
             explanation: `${anchorCriterion.explanation} Bubble ${program.bubble.name} keeps a replay basis, but explicit same-world replay remains undetermined.`,
         };
     }
@@ -426,7 +511,11 @@ function buildReplayIdentityClaim(
             kind: "replay",
             status: "certified",
             basis,
-            explanation: `Bubble ${program.bubble.name} currently certifies replay identity through seed continuity, stable root addressing, and durable history.`,
+            evidenceIds: resolveReplayEvidenceIds(program),
+            dependsOnClaims: ["claim:anchor-identity"],
+            assumptions: ["same-world-replay-is-evaluated-from-the-current-plan-basis"],
+            scope: "plan",
+            explanation: `Bubble ${program.bubble.name} currently certifies replay identity through seed continuity, stable root addressing, and declared history support.`,
         };
     }
 
@@ -434,8 +523,12 @@ function buildReplayIdentityClaim(
         id: "claim:replay-identity",
         kind: "replay",
         status: "undetermined",
-        basis: [...basis, ...(program.bubble.generation.lifecycle.commitsHistory ? [] : ["missing-durable-history"])],
-        explanation: `Bubble ${program.bubble.name} preserves a replay basis, but same-world replay remains undetermined without durable history fixation.`,
+        basis: [...basis, ...(program.bubble.generation.lifecycle.commitsHistory ? [] : ["missing-declared-history-support"])],
+        evidenceIds: resolveReplayEvidenceIds(program),
+        dependsOnClaims: ["claim:anchor-identity"],
+        assumptions: ["same-world-replay-is-evaluated-from-the-current-plan-basis"],
+        scope: "plan",
+        explanation: `Bubble ${program.bubble.name} preserves a replay basis, but same-world replay remains undetermined without declared history support fixation.`,
     };
 }
 
@@ -444,6 +537,7 @@ function buildInternalConsistencyClaim(
     semantics: BubbleSemanticEvaluationPlan,
 ): BubbleConsistencyClaim {
     const unresolvedSemantics = program.bubble.unresolvedSemantics ?? [];
+    const latentCollapseDrafts = collectLatentCollapseDrafts(program);
     const executableChecks = [...semantics.constraints, ...semantics.partialLaws];
     const checkedFragmentIds = new Set(executableChecks.map((check) => check.subjectId));
     const residualFragments = unresolvedSemantics.filter((fragment) => !checkedFragmentIds.has(fragment.id));
@@ -456,7 +550,15 @@ function buildInternalConsistencyClaim(
             basis: Array.from(new Set([
                 ...executableChecks.flatMap((check) => check.basis),
                 ...residualFragments.map((fragment) => unresolvedSemanticBasis(fragment)),
+                ...collectLatentCollapseBasis(latentCollapseDrafts),
             ])),
+            evidenceIds: [],
+            dependsOnClaims: ["claim:well-formed-source"],
+            assumptions: [
+                "only-the-current-executable-semantic-subset-is-checked",
+                ...(latentCollapseDrafts.length > 0 ? ["observation-induced-collapse-is-not-yet-executed"] : []),
+            ],
+            scope: "plan",
             explanation: executableChecks
                 .filter((check) => check.status === "violated")
                 .map((check) => check.explanation)
@@ -470,6 +572,10 @@ function buildInternalConsistencyClaim(
             kind: "consistency",
             status: "certified",
             basis: Array.from(new Set(executableChecks.flatMap((check) => check.basis))),
+            evidenceIds: [],
+            dependsOnClaims: ["claim:well-formed-source"],
+            assumptions: ["only-the-current-executable-semantic-subset-is-checked"],
+            scope: "plan",
             explanation: executableChecks.map((check) => check.explanation).join(" "),
         };
     }
@@ -479,6 +585,7 @@ function buildInternalConsistencyClaim(
         const basis = Array.from(new Set([
             ...executableChecks.flatMap((check) => check.basis),
             ...residualFragments.map((fragment) => unresolvedSemanticBasis(fragment)),
+            ...collectLatentCollapseBasis(latentCollapseDrafts),
             ...(executableChecks.length > 0 ? [] : ["no-executable-law-semantics-yet"]),
         ]));
         const certifiedConstraintCount = semantics.constraints.filter((check) => check.status === "satisfied").length;
@@ -492,6 +599,14 @@ function buildInternalConsistencyClaim(
             kind: "consistency",
             status: "undetermined",
             basis,
+            evidenceIds: [],
+            dependsOnClaims: ["claim:well-formed-source"],
+            assumptions: [
+                "only-the-current-executable-semantic-subset-is-checked",
+                "no-general-law-solver-is-present",
+                ...(latentCollapseDrafts.length > 0 ? ["observation-induced-collapse-is-not-yet-executed"] : []),
+            ],
+            scope: "plan",
             explanation: [
                 certifiedConstraintCount > 0
                     ? `Bubble ${program.bubble.name} certified ${certifiedConstraintCount} authored constraint${certifiedConstraintCount === 1 ? "" : "s"} through the executable checker.`
@@ -501,6 +616,9 @@ function buildInternalConsistencyClaim(
                     : null,
                 undeterminedConstraintExplanations.length > 0
                     ? undeterminedConstraintExplanations.join(" ")
+                    : null,
+                latentCollapseDrafts.length > 0
+                    ? `Latent collapse drafts (${describeLatentCollapseDrafts(latentCollapseDrafts)}) keep observation-induced consistency bounded rather than fully discharged.`
                     : null,
                 unresolvedKinds.length > 0
                     ? `Residual unresolved semantic fragments (${unresolvedKinds.join(", ")}) keep overall internal semantic consistency undetermined.`
@@ -514,8 +632,69 @@ function buildInternalConsistencyClaim(
         kind: "consistency",
         status: "undetermined",
         basis: ["no-executable-law-semantics-yet"],
+        evidenceIds: [],
+        dependsOnClaims: ["claim:well-formed-source"],
+        assumptions: ["no-general-law-solver-is-present"],
+        scope: "plan",
         explanation: `Bubble ${program.bubble.name} does not yet have a full executable law solver, so internal semantic consistency remains undetermined.`,
     };
+}
+
+function resolveAnchorEvidenceIds(program: BubbleProgramIR): string[] {
+    const rootAddressId = program.bubble.address.id;
+    return [
+        `evidence:anchor-point:${rootAddressId}`,
+        `evidence:positive-sea:${rootAddressId}`,
+        `evidence:negative-sea:${rootAddressId}`,
+        ...(program.bubble.generation.lifecycle.observationMode === null ? [] : [`evidence:observe:${rootAddressId}`]),
+    ];
+}
+
+function resolveLineageEvidenceIds(program: BubbleProgramIR): string[] {
+    return program.bubble.effects
+        .filter((effect) => effect.kind === "spawn" || effect.kind === "branch" || effect.kind === "collapse")
+        .map((effect) => `evidence:effect:${effect.id}`);
+}
+
+function resolveReplayEvidenceIds(program: BubbleProgramIR): string[] {
+    return Array.from(new Set([
+        ...resolveAnchorEvidenceIds(program),
+        ...program.bubble.effects
+            .filter((effect) => effect.kind === "commit" || effect.kind === "observe")
+            .map((effect) => `evidence:effect:${effect.id}`),
+    ]));
+}
+
+function collectLatentCollapseDrafts(program: BubbleProgramIR): BubbleCollapseEvidenceDraftIR[] {
+    return program.bubble.latentTopology?.collapseEvidenceDrafts ?? [];
+}
+
+function collectLatentCollapseBasis(drafts: BubbleCollapseEvidenceDraftIR[]): string[] {
+    if (drafts.length === 0) {
+        return [];
+    }
+
+    return Array.from(new Set([
+        "latent-topology",
+        ...drafts.map(latentCollapseDraftBasis),
+    ]));
+}
+
+function latentCollapseDraftBasis(draft: BubbleCollapseEvidenceDraftIR): string {
+    switch (draft.draftStatus) {
+        case "observation-ready":
+            return "latent-observation-ready";
+        case "history-open":
+            return "latent-history-open";
+        case "underspecified":
+            return "latent-collapse-underspecified";
+        default:
+            return assertNever(draft.draftStatus);
+    }
+}
+
+function describeLatentCollapseDrafts(drafts: BubbleCollapseEvidenceDraftIR[]): string {
+    return Array.from(new Set(drafts.map((draft) => draft.draftStatus))).join(", ");
 }
 
 function unresolvedSemanticBasis(fragment: BubbleUnresolvedSemanticIR): string {
