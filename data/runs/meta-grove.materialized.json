@@ -51,6 +51,88 @@
         "explanation": "Bubble worldhood remains stable because A=1, P=2, N=0, so A + P - N = 3."
       }
     },
+    "proof": {
+      "mode": "bubble-consistency-certificate.v1",
+      "bubbleAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+      "profile": "bubbles.v0.2",
+      "verdict": "partially-certified",
+      "claims": [
+        {
+          "id": "claim:well-formed-source",
+          "kind": "syntax",
+          "status": "certified",
+          "basis": [
+            "parser",
+            "profile-validator"
+          ],
+          "explanation": "Bubble Nursery compiled into a semantic plan under bubbles.v0.2."
+        },
+        {
+          "id": "claim:minimum-worldhood",
+          "kind": "worldhood",
+          "status": "certified",
+          "basis": [
+            "axiom",
+            "worldWill",
+            "seed",
+            "effect"
+          ],
+          "explanation": "Bubble Nursery satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+        },
+        {
+          "id": "claim:required-effect-obligations",
+          "kind": "effect",
+          "status": "certified",
+          "basis": [
+            "descendant-lineage",
+            "staged-growth"
+          ],
+          "explanation": "Required effect effect:6:spawn is certified by descendant lineage and staged descendant materialization."
+        },
+        {
+          "id": "claim:anchor-identity",
+          "kind": "anchor",
+          "status": "certified",
+          "basis": [
+            "axiomatic-basis",
+            "world-will",
+            "seed-continuity"
+          ],
+          "explanation": "Bubble Nursery currently certifies anchor identity as steady with theorem condition stable."
+        },
+        {
+          "id": "claim:lineage-traceability",
+          "kind": "lineage",
+          "status": "certified",
+          "basis": [
+            "source-lineage-address",
+            "descendant-lineage",
+            "staged-growth"
+          ],
+          "explanation": "Bubble Nursery preserves traceable lineage for every currently declared descendant or staged generation path."
+        },
+        {
+          "id": "claim:replay-identity",
+          "kind": "replay",
+          "status": "undetermined",
+          "basis": [
+            "seed-continuity",
+            "source-lineage-address",
+            "missing-durable-history"
+          ],
+          "explanation": "Bubble Nursery preserves a replay basis, but same-world replay remains undetermined without durable history fixation."
+        },
+        {
+          "id": "claim:internal-law-consistency",
+          "kind": "consistency",
+          "status": "undetermined",
+          "basis": [
+            "no-executable-law-semantics-yet"
+          ],
+          "explanation": "Bubble Nursery does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
+        }
+      ]
+    },
     "obligations": [
       {
         "effectId": "effect:6:spawn",

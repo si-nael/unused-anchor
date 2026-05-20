@@ -533,3 +533,23 @@ Consequence:
 Treat each bubble universe as an independent world suspended between a negative sea and a positive sea, with an anchor point that keeps the world identifiable as itself. Use the negative sea to frame erosion, leakage, residue, and external pressure; use the positive sea to frame lineage, placement, continuity, and stabilization; use the anchor point to frame identity, trusted history, and replay-preserving fixation. Keep this ontology ahead of surface syntax and only promote it into Bubble core where the semantics can be inspected, replayed, and operationalized clearly.
 
 Treat authored worlds, descendant structures, governing language machinery, and preserved experiment evidence as bubbles or explicit relations among bubbles whenever possible. Prefer bubble-scoped semantics over global special cases, and treat abstractions that cannot be located in the bubble ontology as design smells unless they are explicitly justified.
+
+### D-054: Prioritize a semantic specification before widening Bubble surface syntax
+
+Reason:
+
+If Bubble keeps adding constructs without a sharper semantic contract, the repository may accumulate features without proving what each construct guarantees about worldhood, materialization, lineage, history, boundary, or replay identity.
+
+Consequence:
+
+Create and maintain a Bubble Semantic Specification that defines the normative meaning of core constructs, lifecycle states, composition targets, partial or unknown world objects, effect roles, and anchor identity semantics. Prefer semantic clarification over new syntax until that contract is stable enough to guide future profiles.
+
+### D-055: Treat bounded consistency certificates as part of Bubble core semantics
+
+Reason:
+
+If Bubble can generate and replay worlds but cannot leave a machine-readable record of which semantic claims were actually discharged, contradicted, or left open, it will remain weak at proving why one generated world counts as a world under its own declared contract.
+
+Consequence:
+
+Attach a bounded consistency certificate to the semantic plan and preserve it through inspection and replay. The certificate should stay relative to the declared profile and current executable semantics, use explicit `certified | contradicted | undetermined` claim states, and avoid pretending to prove more than the current model can actually justify.

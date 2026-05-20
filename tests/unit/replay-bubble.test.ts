@@ -35,6 +35,8 @@ test("records a materialized bubble into a replayable run bundle", () => {
     assert.equal(record.commitCount, 1);
     assert.equal(record.evidenceCount, 8);
     assert.equal(record.traceCount, 4);
+    assert.equal(record.materialization.plan.proof.mode, "bubble-consistency-certificate.v1");
+    assert.equal(record.materialization.plan.proof.verdict, "partially-certified");
     assert.equal(record.materialization.plan.sourcePath, "archive.bubble");
     assert.deepEqual(record.materialization.evidence.map((entry) => entry.kind), [
         "negative-sea-state",
@@ -71,6 +73,7 @@ test("replay preserves inspection semantics for stored records", () => {
 
     assert.deepEqual(replayed.summary, live.summary);
     assert.deepEqual(replayed.ontology, live.ontology);
+    assert.deepEqual(replayed.proof, live.proof);
     assert.deepEqual(replayed.artifacts, live.artifacts);
     assert.deepEqual(replayed.commits, live.commits);
     assert.deepEqual(replayed.evidence, live.evidence);

@@ -2,8 +2,12 @@
 
 ## 2026-05-20
 
+- Added the first bounded consistency certificate to Bubble semantic plans so the runtime now emits a machine-readable `bubble-consistency-certificate.v1` with claim-level `certified`, `contradicted`, and `undetermined` states for source well-formedness, minimum worldhood, required effects, anchor identity, lineage traceability, replay identity basis, and current internal-law consistency limits.
+- Promoted that certificate into inspection and replay as a first-class `proof` section, so Bubble now preserves not only ontology and evidence but also an explicit record of what the current runtime has and has not certified about one world.
 - Added a formal sea-anchor proof document that derives negative sea, positive sea, and anchor point as necessary and irreducible roles inside Bubble's own semantic model rather than treating them as practical metaphors.
 - Promoted that proof into the runtime by adding a theorem witness to ontology output, including ordinal ranks for negative pressure, positive support, and anchor strength, plus `worldhoodDelta = A + P - N`, `identityDelta = A - N`, and a derived worldhood condition of `stable`, `stressed`, or `dissolving`.
+- Replaced the lightweight sea-anchor proof sketch with an observer-free analytic model over Banach-space trajectories, explicit worldhood axioms, a necessity and irreducibility theorem, an identity-defect comparison theorem, a Gronwall-style persistence bound, and an explicit statement of the remaining gap between the rigorous model and the current coarse runtime estimator.
+- Added a first Bubble Semantic Specification that separates user-facing reference material from the normative language contract and explicitly defines the meaning of core constructs, world independence, lifecycle vocabulary, composition targets, partial and unknown world objects, effect-role separation, anchor identity semantics, and the proof obligations still required for a universal multiverse language.
 
 ## 2026-05-18
 

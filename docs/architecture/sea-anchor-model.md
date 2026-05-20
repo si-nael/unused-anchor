@@ -4,7 +4,7 @@
 
 This document records a working ontology for the Bubble multiverse.
 
-For the formal derivation that proves why these three terms are necessary inside Bubble's semantic model, see `docs/architecture/sea-anchor-proof.md`.
+For the formal derivation that proves why these three terms are necessary inside Bubble's semantic model, see `docs/architecture/sea-anchor-proof.md`. That document now uses an observer-free analytic model rather than a heuristic argument.
 
 It is not a claim that the final system must literally implement every word here exactly as written.
 

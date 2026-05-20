@@ -2,6 +2,7 @@ import type { BubbleProgramIR } from "../ir";
 import {
     materializeBubbleProgram,
     type BubbleEvidenceRecord,
+    type BubbleConsistencyCertificate,
     type BubbleExecutionPlan,
     type BubbleMaterializationCommit,
     type BubbleMaterializationResult,
@@ -9,7 +10,7 @@ import {
     type BubbleSeaAnchorAssessment,
 } from "./materialize";
 
-export type BubbleInspectionSection = "summary" | "plan" | "ontology" | "grammars" | "artifacts" | "commits" | "evidence" | "trace" | "report";
+export type BubbleInspectionSection = "summary" | "plan" | "ontology" | "proof" | "grammars" | "artifacts" | "commits" | "evidence" | "trace" | "report";
 
 export interface BubbleInspectionQuery {
     emissionId?: string;
@@ -58,6 +59,7 @@ export interface BubbleInspectionReport {
     summary: BubbleInspectionSummary;
     plan: BubbleExecutionPlan;
     ontology: BubbleSeaAnchorAssessment;
+    proof: BubbleConsistencyCertificate;
     grammars: BubbleGrammarInspectionReport;
     artifacts: BubbleArtifactInspection[];
     commits: BubbleMaterializationCommit[];
@@ -126,6 +128,7 @@ export function inspectMaterializationResult(
         },
         plan,
         ontology: plan.ontology,
+        proof: plan.proof,
         grammars: {
             artifacts: plan.grammars,
             activations: plan.grammarActivationPlan,

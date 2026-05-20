@@ -2,6 +2,8 @@
 
 For the current user-facing syntax, command, and output reference, see `docs/reference/bubble-language-reference.md`.
 
+For the normative meaning of Bubble constructs and worldhood guarantees, see `docs/architecture/bubble-semantic-spec.md`.
+
 ## Position
 
 Yes, a dedicated language is a strong direction for this project.

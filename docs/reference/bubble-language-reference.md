@@ -4,6 +4,8 @@
 
 This document is the shared user-facing reference for the current Bubble Language implementation.
 
+For the normative semantic contract behind these source forms, see `docs/architecture/bubble-semantic-spec.md`.
+
 It is meant to answer four practical questions:
 
 - what source forms are valid today
@@ -568,6 +570,7 @@ Typical fields include:
 - `summary`
 - `plan`
 - `ontology`
+- `proof`
 - `artifacts`
 - `commits`
 - `evidence`
@@ -610,6 +613,37 @@ The materializer now also emits these assessments as first-class evidence record
 - `effect-trace`
 
 Those evidence records travel through inspection and replay the same way observation and history-commit records do.
+
+### Proof Certificate Output
+
+The inspection runtime now also exposes one derived `proof` section.
+
+This is a bounded semantic consistency certificate, not a claim that Bubble has solved absolute contradiction-freedom.
+
+Current runtime shape:
+
+- `mode: bubble-consistency-certificate.v1`
+- `verdict: certified | partially-certified | contradicted | undetermined`
+- `claims[]` with per-claim `status: certified | contradicted | undetermined`
+
+Current claim families include:
+
+- well-formed source
+- minimum worldhood
+- required-effect obligations
+- anchor identity
+- lineage traceability
+- replay identity basis
+- internal law consistency
+
+Interpret the verdict conservatively:
+
+- `certified`: every current claim in the certificate was discharged
+- `partially-certified`: some claims were discharged and some remain open
+- `contradicted`: at least one current claim failed under the present runtime semantics
+- `undetermined`: no current claim could yet be discharged
+
+This certificate travels through planning, inspection, and replay as a first-class runtime artifact.
 
 ### Replay Bundles
 

@@ -78,6 +78,20 @@ test("plans and materializes descendant emissions from a meta bubble", () => {
             explanation: "Bubble worldhood remains stable because A=1, P=2, N=0, so A + P - N = 3.",
         },
     });
+    assert.equal(plan.proof.mode, "bubble-consistency-certificate.v1");
+    assert.equal(plan.proof.verdict, "partially-certified");
+    assert.deepEqual(
+        Object.fromEntries(plan.proof.claims.map((claim) => [claim.id, claim.status])),
+        {
+            "claim:well-formed-source": "certified",
+            "claim:minimum-worldhood": "certified",
+            "claim:required-effect-obligations": "certified",
+            "claim:anchor-identity": "certified",
+            "claim:lineage-traceability": "certified",
+            "claim:replay-identity": "undetermined",
+            "claim:internal-law-consistency": "undetermined",
+        },
+    );
     assert.deepEqual(plan.grammars, []);
     assert.deepEqual(plan.grammarActivationPlan, []);
 

@@ -211,6 +211,19 @@ test("inspection exposes observation evidence as a first-class report section", 
 
     assert.equal(report.summary.plannedEmissionCount, 0);
     assert.equal(report.summary.evidenceCount, 6);
+    assert.equal(report.proof.verdict, "partially-certified");
+    assert.deepEqual(
+        Object.fromEntries(report.proof.claims.map((claim) => [claim.id, claim.status])),
+        {
+            "claim:well-formed-source": "certified",
+            "claim:minimum-worldhood": "certified",
+            "claim:required-effect-obligations": "certified",
+            "claim:anchor-identity": "certified",
+            "claim:lineage-traceability": "undetermined",
+            "claim:replay-identity": "certified",
+            "claim:internal-law-consistency": "undetermined",
+        },
+    );
     assert.deepEqual(report.evidence, [
         {
             id: "evidence:negative-sea:bubble:observatory-inspect.bubble::root:Observatory",
@@ -360,6 +373,19 @@ test("inspection exposes sea-anchor ontology for stressed boundary worlds", () =
         },
     });
     assert.deepEqual(report.plan.ontology, report.ontology);
+    assert.equal(report.proof.verdict, "partially-certified");
+    assert.deepEqual(
+        Object.fromEntries(report.proof.claims.map((claim) => [claim.id, claim.status])),
+        {
+            "claim:well-formed-source": "certified",
+            "claim:minimum-worldhood": "certified",
+            "claim:required-effect-obligations": "certified",
+            "claim:anchor-identity": "certified",
+            "claim:lineage-traceability": "certified",
+            "claim:replay-identity": "certified",
+            "claim:internal-law-consistency": "undetermined",
+        },
+    );
     assert.deepEqual(report.evidence.slice(0, 3).map((entry) => entry.kind), [
         "negative-sea-state",
         "positive-sea-state",
@@ -422,6 +448,19 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
             explanation: "Bubble worldhood is dissolving because A=0, P=1, N=2, so A + P - N = -1 with identity margin -2.",
         },
     });
+    assert.equal(report.proof.verdict, "contradicted");
+    assert.deepEqual(
+        Object.fromEntries(report.proof.claims.map((claim) => [claim.id, claim.status])),
+        {
+            "claim:well-formed-source": "certified",
+            "claim:minimum-worldhood": "certified",
+            "claim:required-effect-obligations": "certified",
+            "claim:anchor-identity": "contradicted",
+            "claim:lineage-traceability": "undetermined",
+            "claim:replay-identity": "contradicted",
+            "claim:internal-law-consistency": "undetermined",
+        },
+    );
     assert.deepEqual(report.evidence.slice(0, 3), [
         {
             id: "evidence:negative-sea:bubble:membrane-archive.bubble::root:MembraneArchive",

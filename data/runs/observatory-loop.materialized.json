@@ -54,6 +54,92 @@
         "explanation": "Bubble worldhood remains stable because A=2, P=2, N=0, so A + P - N = 4."
       }
     },
+    "proof": {
+      "mode": "bubble-consistency-certificate.v1",
+      "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "profile": "bubbles.v0.2",
+      "verdict": "partially-certified",
+      "claims": [
+        {
+          "id": "claim:well-formed-source",
+          "kind": "syntax",
+          "status": "certified",
+          "basis": [
+            "parser",
+            "profile-validator"
+          ],
+          "explanation": "Bubble ObservatoryLoop compiled into a semantic plan under bubbles.v0.2."
+        },
+        {
+          "id": "claim:minimum-worldhood",
+          "kind": "worldhood",
+          "status": "certified",
+          "basis": [
+            "axiom",
+            "worldWill",
+            "seed",
+            "effect"
+          ],
+          "explanation": "Bubble ObservatoryLoop satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+        },
+        {
+          "id": "claim:required-effect-obligations",
+          "kind": "effect",
+          "status": "certified",
+          "basis": [
+            "observation-surface",
+            "durable-history",
+            "descendant-lineage",
+            "staged-growth"
+          ],
+          "explanation": "Required effect effect:8:observe is certified by the declared observation surface. Required effect effect:9:commit is certified by durable history support. Required effect effect:10:spawn is certified by descendant lineage and staged descendant materialization."
+        },
+        {
+          "id": "claim:anchor-identity",
+          "kind": "anchor",
+          "status": "certified",
+          "basis": [
+            "axiomatic-basis",
+            "world-will",
+            "seed-continuity",
+            "durable-history",
+            "observation-surface"
+          ],
+          "explanation": "Bubble ObservatoryLoop currently certifies anchor identity as strong with theorem condition stable."
+        },
+        {
+          "id": "claim:lineage-traceability",
+          "kind": "lineage",
+          "status": "certified",
+          "basis": [
+            "source-lineage-address",
+            "descendant-lineage",
+            "staged-growth"
+          ],
+          "explanation": "Bubble ObservatoryLoop preserves traceable lineage for every currently declared descendant or staged generation path."
+        },
+        {
+          "id": "claim:replay-identity",
+          "kind": "replay",
+          "status": "certified",
+          "basis": [
+            "seed-continuity",
+            "source-lineage-address",
+            "durable-history"
+          ],
+          "explanation": "Bubble ObservatoryLoop currently certifies replay identity through seed continuity, stable root addressing, and durable history."
+        },
+        {
+          "id": "claim:internal-law-consistency",
+          "kind": "consistency",
+          "status": "undetermined",
+          "basis": [
+            "no-executable-law-semantics-yet"
+          ],
+          "explanation": "Bubble ObservatoryLoop does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
+        }
+      ]
+    },
     "obligations": [
       {
         "effectId": "effect:8:observe",
