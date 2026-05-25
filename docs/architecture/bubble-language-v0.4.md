@@ -81,6 +81,14 @@ When `bubble.latentTopology` exists, the semantic plan now preserves that latent
 
 The semantic plan also now carries a first `bundle` surface that groups the root bubble, staged emissions, staged grammar activations, and their current materialization scopes into one provenance-bearing package shape.
 
+Materialization now also emits first `collapse-record` evidence whenever one bubble both admits latent topology and declares an observation surface. The current record remains intentionally conservative, but it is no longer only a placeholder id: it preserves latent-region id, triggering observation effects, perturb contribution ids, a structured `observationState`, and current commit state.
+
+Inspection and replay now read a runtime-aware proof surface distinct from `plan.proof`, so actual observed collapse records can bound replay and consistency more sharply than latent-topology drafts alone.
+
+The first bounded local collapse kernel now also exists: one run may materialize exactly one observed latent region through `single-region-observation-kernel.v1`, attach that local state under `observationState.localMaterialization`, and, in the single-region benchmark path, commit that observed local state into same-world history.
+
+`observationState` is now also available as a top-level inspection and replay section instead of remaining visible only through nested collapse-record evidence, and descendant artifact summaries now preserve enough latent-topology information to compare one committed local collapse history against one still-latent sibling benchmark.
+
 If a source file contains any unresolved semantic declarations or an explicit anchor criterion, the compiler emits:
 
 - `version: "0.4.0"`
@@ -125,5 +133,20 @@ bubble ThresholdField {
   anchor identity = world.seeded and history.commits
   hidden region OuterCanopy
   latent bubble WaitingArchive
+}
+```
+
+Minimal benchmark example:
+
+```bubbles
+bubble CollapseThreshold {
+  axiom coherence = stable
+  will "fix one observed canopy edge into history"
+  seed threshold_seed
+  observe witness
+  effect observe required
+  effect commit required
+  effect perturb optional
+  hidden region OuterCanopy
 }
 ```

@@ -653,3 +653,43 @@ If observation-induced materialization remains only a research note, the reposit
 Consequence:
 
 Treat observation-collapse as one staged next-core roadmap. Keep current Bubble core grounded in explicit effects, bounded proof, replay, and latent-topology drafts. Move next through collapse records, one local observation-triggered materialization kernel, replay hardening, and only then any new author-facing syntax. Keep probabilistic clouds, distributional replay, generalized observer-dependent semantics, and hidden randomness explicitly deferred.
+
+### D-066: Keep the single-region commit rule runtime-bounded until a second authored commit policy is semantically necessary
+
+Reason:
+
+The current single-region commit rule exists to stabilize one benchmark transition, not to expose a mature policy family. Bubble still has only one bounded local collapse kernel, one benchmark-specific commit path, and no settled proof contract for competing authored commit policies. Promoting that rule into author-facing policy syntax now would freeze a policy surface before the runtime alternatives and proof consequences are known.
+
+Consequence:
+
+Keep the current single-region commit rule as a bounded runtime benchmark rule for now. Do not add authored commit-policy syntax or policy IR yet. Revisit authored policy only after Bubble has at least one additional semantically distinct commit path or one proof distinction that cannot be expressed cleanly through the current effect and runtime layers.
+
+### D-067: Elevate observation-state querying, but keep sibling-latency comparison as a composed report view for now
+
+Reason:
+
+`observationState` is already a first-class runtime object with stable identity and transition phases, so inspection and replay need direct query axes for it. By contrast, sibling-latency comparison still depends on an evolving combination of committed root observation history plus descendant latent-topology summaries; freezing that into a dedicated diff primitive now would hard-code one comparison vocabulary before enough comparison shapes exist.
+
+Consequence:
+
+Expose observation-state id and observation-state phase as first-class inspection and replay query axes. Keep sibling-latency comparison composed from `observationStates` plus artifact latent-topology summaries until repeated use shows one stable diff/report abstraction is actually needed.
+
+### D-068: A second runtime-bounded commit path still does not justify authored commit-policy syntax yet
+
+Reason:
+
+Bubble now has two semantically distinct runtime-bounded commit behaviors: the original single observed local-state commit path and a mixed local-target path that commits one hidden-region observation while leaving sibling latent-bubble observation states history-open. That is enough to compare replay and consistency behavior across two commit shapes, but it is still not enough to freeze author-facing commit syntax because both paths currently share one local kernel and one runtime target-selection rule.
+
+Consequence:
+
+Keep both commit behaviors runtime-bounded for now. Use the new mixed path to determine whether authored commit policy needs explicit target selection, sibling-open clauses, or a stronger proof vocabulary. Do not add authored commit-policy syntax or commit-policy IR until those distinctions stop moving.
+
+### D-069: Standardize commit-path differences in proof vocabulary before widening commit syntax
+
+Reason:
+
+After adding the mixed local-target commit path, the smallest stable distinction Bubble actually needed was not new authored syntax. It was an explicit proof vocabulary that distinguishes fully committed observation history from partially committed observation history while preserving the per-record `committed` versus `history-open` evidence. That difference is sufficient for replay and internal-consistency reasoning today, while authored target-selection or sibling-open syntax would still be premature.
+
+Consequence:
+
+Normalize runtime proof around explicit observation-history shape basis terms such as `observed-history-shape-fully-committed` and `observed-history-shape-partially-committed`. Keep authored commit policy deferred until Bubble needs one author-controlled choice that cannot be expressed by the current bounded runtime target-selection rule plus this proof vocabulary.

@@ -1,7 +1,24 @@
 # Work Log
 
+## 2026-05-25
+
+- Standardized the smallest stable proof vocabulary across the two bounded local commit paths by adding explicit observation-history shape basis terms for fully committed versus partially committed collapse history, then recorded the decision that authored commit-policy syntax is still premature until authors need control beyond the current runtime rule.
+- Added a second runtime-bounded local commit path plus `examples/collapse-mixed.bubble`, so Bubble can now commit one observed hidden-region target while leaving a sibling `latent bubble` observation state `history-open`, giving the roadmap two semantically distinct commit shapes without widening into authored policy syntax.
+- Decided to keep the single-region commit rule runtime-bounded for now rather than promoting it immediately into an authored policy surface, because Bubble still has only one benchmark-specific commit path and no settled proof contract for alternative policies.
+- Elevated `observationState` into a true query surface with dedicated inspection/replay filters by id and phase, while keeping sibling-latency comparison composed from `observationStates` plus artifact latent-topology summaries instead of freezing a replay-diff primitive too early.
+- Added a top-level `observationStates` inspection/replay section so observation-induced local states no longer need to be recovered indirectly from nested collapse evidence.
+- Taught runtime internal consistency to reinterpret committed hidden-region fragments as observed local history instead of leaving them only as stale residual unresolved semantics.
+- Extended the observation-collapse benchmark with `examples/collapse-mirror.bubble`, so replay can now compare committed root-local collapse history against a still-latent sibling descendant, and artifact inspection now carries latent-topology summaries for that comparison.
+- Fixed quoted artifact normalization for newer Bubble statements and string-bearing sources, so emitted descendants can safely preserve `hidden region`, `latent bubble`, unresolved-semantics declarations, and grammar statements without mis-splitting inside quoted strings.
+
 ## 2026-05-20
 
+- Added the first deterministic local observation kernel, `single-region-observation-kernel.v1`, so one run can now materialize exactly one observed latent region into structured local state without widening Bubble syntax or enabling many-region coupled collapse.
+- Added the first single-region local commit path for the benchmark micro-world, so `CollapseThreshold` now commits one observed local state into same-world history and runtime replay proof can upgrade from observed-open collapse history to committed same-world revisitation.
+- Split runtime proof from plan proof so `inspect` and `replay` now consume materialized-run proof that can cite actual `collapse-record` evidence, distinguish observed-open collapse history from pristine latent possibility, and keep residual latent regions separate from executed collapse records.
+- Replaced the placeholder collapse `observationStateId` surface with a structured `observationState` record carried inside each `collapse-record`, giving the roadmap a stable place to attach a later local materialization kernel without widening syntax yet.
+- Added the first runtime `collapse-record` evidence shape for observed latent regions and propagated it through materialization, inspection, and replay, so one run can now leave an explicit observation-collapse trace even before a full local materialization kernel exists.
+- Added `examples/collapse-threshold.bubble` plus direct materialize/inspect scripts as the first minimal observation-collapse benchmark example for the new staged roadmap.
 - Adopted observation-collapse as a staged next-core roadmap under Bubble architecture, wrote one dedicated roadmap document, and recorded the decision that the branch should move through collapse records, one local materialization kernel, replay hardening, and only then syntax widening.
 - Tightened bounded proof against latent overclaiming by teaching `replay-identity` and `internal-law-consistency` to cite latent-topology draft basis directly and remain open until actual collapse history exists.
 - Surfaced the latent-topology draft into semantic planning itself, so `hidden-region` / `latent-bubble` descriptors and their collapse-evidence drafts are now preserved not only in compiled IR but also on the plan surface consumed by inspection and later runtime work.

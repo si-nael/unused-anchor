@@ -17,9 +17,12 @@ import type {
 import { compileBubbleSource, formatBubbleExpression } from "../language";
 import type { Diagnostic } from "../language";
 import {
+    createLocalObservationCommitId,
+    createCollapseRecordEvidence,
     createCommitEvidence,
     createEffectTraceEvidence,
     createObservationEvidence,
+    resolveLocalObservationCommitTargetIds,
     createSeaAnchorEvidence,
 } from "./evidence";
 import {
@@ -38,16 +41,19 @@ import {
 } from "./ontology";
 import {
     buildConsistencyCertificate,
+    buildMaterializedConsistencyCertificate,
     type BubbleConsistencyCertificate,
 } from "./proof";
 import type {
     BubbleAnchorPointEvidenceRecord as EvidenceBubbleAnchorPointEvidenceRecord,
+    BubbleCollapseRecordEvidenceRecord as EvidenceBubbleCollapseRecordEvidenceRecord,
     BubbleEffectTraceEvidenceRecord as EvidenceBubbleEffectTraceEvidenceRecord,
     BubbleEffectTraceMaterializationState as EvidenceBubbleEffectTraceMaterializationState,
     BubbleEvidenceKind as EvidenceBubbleEvidenceKind,
     BubbleEvidenceRecord as EvidenceBubbleEvidenceRecord,
     BubbleHistoryCommitEvidenceRecord as EvidenceBubbleHistoryCommitEvidenceRecord,
     BubbleNegativeSeaEvidenceRecord as EvidenceBubbleNegativeSeaEvidenceRecord,
+    BubbleObservationStateRecord as EvidenceBubbleObservationStateRecord,
     BubbleObservationEvidenceRecord as EvidenceBubbleObservationEvidenceRecord,
     BubblePositiveSeaEvidenceRecord as EvidenceBubblePositiveSeaEvidenceRecord,
 } from "./evidence";
@@ -167,6 +173,8 @@ export interface BubbleMaterializationCommit {
 export type BubbleEvidenceKind = EvidenceBubbleEvidenceKind;
 export type BubbleEffectTraceMaterializationState = EvidenceBubbleEffectTraceMaterializationState;
 export type BubbleObservationEvidenceRecord = EvidenceBubbleObservationEvidenceRecord;
+export type BubbleObservationStateRecord = EvidenceBubbleObservationStateRecord;
+export type BubbleCollapseRecordEvidenceRecord = EvidenceBubbleCollapseRecordEvidenceRecord;
 export type BubbleHistoryCommitEvidenceRecord = EvidenceBubbleHistoryCommitEvidenceRecord;
 export type BubbleNegativeSeaEvidenceRecord = EvidenceBubbleNegativeSeaEvidenceRecord;
 export type BubblePositiveSeaEvidenceRecord = EvidenceBubblePositiveSeaEvidenceRecord;
@@ -179,6 +187,7 @@ export interface BubbleMaterializationTraceEvent {
     | "materialization-started"
     | "grammar-activation-staged"
     | "no-emissions"
+    | "local-collapse-materialized"
     | "reflection-captured"
     | "emission-materialized"
     | "materialization-committed";
@@ -190,6 +199,7 @@ export interface BubbleMaterializationTraceEvent {
 
 export interface BubbleMaterializationResult {
     plan: BubbleExecutionPlan;
+    proof: BubbleConsistencyCertificate;
     runtimeOntology: BubbleSeaAnchorAssessment;
     artifacts: MaterializedBubbleArtifact[];
     commits: BubbleMaterializationCommit[];
@@ -240,6 +250,7 @@ export function planBubbleProgram(program: BubbleProgramIR): BubbleExecutionPlan
 export function materializeBubbleProgram(program: BubbleProgramIR): BubbleMaterializationResult {
     const plan = planBubbleProgram(program);
     const baseEvidence = createObservationEvidence(program);
+    const committedLocalObservationRegionIds = new Set(resolveLocalObservationCommitTargetIds(program, plan));
     const trace: BubbleMaterializationTraceEvent[] = [
         {
             kind: "materialization-started",
@@ -275,17 +286,26 @@ export function materializeBubbleProgram(program: BubbleProgramIR): BubbleMateri
             kind: "no-emissions",
             message: `Bubble ${program.bubble.name} has no staged emissions to materialize.`,
         });
-        const runtimeOntology = withMaterializedHistoryEvidence(plan.ontology, false);
+        const runtimeOntology = withMaterializedHistoryEvidence(plan.ontology, committedLocalObservationRegionIds.size > 0);
+        const collapseEvidence = createCollapseRecordEvidence(program, plan, runtimeOntology, committedLocalObservationRegionIds);
+        appendLocalCollapseTrace(trace, collapseEvidence);
+        const commits = createLocalCollapseCommits(program, collapseEvidence);
+        const commitEvidence = commits.map((commit) => createCommitEvidence(program, commit));
+        appendCommitTrace(trace, commits);
+        const evidence = [
+            ...createSeaAnchorEvidence(program, runtimeOntology),
+            ...baseEvidence,
+            ...collapseEvidence,
+            ...commitEvidence,
+            ...createEffectTraceEvidence(program, plan, [], commits),
+        ];
         return {
             plan,
+            proof: buildMaterializedConsistencyCertificate(program, plan.proof, evidence, plan.semantics),
             runtimeOntology,
             artifacts: [],
-            commits: [],
-            evidence: [
-                ...createSeaAnchorEvidence(program, runtimeOntology),
-                ...baseEvidence,
-                ...createEffectTraceEvidence(program, plan, [], []),
-            ],
+            commits,
+            evidence,
             trace,
         };
     }
@@ -359,21 +379,82 @@ export function materializeBubbleProgram(program: BubbleProgramIR): BubbleMateri
         });
     }
 
-    const runtimeOntology = withMaterializedHistoryEvidence(plan.ontology, commitEvidence.length > 0);
+    const runtimeOntology = withMaterializedHistoryEvidence(plan.ontology, commitEvidence.length > 0 || committedLocalObservationRegionIds.size > 0);
+    const collapseEvidence = createCollapseRecordEvidence(program, plan, runtimeOntology, committedLocalObservationRegionIds);
+    appendLocalCollapseTrace(trace, collapseEvidence);
+    const localCollapseCommits = createLocalCollapseCommits(program, collapseEvidence);
+    commits.push(...localCollapseCommits);
+    commitEvidence.push(...localCollapseCommits.map((commit) => createCommitEvidence(program, commit)));
+    appendCommitTrace(trace, localCollapseCommits);
+    const evidence = [
+        ...createSeaAnchorEvidence(program, runtimeOntology),
+        ...baseEvidence,
+        ...collapseEvidence,
+        ...commitEvidence,
+        ...createEffectTraceEvidence(program, plan, artifacts, commits),
+    ];
 
     return {
         plan,
+        proof: buildMaterializedConsistencyCertificate(program, plan.proof, evidence, plan.semantics),
         runtimeOntology,
         artifacts,
         commits,
-        evidence: [
-            ...createSeaAnchorEvidence(program, runtimeOntology),
-            ...baseEvidence,
-            ...commitEvidence,
-            ...createEffectTraceEvidence(program, plan, artifacts, commits),
-        ],
+        evidence,
         trace,
     };
+}
+
+function createLocalCollapseCommits(
+    program: BubbleProgramIR,
+    collapseEvidence: BubbleCollapseRecordEvidenceRecord[],
+): BubbleMaterializationCommit[] {
+    return collapseEvidence
+        .filter((record) => record.commitStatus === "committed")
+        .map((record) => ({
+            id: createLocalObservationCommitId(record.observationStateId),
+            emissionId: record.observationStateId,
+            committedAddressId: program.bubble.address.id,
+            description: `Committed observed local state ${record.observationStateId} for ${record.latentRegionId}.`,
+        } satisfies BubbleMaterializationCommit));
+}
+
+function appendCommitTrace(
+    trace: BubbleMaterializationTraceEvent[],
+    commits: BubbleMaterializationCommit[],
+): void {
+    for (const commit of commits) {
+        trace.push({
+            kind: "materialization-committed",
+            emissionId: commit.emissionId,
+            message: commit.description,
+            details: {
+                commitId: commit.id,
+            },
+        });
+    }
+}
+
+function appendLocalCollapseTrace(
+    trace: BubbleMaterializationTraceEvent[],
+    collapseEvidence: BubbleCollapseRecordEvidenceRecord[],
+): void {
+    for (const record of collapseEvidence) {
+        if (record.observationState.localMaterialization === null) {
+            continue;
+        }
+
+        trace.push({
+            kind: "local-collapse-materialized",
+            message: `Locally materialized ${record.observationState.localMaterialization.regionName} into ${record.observationState.id}.`,
+            details: {
+                latentRegionId: record.latentRegionId,
+                observationStateId: record.observationState.id,
+                realizedForm: record.observationState.localMaterialization.realizedForm,
+                mode: record.observationState.localMaterialization.mode,
+            },
+        });
+    }
 }
 
 function buildGrammarPlan(grammars: BubbleGrammarIR[]): BubbleGrammarPlan[] {
@@ -631,18 +712,37 @@ function normalizeQuotedArtifactSource(source: string): string {
     }
 
     const bubbleName = match[1];
-    const body = match[2]
+    const stringLiterals: string[] = [];
+    const maskedBody = match[2].replace(/"[^"]*"|'[^']*'/g, (literal) => {
+        const marker = `__bubble_string_${stringLiterals.length}__`;
+        stringLiterals.push(literal);
+        return marker;
+    });
+    const body = maskedBody
         .replace(/\s+(?=realization\b)/g, "\n  ")
         .replace(/\s+(?=axiom\b)/g, "\n  ")
         .replace(/\s+(?=will\b)/g, "\n  ")
         .replace(/\s+(?=seed\b)/g, "\n  ")
         .replace(/\s+(?=observe\b)/g, "\n  ")
+        .replace(/\s+(?=unknown\b)/g, "\n  ")
+        .replace(/\s+(?=constraint\b)/g, "\n  ")
+        .replace(/\s+(?=partial\b)/g, "\n  ")
+        .replace(/\s+(?=hidden\b)/g, "\n  ")
+        .replace(/\s+(?=unobservable\b)/g, "\n  ")
+        .replace(/\s+(?=latent\b)/g, "\n  ")
+        .replace(/\s+(?=anchor\b)/g, "\n  ")
         .replace(/(?<!effect)\s+(?=spawn\b)/g, "\n  ")
         .replace(/\s+(?=effect\b)/g, "\n  ")
+        .replace(/\s+(?=grammar\b)/g, "\n  ")
+        .replace(/\s+(?=activate\b)/g, "\n  ")
         .replace(/\s+(?=quote\b)/g, "\n  ")
         .replace(/\s+(?=generator\b)/g, "\n  ")
         .replace(/\s+(?=reflect\b)/g, "\n  ")
         .replace(/\s+(?=emit\b)/g, "\n  ")
+        .replace(/__bubble_string_(\d+)__/g, (_marker, indexText) => {
+            const index = Number(indexText);
+            return stringLiterals[index] ?? _marker;
+        })
         .trim();
 
     const statements = body

@@ -3,9 +3,14 @@ import type {
     BubbleCollapseEvidenceDraftIR,
     BubbleEmissionTarget,
     BubbleProgramIR,
+    BubbleUnresolvedSemanticKind,
     BubbleUnresolvedSemanticIR,
     EffectIR,
 } from "../ir";
+import type {
+    BubbleCollapseRecordEvidenceRecord,
+    BubbleEvidenceRecord,
+} from "./evidence";
 import type { BubbleSeaAnchorAssessment } from "./ontology";
 import type { BubbleSemanticEvaluationPlan } from "./semantics";
 
@@ -91,6 +96,38 @@ export function buildConsistencyCertificate(
         mode: "bubble-consistency-certificate.v1",
         bubbleAddressId: program.bubble.address.id,
         profile: program.profile,
+        verdict: deriveConsistencyVerdict(claims),
+        claims,
+    };
+}
+
+export function buildMaterializedConsistencyCertificate(
+    program: BubbleProgramIR,
+    planProof: BubbleConsistencyCertificate,
+    evidence: BubbleEvidenceRecord[],
+    semantics: BubbleSemanticEvaluationPlan,
+): BubbleConsistencyCertificate {
+    const collapseRecords = collectCollapseRecordEvidence(evidence);
+    if (collapseRecords.length === 0) {
+        return planProof;
+    }
+
+    const residualDrafts = collectLatentCollapseDrafts(program).filter((draft) =>
+        !collapseRecords.some((record) => record.latentRegionId === draft.latentRegionId),
+    );
+    const claims = planProof.claims.map((claim) => {
+        switch (claim.id) {
+            case "claim:replay-identity":
+                return refineReplayIdentityClaim(program, claim, collapseRecords, residualDrafts);
+            case "claim:internal-law-consistency":
+                return refineInternalConsistencyClaim(program, claim, collapseRecords, residualDrafts, semantics);
+            default:
+                return claim;
+        }
+    });
+
+    return {
+        ...planProof,
         verdict: deriveConsistencyVerdict(claims),
         claims,
     };
@@ -665,6 +702,10 @@ function resolveReplayEvidenceIds(program: BubbleProgramIR): string[] {
     ]));
 }
 
+function collectCollapseRecordEvidence(evidence: BubbleEvidenceRecord[]): BubbleCollapseRecordEvidenceRecord[] {
+    return evidence.filter((entry): entry is BubbleCollapseRecordEvidenceRecord => entry.kind === "collapse-record");
+}
+
 function collectLatentCollapseDrafts(program: BubbleProgramIR): BubbleCollapseEvidenceDraftIR[] {
     return program.bubble.latentTopology?.collapseEvidenceDrafts ?? [];
 }
@@ -695,6 +736,306 @@ function latentCollapseDraftBasis(draft: BubbleCollapseEvidenceDraftIR): string 
 
 function describeLatentCollapseDrafts(drafts: BubbleCollapseEvidenceDraftIR[]): string {
     return Array.from(new Set(drafts.map((draft) => draft.draftStatus))).join(", ");
+}
+
+function refineReplayIdentityClaim(
+    program: BubbleProgramIR,
+    claim: BubbleConsistencyClaim,
+    collapseRecords: BubbleCollapseRecordEvidenceRecord[],
+    residualDrafts: BubbleCollapseEvidenceDraftIR[],
+): BubbleConsistencyClaim {
+    const collapseHistoryShape = resolveObservedCollapseHistoryShape(collapseRecords);
+    const observedBasis = collectObservedCollapseBasis(collapseRecords);
+    const allObservedCommitted = collapseHistoryShape === "fully-committed";
+    const basis = Array.from(new Set([
+        ...stripResolvedLatentCollapseBasis(claim.basis, residualDrafts),
+        ...observedBasis,
+        ...collectLatentCollapseBasis(residualDrafts),
+    ]));
+
+    return {
+        ...claim,
+        status: claim.status === "undetermined" && allObservedCommitted && residualDrafts.length === 0
+            ? "certified"
+            : claim.status,
+        basis,
+        evidenceIds: mergeEvidenceIds(claim.evidenceIds, collapseRecords.map((record) => record.id)),
+        assumptions: refineCollapseAwareAssumptions(claim.assumptions, collapseRecords, residualDrafts),
+        scope: "materialized-run",
+        explanation: [
+            claim.explanation,
+            `Observed collapse records (${describeCollapseRecords(collapseRecords)}) mean this run is no longer pristine latent possibility; same-world replay ${allObservedCommitted && residualDrafts.length === 0 ? "is now certified by committed collapse history" : "remains open until that observed history is committed"}.`,
+            residualDrafts.length === 0
+                ? null
+                : `Residual latent regions still remain only ${describeLatentCollapseDrafts(residualDrafts)}.`,
+        ].filter((part): part is string => part !== null).join(" "),
+    };
+}
+
+function refineInternalConsistencyClaim(
+    program: BubbleProgramIR,
+    claim: BubbleConsistencyClaim,
+    collapseRecords: BubbleCollapseRecordEvidenceRecord[],
+    residualDrafts: BubbleCollapseEvidenceDraftIR[],
+    semantics: BubbleSemanticEvaluationPlan,
+): BubbleConsistencyClaim {
+    const collapseHistoryShape = resolveObservedCollapseHistoryShape(collapseRecords);
+    const unresolvedSemantics = program.bubble.unresolvedSemantics ?? [];
+    const executableChecks = [...semantics.constraints, ...semantics.partialLaws];
+    const checkedFragmentIds = new Set(executableChecks.map((check) => check.subjectId));
+    const committedCollapseSemanticIds = new Set(
+        collapseRecords
+            .filter((record) => record.commitStatus === "committed")
+            .map((record) => record.sourceSemanticId),
+    );
+    const committedResolvedFragments = unresolvedSemantics.filter((fragment) => committedCollapseSemanticIds.has(fragment.id));
+    const residualFragments = unresolvedSemantics.filter((fragment) =>
+        !checkedFragmentIds.has(fragment.id) && !committedCollapseSemanticIds.has(fragment.id),
+    );
+    const observedBasis = collectObservedCollapseBasis(collapseRecords);
+    const committedFragmentBasis = committedResolvedFragments.map(committedResolvedFragmentBasis);
+    const executableBasis = executableChecks.flatMap((check) => check.basis);
+    const unresolvedKinds = Array.from(new Set(residualFragments.map((fragment) => fragment.kind)));
+    const certifiedConstraintCount = semantics.constraints.filter((check) => check.status === "satisfied").length;
+    const certifiedPartialLawCount = semantics.partialLaws.filter((check) => check.status === "satisfied").length;
+    const undeterminedConstraintExplanations = executableChecks
+        .filter((check) => check.status === "undetermined")
+        .map((check) => check.explanation);
+    const allExecutableChecksSatisfied = executableChecks.length > 0 && executableChecks.every((check) => check.status === "satisfied");
+    const basis = Array.from(new Set([
+        ...stripResolvedInternalConsistencyBasis(claim.basis),
+        ...executableBasis,
+        ...residualFragments.map((fragment) => unresolvedSemanticBasis(fragment)),
+        ...committedFragmentBasis,
+        ...observedBasis,
+        ...collectLatentCollapseBasis(residualDrafts),
+        ...(executableChecks.length > 0 ? [] : ["no-executable-law-semantics-yet"]),
+    ]));
+
+    const status = executableChecks.some((check) => check.status === "violated")
+        ? "contradicted"
+        : allExecutableChecksSatisfied && residualFragments.length === 0 && residualDrafts.length === 0 && collapseHistoryShape === "fully-committed"
+            ? "certified"
+            : claim.status === "certified" && collapseRecords.some((record) => record.commitStatus !== "committed")
+                ? "undetermined"
+                : claim.status === "undetermined" && allExecutableChecksSatisfied && residualFragments.length === 0 && residualDrafts.length === 0
+                    ? (collapseHistoryShape === "fully-committed" ? "certified" : "undetermined")
+                    : claim.status;
+
+    return {
+        ...claim,
+        status,
+        basis,
+        evidenceIds: mergeEvidenceIds(claim.evidenceIds, collapseRecords.map((record) => record.id)),
+        assumptions: refineCollapseAwareAssumptions(claim.assumptions, collapseRecords, residualDrafts),
+        scope: "materialized-run",
+        explanation: buildRuntimeInternalConsistencyExplanation(
+            program,
+            status,
+            certifiedConstraintCount,
+            certifiedPartialLawCount,
+            undeterminedConstraintExplanations,
+            committedResolvedFragments,
+            residualDrafts,
+            unresolvedKinds,
+            collapseRecords,
+            executableChecks.length === 0,
+        ),
+    };
+}
+
+function collectObservedCollapseBasis(records: BubbleCollapseRecordEvidenceRecord[]): string[] {
+    if (records.length === 0) {
+        return [];
+    }
+
+    const shape = resolveObservedCollapseHistoryShape(records);
+    return Array.from(new Set([
+        "collapse-record",
+        observedCollapseHistoryShapeBasis(shape),
+        ...records.map((record) => observedCollapseBasis(record.commitStatus)),
+    ]));
+}
+
+type BubbleObservedCollapseHistoryShape =
+    | "fully-committed"
+    | "partially-committed"
+    | "history-open-only"
+    | "uncommitted-only"
+    | "mixed-open";
+
+function resolveObservedCollapseHistoryShape(
+    records: BubbleCollapseRecordEvidenceRecord[],
+): BubbleObservedCollapseHistoryShape {
+    const committedCount = records.filter((record) => record.commitStatus === "committed").length;
+    const historyOpenCount = records.filter((record) => record.commitStatus === "history-open").length;
+    const uncommittedCount = records.filter((record) => record.commitStatus === "uncommitted").length;
+
+    if (records.length > 0 && committedCount === records.length) {
+        return "fully-committed";
+    }
+
+    if (committedCount > 0) {
+        return "partially-committed";
+    }
+
+    if (records.length > 0 && historyOpenCount === records.length) {
+        return "history-open-only";
+    }
+
+    if (records.length > 0 && uncommittedCount === records.length) {
+        return "uncommitted-only";
+    }
+
+    return "mixed-open";
+}
+
+function observedCollapseHistoryShapeBasis(
+    shape: BubbleObservedCollapseHistoryShape,
+): string {
+    return `observed-history-shape-${shape}`;
+}
+
+function observedCollapseBasis(
+    commitStatus: BubbleCollapseRecordEvidenceRecord["commitStatus"],
+): string {
+    switch (commitStatus) {
+        case "uncommitted":
+            return "observed-history-uncommitted";
+        case "history-open":
+            return "observed-history-open";
+        case "committed":
+            return "observed-history-committed";
+        default:
+            return assertNever(commitStatus);
+    }
+}
+
+function stripResolvedLatentCollapseBasis(
+    basis: string[],
+    residualDrafts: BubbleCollapseEvidenceDraftIR[],
+): string[] {
+    if (residualDrafts.length > 0) {
+        return basis;
+    }
+
+    return basis.filter((entry) => !isLatentCollapseBasis(entry));
+}
+
+function isLatentCollapseBasis(entry: string): boolean {
+    return entry === "latent-topology"
+        || entry === "latent-observation-ready"
+        || entry === "latent-history-open"
+        || entry === "latent-collapse-underspecified";
+}
+
+function isInternalConsistencyRuntimeBasis(entry: string): boolean {
+    return isLatentCollapseBasis(entry)
+        || entry === "hidden-region"
+        || entry === "latent-admitted-bubble"
+        || entry === "no-executable-law-semantics-yet"
+        || entry === "collapse-record"
+        || entry.startsWith("observed-history-shape-")
+        || entry === "observed-history-uncommitted"
+        || entry === "observed-history-open"
+        || entry === "observed-history-committed"
+        || entry === "committed-hidden-region-history"
+        || entry === "committed-latent-bubble-history";
+}
+
+function stripResolvedInternalConsistencyBasis(basis: string[]): string[] {
+    return basis.filter((entry) => !isInternalConsistencyRuntimeBasis(entry));
+}
+
+function refineCollapseAwareAssumptions(
+    assumptions: string[] | undefined,
+    collapseRecords: BubbleCollapseRecordEvidenceRecord[],
+    residualDrafts: BubbleCollapseEvidenceDraftIR[],
+): string[] {
+    const retained = (assumptions ?? []).filter((entry) =>
+        entry !== "latent-collapse-history-is-not-yet-materialized"
+        && entry !== "observation-induced-collapse-is-not-yet-executed",
+    );
+
+    return Array.from(new Set([
+        ...retained,
+        ...(collapseRecords.some((record) => record.commitStatus !== "committed") ? ["observed-collapse-history-is-not-yet-committed"] : []),
+        ...(residualDrafts.length > 0 ? ["residual-latent-regions-remain-unmaterialized"] : []),
+    ]));
+}
+
+function describeCollapseRecords(records: BubbleCollapseRecordEvidenceRecord[]): string {
+    const statuses = Array.from(new Set(records.map((record) => record.commitStatus)));
+    const shape = resolveObservedCollapseHistoryShape(records);
+    return `${records.length} record${records.length === 1 ? "" : "s"} at ${statuses.join(", ")} with shape ${shape}`;
+}
+
+function committedResolvedFragmentBasis(fragment: BubbleUnresolvedSemanticIR): string {
+    switch (fragment.kind) {
+        case "hidden-region":
+            return "committed-hidden-region-history";
+        case "latent-bubble":
+            return "committed-latent-bubble-history";
+        default:
+            return unresolvedSemanticBasis(fragment);
+    }
+}
+
+function buildRuntimeInternalConsistencyExplanation(
+    program: BubbleProgramIR,
+    status: BubbleConsistencyClaimStatus,
+    certifiedConstraintCount: number,
+    certifiedPartialLawCount: number,
+    undeterminedConstraintExplanations: string[],
+    committedResolvedFragments: BubbleUnresolvedSemanticIR[],
+    residualDrafts: BubbleCollapseEvidenceDraftIR[],
+    unresolvedKinds: BubbleUnresolvedSemanticKind[],
+    collapseRecords: BubbleCollapseRecordEvidenceRecord[],
+    noExecutableLawSemantics: boolean,
+): string {
+    if (status === "contradicted") {
+        return [
+            undeterminedConstraintExplanations.length > 0 ? undeterminedConstraintExplanations.join(" ") : null,
+            committedResolvedFragments.length === 0
+                ? null
+                : `Committed collapse history already absorbed ${describeCommittedResolvedFragments(committedResolvedFragments)} into observed local history.`,
+            `Observed collapse records (${describeCollapseRecords(collapseRecords)}) now witness executed observation-induced materialization for Bubble ${program.bubble.name}.`,
+        ].filter((part): part is string => part !== null).join(" ");
+    }
+
+    return [
+        certifiedConstraintCount > 0
+            ? `Bubble ${program.bubble.name} certified ${certifiedConstraintCount} authored constraint${certifiedConstraintCount === 1 ? "" : "s"} through the executable checker.`
+            : null,
+        certifiedPartialLawCount > 0
+            ? `Bubble ${program.bubble.name} certified ${certifiedPartialLawCount} authored partial law fragment${certifiedPartialLawCount === 1 ? "" : "s"} through the executable checker.`
+            : null,
+        undeterminedConstraintExplanations.length > 0
+            ? undeterminedConstraintExplanations.join(" ")
+            : null,
+        committedResolvedFragments.length === 0
+            ? null
+            : `Committed collapse history reinterprets ${describeCommittedResolvedFragments(committedResolvedFragments)} as observed local history rather than residual unresolved semantics.`,
+        `Observed collapse records (${describeCollapseRecords(collapseRecords)}) now witness executed observation-induced materialization for Bubble ${program.bubble.name}.`,
+        residualDrafts.length === 0
+            ? null
+            : `Residual latent regions still remain only ${describeLatentCollapseDrafts(residualDrafts)}.`,
+        unresolvedKinds.length > 0
+            ? `Residual unresolved semantic fragments (${unresolvedKinds.join(", ")}) keep overall internal semantic consistency ${status}.`
+            : null,
+        noExecutableLawSemantics
+            ? `Bubble ${program.bubble.name} still has no full executable law solver, so internal semantic consistency remains ${status}.`
+            : null,
+    ].filter((part): part is string => part !== null).join(" ");
+}
+
+function describeCommittedResolvedFragments(fragments: BubbleUnresolvedSemanticIR[]): string {
+    const names = fragments.map((fragment) => `${fragment.kind}:${fragment.name}`);
+    return names.join(", ");
+}
+
+function mergeEvidenceIds(existing: string[] | undefined, next: string[]): string[] {
+    return Array.from(new Set([...(existing ?? []), ...next]));
 }
 
 function unresolvedSemanticBasis(fragment: BubbleUnresolvedSemanticIR): string {

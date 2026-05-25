@@ -1,0 +1,11 @@
+bubble CollapseMixed {
+  axiom coherence = stable
+  will "commit one local canopy edge while leaving one sibling archive open"
+  seed mixed_seed
+  observe witness
+  effect observe required
+  effect commit required
+  effect perturb optional
+  hidden region OuterCanopy
+  latent bubble WaitingArchive
+}

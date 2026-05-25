@@ -18,6 +18,13 @@
         "inspect:meta-example": "tsx apps/hatchery/inspect-bubble.ts examples/meta-grove.bubble data/runs/meta-grove.inspect.json --section report",
         "materialize:observatory-example": "tsx apps/hatchery/materialize-bubble.ts examples/observatory-loop.bubble data/runs/observatory-loop.materialized.json",
         "inspect:observatory-example": "tsx apps/hatchery/inspect-bubble.ts examples/observatory-loop.bubble data/runs/observatory-loop.inspect.json --section report",
+        "materialize:collapse-example": "tsx apps/hatchery/materialize-bubble.ts examples/collapse-threshold.bubble data/runs/collapse-threshold.materialized.json",
+        "inspect:collapse-example": "tsx apps/hatchery/inspect-bubble.ts examples/collapse-threshold.bubble data/runs/collapse-threshold.inspect.json --section report",
+        "materialize:collapse-mixed-example": "tsx apps/hatchery/materialize-bubble.ts examples/collapse-mixed.bubble data/runs/collapse-mixed.materialized.json",
+        "inspect:collapse-mixed-example": "tsx apps/hatchery/inspect-bubble.ts examples/collapse-mixed.bubble data/runs/collapse-mixed.inspect.json --section report",
+        "record:collapse-mirror-example": "tsx apps/hatchery/record-bubble.ts examples/collapse-mirror.bubble data/runs/collapse-mirror.replay.json",
+        "inspect:collapse-mirror-example": "tsx apps/hatchery/inspect-bubble.ts examples/collapse-mirror.bubble data/runs/collapse-mirror.inspect.json --section report",
+        "replay:collapse-mirror-example": "tsx apps/hatchery/replay-bubble.ts data/runs/collapse-mirror.replay.json data/runs/collapse-mirror.replayed-report.json --section report",
         "record:meta-example": "tsx apps/hatchery/record-bubble.ts examples/meta-grove.bubble data/runs/meta-grove.replay.json",
         "replay:meta-example": "tsx apps/hatchery/replay-bubble.ts data/runs/meta-grove.replay.json data/runs/meta-grove.replayed-summary.json --section summary",
         "test": "tsx --test tests/unit/**/*.test.ts"

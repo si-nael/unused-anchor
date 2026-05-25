@@ -1,0 +1,10 @@
+bubble CollapseThreshold {
+  axiom coherence = stable
+  will "fix one observed canopy edge into history"
+  seed threshold_seed
+  observe witness
+  effect observe required
+  effect commit required
+  effect perturb optional
+  hidden region OuterCanopy
+}

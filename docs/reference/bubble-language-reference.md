@@ -462,9 +462,22 @@ The current runtime model is:
 
 - compile: parse, lower, validate, and write Bubble IR
 - plan: derive semantic obligations, relations, grammar plans, and emission plans
-- materialize: activate staged descendants or artifacts and record evidence, commits, and trace
-- inspect: turn plan and materialization state into a stable report surface
+- materialize: activate staged descendants or artifacts and record evidence, commits, trace, and runtime-aware proof
+- inspect: turn plan and materialization state into a stable report surface, including runtime proof distinct from `plan.proof` when execution adds new evidence
 - replay: inspect a persisted run bundle later without recompiling the original source
+
+For observation-collapse benchmarks, materialization may also:
+
+- emit `collapse-record` evidence with a structured `observationState`
+- attach one deterministic local state under `observationState.localMaterialization`
+- commit that local observed state into run history when one bounded local commit path applies, including the mixed path where one hidden-region target commits while sibling latent-bubble observation states remain `history-open`
+
+When runtime proof compares those bounded commit paths, `proof.claims[*].basis` may now expose observation-history shape terms such as:
+
+- `observed-history-shape-fully-committed`
+- `observed-history-shape-partially-committed`
+
+Those proof tags are the current comparison surface for commit-path differences. Bubble still does not expose authored commit-policy syntax for target selection or sibling-open behavior.
 
 ## Command Reference
 
@@ -484,6 +497,13 @@ The current runtime model is:
 - `npm run inspect:meta-example`: inspect the `v0.2` meta example
 - `npm run materialize:observatory-example`: materialize the richer `v0.2` example
 - `npm run inspect:observatory-example`: inspect the richer `v0.2` example
+- `npm run materialize:collapse-example`: materialize the minimal observation-collapse benchmark example
+- `npm run inspect:collapse-example`: inspect the observation-collapse benchmark example
+- `npm run materialize:collapse-mixed-example`: materialize the mixed committed/open observation-collapse benchmark example
+- `npm run inspect:collapse-mixed-example`: inspect the mixed committed/open observation-collapse benchmark example
+- `npm run inspect:collapse-mirror-example`: inspect the committed-root versus latent-sibling benchmark example
+- `npm run record:collapse-mirror-example`: persist the committed-root versus latent-sibling benchmark replay bundle
+- `npm run replay:collapse-mirror-example`: replay the committed-root versus latent-sibling benchmark report
 - `npm run compile:grammar-example`: compile the `v0.3` grammar example
 - `npm run inspect:grammar-example`: inspect the minimal `v0.3` grammar example
 - `npm run inspect:grammar-chain-example`: inspect the chained `v0.3` grammar example
@@ -513,8 +533,14 @@ The inspector supports stable sections including:
 - `artifacts`
 - `commits`
 - `evidence`
+- `observationStates`
 - `trace`
 - `report`
+
+Observation-state inspection and replay now also support dedicated query axes:
+
+- `--observation-state <id>`: isolate one observation-state record by id
+- `--observation-phase <observed-uncommitted|observed-history-open|observed-committed>`: isolate observation-state slices by phase
 
 The current inspection and replay path also supports narrowing by:
 
@@ -803,6 +829,8 @@ Current runnable examples:
 - `examples/boundary-orchard.bubble`: `v0.1` observation, branching, and structured spawn condition example
 - `examples/meta-grove.bubble`: `v0.2` quote, generator, reflection, and descendant materialization example
 - `examples/observatory-loop.bubble`: `v0.2` observation, artifact emission, descendant emission, and evidence example
+- `examples/collapse-threshold.bubble`: minimal `v0.4` observation-collapse benchmark with one hidden region, one observation boundary, and emitted `collapse-record` evidence
+- `examples/collapse-mirror.bubble`: `v0.4` committed-root versus latent-sibling benchmark for comparing observation-state history against artifact latent topology
 - `examples/grammar-nursery.bubble`: minimal `v0.3` grammar artifact example
 - `examples/grammar-canopy.bubble`: `v0.3` layered local grammar-profile chain with default activation resolution
 

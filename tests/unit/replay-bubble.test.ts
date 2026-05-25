@@ -37,6 +37,8 @@ test("records a materialized bubble into a replayable run bundle", () => {
     assert.equal(record.traceCount, 4);
     assert.equal(record.materialization.plan.proof.mode, "bubble-consistency-certificate.v1");
     assert.equal(record.materialization.plan.proof.verdict, "partially-certified");
+    assert.equal(record.materialization.proof.mode, "bubble-consistency-certificate.v1");
+    assert.equal(record.materialization.proof.verdict, "partially-certified");
     assert.equal(record.materialization.plan.bundle.mode, "bubble-bundle-plan.v1");
     assert.equal(record.materialization.plan.sourcePath, "archive.bubble");
     assert.deepEqual(record.materialization.evidence.map((entry) => entry.kind), [
@@ -80,6 +82,7 @@ test("replay preserves inspection semantics for stored records", () => {
     assert.deepEqual(replayed.artifacts, live.artifacts);
     assert.deepEqual(replayed.commits, live.commits);
     assert.deepEqual(replayed.evidence, live.evidence);
+    assert.deepEqual(replayed.observationStates, live.observationStates);
     assert.deepEqual(replayed.trace, live.trace);
 
     const descendantEmission = replayed.plan.emissionPlan.find((emission) => emission.target === "descendant");
@@ -96,6 +99,178 @@ test("replay preserves inspection semantics for stored records", () => {
     const byKind = replayBubbleRecord(record, { kind: "materialization-committed" });
     assert.equal(byKind.trace.length, 2);
     assert.ok(byKind.trace.every((event) => event.kind === "materialization-committed"));
+});
+
+test("records and replays collapse-record evidence for observed latent regions", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "threshold-replay-collapse.bubble" });
+    const record = recordBubbleProgram(program);
+    const replayed = replayBubbleRecord(record);
+    const collapseEvidence = replayed.evidence.filter((entry) => entry.kind === "collapse-record");
+
+    assert.equal(record.evidenceCount, 10);
+    assert.deepEqual(record.materialization.evidence.map((entry) => entry.kind), [
+        "negative-sea-state",
+        "positive-sea-state",
+        "anchor-point-state",
+        "observation-context",
+        "collapse-record",
+        "collapse-record",
+        "history-commit",
+        "effect-trace",
+        "effect-trace",
+        "effect-trace",
+    ]);
+    assert.equal(collapseEvidence.length, 2);
+    assert.deepEqual(collapseEvidence.map((entry) => entry.observationStateId), [
+        "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+        "observation-state:latent-region:semantic:10:latent-bubble:WaitingArchive",
+    ]);
+    assert.deepEqual(collapseEvidence.map((entry) => entry.observationState.phase), [
+        "observed-committed",
+        "observed-history-open",
+    ]);
+    assert.deepEqual(collapseEvidence.map((entry) => entry.observationState.localMaterialization?.realizedForm ?? null), [
+        "boundary-canopy-edge",
+        null,
+    ]);
+    assert.ok(replayed.trace.some((event) => event.kind === "local-collapse-materialized"));
+
+    const claimById = Object.fromEntries(replayed.proof.claims.map((claim) => [claim.id, claim]));
+    assert.equal(claimById["claim:replay-identity"]?.scope, "materialized-run");
+    assert.ok(claimById["claim:replay-identity"]?.basis.includes("collapse-record"));
+    assert.ok(claimById["claim:replay-identity"]?.basis.includes("observed-history-committed"));
+    assert.ok(claimById["claim:replay-identity"]?.basis.includes("observed-history-shape-partially-committed"));
+    assert.ok(claimById["claim:replay-identity"]?.assumptions?.includes("observed-collapse-history-is-not-yet-committed"));
+    assert.deepEqual(
+        claimById["claim:replay-identity"]?.evidenceIds?.filter((entry) => entry.startsWith("evidence:collapse:")),
+        [
+            "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+            "evidence:collapse:semantic:10:latent-bubble:WaitingArchive",
+        ],
+    );
+});
+
+test("records and replays committed benchmark local collapse history", () => {
+    const source = [
+        "bubble CollapseThreshold {",
+        "  axiom coherence = stable",
+        "  will \"fix one observed canopy edge into history\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "collapse-threshold-replay-commit.bubble" });
+    const record = recordBubbleProgram(program);
+    const replayed = replayBubbleRecord(record);
+    const collapseRecord = replayed.evidence.find((entry) => entry.kind === "collapse-record");
+    const replayClaim = replayed.proof.claims.find((claim) => claim.id === "claim:replay-identity");
+
+    assert.equal(record.commitCount, 1);
+    assert.ok(collapseRecord);
+    assert.equal(collapseRecord.commitStatus, "committed");
+    assert.equal(collapseRecord.observationState.phase, "observed-committed");
+    assert.equal(replayClaim?.status, "certified");
+    assert.ok(replayClaim?.basis.includes("observed-history-committed"));
+    assert.ok(replayClaim?.basis.includes("observed-history-shape-fully-committed"));
+    assert.ok(!replayClaim?.assumptions?.includes("observed-collapse-history-is-not-yet-committed"));
+    assert.ok(replayed.trace.some((event) => event.kind === "materialization-committed"));
+});
+
+test("replay preserves comparison between committed root collapse history and a latent sibling artifact", () => {
+    const source = [
+        "bubble CollapseMirror {",
+        "  axiom coherence = stable",
+        "  will \"commit one observed canopy edge while preserving one latent sibling\"",
+        "  seed mirror_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  quote Sibling = bubble SiblingCanopy { axiom coherence = stable will 'remain latent sibling canopy' seed sibling_seed effect spawn required hidden region InnerCanopy }",
+        "  emit Sibling as descendant",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "collapse-mirror-replay.bubble" });
+    const replayed = replayBubbleRecord(recordBubbleProgram(program));
+
+    assert.deepEqual(replayed.observationStates.map((state) => state.phase), ["observed-committed"]);
+    assert.deepEqual(replayed.artifacts.map((artifact) => ({
+        bubbleName: artifact.bubbleName,
+        latentRegionCount: artifact.latentRegionCount,
+        latentDraftStatuses: artifact.latentDraftStatuses,
+    })), [
+        {
+            bubbleName: "SiblingCanopy",
+            latentRegionCount: 1,
+            latentDraftStatuses: ["underspecified"],
+        },
+    ]);
+});
+
+test("replay can narrow observation states by id and phase", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const record = recordBubbleProgram(compileBubbleSource(source, { sourcePath: "threshold-observation-query-replay.bubble" }).program);
+    const byId = replayBubbleRecord(record, {
+        observationStateId: "observation-state:latent-region:semantic:10:latent-bubble:WaitingArchive",
+    });
+    assert.equal(byId.summary.observationStateCount, 1);
+    assert.deepEqual(byId.observationStates.map((state) => state.id), [
+        "observation-state:latent-region:semantic:10:latent-bubble:WaitingArchive",
+    ]);
+
+    const byOpenPhase = replayBubbleRecord(record, { observationStatePhase: "observed-history-open" });
+    assert.equal(byOpenPhase.summary.observationStateCount, 1);
+    assert.deepEqual(byOpenPhase.observationStates.map((state) => state.phase), ["observed-history-open"]);
+
+    const committedRecord = recordBubbleProgram(compileBubbleSource([
+        "bubble CollapseThreshold {",
+        "  axiom coherence = stable",
+        "  will \"fix one observed canopy edge into history\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "}",
+    ].join("\n"), { sourcePath: "collapse-threshold-observation-phase-replay.bubble" }).program);
+    const byPhase = replayBubbleRecord(committedRecord, { observationStatePhase: "observed-committed" });
+    assert.equal(byPhase.summary.observationStateCount, 1);
+    assert.deepEqual(byPhase.observationStates.map((state) => state.phase), ["observed-committed"]);
 });
 
 test("replay preserves staged grammar activation queries", () => {

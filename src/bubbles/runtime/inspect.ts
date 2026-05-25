@@ -7,7 +7,10 @@ import {
     type BubbleMaterializationResult,
     type BubbleMaterializationTraceEvent,
 } from "./materialize";
-import type { BubbleEvidenceRecord } from "./evidence";
+import type {
+    BubbleEvidenceRecord,
+    BubbleObservationStateRecord,
+} from "./evidence";
 import type { BubbleSeaAnchorAssessment } from "./ontology";
 import {
     deriveConsistencyVerdict,
@@ -23,13 +26,15 @@ import type {
     BubbleSemanticEvaluationPlan,
 } from "./semantics";
 
-export type BubbleInspectionSection = "summary" | "plan" | "ontology" | "semantics" | "proof" | "bundle" | "grammars" | "artifacts" | "commits" | "evidence" | "trace" | "report";
+export type BubbleInspectionSection = "summary" | "plan" | "ontology" | "semantics" | "proof" | "bundle" | "grammars" | "artifacts" | "commits" | "evidence" | "observationStates" | "trace" | "report";
 
 export interface BubbleInspectionQuery {
     emissionId?: string;
     addressId?: string;
     activationId?: string;
     grammarProfile?: string;
+    observationStateId?: string;
+    observationStatePhase?: BubbleObservationStateRecord["phase"];
     semanticId?: string;
     semanticKind?: BubbleSemanticEvaluationKind;
     semanticStatus?: BubbleExecutableCheckStatus;
@@ -53,6 +58,8 @@ export interface BubbleArtifactInspection {
     sourcePath: string;
     worldWill: string | null;
     seed: string | null;
+    latentRegionCount: number;
+    latentDraftStatuses: string[];
     diagnosticsCount: number;
 }
 
@@ -77,6 +84,7 @@ export interface BubbleInspectionSummary {
     artifactCount: number;
     commitCount: number;
     evidenceCount: number;
+    observationStateCount: number;
     reflectionPaths: string[];
     traceKinds: BubbleMaterializationTraceEvent["kind"][];
 }
@@ -92,6 +100,7 @@ export interface BubbleInspectionReport {
     artifacts: BubbleArtifactInspection[];
     commits: BubbleMaterializationCommit[];
     evidence: BubbleEvidenceRecord[];
+    observationStates: BubbleObservationStateRecord[];
     trace: BubbleMaterializationTraceEvent[];
 }
 
@@ -104,6 +113,7 @@ export function inspectMaterializationResult(
     query: BubbleInspectionQuery = {},
 ): BubbleInspectionReport {
     const plan = filterExecutionPlan(result.plan, query);
+    const proof = filterProofCertificate(result.proof, query);
     const ontology = result.runtimeOntology;
     const selectedEmissionIds = new Set(plan.emissionPlan.map((emission) => emission.emissionId));
     const selectedActivationIds = new Set(plan.grammarActivationPlan.map((activation) => activation.activationId));
@@ -119,6 +129,10 @@ export function inspectMaterializationResult(
             sourcePath: artifact.sourcePath,
             worldWill: artifact.program.bubble.worldWill,
             seed: artifact.program.bubble.seed,
+            latentRegionCount: artifact.program.bubble.latentTopology?.regions.length ?? 0,
+            latentDraftStatuses: Array.from(new Set(
+                artifact.program.bubble.latentTopology?.collapseEvidenceDrafts.map((draft) => draft.draftStatus) ?? [],
+            )),
             diagnosticsCount: artifact.diagnostics.length,
         }));
     const commits = hideEmissionResults
@@ -134,7 +148,8 @@ export function inspectMaterializationResult(
     ));
 
     const selectedSemantics = collectSemanticEvaluations(plan.semantics);
-    const selectedProofClaims = plan.proof.claims;
+    const selectedProofClaims = proof.claims;
+    const observationStates = collectObservationStates(evidence).filter((state) => matchesObservationStateQuery(state, query));
     const reflectionPaths = Array.from(new Set(plan.emissionPlan.flatMap((emission) => emission.reflectionPaths)));
     const descendantCount = artifacts.filter((artifact) => artifact.target === "descendant").length;
     const artifactCount = artifacts.filter((artifact) => artifact.target === "artifact").length;
@@ -152,7 +167,7 @@ export function inspectMaterializationResult(
             plannedSemanticCount: selectedSemantics.length,
             semanticKinds: listSemanticKinds(selectedSemantics),
             semanticStatusCounts: countSemanticStatuses(selectedSemantics),
-            proofVerdict: plan.proof.verdict,
+            proofVerdict: proof.verdict,
             proofClaimCount: selectedProofClaims.length,
             proofClaimKinds: listProofClaimKinds(selectedProofClaims),
             proofClaimStatusCounts: countProofClaimStatuses(selectedProofClaims),
@@ -161,13 +176,14 @@ export function inspectMaterializationResult(
             artifactCount,
             commitCount: commits.length,
             evidenceCount: evidence.length,
+            observationStateCount: observationStates.length,
             reflectionPaths,
             traceKinds: trace.map((event) => event.kind),
         },
         plan,
         ontology,
         semantics: plan.semantics,
-        proof: plan.proof,
+        proof,
         bundle: plan.bundle,
         grammars: {
             artifacts: plan.grammars,
@@ -176,6 +192,7 @@ export function inspectMaterializationResult(
         artifacts,
         commits,
         evidence,
+        observationStates,
         trace,
     };
 }
@@ -219,6 +236,20 @@ function collectSemanticEvaluations(semantics: BubbleSemanticEvaluationPlan): Bu
         ...semantics.partialLaws,
         ...(semantics.anchorCriterion ? [semantics.anchorCriterion] : []),
     ];
+}
+
+function collectObservationStates(evidence: BubbleEvidenceRecord[]): BubbleObservationStateRecord[] {
+    const statesById = new Map<string, BubbleObservationStateRecord>();
+
+    for (const entry of evidence) {
+        if (entry.kind !== "collapse-record") {
+            continue;
+        }
+
+        statesById.set(entry.observationState.id, entry.observationState);
+    }
+
+    return [...statesById.values()];
 }
 
 function listSemanticKinds(evaluations: BubbleSemanticEvaluation[]): BubbleSemanticEvaluationKind[] {
@@ -439,6 +470,18 @@ function matchesEvidenceQuery(evidence: BubbleEvidenceRecord, query: BubbleInspe
     }
 
     return evidence.subjectAddressId === query.addressId || evidence.bubbleAddressId === query.addressId;
+}
+
+function matchesObservationStateQuery(state: BubbleObservationStateRecord, query: BubbleInspectionQuery): boolean {
+    if (query.observationStateId && state.id !== query.observationStateId) {
+        return false;
+    }
+
+    if (query.observationStatePhase && state.phase !== query.observationStatePhase) {
+        return false;
+    }
+
+    return true;
 }
 
 function matchesSemanticQuery(evaluation: BubbleSemanticEvaluation, query: BubbleInspectionQuery): boolean {

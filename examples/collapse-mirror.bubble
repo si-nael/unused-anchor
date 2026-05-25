@@ -1,0 +1,12 @@
+bubble CollapseMirror {
+  axiom coherence = stable
+  will "commit one observed canopy edge while preserving one latent sibling"
+  seed mirror_seed
+  observe witness
+  effect observe required
+  effect commit required
+  effect perturb optional
+  hidden region OuterCanopy
+  quote Sibling = bubble SiblingCanopy { axiom coherence = stable will 'remain latent sibling canopy' seed sibling_seed effect spawn required hidden region InnerCanopy }
+  emit Sibling as descendant
+}

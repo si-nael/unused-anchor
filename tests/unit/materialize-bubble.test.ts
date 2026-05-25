@@ -271,6 +271,218 @@ test("latent topology keeps replay identity and internal consistency bounded bef
     assert.ok(claimById["claim:internal-law-consistency"]?.assumptions?.includes("observation-induced-collapse-is-not-yet-executed"));
     assert.match(claimById["claim:internal-law-consistency"]?.explanation ?? "", /Latent collapse drafts/);
 });
+
+test("materialization emits collapse-record evidence for observed latent regions", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "threshold-collapse.bubble" });
+    const materialized = materializeBubbleProgram(program);
+    const collapseEvidence = materialized.evidence.filter((entry) => entry.kind === "collapse-record");
+
+    assert.equal(materialized.evidence.length, 10);
+    assert.equal(collapseEvidence.length, 2);
+    assert.equal(collapseEvidence.filter((entry) => entry.observationState.localMaterialization !== null).length, 1);
+    assert.deepEqual(collapseEvidence.map((entry) => ({
+        latentRegionId: entry.latentRegionId,
+        sourceSemanticId: entry.sourceSemanticId,
+        triggerEffectIds: entry.triggerEffectIds,
+        perturbEffectIds: entry.perturbEffectIds,
+        observationStateId: entry.observationStateId,
+        observationStatePhase: entry.observationState.phase,
+        localRealizedForm: entry.observationState.localMaterialization?.realizedForm ?? null,
+        commitStatus: entry.commitStatus,
+        draftStatus: entry.draftStatus,
+    })), [
+        {
+            latentRegionId: "latent-region:semantic:9:hidden-region:OuterCanopy",
+            sourceSemanticId: "semantic:9:hidden-region:OuterCanopy",
+            triggerEffectIds: ["effect:6:observe"],
+            perturbEffectIds: ["effect:8:perturb"],
+            observationStateId: "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+            observationStatePhase: "observed-committed",
+            localRealizedForm: "boundary-canopy-edge",
+            commitStatus: "committed",
+            draftStatus: "observation-ready",
+        },
+        {
+            latentRegionId: "latent-region:semantic:10:latent-bubble:WaitingArchive",
+            sourceSemanticId: "semantic:10:latent-bubble:WaitingArchive",
+            triggerEffectIds: ["effect:6:observe"],
+            perturbEffectIds: ["effect:8:perturb"],
+            observationStateId: "observation-state:latent-region:semantic:10:latent-bubble:WaitingArchive",
+            observationStatePhase: "observed-history-open",
+            localRealizedForm: null,
+            commitStatus: "history-open",
+            draftStatus: "observation-ready",
+        },
+    ]);
+    assert.match(collapseEvidence[0]?.description ?? "", /observed latent region OuterCanopy/);
+    assert.match(collapseEvidence[0]?.observationState.description ?? "", /observed-committed/);
+    assert.match(collapseEvidence[0]?.observationState.localMaterialization?.description ?? "", /Local observation kernel materialized OuterCanopy/);
+    assert.ok(materialized.evidence.some((entry) => entry.kind === "history-commit"));
+    assert.ok(materialized.trace.some((event) => event.kind === "local-collapse-materialized"));
+});
+
+test("materialization can commit one local observation target while leaving sibling observation states history-open", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "threshold-mixed-commit.bubble" });
+    const materialized = materializeBubbleProgram(program);
+    const collapseEvidence = materialized.evidence.filter((entry) => entry.kind === "collapse-record");
+    const replayClaim = materialized.proof.claims.find((claim) => claim.id === "claim:replay-identity");
+    const internalConsistencyClaim = materialized.proof.claims.find((claim) => claim.id === "claim:internal-law-consistency");
+
+    assert.deepEqual(collapseEvidence.map((entry) => ({
+        latentRegionId: entry.latentRegionId,
+        commitStatus: entry.commitStatus,
+        observationStatePhase: entry.observationState.phase,
+        localRealizedForm: entry.observationState.localMaterialization?.realizedForm ?? null,
+    })), [
+        {
+            latentRegionId: "latent-region:semantic:9:hidden-region:OuterCanopy",
+            commitStatus: "committed",
+            observationStatePhase: "observed-committed",
+            localRealizedForm: "boundary-canopy-edge",
+        },
+        {
+            latentRegionId: "latent-region:semantic:10:latent-bubble:WaitingArchive",
+            commitStatus: "history-open",
+            observationStatePhase: "observed-history-open",
+            localRealizedForm: null,
+        },
+    ]);
+    assert.equal(materialized.commits.length, 1);
+    assert.equal(materialized.commits[0]?.emissionId, "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy");
+    assert.equal(materialized.runtimeOntology.anchorPoint.materializedHistoryEvidence, true);
+    assert.equal(replayClaim?.status, "undetermined");
+    assert.ok(replayClaim?.basis.includes("observed-history-committed"));
+    assert.ok(replayClaim?.basis.includes("observed-history-open"));
+    assert.ok(replayClaim?.basis.includes("observed-history-shape-partially-committed"));
+    assert.ok(replayClaim?.assumptions?.includes("observed-collapse-history-is-not-yet-committed"));
+    assert.ok(internalConsistencyClaim?.basis.includes("observed-history-shape-partially-committed"));
+    assert.match(replayClaim?.explanation ?? "", /shape partially-committed/);
+    assert.match(internalConsistencyClaim?.explanation ?? "", /shape partially-committed/);
+});
+
+test("local collapse kernel materializes one latent region in the benchmark micro-world", () => {
+    const source = [
+        "bubble CollapseThreshold {",
+        "  axiom coherence = stable",
+        "  will \"fix one observed canopy edge into history\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "collapse-threshold-kernel.bubble" });
+    const materialized = materializeBubbleProgram(program);
+    const collapseRecord = materialized.evidence.find((entry) => entry.kind === "collapse-record");
+    const replayClaim = materialized.proof.claims.find((claim) => claim.id === "claim:replay-identity");
+
+    assert.ok(collapseRecord);
+    assert.equal(collapseRecord.observationState.localMaterialization?.mode, "single-region-observation-kernel.v1");
+    assert.equal(collapseRecord.observationState.localMaterialization?.realizedForm, "boundary-canopy-edge");
+    assert.ok(collapseRecord.observationState.localMaterialization?.determinants.includes("anchor:strong"));
+    assert.ok(collapseRecord.observationState.localMaterialization?.determinants.includes("effect:6:observe"));
+    assert.equal(collapseRecord.commitStatus, "committed");
+    assert.equal(collapseRecord.observationState.phase, "observed-committed");
+    assert.equal(materialized.commits.length, 1);
+    assert.equal(materialized.runtimeOntology.anchorPoint.materializedHistoryEvidence, true);
+    assert.ok(materialized.evidence.some((entry) => entry.kind === "history-commit"));
+    assert.deepEqual(materialized.trace.map((event) => event.kind), [
+        "materialization-started",
+        "no-emissions",
+        "local-collapse-materialized",
+        "materialization-committed",
+    ]);
+    assert.equal(replayClaim?.status, "certified");
+    assert.ok(replayClaim?.basis.includes("observed-history-committed"));
+    assert.ok(replayClaim?.basis.includes("observed-history-shape-fully-committed"));
+    assert.ok(!replayClaim?.assumptions?.includes("observed-collapse-history-is-not-yet-committed"));
+    assert.match(replayClaim?.explanation ?? "", /now certified by committed collapse history/);
+
+    const internalConsistencyClaim = materialized.proof.claims.find((claim) => claim.id === "claim:internal-law-consistency");
+    assert.equal(internalConsistencyClaim?.status, "undetermined");
+    assert.ok(internalConsistencyClaim?.basis.includes("observed-history-shape-fully-committed"));
+    assert.ok(internalConsistencyClaim?.basis.includes("committed-hidden-region-history"));
+    assert.ok(!internalConsistencyClaim?.basis.includes("hidden-region"));
+    assert.match(internalConsistencyClaim?.explanation ?? "", /reinterprets hidden-region:OuterCanopy as observed local history/);
+    assert.ok(!/Residual unresolved semantic fragments \(hidden-region\)/.test(internalConsistencyClaim?.explanation ?? ""));
+});
+
+test("materialization refines proof from latent drafts to observed collapse history", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "threshold-collapse-proof.bubble" });
+    const materialized = materializeBubbleProgram(program);
+    const planClaimById = Object.fromEntries(materialized.plan.proof.claims.map((claim) => [claim.id, claim]));
+    const runtimeClaimById = Object.fromEntries(materialized.proof.claims.map((claim) => [claim.id, claim]));
+
+    assert.ok(planClaimById["claim:replay-identity"]?.basis.includes("latent-topology"));
+    assert.ok(planClaimById["claim:replay-identity"]?.assumptions?.includes("latent-collapse-history-is-not-yet-materialized"));
+
+    assert.equal(runtimeClaimById["claim:replay-identity"]?.scope, "materialized-run");
+    assert.ok(runtimeClaimById["claim:replay-identity"]?.basis.includes("collapse-record"));
+    assert.ok(runtimeClaimById["claim:replay-identity"]?.basis.includes("observed-history-committed"));
+    assert.ok(runtimeClaimById["claim:replay-identity"]?.basis.includes("observed-history-open"));
+    assert.ok(runtimeClaimById["claim:replay-identity"]?.basis.includes("observed-history-shape-partially-committed"));
+    assert.ok(!runtimeClaimById["claim:replay-identity"]?.basis.includes("latent-topology"));
+    assert.ok(runtimeClaimById["claim:replay-identity"]?.assumptions?.includes("observed-collapse-history-is-not-yet-committed"));
+    assert.deepEqual(
+        runtimeClaimById["claim:replay-identity"]?.evidenceIds?.filter((entry) => entry.startsWith("evidence:collapse:")),
+        [
+            "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+            "evidence:collapse:semantic:10:latent-bubble:WaitingArchive",
+        ],
+    );
+    assert.match(runtimeClaimById["claim:replay-identity"]?.explanation ?? "", /no longer pristine latent possibility/);
+
+    assert.equal(runtimeClaimById["claim:internal-law-consistency"]?.scope, "materialized-run");
+    assert.ok(runtimeClaimById["claim:internal-law-consistency"]?.basis.includes("collapse-record"));
+    assert.ok(runtimeClaimById["claim:internal-law-consistency"]?.basis.includes("observed-history-shape-partially-committed"));
+    assert.ok(runtimeClaimById["claim:internal-law-consistency"]?.assumptions?.includes("observed-collapse-history-is-not-yet-committed"));
+    assert.match(runtimeClaimById["claim:internal-law-consistency"]?.explanation ?? "", /Observed collapse records/);
+});
 test("materialization distinguishes declared history support from materialized history evidence and links proof claims to evidence", () => {
     const source = [
         "bubble Archive {",

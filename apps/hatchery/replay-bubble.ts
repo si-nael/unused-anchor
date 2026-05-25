@@ -12,7 +12,7 @@ async function main(): Promise<void> {
     const { inputPath, outputPath, query, section } = parseCliArgs(process.argv.slice(2));
 
     if (!inputPath) {
-        throw new Error("Usage: tsx apps/hatchery/replay-bubble.ts <record.json> [output.json] [--section summary|plan|ontology|semantics|proof|bundle|grammars|artifacts|commits|evidence|trace|report] [--emission <id>] [--address <id>] [--activation <id>] [--grammar-profile <name>] [--semantic <id>] [--semantic-kind <constraint|partial-law|anchor-criterion>] [--semantic-status <satisfied|violated|undetermined>] [--claim <id>] [--claim-kind <syntax|worldhood|effect|anchor|lineage|consistency|replay>] [--claim-status <certified|contradicted|undetermined>] [--kind <trace-kind>]");
+        throw new Error("Usage: tsx apps/hatchery/replay-bubble.ts <record.json> [output.json] [--section summary|plan|ontology|semantics|proof|bundle|grammars|artifacts|commits|evidence|observationStates|trace|report] [--emission <id>] [--address <id>] [--activation <id>] [--grammar-profile <name>] [--observation-state <id>] [--observation-phase <observed-uncommitted|observed-history-open|observed-committed>] [--semantic <id>] [--semantic-kind <constraint|partial-law|anchor-criterion>] [--semantic-status <satisfied|violated|undetermined>] [--claim <id>] [--claim-kind <syntax|worldhood|effect|anchor|lineage|consistency|replay>] [--claim-status <certified|contradicted|undetermined>] [--kind <trace-kind>]");
     }
 
     const record = JSON.parse(await readFile(inputPath, "utf8")) as BubbleReplayRecord;
@@ -57,6 +57,8 @@ function selectSection(report: BubbleInspectionReport, section: BubbleInspection
             return report.commits;
         case "evidence":
             return report.evidence;
+        case "observationStates":
+            return report.observationStates;
         case "trace":
             return report.trace;
         case "report":
@@ -81,7 +83,7 @@ function parseCliArgs(argv: string[]): {
         if (argument === "--section") {
             const rawSection = argv[index + 1];
             if (!rawSection || !isInspectionSection(rawSection)) {
-                throw new Error("--section requires one of: summary, plan, ontology, semantics, proof, bundle, grammars, artifacts, commits, evidence, trace, report");
+                throw new Error("--section requires one of: summary, plan, ontology, semantics, proof, bundle, grammars, artifacts, commits, evidence, observationStates, trace, report");
             }
 
             section = rawSection;
@@ -129,6 +131,28 @@ function parseCliArgs(argv: string[]): {
             }
 
             query.grammarProfile = grammarProfile;
+            index += 1;
+            continue;
+        }
+
+        if (argument === "--observation-state") {
+            const observationStateId = argv[index + 1];
+            if (!observationStateId) {
+                throw new Error("--observation-state requires an observation state id value");
+            }
+
+            query.observationStateId = observationStateId;
+            index += 1;
+            continue;
+        }
+
+        if (argument === "--observation-phase") {
+            const rawPhase = argv[index + 1];
+            if (!rawPhase || !isObservationStatePhase(rawPhase)) {
+                throw new Error("--observation-phase requires one of: observed-uncommitted, observed-history-open, observed-committed");
+            }
+
+            query.observationStatePhase = rawPhase;
             index += 1;
             continue;
         }
@@ -236,8 +260,15 @@ function isInspectionSection(value: string): value is BubbleInspectionSection {
         || value === "artifacts"
         || value === "commits"
         || value === "evidence"
+        || value === "observationStates"
         || value === "trace"
         || value === "report";
+}
+
+function isObservationStatePhase(value: string): value is NonNullable<BubbleInspectionQuery["observationStatePhase"]> {
+    return value === "observed-uncommitted"
+        || value === "observed-history-open"
+        || value === "observed-committed";
 }
 
 function isTraceKind(value: string): value is NonNullable<BubbleInspectionQuery["kind"]> {

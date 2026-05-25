@@ -100,6 +100,12 @@ Goal:
 
 Introduce one evidence-bearing record that says a latent region became concrete in one run.
 
+Current state:
+
+- runtime now emits first `collapse-record` evidence for observed latent regions when a latent-topology draft and declared observation surface are both present
+- inspection and replay now preserve those records as first-class evidence
+- each collapse record now also carries a structured `observationState`, not only a placeholder observation-state id
+
 Required shape:
 
 - latent region id
@@ -126,6 +132,14 @@ Constraints:
 - no hidden randomness
 - no generalized multiregion collapse
 
+Current state:
+
+- one benchmark micro-world now exists as `examples/collapse-threshold.bubble`
+- that example now executes one deterministic `single-region-observation-kernel.v1` local materialization for exactly one observed latent region
+- the benchmark also now commits that single observed local state into history without widening the language beyond current effect and unresolved-semantic surfaces
+- a second bounded benchmark now exists as `examples/collapse-mixed.bubble`, where one hidden-region local target commits into history while a sibling `latent bubble` observation state remains `history-open`
+- a second benchmark, `examples/collapse-mirror.bubble`, now lets inspection and replay compare committed root-local collapse history against one still-latent sibling descendant without widening to many-region coupled collapse
+
 Exit criteria:
 
 - one micro-world can materialize one latent region on observation
@@ -136,6 +150,16 @@ Exit criteria:
 Goal:
 
 Keep same-world replay and contradiction detection trustworthy after collapse begins to happen.
+
+Current state:
+
+- runtime now separates `plan.proof` from a materialized-run proof so inspection and replay can cite actual `collapse-record` evidence instead of only latent-topology drafts
+- replay identity already distinguishes pristine latent possibility from observed-but-still-open collapse history
+- replay identity now also upgrades to committed same-world revisitation for the single-region benchmark once its local observed state is committed
+- runtime proof now also carries mixed committed/open observation-state runs where one hidden-region local target is committed but sibling latent-bubble observation states remain open
+- runtime proof now normalizes those commit-path differences through explicit observation-history shape basis terms, so full and mixed local commit paths can be compared without inventing authored commit syntax first
+- internal consistency now reinterprets committed hidden-region fragments as observed local history instead of leaving them only as residual unresolved semantics
+- replay reports can now compare committed root-local collapse history against latent sibling descendants through top-level `observationStates` plus artifact latent-topology summaries
 
 Required proof distinctions:
 
@@ -161,6 +185,7 @@ Possible future surfaces:
 - explicit observation-triggered materialization rules
 - explicit perturb-mixing clauses
 - explicit collapse or commit policies
+- explicit commit-target selection or sibling-open clauses, but only if runtime proof distinctions stop moving first
 
 Exit criteria:
 
@@ -171,10 +196,10 @@ Exit criteria:
 
 The next concrete tasks should be:
 
-1. add one collapse-record evidence draft and runtime shape
-2. preserve that shape through materialization, inspection, and replay
-3. build one benchmark micro-world with one latent region and one observation boundary
-4. teach replay proof to distinguish committed-history revisitation from unmaterialized latent possibility using that record
+1. keep the current commit behaviors runtime-bounded until a third commit shape or one author-controlled target choice makes authored policy semantically necessary
+2. treat `observed-history-shape-*` proof vocabulary as the current comparison layer between bounded commit paths rather than widening commit syntax early
+3. keep sibling-latency comparison composed from `observationStates` plus artifact latent-topology summaries until one stable diff abstraction proves necessary
+4. keep author-facing syntax deferred until those runtime and proof boundaries stop moving
 
 ## Success Condition
 

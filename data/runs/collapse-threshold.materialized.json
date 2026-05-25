@@ -1,0 +1,737 @@
+{
+  "plan": {
+    "mode": "semantic-plan.v1",
+    "sourcePath": "examples/collapse-threshold.bubble",
+    "profile": "bubbles.v0.4",
+    "bubbleAddress": {
+      "scheme": "bubble-lineage.v1",
+      "locatorKind": "source-relative",
+      "anchor": "examples/collapse-threshold.bubble",
+      "path": [
+        {
+          "kind": "root",
+          "key": "CollapseThreshold"
+        }
+      ],
+      "id": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold"
+    },
+    "semantics": {
+      "mode": "bubble-executable-semantics.v1",
+      "constraints": [],
+      "partialLaws": [],
+      "anchorCriterion": null
+    },
+    "ontology": {
+      "negativeSea": {
+        "pressure": "elevated",
+        "signals": [
+          "law-perturbation"
+        ]
+      },
+      "positiveSea": {
+        "support": "present",
+        "signals": [
+          "source-lineage-address",
+          "seeded-origin",
+          "declared-history-support"
+        ]
+      },
+      "anchorPoint": {
+        "strength": "strong",
+        "declaredHistorySupport": true,
+        "materializedHistoryEvidence": false,
+        "rewindStability": "stable",
+        "signals": [
+          "axiomatic-basis",
+          "world-will",
+          "seed-continuity",
+          "declared-history-support",
+          "observation-surface",
+          "perturbation-stress"
+        ]
+      },
+      "theoremWitness": {
+        "theorem": "sea-anchor-necessity.v1",
+        "negativeRank": 1,
+        "positiveRank": 1,
+        "anchorRank": 2,
+        "worldhoodDelta": 2,
+        "identityDelta": 1,
+        "sustained": true,
+        "condition": "stable",
+        "explanation": "Bubble worldhood remains stable because A=2, P=1, N=1, so A + P - N = 2."
+      }
+    },
+    "proof": {
+      "mode": "bubble-consistency-certificate.v1",
+      "bubbleAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "profile": "bubbles.v0.4",
+      "verdict": "partially-certified",
+      "claims": [
+        {
+          "id": "claim:well-formed-source",
+          "kind": "syntax",
+          "status": "certified",
+          "basis": [
+            "parser",
+            "profile-validator"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [],
+          "assumptions": [],
+          "scope": "source",
+          "explanation": "Bubble CollapseThreshold compiled into a semantic plan under bubbles.v0.4."
+        },
+        {
+          "id": "claim:minimum-worldhood",
+          "kind": "worldhood",
+          "status": "certified",
+          "basis": [
+            "axiom",
+            "worldWill",
+            "seed",
+            "effect"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [],
+          "scope": "source",
+          "explanation": "Bubble CollapseThreshold satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+        },
+        {
+          "id": "claim:required-effect-obligations",
+          "kind": "effect",
+          "status": "certified",
+          "basis": [
+            "observation-surface",
+            "declared-history-support"
+          ],
+          "evidenceIds": [
+            "evidence:effect:effect:6:observe",
+            "evidence:effect:effect:7:commit"
+          ],
+          "dependsOnClaims": [
+            "claim:minimum-worldhood"
+          ],
+          "assumptions": [
+            "effect-trace-records-mirror-the-current-materialization-plan"
+          ],
+          "scope": "plan",
+          "explanation": "Required effect effect:6:observe is certified by the declared observation surface. Required effect effect:7:commit is certified by declared history support."
+        },
+        {
+          "id": "claim:anchor-identity",
+          "kind": "anchor",
+          "status": "certified",
+          "basis": [
+            "axiomatic-basis",
+            "world-will",
+            "seed-continuity",
+            "declared-history-support",
+            "observation-surface"
+          ],
+          "evidenceIds": [
+            "evidence:anchor-point:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+            "evidence:positive-sea:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+            "evidence:negative-sea:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+            "evidence:observe:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold"
+          ],
+          "dependsOnClaims": [
+            "claim:minimum-worldhood"
+          ],
+          "assumptions": [
+            "sea-anchor-theorem-witness-is-bounded"
+          ],
+          "scope": "plan",
+          "explanation": "Bubble CollapseThreshold currently certifies anchor identity as strong with theorem condition stable."
+        },
+        {
+          "id": "claim:lineage-traceability",
+          "kind": "lineage",
+          "status": "undetermined",
+          "basis": [
+            "no-descendant-lineage-claim"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [],
+          "scope": "plan",
+          "explanation": "Bubble CollapseThreshold declares no descendant or staged grammar lineage that needs certification in the current plan."
+        },
+        {
+          "id": "claim:replay-identity",
+          "kind": "replay",
+          "status": "undetermined",
+          "basis": [
+            "seed-continuity",
+            "source-lineage-address",
+            "declared-history-support",
+            "latent-topology",
+            "latent-observation-ready"
+          ],
+          "evidenceIds": [
+            "evidence:anchor-point:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+            "evidence:positive-sea:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+            "evidence:negative-sea:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+            "evidence:observe:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+            "evidence:effect:effect:6:observe",
+            "evidence:effect:effect:7:commit"
+          ],
+          "dependsOnClaims": [
+            "claim:anchor-identity"
+          ],
+          "assumptions": [
+            "same-world-replay-is-evaluated-from-the-current-plan-basis",
+            "latent-collapse-history-is-not-yet-materialized"
+          ],
+          "scope": "plan",
+          "explanation": "Bubble CollapseThreshold preserves a replay basis for currently declared history, but same-world replay across latent regions remains undetermined while collapse drafts are only observation-ready."
+        },
+        {
+          "id": "claim:internal-law-consistency",
+          "kind": "consistency",
+          "status": "undetermined",
+          "basis": [
+            "hidden-region",
+            "latent-topology",
+            "latent-observation-ready",
+            "no-executable-law-semantics-yet"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [
+            "only-the-current-executable-semantic-subset-is-checked",
+            "no-general-law-solver-is-present",
+            "observation-induced-collapse-is-not-yet-executed"
+          ],
+          "scope": "plan",
+          "explanation": "Latent collapse drafts (observation-ready) keep observation-induced consistency bounded rather than fully discharged. Residual unresolved semantic fragments (hidden-region) keep overall internal semantic consistency undetermined."
+        }
+      ]
+    },
+    "bundle": {
+      "mode": "bubble-bundle-plan.v1",
+      "bundleId": "bundle:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "rootAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "members": [
+        {
+          "memberId": "bundle-member:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "kind": "root-bubble",
+          "emissionId": null,
+          "activationId": null,
+          "addressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "profileName": "bubbles.v0.4",
+          "sourcePath": "examples/collapse-threshold.bubble",
+          "provenance": "root-bubble",
+          "description": "Root bubble CollapseThreshold anchors this bundle."
+        }
+      ],
+      "materializationScopes": [
+        {
+          "scopeId": "bundle-scope:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "target": "root-bubble",
+          "emissionId": null,
+          "activationId": null,
+          "addressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "description": "The root bubble CollapseThreshold is always inside its own materialization scope."
+        }
+      ]
+    },
+    "latentTopology": {
+      "mode": "bubble-latent-topology.v1",
+      "regions": [
+        {
+          "id": "latent-region:semantic:9:hidden-region:OuterCanopy",
+          "sourceSemanticId": "semantic:9:hidden-region:OuterCanopy",
+          "name": "OuterCanopy",
+          "kind": "hidden-region",
+          "description": "Hidden region OuterCanopy remains outside the current observation surface.",
+          "sourceLine": 9,
+          "initialState": "latent",
+          "observationBoundary": "declared-observation-surface",
+          "commitBoundary": "declared-history-support",
+          "perturbationMode": "declared-perturbation"
+        }
+      ],
+      "collapseEvidenceDrafts": [
+        {
+          "id": "collapse-evidence-draft:semantic:9:hidden-region:OuterCanopy",
+          "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+          "sourceSemanticId": "semantic:9:hidden-region:OuterCanopy",
+          "observationEffectIds": [
+            "effect:6:observe"
+          ],
+          "perturbEffectIds": [
+            "effect:8:perturb"
+          ],
+          "commitEffectIds": [
+            "effect:7:commit"
+          ],
+          "draftStatus": "observation-ready",
+          "description": "Latent region OuterCanopy can materialize under the declared observation surface with declared perturbation support and later anchor that collapse through declared history support."
+        }
+      ]
+    },
+    "obligations": [
+      {
+        "effectId": "effect:6:observe",
+        "effectKind": "observe",
+        "scope": "local",
+        "description": "Author declared observe as a required local effect."
+      },
+      {
+        "effectId": "effect:7:commit",
+        "effectKind": "commit",
+        "scope": "local",
+        "description": "Author declared commit as a required local effect."
+      }
+    ],
+    "plannedRelations": [],
+    "grammars": [],
+    "grammarActivationPlan": [],
+    "emissionPlan": []
+  },
+  "proof": {
+    "mode": "bubble-consistency-certificate.v1",
+    "bubbleAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+    "profile": "bubbles.v0.4",
+    "verdict": "partially-certified",
+    "claims": [
+      {
+        "id": "claim:well-formed-source",
+        "kind": "syntax",
+        "status": "certified",
+        "basis": [
+          "parser",
+          "profile-validator"
+        ],
+        "evidenceIds": [],
+        "dependsOnClaims": [],
+        "assumptions": [],
+        "scope": "source",
+        "explanation": "Bubble CollapseThreshold compiled into a semantic plan under bubbles.v0.4."
+      },
+      {
+        "id": "claim:minimum-worldhood",
+        "kind": "worldhood",
+        "status": "certified",
+        "basis": [
+          "axiom",
+          "worldWill",
+          "seed",
+          "effect"
+        ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [],
+        "scope": "source",
+        "explanation": "Bubble CollapseThreshold satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+      },
+      {
+        "id": "claim:required-effect-obligations",
+        "kind": "effect",
+        "status": "certified",
+        "basis": [
+          "observation-surface",
+          "declared-history-support"
+        ],
+        "evidenceIds": [
+          "evidence:effect:effect:6:observe",
+          "evidence:effect:effect:7:commit"
+        ],
+        "dependsOnClaims": [
+          "claim:minimum-worldhood"
+        ],
+        "assumptions": [
+          "effect-trace-records-mirror-the-current-materialization-plan"
+        ],
+        "scope": "plan",
+        "explanation": "Required effect effect:6:observe is certified by the declared observation surface. Required effect effect:7:commit is certified by declared history support."
+      },
+      {
+        "id": "claim:anchor-identity",
+        "kind": "anchor",
+        "status": "certified",
+        "basis": [
+          "axiomatic-basis",
+          "world-will",
+          "seed-continuity",
+          "declared-history-support",
+          "observation-surface"
+        ],
+        "evidenceIds": [
+          "evidence:anchor-point:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "evidence:positive-sea:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "evidence:negative-sea:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "evidence:observe:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold"
+        ],
+        "dependsOnClaims": [
+          "claim:minimum-worldhood"
+        ],
+        "assumptions": [
+          "sea-anchor-theorem-witness-is-bounded"
+        ],
+        "scope": "plan",
+        "explanation": "Bubble CollapseThreshold currently certifies anchor identity as strong with theorem condition stable."
+      },
+      {
+        "id": "claim:lineage-traceability",
+        "kind": "lineage",
+        "status": "undetermined",
+        "basis": [
+          "no-descendant-lineage-claim"
+        ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [],
+        "scope": "plan",
+        "explanation": "Bubble CollapseThreshold declares no descendant or staged grammar lineage that needs certification in the current plan."
+      },
+      {
+        "id": "claim:replay-identity",
+        "kind": "replay",
+        "status": "certified",
+        "basis": [
+          "seed-continuity",
+          "source-lineage-address",
+          "declared-history-support",
+          "collapse-record",
+          "observed-history-shape-fully-committed",
+          "observed-history-committed"
+        ],
+        "evidenceIds": [
+          "evidence:anchor-point:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "evidence:positive-sea:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "evidence:negative-sea:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "evidence:observe:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "evidence:effect:effect:6:observe",
+          "evidence:effect:effect:7:commit",
+          "evidence:collapse:semantic:9:hidden-region:OuterCanopy"
+        ],
+        "dependsOnClaims": [
+          "claim:anchor-identity"
+        ],
+        "assumptions": [
+          "same-world-replay-is-evaluated-from-the-current-plan-basis"
+        ],
+        "scope": "materialized-run",
+        "explanation": "Bubble CollapseThreshold preserves a replay basis for currently declared history, but same-world replay across latent regions remains undetermined while collapse drafts are only observation-ready. Observed collapse records (1 record at committed with shape fully-committed) mean this run is no longer pristine latent possibility; same-world replay is now certified by committed collapse history."
+      },
+      {
+        "id": "claim:internal-law-consistency",
+        "kind": "consistency",
+        "status": "undetermined",
+        "basis": [
+          "committed-hidden-region-history",
+          "collapse-record",
+          "observed-history-shape-fully-committed",
+          "observed-history-committed",
+          "no-executable-law-semantics-yet"
+        ],
+        "evidenceIds": [
+          "evidence:collapse:semantic:9:hidden-region:OuterCanopy"
+        ],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [
+          "only-the-current-executable-semantic-subset-is-checked",
+          "no-general-law-solver-is-present"
+        ],
+        "scope": "materialized-run",
+        "explanation": "Committed collapse history reinterprets hidden-region:OuterCanopy as observed local history rather than residual unresolved semantics. Observed collapse records (1 record at committed with shape fully-committed) now witness executed observation-induced materialization for Bubble CollapseThreshold. Bubble CollapseThreshold still has no full executable law solver, so internal semantic consistency remains undetermined."
+      }
+    ]
+  },
+  "runtimeOntology": {
+    "negativeSea": {
+      "pressure": "elevated",
+      "signals": [
+        "law-perturbation"
+      ]
+    },
+    "positiveSea": {
+      "support": "present",
+      "signals": [
+        "source-lineage-address",
+        "seeded-origin",
+        "declared-history-support"
+      ]
+    },
+    "anchorPoint": {
+      "strength": "strong",
+      "declaredHistorySupport": true,
+      "materializedHistoryEvidence": true,
+      "rewindStability": "stable",
+      "signals": [
+        "axiomatic-basis",
+        "world-will",
+        "seed-continuity",
+        "declared-history-support",
+        "observation-surface",
+        "perturbation-stress"
+      ]
+    },
+    "theoremWitness": {
+      "theorem": "sea-anchor-necessity.v1",
+      "negativeRank": 1,
+      "positiveRank": 1,
+      "anchorRank": 2,
+      "worldhoodDelta": 2,
+      "identityDelta": 1,
+      "sustained": true,
+      "condition": "stable",
+      "explanation": "Bubble worldhood remains stable because A=2, P=1, N=1, so A + P - N = 2."
+    }
+  },
+  "artifacts": [],
+  "commits": [
+    {
+      "id": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "emissionId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "committedAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "description": "Committed observed local state observation-state:latent-region:semantic:9:hidden-region:OuterCanopy for latent-region:semantic:9:hidden-region:OuterCanopy."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence:negative-sea:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "kind": "negative-sea-state",
+      "bubbleAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "subjectAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "sourcePath": "examples/collapse-threshold.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "pressure": "elevated",
+      "signals": [
+        "law-perturbation"
+      ],
+      "description": "Bubble CollapseThreshold currently shows elevated negative-sea pressure via law-perturbation."
+    },
+    {
+      "id": "evidence:positive-sea:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "kind": "positive-sea-state",
+      "bubbleAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "subjectAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "sourcePath": "examples/collapse-threshold.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "support": "present",
+      "signals": [
+        "source-lineage-address",
+        "seeded-origin",
+        "declared-history-support"
+      ],
+      "description": "Bubble CollapseThreshold currently shows present positive-sea support via source-lineage-address, seeded-origin, declared-history-support."
+    },
+    {
+      "id": "evidence:anchor-point:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "kind": "anchor-point-state",
+      "bubbleAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "subjectAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "sourcePath": "examples/collapse-threshold.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "strength": "strong",
+      "declaredHistorySupport": true,
+      "materializedHistoryEvidence": true,
+      "rewindStability": "stable",
+      "signals": [
+        "axiomatic-basis",
+        "world-will",
+        "seed-continuity",
+        "declared-history-support",
+        "observation-surface",
+        "perturbation-stress"
+      ],
+      "description": "Bubble CollapseThreshold currently shows strong anchor support with stable rewind stability."
+    },
+    {
+      "id": "evidence:observe:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "kind": "observation-context",
+      "bubbleAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "subjectAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "sourcePath": "examples/collapse-threshold.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "description": "Bubble CollapseThreshold declares observation mode witness with declared history support."
+    },
+    {
+      "id": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+      "kind": "collapse-record",
+      "bubbleAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "subjectAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "sourcePath": "examples/collapse-threshold.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+      "sourceSemanticId": "semantic:9:hidden-region:OuterCanopy",
+      "triggerEffectIds": [
+        "effect:6:observe"
+      ],
+      "perturbEffectIds": [
+        "effect:8:perturb"
+      ],
+      "observationStateId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "observationState": {
+        "id": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+        "phase": "observed-committed",
+        "observationMode": "witness",
+        "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+        "sourceSemanticId": "semantic:9:hidden-region:OuterCanopy",
+        "triggerEffectIds": [
+          "effect:6:observe"
+        ],
+        "perturbEffectIds": [
+          "effect:8:perturb"
+        ],
+        "commitStatus": "committed",
+        "draftStatus": "observation-ready",
+        "localMaterialization": {
+          "mode": "single-region-observation-kernel.v1",
+          "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+          "regionName": "OuterCanopy",
+          "regionKind": "hidden-region",
+          "realizedForm": "boundary-canopy-edge",
+          "anchorStrength": "strong",
+          "negativeSeaPressure": "elevated",
+          "positiveSeaSupport": "present",
+          "determinants": [
+            "observation:declared-observation-surface",
+            "commit:declared-history-support",
+            "perturb:declared-perturbation",
+            "anchor:strong",
+            "negative-sea:elevated",
+            "positive-sea:present",
+            "effect:6:observe",
+            "effect:8:perturb"
+          ],
+          "description": "Local observation kernel materialized OuterCanopy as boundary-canopy-edge under anchor strong with elevated negative-sea pressure and present positive-sea support."
+        },
+        "description": "Observation state observation-state:latent-region:semantic:9:hidden-region:OuterCanopy records OuterCanopy as observed-committed under witness with one local materialization kernel."
+      },
+      "commitStatus": "committed",
+      "draftStatus": "observation-ready",
+      "description": "Bubble CollapseThreshold observed latent region OuterCanopy into observation-state:latent-region:semantic:9:hidden-region:OuterCanopy via effect:6:observe with perturb contributions effect:8:perturb; the collapse is already fixed into committed history."
+    },
+    {
+      "id": "evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "kind": "history-commit",
+      "bubbleAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "subjectAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "sourcePath": "examples/collapse-threshold.bubble",
+      "observationMode": "witness",
+      "emissionId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "commitId": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "description": "Recorded durable history for observation-state:latent-region:semantic:9:hidden-region:OuterCanopy at bubble:examples/collapse-threshold.bubble::root:CollapseThreshold."
+    },
+    {
+      "id": "evidence:effect:effect:6:observe",
+      "kind": "effect-trace",
+      "bubbleAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "subjectAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "sourcePath": "examples/collapse-threshold.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "effectId": "effect:6:observe",
+      "effectKind": "observe",
+      "requirement": "required",
+      "scope": "local",
+      "sourceLine": 6,
+      "materializationState": "materialized",
+      "runtimeSignals": [
+        "observation-surface"
+      ],
+      "description": "Bubble CollapseThreshold recorded required local observe as materialized in this run via observation-surface."
+    },
+    {
+      "id": "evidence:effect:effect:7:commit",
+      "kind": "effect-trace",
+      "bubbleAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "subjectAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "sourcePath": "examples/collapse-threshold.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "effectId": "effect:7:commit",
+      "effectKind": "commit",
+      "requirement": "required",
+      "scope": "local",
+      "sourceLine": 7,
+      "materializationState": "materialized",
+      "runtimeSignals": [
+        "declared-history-support",
+        "history-commit"
+      ],
+      "description": "Bubble CollapseThreshold recorded required local commit as materialized in this run via declared-history-support, history-commit."
+    },
+    {
+      "id": "evidence:effect:effect:8:perturb",
+      "kind": "effect-trace",
+      "bubbleAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "subjectAddressId": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+      "sourcePath": "examples/collapse-threshold.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "effectId": "effect:8:perturb",
+      "effectKind": "perturb",
+      "requirement": "optional",
+      "scope": "local",
+      "sourceLine": 8,
+      "materializationState": "potential",
+      "runtimeSignals": [
+        "law-perturbation"
+      ],
+      "description": "Bubble CollapseThreshold recorded optional local perturb as potential in this run via law-perturbation."
+    }
+  ],
+  "trace": [
+    {
+      "kind": "materialization-started",
+      "message": "Started materialization for CollapseThreshold.",
+      "details": {
+        "profile": "bubbles.v0.4",
+        "address": "bubble:examples/collapse-threshold.bubble::root:CollapseThreshold"
+      }
+    },
+    {
+      "kind": "no-emissions",
+      "message": "Bubble CollapseThreshold has no staged emissions to materialize."
+    },
+    {
+      "kind": "local-collapse-materialized",
+      "message": "Locally materialized OuterCanopy into observation-state:latent-region:semantic:9:hidden-region:OuterCanopy.",
+      "details": {
+        "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+        "observationStateId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+        "realizedForm": "boundary-canopy-edge",
+        "mode": "single-region-observation-kernel.v1"
+      }
+    },
+    {
+      "kind": "materialization-committed",
+      "emissionId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "message": "Committed observed local state observation-state:latent-region:semantic:9:hidden-region:OuterCanopy for latent-region:semantic:9:hidden-region:OuterCanopy.",
+      "details": {
+        "commitId": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy"
+      }
+    }
+  ]
+}

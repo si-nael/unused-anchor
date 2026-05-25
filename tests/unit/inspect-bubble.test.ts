@@ -51,6 +51,7 @@ test("inspects a meta bubble into a stable summary and artifact view", () => {
         artifactCount: 0,
         commitCount: 1,
         evidenceCount: 4,
+        observationStateCount: 0,
         reflectionPaths: ["self.address", "self.worldWill"],
         traceKinds: [
             "materialization-started",
@@ -77,6 +78,8 @@ test("inspects a meta bubble into a stable summary and artifact view", () => {
             sourcePath: "nursery.bubble#emit:11:Grove",
             worldWill: "preserve inner symmetry",
             seed: "ember_seed",
+            latentRegionCount: 0,
+            latentDraftStatuses: [],
             diagnosticsCount: 0,
         },
     ]);
@@ -418,12 +421,210 @@ test("inspection preserves proof boundedness for latent topology drafts", () => 
 
     const { program } = compileBubbleSource(source, { sourcePath: "threshold-inspect-proof.bubble" });
     const report = inspectBubbleProgram(program);
-    const claimById = Object.fromEntries(report.proof.claims.map((claim) => [claim.id, claim]));
+    const claimById = Object.fromEntries(report.plan.proof.claims.map((claim) => [claim.id, claim]));
 
     assert.equal(claimById["claim:replay-identity"]?.status, "undetermined");
     assert.ok(claimById["claim:replay-identity"]?.basis.includes("latent-topology"));
     assert.ok(claimById["claim:internal-law-consistency"]?.basis.includes("latent-observation-ready"));
+    assert.ok(report.plan.proof.claims.filter((claim) => claim.status === "undetermined").length >= 2);
+});
+
+test("inspection runtime proof distinguishes observed collapse history from pristine latent possibility", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "threshold-inspect-runtime-proof.bubble" });
+    const report = inspectBubbleProgram(program);
+    const claimById = Object.fromEntries(report.proof.claims.map((claim) => [claim.id, claim]));
+
+    assert.equal(claimById["claim:replay-identity"]?.scope, "materialized-run");
+    assert.ok(claimById["claim:replay-identity"]?.basis.includes("collapse-record"));
+    assert.ok(claimById["claim:replay-identity"]?.basis.includes("observed-history-committed"));
+    assert.ok(claimById["claim:replay-identity"]?.basis.includes("observed-history-open"));
+    assert.ok(claimById["claim:replay-identity"]?.basis.includes("observed-history-shape-partially-committed"));
+    assert.ok(!claimById["claim:replay-identity"]?.basis.includes("latent-topology"));
+    assert.ok(claimById["claim:replay-identity"]?.assumptions?.includes("observed-collapse-history-is-not-yet-committed"));
     assert.ok(report.summary.proofClaimStatusCounts.undetermined >= 2);
+});
+
+test("inspection preserves collapse-record evidence for observed latent regions", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "threshold-inspect-collapse.bubble" });
+    const report = inspectBubbleProgram(program);
+    const collapseEvidence = report.evidence.filter((entry) => entry.kind === "collapse-record");
+
+    assert.equal(report.summary.evidenceCount, 10);
+    assert.equal(collapseEvidence.length, 2);
+    assert.deepEqual(collapseEvidence.map((entry) => entry.commitStatus), ["committed", "history-open"]);
+    assert.deepEqual(collapseEvidence.map((entry) => entry.draftStatus), ["observation-ready", "observation-ready"]);
+    assert.deepEqual(collapseEvidence.map((entry) => entry.observationState.phase), ["observed-committed", "observed-history-open"]);
+    assert.deepEqual(collapseEvidence.map((entry) => entry.observationState.localMaterialization?.realizedForm ?? null), ["boundary-canopy-edge", null]);
+    assert.ok(report.trace.some((event) => event.kind === "local-collapse-materialized"));
+});
+
+test("inspection upgrades the benchmark micro-world to committed local collapse history", () => {
+    const source = [
+        "bubble CollapseThreshold {",
+        "  axiom coherence = stable",
+        "  will \"fix one observed canopy edge into history\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "collapse-threshold-inspect-commit.bubble" });
+    const report = inspectBubbleProgram(program);
+    const collapseRecord = report.evidence.find((entry) => entry.kind === "collapse-record");
+    const replayClaim = report.proof.claims.find((claim) => claim.id === "claim:replay-identity");
+
+    assert.ok(collapseRecord);
+    assert.equal(collapseRecord.commitStatus, "committed");
+    assert.equal(collapseRecord.observationState.phase, "observed-committed");
+    assert.equal(report.summary.commitCount, 1);
+    assert.equal(report.summary.proofVerdict, "partially-certified");
+    assert.equal(replayClaim?.status, "certified");
+    assert.ok(replayClaim?.basis.includes("observed-history-committed"));
+    assert.ok(replayClaim?.basis.includes("observed-history-shape-fully-committed"));
+});
+
+test("inspection exposes observation states as a first-class section", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "threshold-observation-states.bubble" });
+    const report = inspectBubbleProgram(program);
+
+    assert.equal(report.summary.observationStateCount, 2);
+    assert.deepEqual(report.observationStates.map((state) => ({
+        id: state.id,
+        phase: state.phase,
+        localMaterialization: state.localMaterialization?.realizedForm ?? null,
+    })), [
+        {
+            id: "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+            phase: "observed-committed",
+            localMaterialization: "boundary-canopy-edge",
+        },
+        {
+            id: "observation-state:latent-region:semantic:10:latent-bubble:WaitingArchive",
+            phase: "observed-history-open",
+            localMaterialization: null,
+        },
+    ]);
+});
+
+test("inspection can narrow observation states by id and phase", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "threshold-observation-query.bubble" });
+    const byId = inspectBubbleProgram(program, {
+        observationStateId: "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+    });
+    assert.equal(byId.summary.observationStateCount, 1);
+    assert.deepEqual(byId.observationStates.map((state) => state.id), [
+        "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+    ]);
+
+    const byPhase = inspectBubbleProgram(program, { observationStatePhase: "observed-history-open" });
+    assert.equal(byPhase.summary.observationStateCount, 1);
+    assert.deepEqual(byPhase.observationStates.map((state) => state.phase), [
+        "observed-history-open",
+    ]);
+
+    const committedPhase = inspectBubbleProgram(program, { observationStatePhase: "observed-committed" });
+    assert.equal(committedPhase.summary.observationStateCount, 1);
+    assert.deepEqual(committedPhase.observationStates.map((state) => state.phase), ["observed-committed"]);
+});
+
+test("inspection can compare committed local collapse history against a still-latent sibling artifact", () => {
+    const source = [
+        "bubble CollapseMirror {",
+        "  axiom coherence = stable",
+        "  will \"commit one observed canopy edge while preserving one latent sibling\"",
+        "  seed mirror_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  quote Sibling = bubble SiblingCanopy { axiom coherence = stable will 'remain latent sibling canopy' seed sibling_seed effect spawn required hidden region InnerCanopy }",
+        "  emit Sibling as descendant",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "collapse-mirror.bubble" });
+    const report = inspectBubbleProgram(program);
+
+    assert.equal(report.summary.commitCount, 2);
+    assert.equal(report.summary.observationStateCount, 1);
+    assert.deepEqual(report.observationStates.map((state) => ({ id: state.id, phase: state.phase })), [
+        {
+            id: "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+            phase: "observed-committed",
+        },
+    ]);
+    assert.deepEqual(report.artifacts.map((artifact) => ({
+        bubbleName: artifact.bubbleName,
+        latentRegionCount: artifact.latentRegionCount,
+        latentDraftStatuses: artifact.latentDraftStatuses,
+    })), [
+        {
+            bubbleName: "SiblingCanopy",
+            latentRegionCount: 1,
+            latentDraftStatuses: ["underspecified"],
+        },
+    ]);
 });
 test("inspection exposes sea-anchor ontology for stressed boundary worlds", () => {
     const source = [

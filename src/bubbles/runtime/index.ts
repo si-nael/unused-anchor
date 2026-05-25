@@ -5,6 +5,7 @@ export {
     withMaterializedHistoryEvidence,
 } from "./ontology";
 export {
+    createCollapseRecordEvidence,
     createCommitEvidence,
     createEffectTraceEvidence,
     createObservationEvidence,
