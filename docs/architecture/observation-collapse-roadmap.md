@@ -135,7 +135,7 @@ Constraints:
 Current state:
 
 - one benchmark micro-world now exists as `examples/collapse-threshold.bubble`
-- that example now executes one deterministic `single-region-observation-kernel.v1` local materialization for exactly one observed latent region
+- that example now executes `single-region-observation-kernel.v3` local materialization for exactly one observed latent region, and that local result now depends on perturb mix, nearby observed-history shape, and sea-anchor-derived local state structure rather than only latent-region kind
 - the benchmark also now commits that single observed local state into history without widening the language beyond current effect and unresolved-semantic surfaces
 - a third bounded benchmark now exists as `examples/collapse-open.bubble`, where two observed hidden-region targets remain `history-open` because the current bounded runtime policy declines to choose one commit target
 - a second bounded benchmark now exists as `examples/collapse-mixed.bubble`, where one hidden-region local target commits into history while a sibling `latent bubble` observation state remains `history-open`

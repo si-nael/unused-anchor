@@ -144,9 +144,18 @@ test("records and replays collapse-record evidence for observed latent regions",
         "observed-history-open",
     ]);
     assert.deepEqual(collapseEvidence.map((entry) => entry.observationState.localMaterialization?.realizedForm ?? null), [
-        "boundary-canopy-edge",
+        "boundary-canopy-anchored-fray",
         null,
     ]);
+    assert.equal(collapseEvidence[0]?.observationState.localMaterialization?.perturbationMix, "perturb-mixed");
+    assert.equal(collapseEvidence[0]?.observationState.localMaterialization?.nearbyHistoryInfluence, "history-open-neighborhood");
+    assert.deepEqual(collapseEvidence[0]?.observationState.localMaterialization?.stateStructure, {
+        anchorBinding: "anchored",
+        seaBalance: "contested",
+        membraneCondition: "frayed-edge",
+        historyCoupling: "history-open-neighborhood",
+        worldhoodCondition: "stable",
+    });
     assert.ok(replayed.trace.some((event) => event.kind === "local-collapse-materialized"));
 
     const claimById = Object.fromEntries(replayed.proof.claims.map((claim) => [claim.id, claim]));
@@ -291,10 +300,11 @@ test("records and replays committed benchmark local collapse history", () => {
     assert.ok(collapseRecord);
     assert.equal(collapseRecord.commitStatus, "committed");
     assert.equal(collapseRecord.observationState.phase, "observed-committed");
-    assert.equal(replayClaim?.status, "certified");
+    assert.equal(replayClaim?.status, "undetermined");
     assert.ok(replayClaim?.basis.includes("observed-history-committed"));
     assert.ok(replayClaim?.basis.includes("observed-history-shape-fully-committed"));
     assert.ok(!replayClaim?.assumptions?.includes("observed-collapse-history-is-not-yet-committed"));
+    assert.match(replayClaim?.explanation ?? "", /remains inferred because no authored anchor criterion fixes same-world replay/);
     assert.ok(replayed.trace.some((event) => event.kind === "materialization-committed"));
 });
 

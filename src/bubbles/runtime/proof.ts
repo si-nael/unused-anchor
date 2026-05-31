@@ -84,7 +84,8 @@ export function buildConsistencyCertificate(
 ): BubbleConsistencyCertificate {
     const claims = [
         buildWellFormedSourceClaim(program),
-        buildMinimumWorldhoodClaim(program),
+        buildMinimumAuthoredShapeClaim(program),
+        buildWorldhoodRolesPresentClaim(program, semantics),
         buildRequiredEffectClaim(program, emissionPlan),
         buildAnchorIdentityClaim(program, ontology, semantics),
         buildLineageTraceabilityClaim(program, emissionPlan, grammarActivationPlan),
@@ -147,7 +148,7 @@ function buildWellFormedSourceClaim(program: BubbleProgramIR): BubbleConsistency
     };
 }
 
-function buildMinimumWorldhoodClaim(program: BubbleProgramIR): BubbleConsistencyClaim {
+function buildMinimumAuthoredShapeClaim(program: BubbleProgramIR): BubbleConsistencyClaim {
     const basis: string[] = [];
     const missing: string[] = [];
 
@@ -176,7 +177,7 @@ function buildMinimumWorldhoodClaim(program: BubbleProgramIR): BubbleConsistency
     }
 
     return {
-        id: "claim:minimum-worldhood",
+        id: "claim:minimum-authored-shape",
         kind: "worldhood",
         status: missing.length === 0 ? "certified" : "contradicted",
         basis: missing.length === 0 ? basis : missing,
@@ -185,9 +186,101 @@ function buildMinimumWorldhoodClaim(program: BubbleProgramIR): BubbleConsistency
         assumptions: [],
         scope: "source",
         explanation: missing.length === 0
-            ? `Bubble ${program.bubble.name} satisfies the current minimum worldhood basis through ${basis.join(", ")}.`
-            : `Bubble ${program.bubble.name} is missing minimum worldhood requirements: ${missing.join(", ")}.`,
+            ? `Bubble ${program.bubble.name} satisfies the current minimum authored shape through ${basis.join(", ")}.`
+            : `Bubble ${program.bubble.name} is missing minimum authored shape requirements: ${missing.join(", ")}.`,
     };
+}
+
+function buildWorldhoodRolesPresentClaim(
+    program: BubbleProgramIR,
+    semantics: BubbleSemanticEvaluationPlan,
+): BubbleConsistencyClaim {
+    const presentRoles: string[] = [];
+    const missingRoles: string[] = [];
+
+    if (Object.keys(program.bubble.axioms).length > 0) {
+        presentRoles.push("local-law-basis");
+    } else {
+        missingRoles.push("missing-local-law-basis");
+    }
+
+    const boundaryBasis = collectBoundarySemanticsBasis(program, semantics);
+    if (boundaryBasis.length > 0) {
+        presentRoles.push("boundary-semantics", ...boundaryBasis);
+    } else {
+        missingRoles.push("missing-boundary-semantics");
+    }
+
+    if (program.bubble.address.id.length > 0) {
+        presentRoles.push(
+            program.bubble.address.locatorKind === "source-relative"
+                ? "source-lineage-address"
+                : "lineage-relative-address",
+            "lineage-placement",
+        );
+    } else {
+        missingRoles.push("missing-lineage-placement");
+    }
+
+    if (semantics.anchorCriterion !== null) {
+        presentRoles.push("authored-anchor-criterion");
+    } else {
+        missingRoles.push("missing-authored-anchor-criterion");
+    }
+
+    const status = missingRoles.includes("missing-local-law-basis") || missingRoles.includes("missing-lineage-placement")
+        ? "contradicted"
+        : missingRoles.length > 0
+            ? "undetermined"
+            : "certified";
+    const explanation = status === "certified"
+        ? `Bubble ${program.bubble.name} currently presents all required worldhood roles through ${presentRoles.join(", ")}.`
+        : status === "contradicted"
+            ? `Bubble ${program.bubble.name} fails the independent worldhood contract because it is missing ${missingRoles.join(", ")}.`
+            : `Bubble ${program.bubble.name} preserves minimum authored shape, but independent worldhood remains undetermined while ${missingRoles.join(", ")} are not yet explicitly authored.`;
+
+    return {
+        id: "claim:worldhood-roles-present",
+        kind: "worldhood",
+        status,
+        basis: Array.from(new Set([...presentRoles, ...missingRoles])),
+        evidenceIds: [],
+        dependsOnClaims: ["claim:minimum-authored-shape"],
+        assumptions: missingRoles.length > 0 ? ["boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"] : [],
+        scope: "plan",
+        explanation,
+    };
+}
+
+function collectBoundarySemanticsBasis(
+    program: BubbleProgramIR,
+    semantics: BubbleSemanticEvaluationPlan,
+): string[] {
+    const basis: string[] = [];
+    const hasBoundaryScopedEffect = program.bubble.effects.some((effect) => effect.scope === "membrane" || effect.scope === "global");
+    const hasBoundaryScopedRelation = program.bubble.generation.relations.some((relation) => relation.scope === "membrane" || relation.scope === "global");
+    const executableExpressions = [
+        ...semantics.constraints.map((constraint) => constraint.expression),
+        ...semantics.partialLaws.map((partialLaw) => partialLaw.expression),
+        semantics.anchorCriterion?.expression ?? null,
+    ];
+    const hasBoundaryReference = executableExpressions.some((expression) =>
+        expression !== null && (expression.includes("boundary.") || expression.includes("membrane.")),
+    );
+
+    if (hasBoundaryScopedEffect) {
+        basis.push("boundary-scoped-effect");
+    }
+
+    if (hasBoundaryScopedRelation) {
+        basis.push("boundary-scoped-relation");
+    }
+
+    if (hasBoundaryReference) {
+        basis.push("boundary-referenced-semantics");
+    }
+
+    return basis;
 }
 
 function buildRequiredEffectClaim(
@@ -222,7 +315,7 @@ function buildRequiredEffectClaim(
         status: claimStatus,
         basis: Array.from(new Set(statuses.flatMap((status) => status.basis))),
         evidenceIds: requiredEffects.map((effect) => `evidence:effect:${effect.id}`),
-        dependsOnClaims: ["claim:minimum-worldhood"],
+        dependsOnClaims: ["claim:minimum-authored-shape"],
         assumptions: ["effect-trace-records-mirror-the-current-materialization-plan"],
         scope: "plan",
         explanation: statuses.map((status) => status.explanation).join(" "),
@@ -353,7 +446,7 @@ function buildAnchorIdentityClaim(
             status: "contradicted",
             basis: Array.from(new Set([...identityBasis, ...anchorCriterion.basis])),
             evidenceIds: resolveAnchorEvidenceIds(program),
-            dependsOnClaims: ["claim:minimum-worldhood"],
+            dependsOnClaims: ["claim:worldhood-roles-present"],
             assumptions: ["sea-anchor-theorem-witness-is-bounded", "anchor-criterion-evaluation-uses-the-current-executable-subset"],
             scope: "plan",
             explanation: `${anchorCriterion.explanation} Bubble ${program.bubble.name} therefore does not currently certify same-world anchor identity.`,
@@ -367,10 +460,24 @@ function buildAnchorIdentityClaim(
             status: "contradicted",
             basis: identityBasis.length > 0 ? identityBasis : ["missing-anchor-basis"],
             evidenceIds: resolveAnchorEvidenceIds(program),
-            dependsOnClaims: ["claim:minimum-worldhood"],
+            dependsOnClaims: ["claim:worldhood-roles-present"],
             assumptions: ["sea-anchor-theorem-witness-is-bounded"],
             scope: "plan",
             explanation: `Bubble ${program.bubble.name} does not currently sustain same-world identity under the theorem witness and is classified as ${ontology.theoremWitness.condition}.`,
+        };
+    }
+
+    if (anchorCriterion === null) {
+        return {
+            id: "claim:anchor-identity",
+            kind: "anchor",
+            status: "undetermined",
+            basis: Array.from(new Set([...identityBasis, "missing-authored-anchor-criterion"])),
+            evidenceIds: resolveAnchorEvidenceIds(program),
+            dependsOnClaims: ["claim:worldhood-roles-present"],
+            assumptions: ["sea-anchor-theorem-witness-is-bounded"],
+            scope: "plan",
+            explanation: `Bubble ${program.bubble.name} keeps an inferred anchor basis, but same-world anchor identity remains undetermined without an authored anchor criterion.`,
         };
     }
 
@@ -381,7 +488,7 @@ function buildAnchorIdentityClaim(
             status: "undetermined",
             basis: Array.from(new Set([...identityBasis, ...anchorCriterion.basis])),
             evidenceIds: resolveAnchorEvidenceIds(program),
-            dependsOnClaims: ["claim:minimum-worldhood"],
+            dependsOnClaims: ["claim:worldhood-roles-present"],
             assumptions: ["sea-anchor-theorem-witness-is-bounded", "anchor-criterion-evaluation-uses-the-current-executable-subset"],
             scope: "plan",
             explanation: `${anchorCriterion.explanation} Bubble ${program.bubble.name} keeps an inferred anchor basis, but authored same-world identity remains undetermined.`,
@@ -394,10 +501,11 @@ function buildAnchorIdentityClaim(
         status: "certified",
         basis: Array.from(new Set([
             ...identityBasis,
+            "authored-anchor-criterion",
             ...(anchorCriterion?.basis ?? []),
         ])),
         evidenceIds: resolveAnchorEvidenceIds(program),
-        dependsOnClaims: ["claim:minimum-worldhood"],
+        dependsOnClaims: ["claim:worldhood-roles-present"],
         assumptions: ["sea-anchor-theorem-witness-is-bounded", ...(anchorCriterion ? ["anchor-criterion-evaluation-uses-the-current-executable-subset"] : [])],
         scope: "plan",
         explanation: `Bubble ${program.bubble.name} currently certifies anchor identity as ${ontology.anchorPoint.strength} with theorem condition ${ontology.theoremWitness.condition}${anchorCriterion ? " under the authored anchor criterion" : ""}.`,
@@ -525,6 +633,20 @@ function buildReplayIdentityClaim(
                 anchorCriterion?.status === "undetermined" ? anchorCriterion.explanation : null,
                 `Bubble ${program.bubble.name} preserves a replay basis for currently declared history, but same-world replay across latent regions remains undetermined while collapse drafts are only ${describeLatentCollapseDrafts(latentCollapseDrafts)}.`,
             ].filter((part): part is string => part !== null).join(" "),
+        };
+    }
+
+    if (anchorCriterion === null) {
+        return {
+            id: "claim:replay-identity",
+            kind: "replay",
+            status: "undetermined",
+            basis: [...basis, "missing-authored-anchor-criterion"],
+            evidenceIds: resolveReplayEvidenceIds(program),
+            dependsOnClaims: ["claim:anchor-identity"],
+            assumptions: ["same-world-replay-is-evaluated-from-the-current-plan-basis"],
+            scope: "plan",
+            explanation: `Bubble ${program.bubble.name} preserves an inferred replay basis, but same-world replay remains undetermined without an authored anchor criterion.`,
         };
     }
 
@@ -752,10 +874,17 @@ function refineReplayIdentityClaim(
         ...observedBasis,
         ...collectLatentCollapseBasis(residualDrafts),
     ]));
+    const hasSatisfiedAnchorCriterion = basis.includes("authored-anchor-criterion");
+    const replayCertified = claim.status === "undetermined" && allObservedCommitted && residualDrafts.length === 0 && hasSatisfiedAnchorCriterion;
+    const replayResolution = replayCertified
+        ? "is now certified by committed collapse history"
+        : allObservedCommitted && residualDrafts.length === 0
+            ? "remains inferred because no authored anchor criterion fixes same-world replay"
+            : "remains open until that observed history is committed";
 
     return {
         ...claim,
-        status: claim.status === "undetermined" && allObservedCommitted && residualDrafts.length === 0
+        status: replayCertified
             ? "certified"
             : claim.status,
         basis,
@@ -764,7 +893,7 @@ function refineReplayIdentityClaim(
         scope: "materialized-run",
         explanation: [
             claim.explanation,
-            `Observed collapse records (${describeCollapseRecords(collapseRecords)}) mean this run is no longer pristine latent possibility; same-world replay ${allObservedCommitted && residualDrafts.length === 0 ? "is now certified by committed collapse history" : "remains open until that observed history is committed"}.`,
+            `Observed collapse records (${describeCollapseRecords(collapseRecords)}) mean this run is no longer pristine latent possibility; same-world replay ${replayResolution}.`,
             residualDrafts.length === 0
                 ? null
                 : `Residual latent regions still remain only ${describeLatentCollapseDrafts(residualDrafts)}.`,

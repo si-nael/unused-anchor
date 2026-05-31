@@ -2,9 +2,11 @@
 
 ## Status
 
-Deferred research branch.
+Deferred research branch, partially reopened as a bounded experimental runtime slice.
 
-This is not a current Bubble implementation target.
+This is not a general Bubble implementation target.
+
+The current repository now contains one deliberately narrow local observation kernel and replay surface for this branch, but that kernel should still be read as `v0.4.x` experimental runtime law rather than as settled authored Bubble materialization syntax.
 
 The current runtime should continue to prefer explicit effects, explicit obligations, explicit anchor criteria, and bounded proof until the semantic risks in this note are sharply controlled.
 

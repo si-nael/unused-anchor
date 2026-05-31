@@ -36,13 +36,49 @@ export type BubbleEvidenceKind =
 export type BubbleEffectTraceMaterializationState = "potential" | "materialized";
 export type BubbleCollapseCommitStatus = "uncommitted" | "history-open" | "committed";
 export type BubbleObservationStatePhase = "observed-uncommitted" | "observed-history-open" | "observed-committed";
+export type BubbleLocalObservationPerturbationMix = "observation-only" | "perturb-mixed";
+export type BubbleLocalObservationNearbyHistoryInfluence = "isolated-latency" | "history-open-neighborhood" | "committed-neighborhood";
+export type BubbleLocalObservationAnchorBinding = "drifting" | "tethered" | "anchored";
+export type BubbleLocalObservationSeaBalance = "negative-skewed" | "contested" | "positive-skewed";
+export type BubbleLocalObservationMembraneCondition =
+    | "settled-edge"
+    | "pressured-edge"
+    | "frayed-edge"
+    | "settled-shell"
+    | "pressured-shell"
+    | "frayed-shell";
+
+export interface BubbleLocalObservationStateStructure {
+    anchorBinding: BubbleLocalObservationAnchorBinding;
+    seaBalance: BubbleLocalObservationSeaBalance;
+    membraneCondition: BubbleLocalObservationMembraneCondition;
+    historyCoupling: BubbleLocalObservationNearbyHistoryInfluence;
+    worldhoodCondition: BubbleSeaAnchorAssessment["theoremWitness"]["condition"];
+}
 
 export interface BubbleLocalObservationMaterializationRecord {
-    mode: "single-region-observation-kernel.v1";
+    mode: "single-region-observation-kernel.v3";
     latentRegionId: string;
     regionName: string;
     regionKind: BubbleLatentRegionDescriptorIR["kind"];
-    realizedForm: "boundary-canopy-edge" | "latent-bubble-shell";
+    realizedForm:
+    | "boundary-canopy-edge"
+    | "boundary-canopy-perturbed-edge"
+    | "boundary-canopy-frayed-edge"
+    | "boundary-canopy-frayed-wake"
+    | "boundary-canopy-anchored-edge"
+    | "boundary-canopy-anchored-wake"
+    | "boundary-canopy-anchored-fray"
+    | "latent-bubble-shell"
+    | "latent-bubble-perturbed-shell"
+    | "latent-bubble-frayed-shell"
+    | "latent-bubble-frayed-echo"
+    | "latent-bubble-anchored-shell"
+    | "latent-bubble-anchored-echo"
+    | "latent-bubble-anchored-fray";
+    perturbationMix: BubbleLocalObservationPerturbationMix;
+    nearbyHistoryInfluence: BubbleLocalObservationNearbyHistoryInfluence;
+    stateStructure: BubbleLocalObservationStateStructure;
     anchorStrength: BubbleAnchorPointStrength;
     negativeSeaPressure: BubbleNegativeSeaPressure;
     positiveSeaSupport: BubblePositiveSeaSupport;
@@ -100,12 +136,14 @@ export interface BubbleNegativeSeaEvidenceRecord extends BubbleEvidenceRecordBas
     kind: "negative-sea-state";
     pressure: BubbleNegativeSeaPressure;
     signals: string[];
+    pressureSources: BubbleSeaAnchorAssessment["negativeSea"]["pressureSources"];
 }
 
 export interface BubblePositiveSeaEvidenceRecord extends BubbleEvidenceRecordBase {
     kind: "positive-sea-state";
     support: BubblePositiveSeaSupport;
     signals: string[];
+    supportSources: BubbleSeaAnchorAssessment["positiveSea"]["supportSources"];
 }
 
 export interface BubbleAnchorPointEvidenceRecord extends BubbleEvidenceRecordBase {
@@ -115,6 +153,10 @@ export interface BubbleAnchorPointEvidenceRecord extends BubbleEvidenceRecordBas
     materializedHistoryEvidence: BubbleAnchorPointAssessment["materializedHistoryEvidence"];
     rewindStability: BubbleAnchorRewindStability;
     signals: string[];
+    authoredCriterionStatus: BubbleAnchorPointAssessment["authoredCriterionStatus"];
+    authoredCriterionBasis: BubbleAnchorPointAssessment["authoredCriterionBasis"];
+    materializedEvidenceSources: BubbleAnchorPointAssessment["materializedEvidenceSources"];
+    identityStatus: BubbleAnchorPointAssessment["identityStatus"];
 }
 
 export interface BubbleEffectTraceEvidenceRecord extends BubbleEvidenceRecordBase {
@@ -155,6 +197,7 @@ export function createSeaAnchorEvidence(
             commitId: null,
             pressure: assessment.negativeSea.pressure,
             signals: assessment.negativeSea.signals,
+            pressureSources: assessment.negativeSea.pressureSources,
             description: assessment.negativeSea.signals.length === 0
                 ? `Bubble ${program.bubble.name} currently shows low negative-sea pressure.`
                 : `Bubble ${program.bubble.name} currently shows ${assessment.negativeSea.pressure} negative-sea pressure via ${assessment.negativeSea.signals.join(", ")}.`,
@@ -170,6 +213,7 @@ export function createSeaAnchorEvidence(
             commitId: null,
             support: assessment.positiveSea.support,
             signals: assessment.positiveSea.signals,
+            supportSources: assessment.positiveSea.supportSources,
             description: assessment.positiveSea.signals.length === 0
                 ? `Bubble ${program.bubble.name} currently shows weak positive-sea support.`
                 : `Bubble ${program.bubble.name} currently shows ${assessment.positiveSea.support} positive-sea support via ${assessment.positiveSea.signals.join(", ")}.`,
@@ -188,7 +232,11 @@ export function createSeaAnchorEvidence(
             materializedHistoryEvidence: assessment.anchorPoint.materializedHistoryEvidence,
             rewindStability: assessment.anchorPoint.rewindStability,
             signals: assessment.anchorPoint.signals,
-            description: `Bubble ${program.bubble.name} currently shows ${assessment.anchorPoint.strength} anchor support with ${assessment.anchorPoint.rewindStability} rewind stability.`,
+            authoredCriterionStatus: assessment.anchorPoint.authoredCriterionStatus,
+            authoredCriterionBasis: assessment.anchorPoint.authoredCriterionBasis,
+            materializedEvidenceSources: assessment.anchorPoint.materializedEvidenceSources,
+            identityStatus: assessment.anchorPoint.identityStatus,
+            description: `Bubble ${program.bubble.name} currently shows ${assessment.anchorPoint.strength} inferred anchor support with ${assessment.anchorPoint.rewindStability} rewind stability and ${assessment.anchorPoint.identityStatus} identity status.`,
         } satisfies BubbleAnchorPointEvidenceRecord,
     ];
 }
@@ -249,6 +297,7 @@ export function createCollapseRecordEvidence(
                 commitStatus,
                 region,
                 runtimeOntology,
+                plan.observationCommitPolicy,
                 localMaterializationTargetId === draft.latentRegionId,
             );
 
@@ -615,11 +664,12 @@ function createObservationStateRecord(
     commitStatus: BubbleCollapseCommitStatus,
     region: BubbleLatentRegionDescriptorIR | null,
     runtimeOntology: BubbleSeaAnchorAssessment,
+    observationCommitPolicy: BubbleObservationCommitPolicyPlan | null,
     materializeLocally: boolean,
 ): BubbleObservationStateRecord {
     const regionName = region?.name ?? draft.latentRegionId;
     const localMaterialization = materializeLocally
-        ? createLocalObservationMaterializationRecord(draft, region, runtimeOntology)
+        ? createLocalObservationMaterializationRecord(draft, region, runtimeOntology, commitStatus, observationCommitPolicy)
         : null;
 
     return {
@@ -643,14 +693,37 @@ function createLocalObservationMaterializationRecord(
     draft: BubbleCollapseEvidenceDraftIR,
     region: BubbleLatentRegionDescriptorIR | null,
     runtimeOntology: BubbleSeaAnchorAssessment,
+    commitStatus: BubbleCollapseCommitStatus,
+    observationCommitPolicy: BubbleObservationCommitPolicyPlan | null,
 ): BubbleLocalObservationMaterializationRecord {
     const regionName = region?.name ?? draft.latentRegionId;
     const regionKind = region?.kind ?? "hidden-region";
-    const realizedForm = regionKind === "hidden-region" ? "boundary-canopy-edge" : "latent-bubble-shell";
+    const perturbationMix = resolveLocalObservationPerturbationMix(draft);
+    const nearbyHistoryInfluence = resolveLocalObservationNearbyHistoryInfluence(observationCommitPolicy);
+    const stateStructure = resolveLocalObservationStateStructure(
+        regionKind,
+        runtimeOntology,
+        perturbationMix,
+        nearbyHistoryInfluence,
+        commitStatus,
+    );
+    const realizedForm = resolveLocalObservationRealizedForm(
+        regionKind,
+        stateStructure,
+        perturbationMix,
+        commitStatus,
+    );
     const determinants = [
         `observation:${region?.observationBoundary ?? "declared-observation-surface"}`,
         `commit:${region?.commitBoundary ?? "undeclared-history-support"}`,
         `perturb:${region?.perturbationMode ?? "no-declared-perturbation"}`,
+        `perturbation-mix:${perturbationMix}`,
+        `nearby-history:${nearbyHistoryInfluence}`,
+        `anchor-binding:${stateStructure.anchorBinding}`,
+        `sea-balance:${stateStructure.seaBalance}`,
+        `membrane-condition:${stateStructure.membraneCondition}`,
+        `worldhood:${stateStructure.worldhoodCondition}`,
+        `projected-history:${observationCommitPolicy?.projectedHistoryShape ?? "untracked"}`,
         `anchor:${runtimeOntology.anchorPoint.strength}`,
         `negative-sea:${runtimeOntology.negativeSea.pressure}`,
         `positive-sea:${runtimeOntology.positiveSea.support}`,
@@ -659,17 +732,271 @@ function createLocalObservationMaterializationRecord(
     ];
 
     return {
-        mode: "single-region-observation-kernel.v1",
+        mode: "single-region-observation-kernel.v3",
         latentRegionId: draft.latentRegionId,
         regionName,
         regionKind,
         realizedForm,
+        perturbationMix,
+        nearbyHistoryInfluence,
+        stateStructure,
         anchorStrength: runtimeOntology.anchorPoint.strength,
         negativeSeaPressure: runtimeOntology.negativeSea.pressure,
         positiveSeaSupport: runtimeOntology.positiveSea.support,
         determinants: Array.from(new Set(determinants)),
-        description: `Local observation kernel materialized ${regionName} as ${realizedForm} under anchor ${runtimeOntology.anchorPoint.strength} with ${runtimeOntology.negativeSea.pressure} negative-sea pressure and ${runtimeOntology.positiveSea.support} positive-sea support.`,
+        description: `Local observation kernel materialized ${regionName} as ${realizedForm} with ${perturbationMix}, ${nearbyHistoryInfluence}, anchor binding ${stateStructure.anchorBinding}, sea balance ${stateStructure.seaBalance}, membrane ${stateStructure.membraneCondition}, and worldhood ${stateStructure.worldhoodCondition}.`,
     };
+}
+
+function resolveLocalObservationPerturbationMix(
+    draft: BubbleCollapseEvidenceDraftIR,
+): BubbleLocalObservationPerturbationMix {
+    return draft.perturbEffectIds.length > 0 ? "perturb-mixed" : "observation-only";
+}
+
+function resolveLocalObservationNearbyHistoryInfluence(
+    observationCommitPolicy: BubbleObservationCommitPolicyPlan | null,
+): BubbleLocalObservationNearbyHistoryInfluence {
+    if (observationCommitPolicy === null) {
+        return "isolated-latency";
+    }
+
+    if (observationCommitPolicy.deferredTargetIds.length > 0) {
+        return "history-open-neighborhood";
+    }
+
+    if (observationCommitPolicy.selectedTargetIds.length > 0) {
+        return "committed-neighborhood";
+    }
+
+    return "isolated-latency";
+}
+
+function resolveLocalObservationStateStructure(
+    regionKind: BubbleLatentRegionDescriptorIR["kind"],
+    runtimeOntology: BubbleSeaAnchorAssessment,
+    perturbationMix: BubbleLocalObservationPerturbationMix,
+    nearbyHistoryInfluence: BubbleLocalObservationNearbyHistoryInfluence,
+    commitStatus: BubbleCollapseCommitStatus,
+): BubbleLocalObservationStateStructure {
+    return {
+        anchorBinding: resolveLocalObservationAnchorBinding(
+            runtimeOntology.anchorPoint.strength,
+            nearbyHistoryInfluence,
+            commitStatus,
+        ),
+        seaBalance: resolveLocalObservationSeaBalance(
+            runtimeOntology.negativeSea.pressure,
+            runtimeOntology.positiveSea.support,
+        ),
+        membraneCondition: resolveLocalObservationMembraneCondition(
+            regionKind,
+            perturbationMix,
+            nearbyHistoryInfluence,
+            runtimeOntology,
+        ),
+        historyCoupling: nearbyHistoryInfluence,
+        worldhoodCondition: runtimeOntology.theoremWitness.condition,
+    };
+}
+
+function resolveLocalObservationAnchorBinding(
+    anchorStrength: BubbleAnchorPointStrength,
+    nearbyHistoryInfluence: BubbleLocalObservationNearbyHistoryInfluence,
+    commitStatus: BubbleCollapseCommitStatus,
+): BubbleLocalObservationAnchorBinding {
+    if (anchorStrength === "strong") {
+        return "anchored";
+    }
+
+    if (anchorStrength === "steady") {
+        return nearbyHistoryInfluence === "isolated-latency" && commitStatus !== "committed"
+            ? "tethered"
+            : "anchored";
+    }
+
+    return nearbyHistoryInfluence === "committed-neighborhood" && commitStatus === "committed"
+        ? "tethered"
+        : "drifting";
+}
+
+function resolveLocalObservationSeaBalance(
+    negativeSeaPressure: BubbleNegativeSeaPressure,
+    positiveSeaSupport: BubblePositiveSeaSupport,
+): BubbleLocalObservationSeaBalance {
+    const balance = rankPositiveSeaSupport(positiveSeaSupport) - rankNegativeSeaPressure(negativeSeaPressure);
+
+    if (balance >= 1) {
+        return "positive-skewed";
+    }
+
+    if (balance <= -1) {
+        return "negative-skewed";
+    }
+
+    return "contested";
+}
+
+function resolveLocalObservationMembraneCondition(
+    regionKind: BubbleLatentRegionDescriptorIR["kind"],
+    perturbationMix: BubbleLocalObservationPerturbationMix,
+    nearbyHistoryInfluence: BubbleLocalObservationNearbyHistoryInfluence,
+    runtimeOntology: BubbleSeaAnchorAssessment,
+): BubbleLocalObservationMembraneCondition {
+    const seaBalance = resolveLocalObservationSeaBalance(
+        runtimeOntology.negativeSea.pressure,
+        runtimeOntology.positiveSea.support,
+    );
+    const suffix = regionKind === "hidden-region" ? "edge" : "shell";
+
+    if (seaBalance === "negative-skewed" || (perturbationMix === "perturb-mixed" && nearbyHistoryInfluence === "history-open-neighborhood")) {
+        return `frayed-${suffix}` as BubbleLocalObservationMembraneCondition;
+    }
+
+    if (perturbationMix === "perturb-mixed" || seaBalance === "contested" || runtimeOntology.theoremWitness.condition === "stressed") {
+        return `pressured-${suffix}` as BubbleLocalObservationMembraneCondition;
+    }
+
+    return `settled-${suffix}` as BubbleLocalObservationMembraneCondition;
+}
+
+function resolveLocalObservationRealizedForm(
+    regionKind: BubbleLatentRegionDescriptorIR["kind"],
+    stateStructure: BubbleLocalObservationStateStructure,
+    perturbationMix: BubbleLocalObservationPerturbationMix,
+    commitStatus: BubbleCollapseCommitStatus,
+): BubbleLocalObservationMaterializationRecord["realizedForm"] {
+    if (regionKind === "hidden-region") {
+        if (stateStructure.historyCoupling === "committed-neighborhood") {
+            if (stateStructure.anchorBinding === "anchored") {
+                return stateStructure.membraneCondition === "frayed-edge"
+                    ? "boundary-canopy-anchored-fray"
+                    : perturbationMix === "perturb-mixed"
+                        ? "boundary-canopy-anchored-wake"
+                        : "boundary-canopy-anchored-edge";
+            }
+
+            return stateStructure.membraneCondition === "frayed-edge"
+                ? "boundary-canopy-frayed-wake"
+                : perturbationMix === "perturb-mixed"
+                    ? "boundary-canopy-perturbed-edge"
+                    : "boundary-canopy-edge";
+        }
+
+        if (stateStructure.historyCoupling === "history-open-neighborhood") {
+            if (commitStatus === "committed") {
+                if (stateStructure.anchorBinding === "anchored") {
+                    return stateStructure.membraneCondition === "frayed-edge"
+                        ? "boundary-canopy-anchored-fray"
+                        : "boundary-canopy-anchored-edge";
+                }
+
+                return stateStructure.membraneCondition === "frayed-edge"
+                    ? "boundary-canopy-frayed-wake"
+                    : "boundary-canopy-frayed-edge";
+            }
+
+            return stateStructure.membraneCondition === "frayed-edge"
+                ? "boundary-canopy-frayed-wake"
+                : stateStructure.anchorBinding === "anchored"
+                    ? "boundary-canopy-anchored-edge"
+                    : perturbationMix === "perturb-mixed"
+                        ? "boundary-canopy-perturbed-edge"
+                        : "boundary-canopy-edge";
+        }
+
+        if (stateStructure.membraneCondition === "frayed-edge") {
+            return "boundary-canopy-frayed-edge";
+        }
+
+        if (stateStructure.anchorBinding === "anchored" && stateStructure.seaBalance === "positive-skewed") {
+            return perturbationMix === "perturb-mixed"
+                ? "boundary-canopy-anchored-edge"
+                : "boundary-canopy-edge";
+        }
+
+        return stateStructure.membraneCondition === "pressured-edge" && perturbationMix === "perturb-mixed"
+            ? "boundary-canopy-perturbed-edge"
+            : "boundary-canopy-edge";
+    }
+
+    if (stateStructure.historyCoupling === "committed-neighborhood") {
+        if (stateStructure.anchorBinding === "anchored") {
+            return stateStructure.membraneCondition === "frayed-shell"
+                ? "latent-bubble-anchored-fray"
+                : perturbationMix === "perturb-mixed"
+                    ? "latent-bubble-anchored-echo"
+                    : "latent-bubble-anchored-shell";
+        }
+
+        return stateStructure.membraneCondition === "frayed-shell"
+            ? "latent-bubble-frayed-echo"
+            : perturbationMix === "perturb-mixed"
+                ? "latent-bubble-perturbed-shell"
+                : "latent-bubble-shell";
+    }
+
+    if (stateStructure.historyCoupling === "history-open-neighborhood") {
+        if (commitStatus === "committed") {
+            if (stateStructure.anchorBinding === "anchored") {
+                return stateStructure.membraneCondition === "frayed-shell"
+                    ? "latent-bubble-anchored-fray"
+                    : "latent-bubble-anchored-shell";
+            }
+
+            return stateStructure.membraneCondition === "frayed-shell"
+                ? "latent-bubble-frayed-echo"
+                : "latent-bubble-frayed-shell";
+        }
+
+        return stateStructure.membraneCondition === "frayed-shell"
+            ? "latent-bubble-frayed-echo"
+            : stateStructure.anchorBinding === "anchored"
+                ? "latent-bubble-anchored-shell"
+                : perturbationMix === "perturb-mixed"
+                    ? "latent-bubble-perturbed-shell"
+                    : "latent-bubble-shell";
+    }
+
+    if (stateStructure.membraneCondition === "frayed-shell") {
+        return "latent-bubble-frayed-shell";
+    }
+
+    if (stateStructure.anchorBinding === "anchored" && stateStructure.seaBalance === "positive-skewed") {
+        return perturbationMix === "perturb-mixed"
+            ? "latent-bubble-anchored-shell"
+            : "latent-bubble-shell";
+    }
+
+    return stateStructure.membraneCondition === "pressured-shell" && perturbationMix === "perturb-mixed"
+        ? "latent-bubble-perturbed-shell"
+        : "latent-bubble-shell";
+}
+
+function rankNegativeSeaPressure(pressure: BubbleNegativeSeaPressure): number {
+    switch (pressure) {
+        case "low":
+            return 0;
+        case "elevated":
+            return 1;
+        case "high":
+            return 2;
+        default:
+            return assertNever(pressure);
+    }
+}
+
+function rankPositiveSeaSupport(support: BubblePositiveSeaSupport): number {
+    switch (support) {
+        case "weak":
+            return 0;
+        case "present":
+            return 1;
+        case "strong":
+            return 2;
+        default:
+            return assertNever(support);
+    }
 }
 
 function selectLocalMaterializationTarget(

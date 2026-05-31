@@ -16,7 +16,7 @@
       "undetermined": 0
     },
     "proofVerdict": "partially-certified",
-    "proofClaimCount": 7,
+    "proofClaimCount": 8,
     "proofClaimKinds": [
       "syntax",
       "worldhood",
@@ -27,15 +27,16 @@
       "consistency"
     ],
     "proofClaimStatusCounts": {
-      "certified": 6,
+      "certified": 4,
       "contradicted": 0,
-      "undetermined": 1
+      "undetermined": 4
     },
     "materializedArtifactCount": 0,
     "descendantCount": 0,
     "artifactCount": 0,
     "commitCount": 0,
     "evidenceCount": 8,
+    "observationStateCount": 0,
     "reflectionPaths": [],
     "traceKinds": [
       "materialization-started",
@@ -71,6 +72,43 @@
           "nondeterministic-realization",
           "branch-pressure",
           "boundary-exposure"
+        ],
+        "pressureSources": [
+          {
+            "kind": "nondeterministic-realization",
+            "sourceEffectId": null,
+            "relationKind": null,
+            "boundaryScope": null,
+            "strength": "elevated",
+            "evidenceBasis": [
+              "nondeterministic-realization"
+            ]
+          },
+          {
+            "kind": "branch",
+            "sourceEffectId": "effect:11:branch",
+            "relationKind": "branch",
+            "boundaryScope": "local",
+            "strength": "elevated",
+            "evidenceBasis": [
+              "branch-pressure",
+              "branch-count:1"
+            ]
+          },
+          {
+            "kind": "boundary-stress",
+            "sourceEffectId": "effect:10:spawn",
+            "relationKind": null,
+            "boundaryScope": "membrane",
+            "strength": "high",
+            "evidenceBasis": [
+              "boundary-exposure",
+              "boundary-exposure-count:2",
+              "obligation:effect:10:spawn",
+              "scope:membrane",
+              "relation:spawn"
+            ]
+          }
         ]
       },
       "positiveSea": {
@@ -80,6 +118,45 @@
           "seeded-origin",
           "descendant-lineage",
           "declared-history-support"
+        ],
+        "supportSources": [
+          {
+            "kind": "source-lineage",
+            "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+            "sourceEffectId": null,
+            "support": "present",
+            "evidenceBasis": [
+              "source-lineage-address"
+            ]
+          },
+          {
+            "kind": "seed-origin",
+            "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+            "sourceEffectId": null,
+            "support": "present",
+            "evidenceBasis": [
+              "seeded-origin"
+            ]
+          },
+          {
+            "kind": "descendant-lineage",
+            "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+            "sourceEffectId": "effect:10:spawn",
+            "support": "present",
+            "evidenceBasis": [
+              "descendant-lineage",
+              "descendant-lineage-count:1"
+            ]
+          },
+          {
+            "kind": "declared-history-support",
+            "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+            "sourceEffectId": "effect:9:commit",
+            "support": "present",
+            "evidenceBasis": [
+              "declared-history-support"
+            ]
+          }
         ]
       },
       "anchorPoint": {
@@ -96,7 +173,11 @@
           "negative-pressure",
           "boundary-stress",
           "branch-instability"
-        ]
+        ],
+        "authoredCriterionStatus": "absent",
+        "authoredCriterionBasis": [],
+        "materializedEvidenceSources": [],
+        "identityStatus": "provisional"
       },
       "theoremWitness": {
         "theorem": "sea-anchor-necessity.v1",
@@ -131,7 +212,7 @@
           "explanation": "Bubble BoundaryOrchard compiled into a semantic plan under bubbles.v0.1."
         },
         {
-          "id": "claim:minimum-worldhood",
+          "id": "claim:minimum-authored-shape",
           "kind": "worldhood",
           "status": "certified",
           "basis": [
@@ -146,7 +227,30 @@
           ],
           "assumptions": [],
           "scope": "source",
-          "explanation": "Bubble BoundaryOrchard satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+          "explanation": "Bubble BoundaryOrchard satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
+        },
+        {
+          "id": "claim:worldhood-roles-present",
+          "kind": "worldhood",
+          "status": "undetermined",
+          "basis": [
+            "local-law-basis",
+            "boundary-semantics",
+            "boundary-scoped-effect",
+            "boundary-scoped-relation",
+            "source-lineage-address",
+            "lineage-placement",
+            "missing-authored-anchor-criterion"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:minimum-authored-shape"
+          ],
+          "assumptions": [
+            "boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"
+          ],
+          "scope": "plan",
+          "explanation": "Bubble BoundaryOrchard preserves minimum authored shape, but independent worldhood remains undetermined while missing-authored-anchor-criterion are not yet explicitly authored."
         },
         {
           "id": "claim:required-effect-obligations",
@@ -163,7 +267,7 @@
             "evidence:effect:effect:10:spawn"
           ],
           "dependsOnClaims": [
-            "claim:minimum-worldhood"
+            "claim:minimum-authored-shape"
           ],
           "assumptions": [
             "effect-trace-records-mirror-the-current-materialization-plan"
@@ -174,13 +278,14 @@
         {
           "id": "claim:anchor-identity",
           "kind": "anchor",
-          "status": "certified",
+          "status": "undetermined",
           "basis": [
             "axiomatic-basis",
             "world-will",
             "seed-continuity",
             "declared-history-support",
-            "observation-surface"
+            "observation-surface",
+            "missing-authored-anchor-criterion"
           ],
           "evidenceIds": [
             "evidence:anchor-point:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
@@ -189,13 +294,13 @@
             "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard"
           ],
           "dependsOnClaims": [
-            "claim:minimum-worldhood"
+            "claim:worldhood-roles-present"
           ],
           "assumptions": [
             "sea-anchor-theorem-witness-is-bounded"
           ],
           "scope": "plan",
-          "explanation": "Bubble BoundaryOrchard currently certifies anchor identity as steady with theorem condition stressed."
+          "explanation": "Bubble BoundaryOrchard keeps an inferred anchor basis, but same-world anchor identity remains undetermined without an authored anchor criterion."
         },
         {
           "id": "claim:lineage-traceability",
@@ -219,11 +324,12 @@
         {
           "id": "claim:replay-identity",
           "kind": "replay",
-          "status": "certified",
+          "status": "undetermined",
           "basis": [
             "seed-continuity",
             "source-lineage-address",
-            "declared-history-support"
+            "declared-history-support",
+            "missing-authored-anchor-criterion"
           ],
           "evidenceIds": [
             "evidence:anchor-point:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
@@ -240,7 +346,7 @@
             "same-world-replay-is-evaluated-from-the-current-plan-basis"
           ],
           "scope": "plan",
-          "explanation": "Bubble BoundaryOrchard currently certifies replay identity through seed continuity, stable root addressing, and declared history support."
+          "explanation": "Bubble BoundaryOrchard preserves an inferred replay basis, but same-world replay remains undetermined without an authored anchor criterion."
         },
         {
           "id": "claim:internal-law-consistency",
@@ -289,6 +395,9 @@
         }
       ]
     },
+    "latentTopology": null,
+    "observationCommitPolicy": null,
+    "observationCommitPolicyComparison": null,
     "obligations": [
       {
         "effectId": "effect:8:observe",
@@ -384,6 +493,8 @@
     "grammarActivationPlan": [],
     "emissionPlan": []
   },
+  "observationCommitPolicy": null,
+  "observationCommitPolicyComparison": null,
   "ontology": {
     "negativeSea": {
       "pressure": "high",
@@ -391,6 +502,43 @@
         "nondeterministic-realization",
         "branch-pressure",
         "boundary-exposure"
+      ],
+      "pressureSources": [
+        {
+          "kind": "nondeterministic-realization",
+          "sourceEffectId": null,
+          "relationKind": null,
+          "boundaryScope": null,
+          "strength": "elevated",
+          "evidenceBasis": [
+            "nondeterministic-realization"
+          ]
+        },
+        {
+          "kind": "branch",
+          "sourceEffectId": "effect:11:branch",
+          "relationKind": "branch",
+          "boundaryScope": "local",
+          "strength": "elevated",
+          "evidenceBasis": [
+            "branch-pressure",
+            "branch-count:1"
+          ]
+        },
+        {
+          "kind": "boundary-stress",
+          "sourceEffectId": "effect:10:spawn",
+          "relationKind": null,
+          "boundaryScope": "membrane",
+          "strength": "high",
+          "evidenceBasis": [
+            "boundary-exposure",
+            "boundary-exposure-count:2",
+            "obligation:effect:10:spawn",
+            "scope:membrane",
+            "relation:spawn"
+          ]
+        }
       ]
     },
     "positiveSea": {
@@ -400,6 +548,45 @@
         "seeded-origin",
         "descendant-lineage",
         "declared-history-support"
+      ],
+      "supportSources": [
+        {
+          "kind": "source-lineage",
+          "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "source-lineage-address"
+          ]
+        },
+        {
+          "kind": "seed-origin",
+          "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "seeded-origin"
+          ]
+        },
+        {
+          "kind": "descendant-lineage",
+          "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "sourceEffectId": "effect:10:spawn",
+          "support": "present",
+          "evidenceBasis": [
+            "descendant-lineage",
+            "descendant-lineage-count:1"
+          ]
+        },
+        {
+          "kind": "declared-history-support",
+          "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "sourceEffectId": "effect:9:commit",
+          "support": "present",
+          "evidenceBasis": [
+            "declared-history-support"
+          ]
+        }
       ]
     },
     "anchorPoint": {
@@ -416,7 +603,11 @@
         "negative-pressure",
         "boundary-stress",
         "branch-instability"
-      ]
+      ],
+      "authoredCriterionStatus": "absent",
+      "authoredCriterionBasis": [],
+      "materializedEvidenceSources": [],
+      "identityStatus": "provisional"
     },
     "theoremWitness": {
       "theorem": "sea-anchor-necessity.v1",
@@ -457,7 +648,7 @@
         "explanation": "Bubble BoundaryOrchard compiled into a semantic plan under bubbles.v0.1."
       },
       {
-        "id": "claim:minimum-worldhood",
+        "id": "claim:minimum-authored-shape",
         "kind": "worldhood",
         "status": "certified",
         "basis": [
@@ -472,7 +663,30 @@
         ],
         "assumptions": [],
         "scope": "source",
-        "explanation": "Bubble BoundaryOrchard satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+        "explanation": "Bubble BoundaryOrchard satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
+      },
+      {
+        "id": "claim:worldhood-roles-present",
+        "kind": "worldhood",
+        "status": "undetermined",
+        "basis": [
+          "local-law-basis",
+          "boundary-semantics",
+          "boundary-scoped-effect",
+          "boundary-scoped-relation",
+          "source-lineage-address",
+          "lineage-placement",
+          "missing-authored-anchor-criterion"
+        ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:minimum-authored-shape"
+        ],
+        "assumptions": [
+          "boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"
+        ],
+        "scope": "plan",
+        "explanation": "Bubble BoundaryOrchard preserves minimum authored shape, but independent worldhood remains undetermined while missing-authored-anchor-criterion are not yet explicitly authored."
       },
       {
         "id": "claim:required-effect-obligations",
@@ -489,7 +703,7 @@
           "evidence:effect:effect:10:spawn"
         ],
         "dependsOnClaims": [
-          "claim:minimum-worldhood"
+          "claim:minimum-authored-shape"
         ],
         "assumptions": [
           "effect-trace-records-mirror-the-current-materialization-plan"
@@ -500,13 +714,14 @@
       {
         "id": "claim:anchor-identity",
         "kind": "anchor",
-        "status": "certified",
+        "status": "undetermined",
         "basis": [
           "axiomatic-basis",
           "world-will",
           "seed-continuity",
           "declared-history-support",
-          "observation-surface"
+          "observation-surface",
+          "missing-authored-anchor-criterion"
         ],
         "evidenceIds": [
           "evidence:anchor-point:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
@@ -515,13 +730,13 @@
           "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard"
         ],
         "dependsOnClaims": [
-          "claim:minimum-worldhood"
+          "claim:worldhood-roles-present"
         ],
         "assumptions": [
           "sea-anchor-theorem-witness-is-bounded"
         ],
         "scope": "plan",
-        "explanation": "Bubble BoundaryOrchard currently certifies anchor identity as steady with theorem condition stressed."
+        "explanation": "Bubble BoundaryOrchard keeps an inferred anchor basis, but same-world anchor identity remains undetermined without an authored anchor criterion."
       },
       {
         "id": "claim:lineage-traceability",
@@ -545,11 +760,12 @@
       {
         "id": "claim:replay-identity",
         "kind": "replay",
-        "status": "certified",
+        "status": "undetermined",
         "basis": [
           "seed-continuity",
           "source-lineage-address",
-          "declared-history-support"
+          "declared-history-support",
+          "missing-authored-anchor-criterion"
         ],
         "evidenceIds": [
           "evidence:anchor-point:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
@@ -566,7 +782,7 @@
           "same-world-replay-is-evaluated-from-the-current-plan-basis"
         ],
         "scope": "plan",
-        "explanation": "Bubble BoundaryOrchard currently certifies replay identity through seed continuity, stable root addressing, and declared history support."
+        "explanation": "Bubble BoundaryOrchard preserves an inferred replay basis, but same-world replay remains undetermined without an authored anchor criterion."
       },
       {
         "id": "claim:internal-law-consistency",
@@ -637,6 +853,43 @@
         "branch-pressure",
         "boundary-exposure"
       ],
+      "pressureSources": [
+        {
+          "kind": "nondeterministic-realization",
+          "sourceEffectId": null,
+          "relationKind": null,
+          "boundaryScope": null,
+          "strength": "elevated",
+          "evidenceBasis": [
+            "nondeterministic-realization"
+          ]
+        },
+        {
+          "kind": "branch",
+          "sourceEffectId": "effect:11:branch",
+          "relationKind": "branch",
+          "boundaryScope": "local",
+          "strength": "elevated",
+          "evidenceBasis": [
+            "branch-pressure",
+            "branch-count:1"
+          ]
+        },
+        {
+          "kind": "boundary-stress",
+          "sourceEffectId": "effect:10:spawn",
+          "relationKind": null,
+          "boundaryScope": "membrane",
+          "strength": "high",
+          "evidenceBasis": [
+            "boundary-exposure",
+            "boundary-exposure-count:2",
+            "obligation:effect:10:spawn",
+            "scope:membrane",
+            "relation:spawn"
+          ]
+        }
+      ],
       "description": "Bubble BoundaryOrchard currently shows high negative-sea pressure via nondeterministic-realization, branch-pressure, boundary-exposure."
     },
     {
@@ -654,6 +907,45 @@
         "seeded-origin",
         "descendant-lineage",
         "declared-history-support"
+      ],
+      "supportSources": [
+        {
+          "kind": "source-lineage",
+          "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "source-lineage-address"
+          ]
+        },
+        {
+          "kind": "seed-origin",
+          "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "seeded-origin"
+          ]
+        },
+        {
+          "kind": "descendant-lineage",
+          "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "sourceEffectId": "effect:10:spawn",
+          "support": "present",
+          "evidenceBasis": [
+            "descendant-lineage",
+            "descendant-lineage-count:1"
+          ]
+        },
+        {
+          "kind": "declared-history-support",
+          "addressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "sourceEffectId": "effect:9:commit",
+          "support": "present",
+          "evidenceBasis": [
+            "declared-history-support"
+          ]
+        }
       ],
       "description": "Bubble BoundaryOrchard currently shows strong positive-sea support via source-lineage-address, seeded-origin, descendant-lineage, declared-history-support."
     },
@@ -680,7 +972,11 @@
         "boundary-stress",
         "branch-instability"
       ],
-      "description": "Bubble BoundaryOrchard currently shows steady anchor support with guarded rewind stability."
+      "authoredCriterionStatus": "absent",
+      "authoredCriterionBasis": [],
+      "materializedEvidenceSources": [],
+      "identityStatus": "provisional",
+      "description": "Bubble BoundaryOrchard currently shows steady inferred anchor support with guarded rewind stability and provisional identity status."
     },
     {
       "id": "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
@@ -774,6 +1070,7 @@
       "description": "Bubble BoundaryOrchard recorded optional local branch as potential in this run via branch-pressure."
     }
   ],
+  "observationStates": [],
   "trace": [
     {
       "kind": "materialization-started",

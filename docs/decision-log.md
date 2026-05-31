@@ -725,3 +725,33 @@ Bubble now needs two more capabilities before any source-level commit-policy syn
 Consequence:
 
 Expose `observationCommitPolicyComparison` as a first-class inspect/replay section containing baseline policy, effective policy, override metadata, and explicit delta kinds. Allow `materialize`, `inspect`, and `record` to accept a hidden runtime observation-policy override so Bubble can test alternate local commit law shapes through tooling/runtime options only, not source syntax.
+
+### D-073: Make sea-anchor condition a causal input to local observation form, not only an explanatory tag
+
+Reason:
+
+Bubble only genuinely departs from classical procedural lookup flow when observation-induced local form is shaped by same-world ontological condition, not merely annotated by it afterward. If anchor strength, negative-sea pressure, and positive-sea support stay passive report fields, the runtime still computes local form too much like an old region-kind-plus-policy switch.
+
+Consequence:
+
+Upgrade local observation materialization so it derives a structured `stateStructure` from anchor binding, sea balance, membrane condition, nearby history coupling, and worldhood condition, and let realized local form depend on that structure. Preserve this as runtime law first through `inspect`/`replay` before widening source syntax.
+
+### D-074: Separate minimum authored shape from stronger worldhood certification
+
+Reason:
+
+The old `minimum-worldhood` claim had drifted into over-certification. It was certifying bubbles from `axiom`, `worldWill`, `seed`, and `effect` alone even though the semantic specification defines independent worldhood more strongly through local law basis, boundary, lineage or placement, and an anchor criterion. That shortcut also let `anchor-identity` and `replay-identity` certify too early from inferred ontology support alone.
+
+Consequence:
+
+Split proof into a weaker `minimum-authored-shape` claim and a stronger `worldhood-roles-present` claim. Keep `anchor-identity` and `replay-identity` `undetermined` when same-world continuity is only inferred from ontology and no authored `anchor identity` criterion exists. Use certification only when the stronger authored basis is actually present.
+
+### D-075: Preserve the sea-anchor triad, but separate inferred support from authored criterion and runtime evidence
+
+Reason:
+
+Bubble's negative sea, positive sea, and anchor are still the right core ontology, but the current runtime had started to compress too many different meanings into one layer. Negative sea was only a coarse pressure tag, positive sea only a coarse support tag, and anchor strength mixed inferred stability, authored same-world criteria, and runtime history evidence. That made the triad less honest precisely where Bubble most needs it to stay operational.
+
+Consequence:
+
+Keep `negativeSea`, `positiveSea`, and `anchorPoint` as first-class ontology objects. Enrich negative and positive seas with explicit `pressureSources` and `supportSources`. Treat `anchorPoint.strength` as inferred support only, and expose authored same-world criterion status, runtime materialized evidence sources, and derived identity status as separate fields instead of folding them back into one score or signal list.

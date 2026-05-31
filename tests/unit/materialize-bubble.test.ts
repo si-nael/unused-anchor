@@ -55,10 +55,41 @@ test("plans and materializes descendant emissions from a meta bubble", () => {
         negativeSea: {
             pressure: "low",
             signals: [],
+            pressureSources: [],
         },
         positiveSea: {
             support: "strong",
             signals: ["source-lineage-address", "seeded-origin", "descendant-lineage", "staged-growth"],
+            supportSources: [
+                {
+                    kind: "source-lineage",
+                    addressId: "bubble:nursery.bubble::root:Nursery",
+                    sourceEffectId: null,
+                    support: "present",
+                    evidenceBasis: ["source-lineage-address"],
+                },
+                {
+                    kind: "seed-origin",
+                    addressId: "bubble:nursery.bubble::root:Nursery",
+                    sourceEffectId: null,
+                    support: "present",
+                    evidenceBasis: ["seeded-origin"],
+                },
+                {
+                    kind: "descendant-lineage",
+                    addressId: "bubble:nursery.bubble::root:Nursery",
+                    sourceEffectId: "effect:6:spawn",
+                    support: "present",
+                    evidenceBasis: ["descendant-lineage", "descendant-lineage-count:1"],
+                },
+                {
+                    kind: "staged-growth",
+                    addressId: "bubble:nursery.bubble::root:Nursery",
+                    sourceEffectId: "effect:6:spawn",
+                    support: "present",
+                    evidenceBasis: ["staged-growth", "staged-growth-count:1"],
+                },
+            ],
         },
         anchorPoint: {
             strength: "steady",
@@ -66,6 +97,10 @@ test("plans and materializes descendant emissions from a meta bubble", () => {
             materializedHistoryEvidence: false,
             rewindStability: "guarded",
             signals: ["axiomatic-basis", "world-will", "seed-continuity"],
+            authoredCriterionStatus: "absent",
+            authoredCriterionBasis: [],
+            materializedEvidenceSources: [],
+            identityStatus: "provisional",
         },
         theoremWitness: {
             theorem: "sea-anchor-necessity.v1",
@@ -85,9 +120,10 @@ test("plans and materializes descendant emissions from a meta bubble", () => {
         Object.fromEntries(plan.proof.claims.map((claim) => [claim.id, claim.status])),
         {
             "claim:well-formed-source": "certified",
-            "claim:minimum-worldhood": "certified",
+            "claim:minimum-authored-shape": "certified",
+            "claim:worldhood-roles-present": "undetermined",
             "claim:required-effect-obligations": "certified",
-            "claim:anchor-identity": "certified",
+            "claim:anchor-identity": "undetermined",
             "claim:lineage-traceability": "certified",
             "claim:replay-identity": "undetermined",
             "claim:internal-law-consistency": "undetermined",
@@ -312,7 +348,7 @@ test("materialization emits collapse-record evidence for observed latent regions
             perturbEffectIds: ["effect:8:perturb"],
             observationStateId: "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
             observationStatePhase: "observed-committed",
-            localRealizedForm: "boundary-canopy-edge",
+            localRealizedForm: "boundary-canopy-anchored-fray",
             commitStatus: "committed",
             draftStatus: "observation-ready",
         },
@@ -331,6 +367,8 @@ test("materialization emits collapse-record evidence for observed latent regions
     assert.match(collapseEvidence[0]?.description ?? "", /observed latent region OuterCanopy/);
     assert.match(collapseEvidence[0]?.observationState.description ?? "", /observed-committed/);
     assert.match(collapseEvidence[0]?.observationState.localMaterialization?.description ?? "", /Local observation kernel materialized OuterCanopy/);
+    assert.equal(collapseEvidence[0]?.observationState.localMaterialization?.perturbationMix, "perturb-mixed");
+    assert.equal(collapseEvidence[0]?.observationState.localMaterialization?.nearbyHistoryInfluence, "history-open-neighborhood");
     assert.ok(materialized.evidence.some((entry) => entry.kind === "history-commit"));
     assert.ok(materialized.trace.some((event) => event.kind === "local-collapse-materialized"));
 });
@@ -366,7 +404,7 @@ test("materialization can commit one local observation target while leaving sibl
             latentRegionId: "latent-region:semantic:9:hidden-region:OuterCanopy",
             commitStatus: "committed",
             observationStatePhase: "observed-committed",
-            localRealizedForm: "boundary-canopy-edge",
+            localRealizedForm: "boundary-canopy-anchored-fray",
         },
         {
             latentRegionId: "latent-region:semantic:10:latent-bubble:WaitingArchive",
@@ -550,7 +588,7 @@ test("materialization can preserve a history-open-only collapse shape when multi
             latentRegionId: "latent-region:semantic:9:hidden-region:OuterCanopy",
             commitStatus: "history-open",
             observationStatePhase: "observed-history-open",
-            localRealizedForm: "boundary-canopy-edge",
+            localRealizedForm: "boundary-canopy-frayed-wake",
         },
         {
             latentRegionId: "latent-region:semantic:10:hidden-region:InnerCanopy",
@@ -587,9 +625,23 @@ test("local collapse kernel materializes one latent region in the benchmark micr
     const replayClaim = materialized.proof.claims.find((claim) => claim.id === "claim:replay-identity");
 
     assert.ok(collapseRecord);
-    assert.equal(collapseRecord.observationState.localMaterialization?.mode, "single-region-observation-kernel.v1");
-    assert.equal(collapseRecord.observationState.localMaterialization?.realizedForm, "boundary-canopy-edge");
+    assert.equal(collapseRecord.observationState.localMaterialization?.mode, "single-region-observation-kernel.v3");
+    assert.equal(collapseRecord.observationState.localMaterialization?.realizedForm, "boundary-canopy-anchored-wake");
+    assert.equal(collapseRecord.observationState.localMaterialization?.perturbationMix, "perturb-mixed");
+    assert.equal(collapseRecord.observationState.localMaterialization?.nearbyHistoryInfluence, "committed-neighborhood");
+    assert.deepEqual(collapseRecord.observationState.localMaterialization?.stateStructure, {
+        anchorBinding: "anchored",
+        seaBalance: "contested",
+        membraneCondition: "pressured-edge",
+        historyCoupling: "committed-neighborhood",
+        worldhoodCondition: "stable",
+    });
     assert.ok(collapseRecord.observationState.localMaterialization?.determinants.includes("anchor:strong"));
+    assert.ok(collapseRecord.observationState.localMaterialization?.determinants.includes("anchor-binding:anchored"));
+    assert.ok(collapseRecord.observationState.localMaterialization?.determinants.includes("sea-balance:contested"));
+    assert.ok(collapseRecord.observationState.localMaterialization?.determinants.includes("membrane-condition:pressured-edge"));
+    assert.ok(collapseRecord.observationState.localMaterialization?.determinants.includes("perturbation-mix:perturb-mixed"));
+    assert.ok(collapseRecord.observationState.localMaterialization?.determinants.includes("nearby-history:committed-neighborhood"));
     assert.ok(collapseRecord.observationState.localMaterialization?.determinants.includes("effect:6:observe"));
     assert.equal(collapseRecord.commitStatus, "committed");
     assert.equal(collapseRecord.observationState.phase, "observed-committed");
@@ -602,11 +654,11 @@ test("local collapse kernel materializes one latent region in the benchmark micr
         "local-collapse-materialized",
         "materialization-committed",
     ]);
-    assert.equal(replayClaim?.status, "certified");
+    assert.equal(replayClaim?.status, "undetermined");
     assert.ok(replayClaim?.basis.includes("observed-history-committed"));
     assert.ok(replayClaim?.basis.includes("observed-history-shape-fully-committed"));
     assert.ok(!replayClaim?.assumptions?.includes("observed-collapse-history-is-not-yet-committed"));
-    assert.match(replayClaim?.explanation ?? "", /now certified by committed collapse history/);
+    assert.match(replayClaim?.explanation ?? "", /remains inferred because no authored anchor criterion fixes same-world replay/);
 
     const internalConsistencyClaim = materialized.proof.claims.find((claim) => claim.id === "claim:internal-law-consistency");
     assert.equal(internalConsistencyClaim?.status, "undetermined");
@@ -615,6 +667,43 @@ test("local collapse kernel materializes one latent region in the benchmark micr
     assert.ok(!internalConsistencyClaim?.basis.includes("hidden-region"));
     assert.match(internalConsistencyClaim?.explanation ?? "", /reinterprets hidden-region:OuterCanopy as observed local history/);
     assert.ok(!/Residual unresolved semantic fragments \(hidden-region\)/.test(internalConsistencyClaim?.explanation ?? ""));
+});
+
+test("local collapse kernel lets weak anchor and negative sea fray a committed canopy edge", () => {
+    const source = [
+        "bubble CollapseStress {",
+        "  axiom coherence = stable",
+        "  will \"hold one observed canopy edge inside a dissolving membrane\"",
+        "  seed stress_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect leak required scope membrane",
+        "  effect debt required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "collapse-stress-kernel.bubble" });
+    const materialized = materializeBubbleProgram(program);
+    const collapseRecord = materialized.evidence.find((entry) => entry.kind === "collapse-record");
+
+    assert.ok(collapseRecord);
+    assert.equal(materialized.runtimeOntology.negativeSea.pressure, "high");
+    assert.equal(materialized.runtimeOntology.anchorPoint.strength, "weak");
+    assert.equal(collapseRecord.observationState.localMaterialization?.realizedForm, "boundary-canopy-frayed-wake");
+    assert.deepEqual(collapseRecord.observationState.localMaterialization?.stateStructure, {
+        anchorBinding: "tethered",
+        seaBalance: "negative-skewed",
+        membraneCondition: "frayed-edge",
+        historyCoupling: "committed-neighborhood",
+        worldhoodCondition: "dissolving",
+    });
+    assert.ok(collapseRecord.observationState.localMaterialization?.determinants.includes("anchor:weak"));
+    assert.ok(collapseRecord.observationState.localMaterialization?.determinants.includes("negative-sea:high"));
+    assert.ok(collapseRecord.observationState.localMaterialization?.determinants.includes("sea-balance:negative-skewed"));
+    assert.ok(collapseRecord.observationState.localMaterialization?.determinants.includes("worldhood:dissolving"));
 });
 
 test("materialization refines proof from latent drafts to observed collapse history", () => {
@@ -695,7 +784,7 @@ test("materialization distinguishes declared history support from materialized h
     const requiredEffectsClaim = plan.proof.claims.find((claim) => claim.id === "claim:required-effect-obligations");
     assert.ok(requiredEffectsClaim);
     assert.equal(requiredEffectsClaim.scope, "plan");
-    assert.deepEqual(requiredEffectsClaim.dependsOnClaims, ["claim:minimum-worldhood"]);
+    assert.deepEqual(requiredEffectsClaim.dependsOnClaims, ["claim:minimum-authored-shape"]);
     assert.deepEqual(requiredEffectsClaim.evidenceIds, [
         "evidence:effect:effect:7:observe",
         "evidence:effect:effect:8:commit",
@@ -768,6 +857,7 @@ test("records observation evidence even when no staged emissions exist", () => {
             commitId: null,
             pressure: "low",
             signals: [],
+            pressureSources: [],
             description: "Bubble Observatory currently shows low negative-sea pressure.",
         },
         {
@@ -781,6 +871,29 @@ test("records observation evidence even when no staged emissions exist", () => {
             commitId: null,
             support: "present",
             signals: ["source-lineage-address", "seeded-origin", "declared-history-support"],
+            supportSources: [
+                {
+                    kind: "source-lineage",
+                    addressId: "bubble:observatory.bubble::root:Observatory",
+                    sourceEffectId: null,
+                    support: "present",
+                    evidenceBasis: ["source-lineage-address"],
+                },
+                {
+                    kind: "seed-origin",
+                    addressId: "bubble:observatory.bubble::root:Observatory",
+                    sourceEffectId: null,
+                    support: "present",
+                    evidenceBasis: ["seeded-origin"],
+                },
+                {
+                    kind: "declared-history-support",
+                    addressId: "bubble:observatory.bubble::root:Observatory",
+                    sourceEffectId: "effect:7:commit",
+                    support: "present",
+                    evidenceBasis: ["declared-history-support"],
+                },
+            ],
             description: "Bubble Observatory currently shows present positive-sea support via source-lineage-address, seeded-origin, declared-history-support.",
         },
         {
@@ -797,7 +910,11 @@ test("records observation evidence even when no staged emissions exist", () => {
             materializedHistoryEvidence: false,
             rewindStability: "stable",
             signals: ["axiomatic-basis", "world-will", "seed-continuity", "declared-history-support", "observation-surface"],
-            description: "Bubble Observatory currently shows strong anchor support with stable rewind stability.",
+            authoredCriterionStatus: "absent",
+            authoredCriterionBasis: [],
+            materializedEvidenceSources: [],
+            identityStatus: "provisional",
+            description: "Bubble Observatory currently shows strong inferred anchor support with stable rewind stability and provisional identity status.",
         },
         {
             id: "evidence:observe:bubble:observatory.bubble::root:Observatory",
@@ -941,7 +1058,9 @@ test("executable constraints and partial laws certify internal consistency and a
     assert.equal(claimById["claim:internal-law-consistency"]?.status, "certified");
     assert.equal(claimById["claim:anchor-identity"]?.status, "certified");
     assert.equal(claimById["claim:replay-identity"]?.status, "certified");
-    assert.ok(plan.ontology.anchorPoint.signals.includes("authored-anchor-criterion"));
+    assert.equal(plan.ontology.anchorPoint.authoredCriterionStatus, "satisfied");
+    assert.ok(plan.ontology.anchorPoint.authoredCriterionBasis.includes("authored-anchor-criterion"));
+    assert.equal(plan.ontology.anchorPoint.identityStatus, "provisional");
 });
 
 test("authored anchor criteria can contradict inferred anchor scoring", () => {
@@ -965,7 +1084,9 @@ test("authored anchor criteria can contradict inferred anchor scoring", () => {
     assert.equal(claimById["claim:internal-law-consistency"]?.status, "certified");
     assert.equal(claimById["claim:anchor-identity"]?.status, "contradicted");
     assert.equal(claimById["claim:replay-identity"]?.status, "contradicted");
-    assert.ok(plan.ontology.anchorPoint.signals.includes("anchor-criterion-failed"));
+    assert.equal(plan.ontology.anchorPoint.authoredCriterionStatus, "violated");
+    assert.ok(plan.ontology.anchorPoint.authoredCriterionBasis.includes("anchor-criterion-failed"));
+    assert.equal(plan.ontology.anchorPoint.identityStatus, "contradicted");
     assert.equal(plan.proof.verdict, "contradicted");
 });
 

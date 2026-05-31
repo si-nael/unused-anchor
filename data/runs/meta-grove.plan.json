@@ -23,7 +23,8 @@
   "ontology": {
     "negativeSea": {
       "pressure": "low",
-      "signals": []
+      "signals": [],
+      "pressureSources": []
     },
     "positiveSea": {
       "support": "strong",
@@ -32,6 +33,46 @@
         "seeded-origin",
         "descendant-lineage",
         "staged-growth"
+      ],
+      "supportSources": [
+        {
+          "kind": "source-lineage",
+          "addressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "source-lineage-address"
+          ]
+        },
+        {
+          "kind": "seed-origin",
+          "addressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "seeded-origin"
+          ]
+        },
+        {
+          "kind": "descendant-lineage",
+          "addressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+          "sourceEffectId": "effect:6:spawn",
+          "support": "present",
+          "evidenceBasis": [
+            "descendant-lineage",
+            "descendant-lineage-count:1"
+          ]
+        },
+        {
+          "kind": "staged-growth",
+          "addressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+          "sourceEffectId": "effect:6:spawn",
+          "support": "present",
+          "evidenceBasis": [
+            "staged-growth",
+            "staged-growth-count:1"
+          ]
+        }
       ]
     },
     "anchorPoint": {
@@ -43,7 +84,11 @@
         "axiomatic-basis",
         "world-will",
         "seed-continuity"
-      ]
+      ],
+      "authoredCriterionStatus": "absent",
+      "authoredCriterionBasis": [],
+      "materializedEvidenceSources": [],
+      "identityStatus": "provisional"
     },
     "theoremWitness": {
       "theorem": "sea-anchor-necessity.v1",
@@ -78,7 +123,7 @@
         "explanation": "Bubble Nursery compiled into a semantic plan under bubbles.v0.2."
       },
       {
-        "id": "claim:minimum-worldhood",
+        "id": "claim:minimum-authored-shape",
         "kind": "worldhood",
         "status": "certified",
         "basis": [
@@ -93,7 +138,28 @@
         ],
         "assumptions": [],
         "scope": "source",
-        "explanation": "Bubble Nursery satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+        "explanation": "Bubble Nursery satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
+      },
+      {
+        "id": "claim:worldhood-roles-present",
+        "kind": "worldhood",
+        "status": "undetermined",
+        "basis": [
+          "local-law-basis",
+          "source-lineage-address",
+          "lineage-placement",
+          "missing-boundary-semantics",
+          "missing-authored-anchor-criterion"
+        ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:minimum-authored-shape"
+        ],
+        "assumptions": [
+          "boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"
+        ],
+        "scope": "plan",
+        "explanation": "Bubble Nursery preserves minimum authored shape, but independent worldhood remains undetermined while missing-boundary-semantics, missing-authored-anchor-criterion are not yet explicitly authored."
       },
       {
         "id": "claim:required-effect-obligations",
@@ -107,7 +173,7 @@
           "evidence:effect:effect:6:spawn"
         ],
         "dependsOnClaims": [
-          "claim:minimum-worldhood"
+          "claim:minimum-authored-shape"
         ],
         "assumptions": [
           "effect-trace-records-mirror-the-current-materialization-plan"
@@ -118,11 +184,12 @@
       {
         "id": "claim:anchor-identity",
         "kind": "anchor",
-        "status": "certified",
+        "status": "undetermined",
         "basis": [
           "axiomatic-basis",
           "world-will",
-          "seed-continuity"
+          "seed-continuity",
+          "missing-authored-anchor-criterion"
         ],
         "evidenceIds": [
           "evidence:anchor-point:bubble:examples/meta-grove.bubble::root:Nursery",
@@ -130,13 +197,13 @@
           "evidence:negative-sea:bubble:examples/meta-grove.bubble::root:Nursery"
         ],
         "dependsOnClaims": [
-          "claim:minimum-worldhood"
+          "claim:worldhood-roles-present"
         ],
         "assumptions": [
           "sea-anchor-theorem-witness-is-bounded"
         ],
         "scope": "plan",
-        "explanation": "Bubble Nursery currently certifies anchor identity as steady with theorem condition stable."
+        "explanation": "Bubble Nursery keeps an inferred anchor basis, but same-world anchor identity remains undetermined without an authored anchor criterion."
       },
       {
         "id": "claim:lineage-traceability",
@@ -164,7 +231,7 @@
         "basis": [
           "seed-continuity",
           "source-lineage-address",
-          "missing-declared-history-support"
+          "missing-authored-anchor-criterion"
         ],
         "evidenceIds": [
           "evidence:anchor-point:bubble:examples/meta-grove.bubble::root:Nursery",
@@ -178,7 +245,7 @@
           "same-world-replay-is-evaluated-from-the-current-plan-basis"
         ],
         "scope": "plan",
-        "explanation": "Bubble Nursery preserves a replay basis, but same-world replay remains undetermined without declared history support fixation."
+        "explanation": "Bubble Nursery preserves an inferred replay basis, but same-world replay remains undetermined without an authored anchor criterion."
       },
       {
         "id": "claim:internal-law-consistency",
@@ -246,6 +313,9 @@
       }
     ]
   },
+  "latentTopology": null,
+  "observationCommitPolicy": null,
+  "observationCommitPolicyComparison": null,
   "obligations": [
     {
       "effectId": "effect:6:spawn",

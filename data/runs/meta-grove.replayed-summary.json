@@ -15,7 +15,7 @@
     "undetermined": 0
   },
   "proofVerdict": "partially-certified",
-  "proofClaimCount": 7,
+  "proofClaimCount": 8,
   "proofClaimKinds": [
     "syntax",
     "worldhood",
@@ -26,15 +26,16 @@
     "consistency"
   ],
   "proofClaimStatusCounts": {
-    "certified": 5,
+    "certified": 4,
     "contradicted": 0,
-    "undetermined": 2
+    "undetermined": 4
   },
   "materializedArtifactCount": 1,
   "descendantCount": 1,
   "artifactCount": 0,
   "commitCount": 1,
   "evidenceCount": 4,
+  "observationStateCount": 0,
   "reflectionPaths": [
     "self.address",
     "self.worldWill"

@@ -545,7 +545,8 @@ The current runtime contract uses `bubble-consistency-certificate.v1` and treats
 At minimum, this certificate should carry bounded claims for:
 
 - well-formed source
-- minimum worldhood
+- minimum authored shape
+- worldhood roles present
 - required-effect obligations
 - anchor identity
 - lineage traceability

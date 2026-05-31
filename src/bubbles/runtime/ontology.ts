@@ -2,21 +2,47 @@ import type {
     BubbleEmissionTarget,
     BubbleProgramIR,
 } from "../ir";
-import type { BubbleSemanticEvaluationPlan } from "./semantics";
+import type { BubbleSemanticEvaluation, BubbleSemanticEvaluationPlan } from "./semantics";
 
 export type BubbleNegativeSeaPressure = "low" | "elevated" | "high";
 export type BubblePositiveSeaSupport = "weak" | "present" | "strong";
 export type BubbleAnchorPointStrength = "weak" | "steady" | "strong";
 export type BubbleAnchorRewindStability = "fragile" | "guarded" | "stable";
+export type BubbleAnchorIdentityStatus = "certified" | "provisional" | "contradicted" | "undetermined";
+export type BubbleAuthoredAnchorCriterionStatus = "absent" | "satisfied" | "violated" | "undetermined";
+
+export interface BubbleNegativeSeaPressureSource {
+    kind: "nondeterministic-realization" | "branch" | "boundary-stress" | "leak" | "perturb";
+    sourceEffectId: string | null;
+    relationKind: BubbleProgramIR["bubble"]["generation"]["relations"][number]["kind"] | null;
+    boundaryScope: BubbleProgramIR["bubble"]["effects"][number]["scope"] | null;
+    strength: BubbleNegativeSeaPressure;
+    evidenceBasis: string[];
+}
+
+export interface BubblePositiveSeaSupportSource {
+    kind: "source-lineage" | "seed-origin" | "descendant-lineage" | "staged-growth" | "declared-history-support";
+    addressId: string | null;
+    sourceEffectId: string | null;
+    support: BubblePositiveSeaSupport;
+    evidenceBasis: string[];
+}
+
+export interface BubbleAnchorMaterializedEvidenceSource {
+    kind: "materialized-history";
+    evidenceBasis: string[];
+}
 
 export interface BubbleNegativeSeaAssessment {
     pressure: BubbleNegativeSeaPressure;
     signals: string[];
+    pressureSources: BubbleNegativeSeaPressureSource[];
 }
 
 export interface BubblePositiveSeaAssessment {
     support: BubblePositiveSeaSupport;
     signals: string[];
+    supportSources: BubblePositiveSeaSupportSource[];
 }
 
 export interface BubbleAnchorPointAssessment {
@@ -25,6 +51,10 @@ export interface BubbleAnchorPointAssessment {
     materializedHistoryEvidence: boolean;
     rewindStability: BubbleAnchorRewindStability;
     signals: string[];
+    authoredCriterionStatus: BubbleAuthoredAnchorCriterionStatus;
+    authoredCriterionBasis: string[];
+    materializedEvidenceSources: BubbleAnchorMaterializedEvidenceSource[];
+    identityStatus: BubbleAnchorIdentityStatus;
 }
 
 export type BubbleWorldhoodCondition = "stable" | "stressed" | "dissolving";
@@ -59,36 +89,86 @@ export function buildSeaAnchorAssessment(
 ): BubbleSeaAnchorAssessment {
     const { bubble } = program;
     const { relations, lifecycle, realizationMode } = bubble.generation;
-    const boundaryExposureCount = countBoundaryExposure(program);
-    const branchRelationCount = relations.filter((relation) => relation.kind === "branch").length;
-    const descendantRelationCount = relations.filter((relation) => relation.kind === "spawn").length;
+    const boundaryExposureSources = collectBoundaryExposureSources(program);
+    const boundaryExposureCount = boundaryExposureSources.length;
+    const branchRelations = relations.filter((relation) => relation.kind === "branch");
+    const branchRelationCount = branchRelations.length;
+    const descendantRelations = relations.filter((relation) => relation.kind === "spawn");
+    const descendantRelationCount = descendantRelations.length;
     const descendantEmissionCount = emissionPlan.filter((emission) => emission.target === "descendant").length;
 
     const negativeSignals: string[] = [];
+    const negativePressureSources: BubbleNegativeSeaPressureSource[] = [];
     let negativeScore = 0;
     if (realizationMode === "nondeterministic") {
         negativeScore += 1;
         negativeSignals.push("nondeterministic-realization");
+        negativePressureSources.push({
+            kind: "nondeterministic-realization",
+            sourceEffectId: null,
+            relationKind: null,
+            boundaryScope: null,
+            strength: "elevated",
+            evidenceBasis: ["nondeterministic-realization"],
+        });
     }
 
     if (branchRelationCount > 0) {
         negativeScore += 1;
         negativeSignals.push("branch-pressure");
+        negativePressureSources.push({
+            kind: "branch",
+            sourceEffectId: branchRelations[0]?.sourceEffectId ?? null,
+            relationKind: "branch",
+            boundaryScope: branchRelations[0]?.scope ?? null,
+            strength: branchRelationCount > 1 ? "high" : "elevated",
+            evidenceBasis: ["branch-pressure", `branch-count:${branchRelationCount}`],
+        });
     }
 
     if (boundaryExposureCount > 0) {
         negativeScore += boundaryExposureCount > 1 ? 2 : 1;
         negativeSignals.push("boundary-exposure");
+        negativePressureSources.push({
+            kind: "boundary-stress",
+            sourceEffectId: boundaryExposureSources[0]?.sourceEffectId ?? null,
+            relationKind: boundaryExposureSources[0]?.relationKind ?? null,
+            boundaryScope: boundaryExposureSources[0]?.boundaryScope ?? null,
+            strength: boundaryExposureCount > 1 ? "high" : "elevated",
+            evidenceBasis: Array.from(new Set([
+                "boundary-exposure",
+                `boundary-exposure-count:${boundaryExposureCount}`,
+                ...boundaryExposureSources.flatMap((source) => source.evidenceBasis),
+            ])),
+        });
     }
 
+    const leakEffects = bubble.effects.filter((effect) => effect.kind === "leak");
     if (lifecycle.supportsLeakage) {
         negativeScore += 1;
         negativeSignals.push("membrane-leak");
+        negativePressureSources.push({
+            kind: "leak",
+            sourceEffectId: leakEffects[0]?.id ?? null,
+            relationKind: null,
+            boundaryScope: leakEffects[0]?.scope ?? null,
+            strength: "elevated",
+            evidenceBasis: [resolveLeakSignal(leakEffects[0]?.scope ?? "membrane")],
+        });
     }
 
+    const perturbEffects = bubble.effects.filter((effect) => effect.kind === "perturb");
     if (lifecycle.supportsPerturbation) {
         negativeScore += 1;
         negativeSignals.push("law-perturbation");
+        negativePressureSources.push({
+            kind: "perturb",
+            sourceEffectId: perturbEffects[0]?.id ?? null,
+            relationKind: null,
+            boundaryScope: perturbEffects[0]?.scope ?? null,
+            strength: "elevated",
+            evidenceBasis: ["law-perturbation"],
+        });
     }
 
     const negativePressure = negativeScore >= 3 ? "high"
@@ -96,30 +176,66 @@ export function buildSeaAnchorAssessment(
             : "low";
 
     const positiveSignals: string[] = [];
+    const positiveSupportSources: BubblePositiveSeaSupportSource[] = [];
     let positiveScore = 0;
     if (bubble.address.locatorKind === "source-relative") {
         positiveScore += 1;
         positiveSignals.push("source-lineage-address");
+        positiveSupportSources.push({
+            kind: "source-lineage",
+            addressId: bubble.address.id,
+            sourceEffectId: null,
+            support: "present",
+            evidenceBasis: ["source-lineage-address"],
+        });
     }
 
     if (bubble.seed !== null) {
         positiveScore += 1;
         positiveSignals.push("seeded-origin");
+        positiveSupportSources.push({
+            kind: "seed-origin",
+            addressId: bubble.address.id,
+            sourceEffectId: null,
+            support: "present",
+            evidenceBasis: ["seeded-origin"],
+        });
     }
 
     if (descendantRelationCount > 0) {
         positiveScore += 1;
         positiveSignals.push("descendant-lineage");
+        positiveSupportSources.push({
+            kind: "descendant-lineage",
+            addressId: bubble.address.id,
+            sourceEffectId: descendantRelations[0]?.sourceEffectId ?? null,
+            support: descendantRelationCount > 1 ? "strong" : "present",
+            evidenceBasis: ["descendant-lineage", `descendant-lineage-count:${descendantRelationCount}`],
+        });
     }
 
     if (descendantEmissionCount > 0) {
         positiveScore += 1;
         positiveSignals.push("staged-growth");
+        positiveSupportSources.push({
+            kind: "staged-growth",
+            addressId: bubble.address.id,
+            sourceEffectId: descendantRelations[0]?.sourceEffectId ?? null,
+            support: descendantEmissionCount > 1 ? "strong" : "present",
+            evidenceBasis: ["staged-growth", `staged-growth-count:${descendantEmissionCount}`],
+        });
     }
 
     if (lifecycle.commitsHistory) {
         positiveScore += 1;
         positiveSignals.push("declared-history-support");
+        positiveSupportSources.push({
+            kind: "declared-history-support",
+            addressId: bubble.address.id,
+            sourceEffectId: bubble.effects.find((effect) => effect.kind === "commit")?.id ?? null,
+            support: "present",
+            evidenceBasis: ["declared-history-support"],
+        });
     }
 
     const positiveSupport = positiveScore >= 4 ? "strong"
@@ -179,16 +295,6 @@ export function buildSeaAnchorAssessment(
     }
 
     const anchorCriterion = semantics.anchorCriterion;
-    if (anchorCriterion?.status === "satisfied") {
-        anchorScore += 1;
-        anchorSignals.push("authored-anchor-criterion");
-    } else if (anchorCriterion?.status === "violated") {
-        anchorScore -= 1;
-        anchorSignals.push("anchor-criterion-failed");
-    } else if (anchorCriterion?.status === "undetermined") {
-        anchorSignals.push("anchor-criterion-undetermined");
-    }
-
     const anchorStrength = anchorScore >= 4 ? "strong"
         : anchorScore >= 2 ? "steady"
             : "weak";
@@ -197,15 +303,18 @@ export function buildSeaAnchorAssessment(
         ? rewindStress ? "guarded" : "stable"
         : bubble.seed !== null || lifecycle.commitsHistory ? "guarded" : "fragile";
     const theoremWitness = buildSeaAnchorTheoremWitness(negativePressure, positiveSupport, anchorStrength);
+    const authoredCriterionStatus = resolveAuthoredAnchorCriterionStatus(anchorCriterion?.status);
 
     return {
         negativeSea: {
             pressure: negativePressure,
             signals: negativeSignals,
+            pressureSources: negativePressureSources,
         },
         positiveSea: {
             support: positiveSupport,
             signals: positiveSignals,
+            supportSources: positiveSupportSources,
         },
         anchorPoint: {
             strength: anchorStrength,
@@ -213,6 +322,10 @@ export function buildSeaAnchorAssessment(
             materializedHistoryEvidence: false,
             rewindStability,
             signals: anchorSignals,
+            authoredCriterionStatus,
+            authoredCriterionBasis: anchorCriterion?.basis ?? [],
+            materializedEvidenceSources: [],
+            identityStatus: resolveAnchorIdentityStatus(theoremWitness, authoredCriterionStatus, false),
         },
         theoremWitness,
     };
@@ -231,8 +344,56 @@ export function withMaterializedHistoryEvidence(
         anchorPoint: {
             ...assessment.anchorPoint,
             materializedHistoryEvidence: hasMaterializedHistoryEvidence,
+            materializedEvidenceSources: hasMaterializedHistoryEvidence
+                ? [{
+                    kind: "materialized-history",
+                    evidenceBasis: ["materialized-history-evidence"],
+                }]
+                : [],
+            identityStatus: resolveAnchorIdentityStatus(
+                assessment.theoremWitness,
+                assessment.anchorPoint.authoredCriterionStatus,
+                hasMaterializedHistoryEvidence,
+            ),
         },
     };
+}
+
+function resolveAuthoredAnchorCriterionStatus(
+    status: BubbleSemanticEvaluation["status"] | undefined,
+): BubbleAuthoredAnchorCriterionStatus {
+    switch (status) {
+        case undefined:
+            return "absent";
+        case "satisfied":
+            return "satisfied";
+        case "violated":
+            return "violated";
+        case "undetermined":
+            return "undetermined";
+        default:
+            return assertNever(status);
+    }
+}
+
+function resolveAnchorIdentityStatus(
+    theoremWitness: BubbleSeaAnchorTheoremWitness,
+    authoredCriterionStatus: BubbleAuthoredAnchorCriterionStatus,
+    hasMaterializedHistoryEvidence: boolean,
+): BubbleAnchorIdentityStatus {
+    if (!theoremWitness.sustained || authoredCriterionStatus === "violated") {
+        return "contradicted";
+    }
+
+    if (authoredCriterionStatus === "undetermined") {
+        return "undetermined";
+    }
+
+    if (authoredCriterionStatus === "satisfied") {
+        return hasMaterializedHistoryEvidence ? "certified" : "provisional";
+    }
+
+    return "provisional";
 }
 
 function buildSeaAnchorTheoremWitness(
@@ -309,12 +470,44 @@ function rankAnchorStrength(strength: BubbleAnchorPointStrength): number {
     }
 }
 
-function countBoundaryExposure(program: BubbleProgramIR): number {
-    const boundaryScopes = new Set(["membrane", "global"]);
-    const obligationExposure = program.bubble.obligations.filter((obligation) => boundaryScopes.has(obligation.scope)).length;
-    const relationExposure = program.bubble.generation.relations.filter((relation) => boundaryScopes.has(relation.scope)).length;
+function resolveLeakSignal(scope: BubbleProgramIR["bubble"]["effects"][number]["scope"]): string {
+    switch (scope) {
+        case "local":
+            return "local-leak";
+        case "membrane":
+            return "membrane-leak";
+        case "global":
+            return "global-leak";
+        default:
+            return assertNever(scope);
+    }
+}
 
-    return obligationExposure + relationExposure;
+function collectBoundaryExposureSources(program: BubbleProgramIR): Array<{
+    sourceEffectId: string | null;
+    relationKind: BubbleProgramIR["bubble"]["generation"]["relations"][number]["kind"] | null;
+    boundaryScope: BubbleProgramIR["bubble"]["effects"][number]["scope"] | null;
+    evidenceBasis: string[];
+}> {
+    const boundaryScopes = new Set(["membrane", "global"]);
+    const obligationExposure = program.bubble.obligations
+        .filter((obligation) => boundaryScopes.has(obligation.scope))
+        .map((obligation) => ({
+            sourceEffectId: obligation.effectId,
+            relationKind: null,
+            boundaryScope: obligation.scope,
+            evidenceBasis: ["boundary-exposure", `obligation:${obligation.effectId}`, `scope:${obligation.scope}`],
+        }));
+    const relationExposure = program.bubble.generation.relations
+        .filter((relation) => boundaryScopes.has(relation.scope))
+        .map((relation) => ({
+            sourceEffectId: relation.sourceEffectId,
+            relationKind: relation.kind,
+            boundaryScope: relation.scope,
+            evidenceBasis: ["boundary-exposure", `relation:${relation.kind}`, `scope:${relation.scope}`],
+        }));
+
+    return [...obligationExposure, ...relationExposure];
 }
 
 function assertNever(value: never): never {

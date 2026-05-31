@@ -16,7 +16,7 @@
       "undetermined": 0
     },
     "proofVerdict": "partially-certified",
-    "proofClaimCount": 7,
+    "proofClaimCount": 8,
     "proofClaimKinds": [
       "syntax",
       "worldhood",
@@ -27,9 +27,9 @@
       "consistency"
     ],
     "proofClaimStatusCounts": {
-      "certified": 6,
+      "certified": 4,
       "contradicted": 0,
-      "undetermined": 1
+      "undetermined": 4
     },
     "materializedArtifactCount": 1,
     "descendantCount": 1,
@@ -74,6 +74,18 @@
         "pressure": "elevated",
         "signals": [
           "law-perturbation"
+        ],
+        "pressureSources": [
+          {
+            "kind": "perturb",
+            "sourceEffectId": "effect:8:perturb",
+            "relationKind": null,
+            "boundaryScope": "local",
+            "strength": "elevated",
+            "evidenceBasis": [
+              "law-perturbation"
+            ]
+          }
         ]
       },
       "positiveSea": {
@@ -83,6 +95,45 @@
           "seeded-origin",
           "staged-growth",
           "declared-history-support"
+        ],
+        "supportSources": [
+          {
+            "kind": "source-lineage",
+            "addressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+            "sourceEffectId": null,
+            "support": "present",
+            "evidenceBasis": [
+              "source-lineage-address"
+            ]
+          },
+          {
+            "kind": "seed-origin",
+            "addressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+            "sourceEffectId": null,
+            "support": "present",
+            "evidenceBasis": [
+              "seeded-origin"
+            ]
+          },
+          {
+            "kind": "staged-growth",
+            "addressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+            "sourceEffectId": null,
+            "support": "present",
+            "evidenceBasis": [
+              "staged-growth",
+              "staged-growth-count:1"
+            ]
+          },
+          {
+            "kind": "declared-history-support",
+            "addressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+            "sourceEffectId": "effect:7:commit",
+            "support": "present",
+            "evidenceBasis": [
+              "declared-history-support"
+            ]
+          }
         ]
       },
       "anchorPoint": {
@@ -97,7 +148,11 @@
           "declared-history-support",
           "observation-surface",
           "perturbation-stress"
-        ]
+        ],
+        "authoredCriterionStatus": "absent",
+        "authoredCriterionBasis": [],
+        "materializedEvidenceSources": [],
+        "identityStatus": "provisional"
       },
       "theoremWitness": {
         "theorem": "sea-anchor-necessity.v1",
@@ -132,7 +187,7 @@
           "explanation": "Bubble CollapseMirror compiled into a semantic plan under bubbles.v0.4."
         },
         {
-          "id": "claim:minimum-worldhood",
+          "id": "claim:minimum-authored-shape",
           "kind": "worldhood",
           "status": "certified",
           "basis": [
@@ -147,7 +202,28 @@
           ],
           "assumptions": [],
           "scope": "source",
-          "explanation": "Bubble CollapseMirror satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+          "explanation": "Bubble CollapseMirror satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
+        },
+        {
+          "id": "claim:worldhood-roles-present",
+          "kind": "worldhood",
+          "status": "undetermined",
+          "basis": [
+            "local-law-basis",
+            "source-lineage-address",
+            "lineage-placement",
+            "missing-boundary-semantics",
+            "missing-authored-anchor-criterion"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:minimum-authored-shape"
+          ],
+          "assumptions": [
+            "boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"
+          ],
+          "scope": "plan",
+          "explanation": "Bubble CollapseMirror preserves minimum authored shape, but independent worldhood remains undetermined while missing-boundary-semantics, missing-authored-anchor-criterion are not yet explicitly authored."
         },
         {
           "id": "claim:required-effect-obligations",
@@ -162,7 +238,7 @@
             "evidence:effect:effect:7:commit"
           ],
           "dependsOnClaims": [
-            "claim:minimum-worldhood"
+            "claim:minimum-authored-shape"
           ],
           "assumptions": [
             "effect-trace-records-mirror-the-current-materialization-plan"
@@ -173,13 +249,14 @@
         {
           "id": "claim:anchor-identity",
           "kind": "anchor",
-          "status": "certified",
+          "status": "undetermined",
           "basis": [
             "axiomatic-basis",
             "world-will",
             "seed-continuity",
             "declared-history-support",
-            "observation-surface"
+            "observation-surface",
+            "missing-authored-anchor-criterion"
           ],
           "evidenceIds": [
             "evidence:anchor-point:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
@@ -188,13 +265,13 @@
             "evidence:observe:bubble:examples/collapse-mirror.bubble::root:CollapseMirror"
           ],
           "dependsOnClaims": [
-            "claim:minimum-worldhood"
+            "claim:worldhood-roles-present"
           ],
           "assumptions": [
             "sea-anchor-theorem-witness-is-bounded"
           ],
           "scope": "plan",
-          "explanation": "Bubble CollapseMirror currently certifies anchor identity as strong with theorem condition stable."
+          "explanation": "Bubble CollapseMirror keeps an inferred anchor basis, but same-world anchor identity remains undetermined without an authored anchor criterion."
         },
         {
           "id": "claim:lineage-traceability",
@@ -347,6 +424,62 @@
         }
       ]
     },
+    "observationCommitPolicy": {
+      "mode": "runtime-observation-commit-policy.v1",
+      "policyId": "observation-commit-policy:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "decisionSource": "bounded-runtime",
+      "selectionRule": "commit-single-observed-region",
+      "localMaterializationTargetId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+      "observedRegionIds": [
+        "latent-region:semantic:9:hidden-region:OuterCanopy"
+      ],
+      "selectedTargetIds": [
+        "latent-region:semantic:9:hidden-region:OuterCanopy"
+      ],
+      "deferredTargetIds": [],
+      "projectedHistoryShape": "fully-committed",
+      "description": "Bubble CollapseMirror uses one bounded observation commit policy to commit the single observed local target latent-region:semantic:9:hidden-region:OuterCanopy, projecting shape fully-committed."
+    },
+    "observationCommitPolicyComparison": {
+      "mode": "runtime-observation-commit-policy-comparison.v1",
+      "comparisonId": "observation-commit-policy-comparison:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "overrideApplied": false,
+      "override": null,
+      "baseline": {
+        "mode": "runtime-observation-commit-policy.v1",
+        "policyId": "observation-commit-policy:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+        "decisionSource": "bounded-runtime",
+        "selectionRule": "commit-single-observed-region",
+        "localMaterializationTargetId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+        "observedRegionIds": [
+          "latent-region:semantic:9:hidden-region:OuterCanopy"
+        ],
+        "selectedTargetIds": [
+          "latent-region:semantic:9:hidden-region:OuterCanopy"
+        ],
+        "deferredTargetIds": [],
+        "projectedHistoryShape": "fully-committed",
+        "description": "Bubble CollapseMirror uses one bounded observation commit policy to commit the single observed local target latent-region:semantic:9:hidden-region:OuterCanopy, projecting shape fully-committed."
+      },
+      "effective": {
+        "mode": "runtime-observation-commit-policy.v1",
+        "policyId": "observation-commit-policy:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+        "decisionSource": "bounded-runtime",
+        "selectionRule": "commit-single-observed-region",
+        "localMaterializationTargetId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+        "observedRegionIds": [
+          "latent-region:semantic:9:hidden-region:OuterCanopy"
+        ],
+        "selectedTargetIds": [
+          "latent-region:semantic:9:hidden-region:OuterCanopy"
+        ],
+        "deferredTargetIds": [],
+        "projectedHistoryShape": "fully-committed",
+        "description": "Bubble CollapseMirror uses one bounded observation commit policy to commit the single observed local target latent-region:semantic:9:hidden-region:OuterCanopy, projecting shape fully-committed."
+      },
+      "differences": [],
+      "description": "Bubble CollapseMirror compares the current bounded observation policy against itself: rule commit-single-observed-region, projected shape fully-committed."
+    },
     "obligations": [
       {
         "effectId": "effect:6:observe",
@@ -392,11 +525,79 @@
       }
     ]
   },
+  "observationCommitPolicy": {
+    "mode": "runtime-observation-commit-policy.v1",
+    "policyId": "observation-commit-policy:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+    "decisionSource": "bounded-runtime",
+    "selectionRule": "commit-single-observed-region",
+    "localMaterializationTargetId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+    "observedRegionIds": [
+      "latent-region:semantic:9:hidden-region:OuterCanopy"
+    ],
+    "selectedTargetIds": [
+      "latent-region:semantic:9:hidden-region:OuterCanopy"
+    ],
+    "deferredTargetIds": [],
+    "projectedHistoryShape": "fully-committed",
+    "description": "Bubble CollapseMirror uses one bounded observation commit policy to commit the single observed local target latent-region:semantic:9:hidden-region:OuterCanopy, projecting shape fully-committed."
+  },
+  "observationCommitPolicyComparison": {
+    "mode": "runtime-observation-commit-policy-comparison.v1",
+    "comparisonId": "observation-commit-policy-comparison:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+    "overrideApplied": false,
+    "override": null,
+    "baseline": {
+      "mode": "runtime-observation-commit-policy.v1",
+      "policyId": "observation-commit-policy:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "decisionSource": "bounded-runtime",
+      "selectionRule": "commit-single-observed-region",
+      "localMaterializationTargetId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+      "observedRegionIds": [
+        "latent-region:semantic:9:hidden-region:OuterCanopy"
+      ],
+      "selectedTargetIds": [
+        "latent-region:semantic:9:hidden-region:OuterCanopy"
+      ],
+      "deferredTargetIds": [],
+      "projectedHistoryShape": "fully-committed",
+      "description": "Bubble CollapseMirror uses one bounded observation commit policy to commit the single observed local target latent-region:semantic:9:hidden-region:OuterCanopy, projecting shape fully-committed."
+    },
+    "effective": {
+      "mode": "runtime-observation-commit-policy.v1",
+      "policyId": "observation-commit-policy:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "decisionSource": "bounded-runtime",
+      "selectionRule": "commit-single-observed-region",
+      "localMaterializationTargetId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+      "observedRegionIds": [
+        "latent-region:semantic:9:hidden-region:OuterCanopy"
+      ],
+      "selectedTargetIds": [
+        "latent-region:semantic:9:hidden-region:OuterCanopy"
+      ],
+      "deferredTargetIds": [],
+      "projectedHistoryShape": "fully-committed",
+      "description": "Bubble CollapseMirror uses one bounded observation commit policy to commit the single observed local target latent-region:semantic:9:hidden-region:OuterCanopy, projecting shape fully-committed."
+    },
+    "differences": [],
+    "description": "Bubble CollapseMirror compares the current bounded observation policy against itself: rule commit-single-observed-region, projected shape fully-committed."
+  },
   "ontology": {
     "negativeSea": {
       "pressure": "elevated",
       "signals": [
         "law-perturbation"
+      ],
+      "pressureSources": [
+        {
+          "kind": "perturb",
+          "sourceEffectId": "effect:8:perturb",
+          "relationKind": null,
+          "boundaryScope": "local",
+          "strength": "elevated",
+          "evidenceBasis": [
+            "law-perturbation"
+          ]
+        }
       ]
     },
     "positiveSea": {
@@ -406,6 +607,45 @@
         "seeded-origin",
         "staged-growth",
         "declared-history-support"
+      ],
+      "supportSources": [
+        {
+          "kind": "source-lineage",
+          "addressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "source-lineage-address"
+          ]
+        },
+        {
+          "kind": "seed-origin",
+          "addressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "seeded-origin"
+          ]
+        },
+        {
+          "kind": "staged-growth",
+          "addressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "staged-growth",
+            "staged-growth-count:1"
+          ]
+        },
+        {
+          "kind": "declared-history-support",
+          "addressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+          "sourceEffectId": "effect:7:commit",
+          "support": "present",
+          "evidenceBasis": [
+            "declared-history-support"
+          ]
+        }
       ]
     },
     "anchorPoint": {
@@ -420,7 +660,18 @@
         "declared-history-support",
         "observation-surface",
         "perturbation-stress"
-      ]
+      ],
+      "authoredCriterionStatus": "absent",
+      "authoredCriterionBasis": [],
+      "materializedEvidenceSources": [
+        {
+          "kind": "materialized-history",
+          "evidenceBasis": [
+            "materialized-history-evidence"
+          ]
+        }
+      ],
+      "identityStatus": "provisional"
     },
     "theoremWitness": {
       "theorem": "sea-anchor-necessity.v1",
@@ -461,7 +712,7 @@
         "explanation": "Bubble CollapseMirror compiled into a semantic plan under bubbles.v0.4."
       },
       {
-        "id": "claim:minimum-worldhood",
+        "id": "claim:minimum-authored-shape",
         "kind": "worldhood",
         "status": "certified",
         "basis": [
@@ -476,7 +727,28 @@
         ],
         "assumptions": [],
         "scope": "source",
-        "explanation": "Bubble CollapseMirror satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+        "explanation": "Bubble CollapseMirror satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
+      },
+      {
+        "id": "claim:worldhood-roles-present",
+        "kind": "worldhood",
+        "status": "undetermined",
+        "basis": [
+          "local-law-basis",
+          "source-lineage-address",
+          "lineage-placement",
+          "missing-boundary-semantics",
+          "missing-authored-anchor-criterion"
+        ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:minimum-authored-shape"
+        ],
+        "assumptions": [
+          "boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"
+        ],
+        "scope": "plan",
+        "explanation": "Bubble CollapseMirror preserves minimum authored shape, but independent worldhood remains undetermined while missing-boundary-semantics, missing-authored-anchor-criterion are not yet explicitly authored."
       },
       {
         "id": "claim:required-effect-obligations",
@@ -491,7 +763,7 @@
           "evidence:effect:effect:7:commit"
         ],
         "dependsOnClaims": [
-          "claim:minimum-worldhood"
+          "claim:minimum-authored-shape"
         ],
         "assumptions": [
           "effect-trace-records-mirror-the-current-materialization-plan"
@@ -502,13 +774,14 @@
       {
         "id": "claim:anchor-identity",
         "kind": "anchor",
-        "status": "certified",
+        "status": "undetermined",
         "basis": [
           "axiomatic-basis",
           "world-will",
           "seed-continuity",
           "declared-history-support",
-          "observation-surface"
+          "observation-surface",
+          "missing-authored-anchor-criterion"
         ],
         "evidenceIds": [
           "evidence:anchor-point:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
@@ -517,13 +790,13 @@
           "evidence:observe:bubble:examples/collapse-mirror.bubble::root:CollapseMirror"
         ],
         "dependsOnClaims": [
-          "claim:minimum-worldhood"
+          "claim:worldhood-roles-present"
         ],
         "assumptions": [
           "sea-anchor-theorem-witness-is-bounded"
         ],
         "scope": "plan",
-        "explanation": "Bubble CollapseMirror currently certifies anchor identity as strong with theorem condition stable."
+        "explanation": "Bubble CollapseMirror keeps an inferred anchor basis, but same-world anchor identity remains undetermined without an authored anchor criterion."
       },
       {
         "id": "claim:lineage-traceability",
@@ -544,7 +817,7 @@
       {
         "id": "claim:replay-identity",
         "kind": "replay",
-        "status": "certified",
+        "status": "undetermined",
         "basis": [
           "seed-continuity",
           "source-lineage-address",
@@ -569,7 +842,7 @@
           "same-world-replay-is-evaluated-from-the-current-plan-basis"
         ],
         "scope": "materialized-run",
-        "explanation": "Bubble CollapseMirror preserves a replay basis for currently declared history, but same-world replay across latent regions remains undetermined while collapse drafts are only observation-ready. Observed collapse records (1 record at committed with shape fully-committed) mean this run is no longer pristine latent possibility; same-world replay is now certified by committed collapse history."
+        "explanation": "Bubble CollapseMirror preserves a replay basis for currently declared history, but same-world replay across latent regions remains undetermined while collapse drafts are only observation-ready. Observed collapse records (1 record at committed with shape fully-committed) mean this run is no longer pristine latent possibility; same-world replay remains inferred because no authored anchor criterion fixes same-world replay."
       },
       {
         "id": "claim:internal-law-consistency",
@@ -693,6 +966,18 @@
       "signals": [
         "law-perturbation"
       ],
+      "pressureSources": [
+        {
+          "kind": "perturb",
+          "sourceEffectId": "effect:8:perturb",
+          "relationKind": null,
+          "boundaryScope": "local",
+          "strength": "elevated",
+          "evidenceBasis": [
+            "law-perturbation"
+          ]
+        }
+      ],
       "description": "Bubble CollapseMirror currently shows elevated negative-sea pressure via law-perturbation."
     },
     {
@@ -710,6 +995,45 @@
         "seeded-origin",
         "staged-growth",
         "declared-history-support"
+      ],
+      "supportSources": [
+        {
+          "kind": "source-lineage",
+          "addressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "source-lineage-address"
+          ]
+        },
+        {
+          "kind": "seed-origin",
+          "addressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "seeded-origin"
+          ]
+        },
+        {
+          "kind": "staged-growth",
+          "addressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "staged-growth",
+            "staged-growth-count:1"
+          ]
+        },
+        {
+          "kind": "declared-history-support",
+          "addressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+          "sourceEffectId": "effect:7:commit",
+          "support": "present",
+          "evidenceBasis": [
+            "declared-history-support"
+          ]
+        }
       ],
       "description": "Bubble CollapseMirror currently shows strong positive-sea support via source-lineage-address, seeded-origin, staged-growth, declared-history-support."
     },
@@ -734,7 +1058,18 @@
         "observation-surface",
         "perturbation-stress"
       ],
-      "description": "Bubble CollapseMirror currently shows strong anchor support with stable rewind stability."
+      "authoredCriterionStatus": "absent",
+      "authoredCriterionBasis": [],
+      "materializedEvidenceSources": [
+        {
+          "kind": "materialized-history",
+          "evidenceBasis": [
+            "materialized-history-evidence"
+          ]
+        }
+      ],
+      "identityStatus": "provisional",
+      "description": "Bubble CollapseMirror currently shows strong inferred anchor support with stable rewind stability and provisional identity status."
     },
     {
       "id": "evidence:observe:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
@@ -780,11 +1115,20 @@
         "commitStatus": "committed",
         "draftStatus": "observation-ready",
         "localMaterialization": {
-          "mode": "single-region-observation-kernel.v1",
+          "mode": "single-region-observation-kernel.v3",
           "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
           "regionName": "OuterCanopy",
           "regionKind": "hidden-region",
-          "realizedForm": "boundary-canopy-edge",
+          "realizedForm": "boundary-canopy-anchored-wake",
+          "perturbationMix": "perturb-mixed",
+          "nearbyHistoryInfluence": "committed-neighborhood",
+          "stateStructure": {
+            "anchorBinding": "anchored",
+            "seaBalance": "positive-skewed",
+            "membraneCondition": "pressured-edge",
+            "historyCoupling": "committed-neighborhood",
+            "worldhoodCondition": "stable"
+          },
           "anchorStrength": "strong",
           "negativeSeaPressure": "elevated",
           "positiveSeaSupport": "strong",
@@ -792,13 +1136,20 @@
             "observation:declared-observation-surface",
             "commit:declared-history-support",
             "perturb:declared-perturbation",
+            "perturbation-mix:perturb-mixed",
+            "nearby-history:committed-neighborhood",
+            "anchor-binding:anchored",
+            "sea-balance:positive-skewed",
+            "membrane-condition:pressured-edge",
+            "worldhood:stable",
+            "projected-history:fully-committed",
             "anchor:strong",
             "negative-sea:elevated",
             "positive-sea:strong",
             "effect:6:observe",
             "effect:8:perturb"
           ],
-          "description": "Local observation kernel materialized OuterCanopy as boundary-canopy-edge under anchor strong with elevated negative-sea pressure and strong positive-sea support."
+          "description": "Local observation kernel materialized OuterCanopy as boundary-canopy-anchored-wake with perturb-mixed, committed-neighborhood, anchor binding anchored, sea balance positive-skewed, membrane pressured-edge, and worldhood stable."
         },
         "description": "Observation state observation-state:latent-region:semantic:9:hidden-region:OuterCanopy records OuterCanopy as observed-committed under witness with one local materialization kernel."
       },
@@ -906,11 +1257,20 @@
       "commitStatus": "committed",
       "draftStatus": "observation-ready",
       "localMaterialization": {
-        "mode": "single-region-observation-kernel.v1",
+        "mode": "single-region-observation-kernel.v3",
         "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
         "regionName": "OuterCanopy",
         "regionKind": "hidden-region",
-        "realizedForm": "boundary-canopy-edge",
+        "realizedForm": "boundary-canopy-anchored-wake",
+        "perturbationMix": "perturb-mixed",
+        "nearbyHistoryInfluence": "committed-neighborhood",
+        "stateStructure": {
+          "anchorBinding": "anchored",
+          "seaBalance": "positive-skewed",
+          "membraneCondition": "pressured-edge",
+          "historyCoupling": "committed-neighborhood",
+          "worldhoodCondition": "stable"
+        },
         "anchorStrength": "strong",
         "negativeSeaPressure": "elevated",
         "positiveSeaSupport": "strong",
@@ -918,13 +1278,20 @@
           "observation:declared-observation-surface",
           "commit:declared-history-support",
           "perturb:declared-perturbation",
+          "perturbation-mix:perturb-mixed",
+          "nearby-history:committed-neighborhood",
+          "anchor-binding:anchored",
+          "sea-balance:positive-skewed",
+          "membrane-condition:pressured-edge",
+          "worldhood:stable",
+          "projected-history:fully-committed",
           "anchor:strong",
           "negative-sea:elevated",
           "positive-sea:strong",
           "effect:6:observe",
           "effect:8:perturb"
         ],
-        "description": "Local observation kernel materialized OuterCanopy as boundary-canopy-edge under anchor strong with elevated negative-sea pressure and strong positive-sea support."
+        "description": "Local observation kernel materialized OuterCanopy as boundary-canopy-anchored-wake with perturb-mixed, committed-neighborhood, anchor binding anchored, sea balance positive-skewed, membrane pressured-edge, and worldhood stable."
       },
       "description": "Observation state observation-state:latent-region:semantic:9:hidden-region:OuterCanopy records OuterCanopy as observed-committed under witness with one local materialization kernel."
     }
@@ -968,8 +1335,8 @@
       "details": {
         "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
         "observationStateId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
-        "realizedForm": "boundary-canopy-edge",
-        "mode": "single-region-observation-kernel.v1"
+        "realizedForm": "boundary-canopy-anchored-wake",
+        "mode": "single-region-observation-kernel.v3"
       }
     },
     {

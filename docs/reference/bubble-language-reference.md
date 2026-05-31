@@ -24,11 +24,12 @@ It is a line-oriented domain language with:
 - a planning and materialization runtime
 - inspection and replay surfaces
 
-The current implementation supports three profiles:
+The current implementation supports four profiles:
 
 - `bubbles.v0.1`
 - `bubbles.v0.2`
 - `bubbles.v0.3`
+- `bubbles.v0.4`
 
 ## Mental Model
 
@@ -120,6 +121,23 @@ Retains `v0.2` and adds:
 - `activate grammar`
 
 Typical use: define inspectable grammar artifacts and request later activation under explicit profile boundaries.
+
+### `bubbles.v0.4`
+
+First unresolved-semantics and latent-topology profile.
+
+Retains `v0.3` and adds:
+
+- `unknown value`
+- `unknown entity`
+- `constraint`
+- `partial law`
+- `anchor identity`
+- `hidden region`
+- `unobservable relation`
+- `latent bubble`
+
+Typical use: preserve unresolved or latent world structure explicitly, execute the bounded `constraint` / `partial law` / `anchor identity` subset, and inspect observation-collapse evidence without pretending Bubble already has a general solver.
 
 ## Declarations
 
@@ -280,7 +298,7 @@ Interpretation:
 - they lower into `bubble.unresolvedSemantics` in compiled IR
 - `constraint` is the first unresolved kind with executable checking when it is authored in the shared expression subset
 - `partial law` now also has one minimal executable path when it is authored in that same shared expression subset
-- `anchor identity` lowers into `bubble.anchorCriterion` and can tighten anchor-identity and replay-identity proof claims
+- `anchor identity` lowers into `bubble.anchorCriterion` and can tighten anchor-identity and replay-identity proof claims; without an authored anchor criterion those claims now remain inferred or `undetermined` rather than auto-certifying from ontology alone
 - inspect and replay now expose those executable evaluations directly through a `semantics` section instead of leaving them visible only through proof-claim text
 - they currently matter most because the proof layer can either cite them as explicit reasons that a claim remains `undetermined` or directly contradict one authored executable constraint or partial-law fragment
 
@@ -447,12 +465,14 @@ The compiler promotes the source profile automatically based on which declaratio
 - source with only `v0.1` constructs compiles as `bubbles.v0.1`
 - source containing `quote`, `generator`, `reflect`, or `emit` compiles as `bubbles.v0.2`
 - source containing `grammar` or `activate grammar` compiles as `bubbles.v0.3`
+- source containing unresolved-semantics declarations such as `unknown value`, `constraint`, `partial law`, `anchor identity`, `hidden region`, `unobservable relation`, or `latent bubble` compiles as `bubbles.v0.4`
 
 Typical compiled outputs therefore include one of:
 
 - `"profile": "bubbles.v0.1"`
 - `"profile": "bubbles.v0.2"`
 - `"profile": "bubbles.v0.3"`
+- `"profile": "bubbles.v0.4"`
 
 ## Runtime Interpretation
 
@@ -469,8 +489,25 @@ The current runtime model is:
 For observation-collapse benchmarks, materialization may also:
 
 - emit `collapse-record` evidence with a structured `observationState`
-- attach one deterministic local state under `observationState.localMaterialization`
+- attach one local state under `observationState.localMaterialization`
 - commit that local observed state into run history when one bounded local commit path applies, including the mixed path where one hidden-region target commits while sibling latent-bubble observation states remain `history-open`
+
+The current local materialization record is `single-region-observation-kernel.v3` and now exposes at least:
+
+- `realizedForm`
+- `perturbationMix`
+- `nearbyHistoryInfluence`
+- `stateStructure`
+
+The current `stateStructure` records at least:
+
+- `anchorBinding`
+- `seaBalance`
+- `membraneCondition`
+- `historyCoupling`
+- `worldhoodCondition`
+
+That means Bubble no longer treats local observation materialization as a pure region-kind lookup, or even only as a perturb/history lookup. The same latent site may now materialize differently when perturbation is mixed in, when nearby observed history remains open versus already anchored, or when weak anchor and negative-sea pressure drive the local membrane into a different structural state.
 
 Execution plans may now also carry one hidden runtime `observationCommitPolicy` object that records:
 
@@ -752,12 +789,19 @@ When the proof section is narrowed this way, the reported `verdict` is recalcula
 Current claim families include:
 
 - well-formed source
-- minimum worldhood
+- minimum authored shape
+- worldhood roles present
 - required-effect obligations
 - anchor identity
 - lineage traceability
 - replay identity basis
 - internal law consistency
+
+The current runtime deliberately distinguishes these layers:
+
+- `minimum-authored-shape` checks the smallest authored bubble basis currently implemented
+- `worldhood-roles-present` asks whether the stronger independent-world contract roles are explicit enough in the current source/runtime slice
+- `anchor-identity` and `replay-identity` may remain `undetermined` when ontology suggests continuity but no authored `anchor identity` criterion fixes same-world identity
 
 The current runtime can also preserve unresolved semantic fragments in IR for:
 

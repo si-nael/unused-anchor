@@ -92,7 +92,7 @@
             "explanation": "Bubble CollapseOpen compiled into a semantic plan under bubbles.v0.4."
           },
           {
-            "id": "claim:minimum-worldhood",
+            "id": "claim:minimum-authored-shape",
             "kind": "worldhood",
             "status": "certified",
             "basis": [
@@ -107,7 +107,28 @@
             ],
             "assumptions": [],
             "scope": "source",
-            "explanation": "Bubble CollapseOpen satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+            "explanation": "Bubble CollapseOpen satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
+          },
+          {
+            "id": "claim:worldhood-roles-present",
+            "kind": "worldhood",
+            "status": "undetermined",
+            "basis": [
+              "local-law-basis",
+              "source-lineage-address",
+              "lineage-placement",
+              "missing-boundary-semantics",
+              "missing-authored-anchor-criterion"
+            ],
+            "evidenceIds": [],
+            "dependsOnClaims": [
+              "claim:minimum-authored-shape"
+            ],
+            "assumptions": [
+              "boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"
+            ],
+            "scope": "plan",
+            "explanation": "Bubble CollapseOpen preserves minimum authored shape, but independent worldhood remains undetermined while missing-boundary-semantics, missing-authored-anchor-criterion are not yet explicitly authored."
           },
           {
             "id": "claim:required-effect-obligations",
@@ -122,7 +143,7 @@
               "evidence:effect:effect:7:commit"
             ],
             "dependsOnClaims": [
-              "claim:minimum-worldhood"
+              "claim:minimum-authored-shape"
             ],
             "assumptions": [
               "effect-trace-records-mirror-the-current-materialization-plan"
@@ -133,13 +154,14 @@
           {
             "id": "claim:anchor-identity",
             "kind": "anchor",
-            "status": "certified",
+            "status": "undetermined",
             "basis": [
               "axiomatic-basis",
               "world-will",
               "seed-continuity",
               "declared-history-support",
-              "observation-surface"
+              "observation-surface",
+              "missing-authored-anchor-criterion"
             ],
             "evidenceIds": [
               "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
@@ -148,13 +170,13 @@
               "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen"
             ],
             "dependsOnClaims": [
-              "claim:minimum-worldhood"
+              "claim:worldhood-roles-present"
             ],
             "assumptions": [
               "sea-anchor-theorem-witness-is-bounded"
             ],
             "scope": "plan",
-            "explanation": "Bubble CollapseOpen currently certifies anchor identity as strong with theorem condition stable."
+            "explanation": "Bubble CollapseOpen keeps an inferred anchor basis, but same-world anchor identity remains undetermined without an authored anchor criterion."
           },
           {
             "id": "claim:lineage-traceability",
@@ -429,7 +451,7 @@
           "explanation": "Bubble CollapseOpen compiled into a semantic plan under bubbles.v0.4."
         },
         {
-          "id": "claim:minimum-worldhood",
+          "id": "claim:minimum-authored-shape",
           "kind": "worldhood",
           "status": "certified",
           "basis": [
@@ -444,7 +466,28 @@
           ],
           "assumptions": [],
           "scope": "source",
-          "explanation": "Bubble CollapseOpen satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+          "explanation": "Bubble CollapseOpen satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
+        },
+        {
+          "id": "claim:worldhood-roles-present",
+          "kind": "worldhood",
+          "status": "undetermined",
+          "basis": [
+            "local-law-basis",
+            "source-lineage-address",
+            "lineage-placement",
+            "missing-boundary-semantics",
+            "missing-authored-anchor-criterion"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:minimum-authored-shape"
+          ],
+          "assumptions": [
+            "boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"
+          ],
+          "scope": "plan",
+          "explanation": "Bubble CollapseOpen preserves minimum authored shape, but independent worldhood remains undetermined while missing-boundary-semantics, missing-authored-anchor-criterion are not yet explicitly authored."
         },
         {
           "id": "claim:required-effect-obligations",
@@ -459,7 +502,7 @@
             "evidence:effect:effect:7:commit"
           ],
           "dependsOnClaims": [
-            "claim:minimum-worldhood"
+            "claim:minimum-authored-shape"
           ],
           "assumptions": [
             "effect-trace-records-mirror-the-current-materialization-plan"
@@ -470,13 +513,14 @@
         {
           "id": "claim:anchor-identity",
           "kind": "anchor",
-          "status": "certified",
+          "status": "undetermined",
           "basis": [
             "axiomatic-basis",
             "world-will",
             "seed-continuity",
             "declared-history-support",
-            "observation-surface"
+            "observation-surface",
+            "missing-authored-anchor-criterion"
           ],
           "evidenceIds": [
             "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
@@ -485,13 +529,13 @@
             "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen"
           ],
           "dependsOnClaims": [
-            "claim:minimum-worldhood"
+            "claim:worldhood-roles-present"
           ],
           "assumptions": [
             "sea-anchor-theorem-witness-is-bounded"
           ],
           "scope": "plan",
-          "explanation": "Bubble CollapseOpen currently certifies anchor identity as strong with theorem condition stable."
+          "explanation": "Bubble CollapseOpen keeps an inferred anchor basis, but same-world anchor identity remains undetermined without an authored anchor criterion."
         },
         {
           "id": "claim:lineage-traceability",
@@ -721,11 +765,20 @@
           "commitStatus": "committed",
           "draftStatus": "observation-ready",
           "localMaterialization": {
-            "mode": "single-region-observation-kernel.v1",
+            "mode": "single-region-observation-kernel.v3",
             "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
             "regionName": "OuterCanopy",
             "regionKind": "hidden-region",
-            "realizedForm": "boundary-canopy-edge",
+            "realizedForm": "boundary-canopy-anchored-fray",
+            "perturbationMix": "perturb-mixed",
+            "nearbyHistoryInfluence": "history-open-neighborhood",
+            "stateStructure": {
+              "anchorBinding": "anchored",
+              "seaBalance": "contested",
+              "membraneCondition": "frayed-edge",
+              "historyCoupling": "history-open-neighborhood",
+              "worldhoodCondition": "stable"
+            },
             "anchorStrength": "strong",
             "negativeSeaPressure": "elevated",
             "positiveSeaSupport": "present",
@@ -733,13 +786,20 @@
               "observation:declared-observation-surface",
               "commit:declared-history-support",
               "perturb:declared-perturbation",
+              "perturbation-mix:perturb-mixed",
+              "nearby-history:history-open-neighborhood",
+              "anchor-binding:anchored",
+              "sea-balance:contested",
+              "membrane-condition:frayed-edge",
+              "worldhood:stable",
+              "projected-history:partially-committed",
               "anchor:strong",
               "negative-sea:elevated",
               "positive-sea:present",
               "effect:6:observe",
               "effect:8:perturb"
             ],
-            "description": "Local observation kernel materialized OuterCanopy as boundary-canopy-edge under anchor strong with elevated negative-sea pressure and present positive-sea support."
+            "description": "Local observation kernel materialized OuterCanopy as boundary-canopy-anchored-fray with perturb-mixed, history-open-neighborhood, anchor binding anchored, sea balance contested, membrane frayed-edge, and worldhood stable."
           },
           "description": "Observation state observation-state:latent-region:semantic:9:hidden-region:OuterCanopy records OuterCanopy as observed-committed under witness with one local materialization kernel."
         },
@@ -878,8 +938,8 @@
         "details": {
           "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
           "observationStateId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
-          "realizedForm": "boundary-canopy-edge",
-          "mode": "single-region-observation-kernel.v1"
+          "realizedForm": "boundary-canopy-anchored-fray",
+          "mode": "single-region-observation-kernel.v3"
         }
       },
       {

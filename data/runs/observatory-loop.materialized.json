@@ -24,7 +24,8 @@
     "ontology": {
       "negativeSea": {
         "pressure": "low",
-        "signals": []
+        "signals": [],
+        "pressureSources": []
       },
       "positiveSea": {
         "support": "strong",
@@ -34,6 +35,55 @@
           "descendant-lineage",
           "staged-growth",
           "declared-history-support"
+        ],
+        "supportSources": [
+          {
+            "kind": "source-lineage",
+            "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+            "sourceEffectId": null,
+            "support": "present",
+            "evidenceBasis": [
+              "source-lineage-address"
+            ]
+          },
+          {
+            "kind": "seed-origin",
+            "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+            "sourceEffectId": null,
+            "support": "present",
+            "evidenceBasis": [
+              "seeded-origin"
+            ]
+          },
+          {
+            "kind": "descendant-lineage",
+            "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+            "sourceEffectId": "effect:10:spawn",
+            "support": "present",
+            "evidenceBasis": [
+              "descendant-lineage",
+              "descendant-lineage-count:1"
+            ]
+          },
+          {
+            "kind": "staged-growth",
+            "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+            "sourceEffectId": "effect:10:spawn",
+            "support": "present",
+            "evidenceBasis": [
+              "staged-growth",
+              "staged-growth-count:1"
+            ]
+          },
+          {
+            "kind": "declared-history-support",
+            "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+            "sourceEffectId": "effect:9:commit",
+            "support": "present",
+            "evidenceBasis": [
+              "declared-history-support"
+            ]
+          }
         ]
       },
       "anchorPoint": {
@@ -47,7 +97,11 @@
           "seed-continuity",
           "declared-history-support",
           "observation-surface"
-        ]
+        ],
+        "authoredCriterionStatus": "absent",
+        "authoredCriterionBasis": [],
+        "materializedEvidenceSources": [],
+        "identityStatus": "provisional"
       },
       "theoremWitness": {
         "theorem": "sea-anchor-necessity.v1",
@@ -82,7 +136,7 @@
           "explanation": "Bubble ObservatoryLoop compiled into a semantic plan under bubbles.v0.2."
         },
         {
-          "id": "claim:minimum-worldhood",
+          "id": "claim:minimum-authored-shape",
           "kind": "worldhood",
           "status": "certified",
           "basis": [
@@ -97,7 +151,28 @@
           ],
           "assumptions": [],
           "scope": "source",
-          "explanation": "Bubble ObservatoryLoop satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+          "explanation": "Bubble ObservatoryLoop satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
+        },
+        {
+          "id": "claim:worldhood-roles-present",
+          "kind": "worldhood",
+          "status": "undetermined",
+          "basis": [
+            "local-law-basis",
+            "source-lineage-address",
+            "lineage-placement",
+            "missing-boundary-semantics",
+            "missing-authored-anchor-criterion"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:minimum-authored-shape"
+          ],
+          "assumptions": [
+            "boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"
+          ],
+          "scope": "plan",
+          "explanation": "Bubble ObservatoryLoop preserves minimum authored shape, but independent worldhood remains undetermined while missing-boundary-semantics, missing-authored-anchor-criterion are not yet explicitly authored."
         },
         {
           "id": "claim:required-effect-obligations",
@@ -115,7 +190,7 @@
             "evidence:effect:effect:10:spawn"
           ],
           "dependsOnClaims": [
-            "claim:minimum-worldhood"
+            "claim:minimum-authored-shape"
           ],
           "assumptions": [
             "effect-trace-records-mirror-the-current-materialization-plan"
@@ -126,13 +201,14 @@
         {
           "id": "claim:anchor-identity",
           "kind": "anchor",
-          "status": "certified",
+          "status": "undetermined",
           "basis": [
             "axiomatic-basis",
             "world-will",
             "seed-continuity",
             "declared-history-support",
-            "observation-surface"
+            "observation-surface",
+            "missing-authored-anchor-criterion"
           ],
           "evidenceIds": [
             "evidence:anchor-point:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
@@ -141,13 +217,13 @@
             "evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop"
           ],
           "dependsOnClaims": [
-            "claim:minimum-worldhood"
+            "claim:worldhood-roles-present"
           ],
           "assumptions": [
             "sea-anchor-theorem-witness-is-bounded"
           ],
           "scope": "plan",
-          "explanation": "Bubble ObservatoryLoop currently certifies anchor identity as strong with theorem condition stable."
+          "explanation": "Bubble ObservatoryLoop keeps an inferred anchor basis, but same-world anchor identity remains undetermined without an authored anchor criterion."
         },
         {
           "id": "claim:lineage-traceability",
@@ -171,11 +247,12 @@
         {
           "id": "claim:replay-identity",
           "kind": "replay",
-          "status": "certified",
+          "status": "undetermined",
           "basis": [
             "seed-continuity",
             "source-lineage-address",
-            "declared-history-support"
+            "declared-history-support",
+            "missing-authored-anchor-criterion"
           ],
           "evidenceIds": [
             "evidence:anchor-point:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
@@ -192,7 +269,7 @@
             "same-world-replay-is-evaluated-from-the-current-plan-basis"
           ],
           "scope": "plan",
-          "explanation": "Bubble ObservatoryLoop currently certifies replay identity through seed continuity, stable root addressing, and declared history support."
+          "explanation": "Bubble ObservatoryLoop preserves an inferred replay basis, but same-world replay remains undetermined without an authored anchor criterion."
         },
         {
           "id": "claim:internal-law-consistency",
@@ -279,6 +356,9 @@
         }
       ]
     },
+    "latentTopology": null,
+    "observationCommitPolicy": null,
+    "observationCommitPolicyComparison": null,
     "obligations": [
       {
         "effectId": "effect:8:observe",
@@ -370,10 +450,186 @@
       }
     ]
   },
+  "proof": {
+    "mode": "bubble-consistency-certificate.v1",
+    "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+    "profile": "bubbles.v0.2",
+    "verdict": "partially-certified",
+    "claims": [
+      {
+        "id": "claim:well-formed-source",
+        "kind": "syntax",
+        "status": "certified",
+        "basis": [
+          "parser",
+          "profile-validator"
+        ],
+        "evidenceIds": [],
+        "dependsOnClaims": [],
+        "assumptions": [],
+        "scope": "source",
+        "explanation": "Bubble ObservatoryLoop compiled into a semantic plan under bubbles.v0.2."
+      },
+      {
+        "id": "claim:minimum-authored-shape",
+        "kind": "worldhood",
+        "status": "certified",
+        "basis": [
+          "axiom",
+          "worldWill",
+          "seed",
+          "effect"
+        ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [],
+        "scope": "source",
+        "explanation": "Bubble ObservatoryLoop satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
+      },
+      {
+        "id": "claim:worldhood-roles-present",
+        "kind": "worldhood",
+        "status": "undetermined",
+        "basis": [
+          "local-law-basis",
+          "source-lineage-address",
+          "lineage-placement",
+          "missing-boundary-semantics",
+          "missing-authored-anchor-criterion"
+        ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:minimum-authored-shape"
+        ],
+        "assumptions": [
+          "boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"
+        ],
+        "scope": "plan",
+        "explanation": "Bubble ObservatoryLoop preserves minimum authored shape, but independent worldhood remains undetermined while missing-boundary-semantics, missing-authored-anchor-criterion are not yet explicitly authored."
+      },
+      {
+        "id": "claim:required-effect-obligations",
+        "kind": "effect",
+        "status": "certified",
+        "basis": [
+          "observation-surface",
+          "declared-history-support",
+          "descendant-lineage",
+          "staged-growth"
+        ],
+        "evidenceIds": [
+          "evidence:effect:effect:8:observe",
+          "evidence:effect:effect:9:commit",
+          "evidence:effect:effect:10:spawn"
+        ],
+        "dependsOnClaims": [
+          "claim:minimum-authored-shape"
+        ],
+        "assumptions": [
+          "effect-trace-records-mirror-the-current-materialization-plan"
+        ],
+        "scope": "plan",
+        "explanation": "Required effect effect:8:observe is certified by the declared observation surface. Required effect effect:9:commit is certified by declared history support. Required effect effect:10:spawn is certified by descendant lineage and staged descendant materialization."
+      },
+      {
+        "id": "claim:anchor-identity",
+        "kind": "anchor",
+        "status": "undetermined",
+        "basis": [
+          "axiomatic-basis",
+          "world-will",
+          "seed-continuity",
+          "declared-history-support",
+          "observation-surface",
+          "missing-authored-anchor-criterion"
+        ],
+        "evidenceIds": [
+          "evidence:anchor-point:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "evidence:positive-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "evidence:negative-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop"
+        ],
+        "dependsOnClaims": [
+          "claim:worldhood-roles-present"
+        ],
+        "assumptions": [
+          "sea-anchor-theorem-witness-is-bounded"
+        ],
+        "scope": "plan",
+        "explanation": "Bubble ObservatoryLoop keeps an inferred anchor basis, but same-world anchor identity remains undetermined without an authored anchor criterion."
+      },
+      {
+        "id": "claim:lineage-traceability",
+        "kind": "lineage",
+        "status": "certified",
+        "basis": [
+          "source-lineage-address",
+          "descendant-lineage",
+          "staged-growth"
+        ],
+        "evidenceIds": [
+          "evidence:effect:effect:10:spawn"
+        ],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [],
+        "scope": "plan",
+        "explanation": "Bubble ObservatoryLoop preserves traceable lineage for every currently declared descendant or staged generation path."
+      },
+      {
+        "id": "claim:replay-identity",
+        "kind": "replay",
+        "status": "undetermined",
+        "basis": [
+          "seed-continuity",
+          "source-lineage-address",
+          "declared-history-support",
+          "missing-authored-anchor-criterion"
+        ],
+        "evidenceIds": [
+          "evidence:anchor-point:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "evidence:positive-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "evidence:negative-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "evidence:effect:effect:8:observe",
+          "evidence:effect:effect:9:commit"
+        ],
+        "dependsOnClaims": [
+          "claim:anchor-identity"
+        ],
+        "assumptions": [
+          "same-world-replay-is-evaluated-from-the-current-plan-basis"
+        ],
+        "scope": "plan",
+        "explanation": "Bubble ObservatoryLoop preserves an inferred replay basis, but same-world replay remains undetermined without an authored anchor criterion."
+      },
+      {
+        "id": "claim:internal-law-consistency",
+        "kind": "consistency",
+        "status": "undetermined",
+        "basis": [
+          "no-executable-law-semantics-yet"
+        ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [
+          "no-general-law-solver-is-present"
+        ],
+        "scope": "plan",
+        "explanation": "Bubble ObservatoryLoop does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
+      }
+    ]
+  },
   "runtimeOntology": {
     "negativeSea": {
       "pressure": "low",
-      "signals": []
+      "signals": [],
+      "pressureSources": []
     },
     "positiveSea": {
       "support": "strong",
@@ -383,6 +639,55 @@
         "descendant-lineage",
         "staged-growth",
         "declared-history-support"
+      ],
+      "supportSources": [
+        {
+          "kind": "source-lineage",
+          "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "source-lineage-address"
+          ]
+        },
+        {
+          "kind": "seed-origin",
+          "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "seeded-origin"
+          ]
+        },
+        {
+          "kind": "descendant-lineage",
+          "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "sourceEffectId": "effect:10:spawn",
+          "support": "present",
+          "evidenceBasis": [
+            "descendant-lineage",
+            "descendant-lineage-count:1"
+          ]
+        },
+        {
+          "kind": "staged-growth",
+          "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "sourceEffectId": "effect:10:spawn",
+          "support": "present",
+          "evidenceBasis": [
+            "staged-growth",
+            "staged-growth-count:1"
+          ]
+        },
+        {
+          "kind": "declared-history-support",
+          "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "sourceEffectId": "effect:9:commit",
+          "support": "present",
+          "evidenceBasis": [
+            "declared-history-support"
+          ]
+        }
       ]
     },
     "anchorPoint": {
@@ -396,7 +701,18 @@
         "seed-continuity",
         "declared-history-support",
         "observation-surface"
-      ]
+      ],
+      "authoredCriterionStatus": "absent",
+      "authoredCriterionBasis": [],
+      "materializedEvidenceSources": [
+        {
+          "kind": "materialized-history",
+          "evidenceBasis": [
+            "materialized-history-evidence"
+          ]
+        }
+      ],
+      "identityStatus": "provisional"
     },
     "theoremWitness": {
       "theorem": "sea-anchor-necessity.v1",
@@ -757,6 +1073,7 @@
       "commitId": null,
       "pressure": "low",
       "signals": [],
+      "pressureSources": [],
       "description": "Bubble ObservatoryLoop currently shows low negative-sea pressure."
     },
     {
@@ -775,6 +1092,55 @@
         "descendant-lineage",
         "staged-growth",
         "declared-history-support"
+      ],
+      "supportSources": [
+        {
+          "kind": "source-lineage",
+          "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "source-lineage-address"
+          ]
+        },
+        {
+          "kind": "seed-origin",
+          "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "seeded-origin"
+          ]
+        },
+        {
+          "kind": "descendant-lineage",
+          "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "sourceEffectId": "effect:10:spawn",
+          "support": "present",
+          "evidenceBasis": [
+            "descendant-lineage",
+            "descendant-lineage-count:1"
+          ]
+        },
+        {
+          "kind": "staged-growth",
+          "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "sourceEffectId": "effect:10:spawn",
+          "support": "present",
+          "evidenceBasis": [
+            "staged-growth",
+            "staged-growth-count:1"
+          ]
+        },
+        {
+          "kind": "declared-history-support",
+          "addressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "sourceEffectId": "effect:9:commit",
+          "support": "present",
+          "evidenceBasis": [
+            "declared-history-support"
+          ]
+        }
       ],
       "description": "Bubble ObservatoryLoop currently shows strong positive-sea support via source-lineage-address, seeded-origin, descendant-lineage, staged-growth, declared-history-support."
     },
@@ -798,7 +1164,18 @@
         "declared-history-support",
         "observation-surface"
       ],
-      "description": "Bubble ObservatoryLoop currently shows strong anchor support with stable rewind stability."
+      "authoredCriterionStatus": "absent",
+      "authoredCriterionBasis": [],
+      "materializedEvidenceSources": [
+        {
+          "kind": "materialized-history",
+          "evidenceBasis": [
+            "materialized-history-evidence"
+          ]
+        }
+      ],
+      "identityStatus": "provisional",
+      "description": "Bubble ObservatoryLoop currently shows strong inferred anchor support with stable rewind stability and provisional identity status."
     },
     {
       "id": "evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",

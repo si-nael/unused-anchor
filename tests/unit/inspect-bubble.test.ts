@@ -39,12 +39,12 @@ test("inspects a meta bubble into a stable summary and artifact view", () => {
             undetermined: 0,
         },
         proofVerdict: "partially-certified",
-        proofClaimCount: 7,
+        proofClaimCount: 8,
         proofClaimKinds: ["syntax", "worldhood", "effect", "anchor", "lineage", "replay", "consistency"],
         proofClaimStatusCounts: {
-            certified: 5,
+            certified: 4,
             contradicted: 0,
-            undetermined: 2,
+            undetermined: 4,
         },
         materializedArtifactCount: 1,
         descendantCount: 1,
@@ -255,11 +255,12 @@ test("inspection exposes observation evidence as a first-class report section", 
         Object.fromEntries(report.proof.claims.map((claim) => [claim.id, claim.status])),
         {
             "claim:well-formed-source": "certified",
-            "claim:minimum-worldhood": "certified",
+            "claim:minimum-authored-shape": "certified",
+            "claim:worldhood-roles-present": "undetermined",
             "claim:required-effect-obligations": "certified",
-            "claim:anchor-identity": "certified",
+            "claim:anchor-identity": "undetermined",
             "claim:lineage-traceability": "undetermined",
-            "claim:replay-identity": "certified",
+            "claim:replay-identity": "undetermined",
             "claim:internal-law-consistency": "undetermined",
         },
     );
@@ -275,6 +276,7 @@ test("inspection exposes observation evidence as a first-class report section", 
             commitId: null,
             pressure: "low",
             signals: [],
+            pressureSources: [],
             description: "Bubble Observatory currently shows low negative-sea pressure.",
         },
         {
@@ -288,6 +290,29 @@ test("inspection exposes observation evidence as a first-class report section", 
             commitId: null,
             support: "present",
             signals: ["source-lineage-address", "seeded-origin", "declared-history-support"],
+            supportSources: [
+                {
+                    kind: "source-lineage",
+                    addressId: "bubble:observatory-inspect.bubble::root:Observatory",
+                    sourceEffectId: null,
+                    support: "present",
+                    evidenceBasis: ["source-lineage-address"],
+                },
+                {
+                    kind: "seed-origin",
+                    addressId: "bubble:observatory-inspect.bubble::root:Observatory",
+                    sourceEffectId: null,
+                    support: "present",
+                    evidenceBasis: ["seeded-origin"],
+                },
+                {
+                    kind: "declared-history-support",
+                    addressId: "bubble:observatory-inspect.bubble::root:Observatory",
+                    sourceEffectId: "effect:7:commit",
+                    support: "present",
+                    evidenceBasis: ["declared-history-support"],
+                },
+            ],
             description: "Bubble Observatory currently shows present positive-sea support via source-lineage-address, seeded-origin, declared-history-support.",
         },
         {
@@ -304,7 +329,11 @@ test("inspection exposes observation evidence as a first-class report section", 
             materializedHistoryEvidence: false,
             rewindStability: "stable",
             signals: ["axiomatic-basis", "world-will", "seed-continuity", "declared-history-support", "observation-surface"],
-            description: "Bubble Observatory currently shows strong anchor support with stable rewind stability.",
+            authoredCriterionStatus: "absent",
+            authoredCriterionBasis: [],
+            materializedEvidenceSources: [],
+            identityStatus: "provisional",
+            description: "Bubble Observatory currently shows strong inferred anchor support with stable rewind stability and provisional identity status.",
         },
         {
             id: "evidence:observe:bubble:observatory-inspect.bubble::root:Observatory",
@@ -482,7 +511,16 @@ test("inspection preserves collapse-record evidence for observed latent regions"
     assert.deepEqual(collapseEvidence.map((entry) => entry.commitStatus), ["committed", "history-open"]);
     assert.deepEqual(collapseEvidence.map((entry) => entry.draftStatus), ["observation-ready", "observation-ready"]);
     assert.deepEqual(collapseEvidence.map((entry) => entry.observationState.phase), ["observed-committed", "observed-history-open"]);
-    assert.deepEqual(collapseEvidence.map((entry) => entry.observationState.localMaterialization?.realizedForm ?? null), ["boundary-canopy-edge", null]);
+    assert.deepEqual(collapseEvidence.map((entry) => entry.observationState.localMaterialization?.realizedForm ?? null), ["boundary-canopy-anchored-fray", null]);
+    assert.equal(collapseEvidence[0]?.observationState.localMaterialization?.perturbationMix, "perturb-mixed");
+    assert.equal(collapseEvidence[0]?.observationState.localMaterialization?.nearbyHistoryInfluence, "history-open-neighborhood");
+    assert.deepEqual(collapseEvidence[0]?.observationState.localMaterialization?.stateStructure, {
+        anchorBinding: "anchored",
+        seaBalance: "contested",
+        membraneCondition: "frayed-edge",
+        historyCoupling: "history-open-neighborhood",
+        worldhoodCondition: "stable",
+    });
     assert.ok(report.trace.some((event) => event.kind === "local-collapse-materialized"));
 });
 
@@ -614,9 +652,10 @@ test("inspection upgrades the benchmark micro-world to committed local collapse 
     assert.equal(collapseRecord.observationState.phase, "observed-committed");
     assert.equal(report.summary.commitCount, 1);
     assert.equal(report.summary.proofVerdict, "partially-certified");
-    assert.equal(replayClaim?.status, "certified");
+    assert.equal(replayClaim?.status, "undetermined");
     assert.ok(replayClaim?.basis.includes("observed-history-committed"));
     assert.ok(replayClaim?.basis.includes("observed-history-shape-fully-committed"));
+    assert.match(replayClaim?.explanation ?? "", /remains inferred because no authored anchor criterion fixes same-world replay/);
 });
 
 test("inspection exposes observation states as a first-class section", () => {
@@ -646,7 +685,7 @@ test("inspection exposes observation states as a first-class section", () => {
         {
             id: "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
             phase: "observed-committed",
-            localMaterialization: "boundary-canopy-edge",
+            localMaterialization: "boundary-canopy-anchored-fray",
         },
         {
             id: "observation-state:latent-region:semantic:10:latent-bubble:WaitingArchive",
@@ -754,10 +793,72 @@ test("inspection exposes sea-anchor ontology for stressed boundary worlds", () =
         negativeSea: {
             pressure: "high",
             signals: ["nondeterministic-realization", "branch-pressure", "boundary-exposure"],
+            pressureSources: [
+                {
+                    kind: "nondeterministic-realization",
+                    sourceEffectId: null,
+                    relationKind: null,
+                    boundaryScope: null,
+                    strength: "elevated",
+                    evidenceBasis: ["nondeterministic-realization"],
+                },
+                {
+                    kind: "branch",
+                    sourceEffectId: "effect:11:branch",
+                    relationKind: "branch",
+                    boundaryScope: "local",
+                    strength: "elevated",
+                    evidenceBasis: ["branch-pressure", "branch-count:1"],
+                },
+                {
+                    kind: "boundary-stress",
+                    sourceEffectId: "effect:10:spawn",
+                    relationKind: null,
+                    boundaryScope: "membrane",
+                    strength: "high",
+                    evidenceBasis: [
+                        "boundary-exposure",
+                        "boundary-exposure-count:2",
+                        "obligation:effect:10:spawn",
+                        "scope:membrane",
+                        "relation:spawn",
+                    ],
+                },
+            ],
         },
         positiveSea: {
             support: "strong",
             signals: ["source-lineage-address", "seeded-origin", "descendant-lineage", "declared-history-support"],
+            supportSources: [
+                {
+                    kind: "source-lineage",
+                    addressId: "bubble:boundary-orchard.bubble::root:BoundaryOrchard",
+                    sourceEffectId: null,
+                    support: "present",
+                    evidenceBasis: ["source-lineage-address"],
+                },
+                {
+                    kind: "seed-origin",
+                    addressId: "bubble:boundary-orchard.bubble::root:BoundaryOrchard",
+                    sourceEffectId: null,
+                    support: "present",
+                    evidenceBasis: ["seeded-origin"],
+                },
+                {
+                    kind: "descendant-lineage",
+                    addressId: "bubble:boundary-orchard.bubble::root:BoundaryOrchard",
+                    sourceEffectId: "effect:10:spawn",
+                    support: "present",
+                    evidenceBasis: ["descendant-lineage", "descendant-lineage-count:1"],
+                },
+                {
+                    kind: "declared-history-support",
+                    addressId: "bubble:boundary-orchard.bubble::root:BoundaryOrchard",
+                    sourceEffectId: "effect:9:commit",
+                    support: "present",
+                    evidenceBasis: ["declared-history-support"],
+                },
+            ],
         },
         anchorPoint: {
             strength: "steady",
@@ -774,6 +875,10 @@ test("inspection exposes sea-anchor ontology for stressed boundary worlds", () =
                 "boundary-stress",
                 "branch-instability",
             ],
+            authoredCriterionStatus: "absent",
+            authoredCriterionBasis: [],
+            materializedEvidenceSources: [],
+            identityStatus: "provisional",
         },
         theoremWitness: {
             theorem: "sea-anchor-necessity.v1",
@@ -794,11 +899,12 @@ test("inspection exposes sea-anchor ontology for stressed boundary worlds", () =
         Object.fromEntries(report.proof.claims.map((claim) => [claim.id, claim.status])),
         {
             "claim:well-formed-source": "certified",
-            "claim:minimum-worldhood": "certified",
+            "claim:minimum-authored-shape": "certified",
+            "claim:worldhood-roles-present": "undetermined",
             "claim:required-effect-obligations": "certified",
-            "claim:anchor-identity": "certified",
+            "claim:anchor-identity": "undetermined",
             "claim:lineage-traceability": "certified",
-            "claim:replay-identity": "certified",
+            "claim:replay-identity": "undetermined",
             "claim:internal-law-consistency": "undetermined",
         },
     );
@@ -831,10 +937,64 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
         negativeSea: {
             pressure: "high",
             signals: ["boundary-exposure", "membrane-leak", "law-perturbation"],
+            pressureSources: [
+                {
+                    kind: "boundary-stress",
+                    sourceEffectId: "effect:8:leak",
+                    relationKind: null,
+                    boundaryScope: "membrane",
+                    strength: "elevated",
+                    evidenceBasis: [
+                        "boundary-exposure",
+                        "boundary-exposure-count:1",
+                        "obligation:effect:8:leak",
+                        "scope:membrane",
+                    ],
+                },
+                {
+                    kind: "leak",
+                    sourceEffectId: "effect:8:leak",
+                    relationKind: null,
+                    boundaryScope: "membrane",
+                    strength: "elevated",
+                    evidenceBasis: ["membrane-leak"],
+                },
+                {
+                    kind: "perturb",
+                    sourceEffectId: "effect:10:perturb",
+                    relationKind: null,
+                    boundaryScope: "local",
+                    strength: "elevated",
+                    evidenceBasis: ["law-perturbation"],
+                },
+            ],
         },
         positiveSea: {
             support: "present",
             signals: ["source-lineage-address", "seeded-origin", "declared-history-support"],
+            supportSources: [
+                {
+                    kind: "source-lineage",
+                    addressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+                    sourceEffectId: null,
+                    support: "present",
+                    evidenceBasis: ["source-lineage-address"],
+                },
+                {
+                    kind: "seed-origin",
+                    addressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+                    sourceEffectId: null,
+                    support: "present",
+                    evidenceBasis: ["seeded-origin"],
+                },
+                {
+                    kind: "declared-history-support",
+                    addressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+                    sourceEffectId: "effect:7:commit",
+                    support: "present",
+                    evidenceBasis: ["declared-history-support"],
+                },
+            ],
         },
         anchorPoint: {
             strength: "weak",
@@ -852,6 +1012,10 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
                 "unresolved-debt",
                 "perturbation-stress",
             ],
+            authoredCriterionStatus: "absent",
+            authoredCriterionBasis: [],
+            materializedEvidenceSources: [],
+            identityStatus: "contradicted",
         },
         theoremWitness: {
             theorem: "sea-anchor-necessity.v1",
@@ -871,7 +1035,8 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
         Object.fromEntries(report.proof.claims.map((claim) => [claim.id, claim.status])),
         {
             "claim:well-formed-source": "certified",
-            "claim:minimum-worldhood": "certified",
+            "claim:minimum-authored-shape": "certified",
+            "claim:worldhood-roles-present": "undetermined",
             "claim:required-effect-obligations": "certified",
             "claim:anchor-identity": "contradicted",
             "claim:lineage-traceability": "undetermined",
@@ -891,6 +1056,37 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
             commitId: null,
             pressure: "high",
             signals: ["boundary-exposure", "membrane-leak", "law-perturbation"],
+            pressureSources: [
+                {
+                    kind: "boundary-stress",
+                    sourceEffectId: "effect:8:leak",
+                    relationKind: null,
+                    boundaryScope: "membrane",
+                    strength: "elevated",
+                    evidenceBasis: [
+                        "boundary-exposure",
+                        "boundary-exposure-count:1",
+                        "obligation:effect:8:leak",
+                        "scope:membrane",
+                    ],
+                },
+                {
+                    kind: "leak",
+                    sourceEffectId: "effect:8:leak",
+                    relationKind: null,
+                    boundaryScope: "membrane",
+                    strength: "elevated",
+                    evidenceBasis: ["membrane-leak"],
+                },
+                {
+                    kind: "perturb",
+                    sourceEffectId: "effect:10:perturb",
+                    relationKind: null,
+                    boundaryScope: "local",
+                    strength: "elevated",
+                    evidenceBasis: ["law-perturbation"],
+                },
+            ],
             description: "Bubble MembraneArchive currently shows high negative-sea pressure via boundary-exposure, membrane-leak, law-perturbation.",
         },
         {
@@ -904,6 +1100,29 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
             commitId: null,
             support: "present",
             signals: ["source-lineage-address", "seeded-origin", "declared-history-support"],
+            supportSources: [
+                {
+                    kind: "source-lineage",
+                    addressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+                    sourceEffectId: null,
+                    support: "present",
+                    evidenceBasis: ["source-lineage-address"],
+                },
+                {
+                    kind: "seed-origin",
+                    addressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+                    sourceEffectId: null,
+                    support: "present",
+                    evidenceBasis: ["seeded-origin"],
+                },
+                {
+                    kind: "declared-history-support",
+                    addressId: "bubble:membrane-archive.bubble::root:MembraneArchive",
+                    sourceEffectId: "effect:7:commit",
+                    support: "present",
+                    evidenceBasis: ["declared-history-support"],
+                },
+            ],
             description: "Bubble MembraneArchive currently shows present positive-sea support via source-lineage-address, seeded-origin, declared-history-support.",
         },
         {
@@ -930,7 +1149,11 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
                 "unresolved-debt",
                 "perturbation-stress",
             ],
-            description: "Bubble MembraneArchive currently shows weak anchor support with guarded rewind stability.",
+            authoredCriterionStatus: "absent",
+            authoredCriterionBasis: [],
+            materializedEvidenceSources: [],
+            identityStatus: "contradicted",
+            description: "Bubble MembraneArchive currently shows weak inferred anchor support with guarded rewind stability and contradicted identity status.",
         },
     ]);
     assert.deepEqual(report.evidence.slice(4), [
@@ -1188,10 +1411,10 @@ test("inspection can narrow proof claims by id, kind, and status", () => {
     const report = inspectBubbleProgram(program);
 
     assert.equal(report.summary.proofVerdict, "contradicted");
-    assert.equal(report.summary.proofClaimCount, 7);
+    assert.equal(report.summary.proofClaimCount, 8);
     assert.deepEqual(report.summary.proofClaimKinds, ["syntax", "worldhood", "effect", "anchor", "lineage", "replay", "consistency"]);
     assert.deepEqual(report.summary.proofClaimStatusCounts, {
-        certified: 4,
+        certified: 5,
         contradicted: 2,
         undetermined: 1,
     });
