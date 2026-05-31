@@ -137,6 +137,7 @@ Current state:
 - one benchmark micro-world now exists as `examples/collapse-threshold.bubble`
 - that example now executes one deterministic `single-region-observation-kernel.v1` local materialization for exactly one observed latent region
 - the benchmark also now commits that single observed local state into history without widening the language beyond current effect and unresolved-semantic surfaces
+- a third bounded benchmark now exists as `examples/collapse-open.bubble`, where two observed hidden-region targets remain `history-open` because the current bounded runtime policy declines to choose one commit target
 - a second bounded benchmark now exists as `examples/collapse-mixed.bubble`, where one hidden-region local target commits into history while a sibling `latent bubble` observation state remains `history-open`
 - a second benchmark, `examples/collapse-mirror.bubble`, now lets inspection and replay compare committed root-local collapse history against one still-latent sibling descendant without widening to many-region coupled collapse
 
@@ -158,6 +159,10 @@ Current state:
 - replay identity now also upgrades to committed same-world revisitation for the single-region benchmark once its local observed state is committed
 - runtime proof now also carries mixed committed/open observation-state runs where one hidden-region local target is committed but sibling latent-bubble observation states remain open
 - runtime proof now normalizes those commit-path differences through explicit observation-history shape basis terms, so full and mixed local commit paths can be compared without inventing authored commit syntax first
+- execution plans now also expose one hidden `observationCommitPolicy` object so runtime target selection is inspectable before it becomes any source-level policy surface
+- inspect and replay now expose that `observationCommitPolicy` object directly as a first-class report section with query axes for selection rule and projected history shape
+- inspect and replay now also expose `observationCommitPolicyComparison`, so baseline bounded law and override-driven effective law can be compared as one stable report surface
+- materialize, inspect, and record now accept one hidden runtime observation-policy override path for tool-level steering before any authored commit syntax exists
 - internal consistency now reinterprets committed hidden-region fragments as observed local history instead of leaving them only as residual unresolved semantics
 - replay reports can now compare committed root-local collapse history against latent sibling descendants through top-level `observationStates` plus artifact latent-topology summaries
 
@@ -197,9 +202,9 @@ Exit criteria:
 The next concrete tasks should be:
 
 1. keep the current commit behaviors runtime-bounded until a third commit shape or one author-controlled target choice makes authored policy semantically necessary
-2. treat `observed-history-shape-*` proof vocabulary as the current comparison layer between bounded commit paths rather than widening commit syntax early
+2. treat `observed-history-shape-*` proof vocabulary plus the inspectable `observationCommitPolicy` and `observationCommitPolicyComparison` report surfaces as the current comparison layer between bounded commit paths rather than widening commit syntax early
 3. keep sibling-latency comparison composed from `observationStates` plus artifact latent-topology summaries until one stable diff abstraction proves necessary
-4. keep author-facing syntax deferred until those runtime and proof boundaries stop moving
+4. keep author-facing syntax deferred while hidden runtime overrides are still being used to discover which policy steering degrees of freedom are actually stable
 
 ## Success Condition
 

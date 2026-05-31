@@ -22,7 +22,8 @@ import {
     createCommitEvidence,
     createEffectTraceEvidence,
     createObservationEvidence,
-    resolveLocalObservationCommitTargetIds,
+    createObservationCommitPolicyComparison,
+    createObservationCommitPolicyPlan,
     createSeaAnchorEvidence,
 } from "./evidence";
 import {
@@ -91,6 +92,62 @@ export interface BubbleGrammarActivationPlan {
     staged: true;
 }
 
+export type BubbleObservationCommitPolicySelectionRule =
+    | "commit-single-observed-region"
+    | "commit-hidden-region-with-latent-bubble-siblings"
+    | "defer-multiple-hidden-region-targets"
+    | "defer-no-eligible-observed-target";
+
+export type BubbleObservationCommitPolicyDecisionSource = "bounded-runtime" | "runtime-override";
+
+export type BubbleObservationCommitPolicyHistoryShape =
+    | "fully-committed"
+    | "partially-committed"
+    | "history-open-only"
+    | "uncommitted-only"
+    | "mixed-open";
+
+export interface BubbleObservationCommitPolicyPlan {
+    mode: "runtime-observation-commit-policy.v1";
+    policyId: string;
+    decisionSource: BubbleObservationCommitPolicyDecisionSource;
+    selectionRule: BubbleObservationCommitPolicySelectionRule;
+    localMaterializationTargetId: string | null;
+    observedRegionIds: string[];
+    selectedTargetIds: string[];
+    deferredTargetIds: string[];
+    projectedHistoryShape: BubbleObservationCommitPolicyHistoryShape;
+    description: string;
+}
+
+export interface BubbleObservationCommitPolicyOverride {
+    mode: "runtime-observation-commit-policy-override.v1";
+    source: "runtime-option";
+    forcedSelectionRule: BubbleObservationCommitPolicySelectionRule;
+    reason: string;
+}
+
+export type BubbleObservationCommitPolicyDifference =
+    | "selection-rule-changed"
+    | "selected-targets-changed"
+    | "deferred-targets-changed"
+    | "projected-history-shape-changed";
+
+export interface BubbleObservationCommitPolicyComparison {
+    mode: "runtime-observation-commit-policy-comparison.v1";
+    comparisonId: string;
+    overrideApplied: boolean;
+    override: BubbleObservationCommitPolicyOverride | null;
+    baseline: BubbleObservationCommitPolicyPlan;
+    effective: BubbleObservationCommitPolicyPlan;
+    differences: BubbleObservationCommitPolicyDifference[];
+    description: string;
+}
+
+export interface BubbleRuntimeOptions {
+    observationCommitPolicyOverride?: BubbleObservationCommitPolicyOverride | null;
+}
+
 export type BubbleNegativeSeaPressure = OntologyBubbleNegativeSeaPressure;
 export type BubblePositiveSeaSupport = OntologyBubblePositiveSeaSupport;
 export type BubbleAnchorPointStrength = OntologyBubbleAnchorPointStrength;
@@ -145,6 +202,8 @@ export interface BubbleExecutionPlan {
     proof: BubbleConsistencyCertificate;
     bundle: BubbleBundlePlan;
     latentTopology: BubbleLatentTopologyIR | null;
+    observationCommitPolicy: BubbleObservationCommitPolicyPlan | null;
+    observationCommitPolicyComparison: BubbleObservationCommitPolicyComparison | null;
     obligations: ObligationIR[];
     plannedRelations: BubbleProgramIR["bubble"]["generation"]["relations"];
     grammars: BubbleGrammarPlan[];
@@ -207,7 +266,7 @@ export interface BubbleMaterializationResult {
     trace: BubbleMaterializationTraceEvent[];
 }
 
-export function planBubbleProgram(program: BubbleProgramIR): BubbleExecutionPlan {
+export function planBubbleProgram(program: BubbleProgramIR, options: BubbleRuntimeOptions = {}): BubbleExecutionPlan {
     const meta = program.bubble.meta;
     const emissions = meta?.emissions ?? [];
     const grammars = buildGrammarPlan(meta?.grammars ?? []);
@@ -229,7 +288,7 @@ export function planBubbleProgram(program: BubbleProgramIR): BubbleExecutionPlan
     const proof = buildConsistencyCertificate(program, emissionPlan, grammarActivationPlan, ontology, semantics);
     const bundle = buildBundlePlan(program, emissionPlan, grammarActivationPlan);
 
-    return {
+    const plan = {
         mode: "semantic-plan.v1",
         sourcePath: program.sourcePath,
         profile: program.profile,
@@ -239,18 +298,30 @@ export function planBubbleProgram(program: BubbleProgramIR): BubbleExecutionPlan
         proof,
         bundle,
         latentTopology: program.bubble.latentTopology ?? null,
+        observationCommitPolicy: null,
+        observationCommitPolicyComparison: null,
         obligations: program.bubble.obligations,
         plannedRelations: program.bubble.generation.relations,
         grammars,
         grammarActivationPlan,
         emissionPlan,
+    } satisfies BubbleExecutionPlan;
+
+    const observationCommitPolicyOverride = options.observationCommitPolicyOverride ?? null;
+    const observationCommitPolicy = createObservationCommitPolicyPlan(program, plan, observationCommitPolicyOverride);
+    const observationCommitPolicyComparison = createObservationCommitPolicyComparison(program, plan, observationCommitPolicyOverride);
+
+    return {
+        ...plan,
+        observationCommitPolicy,
+        observationCommitPolicyComparison,
     };
 }
 
-export function materializeBubbleProgram(program: BubbleProgramIR): BubbleMaterializationResult {
-    const plan = planBubbleProgram(program);
+export function materializeBubbleProgram(program: BubbleProgramIR, options: BubbleRuntimeOptions = {}): BubbleMaterializationResult {
+    const plan = planBubbleProgram(program, options);
     const baseEvidence = createObservationEvidence(program);
-    const committedLocalObservationRegionIds = new Set(resolveLocalObservationCommitTargetIds(program, plan));
+    const committedLocalObservationRegionIds = new Set(plan.observationCommitPolicy?.selectedTargetIds ?? []);
     const trace: BubbleMaterializationTraceEvent[] = [
         {
             kind: "materialization-started",

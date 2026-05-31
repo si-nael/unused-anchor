@@ -308,6 +308,21 @@
           }
         ]
       },
+      "observationCommitPolicy": {
+        "mode": "runtime-observation-commit-policy.v1",
+        "policyId": "observation-commit-policy:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+        "selectionRule": "commit-single-observed-region",
+        "localMaterializationTargetId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+        "observedRegionIds": [
+          "latent-region:semantic:9:hidden-region:OuterCanopy"
+        ],
+        "selectedTargetIds": [
+          "latent-region:semantic:9:hidden-region:OuterCanopy"
+        ],
+        "deferredTargetIds": [],
+        "projectedHistoryShape": "fully-committed",
+        "description": "Bubble CollapseMirror uses one bounded observation commit policy to commit the single observed local target latent-region:semantic:9:hidden-region:OuterCanopy, projecting shape fully-committed."
+      },
       "obligations": [
         {
           "effectId": "effect:6:observe",

@@ -7,16 +7,19 @@ import {
 } from "../../src/bubbles/language";
 import {
     inspectBubbleProgram,
+    type BubbleObservationCommitPolicyOverride,
+    type BubbleObservationCommitPolicySelectionRule,
     type BubbleInspectionQuery,
     type BubbleInspectionReport,
     type BubbleInspectionSection,
+    type BubbleRuntimeOptions,
 } from "../../src/bubbles/runtime";
 
 async function main(): Promise<void> {
-    const { inputPath, outputPath, section, query } = parseCliArgs(process.argv.slice(2));
+    const { inputPath, outputPath, section, query, options } = parseCliArgs(process.argv.slice(2));
 
     if (!inputPath) {
-        throw new Error("Usage: tsx apps/hatchery/inspect-bubble.ts <input.bubble> [output.json] [--section summary|plan|ontology|semantics|proof|bundle|grammars|artifacts|commits|evidence|observationStates|trace|report] [--emission <id>] [--address <id>] [--activation <id>] [--grammar-profile <name>] [--observation-state <id>] [--observation-phase <observed-uncommitted|observed-history-open|observed-committed>] [--semantic <id>] [--semantic-kind <constraint|partial-law|anchor-criterion>] [--semantic-status <satisfied|violated|undetermined>] [--claim <id>] [--claim-kind <syntax|worldhood|effect|anchor|lineage|consistency|replay>] [--claim-status <certified|contradicted|undetermined>] [--kind <trace-kind>]");
+        throw new Error("Usage: tsx apps/hatchery/inspect-bubble.ts <input.bubble> [output.json] [--section summary|plan|observationCommitPolicy|observationCommitPolicyComparison|ontology|semantics|proof|bundle|grammars|artifacts|commits|evidence|observationStates|trace|report] [--observation-policy-override <commit-single-observed-region|commit-hidden-region-with-latent-bubble-siblings|defer-multiple-hidden-region-targets|defer-no-eligible-observed-target>] [--emission <id>] [--address <id>] [--activation <id>] [--grammar-profile <name>] [--observation-state <id>] [--observation-phase <observed-uncommitted|observed-history-open|observed-committed>] [--observation-policy-rule <commit-single-observed-region|commit-hidden-region-with-latent-bubble-siblings|defer-multiple-hidden-region-targets|defer-no-eligible-observed-target>] [--observation-history-shape <fully-committed|partially-committed|history-open-only|uncommitted-only|mixed-open>] [--semantic <id>] [--semantic-kind <constraint|partial-law|anchor-criterion>] [--semantic-status <satisfied|violated|undetermined>] [--claim <id>] [--claim-kind <syntax|worldhood|effect|anchor|lineage|consistency|replay>] [--claim-status <certified|contradicted|undetermined>] [--kind <trace-kind>]");
     }
 
     const source = await readFile(inputPath, "utf8");
@@ -26,7 +29,7 @@ async function main(): Promise<void> {
         process.stderr.write(`${formatDiagnostics(result.diagnostics)}\n`);
     }
 
-    const report = inspectBubbleProgram(result.program, query);
+    const report = inspectBubbleProgram(result.program, query, options);
     const payload = selectSection(report, section);
     const serialized = JSON.stringify(payload, null, 2);
 
@@ -57,6 +60,10 @@ function selectSection(report: BubbleInspectionReport, section: BubbleInspection
             return report.summary;
         case "plan":
             return report.plan;
+        case "observationCommitPolicy":
+            return report.observationCommitPolicy;
+        case "observationCommitPolicyComparison":
+            return report.observationCommitPolicyComparison;
         case "ontology":
             return report.ontology;
         case "semantics":
@@ -89,9 +96,11 @@ function parseCliArgs(argv: string[]): {
     outputPath: string | null;
     section: BubbleInspectionSection;
     query: BubbleInspectionQuery;
+    options: BubbleRuntimeOptions;
 } {
     let section: BubbleInspectionSection = "report";
     const query: BubbleInspectionQuery = {};
+    let observationCommitPolicyOverride: BubbleObservationCommitPolicyOverride | null = null;
     const positional: string[] = [];
 
     for (let index = 0; index < argv.length; index += 1) {
@@ -99,10 +108,21 @@ function parseCliArgs(argv: string[]): {
         if (argument === "--section") {
             const rawSection = argv[index + 1];
             if (!rawSection || !isInspectionSection(rawSection)) {
-                throw new Error("--section requires one of: summary, plan, ontology, semantics, proof, bundle, grammars, artifacts, commits, evidence, observationStates, trace, report");
+                throw new Error("--section requires one of: summary, plan, observationCommitPolicy, observationCommitPolicyComparison, ontology, semantics, proof, bundle, grammars, artifacts, commits, evidence, observationStates, trace, report");
             }
 
             section = rawSection;
+            index += 1;
+            continue;
+        }
+
+        if (argument === "--observation-policy-override") {
+            const rawRule = argv[index + 1];
+            if (!rawRule || !isObservationPolicyRule(rawRule)) {
+                throw new Error("--observation-policy-override requires one of: commit-single-observed-region, commit-hidden-region-with-latent-bubble-siblings, defer-multiple-hidden-region-targets, defer-no-eligible-observed-target");
+            }
+
+            observationCommitPolicyOverride = createObservationCommitPolicyOverride(rawRule, "inspect CLI override");
             index += 1;
             continue;
         }
@@ -169,6 +189,28 @@ function parseCliArgs(argv: string[]): {
             }
 
             query.observationStatePhase = rawPhase;
+            index += 1;
+            continue;
+        }
+
+        if (argument === "--observation-policy-rule") {
+            const rawRule = argv[index + 1];
+            if (!rawRule || !isObservationPolicyRule(rawRule)) {
+                throw new Error("--observation-policy-rule requires one of: commit-single-observed-region, commit-hidden-region-with-latent-bubble-siblings, defer-multiple-hidden-region-targets, defer-no-eligible-observed-target");
+            }
+
+            query.observationPolicyRule = rawRule;
+            index += 1;
+            continue;
+        }
+
+        if (argument === "--observation-history-shape") {
+            const rawShape = argv[index + 1];
+            if (!rawShape || !isObservationHistoryShape(rawShape)) {
+                throw new Error("--observation-history-shape requires one of: fully-committed, partially-committed, history-open-only, uncommitted-only, mixed-open");
+            }
+
+            query.observationHistoryShape = rawShape;
             index += 1;
             continue;
         }
@@ -262,12 +304,17 @@ function parseCliArgs(argv: string[]): {
         outputPath: positional[1] ?? null,
         section,
         query,
+        options: {
+            observationCommitPolicyOverride,
+        },
     };
 }
 
 function isInspectionSection(value: string): value is BubbleInspectionSection {
     return value === "summary"
         || value === "plan"
+        || value === "observationCommitPolicy"
+        || value === "observationCommitPolicyComparison"
         || value === "ontology"
         || value === "semantics"
         || value === "proof"
@@ -285,6 +332,33 @@ function isObservationStatePhase(value: string): value is NonNullable<BubbleInsp
     return value === "observed-uncommitted"
         || value === "observed-history-open"
         || value === "observed-committed";
+}
+
+function isObservationPolicyRule(value: string): value is NonNullable<BubbleInspectionQuery["observationPolicyRule"]> {
+    return value === "commit-single-observed-region"
+        || value === "commit-hidden-region-with-latent-bubble-siblings"
+        || value === "defer-multiple-hidden-region-targets"
+        || value === "defer-no-eligible-observed-target";
+}
+
+function createObservationCommitPolicyOverride(
+    forcedSelectionRule: BubbleObservationCommitPolicySelectionRule,
+    reason: string,
+): BubbleObservationCommitPolicyOverride {
+    return {
+        mode: "runtime-observation-commit-policy-override.v1",
+        source: "runtime-option",
+        forcedSelectionRule,
+        reason,
+    };
+}
+
+function isObservationHistoryShape(value: string): value is NonNullable<BubbleInspectionQuery["observationHistoryShape"]> {
+    return value === "fully-committed"
+        || value === "partially-committed"
+        || value === "history-open-only"
+        || value === "uncommitted-only"
+        || value === "mixed-open";
 }
 
 function isTraceKind(value: string): value is NonNullable<BubbleInspectionQuery["kind"]> {

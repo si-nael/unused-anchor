@@ -388,6 +388,185 @@ test("materialization can commit one local observation target while leaving sibl
     assert.match(internalConsistencyClaim?.explanation ?? "", /shape partially-committed/);
 });
 
+test("planning exposes a bounded observation commit policy object for local target selection", () => {
+    const thresholdSource = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const thresholdPlan = planBubbleProgram(compileBubbleSource(thresholdSource, { sourcePath: "threshold-policy-plan.bubble" }).program);
+    assert.ok(thresholdPlan.observationCommitPolicy);
+    assert.equal(thresholdPlan.observationCommitPolicy.selectionRule, "commit-hidden-region-with-latent-bubble-siblings");
+    assert.equal(thresholdPlan.observationCommitPolicy.decisionSource, "bounded-runtime");
+    assert.equal(thresholdPlan.observationCommitPolicy.projectedHistoryShape, "partially-committed");
+    assert.equal(thresholdPlan.observationCommitPolicy.localMaterializationTargetId, "latent-region:semantic:9:hidden-region:OuterCanopy");
+    assert.deepEqual(thresholdPlan.observationCommitPolicy.selectedTargetIds, [
+        "latent-region:semantic:9:hidden-region:OuterCanopy",
+    ]);
+    assert.deepEqual(thresholdPlan.observationCommitPolicy.deferredTargetIds, [
+        "latent-region:semantic:10:latent-bubble:WaitingArchive",
+    ]);
+
+    const openSource = [
+        "bubble CollapseOpen {",
+        "  axiom coherence = stable",
+        "  will \"observe two canopy edges without choosing one to commit\"",
+        "  seed open_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  hidden region InnerCanopy",
+        "}",
+    ].join("\n");
+
+    const openPlan = planBubbleProgram(compileBubbleSource(openSource, { sourcePath: "collapse-open-policy-plan.bubble" }).program);
+    assert.ok(openPlan.observationCommitPolicy);
+    assert.equal(openPlan.observationCommitPolicy.selectionRule, "defer-multiple-hidden-region-targets");
+    assert.equal(openPlan.observationCommitPolicy.decisionSource, "bounded-runtime");
+    assert.equal(openPlan.observationCommitPolicy.projectedHistoryShape, "history-open-only");
+    assert.equal(openPlan.observationCommitPolicy.localMaterializationTargetId, "latent-region:semantic:9:hidden-region:OuterCanopy");
+    assert.deepEqual(openPlan.observationCommitPolicy.selectedTargetIds, []);
+    assert.deepEqual(openPlan.observationCommitPolicy.deferredTargetIds, [
+        "latent-region:semantic:9:hidden-region:OuterCanopy",
+        "latent-region:semantic:10:hidden-region:InnerCanopy",
+    ]);
+    assert.ok(openPlan.observationCommitPolicyComparison);
+    assert.equal(openPlan.observationCommitPolicyComparison.overrideApplied, false);
+    assert.equal(openPlan.observationCommitPolicyComparison.baseline.selectionRule, "defer-multiple-hidden-region-targets");
+    assert.equal(openPlan.observationCommitPolicyComparison.effective.selectionRule, "defer-multiple-hidden-region-targets");
+    assert.deepEqual(openPlan.observationCommitPolicyComparison.differences, []);
+});
+
+test("runtime observation policy override can force an alternate local commit law and expose the delta", () => {
+    const source = [
+        "bubble CollapseOpen {",
+        "  axiom coherence = stable",
+        "  will \"observe two canopy edges without choosing one to commit\"",
+        "  seed open_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  hidden region InnerCanopy",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "collapse-open-policy-override.bubble" });
+    const options = {
+        observationCommitPolicyOverride: {
+            mode: "runtime-observation-commit-policy-override.v1",
+            source: "runtime-option",
+            forcedSelectionRule: "commit-single-observed-region",
+            reason: "unit test override",
+        },
+    } as const;
+    const plan = planBubbleProgram(program, options);
+    const materialized = materializeBubbleProgram(program, options);
+    const collapseEvidence = materialized.evidence.filter((entry) => entry.kind === "collapse-record");
+
+    assert.ok(plan.observationCommitPolicy);
+    assert.equal(plan.observationCommitPolicy.decisionSource, "runtime-override");
+    assert.equal(plan.observationCommitPolicy.selectionRule, "commit-single-observed-region");
+    assert.equal(plan.observationCommitPolicy.projectedHistoryShape, "partially-committed");
+    assert.deepEqual(plan.observationCommitPolicy.selectedTargetIds, [
+        "latent-region:semantic:9:hidden-region:OuterCanopy",
+    ]);
+    assert.deepEqual(plan.observationCommitPolicy.deferredTargetIds, [
+        "latent-region:semantic:10:hidden-region:InnerCanopy",
+    ]);
+    assert.ok(plan.observationCommitPolicyComparison);
+    assert.equal(plan.observationCommitPolicyComparison.overrideApplied, true);
+    assert.equal(plan.observationCommitPolicyComparison.baseline.selectionRule, "defer-multiple-hidden-region-targets");
+    assert.equal(plan.observationCommitPolicyComparison.effective.selectionRule, "commit-single-observed-region");
+    assert.deepEqual(plan.observationCommitPolicyComparison.differences, [
+        "selection-rule-changed",
+        "selected-targets-changed",
+        "deferred-targets-changed",
+        "projected-history-shape-changed",
+    ]);
+
+    assert.equal(materialized.commits.length, 1);
+    assert.deepEqual(collapseEvidence.map((entry) => ({
+        latentRegionId: entry.latentRegionId,
+        commitStatus: entry.commitStatus,
+        phase: entry.observationState.phase,
+    })), [
+        {
+            latentRegionId: "latent-region:semantic:9:hidden-region:OuterCanopy",
+            commitStatus: "committed",
+            phase: "observed-committed",
+        },
+        {
+            latentRegionId: "latent-region:semantic:10:hidden-region:InnerCanopy",
+            commitStatus: "history-open",
+            phase: "observed-history-open",
+        },
+    ]);
+});
+
+test("materialization can preserve a history-open-only collapse shape when multiple hidden regions are observed", () => {
+    const source = [
+        "bubble CollapseOpen {",
+        "  axiom coherence = stable",
+        "  will \"observe two canopy edges without choosing one to commit\"",
+        "  seed open_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  hidden region InnerCanopy",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "collapse-open-materialize.bubble" });
+    const materialized = materializeBubbleProgram(program);
+    const collapseEvidence = materialized.evidence.filter((entry) => entry.kind === "collapse-record");
+    const replayClaim = materialized.proof.claims.find((claim) => claim.id === "claim:replay-identity");
+    const internalConsistencyClaim = materialized.proof.claims.find((claim) => claim.id === "claim:internal-law-consistency");
+
+    assert.equal(materialized.commits.length, 0);
+    assert.equal(materialized.runtimeOntology.anchorPoint.materializedHistoryEvidence, false);
+    assert.equal(materialized.evidence.length, 9);
+    assert.deepEqual(collapseEvidence.map((entry) => ({
+        latentRegionId: entry.latentRegionId,
+        commitStatus: entry.commitStatus,
+        observationStatePhase: entry.observationState.phase,
+        localRealizedForm: entry.observationState.localMaterialization?.realizedForm ?? null,
+    })), [
+        {
+            latentRegionId: "latent-region:semantic:9:hidden-region:OuterCanopy",
+            commitStatus: "history-open",
+            observationStatePhase: "observed-history-open",
+            localRealizedForm: "boundary-canopy-edge",
+        },
+        {
+            latentRegionId: "latent-region:semantic:10:hidden-region:InnerCanopy",
+            commitStatus: "history-open",
+            observationStatePhase: "observed-history-open",
+            localRealizedForm: null,
+        },
+    ]);
+    assert.ok(replayClaim?.basis.includes("observed-history-shape-history-open-only"));
+    assert.ok(!replayClaim?.basis.includes("observed-history-shape-partially-committed"));
+    assert.ok(replayClaim?.assumptions?.includes("observed-collapse-history-is-not-yet-committed"));
+    assert.match(replayClaim?.explanation ?? "", /shape history-open-only/);
+    assert.ok(internalConsistencyClaim?.basis.includes("observed-history-shape-history-open-only"));
+    assert.match(internalConsistencyClaim?.explanation ?? "", /shape history-open-only/);
+});
+
 test("local collapse kernel materializes one latent region in the benchmark micro-world", () => {
     const source = [
         "bubble CollapseThreshold {",

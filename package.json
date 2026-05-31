@@ -20,6 +20,8 @@
         "inspect:observatory-example": "tsx apps/hatchery/inspect-bubble.ts examples/observatory-loop.bubble data/runs/observatory-loop.inspect.json --section report",
         "materialize:collapse-example": "tsx apps/hatchery/materialize-bubble.ts examples/collapse-threshold.bubble data/runs/collapse-threshold.materialized.json",
         "inspect:collapse-example": "tsx apps/hatchery/inspect-bubble.ts examples/collapse-threshold.bubble data/runs/collapse-threshold.inspect.json --section report",
+        "materialize:collapse-open-example": "tsx apps/hatchery/materialize-bubble.ts examples/collapse-open.bubble data/runs/collapse-open.materialized.json",
+        "inspect:collapse-open-example": "tsx apps/hatchery/inspect-bubble.ts examples/collapse-open.bubble data/runs/collapse-open.inspect.json --section report",
         "materialize:collapse-mixed-example": "tsx apps/hatchery/materialize-bubble.ts examples/collapse-mixed.bubble data/runs/collapse-mixed.materialized.json",
         "inspect:collapse-mixed-example": "tsx apps/hatchery/inspect-bubble.ts examples/collapse-mixed.bubble data/runs/collapse-mixed.inspect.json --section report",
         "record:collapse-mirror-example": "tsx apps/hatchery/record-bubble.ts examples/collapse-mirror.bubble data/runs/collapse-mirror.replay.json",

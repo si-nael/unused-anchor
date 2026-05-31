@@ -6,6 +6,7 @@ import {
 } from "./inspect";
 import {
     materializeBubbleProgram,
+    type BubbleRuntimeOptions,
     type BubbleMaterializationResult,
 } from "./materialize";
 
@@ -21,8 +22,8 @@ export interface BubbleReplayRecord {
     materialization: BubbleMaterializationResult;
 }
 
-export function recordBubbleProgram(program: BubbleProgramIR): BubbleReplayRecord {
-    return createBubbleReplayRecord(materializeBubbleProgram(program));
+export function recordBubbleProgram(program: BubbleProgramIR, options: BubbleRuntimeOptions = {}): BubbleReplayRecord {
+    return createBubbleReplayRecord(materializeBubbleProgram(program, options));
 }
 
 export function createBubbleReplayRecord(result: BubbleMaterializationResult): BubbleReplayRecord {

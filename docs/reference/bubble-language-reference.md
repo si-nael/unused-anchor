@@ -472,12 +472,27 @@ For observation-collapse benchmarks, materialization may also:
 - attach one deterministic local state under `observationState.localMaterialization`
 - commit that local observed state into run history when one bounded local commit path applies, including the mixed path where one hidden-region target commits while sibling latent-bubble observation states remain `history-open`
 
+Execution plans may now also carry one hidden runtime `observationCommitPolicy` object that records:
+
+- the bounded target-selection rule currently in force
+- which observed regions were selected for commit
+- which observed regions were deferred
+- the projected observation-history shape if that policy is applied
+
+Execution plans and inspect/replay reports may now also carry `observationCommitPolicyComparison`, which records:
+
+- the bounded baseline policy
+- the effective policy after any hidden runtime override
+- whether an override was applied
+- which deltas changed between baseline and effective policy
+
 When runtime proof compares those bounded commit paths, `proof.claims[*].basis` may now expose observation-history shape terms such as:
 
 - `observed-history-shape-fully-committed`
 - `observed-history-shape-partially-committed`
+- `observed-history-shape-history-open-only`
 
-Those proof tags are the current comparison surface for commit-path differences. Bubble still does not expose authored commit-policy syntax for target selection or sibling-open behavior.
+Those proof tags plus `observationCommitPolicy` / `observationCommitPolicyComparison` are the current comparison surface for commit-path differences. Bubble still does not expose authored commit-policy syntax for target selection or sibling-open behavior.
 
 ## Command Reference
 
@@ -499,6 +514,8 @@ Those proof tags are the current comparison surface for commit-path differences.
 - `npm run inspect:observatory-example`: inspect the richer `v0.2` example
 - `npm run materialize:collapse-example`: materialize the minimal observation-collapse benchmark example
 - `npm run inspect:collapse-example`: inspect the observation-collapse benchmark example
+- `npm run materialize:collapse-open-example`: materialize the history-open-only observation-collapse benchmark example
+- `npm run inspect:collapse-open-example`: inspect the history-open-only observation-collapse benchmark example
 - `npm run materialize:collapse-mixed-example`: materialize the mixed committed/open observation-collapse benchmark example
 - `npm run inspect:collapse-mixed-example`: inspect the mixed committed/open observation-collapse benchmark example
 - `npm run inspect:collapse-mirror-example`: inspect the committed-root versus latent-sibling benchmark example
@@ -525,6 +542,8 @@ The inspector supports stable sections including:
 
 - `summary`
 - `plan`
+- `observationCommitPolicy`
+- `observationCommitPolicyComparison`
 - `ontology`
 - `semantics`
 - `proof`
@@ -541,6 +560,12 @@ Observation-state inspection and replay now also support dedicated query axes:
 
 - `--observation-state <id>`: isolate one observation-state record by id
 - `--observation-phase <observed-uncommitted|observed-history-open|observed-committed>`: isolate observation-state slices by phase
+- `--observation-policy-rule <rule>`: isolate the current bounded observation-commit policy by selection rule
+- `--observation-history-shape <shape>`: isolate the current bounded observation-commit policy by projected observation-history shape
+
+Source-based runtime CLIs also support one hidden override axis for policy-steering experiments before authored syntax exists:
+
+- `--observation-policy-override <rule>` on `materialize-bubble.ts`, `inspect-bubble.ts`, and `record-bubble.ts`: force one runtime observation-commit selection rule without changing Bubble source syntax
 
 The current inspection and replay path also supports narrowing by:
 

@@ -1,0 +1,895 @@
+{
+  "mode": "bubble-replay.v1",
+  "sourcePath": "examples/collapse-open.bubble",
+  "bubbleName": "CollapseOpen",
+  "profile": "bubbles.v0.4",
+  "rootAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+  "commitCount": 1,
+  "evidenceCount": 10,
+  "traceCount": 4,
+  "materialization": {
+    "plan": {
+      "mode": "semantic-plan.v1",
+      "sourcePath": "examples/collapse-open.bubble",
+      "profile": "bubbles.v0.4",
+      "bubbleAddress": {
+        "scheme": "bubble-lineage.v1",
+        "locatorKind": "source-relative",
+        "anchor": "examples/collapse-open.bubble",
+        "path": [
+          {
+            "kind": "root",
+            "key": "CollapseOpen"
+          }
+        ],
+        "id": "bubble:examples/collapse-open.bubble::root:CollapseOpen"
+      },
+      "semantics": {
+        "mode": "bubble-executable-semantics.v1",
+        "constraints": [],
+        "partialLaws": [],
+        "anchorCriterion": null
+      },
+      "ontology": {
+        "negativeSea": {
+          "pressure": "elevated",
+          "signals": [
+            "law-perturbation"
+          ]
+        },
+        "positiveSea": {
+          "support": "present",
+          "signals": [
+            "source-lineage-address",
+            "seeded-origin",
+            "declared-history-support"
+          ]
+        },
+        "anchorPoint": {
+          "strength": "strong",
+          "declaredHistorySupport": true,
+          "materializedHistoryEvidence": false,
+          "rewindStability": "stable",
+          "signals": [
+            "axiomatic-basis",
+            "world-will",
+            "seed-continuity",
+            "declared-history-support",
+            "observation-surface",
+            "perturbation-stress"
+          ]
+        },
+        "theoremWitness": {
+          "theorem": "sea-anchor-necessity.v1",
+          "negativeRank": 1,
+          "positiveRank": 1,
+          "anchorRank": 2,
+          "worldhoodDelta": 2,
+          "identityDelta": 1,
+          "sustained": true,
+          "condition": "stable",
+          "explanation": "Bubble worldhood remains stable because A=2, P=1, N=1, so A + P - N = 2."
+        }
+      },
+      "proof": {
+        "mode": "bubble-consistency-certificate.v1",
+        "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "profile": "bubbles.v0.4",
+        "verdict": "partially-certified",
+        "claims": [
+          {
+            "id": "claim:well-formed-source",
+            "kind": "syntax",
+            "status": "certified",
+            "basis": [
+              "parser",
+              "profile-validator"
+            ],
+            "evidenceIds": [],
+            "dependsOnClaims": [],
+            "assumptions": [],
+            "scope": "source",
+            "explanation": "Bubble CollapseOpen compiled into a semantic plan under bubbles.v0.4."
+          },
+          {
+            "id": "claim:minimum-worldhood",
+            "kind": "worldhood",
+            "status": "certified",
+            "basis": [
+              "axiom",
+              "worldWill",
+              "seed",
+              "effect"
+            ],
+            "evidenceIds": [],
+            "dependsOnClaims": [
+              "claim:well-formed-source"
+            ],
+            "assumptions": [],
+            "scope": "source",
+            "explanation": "Bubble CollapseOpen satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+          },
+          {
+            "id": "claim:required-effect-obligations",
+            "kind": "effect",
+            "status": "certified",
+            "basis": [
+              "observation-surface",
+              "declared-history-support"
+            ],
+            "evidenceIds": [
+              "evidence:effect:effect:6:observe",
+              "evidence:effect:effect:7:commit"
+            ],
+            "dependsOnClaims": [
+              "claim:minimum-worldhood"
+            ],
+            "assumptions": [
+              "effect-trace-records-mirror-the-current-materialization-plan"
+            ],
+            "scope": "plan",
+            "explanation": "Required effect effect:6:observe is certified by the declared observation surface. Required effect effect:7:commit is certified by declared history support."
+          },
+          {
+            "id": "claim:anchor-identity",
+            "kind": "anchor",
+            "status": "certified",
+            "basis": [
+              "axiomatic-basis",
+              "world-will",
+              "seed-continuity",
+              "declared-history-support",
+              "observation-surface"
+            ],
+            "evidenceIds": [
+              "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+              "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+              "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+              "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen"
+            ],
+            "dependsOnClaims": [
+              "claim:minimum-worldhood"
+            ],
+            "assumptions": [
+              "sea-anchor-theorem-witness-is-bounded"
+            ],
+            "scope": "plan",
+            "explanation": "Bubble CollapseOpen currently certifies anchor identity as strong with theorem condition stable."
+          },
+          {
+            "id": "claim:lineage-traceability",
+            "kind": "lineage",
+            "status": "undetermined",
+            "basis": [
+              "no-descendant-lineage-claim"
+            ],
+            "evidenceIds": [],
+            "dependsOnClaims": [
+              "claim:well-formed-source"
+            ],
+            "assumptions": [],
+            "scope": "plan",
+            "explanation": "Bubble CollapseOpen declares no descendant or staged grammar lineage that needs certification in the current plan."
+          },
+          {
+            "id": "claim:replay-identity",
+            "kind": "replay",
+            "status": "undetermined",
+            "basis": [
+              "seed-continuity",
+              "source-lineage-address",
+              "declared-history-support",
+              "latent-topology",
+              "latent-observation-ready"
+            ],
+            "evidenceIds": [
+              "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+              "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+              "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+              "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+              "evidence:effect:effect:6:observe",
+              "evidence:effect:effect:7:commit"
+            ],
+            "dependsOnClaims": [
+              "claim:anchor-identity"
+            ],
+            "assumptions": [
+              "same-world-replay-is-evaluated-from-the-current-plan-basis",
+              "latent-collapse-history-is-not-yet-materialized"
+            ],
+            "scope": "plan",
+            "explanation": "Bubble CollapseOpen preserves a replay basis for currently declared history, but same-world replay across latent regions remains undetermined while collapse drafts are only observation-ready."
+          },
+          {
+            "id": "claim:internal-law-consistency",
+            "kind": "consistency",
+            "status": "undetermined",
+            "basis": [
+              "hidden-region",
+              "latent-topology",
+              "latent-observation-ready",
+              "no-executable-law-semantics-yet"
+            ],
+            "evidenceIds": [],
+            "dependsOnClaims": [
+              "claim:well-formed-source"
+            ],
+            "assumptions": [
+              "only-the-current-executable-semantic-subset-is-checked",
+              "no-general-law-solver-is-present",
+              "observation-induced-collapse-is-not-yet-executed"
+            ],
+            "scope": "plan",
+            "explanation": "Latent collapse drafts (observation-ready) keep observation-induced consistency bounded rather than fully discharged. Residual unresolved semantic fragments (hidden-region) keep overall internal semantic consistency undetermined."
+          }
+        ]
+      },
+      "bundle": {
+        "mode": "bubble-bundle-plan.v1",
+        "bundleId": "bundle:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "rootAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "members": [
+          {
+            "memberId": "bundle-member:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "kind": "root-bubble",
+            "emissionId": null,
+            "activationId": null,
+            "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "profileName": "bubbles.v0.4",
+            "sourcePath": "examples/collapse-open.bubble",
+            "provenance": "root-bubble",
+            "description": "Root bubble CollapseOpen anchors this bundle."
+          }
+        ],
+        "materializationScopes": [
+          {
+            "scopeId": "bundle-scope:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "target": "root-bubble",
+            "emissionId": null,
+            "activationId": null,
+            "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "description": "The root bubble CollapseOpen is always inside its own materialization scope."
+          }
+        ]
+      },
+      "latentTopology": {
+        "mode": "bubble-latent-topology.v1",
+        "regions": [
+          {
+            "id": "latent-region:semantic:9:hidden-region:OuterCanopy",
+            "sourceSemanticId": "semantic:9:hidden-region:OuterCanopy",
+            "name": "OuterCanopy",
+            "kind": "hidden-region",
+            "description": "Hidden region OuterCanopy remains outside the current observation surface.",
+            "sourceLine": 9,
+            "initialState": "latent",
+            "observationBoundary": "declared-observation-surface",
+            "commitBoundary": "declared-history-support",
+            "perturbationMode": "declared-perturbation"
+          },
+          {
+            "id": "latent-region:semantic:10:hidden-region:InnerCanopy",
+            "sourceSemanticId": "semantic:10:hidden-region:InnerCanopy",
+            "name": "InnerCanopy",
+            "kind": "hidden-region",
+            "description": "Hidden region InnerCanopy remains outside the current observation surface.",
+            "sourceLine": 10,
+            "initialState": "latent",
+            "observationBoundary": "declared-observation-surface",
+            "commitBoundary": "declared-history-support",
+            "perturbationMode": "declared-perturbation"
+          }
+        ],
+        "collapseEvidenceDrafts": [
+          {
+            "id": "collapse-evidence-draft:semantic:9:hidden-region:OuterCanopy",
+            "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+            "sourceSemanticId": "semantic:9:hidden-region:OuterCanopy",
+            "observationEffectIds": [
+              "effect:6:observe"
+            ],
+            "perturbEffectIds": [
+              "effect:8:perturb"
+            ],
+            "commitEffectIds": [
+              "effect:7:commit"
+            ],
+            "draftStatus": "observation-ready",
+            "description": "Latent region OuterCanopy can materialize under the declared observation surface with declared perturbation support and later anchor that collapse through declared history support."
+          },
+          {
+            "id": "collapse-evidence-draft:semantic:10:hidden-region:InnerCanopy",
+            "latentRegionId": "latent-region:semantic:10:hidden-region:InnerCanopy",
+            "sourceSemanticId": "semantic:10:hidden-region:InnerCanopy",
+            "observationEffectIds": [
+              "effect:6:observe"
+            ],
+            "perturbEffectIds": [
+              "effect:8:perturb"
+            ],
+            "commitEffectIds": [
+              "effect:7:commit"
+            ],
+            "draftStatus": "observation-ready",
+            "description": "Latent region InnerCanopy can materialize under the declared observation surface with declared perturbation support and later anchor that collapse through declared history support."
+          }
+        ]
+      },
+      "observationCommitPolicy": {
+        "mode": "runtime-observation-commit-policy.v1",
+        "policyId": "observation-commit-policy:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "decisionSource": "runtime-override",
+        "selectionRule": "commit-single-observed-region",
+        "localMaterializationTargetId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+        "observedRegionIds": [
+          "latent-region:semantic:9:hidden-region:OuterCanopy",
+          "latent-region:semantic:10:hidden-region:InnerCanopy"
+        ],
+        "selectedTargetIds": [
+          "latent-region:semantic:9:hidden-region:OuterCanopy"
+        ],
+        "deferredTargetIds": [
+          "latent-region:semantic:10:hidden-region:InnerCanopy"
+        ],
+        "projectedHistoryShape": "partially-committed",
+        "description": "Bubble CollapseOpen uses one bounded observation commit policy to commit the single observed local target latent-region:semantic:9:hidden-region:OuterCanopy, projecting shape partially-committed. Runtime override forces selection rule commit-single-observed-region (record CLI override)."
+      },
+      "observationCommitPolicyComparison": {
+        "mode": "runtime-observation-commit-policy-comparison.v1",
+        "comparisonId": "observation-commit-policy-comparison:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "overrideApplied": true,
+        "override": {
+          "mode": "runtime-observation-commit-policy-override.v1",
+          "source": "runtime-option",
+          "forcedSelectionRule": "commit-single-observed-region",
+          "reason": "record CLI override"
+        },
+        "baseline": {
+          "mode": "runtime-observation-commit-policy.v1",
+          "policyId": "observation-commit-policy:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "decisionSource": "bounded-runtime",
+          "selectionRule": "defer-multiple-hidden-region-targets",
+          "localMaterializationTargetId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+          "observedRegionIds": [
+            "latent-region:semantic:9:hidden-region:OuterCanopy",
+            "latent-region:semantic:10:hidden-region:InnerCanopy"
+          ],
+          "selectedTargetIds": [],
+          "deferredTargetIds": [
+            "latent-region:semantic:9:hidden-region:OuterCanopy",
+            "latent-region:semantic:10:hidden-region:InnerCanopy"
+          ],
+          "projectedHistoryShape": "history-open-only",
+          "description": "Bubble CollapseOpen defers local commit because multiple hidden-region observation targets remain in play (latent-region:semantic:9:hidden-region:OuterCanopy, latent-region:semantic:10:hidden-region:InnerCanopy), projecting shape history-open-only."
+        },
+        "effective": {
+          "mode": "runtime-observation-commit-policy.v1",
+          "policyId": "observation-commit-policy:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "decisionSource": "runtime-override",
+          "selectionRule": "commit-single-observed-region",
+          "localMaterializationTargetId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+          "observedRegionIds": [
+            "latent-region:semantic:9:hidden-region:OuterCanopy",
+            "latent-region:semantic:10:hidden-region:InnerCanopy"
+          ],
+          "selectedTargetIds": [
+            "latent-region:semantic:9:hidden-region:OuterCanopy"
+          ],
+          "deferredTargetIds": [
+            "latent-region:semantic:10:hidden-region:InnerCanopy"
+          ],
+          "projectedHistoryShape": "partially-committed",
+          "description": "Bubble CollapseOpen uses one bounded observation commit policy to commit the single observed local target latent-region:semantic:9:hidden-region:OuterCanopy, projecting shape partially-committed. Runtime override forces selection rule commit-single-observed-region (record CLI override)."
+        },
+        "differences": [
+          "selection-rule-changed",
+          "selected-targets-changed",
+          "deferred-targets-changed",
+          "projected-history-shape-changed"
+        ],
+        "description": "Bubble CollapseOpen compares baseline rule defer-multiple-hidden-region-targets / shape history-open-only against override-driven rule commit-single-observed-region / shape partially-committed; differences: selection-rule-changed, selected-targets-changed, deferred-targets-changed, projected-history-shape-changed."
+      },
+      "obligations": [
+        {
+          "effectId": "effect:6:observe",
+          "effectKind": "observe",
+          "scope": "local",
+          "description": "Author declared observe as a required local effect."
+        },
+        {
+          "effectId": "effect:7:commit",
+          "effectKind": "commit",
+          "scope": "local",
+          "description": "Author declared commit as a required local effect."
+        }
+      ],
+      "plannedRelations": [],
+      "grammars": [],
+      "grammarActivationPlan": [],
+      "emissionPlan": []
+    },
+    "proof": {
+      "mode": "bubble-consistency-certificate.v1",
+      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "profile": "bubbles.v0.4",
+      "verdict": "partially-certified",
+      "claims": [
+        {
+          "id": "claim:well-formed-source",
+          "kind": "syntax",
+          "status": "certified",
+          "basis": [
+            "parser",
+            "profile-validator"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [],
+          "assumptions": [],
+          "scope": "source",
+          "explanation": "Bubble CollapseOpen compiled into a semantic plan under bubbles.v0.4."
+        },
+        {
+          "id": "claim:minimum-worldhood",
+          "kind": "worldhood",
+          "status": "certified",
+          "basis": [
+            "axiom",
+            "worldWill",
+            "seed",
+            "effect"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [],
+          "scope": "source",
+          "explanation": "Bubble CollapseOpen satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+        },
+        {
+          "id": "claim:required-effect-obligations",
+          "kind": "effect",
+          "status": "certified",
+          "basis": [
+            "observation-surface",
+            "declared-history-support"
+          ],
+          "evidenceIds": [
+            "evidence:effect:effect:6:observe",
+            "evidence:effect:effect:7:commit"
+          ],
+          "dependsOnClaims": [
+            "claim:minimum-worldhood"
+          ],
+          "assumptions": [
+            "effect-trace-records-mirror-the-current-materialization-plan"
+          ],
+          "scope": "plan",
+          "explanation": "Required effect effect:6:observe is certified by the declared observation surface. Required effect effect:7:commit is certified by declared history support."
+        },
+        {
+          "id": "claim:anchor-identity",
+          "kind": "anchor",
+          "status": "certified",
+          "basis": [
+            "axiomatic-basis",
+            "world-will",
+            "seed-continuity",
+            "declared-history-support",
+            "observation-surface"
+          ],
+          "evidenceIds": [
+            "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen"
+          ],
+          "dependsOnClaims": [
+            "claim:minimum-worldhood"
+          ],
+          "assumptions": [
+            "sea-anchor-theorem-witness-is-bounded"
+          ],
+          "scope": "plan",
+          "explanation": "Bubble CollapseOpen currently certifies anchor identity as strong with theorem condition stable."
+        },
+        {
+          "id": "claim:lineage-traceability",
+          "kind": "lineage",
+          "status": "undetermined",
+          "basis": [
+            "no-descendant-lineage-claim"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [],
+          "scope": "plan",
+          "explanation": "Bubble CollapseOpen declares no descendant or staged grammar lineage that needs certification in the current plan."
+        },
+        {
+          "id": "claim:replay-identity",
+          "kind": "replay",
+          "status": "undetermined",
+          "basis": [
+            "seed-continuity",
+            "source-lineage-address",
+            "declared-history-support",
+            "collapse-record",
+            "observed-history-shape-partially-committed",
+            "observed-history-committed",
+            "observed-history-open"
+          ],
+          "evidenceIds": [
+            "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "evidence:effect:effect:6:observe",
+            "evidence:effect:effect:7:commit",
+            "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+            "evidence:collapse:semantic:10:hidden-region:InnerCanopy"
+          ],
+          "dependsOnClaims": [
+            "claim:anchor-identity"
+          ],
+          "assumptions": [
+            "same-world-replay-is-evaluated-from-the-current-plan-basis",
+            "observed-collapse-history-is-not-yet-committed"
+          ],
+          "scope": "materialized-run",
+          "explanation": "Bubble CollapseOpen preserves a replay basis for currently declared history, but same-world replay across latent regions remains undetermined while collapse drafts are only observation-ready. Observed collapse records (2 records at committed, history-open with shape partially-committed) mean this run is no longer pristine latent possibility; same-world replay remains open until that observed history is committed."
+        },
+        {
+          "id": "claim:internal-law-consistency",
+          "kind": "consistency",
+          "status": "undetermined",
+          "basis": [
+            "hidden-region",
+            "committed-hidden-region-history",
+            "collapse-record",
+            "observed-history-shape-partially-committed",
+            "observed-history-committed",
+            "observed-history-open",
+            "no-executable-law-semantics-yet"
+          ],
+          "evidenceIds": [
+            "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+            "evidence:collapse:semantic:10:hidden-region:InnerCanopy"
+          ],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [
+            "only-the-current-executable-semantic-subset-is-checked",
+            "no-general-law-solver-is-present",
+            "observed-collapse-history-is-not-yet-committed"
+          ],
+          "scope": "materialized-run",
+          "explanation": "Committed collapse history reinterprets hidden-region:OuterCanopy as observed local history rather than residual unresolved semantics. Observed collapse records (2 records at committed, history-open with shape partially-committed) now witness executed observation-induced materialization for Bubble CollapseOpen. Residual unresolved semantic fragments (hidden-region) keep overall internal semantic consistency undetermined. Bubble CollapseOpen still has no full executable law solver, so internal semantic consistency remains undetermined."
+        }
+      ]
+    },
+    "runtimeOntology": {
+      "negativeSea": {
+        "pressure": "elevated",
+        "signals": [
+          "law-perturbation"
+        ]
+      },
+      "positiveSea": {
+        "support": "present",
+        "signals": [
+          "source-lineage-address",
+          "seeded-origin",
+          "declared-history-support"
+        ]
+      },
+      "anchorPoint": {
+        "strength": "strong",
+        "declaredHistorySupport": true,
+        "materializedHistoryEvidence": true,
+        "rewindStability": "stable",
+        "signals": [
+          "axiomatic-basis",
+          "world-will",
+          "seed-continuity",
+          "declared-history-support",
+          "observation-surface",
+          "perturbation-stress"
+        ]
+      },
+      "theoremWitness": {
+        "theorem": "sea-anchor-necessity.v1",
+        "negativeRank": 1,
+        "positiveRank": 1,
+        "anchorRank": 2,
+        "worldhoodDelta": 2,
+        "identityDelta": 1,
+        "sustained": true,
+        "condition": "stable",
+        "explanation": "Bubble worldhood remains stable because A=2, P=1, N=1, so A + P - N = 2."
+      }
+    },
+    "artifacts": [],
+    "commits": [
+      {
+        "id": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+        "emissionId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+        "committedAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "description": "Committed observed local state observation-state:latent-region:semantic:9:hidden-region:OuterCanopy for latent-region:semantic:9:hidden-region:OuterCanopy."
+      }
+    ],
+    "evidence": [
+      {
+        "id": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "kind": "negative-sea-state",
+        "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "sourcePath": "examples/collapse-open.bubble",
+        "observationMode": "witness",
+        "emissionId": null,
+        "commitId": null,
+        "pressure": "elevated",
+        "signals": [
+          "law-perturbation"
+        ],
+        "description": "Bubble CollapseOpen currently shows elevated negative-sea pressure via law-perturbation."
+      },
+      {
+        "id": "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "kind": "positive-sea-state",
+        "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "sourcePath": "examples/collapse-open.bubble",
+        "observationMode": "witness",
+        "emissionId": null,
+        "commitId": null,
+        "support": "present",
+        "signals": [
+          "source-lineage-address",
+          "seeded-origin",
+          "declared-history-support"
+        ],
+        "description": "Bubble CollapseOpen currently shows present positive-sea support via source-lineage-address, seeded-origin, declared-history-support."
+      },
+      {
+        "id": "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "kind": "anchor-point-state",
+        "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "sourcePath": "examples/collapse-open.bubble",
+        "observationMode": "witness",
+        "emissionId": null,
+        "commitId": null,
+        "strength": "strong",
+        "declaredHistorySupport": true,
+        "materializedHistoryEvidence": true,
+        "rewindStability": "stable",
+        "signals": [
+          "axiomatic-basis",
+          "world-will",
+          "seed-continuity",
+          "declared-history-support",
+          "observation-surface",
+          "perturbation-stress"
+        ],
+        "description": "Bubble CollapseOpen currently shows strong anchor support with stable rewind stability."
+      },
+      {
+        "id": "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "kind": "observation-context",
+        "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "sourcePath": "examples/collapse-open.bubble",
+        "observationMode": "witness",
+        "emissionId": null,
+        "commitId": null,
+        "description": "Bubble CollapseOpen declares observation mode witness with declared history support."
+      },
+      {
+        "id": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+        "kind": "collapse-record",
+        "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "sourcePath": "examples/collapse-open.bubble",
+        "observationMode": "witness",
+        "emissionId": null,
+        "commitId": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+        "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+        "sourceSemanticId": "semantic:9:hidden-region:OuterCanopy",
+        "triggerEffectIds": [
+          "effect:6:observe"
+        ],
+        "perturbEffectIds": [
+          "effect:8:perturb"
+        ],
+        "observationStateId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+        "observationState": {
+          "id": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+          "phase": "observed-committed",
+          "observationMode": "witness",
+          "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+          "sourceSemanticId": "semantic:9:hidden-region:OuterCanopy",
+          "triggerEffectIds": [
+            "effect:6:observe"
+          ],
+          "perturbEffectIds": [
+            "effect:8:perturb"
+          ],
+          "commitStatus": "committed",
+          "draftStatus": "observation-ready",
+          "localMaterialization": {
+            "mode": "single-region-observation-kernel.v1",
+            "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+            "regionName": "OuterCanopy",
+            "regionKind": "hidden-region",
+            "realizedForm": "boundary-canopy-edge",
+            "anchorStrength": "strong",
+            "negativeSeaPressure": "elevated",
+            "positiveSeaSupport": "present",
+            "determinants": [
+              "observation:declared-observation-surface",
+              "commit:declared-history-support",
+              "perturb:declared-perturbation",
+              "anchor:strong",
+              "negative-sea:elevated",
+              "positive-sea:present",
+              "effect:6:observe",
+              "effect:8:perturb"
+            ],
+            "description": "Local observation kernel materialized OuterCanopy as boundary-canopy-edge under anchor strong with elevated negative-sea pressure and present positive-sea support."
+          },
+          "description": "Observation state observation-state:latent-region:semantic:9:hidden-region:OuterCanopy records OuterCanopy as observed-committed under witness with one local materialization kernel."
+        },
+        "commitStatus": "committed",
+        "draftStatus": "observation-ready",
+        "description": "Bubble CollapseOpen observed latent region OuterCanopy into observation-state:latent-region:semantic:9:hidden-region:OuterCanopy via effect:6:observe with perturb contributions effect:8:perturb; the collapse is already fixed into committed history."
+      },
+      {
+        "id": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
+        "kind": "collapse-record",
+        "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "sourcePath": "examples/collapse-open.bubble",
+        "observationMode": "witness",
+        "emissionId": null,
+        "commitId": null,
+        "latentRegionId": "latent-region:semantic:10:hidden-region:InnerCanopy",
+        "sourceSemanticId": "semantic:10:hidden-region:InnerCanopy",
+        "triggerEffectIds": [
+          "effect:6:observe"
+        ],
+        "perturbEffectIds": [
+          "effect:8:perturb"
+        ],
+        "observationStateId": "observation-state:latent-region:semantic:10:hidden-region:InnerCanopy",
+        "observationState": {
+          "id": "observation-state:latent-region:semantic:10:hidden-region:InnerCanopy",
+          "phase": "observed-history-open",
+          "observationMode": "witness",
+          "latentRegionId": "latent-region:semantic:10:hidden-region:InnerCanopy",
+          "sourceSemanticId": "semantic:10:hidden-region:InnerCanopy",
+          "triggerEffectIds": [
+            "effect:6:observe"
+          ],
+          "perturbEffectIds": [
+            "effect:8:perturb"
+          ],
+          "commitStatus": "history-open",
+          "draftStatus": "observation-ready",
+          "localMaterialization": null,
+          "description": "Observation state observation-state:latent-region:semantic:10:hidden-region:InnerCanopy records InnerCanopy as observed-history-open under witness."
+        },
+        "commitStatus": "history-open",
+        "draftStatus": "observation-ready",
+        "description": "Bubble CollapseOpen observed latent region InnerCanopy into observation-state:latent-region:semantic:10:hidden-region:InnerCanopy via effect:6:observe with perturb contributions effect:8:perturb; history remains open pending a later commit-specific collapse kernel."
+      },
+      {
+        "id": "evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+        "kind": "history-commit",
+        "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "sourcePath": "examples/collapse-open.bubble",
+        "observationMode": "witness",
+        "emissionId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+        "commitId": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+        "description": "Recorded durable history for observation-state:latent-region:semantic:9:hidden-region:OuterCanopy at bubble:examples/collapse-open.bubble::root:CollapseOpen."
+      },
+      {
+        "id": "evidence:effect:effect:6:observe",
+        "kind": "effect-trace",
+        "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "sourcePath": "examples/collapse-open.bubble",
+        "observationMode": "witness",
+        "emissionId": null,
+        "commitId": null,
+        "effectId": "effect:6:observe",
+        "effectKind": "observe",
+        "requirement": "required",
+        "scope": "local",
+        "sourceLine": 6,
+        "materializationState": "materialized",
+        "runtimeSignals": [
+          "observation-surface"
+        ],
+        "description": "Bubble CollapseOpen recorded required local observe as materialized in this run via observation-surface."
+      },
+      {
+        "id": "evidence:effect:effect:7:commit",
+        "kind": "effect-trace",
+        "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "sourcePath": "examples/collapse-open.bubble",
+        "observationMode": "witness",
+        "emissionId": null,
+        "commitId": null,
+        "effectId": "effect:7:commit",
+        "effectKind": "commit",
+        "requirement": "required",
+        "scope": "local",
+        "sourceLine": 7,
+        "materializationState": "materialized",
+        "runtimeSignals": [
+          "declared-history-support",
+          "history-commit"
+        ],
+        "description": "Bubble CollapseOpen recorded required local commit as materialized in this run via declared-history-support, history-commit."
+      },
+      {
+        "id": "evidence:effect:effect:8:perturb",
+        "kind": "effect-trace",
+        "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "sourcePath": "examples/collapse-open.bubble",
+        "observationMode": "witness",
+        "emissionId": null,
+        "commitId": null,
+        "effectId": "effect:8:perturb",
+        "effectKind": "perturb",
+        "requirement": "optional",
+        "scope": "local",
+        "sourceLine": 8,
+        "materializationState": "potential",
+        "runtimeSignals": [
+          "law-perturbation"
+        ],
+        "description": "Bubble CollapseOpen recorded optional local perturb as potential in this run via law-perturbation."
+      }
+    ],
+    "trace": [
+      {
+        "kind": "materialization-started",
+        "message": "Started materialization for CollapseOpen.",
+        "details": {
+          "profile": "bubbles.v0.4",
+          "address": "bubble:examples/collapse-open.bubble::root:CollapseOpen"
+        }
+      },
+      {
+        "kind": "no-emissions",
+        "message": "Bubble CollapseOpen has no staged emissions to materialize."
+      },
+      {
+        "kind": "local-collapse-materialized",
+        "message": "Locally materialized OuterCanopy into observation-state:latent-region:semantic:9:hidden-region:OuterCanopy.",
+        "details": {
+          "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+          "observationStateId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+          "realizedForm": "boundary-canopy-edge",
+          "mode": "single-region-observation-kernel.v1"
+        }
+      },
+      {
+        "kind": "materialization-committed",
+        "emissionId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+        "message": "Committed observed local state observation-state:latent-region:semantic:9:hidden-region:OuterCanopy for latent-region:semantic:9:hidden-region:OuterCanopy.",
+        "details": {
+          "commitId": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy"
+        }
+      }
+    ]
+  }
+}

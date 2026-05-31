@@ -13,7 +13,13 @@ import type {
     EffectIR,
 } from "../ir";
 import type {
+    BubbleObservationCommitPolicyComparison,
+    BubbleObservationCommitPolicyDifference,
+    BubbleObservationCommitPolicyOverride,
     BubbleExecutionPlan,
+    BubbleObservationCommitPolicyHistoryShape,
+    BubbleObservationCommitPolicyPlan,
+    BubbleObservationCommitPolicySelectionRule,
     BubbleMaterializationCommit,
     MaterializedBubbleArtifact,
 } from "./materialize";
@@ -268,49 +274,74 @@ export function createCollapseRecordEvidence(
         });
 }
 
-export function resolveLocalObservationCommitTargetIds(
+export function createObservationCommitPolicyPlan(
     program: BubbleProgramIR,
     plan: BubbleExecutionPlan,
-): string[] {
-    if (!program.bubble.generation.lifecycle.commitsHistory || plan.latentTopology === null) {
-        return [];
+    override: BubbleObservationCommitPolicyOverride | null = null,
+): BubbleObservationCommitPolicyPlan | null {
+    const context = collectObservationCommitPolicyContext(program, plan);
+    if (context === null) {
+        return null;
     }
 
-    const observedDrafts = plan.latentTopology.collapseEvidenceDrafts.filter((draft) => draft.observationEffectIds.length > 0);
-    if (observedDrafts.length === 0) {
-        return [];
+    const { selectionRule, selectedTargetIds } = resolveObservationCommitPolicySelection(program, context, override);
+    const deferredTargetIds = context.observedRegionIds.filter((regionId) => !selectedTargetIds.includes(regionId));
+    const projectedCommitStatuses = context.observedDrafts.map((draft) =>
+        resolveCollapseCommitStatus(draft, selectedTargetIds.includes(draft.latentRegionId)),
+    );
+    const projectedHistoryShape = resolveProjectedObservationCommitShape(projectedCommitStatuses);
+    const baseDescription = describeObservationCommitPolicy(
+        program,
+        selectionRule,
+        context.localMaterializationTargetId,
+        selectedTargetIds,
+        deferredTargetIds,
+        projectedHistoryShape,
+    );
+
+    return {
+        mode: "runtime-observation-commit-policy.v1",
+        policyId: `observation-commit-policy:${program.bubble.address.id}`,
+        decisionSource: override === null ? "bounded-runtime" : "runtime-override",
+        selectionRule,
+        localMaterializationTargetId: context.localMaterializationTargetId,
+        observedRegionIds: context.observedRegionIds,
+        selectedTargetIds,
+        deferredTargetIds,
+        projectedHistoryShape,
+        description: override === null
+            ? baseDescription
+            : `${baseDescription} Runtime override forces selection rule ${override.forcedSelectionRule} (${override.reason}).`,
+    } satisfies BubbleObservationCommitPolicyPlan;
+}
+
+export function createObservationCommitPolicyComparison(
+    program: BubbleProgramIR,
+    plan: BubbleExecutionPlan,
+    override: BubbleObservationCommitPolicyOverride | null = null,
+): BubbleObservationCommitPolicyComparison | null {
+    const baseline = createObservationCommitPolicyPlan(program, plan, null);
+    if (baseline === null) {
+        return null;
     }
 
-    const localMaterializationTargetId = selectLocalMaterializationTarget(plan.latentTopology.regions);
-    if (localMaterializationTargetId === null) {
-        return [];
+    const effective = createObservationCommitPolicyPlan(program, plan, override);
+    if (effective === null) {
+        return null;
     }
 
-    const targetDraft = observedDrafts.find((draft) => draft.latentRegionId === localMaterializationTargetId);
-    if (!targetDraft || targetDraft.commitEffectIds.length === 0) {
-        return [];
-    }
+    const differences = compareObservationCommitPolicyPlans(baseline, effective);
 
-    if (observedDrafts.length === 1) {
-        return [localMaterializationTargetId];
-    }
-
-    const regionsById = new Map(plan.latentTopology.regions.map((region) => [region.id, region]));
-    const targetRegion = regionsById.get(localMaterializationTargetId) ?? null;
-    const observedHiddenRegionCount = observedDrafts.filter((draft) => regionsById.get(draft.latentRegionId)?.kind === "hidden-region").length;
-    const latentBubbleSiblingOnly = observedDrafts.every((draft) => {
-        if (draft.latentRegionId === localMaterializationTargetId) {
-            return true;
-        }
-
-        return regionsById.get(draft.latentRegionId)?.kind === "latent-bubble";
-    });
-
-    return targetRegion?.kind === "hidden-region"
-        && observedHiddenRegionCount === 1
-        && latentBubbleSiblingOnly
-        ? [localMaterializationTargetId]
-        : [];
+    return {
+        mode: "runtime-observation-commit-policy-comparison.v1",
+        comparisonId: `observation-commit-policy-comparison:${program.bubble.address.id}`,
+        overrideApplied: override !== null,
+        override,
+        baseline,
+        effective,
+        differences,
+        description: describeObservationCommitPolicyComparison(program, baseline, effective, override, differences),
+    } satisfies BubbleObservationCommitPolicyComparison;
 }
 
 export function createEffectTraceEvidence(
@@ -398,6 +429,179 @@ function resolveCollapseCommitStatus(
     }
 
     return draft.commitEffectIds.length === 0 ? "uncommitted" : "history-open";
+}
+
+function resolveProjectedObservationCommitShape(
+    statuses: BubbleCollapseCommitStatus[],
+): BubbleObservationCommitPolicyHistoryShape {
+    const committedCount = statuses.filter((status) => status === "committed").length;
+    const historyOpenCount = statuses.filter((status) => status === "history-open").length;
+    const uncommittedCount = statuses.filter((status) => status === "uncommitted").length;
+
+    if (statuses.length > 0 && committedCount === statuses.length) {
+        return "fully-committed";
+    }
+
+    if (committedCount > 0) {
+        return "partially-committed";
+    }
+
+    if (statuses.length > 0 && historyOpenCount === statuses.length) {
+        return "history-open-only";
+    }
+
+    if (statuses.length > 0 && uncommittedCount === statuses.length) {
+        return "uncommitted-only";
+    }
+
+    return "mixed-open";
+}
+
+interface BubbleObservationCommitPolicyContext {
+    observedDrafts: BubbleCollapseEvidenceDraftIR[];
+    localMaterializationTargetId: string | null;
+    observedRegionIds: string[];
+    targetDraft: BubbleCollapseEvidenceDraftIR | null;
+    targetRegion: BubbleLatentRegionDescriptorIR | null;
+    observedHiddenRegionCount: number;
+    latentBubbleSiblingOnly: boolean;
+}
+
+function collectObservationCommitPolicyContext(
+    program: BubbleProgramIR,
+    plan: BubbleExecutionPlan,
+): BubbleObservationCommitPolicyContext | null {
+    if (plan.latentTopology === null || program.bubble.generation.lifecycle.observationMode === null) {
+        return null;
+    }
+
+    const observedDrafts = plan.latentTopology.collapseEvidenceDrafts.filter((draft) => draft.observationEffectIds.length > 0);
+    if (observedDrafts.length === 0) {
+        return null;
+    }
+
+    const localMaterializationTargetId = selectLocalMaterializationTarget(plan.latentTopology.regions);
+    const regionsById = new Map(plan.latentTopology.regions.map((region) => [region.id, region]));
+    const observedRegionIds = observedDrafts.map((draft) => draft.latentRegionId);
+    const targetDraft = localMaterializationTargetId === null
+        ? null
+        : observedDrafts.find((draft) => draft.latentRegionId === localMaterializationTargetId) ?? null;
+    const targetRegion = localMaterializationTargetId === null
+        ? null
+        : regionsById.get(localMaterializationTargetId) ?? null;
+    const observedHiddenRegionCount = observedDrafts.filter((draft) => regionsById.get(draft.latentRegionId)?.kind === "hidden-region").length;
+    const latentBubbleSiblingOnly = localMaterializationTargetId !== null && observedDrafts.every((draft) => {
+        if (draft.latentRegionId === localMaterializationTargetId) {
+            return true;
+        }
+
+        return regionsById.get(draft.latentRegionId)?.kind === "latent-bubble";
+    });
+
+    return {
+        observedDrafts,
+        localMaterializationTargetId,
+        observedRegionIds,
+        targetDraft,
+        targetRegion,
+        observedHiddenRegionCount,
+        latentBubbleSiblingOnly,
+    };
+}
+
+function resolveObservationCommitPolicySelection(
+    program: BubbleProgramIR,
+    context: BubbleObservationCommitPolicyContext,
+    override: BubbleObservationCommitPolicyOverride | null,
+): {
+    selectionRule: BubbleObservationCommitPolicySelectionRule;
+    selectedTargetIds: string[];
+} {
+    const hasCommitEligibleTarget = program.bubble.generation.lifecycle.commitsHistory
+        && context.localMaterializationTargetId !== null
+        && context.targetDraft !== null
+        && context.targetDraft.commitEffectIds.length > 0;
+
+    if (!hasCommitEligibleTarget) {
+        return {
+            selectionRule: "defer-no-eligible-observed-target",
+            selectedTargetIds: [],
+        };
+    }
+
+    if (override !== null) {
+        switch (override.forcedSelectionRule) {
+            case "commit-single-observed-region":
+            case "commit-hidden-region-with-latent-bubble-siblings":
+                return {
+                    selectionRule: override.forcedSelectionRule,
+                    selectedTargetIds: context.localMaterializationTargetId === null ? [] : [context.localMaterializationTargetId],
+                };
+            case "defer-multiple-hidden-region-targets":
+            case "defer-no-eligible-observed-target":
+                return {
+                    selectionRule: override.forcedSelectionRule,
+                    selectedTargetIds: [],
+                };
+            default:
+                return assertNever(override.forcedSelectionRule);
+        }
+    }
+
+    if (context.observedDrafts.length === 1) {
+        return {
+            selectionRule: "commit-single-observed-region",
+            selectedTargetIds: context.localMaterializationTargetId === null ? [] : [context.localMaterializationTargetId],
+        };
+    }
+
+    if (context.targetRegion?.kind === "hidden-region" && context.observedHiddenRegionCount === 1 && context.latentBubbleSiblingOnly) {
+        return {
+            selectionRule: "commit-hidden-region-with-latent-bubble-siblings",
+            selectedTargetIds: context.localMaterializationTargetId === null ? [] : [context.localMaterializationTargetId],
+        };
+    }
+
+    if (context.observedHiddenRegionCount > 1) {
+        return {
+            selectionRule: "defer-multiple-hidden-region-targets",
+            selectedTargetIds: [],
+        };
+    }
+
+    return {
+        selectionRule: "defer-no-eligible-observed-target",
+        selectedTargetIds: [],
+    };
+}
+
+function compareObservationCommitPolicyPlans(
+    baseline: BubbleObservationCommitPolicyPlan,
+    effective: BubbleObservationCommitPolicyPlan,
+): BubbleObservationCommitPolicyDifference[] {
+    const differences: BubbleObservationCommitPolicyDifference[] = [];
+
+    if (baseline.selectionRule !== effective.selectionRule) {
+        differences.push("selection-rule-changed");
+    }
+
+    if (!sameIds(baseline.selectedTargetIds, effective.selectedTargetIds)) {
+        differences.push("selected-targets-changed");
+    }
+
+    if (!sameIds(baseline.deferredTargetIds, effective.deferredTargetIds)) {
+        differences.push("deferred-targets-changed");
+    }
+
+    if (baseline.projectedHistoryShape !== effective.projectedHistoryShape) {
+        differences.push("projected-history-shape-changed");
+    }
+
+    return differences;
+}
+
+function sameIds(left: string[], right: string[]): boolean {
+    return left.length === right.length && left.every((entry, index) => entry === right[index]);
 }
 
 export function createLocalObservationCommitId(observationStateId: string): string {
@@ -516,6 +720,46 @@ function describeCollapseRecord(
             : "no commit boundary is currently declared for that collapse";
 
     return `Bubble ${program.bubble.name} observed latent region ${regionName} into ${observationStateId} via ${draft.observationEffectIds.join(", ")} ${perturbationText}; ${commitText}.`;
+}
+
+function describeObservationCommitPolicy(
+    program: BubbleProgramIR,
+    selectionRule: BubbleObservationCommitPolicySelectionRule,
+    localMaterializationTargetId: string | null,
+    selectedTargetIds: string[],
+    deferredTargetIds: string[],
+    projectedHistoryShape: BubbleObservationCommitPolicyHistoryShape,
+): string {
+    switch (selectionRule) {
+        case "commit-single-observed-region":
+            return `Bubble ${program.bubble.name} uses one bounded observation commit policy to commit the single observed local target ${selectedTargetIds[0] ?? localMaterializationTargetId ?? "<none>"}, projecting shape ${projectedHistoryShape}.`;
+        case "commit-hidden-region-with-latent-bubble-siblings":
+            return `Bubble ${program.bubble.name} commits hidden-region target ${selectedTargetIds[0] ?? localMaterializationTargetId ?? "<none>"} while deferring sibling observation states ${deferredTargetIds.join(", ")}, projecting shape ${projectedHistoryShape}.`;
+        case "defer-multiple-hidden-region-targets":
+            return `Bubble ${program.bubble.name} defers local commit because multiple hidden-region observation targets remain in play (${deferredTargetIds.join(", ")}), projecting shape ${projectedHistoryShape}.`;
+        case "defer-no-eligible-observed-target":
+            return `Bubble ${program.bubble.name} currently has no eligible observed local commit target under the bounded runtime rule, projecting shape ${projectedHistoryShape}.`;
+        default:
+            return assertNever(selectionRule);
+    }
+}
+
+function describeObservationCommitPolicyComparison(
+    program: BubbleProgramIR,
+    baseline: BubbleObservationCommitPolicyPlan,
+    effective: BubbleObservationCommitPolicyPlan,
+    override: BubbleObservationCommitPolicyOverride | null,
+    differences: BubbleObservationCommitPolicyDifference[],
+): string {
+    if (override === null) {
+        return `Bubble ${program.bubble.name} compares the current bounded observation policy against itself: rule ${effective.selectionRule}, projected shape ${effective.projectedHistoryShape}.`;
+    }
+
+    if (differences.length === 0) {
+        return `Bubble ${program.bubble.name} applies runtime override ${override.forcedSelectionRule} (${override.reason}), but the effective observation policy remains rule ${effective.selectionRule} with projected shape ${effective.projectedHistoryShape}.`;
+    }
+
+    return `Bubble ${program.bubble.name} compares baseline rule ${baseline.selectionRule} / shape ${baseline.projectedHistoryShape} against override-driven rule ${effective.selectionRule} / shape ${effective.projectedHistoryShape}; differences: ${differences.join(", ")}.`;
 }
 
 function resolveEffectRuntimeSignals(

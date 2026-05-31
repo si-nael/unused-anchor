@@ -353,6 +353,24 @@
         }
       ]
     },
+    "observationCommitPolicy": {
+      "mode": "runtime-observation-commit-policy.v1",
+      "policyId": "observation-commit-policy:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
+      "selectionRule": "commit-hidden-region-with-latent-bubble-siblings",
+      "localMaterializationTargetId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+      "observedRegionIds": [
+        "latent-region:semantic:9:hidden-region:OuterCanopy",
+        "latent-region:semantic:10:latent-bubble:WaitingArchive"
+      ],
+      "selectedTargetIds": [
+        "latent-region:semantic:9:hidden-region:OuterCanopy"
+      ],
+      "deferredTargetIds": [
+        "latent-region:semantic:10:latent-bubble:WaitingArchive"
+      ],
+      "projectedHistoryShape": "partially-committed",
+      "description": "Bubble CollapseMixed commits hidden-region target latent-region:semantic:9:hidden-region:OuterCanopy while deferring sibling observation states latent-region:semantic:10:latent-bubble:WaitingArchive, projecting shape partially-committed."
+    },
     "obligations": [
       {
         "effectId": "effect:6:observe",

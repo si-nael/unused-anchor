@@ -1,7 +1,13 @@
 # Work Log
 
+## 2026-06-01
+
+- Elevated `observationCommitPolicy` from a hidden plan-only object into a first-class inspect/replay section with direct query axes for bounded target-selection rule and projected history shape, so commit behavior is now observable as world law rather than only inferred from proof basis tags.
+- Added `observationCommitPolicyComparison` plus a hidden runtime `observation-policy-override` path for materialize/inspect/record, so Bubble can now compare baseline versus override-driven commit law directly without widening into authored source syntax.
+
 ## 2026-05-25
 
+- Added a hidden runtime `observationCommitPolicy` plan object plus `examples/collapse-open.bubble`, so Bubble can now inspect why one bounded runtime rule commits one target, defers siblings, or leaves multiple observed hidden regions `history-open` without widening into authored commit syntax.
 - Standardized the smallest stable proof vocabulary across the two bounded local commit paths by adding explicit observation-history shape basis terms for fully committed versus partially committed collapse history, then recorded the decision that authored commit-policy syntax is still premature until authors need control beyond the current runtime rule.
 - Added a second runtime-bounded local commit path plus `examples/collapse-mixed.bubble`, so Bubble can now commit one observed hidden-region target while leaving a sibling `latent bubble` observation state `history-open`, giving the roadmap two semantically distinct commit shapes without widening into authored policy syntax.
 - Decided to keep the single-region commit rule runtime-bounded for now rather than promoting it immediately into an authored policy surface, because Bubble still has only one benchmark-specific commit path and no settled proof contract for alternative policies.

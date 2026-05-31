@@ -1,19 +1,64 @@
 {
+  "summary": {
+    "bubbleName": "CollapseOpen",
+    "profile": "bubbles.v0.4",
+    "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+    "obligationCount": 2,
+    "plannedRelationCount": 0,
+    "plannedGrammarCount": 0,
+    "plannedGrammarActivationCount": 0,
+    "plannedEmissionCount": 0,
+    "plannedSemanticCount": 0,
+    "semanticKinds": [],
+    "semanticStatusCounts": {
+      "satisfied": 0,
+      "violated": 0,
+      "undetermined": 0
+    },
+    "proofVerdict": "partially-certified",
+    "proofClaimCount": 7,
+    "proofClaimKinds": [
+      "syntax",
+      "worldhood",
+      "effect",
+      "anchor",
+      "lineage",
+      "replay",
+      "consistency"
+    ],
+    "proofClaimStatusCounts": {
+      "certified": 4,
+      "contradicted": 0,
+      "undetermined": 3
+    },
+    "materializedArtifactCount": 0,
+    "descendantCount": 0,
+    "artifactCount": 0,
+    "commitCount": 0,
+    "evidenceCount": 9,
+    "observationStateCount": 2,
+    "reflectionPaths": [],
+    "traceKinds": [
+      "materialization-started",
+      "no-emissions",
+      "local-collapse-materialized"
+    ]
+  },
   "plan": {
     "mode": "semantic-plan.v1",
-    "sourcePath": "examples/collapse-mixed.bubble",
+    "sourcePath": "examples/collapse-open.bubble",
     "profile": "bubbles.v0.4",
     "bubbleAddress": {
       "scheme": "bubble-lineage.v1",
       "locatorKind": "source-relative",
-      "anchor": "examples/collapse-mixed.bubble",
+      "anchor": "examples/collapse-open.bubble",
       "path": [
         {
           "kind": "root",
-          "key": "CollapseMixed"
+          "key": "CollapseOpen"
         }
       ],
-      "id": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed"
+      "id": "bubble:examples/collapse-open.bubble::root:CollapseOpen"
     },
     "semantics": {
       "mode": "bubble-executable-semantics.v1",
@@ -64,7 +109,7 @@
     },
     "proof": {
       "mode": "bubble-consistency-certificate.v1",
-      "bubbleAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
+      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
       "profile": "bubbles.v0.4",
       "verdict": "partially-certified",
       "claims": [
@@ -80,7 +125,7 @@
           "dependsOnClaims": [],
           "assumptions": [],
           "scope": "source",
-          "explanation": "Bubble CollapseMixed compiled into a semantic plan under bubbles.v0.4."
+          "explanation": "Bubble CollapseOpen compiled into a semantic plan under bubbles.v0.4."
         },
         {
           "id": "claim:minimum-worldhood",
@@ -98,7 +143,7 @@
           ],
           "assumptions": [],
           "scope": "source",
-          "explanation": "Bubble CollapseMixed satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+          "explanation": "Bubble CollapseOpen satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
         },
         {
           "id": "claim:required-effect-obligations",
@@ -133,10 +178,10 @@
             "observation-surface"
           ],
           "evidenceIds": [
-            "evidence:anchor-point:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-            "evidence:positive-sea:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-            "evidence:negative-sea:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-            "evidence:observe:bubble:examples/collapse-mixed.bubble::root:CollapseMixed"
+            "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen"
           ],
           "dependsOnClaims": [
             "claim:minimum-worldhood"
@@ -145,7 +190,7 @@
             "sea-anchor-theorem-witness-is-bounded"
           ],
           "scope": "plan",
-          "explanation": "Bubble CollapseMixed currently certifies anchor identity as strong with theorem condition stable."
+          "explanation": "Bubble CollapseOpen currently certifies anchor identity as strong with theorem condition stable."
         },
         {
           "id": "claim:lineage-traceability",
@@ -160,7 +205,7 @@
           ],
           "assumptions": [],
           "scope": "plan",
-          "explanation": "Bubble CollapseMixed declares no descendant or staged grammar lineage that needs certification in the current plan."
+          "explanation": "Bubble CollapseOpen declares no descendant or staged grammar lineage that needs certification in the current plan."
         },
         {
           "id": "claim:replay-identity",
@@ -174,10 +219,10 @@
             "latent-observation-ready"
           ],
           "evidenceIds": [
-            "evidence:anchor-point:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-            "evidence:positive-sea:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-            "evidence:negative-sea:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-            "evidence:observe:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
+            "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen",
             "evidence:effect:effect:6:observe",
             "evidence:effect:effect:7:commit"
           ],
@@ -189,7 +234,7 @@
             "latent-collapse-history-is-not-yet-materialized"
           ],
           "scope": "plan",
-          "explanation": "Bubble CollapseMixed preserves a replay basis for currently declared history, but same-world replay across latent regions remains undetermined while collapse drafts are only observation-ready."
+          "explanation": "Bubble CollapseOpen preserves a replay basis for currently declared history, but same-world replay across latent regions remains undetermined while collapse drafts are only observation-ready."
         },
         {
           "id": "claim:internal-law-consistency",
@@ -197,7 +242,6 @@
           "status": "undetermined",
           "basis": [
             "hidden-region",
-            "latent-admitted-bubble",
             "latent-topology",
             "latent-observation-ready",
             "no-executable-law-semantics-yet"
@@ -212,35 +256,35 @@
             "observation-induced-collapse-is-not-yet-executed"
           ],
           "scope": "plan",
-          "explanation": "Latent collapse drafts (observation-ready) keep observation-induced consistency bounded rather than fully discharged. Residual unresolved semantic fragments (hidden-region, latent-bubble) keep overall internal semantic consistency undetermined."
+          "explanation": "Latent collapse drafts (observation-ready) keep observation-induced consistency bounded rather than fully discharged. Residual unresolved semantic fragments (hidden-region) keep overall internal semantic consistency undetermined."
         }
       ]
     },
     "bundle": {
       "mode": "bubble-bundle-plan.v1",
-      "bundleId": "bundle:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "rootAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
+      "bundleId": "bundle:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "rootAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
       "members": [
         {
-          "memberId": "bundle-member:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
+          "memberId": "bundle-member:bubble:examples/collapse-open.bubble::root:CollapseOpen",
           "kind": "root-bubble",
           "emissionId": null,
           "activationId": null,
-          "addressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
+          "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
           "profileName": "bubbles.v0.4",
-          "sourcePath": "examples/collapse-mixed.bubble",
+          "sourcePath": "examples/collapse-open.bubble",
           "provenance": "root-bubble",
-          "description": "Root bubble CollapseMixed anchors this bundle."
+          "description": "Root bubble CollapseOpen anchors this bundle."
         }
       ],
       "materializationScopes": [
         {
-          "scopeId": "bundle-scope:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
+          "scopeId": "bundle-scope:bubble:examples/collapse-open.bubble::root:CollapseOpen",
           "target": "root-bubble",
           "emissionId": null,
           "activationId": null,
-          "addressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-          "description": "The root bubble CollapseMixed is always inside its own materialization scope."
+          "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "description": "The root bubble CollapseOpen is always inside its own materialization scope."
         }
       ]
     },
@@ -260,11 +304,11 @@
           "perturbationMode": "declared-perturbation"
         },
         {
-          "id": "latent-region:semantic:10:latent-bubble:WaitingArchive",
-          "sourceSemanticId": "semantic:10:latent-bubble:WaitingArchive",
-          "name": "WaitingArchive",
-          "kind": "latent-bubble",
-          "description": "Latent bubble WaitingArchive is admitted but not yet materialized.",
+          "id": "latent-region:semantic:10:hidden-region:InnerCanopy",
+          "sourceSemanticId": "semantic:10:hidden-region:InnerCanopy",
+          "name": "InnerCanopy",
+          "kind": "hidden-region",
+          "description": "Hidden region InnerCanopy remains outside the current observation surface.",
           "sourceLine": 10,
           "initialState": "latent",
           "observationBoundary": "declared-observation-surface",
@@ -290,9 +334,9 @@
           "description": "Latent region OuterCanopy can materialize under the declared observation surface with declared perturbation support and later anchor that collapse through declared history support."
         },
         {
-          "id": "collapse-evidence-draft:semantic:10:latent-bubble:WaitingArchive",
-          "latentRegionId": "latent-region:semantic:10:latent-bubble:WaitingArchive",
-          "sourceSemanticId": "semantic:10:latent-bubble:WaitingArchive",
+          "id": "collapse-evidence-draft:semantic:10:hidden-region:InnerCanopy",
+          "latentRegionId": "latent-region:semantic:10:hidden-region:InnerCanopy",
+          "sourceSemanticId": "semantic:10:hidden-region:InnerCanopy",
           "observationEffectIds": [
             "effect:6:observe"
           ],
@@ -303,27 +347,26 @@
             "effect:7:commit"
           ],
           "draftStatus": "observation-ready",
-          "description": "Latent region WaitingArchive can materialize under the declared observation surface with declared perturbation support and later anchor that collapse through declared history support."
+          "description": "Latent region InnerCanopy can materialize under the declared observation surface with declared perturbation support and later anchor that collapse through declared history support."
         }
       ]
     },
     "observationCommitPolicy": {
       "mode": "runtime-observation-commit-policy.v1",
-      "policyId": "observation-commit-policy:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "selectionRule": "commit-hidden-region-with-latent-bubble-siblings",
+      "policyId": "observation-commit-policy:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "selectionRule": "defer-multiple-hidden-region-targets",
       "localMaterializationTargetId": "latent-region:semantic:9:hidden-region:OuterCanopy",
       "observedRegionIds": [
         "latent-region:semantic:9:hidden-region:OuterCanopy",
-        "latent-region:semantic:10:latent-bubble:WaitingArchive"
+        "latent-region:semantic:10:hidden-region:InnerCanopy"
       ],
-      "selectedTargetIds": [
-        "latent-region:semantic:9:hidden-region:OuterCanopy"
-      ],
+      "selectedTargetIds": [],
       "deferredTargetIds": [
-        "latent-region:semantic:10:latent-bubble:WaitingArchive"
+        "latent-region:semantic:9:hidden-region:OuterCanopy",
+        "latent-region:semantic:10:hidden-region:InnerCanopy"
       ],
-      "projectedHistoryShape": "partially-committed",
-      "description": "Bubble CollapseMixed commits hidden-region target latent-region:semantic:9:hidden-region:OuterCanopy while deferring sibling observation states latent-region:semantic:10:latent-bubble:WaitingArchive, projecting shape partially-committed."
+      "projectedHistoryShape": "history-open-only",
+      "description": "Bubble CollapseOpen defers local commit because multiple hidden-region observation targets remain in play (latent-region:semantic:9:hidden-region:OuterCanopy, latent-region:semantic:10:hidden-region:InnerCanopy), projecting shape history-open-only."
     },
     "obligations": [
       {
@@ -344,9 +387,56 @@
     "grammarActivationPlan": [],
     "emissionPlan": []
   },
+  "ontology": {
+    "negativeSea": {
+      "pressure": "elevated",
+      "signals": [
+        "law-perturbation"
+      ]
+    },
+    "positiveSea": {
+      "support": "present",
+      "signals": [
+        "source-lineage-address",
+        "seeded-origin",
+        "declared-history-support"
+      ]
+    },
+    "anchorPoint": {
+      "strength": "strong",
+      "declaredHistorySupport": true,
+      "materializedHistoryEvidence": false,
+      "rewindStability": "stable",
+      "signals": [
+        "axiomatic-basis",
+        "world-will",
+        "seed-continuity",
+        "declared-history-support",
+        "observation-surface",
+        "perturbation-stress"
+      ]
+    },
+    "theoremWitness": {
+      "theorem": "sea-anchor-necessity.v1",
+      "negativeRank": 1,
+      "positiveRank": 1,
+      "anchorRank": 2,
+      "worldhoodDelta": 2,
+      "identityDelta": 1,
+      "sustained": true,
+      "condition": "stable",
+      "explanation": "Bubble worldhood remains stable because A=2, P=1, N=1, so A + P - N = 2."
+    }
+  },
+  "semantics": {
+    "mode": "bubble-executable-semantics.v1",
+    "constraints": [],
+    "partialLaws": [],
+    "anchorCriterion": null
+  },
   "proof": {
     "mode": "bubble-consistency-certificate.v1",
-    "bubbleAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
+    "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
     "profile": "bubbles.v0.4",
     "verdict": "partially-certified",
     "claims": [
@@ -362,7 +452,7 @@
         "dependsOnClaims": [],
         "assumptions": [],
         "scope": "source",
-        "explanation": "Bubble CollapseMixed compiled into a semantic plan under bubbles.v0.4."
+        "explanation": "Bubble CollapseOpen compiled into a semantic plan under bubbles.v0.4."
       },
       {
         "id": "claim:minimum-worldhood",
@@ -380,7 +470,7 @@
         ],
         "assumptions": [],
         "scope": "source",
-        "explanation": "Bubble CollapseMixed satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
+        "explanation": "Bubble CollapseOpen satisfies the current minimum worldhood basis through axiom, worldWill, seed, effect."
       },
       {
         "id": "claim:required-effect-obligations",
@@ -415,10 +505,10 @@
           "observation-surface"
         ],
         "evidenceIds": [
-          "evidence:anchor-point:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-          "evidence:positive-sea:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-          "evidence:negative-sea:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-          "evidence:observe:bubble:examples/collapse-mixed.bubble::root:CollapseMixed"
+          "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen"
         ],
         "dependsOnClaims": [
           "claim:minimum-worldhood"
@@ -427,7 +517,7 @@
           "sea-anchor-theorem-witness-is-bounded"
         ],
         "scope": "plan",
-        "explanation": "Bubble CollapseMixed currently certifies anchor identity as strong with theorem condition stable."
+        "explanation": "Bubble CollapseOpen currently certifies anchor identity as strong with theorem condition stable."
       },
       {
         "id": "claim:lineage-traceability",
@@ -442,7 +532,7 @@
         ],
         "assumptions": [],
         "scope": "plan",
-        "explanation": "Bubble CollapseMixed declares no descendant or staged grammar lineage that needs certification in the current plan."
+        "explanation": "Bubble CollapseOpen declares no descendant or staged grammar lineage that needs certification in the current plan."
       },
       {
         "id": "claim:replay-identity",
@@ -453,19 +543,18 @@
           "source-lineage-address",
           "declared-history-support",
           "collapse-record",
-          "observed-history-shape-partially-committed",
-          "observed-history-committed",
+          "observed-history-shape-history-open-only",
           "observed-history-open"
         ],
         "evidenceIds": [
-          "evidence:anchor-point:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-          "evidence:positive-sea:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-          "evidence:negative-sea:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-          "evidence:observe:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
+          "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen",
           "evidence:effect:effect:6:observe",
           "evidence:effect:effect:7:commit",
           "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
-          "evidence:collapse:semantic:10:latent-bubble:WaitingArchive"
+          "evidence:collapse:semantic:10:hidden-region:InnerCanopy"
         ],
         "dependsOnClaims": [
           "claim:anchor-identity"
@@ -475,24 +564,22 @@
           "observed-collapse-history-is-not-yet-committed"
         ],
         "scope": "materialized-run",
-        "explanation": "Bubble CollapseMixed preserves a replay basis for currently declared history, but same-world replay across latent regions remains undetermined while collapse drafts are only observation-ready. Observed collapse records (2 records at committed, history-open with shape partially-committed) mean this run is no longer pristine latent possibility; same-world replay remains open until that observed history is committed."
+        "explanation": "Bubble CollapseOpen preserves a replay basis for currently declared history, but same-world replay across latent regions remains undetermined while collapse drafts are only observation-ready. Observed collapse records (2 records at history-open with shape history-open-only) mean this run is no longer pristine latent possibility; same-world replay remains open until that observed history is committed."
       },
       {
         "id": "claim:internal-law-consistency",
         "kind": "consistency",
         "status": "undetermined",
         "basis": [
-          "latent-admitted-bubble",
-          "committed-hidden-region-history",
+          "hidden-region",
           "collapse-record",
-          "observed-history-shape-partially-committed",
-          "observed-history-committed",
+          "observed-history-shape-history-open-only",
           "observed-history-open",
           "no-executable-law-semantics-yet"
         ],
         "evidenceIds": [
           "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
-          "evidence:collapse:semantic:10:latent-bubble:WaitingArchive"
+          "evidence:collapse:semantic:10:hidden-region:InnerCanopy"
         ],
         "dependsOnClaims": [
           "claim:well-formed-source"
@@ -503,67 +590,51 @@
           "observed-collapse-history-is-not-yet-committed"
         ],
         "scope": "materialized-run",
-        "explanation": "Committed collapse history reinterprets hidden-region:OuterCanopy as observed local history rather than residual unresolved semantics. Observed collapse records (2 records at committed, history-open with shape partially-committed) now witness executed observation-induced materialization for Bubble CollapseMixed. Residual unresolved semantic fragments (latent-bubble) keep overall internal semantic consistency undetermined. Bubble CollapseMixed still has no full executable law solver, so internal semantic consistency remains undetermined."
+        "explanation": "Observed collapse records (2 records at history-open with shape history-open-only) now witness executed observation-induced materialization for Bubble CollapseOpen. Residual unresolved semantic fragments (hidden-region) keep overall internal semantic consistency undetermined. Bubble CollapseOpen still has no full executable law solver, so internal semantic consistency remains undetermined."
       }
     ]
   },
-  "runtimeOntology": {
-    "negativeSea": {
-      "pressure": "elevated",
-      "signals": [
-        "law-perturbation"
-      ]
-    },
-    "positiveSea": {
-      "support": "present",
-      "signals": [
-        "source-lineage-address",
-        "seeded-origin",
-        "declared-history-support"
-      ]
-    },
-    "anchorPoint": {
-      "strength": "strong",
-      "declaredHistorySupport": true,
-      "materializedHistoryEvidence": true,
-      "rewindStability": "stable",
-      "signals": [
-        "axiomatic-basis",
-        "world-will",
-        "seed-continuity",
-        "declared-history-support",
-        "observation-surface",
-        "perturbation-stress"
-      ]
-    },
-    "theoremWitness": {
-      "theorem": "sea-anchor-necessity.v1",
-      "negativeRank": 1,
-      "positiveRank": 1,
-      "anchorRank": 2,
-      "worldhoodDelta": 2,
-      "identityDelta": 1,
-      "sustained": true,
-      "condition": "stable",
-      "explanation": "Bubble worldhood remains stable because A=2, P=1, N=1, so A + P - N = 2."
-    }
+  "bundle": {
+    "mode": "bubble-bundle-plan.v1",
+    "bundleId": "bundle:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+    "rootAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+    "members": [
+      {
+        "memberId": "bundle-member:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "kind": "root-bubble",
+        "emissionId": null,
+        "activationId": null,
+        "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "profileName": "bubbles.v0.4",
+        "sourcePath": "examples/collapse-open.bubble",
+        "provenance": "root-bubble",
+        "description": "Root bubble CollapseOpen anchors this bundle."
+      }
+    ],
+    "materializationScopes": [
+      {
+        "scopeId": "bundle-scope:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "target": "root-bubble",
+        "emissionId": null,
+        "activationId": null,
+        "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "description": "The root bubble CollapseOpen is always inside its own materialization scope."
+      }
+    ]
+  },
+  "grammars": {
+    "artifacts": [],
+    "activations": []
   },
   "artifacts": [],
-  "commits": [
-    {
-      "id": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
-      "emissionId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
-      "committedAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "description": "Committed observed local state observation-state:latent-region:semantic:9:hidden-region:OuterCanopy for latent-region:semantic:9:hidden-region:OuterCanopy."
-    }
-  ],
+  "commits": [],
   "evidence": [
     {
-      "id": "evidence:negative-sea:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
+      "id": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
       "kind": "negative-sea-state",
-      "bubbleAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "subjectAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "sourcePath": "examples/collapse-mixed.bubble",
+      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "sourcePath": "examples/collapse-open.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
@@ -571,14 +642,14 @@
       "signals": [
         "law-perturbation"
       ],
-      "description": "Bubble CollapseMixed currently shows elevated negative-sea pressure via law-perturbation."
+      "description": "Bubble CollapseOpen currently shows elevated negative-sea pressure via law-perturbation."
     },
     {
-      "id": "evidence:positive-sea:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
+      "id": "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
       "kind": "positive-sea-state",
-      "bubbleAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "subjectAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "sourcePath": "examples/collapse-mixed.bubble",
+      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "sourcePath": "examples/collapse-open.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
@@ -588,20 +659,20 @@
         "seeded-origin",
         "declared-history-support"
       ],
-      "description": "Bubble CollapseMixed currently shows present positive-sea support via source-lineage-address, seeded-origin, declared-history-support."
+      "description": "Bubble CollapseOpen currently shows present positive-sea support via source-lineage-address, seeded-origin, declared-history-support."
     },
     {
-      "id": "evidence:anchor-point:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
+      "id": "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
       "kind": "anchor-point-state",
-      "bubbleAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "subjectAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "sourcePath": "examples/collapse-mixed.bubble",
+      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "sourcePath": "examples/collapse-open.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
       "strength": "strong",
       "declaredHistorySupport": true,
-      "materializedHistoryEvidence": true,
+      "materializedHistoryEvidence": false,
       "rewindStability": "stable",
       "signals": [
         "axiomatic-basis",
@@ -611,28 +682,28 @@
         "observation-surface",
         "perturbation-stress"
       ],
-      "description": "Bubble CollapseMixed currently shows strong anchor support with stable rewind stability."
+      "description": "Bubble CollapseOpen currently shows strong anchor support with stable rewind stability."
     },
     {
-      "id": "evidence:observe:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
+      "id": "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen",
       "kind": "observation-context",
-      "bubbleAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "subjectAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "sourcePath": "examples/collapse-mixed.bubble",
+      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "sourcePath": "examples/collapse-open.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
-      "description": "Bubble CollapseMixed declares observation mode witness with declared history support."
+      "description": "Bubble CollapseOpen declares observation mode witness with declared history support."
     },
     {
       "id": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
       "kind": "collapse-record",
-      "bubbleAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "subjectAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "sourcePath": "examples/collapse-mixed.bubble",
+      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "sourcePath": "examples/collapse-open.bubble",
       "observationMode": "witness",
       "emissionId": null,
-      "commitId": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "commitId": null,
       "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
       "sourceSemanticId": "semantic:9:hidden-region:OuterCanopy",
       "triggerEffectIds": [
@@ -644,7 +715,7 @@
       "observationStateId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
       "observationState": {
         "id": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
-        "phase": "observed-committed",
+        "phase": "observed-history-open",
         "observationMode": "witness",
         "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
         "sourceSemanticId": "semantic:9:hidden-region:OuterCanopy",
@@ -654,7 +725,7 @@
         "perturbEffectIds": [
           "effect:8:perturb"
         ],
-        "commitStatus": "committed",
+        "commitStatus": "history-open",
         "draftStatus": "observation-ready",
         "localMaterialization": {
           "mode": "single-region-observation-kernel.v1",
@@ -677,36 +748,36 @@
           ],
           "description": "Local observation kernel materialized OuterCanopy as boundary-canopy-edge under anchor strong with elevated negative-sea pressure and present positive-sea support."
         },
-        "description": "Observation state observation-state:latent-region:semantic:9:hidden-region:OuterCanopy records OuterCanopy as observed-committed under witness with one local materialization kernel."
+        "description": "Observation state observation-state:latent-region:semantic:9:hidden-region:OuterCanopy records OuterCanopy as observed-history-open under witness with one local materialization kernel."
       },
-      "commitStatus": "committed",
+      "commitStatus": "history-open",
       "draftStatus": "observation-ready",
-      "description": "Bubble CollapseMixed observed latent region OuterCanopy into observation-state:latent-region:semantic:9:hidden-region:OuterCanopy via effect:6:observe with perturb contributions effect:8:perturb; the collapse is already fixed into committed history."
+      "description": "Bubble CollapseOpen observed latent region OuterCanopy into observation-state:latent-region:semantic:9:hidden-region:OuterCanopy via effect:6:observe with perturb contributions effect:8:perturb; history remains open pending a later commit-specific collapse kernel."
     },
     {
-      "id": "evidence:collapse:semantic:10:latent-bubble:WaitingArchive",
+      "id": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
       "kind": "collapse-record",
-      "bubbleAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "subjectAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "sourcePath": "examples/collapse-mixed.bubble",
+      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "sourcePath": "examples/collapse-open.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
-      "latentRegionId": "latent-region:semantic:10:latent-bubble:WaitingArchive",
-      "sourceSemanticId": "semantic:10:latent-bubble:WaitingArchive",
+      "latentRegionId": "latent-region:semantic:10:hidden-region:InnerCanopy",
+      "sourceSemanticId": "semantic:10:hidden-region:InnerCanopy",
       "triggerEffectIds": [
         "effect:6:observe"
       ],
       "perturbEffectIds": [
         "effect:8:perturb"
       ],
-      "observationStateId": "observation-state:latent-region:semantic:10:latent-bubble:WaitingArchive",
+      "observationStateId": "observation-state:latent-region:semantic:10:hidden-region:InnerCanopy",
       "observationState": {
-        "id": "observation-state:latent-region:semantic:10:latent-bubble:WaitingArchive",
+        "id": "observation-state:latent-region:semantic:10:hidden-region:InnerCanopy",
         "phase": "observed-history-open",
         "observationMode": "witness",
-        "latentRegionId": "latent-region:semantic:10:latent-bubble:WaitingArchive",
-        "sourceSemanticId": "semantic:10:latent-bubble:WaitingArchive",
+        "latentRegionId": "latent-region:semantic:10:hidden-region:InnerCanopy",
+        "sourceSemanticId": "semantic:10:hidden-region:InnerCanopy",
         "triggerEffectIds": [
           "effect:6:observe"
         ],
@@ -716,29 +787,18 @@
         "commitStatus": "history-open",
         "draftStatus": "observation-ready",
         "localMaterialization": null,
-        "description": "Observation state observation-state:latent-region:semantic:10:latent-bubble:WaitingArchive records WaitingArchive as observed-history-open under witness."
+        "description": "Observation state observation-state:latent-region:semantic:10:hidden-region:InnerCanopy records InnerCanopy as observed-history-open under witness."
       },
       "commitStatus": "history-open",
       "draftStatus": "observation-ready",
-      "description": "Bubble CollapseMixed observed latent region WaitingArchive into observation-state:latent-region:semantic:10:latent-bubble:WaitingArchive via effect:6:observe with perturb contributions effect:8:perturb; history remains open pending a later commit-specific collapse kernel."
-    },
-    {
-      "id": "evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
-      "kind": "history-commit",
-      "bubbleAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "subjectAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "sourcePath": "examples/collapse-mixed.bubble",
-      "observationMode": "witness",
-      "emissionId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
-      "commitId": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
-      "description": "Recorded durable history for observation-state:latent-region:semantic:9:hidden-region:OuterCanopy at bubble:examples/collapse-mixed.bubble::root:CollapseMixed."
+      "description": "Bubble CollapseOpen observed latent region InnerCanopy into observation-state:latent-region:semantic:10:hidden-region:InnerCanopy via effect:6:observe with perturb contributions effect:8:perturb; history remains open pending a later commit-specific collapse kernel."
     },
     {
       "id": "evidence:effect:effect:6:observe",
       "kind": "effect-trace",
-      "bubbleAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "subjectAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "sourcePath": "examples/collapse-mixed.bubble",
+      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "sourcePath": "examples/collapse-open.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
@@ -751,14 +811,14 @@
       "runtimeSignals": [
         "observation-surface"
       ],
-      "description": "Bubble CollapseMixed recorded required local observe as materialized in this run via observation-surface."
+      "description": "Bubble CollapseOpen recorded required local observe as materialized in this run via observation-surface."
     },
     {
       "id": "evidence:effect:effect:7:commit",
       "kind": "effect-trace",
-      "bubbleAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "subjectAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "sourcePath": "examples/collapse-mixed.bubble",
+      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "sourcePath": "examples/collapse-open.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
@@ -767,19 +827,18 @@
       "requirement": "required",
       "scope": "local",
       "sourceLine": 7,
-      "materializationState": "materialized",
+      "materializationState": "potential",
       "runtimeSignals": [
-        "declared-history-support",
-        "history-commit"
+        "declared-history-support"
       ],
-      "description": "Bubble CollapseMixed recorded required local commit as materialized in this run via declared-history-support, history-commit."
+      "description": "Bubble CollapseOpen recorded required local commit as potential in this run via declared-history-support."
     },
     {
       "id": "evidence:effect:effect:8:perturb",
       "kind": "effect-trace",
-      "bubbleAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "subjectAddressId": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
-      "sourcePath": "examples/collapse-mixed.bubble",
+      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "sourcePath": "examples/collapse-open.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
@@ -792,21 +851,77 @@
       "runtimeSignals": [
         "law-perturbation"
       ],
-      "description": "Bubble CollapseMixed recorded optional local perturb as potential in this run via law-perturbation."
+      "description": "Bubble CollapseOpen recorded optional local perturb as potential in this run via law-perturbation."
+    }
+  ],
+  "observationStates": [
+    {
+      "id": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "phase": "observed-history-open",
+      "observationMode": "witness",
+      "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+      "sourceSemanticId": "semantic:9:hidden-region:OuterCanopy",
+      "triggerEffectIds": [
+        "effect:6:observe"
+      ],
+      "perturbEffectIds": [
+        "effect:8:perturb"
+      ],
+      "commitStatus": "history-open",
+      "draftStatus": "observation-ready",
+      "localMaterialization": {
+        "mode": "single-region-observation-kernel.v1",
+        "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+        "regionName": "OuterCanopy",
+        "regionKind": "hidden-region",
+        "realizedForm": "boundary-canopy-edge",
+        "anchorStrength": "strong",
+        "negativeSeaPressure": "elevated",
+        "positiveSeaSupport": "present",
+        "determinants": [
+          "observation:declared-observation-surface",
+          "commit:declared-history-support",
+          "perturb:declared-perturbation",
+          "anchor:strong",
+          "negative-sea:elevated",
+          "positive-sea:present",
+          "effect:6:observe",
+          "effect:8:perturb"
+        ],
+        "description": "Local observation kernel materialized OuterCanopy as boundary-canopy-edge under anchor strong with elevated negative-sea pressure and present positive-sea support."
+      },
+      "description": "Observation state observation-state:latent-region:semantic:9:hidden-region:OuterCanopy records OuterCanopy as observed-history-open under witness with one local materialization kernel."
+    },
+    {
+      "id": "observation-state:latent-region:semantic:10:hidden-region:InnerCanopy",
+      "phase": "observed-history-open",
+      "observationMode": "witness",
+      "latentRegionId": "latent-region:semantic:10:hidden-region:InnerCanopy",
+      "sourceSemanticId": "semantic:10:hidden-region:InnerCanopy",
+      "triggerEffectIds": [
+        "effect:6:observe"
+      ],
+      "perturbEffectIds": [
+        "effect:8:perturb"
+      ],
+      "commitStatus": "history-open",
+      "draftStatus": "observation-ready",
+      "localMaterialization": null,
+      "description": "Observation state observation-state:latent-region:semantic:10:hidden-region:InnerCanopy records InnerCanopy as observed-history-open under witness."
     }
   ],
   "trace": [
     {
       "kind": "materialization-started",
-      "message": "Started materialization for CollapseMixed.",
+      "message": "Started materialization for CollapseOpen.",
       "details": {
         "profile": "bubbles.v0.4",
-        "address": "bubble:examples/collapse-mixed.bubble::root:CollapseMixed"
+        "address": "bubble:examples/collapse-open.bubble::root:CollapseOpen"
       }
     },
     {
       "kind": "no-emissions",
-      "message": "Bubble CollapseMixed has no staged emissions to materialize."
+      "message": "Bubble CollapseOpen has no staged emissions to materialize."
     },
     {
       "kind": "local-collapse-materialized",
@@ -816,14 +931,6 @@
         "observationStateId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
         "realizedForm": "boundary-canopy-edge",
         "mode": "single-region-observation-kernel.v1"
-      }
-    },
-    {
-      "kind": "materialization-committed",
-      "emissionId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
-      "message": "Committed observed local state observation-state:latent-region:semantic:9:hidden-region:OuterCanopy for latent-region:semantic:9:hidden-region:OuterCanopy.",
-      "details": {
-        "commitId": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy"
       }
     }
   ]

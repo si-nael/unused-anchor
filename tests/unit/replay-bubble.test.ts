@@ -164,6 +164,109 @@ test("records and replays collapse-record evidence for observed latent regions",
     );
 });
 
+test("replay preserves the bounded observation commit policy and history-open-only shape", () => {
+    const source = [
+        "bubble CollapseOpen {",
+        "  axiom coherence = stable",
+        "  will \"observe two canopy edges without choosing one to commit\"",
+        "  seed open_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  hidden region InnerCanopy",
+        "}",
+    ].join("\n");
+
+    const replayed = replayBubbleRecord(recordBubbleProgram(compileBubbleSource(source, { sourcePath: "collapse-open-replay.bubble" }).program));
+    const replayClaim = replayed.proof.claims.find((claim) => claim.id === "claim:replay-identity");
+
+    assert.ok(replayed.plan.observationCommitPolicy);
+    assert.equal(replayed.plan.observationCommitPolicy.selectionRule, "defer-multiple-hidden-region-targets");
+    assert.equal(replayed.plan.observationCommitPolicy.projectedHistoryShape, "history-open-only");
+    assert.ok(replayed.observationCommitPolicyComparison);
+    assert.equal(replayed.observationCommitPolicyComparison.overrideApplied, false);
+    assert.deepEqual(replayed.plan.observationCommitPolicy.selectedTargetIds, []);
+    assert.equal(replayed.summary.commitCount, 0);
+    assert.deepEqual(replayed.observationStates.map((state) => state.phase), [
+        "observed-history-open",
+        "observed-history-open",
+    ]);
+    assert.ok(replayClaim?.basis.includes("observed-history-shape-history-open-only"));
+    assert.match(replayClaim?.explanation ?? "", /shape history-open-only/);
+});
+
+test("replay can narrow observation commit policy by rule and projected history shape", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const record = recordBubbleProgram(compileBubbleSource(source, { sourcePath: "threshold-policy-replay-query.bubble" }).program);
+    const byRule = replayBubbleRecord(record, {
+        observationPolicyRule: "commit-hidden-region-with-latent-bubble-siblings",
+    });
+    assert.ok(byRule.observationCommitPolicy);
+    assert.equal(byRule.observationCommitPolicy.selectionRule, "commit-hidden-region-with-latent-bubble-siblings");
+
+    const byShape = replayBubbleRecord(record, {
+        observationHistoryShape: "partially-committed",
+    });
+    assert.ok(byShape.observationCommitPolicy);
+    assert.equal(byShape.observationCommitPolicy.projectedHistoryShape, "partially-committed");
+
+    const mismatch = replayBubbleRecord(record, {
+        observationHistoryShape: "history-open-only",
+    });
+    assert.equal(mismatch.observationCommitPolicy, null);
+    assert.equal(mismatch.plan.observationCommitPolicy, null);
+    assert.equal(mismatch.observationCommitPolicyComparison, null);
+});
+
+test("replay preserves override-driven policy comparison from recorded runs", () => {
+    const source = [
+        "bubble CollapseOpen {",
+        "  axiom coherence = stable",
+        "  will \"observe two canopy edges without choosing one to commit\"",
+        "  seed open_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  hidden region InnerCanopy",
+        "}",
+    ].join("\n");
+
+    const record = recordBubbleProgram(compileBubbleSource(source, { sourcePath: "collapse-open-replay-override.bubble" }).program, {
+        observationCommitPolicyOverride: {
+            mode: "runtime-observation-commit-policy-override.v1",
+            source: "runtime-option",
+            forcedSelectionRule: "commit-single-observed-region",
+            reason: "replay unit test override",
+        },
+    });
+    const replayed = replayBubbleRecord(record);
+
+    assert.ok(replayed.observationCommitPolicy);
+    assert.equal(replayed.observationCommitPolicy.selectionRule, "commit-single-observed-region");
+    assert.ok(replayed.observationCommitPolicyComparison);
+    assert.equal(replayed.observationCommitPolicyComparison.overrideApplied, true);
+    assert.equal(replayed.observationCommitPolicyComparison.override?.forcedSelectionRule, "commit-single-observed-region");
+    assert.equal(replayed.observationCommitPolicyComparison.baseline.projectedHistoryShape, "history-open-only");
+    assert.equal(replayed.observationCommitPolicyComparison.effective.projectedHistoryShape, "partially-committed");
+});
+
 test("records and replays committed benchmark local collapse history", () => {
     const source = [
         "bubble CollapseThreshold {",

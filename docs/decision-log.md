@@ -693,3 +693,35 @@ After adding the mixed local-target commit path, the smallest stable distinction
 Consequence:
 
 Normalize runtime proof around explicit observation-history shape basis terms such as `observed-history-shape-fully-committed` and `observed-history-shape-partially-committed`. Keep authored commit policy deferred until Bubble needs one author-controlled choice that cannot be expressed by the current bounded runtime target-selection rule plus this proof vocabulary.
+
+### D-070: Introduce a hidden runtime observation-commit policy object before any authored commit syntax
+
+Reason:
+
+Bubble now needs a stable place to describe how one bounded runtime rule picks commit targets, defers siblings, and projects a resulting observation-history shape. That control surface is real enough for planning, inspection, replay, and future authored-policy design, but still too unstable to expose as source syntax.
+
+Consequence:
+
+Expose a serializable plan-level `observationCommitPolicy` object with target-selection rule, selected targets, deferred targets, and projected history shape. Use that object as the runtime decision surface for local observation commits. Keep it hidden from authored Bubble syntax until authors demonstrably need to steer those choices themselves.
+
+## 2026-06-01
+
+### D-071: Elevate observation-commit policy into an inspectable runtime report surface before authoring syntax
+
+Reason:
+
+If commit-target selection remains visible only inside hidden plan internals or indirect proof basis tags, Bubble cannot treat that behavior as inspectable world law. Before author-facing syntax exists, the runtime still needs one stable public surface where inspectors and replay tools can ask which bounded policy rule applied and which history shape it projected.
+
+Consequence:
+
+Expose `observationCommitPolicy` as a first-class inspect/replay section with direct query axes for policy selection rule and projected observation-history shape. Keep it a runtime report surface, not authored syntax, until the language needs author-controlled target steering.
+
+### D-072: Add a runtime comparison and override layer before widening authored commit syntax
+
+Reason:
+
+Bubble now needs two more capabilities before any source-level commit-policy syntax would be justified: one stable comparison surface that says how the current world law differs from a forced alternative, and one hidden runtime override path that lets tools steer that law experimentally without pretending the language has already committed to authored commit syntax.
+
+Consequence:
+
+Expose `observationCommitPolicyComparison` as a first-class inspect/replay section containing baseline policy, effective policy, override metadata, and explicit delta kinds. Allow `materialize`, `inspect`, and `record` to accept a hidden runtime observation-policy override so Bubble can test alternate local commit law shapes through tooling/runtime options only, not source syntax.

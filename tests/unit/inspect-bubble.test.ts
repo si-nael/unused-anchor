@@ -486,6 +486,110 @@ test("inspection preserves collapse-record evidence for observed latent regions"
     assert.ok(report.trace.some((event) => event.kind === "local-collapse-materialized"));
 });
 
+test("inspection exposes the bounded observation commit policy on the plan surface", () => {
+    const source = [
+        "bubble CollapseOpen {",
+        "  axiom coherence = stable",
+        "  will \"observe two canopy edges without choosing one to commit\"",
+        "  seed open_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  hidden region InnerCanopy",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "collapse-open-inspect-policy.bubble" });
+    const report = inspectBubbleProgram(program);
+
+    assert.ok(report.plan.observationCommitPolicy);
+    assert.equal(report.plan.observationCommitPolicy.selectionRule, "defer-multiple-hidden-region-targets");
+    assert.equal(report.plan.observationCommitPolicy.projectedHistoryShape, "history-open-only");
+    assert.deepEqual(report.plan.observationCommitPolicy.selectedTargetIds, []);
+    assert.deepEqual(report.plan.observationCommitPolicy.deferredTargetIds, [
+        "latent-region:semantic:9:hidden-region:OuterCanopy",
+        "latent-region:semantic:10:hidden-region:InnerCanopy",
+    ]);
+    assert.deepEqual(report.observationCommitPolicy, report.plan.observationCommitPolicy);
+    assert.ok(report.observationCommitPolicyComparison);
+    assert.equal(report.observationCommitPolicyComparison.overrideApplied, false);
+    assert.deepEqual(report.observationCommitPolicyComparison.differences, []);
+    assert.ok(report.proof.claims.some((claim) => claim.basis.includes("observed-history-shape-history-open-only")));
+});
+
+test("inspection can narrow observation commit policy by rule and projected history shape", () => {
+    const source = [
+        "bubble ThresholdField {",
+        "  axiom coherence = stable",
+        "  will \"preserve partial law under observation\"",
+        "  seed threshold_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  latent bubble WaitingArchive",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "threshold-observation-policy-query.bubble" });
+    const byRule = inspectBubbleProgram(program, {
+        observationPolicyRule: "commit-hidden-region-with-latent-bubble-siblings",
+    });
+    assert.ok(byRule.observationCommitPolicy);
+    assert.equal(byRule.observationCommitPolicy.selectionRule, "commit-hidden-region-with-latent-bubble-siblings");
+
+    const byShape = inspectBubbleProgram(program, {
+        observationHistoryShape: "partially-committed",
+    });
+    assert.ok(byShape.observationCommitPolicy);
+    assert.equal(byShape.observationCommitPolicy.projectedHistoryShape, "partially-committed");
+
+    const mismatch = inspectBubbleProgram(program, {
+        observationPolicyRule: "defer-multiple-hidden-region-targets",
+    });
+    assert.equal(mismatch.observationCommitPolicy, null);
+    assert.equal(mismatch.plan.observationCommitPolicy, null);
+    assert.equal(mismatch.observationCommitPolicyComparison, null);
+});
+
+test("inspection exposes override-driven policy comparison for hidden runtime steering", () => {
+    const source = [
+        "bubble CollapseOpen {",
+        "  axiom coherence = stable",
+        "  will \"observe two canopy edges without choosing one to commit\"",
+        "  seed open_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  hidden region InnerCanopy",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "collapse-open-inspect-override.bubble" });
+    const report = inspectBubbleProgram(program, {}, {
+        observationCommitPolicyOverride: {
+            mode: "runtime-observation-commit-policy-override.v1",
+            source: "runtime-option",
+            forcedSelectionRule: "commit-single-observed-region",
+            reason: "inspect unit test override",
+        },
+    });
+
+    assert.ok(report.observationCommitPolicy);
+    assert.equal(report.observationCommitPolicy.selectionRule, "commit-single-observed-region");
+    assert.equal(report.observationCommitPolicy.decisionSource, "runtime-override");
+    assert.ok(report.observationCommitPolicyComparison);
+    assert.equal(report.observationCommitPolicyComparison.overrideApplied, true);
+    assert.equal(report.observationCommitPolicyComparison.baseline.selectionRule, "defer-multiple-hidden-region-targets");
+    assert.equal(report.observationCommitPolicyComparison.effective.selectionRule, "commit-single-observed-region");
+    assert.ok(report.observationCommitPolicyComparison.differences.includes("projected-history-shape-changed"));
+});
+
 test("inspection upgrades the benchmark micro-world to committed local collapse history", () => {
     const source = [
         "bubble CollapseThreshold {",

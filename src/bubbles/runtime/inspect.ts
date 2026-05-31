@@ -6,6 +6,7 @@ import {
     type BubbleMaterializationCommit,
     type BubbleMaterializationResult,
     type BubbleMaterializationTraceEvent,
+    type BubbleRuntimeOptions,
 } from "./materialize";
 import type {
     BubbleEvidenceRecord,
@@ -26,7 +27,7 @@ import type {
     BubbleSemanticEvaluationPlan,
 } from "./semantics";
 
-export type BubbleInspectionSection = "summary" | "plan" | "ontology" | "semantics" | "proof" | "bundle" | "grammars" | "artifacts" | "commits" | "evidence" | "observationStates" | "trace" | "report";
+export type BubbleInspectionSection = "summary" | "plan" | "observationCommitPolicy" | "observationCommitPolicyComparison" | "ontology" | "semantics" | "proof" | "bundle" | "grammars" | "artifacts" | "commits" | "evidence" | "observationStates" | "trace" | "report";
 
 export interface BubbleInspectionQuery {
     emissionId?: string;
@@ -35,6 +36,8 @@ export interface BubbleInspectionQuery {
     grammarProfile?: string;
     observationStateId?: string;
     observationStatePhase?: BubbleObservationStateRecord["phase"];
+    observationPolicyRule?: NonNullable<BubbleExecutionPlan["observationCommitPolicy"]>["selectionRule"];
+    observationHistoryShape?: NonNullable<BubbleExecutionPlan["observationCommitPolicy"]>["projectedHistoryShape"];
     semanticId?: string;
     semanticKind?: BubbleSemanticEvaluationKind;
     semanticStatus?: BubbleExecutableCheckStatus;
@@ -92,6 +95,8 @@ export interface BubbleInspectionSummary {
 export interface BubbleInspectionReport {
     summary: BubbleInspectionSummary;
     plan: BubbleExecutionPlan;
+    observationCommitPolicy: BubbleExecutionPlan["observationCommitPolicy"];
+    observationCommitPolicyComparison: BubbleExecutionPlan["observationCommitPolicyComparison"];
     ontology: BubbleSeaAnchorAssessment;
     semantics: BubbleExecutionPlan["semantics"];
     proof: BubbleConsistencyCertificate;
@@ -104,8 +109,12 @@ export interface BubbleInspectionReport {
     trace: BubbleMaterializationTraceEvent[];
 }
 
-export function inspectBubbleProgram(program: BubbleProgramIR, query: BubbleInspectionQuery = {}): BubbleInspectionReport {
-    return inspectMaterializationResult(materializeBubbleProgram(program), query);
+export function inspectBubbleProgram(
+    program: BubbleProgramIR,
+    query: BubbleInspectionQuery = {},
+    options: BubbleRuntimeOptions = {},
+): BubbleInspectionReport {
+    return inspectMaterializationResult(materializeBubbleProgram(program, options), query);
 }
 
 export function inspectMaterializationResult(
@@ -181,6 +190,8 @@ export function inspectMaterializationResult(
             traceKinds: trace.map((event) => event.kind),
         },
         plan,
+        observationCommitPolicy: plan.observationCommitPolicy ?? null,
+        observationCommitPolicyComparison: plan.observationCommitPolicyComparison ?? null,
         ontology,
         semantics: plan.semantics,
         proof,
@@ -200,11 +211,21 @@ export function inspectMaterializationResult(
 function filterExecutionPlan(plan: BubbleExecutionPlan, query: BubbleInspectionQuery): BubbleExecutionPlan {
     const grammarActivationPlan = plan.grammarActivationPlan.filter((activation) => matchesGrammarActivationQuery(activation, query));
     const emissionPlan = plan.emissionPlan.filter((emission) => matchesPlanQuery(emission, plan.bubbleAddress.id, query));
+    const normalizedObservationCommitPolicy = plan.observationCommitPolicy ?? null;
+    const normalizedObservationCommitPolicyComparison = plan.observationCommitPolicyComparison ?? null;
+    const observationCommitPolicy = matchesObservationCommitPolicyQuery(normalizedObservationCommitPolicy, query)
+        ? normalizedObservationCommitPolicy
+        : null;
+    const observationCommitPolicyComparison = observationCommitPolicy === null
+        ? null
+        : normalizedObservationCommitPolicyComparison;
 
     return {
         ...plan,
         bundle: filterBundlePlan(plan.bundle, emissionPlan, grammarActivationPlan),
         grammars: filterGrammarPlan(plan.grammars, grammarActivationPlan, query),
+        observationCommitPolicy,
+        observationCommitPolicyComparison,
         semantics: filterSemanticPlan(plan.semantics, query),
         proof: filterProofCertificate(plan.proof, query),
         grammarActivationPlan,
@@ -478,6 +499,25 @@ function matchesObservationStateQuery(state: BubbleObservationStateRecord, query
     }
 
     if (query.observationStatePhase && state.phase !== query.observationStatePhase) {
+        return false;
+    }
+
+    return true;
+}
+
+function matchesObservationCommitPolicyQuery(
+    policy: BubbleExecutionPlan["observationCommitPolicy"] | undefined,
+    query: BubbleInspectionQuery,
+): boolean {
+    if (policy == null) {
+        return !query.observationPolicyRule && !query.observationHistoryShape;
+    }
+
+    if (query.observationPolicyRule && policy.selectionRule !== query.observationPolicyRule) {
+        return false;
+    }
+
+    if (query.observationHistoryShape && policy.projectedHistoryShape !== query.observationHistoryShape) {
         return false;
     }
 

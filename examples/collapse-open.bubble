@@ -1,0 +1,11 @@
+bubble CollapseOpen {
+  axiom coherence = stable
+  will "observe two canopy edges without choosing one to commit"
+  seed open_seed
+  observe witness
+  effect observe required
+  effect commit required
+  effect perturb optional
+  hidden region OuterCanopy
+  hidden region InnerCanopy
+}
