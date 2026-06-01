@@ -542,6 +542,42 @@ test("compiles executable constraints, partial laws, and explicit anchor criteri
     });
 });
 
+test("lowers parseable world will declarations into executable criteria", () => {
+    const source = [
+        "bubble Guided {",
+        "  axiom coherence = stable",
+        "  will history.commits and world.seeded",
+        "  seed guided_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "}",
+    ].join("\n");
+
+    const result = compileBubbleSource(source, { sourcePath: "guided.bubble" });
+
+    assert.equal(result.program.profile, "bubbles.v0.4");
+    assert.equal(result.program.bubble.worldWill, "history.commits and world.seeded");
+    assert.equal(result.program.bubble.generation.worldWillMode, "criterion");
+    assert.deepEqual(result.program.bubble.worldWillCriterion, {
+        id: "world-will:3",
+        sourceLine: 3,
+        description: "history.commits and world.seeded",
+        expression: {
+            kind: "logical",
+            operator: "and",
+            left: {
+                kind: "reference",
+                path: "history.commits",
+            },
+            right: {
+                kind: "reference",
+                path: "world.seeded",
+            },
+        },
+    });
+});
+
 test("rejects duplicate unresolved semantic names", () => {
     const source = [
         "bubble DuplicateUnknown {",

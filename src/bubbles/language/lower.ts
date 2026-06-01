@@ -2,9 +2,12 @@ import type {
     BubbleAddressIR,
     BubbleAddressTemplateIR,
     BubbleAnchorCriterionIR,
+    BubbleBoundaryIR,
+    BubbleBoundaryScopeIR,
     BubbleEmissionIR,
     BubbleEffectRolesIR,
     EffectEventIR,
+    BubbleExpressionIR,
     BubbleGrammarActivationIR,
     BubbleGrammarIR,
     BubbleGeneratorIR,
@@ -19,6 +22,7 @@ import type {
     BubbleReflectionIR,
     BubbleUnresolvedSemanticIR,
     BubbleVersion,
+    BubbleWorldWillCriterionIR,
     EffectPermissionIR,
     EffectPressureIR,
     EffectIR,
@@ -37,13 +41,14 @@ import type {
     ReflectDeclaration,
     SpawnDeclaration,
     UnresolvedSemanticDeclaration,
+    WillDeclaration,
 } from "./ast";
 import { throwDiagnostic } from "./diagnostics";
 
 export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
     const axioms = new Map<string, boolean | number | string>();
     let authoredRealizationMode: BubbleRealizationMode | null = null;
-    let worldWill: string | null = null;
+    let worldWillDeclaration: WillDeclaration | null = null;
     let seed: string | null = null;
     let observationMode: string | null = null;
     let anchorDeclaration: AnchorDeclaration | null = null;
@@ -86,7 +91,7 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
                 authoredRealizationMode = declaration.mode;
                 break;
             case "will":
-                if (worldWill !== null) {
+                if (worldWillDeclaration !== null) {
                     throwDiagnostic({
                         code: "BBL102",
                         severity: "error",
@@ -96,7 +101,7 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
                     });
                 }
 
-                worldWill = declaration.expression;
+                worldWillDeclaration = declaration;
                 break;
             case "seed":
                 if (seed !== null) {
@@ -177,12 +182,15 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
     }
 
     const address = buildBubbleAddress(document.sourcePath, document.bubble.name);
+    const worldWill = worldWillDeclaration?.description ?? null;
+    const worldWillCriterion = buildWorldWillCriterion(worldWillDeclaration);
     const obligations = buildObligations(effects);
     const effectRoles = buildEffectRoles(effects, obligations);
-    const generation = buildGeneration(address, effects, worldWill, observationMode, authoredRealizationMode, spawnDeclarations);
+    const generation = buildGeneration(address, effects, worldWill, worldWillCriterion, observationMode, authoredRealizationMode, spawnDeclarations);
     const anchorCriterion = buildAnchorCriterion(anchorDeclaration);
     const unresolvedSemantics = buildUnresolvedSemantics(unresolvedSemanticDeclarations);
-    const latentTopology = buildLatentTopology(unresolvedSemantics, effects);
+    const boundary = buildBoundary(effects, obligations, generation.relations, unresolvedSemantics, anchorCriterion, worldWillCriterion);
+    const latentTopology = buildLatentTopology(unresolvedSemantics, boundary);
     const meta = buildMeta(
         quoteDeclarations,
         generatorDeclarations,
@@ -191,7 +199,7 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
         reflectDeclarations,
         emitDeclarations,
     );
-    const hasV04Semantics = unresolvedSemantics.length > 0 || anchorCriterion !== null;
+    const hasV04Semantics = unresolvedSemantics.length > 0 || anchorCriterion !== null || worldWillCriterion !== null;
     const hasV03Meta = grammarDeclarations.length > 0 || grammarActivationDeclarations.length > 0;
     const profile = hasV04Semantics
         ? "bubbles.v0.4"
@@ -217,8 +225,10 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
             name: document.bubble.name,
             axioms: Object.fromEntries(axioms),
             worldWill,
+            ...(worldWillCriterion === null ? {} : { worldWillCriterion }),
             seed,
             observationMode,
+            boundary,
             effects,
             obligations,
             effectRoles,
@@ -244,6 +254,19 @@ function buildAnchorCriterion(declaration: AnchorDeclaration | null): BubbleAnch
     };
 }
 
+function buildWorldWillCriterion(declaration: WillDeclaration | null): BubbleWorldWillCriterionIR | null {
+    if (declaration === null || declaration.expression.kind === "text") {
+        return null;
+    }
+
+    return {
+        id: `world-will:${declaration.line}`,
+        sourceLine: declaration.line,
+        description: declaration.description,
+        expression: declaration.expression,
+    };
+}
+
 function buildUnresolvedSemantics(
     declarations: UnresolvedSemanticDeclaration[],
 ): BubbleUnresolvedSemanticIR[] {
@@ -259,7 +282,7 @@ function buildUnresolvedSemantics(
 
 function buildLatentTopology(
     unresolvedSemantics: BubbleUnresolvedSemanticIR[],
-    effects: EffectIR[],
+    boundary: BubbleBoundaryIR,
 ): BubbleLatentTopologyIR | null {
     const latentRegions = unresolvedSemantics.filter(
         (
@@ -271,25 +294,6 @@ function buildLatentTopology(
         return null;
     }
 
-    const observationEffectIds = effects
-        .filter((effect) => effect.kind === "observe")
-        .map((effect) => effect.id);
-    const perturbEffectIds = effects
-        .filter((effect) => effect.kind === "perturb")
-        .map((effect) => effect.id);
-    const commitEffectIds = effects
-        .filter((effect) => effect.kind === "commit")
-        .map((effect) => effect.id);
-    const observationBoundary = observationEffectIds.length === 0
-        ? "undeclared-observation-surface"
-        : "declared-observation-surface";
-    const commitBoundary = commitEffectIds.length === 0
-        ? "undeclared-history-support"
-        : "declared-history-support";
-    const perturbationMode = perturbEffectIds.length === 0
-        ? "no-declared-perturbation"
-        : "declared-perturbation";
-
     return {
         mode: "bubble-latent-topology.v1",
         regions: latentRegions.map((fragment) => ({
@@ -300,29 +304,160 @@ function buildLatentTopology(
             description: fragment.description,
             sourceLine: fragment.sourceLine,
             initialState: "latent",
-            observationBoundary,
-            commitBoundary,
-            perturbationMode,
+            observationBoundary: boundary.observationSurface,
+            commitBoundary: boundary.historyCommitSurface,
+            perturbationMode: boundary.perturbationSurface,
         })),
         collapseEvidenceDrafts: latentRegions.map((fragment) => ({
             id: `collapse-evidence-draft:${fragment.id}`,
             latentRegionId: `latent-region:${fragment.id}`,
             sourceSemanticId: fragment.id,
-            observationEffectIds,
-            perturbEffectIds,
-            commitEffectIds,
-            draftStatus: observationEffectIds.length === 0
+            observationEffectIds: boundary.observationEffectIds,
+            perturbEffectIds: boundary.perturbEffectIds,
+            commitEffectIds: boundary.commitEffectIds,
+            draftStatus: boundary.observationEffectIds.length === 0
                 ? "underspecified"
-                : commitEffectIds.length === 0
+                : boundary.commitEffectIds.length === 0
                     ? "history-open"
                     : "observation-ready",
-            description: observationEffectIds.length === 0
+            description: boundary.observationEffectIds.length === 0
                 ? `Latent region ${fragment.name} has no declared observation surface, so collapse evidence remains underspecified in the current IR draft.`
-                : commitEffectIds.length === 0
-                    ? `Latent region ${fragment.name} can materialize under the declared observation surface${perturbEffectIds.length === 0 ? "" : " with declared perturbation support"}, but no history-commit boundary is declared yet.`
-                    : `Latent region ${fragment.name} can materialize under the declared observation surface${perturbEffectIds.length === 0 ? "" : " with declared perturbation support"} and later anchor that collapse through declared history support.`,
+                : boundary.commitEffectIds.length === 0
+                    ? `Latent region ${fragment.name} can materialize under the declared observation surface${boundary.perturbEffectIds.length === 0 ? "" : " with declared perturbation support"}, but no history-commit boundary is declared yet.`
+                    : `Latent region ${fragment.name} can materialize under the declared observation surface${boundary.perturbEffectIds.length === 0 ? "" : " with declared perturbation support"} and later anchor that collapse through declared history support.`,
         })),
     };
+}
+
+function buildBoundary(
+    effects: EffectIR[],
+    obligations: ObligationIR[],
+    relations: BubbleGenerativeRelationIR[],
+    unresolvedSemantics: BubbleUnresolvedSemanticIR[],
+    anchorCriterion: BubbleAnchorCriterionIR | null,
+    worldWillCriterion: BubbleWorldWillCriterionIR | null,
+): BubbleBoundaryIR {
+    const observationEffectIds = effects
+        .filter((effect) => effect.kind === "observe")
+        .map((effect) => effect.id);
+    const commitEffectIds = effects
+        .filter((effect) => effect.kind === "commit")
+        .map((effect) => effect.id);
+    const perturbEffectIds = effects
+        .filter((effect) => effect.kind === "perturb")
+        .map((effect) => effect.id);
+    const scopes = buildBoundaryScopes(effects, obligations, relations);
+    const semanticReferences = collectBoundarySemanticReferences(unresolvedSemantics, anchorCriterion, worldWillCriterion);
+
+    return {
+        mode: "bubble-boundary.v1",
+        observationSurface: observationEffectIds.length === 0
+            ? "undeclared-observation-surface"
+            : "declared-observation-surface",
+        historyCommitSurface: commitEffectIds.length === 0
+            ? "undeclared-history-support"
+            : "declared-history-support",
+        perturbationSurface: perturbEffectIds.length === 0
+            ? "no-declared-perturbation"
+            : "declared-perturbation",
+        observationEffectIds,
+        commitEffectIds,
+        perturbEffectIds,
+        scopes,
+        semanticReferences,
+        description: scopes.length === 0 && semanticReferences.length === 0 && observationEffectIds.length === 0 && commitEffectIds.length === 0
+            ? "Bubble currently declares no explicit boundary surface beyond the root address envelope."
+            : `Bubble boundary currently tracks ${observationEffectIds.length} observation surface${observationEffectIds.length === 1 ? "" : "s"}, ${commitEffectIds.length} history-commit surface${commitEffectIds.length === 1 ? "" : "s"}, ${scopes.length} scoped membrane/global boundary group${scopes.length === 1 ? "" : "s"}, and ${semanticReferences.length} boundary-referencing semantic path${semanticReferences.length === 1 ? "" : "s"}.`,
+    };
+}
+
+function buildBoundaryScopes(
+    effects: EffectIR[],
+    obligations: ObligationIR[],
+    relations: BubbleGenerativeRelationIR[],
+): BubbleBoundaryScopeIR[] {
+    const boundaryScopes = ["membrane", "global"] as const;
+
+    return boundaryScopes.flatMap((scope) => {
+        const scopedEffects = effects.filter((effect) => effect.scope === scope).map((effect) => effect.id);
+        const scopedObligations = obligations.filter((obligation) => obligation.scope === scope).map((obligation) => obligation.effectId);
+        const scopedRelations = relations.filter((relation) => relation.scope === scope);
+
+        if (scopedEffects.length === 0 && scopedObligations.length === 0 && scopedRelations.length === 0) {
+            return [];
+        }
+
+        return [{
+            scope,
+            effectIds: scopedEffects,
+            obligationEffectIds: scopedObligations,
+            relationSourceEffectIds: scopedRelations.map((relation) => relation.sourceEffectId),
+            relationKinds: Array.from(new Set(scopedRelations.map((relation) => relation.kind))),
+        } satisfies BubbleBoundaryScopeIR];
+    });
+}
+
+function collectBoundarySemanticReferences(
+    unresolvedSemantics: BubbleUnresolvedSemanticIR[],
+    anchorCriterion: BubbleAnchorCriterionIR | null,
+    worldWillCriterion: BubbleWorldWillCriterionIR | null,
+): BubbleBoundaryIR["semanticReferences"] {
+    const references: BubbleBoundaryIR["semanticReferences"] = unresolvedSemantics.flatMap((fragment) => {
+        if ((fragment.kind !== "constraint" && fragment.kind !== "partial-law") || fragment.expression === undefined) {
+            return [];
+        }
+
+        const sourceKind = fragment.kind;
+
+        return collectBoundaryReferencePaths(fragment.expression).map((path) => ({
+            path,
+            sourceKind,
+            sourceId: fragment.id,
+        }));
+    });
+
+    if (anchorCriterion !== null) {
+        references.push(...collectBoundaryReferencePaths(anchorCriterion.expression).map((path) => ({
+            path,
+            sourceKind: "anchor-criterion" as const,
+            sourceId: anchorCriterion.id,
+        })));
+    }
+
+    if (worldWillCriterion !== null) {
+        references.push(...collectBoundaryReferencePaths(worldWillCriterion.expression).map((path) => ({
+            path,
+            sourceKind: "world-will" as const,
+            sourceId: worldWillCriterion.id,
+        })));
+    }
+
+    return references;
+}
+
+function collectBoundaryReferencePaths(expression: BubbleExpressionIR): string[] {
+    switch (expression.kind) {
+        case "text":
+            return [];
+        case "reference":
+            return expression.path.startsWith("boundary.") || expression.path.startsWith("membrane.")
+                ? [expression.path]
+                : [];
+        case "literal":
+            return [];
+        case "comparison":
+            return [
+                ...collectBoundaryReferencePaths(expression.left),
+                ...collectBoundaryReferencePaths(expression.right),
+            ];
+        case "logical":
+            return [
+                ...collectBoundaryReferencePaths(expression.left),
+                ...collectBoundaryReferencePaths(expression.right),
+            ];
+        default:
+            return assertNever(expression);
+    }
 }
 
 function buildMeta(
@@ -503,6 +638,7 @@ function buildGeneration(
     address: BubbleAddressIR,
     effects: EffectIR[],
     worldWill: string | null,
+    worldWillCriterion: BubbleWorldWillCriterionIR | null,
     observationMode: string | null,
     authoredRealizationMode: BubbleRealizationMode | null,
     spawnDeclarations: SpawnDeclaration[],
@@ -512,7 +648,11 @@ function buildGeneration(
     return {
         realizationMode: authoredRealizationMode ?? inferredRealizationMode,
         realizationSource: authoredRealizationMode === null ? "inferred" : "authored",
-        worldWillMode: worldWill === null ? "absent" : "governing-principle",
+        worldWillMode: worldWillCriterion !== null
+            ? "criterion"
+            : worldWill === null
+                ? "absent"
+                : "governing-principle",
         lifecycle: {
             initialMode: "latent",
             observationMode,

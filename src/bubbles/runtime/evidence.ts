@@ -19,6 +19,17 @@ import type {
     BubbleExecutionPlan,
     BubbleObservationCommitPolicyHistoryShape,
     BubbleObservationCommitPolicyPlan,
+    BubbleObservationMaterializationAnchorBindingRule,
+    BubbleObservationMaterializationLaw,
+    BubbleObservationMaterializationLawAnchorBinding,
+    BubbleObservationMaterializationLawCommitStatus,
+    BubbleObservationMaterializationLawMembraneCondition,
+    BubbleObservationMaterializationLawNearbyHistoryInfluence,
+    BubbleObservationMaterializationLawPerturbationMix,
+    BubbleObservationMaterializationLawRealizedForm,
+    BubbleObservationMaterializationRealizedFormRule,
+    BubbleObservationMaterializationLawSeaBalance,
+    BubbleObservationMaterializationMembraneRule,
     BubbleObservationCommitPolicySelectionRule,
     BubbleMaterializationCommit,
     MaterializedBubbleArtifact,
@@ -36,17 +47,11 @@ export type BubbleEvidenceKind =
 export type BubbleEffectTraceMaterializationState = "potential" | "materialized";
 export type BubbleCollapseCommitStatus = "uncommitted" | "history-open" | "committed";
 export type BubbleObservationStatePhase = "observed-uncommitted" | "observed-history-open" | "observed-committed";
-export type BubbleLocalObservationPerturbationMix = "observation-only" | "perturb-mixed";
-export type BubbleLocalObservationNearbyHistoryInfluence = "isolated-latency" | "history-open-neighborhood" | "committed-neighborhood";
-export type BubbleLocalObservationAnchorBinding = "drifting" | "tethered" | "anchored";
-export type BubbleLocalObservationSeaBalance = "negative-skewed" | "contested" | "positive-skewed";
-export type BubbleLocalObservationMembraneCondition =
-    | "settled-edge"
-    | "pressured-edge"
-    | "frayed-edge"
-    | "settled-shell"
-    | "pressured-shell"
-    | "frayed-shell";
+export type BubbleLocalObservationPerturbationMix = BubbleObservationMaterializationLawPerturbationMix;
+export type BubbleLocalObservationNearbyHistoryInfluence = BubbleObservationMaterializationLawNearbyHistoryInfluence;
+export type BubbleLocalObservationAnchorBinding = BubbleObservationMaterializationLawAnchorBinding;
+export type BubbleLocalObservationSeaBalance = BubbleObservationMaterializationLawSeaBalance;
+export type BubbleLocalObservationMembraneCondition = BubbleObservationMaterializationLawMembraneCondition;
 
 export interface BubbleLocalObservationStateStructure {
     anchorBinding: BubbleLocalObservationAnchorBinding;
@@ -57,25 +62,11 @@ export interface BubbleLocalObservationStateStructure {
 }
 
 export interface BubbleLocalObservationMaterializationRecord {
-    mode: "single-region-observation-kernel.v3";
+    mode: BubbleObservationMaterializationLaw["kernel"];
     latentRegionId: string;
     regionName: string;
     regionKind: BubbleLatentRegionDescriptorIR["kind"];
-    realizedForm:
-    | "boundary-canopy-edge"
-    | "boundary-canopy-perturbed-edge"
-    | "boundary-canopy-frayed-edge"
-    | "boundary-canopy-frayed-wake"
-    | "boundary-canopy-anchored-edge"
-    | "boundary-canopy-anchored-wake"
-    | "boundary-canopy-anchored-fray"
-    | "latent-bubble-shell"
-    | "latent-bubble-perturbed-shell"
-    | "latent-bubble-frayed-shell"
-    | "latent-bubble-frayed-echo"
-    | "latent-bubble-anchored-shell"
-    | "latent-bubble-anchored-echo"
-    | "latent-bubble-anchored-fray";
+    realizedForm: BubbleObservationMaterializationLawRealizedForm;
     perturbationMix: BubbleLocalObservationPerturbationMix;
     nearbyHistoryInfluence: BubbleLocalObservationNearbyHistoryInfluence;
     stateStructure: BubbleLocalObservationStateStructure;
@@ -297,6 +288,7 @@ export function createCollapseRecordEvidence(
                 commitStatus,
                 region,
                 runtimeOntology,
+                plan.observationMaterializationLaw,
                 plan.observationCommitPolicy,
                 localMaterializationTargetId === draft.latentRegionId,
             );
@@ -664,12 +656,20 @@ function createObservationStateRecord(
     commitStatus: BubbleCollapseCommitStatus,
     region: BubbleLatentRegionDescriptorIR | null,
     runtimeOntology: BubbleSeaAnchorAssessment,
+    observationMaterializationLaw: BubbleObservationMaterializationLaw | null,
     observationCommitPolicy: BubbleObservationCommitPolicyPlan | null,
     materializeLocally: boolean,
 ): BubbleObservationStateRecord {
     const regionName = region?.name ?? draft.latentRegionId;
-    const localMaterialization = materializeLocally
-        ? createLocalObservationMaterializationRecord(draft, region, runtimeOntology, commitStatus, observationCommitPolicy)
+    const localMaterialization = materializeLocally && observationMaterializationLaw !== null
+        ? createLocalObservationMaterializationRecord(
+            draft,
+            region,
+            runtimeOntology,
+            commitStatus,
+            observationMaterializationLaw,
+            observationCommitPolicy,
+        )
         : null;
 
     return {
@@ -694,13 +694,16 @@ function createLocalObservationMaterializationRecord(
     region: BubbleLatentRegionDescriptorIR | null,
     runtimeOntology: BubbleSeaAnchorAssessment,
     commitStatus: BubbleCollapseCommitStatus,
+    observationMaterializationLaw: BubbleObservationMaterializationLaw,
     observationCommitPolicy: BubbleObservationCommitPolicyPlan | null,
 ): BubbleLocalObservationMaterializationRecord {
+    const law = observationMaterializationLaw;
     const regionName = region?.name ?? draft.latentRegionId;
     const regionKind = region?.kind ?? "hidden-region";
     const perturbationMix = resolveLocalObservationPerturbationMix(draft);
     const nearbyHistoryInfluence = resolveLocalObservationNearbyHistoryInfluence(observationCommitPolicy);
     const stateStructure = resolveLocalObservationStateStructure(
+        law,
         regionKind,
         runtimeOntology,
         perturbationMix,
@@ -708,12 +711,14 @@ function createLocalObservationMaterializationRecord(
         commitStatus,
     );
     const realizedForm = resolveLocalObservationRealizedForm(
+        law,
         regionKind,
         stateStructure,
         perturbationMix,
         commitStatus,
     );
     const determinants = [
+        `law:${law.kernel}`,
         `observation:${region?.observationBoundary ?? "declared-observation-surface"}`,
         `commit:${region?.commitBoundary ?? "undeclared-history-support"}`,
         `perturb:${region?.perturbationMode ?? "no-declared-perturbation"}`,
@@ -732,7 +737,7 @@ function createLocalObservationMaterializationRecord(
     ];
 
     return {
-        mode: "single-region-observation-kernel.v3",
+        mode: law.kernel,
         latentRegionId: draft.latentRegionId,
         regionName,
         regionKind,
@@ -773,6 +778,7 @@ function resolveLocalObservationNearbyHistoryInfluence(
 }
 
 function resolveLocalObservationStateStructure(
+    law: BubbleObservationMaterializationLaw,
     regionKind: BubbleLatentRegionDescriptorIR["kind"],
     runtimeOntology: BubbleSeaAnchorAssessment,
     perturbationMix: BubbleLocalObservationPerturbationMix,
@@ -781,15 +787,18 @@ function resolveLocalObservationStateStructure(
 ): BubbleLocalObservationStateStructure {
     return {
         anchorBinding: resolveLocalObservationAnchorBinding(
+            law,
             runtimeOntology.anchorPoint.strength,
             nearbyHistoryInfluence,
             commitStatus,
         ),
         seaBalance: resolveLocalObservationSeaBalance(
+            law,
             runtimeOntology.negativeSea.pressure,
             runtimeOntology.positiveSea.support,
         ),
         membraneCondition: resolveLocalObservationMembraneCondition(
+            law,
             regionKind,
             perturbationMix,
             nearbyHistoryInfluence,
@@ -801,202 +810,126 @@ function resolveLocalObservationStateStructure(
 }
 
 function resolveLocalObservationAnchorBinding(
+    law: BubbleObservationMaterializationLaw,
     anchorStrength: BubbleAnchorPointStrength,
     nearbyHistoryInfluence: BubbleLocalObservationNearbyHistoryInfluence,
     commitStatus: BubbleCollapseCommitStatus,
 ): BubbleLocalObservationAnchorBinding {
-    if (anchorStrength === "strong") {
-        return "anchored";
+    const matchingRule = law.stateStructure.anchorBindingRules.find((rule) =>
+        matchesAnchorBindingRule(rule, anchorStrength, nearbyHistoryInfluence, commitStatus),
+    );
+
+    if (matchingRule) {
+        return matchingRule.binding;
     }
 
-    if (anchorStrength === "steady") {
-        return nearbyHistoryInfluence === "isolated-latency" && commitStatus !== "committed"
-            ? "tethered"
-            : "anchored";
-    }
-
-    return nearbyHistoryInfluence === "committed-neighborhood" && commitStatus === "committed"
-        ? "tethered"
-        : "drifting";
+    throw new Error(`Observation materialization law ${law.kernel} has no anchor-binding rule for ${anchorStrength}/${nearbyHistoryInfluence}/${commitStatus}.`);
 }
 
 function resolveLocalObservationSeaBalance(
+    law: BubbleObservationMaterializationLaw,
     negativeSeaPressure: BubbleNegativeSeaPressure,
     positiveSeaSupport: BubblePositiveSeaSupport,
 ): BubbleLocalObservationSeaBalance {
-    const balance = rankPositiveSeaSupport(positiveSeaSupport) - rankNegativeSeaPressure(negativeSeaPressure);
+    const balance = law.stateStructure.seaBalanceLaw.positiveSeaRanks[positiveSeaSupport]
+        - law.stateStructure.seaBalanceLaw.negativeSeaRanks[negativeSeaPressure];
 
-    if (balance >= 1) {
+    if (balance >= law.stateStructure.seaBalanceLaw.positiveSkewThreshold) {
         return "positive-skewed";
     }
 
-    if (balance <= -1) {
+    if (balance <= law.stateStructure.seaBalanceLaw.negativeSkewThreshold) {
         return "negative-skewed";
     }
 
-    return "contested";
+    return law.stateStructure.seaBalanceLaw.contestedBalance;
 }
 
 function resolveLocalObservationMembraneCondition(
+    law: BubbleObservationMaterializationLaw,
     regionKind: BubbleLatentRegionDescriptorIR["kind"],
     perturbationMix: BubbleLocalObservationPerturbationMix,
     nearbyHistoryInfluence: BubbleLocalObservationNearbyHistoryInfluence,
     runtimeOntology: BubbleSeaAnchorAssessment,
 ): BubbleLocalObservationMembraneCondition {
     const seaBalance = resolveLocalObservationSeaBalance(
+        law,
         runtimeOntology.negativeSea.pressure,
         runtimeOntology.positiveSea.support,
     );
     const suffix = regionKind === "hidden-region" ? "edge" : "shell";
+    const matchingRule = law.stateStructure.membraneRules.find((rule) =>
+        matchesMembraneRule(
+            rule,
+            seaBalance,
+            perturbationMix,
+            nearbyHistoryInfluence,
+            runtimeOntology.theoremWitness.condition,
+        ),
+    );
 
-    if (seaBalance === "negative-skewed" || (perturbationMix === "perturb-mixed" && nearbyHistoryInfluence === "history-open-neighborhood")) {
-        return `frayed-${suffix}` as BubbleLocalObservationMembraneCondition;
-    }
-
-    if (perturbationMix === "perturb-mixed" || seaBalance === "contested" || runtimeOntology.theoremWitness.condition === "stressed") {
-        return `pressured-${suffix}` as BubbleLocalObservationMembraneCondition;
-    }
-
-    return `settled-${suffix}` as BubbleLocalObservationMembraneCondition;
+    const prefix = matchingRule?.resultPrefix ?? "settled";
+    return `${prefix}-${suffix}` as BubbleLocalObservationMembraneCondition;
 }
 
 function resolveLocalObservationRealizedForm(
+    law: BubbleObservationMaterializationLaw,
     regionKind: BubbleLatentRegionDescriptorIR["kind"],
     stateStructure: BubbleLocalObservationStateStructure,
     perturbationMix: BubbleLocalObservationPerturbationMix,
     commitStatus: BubbleCollapseCommitStatus,
 ): BubbleLocalObservationMaterializationRecord["realizedForm"] {
-    if (regionKind === "hidden-region") {
-        if (stateStructure.historyCoupling === "committed-neighborhood") {
-            if (stateStructure.anchorBinding === "anchored") {
-                return stateStructure.membraneCondition === "frayed-edge"
-                    ? "boundary-canopy-anchored-fray"
-                    : perturbationMix === "perturb-mixed"
-                        ? "boundary-canopy-anchored-wake"
-                        : "boundary-canopy-anchored-edge";
-            }
+    const matchingRule = law.realizedFormRules.find((rule) =>
+        matchesRealizedFormRule(rule, regionKind, stateStructure, perturbationMix, commitStatus),
+    );
 
-            return stateStructure.membraneCondition === "frayed-edge"
-                ? "boundary-canopy-frayed-wake"
-                : perturbationMix === "perturb-mixed"
-                    ? "boundary-canopy-perturbed-edge"
-                    : "boundary-canopy-edge";
-        }
-
-        if (stateStructure.historyCoupling === "history-open-neighborhood") {
-            if (commitStatus === "committed") {
-                if (stateStructure.anchorBinding === "anchored") {
-                    return stateStructure.membraneCondition === "frayed-edge"
-                        ? "boundary-canopy-anchored-fray"
-                        : "boundary-canopy-anchored-edge";
-                }
-
-                return stateStructure.membraneCondition === "frayed-edge"
-                    ? "boundary-canopy-frayed-wake"
-                    : "boundary-canopy-frayed-edge";
-            }
-
-            return stateStructure.membraneCondition === "frayed-edge"
-                ? "boundary-canopy-frayed-wake"
-                : stateStructure.anchorBinding === "anchored"
-                    ? "boundary-canopy-anchored-edge"
-                    : perturbationMix === "perturb-mixed"
-                        ? "boundary-canopy-perturbed-edge"
-                        : "boundary-canopy-edge";
-        }
-
-        if (stateStructure.membraneCondition === "frayed-edge") {
-            return "boundary-canopy-frayed-edge";
-        }
-
-        if (stateStructure.anchorBinding === "anchored" && stateStructure.seaBalance === "positive-skewed") {
-            return perturbationMix === "perturb-mixed"
-                ? "boundary-canopy-anchored-edge"
-                : "boundary-canopy-edge";
-        }
-
-        return stateStructure.membraneCondition === "pressured-edge" && perturbationMix === "perturb-mixed"
-            ? "boundary-canopy-perturbed-edge"
-            : "boundary-canopy-edge";
+    if (matchingRule) {
+        return matchingRule.realizedForm;
     }
 
-    if (stateStructure.historyCoupling === "committed-neighborhood") {
-        if (stateStructure.anchorBinding === "anchored") {
-            return stateStructure.membraneCondition === "frayed-shell"
-                ? "latent-bubble-anchored-fray"
-                : perturbationMix === "perturb-mixed"
-                    ? "latent-bubble-anchored-echo"
-                    : "latent-bubble-anchored-shell";
-        }
-
-        return stateStructure.membraneCondition === "frayed-shell"
-            ? "latent-bubble-frayed-echo"
-            : perturbationMix === "perturb-mixed"
-                ? "latent-bubble-perturbed-shell"
-                : "latent-bubble-shell";
-    }
-
-    if (stateStructure.historyCoupling === "history-open-neighborhood") {
-        if (commitStatus === "committed") {
-            if (stateStructure.anchorBinding === "anchored") {
-                return stateStructure.membraneCondition === "frayed-shell"
-                    ? "latent-bubble-anchored-fray"
-                    : "latent-bubble-anchored-shell";
-            }
-
-            return stateStructure.membraneCondition === "frayed-shell"
-                ? "latent-bubble-frayed-echo"
-                : "latent-bubble-frayed-shell";
-        }
-
-        return stateStructure.membraneCondition === "frayed-shell"
-            ? "latent-bubble-frayed-echo"
-            : stateStructure.anchorBinding === "anchored"
-                ? "latent-bubble-anchored-shell"
-                : perturbationMix === "perturb-mixed"
-                    ? "latent-bubble-perturbed-shell"
-                    : "latent-bubble-shell";
-    }
-
-    if (stateStructure.membraneCondition === "frayed-shell") {
-        return "latent-bubble-frayed-shell";
-    }
-
-    if (stateStructure.anchorBinding === "anchored" && stateStructure.seaBalance === "positive-skewed") {
-        return perturbationMix === "perturb-mixed"
-            ? "latent-bubble-anchored-shell"
-            : "latent-bubble-shell";
-    }
-
-    return stateStructure.membraneCondition === "pressured-shell" && perturbationMix === "perturb-mixed"
-        ? "latent-bubble-perturbed-shell"
-        : "latent-bubble-shell";
+    throw new Error(
+        `Observation materialization law ${law.kernel} has no realized-form rule for ${regionKind}/${stateStructure.historyCoupling}/${stateStructure.anchorBinding}/${stateStructure.membraneCondition}/${perturbationMix}/${commitStatus}.`,
+    );
 }
 
-function rankNegativeSeaPressure(pressure: BubbleNegativeSeaPressure): number {
-    switch (pressure) {
-        case "low":
-            return 0;
-        case "elevated":
-            return 1;
-        case "high":
-            return 2;
-        default:
-            return assertNever(pressure);
-    }
+function matchesAnchorBindingRule(
+    rule: BubbleObservationMaterializationAnchorBindingRule,
+    anchorStrength: BubbleAnchorPointStrength,
+    nearbyHistoryInfluence: BubbleLocalObservationNearbyHistoryInfluence,
+    commitStatus: BubbleCollapseCommitStatus,
+): boolean {
+    return rule.whenAnchorStrength === anchorStrength
+        && (rule.whenNearbyHistoryInfluence === undefined || rule.whenNearbyHistoryInfluence === nearbyHistoryInfluence)
+        && (rule.whenCommitStatus === undefined || rule.whenCommitStatus === commitStatus);
 }
 
-function rankPositiveSeaSupport(support: BubblePositiveSeaSupport): number {
-    switch (support) {
-        case "weak":
-            return 0;
-        case "present":
-            return 1;
-        case "strong":
-            return 2;
-        default:
-            return assertNever(support);
-    }
+function matchesMembraneRule(
+    rule: BubbleObservationMaterializationMembraneRule,
+    seaBalance: BubbleLocalObservationSeaBalance,
+    perturbationMix: BubbleLocalObservationPerturbationMix,
+    nearbyHistoryInfluence: BubbleLocalObservationNearbyHistoryInfluence,
+    worldhoodCondition: BubbleSeaAnchorAssessment["theoremWitness"]["condition"],
+): boolean {
+    return (rule.whenSeaBalance === undefined || rule.whenSeaBalance === seaBalance)
+        && (rule.whenPerturbationMix === undefined || rule.whenPerturbationMix === perturbationMix)
+        && (rule.whenNearbyHistoryInfluence === undefined || rule.whenNearbyHistoryInfluence === nearbyHistoryInfluence)
+        && (rule.whenWorldhoodCondition === undefined || rule.whenWorldhoodCondition === worldhoodCondition);
+}
+
+function matchesRealizedFormRule(
+    rule: BubbleObservationMaterializationRealizedFormRule,
+    regionKind: BubbleLatentRegionDescriptorIR["kind"],
+    stateStructure: BubbleLocalObservationStateStructure,
+    perturbationMix: BubbleLocalObservationPerturbationMix,
+    commitStatus: BubbleCollapseCommitStatus,
+): boolean {
+    return rule.regionKind === regionKind
+        && (rule.whenHistoryCoupling === undefined || rule.whenHistoryCoupling === stateStructure.historyCoupling)
+        && (rule.whenCommitStatus === undefined || rule.whenCommitStatus === commitStatus)
+        && (rule.whenAnchorBinding === undefined || rule.whenAnchorBinding === stateStructure.anchorBinding)
+        && (rule.whenSeaBalance === undefined || rule.whenSeaBalance === stateStructure.seaBalance)
+        && (rule.whenMembraneCondition === undefined || rule.whenMembraneCondition === stateStructure.membraneCondition)
+        && (rule.whenPerturbationMix === undefined || rule.whenPerturbationMix === perturbationMix);
 }
 
 function selectLocalMaterializationTarget(

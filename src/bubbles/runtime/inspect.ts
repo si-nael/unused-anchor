@@ -245,6 +245,9 @@ function filterSemanticPlan(
         ...semantics,
         constraints: semantics.constraints.filter((evaluation) => matchesSemanticQuery(evaluation, query)),
         partialLaws: semantics.partialLaws.filter((evaluation) => matchesSemanticQuery(evaluation, query)),
+        worldWillCriterion: semantics.worldWillCriterion && matchesSemanticQuery(semantics.worldWillCriterion, query)
+            ? semantics.worldWillCriterion
+            : null,
         anchorCriterion: semantics.anchorCriterion && matchesSemanticQuery(semantics.anchorCriterion, query)
             ? semantics.anchorCriterion
             : null,
@@ -255,6 +258,7 @@ function collectSemanticEvaluations(semantics: BubbleSemanticEvaluationPlan): Bu
     return [
         ...semantics.constraints,
         ...semantics.partialLaws,
+        ...(semantics.worldWillCriterion ? [semantics.worldWillCriterion] : []),
         ...(semantics.anchorCriterion ? [semantics.anchorCriterion] : []),
     ];
 }

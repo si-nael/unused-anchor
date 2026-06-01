@@ -23,6 +23,32 @@
     "worldWill": "preserve local consistency",
     "seed": "cosmic_dust",
     "observationMode": "local",
+    "boundary": {
+      "mode": "bubble-boundary.v1",
+      "observationSurface": "declared-observation-surface",
+      "historyCommitSurface": "declared-history-support",
+      "perturbationSurface": "no-declared-perturbation",
+      "observationEffectIds": [
+        "effect:8:observe"
+      ],
+      "commitEffectIds": [
+        "effect:10:commit"
+      ],
+      "perturbEffectIds": [],
+      "scopes": [
+        {
+          "scope": "global",
+          "effectIds": [
+            "effect:11:debt"
+          ],
+          "obligationEffectIds": [],
+          "relationSourceEffectIds": [],
+          "relationKinds": []
+        }
+      ],
+      "semanticReferences": [],
+      "description": "Bubble boundary currently tracks 1 observation surface, 1 history-commit surface, 1 scoped membrane/global boundary group, and 0 boundary-referencing semantic paths."
+    },
     "effects": [
       {
         "id": "effect:8:observe",

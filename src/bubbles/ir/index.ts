@@ -177,9 +177,40 @@ export interface BubbleGenerativeRelationIR {
 export interface BubbleGenerationIR {
     realizationMode: BubbleRealizationMode;
     realizationSource: "authored" | "inferred";
-    worldWillMode: "governing-principle" | "absent";
+    worldWillMode: "governing-principle" | "criterion" | "absent";
     lifecycle: BubbleLifecycleIR;
     relations: BubbleGenerativeRelationIR[];
+}
+
+export type BubbleBoundaryObservationSurfaceIR = "declared-observation-surface" | "undeclared-observation-surface";
+export type BubbleBoundaryCommitSurfaceIR = "declared-history-support" | "undeclared-history-support";
+export type BubbleBoundaryPerturbationSurfaceIR = "declared-perturbation" | "no-declared-perturbation";
+
+export interface BubbleBoundaryScopeIR {
+    scope: Extract<EffectScope, "membrane" | "global">;
+    effectIds: string[];
+    obligationEffectIds: string[];
+    relationSourceEffectIds: string[];
+    relationKinds: BubbleRelationKind[];
+}
+
+export interface BubbleBoundarySemanticReferenceIR {
+    path: string;
+    sourceKind: "constraint" | "partial-law" | "anchor-criterion" | "world-will";
+    sourceId: string;
+}
+
+export interface BubbleBoundaryIR {
+    mode: "bubble-boundary.v1";
+    observationSurface: BubbleBoundaryObservationSurfaceIR;
+    historyCommitSurface: BubbleBoundaryCommitSurfaceIR;
+    perturbationSurface: BubbleBoundaryPerturbationSurfaceIR;
+    observationEffectIds: string[];
+    commitEffectIds: string[];
+    perturbEffectIds: string[];
+    scopes: BubbleBoundaryScopeIR[];
+    semanticReferences: BubbleBoundarySemanticReferenceIR[];
+    description: string;
 }
 
 export interface BubbleQuoteIR {
@@ -270,9 +301,9 @@ export interface BubbleUnresolvedSemanticIR {
 }
 
 export type BubbleLatentRegionKind = Extract<BubbleUnresolvedSemanticKind, "hidden-region" | "latent-bubble">;
-export type BubbleLatentObservationBoundaryIR = "declared-observation-surface" | "undeclared-observation-surface";
-export type BubbleLatentCommitBoundaryIR = "declared-history-support" | "undeclared-history-support";
-export type BubbleLatentPerturbationModeIR = "declared-perturbation" | "no-declared-perturbation";
+export type BubbleLatentObservationBoundaryIR = BubbleBoundaryObservationSurfaceIR;
+export type BubbleLatentCommitBoundaryIR = BubbleBoundaryCommitSurfaceIR;
+export type BubbleLatentPerturbationModeIR = BubbleBoundaryPerturbationSurfaceIR;
 export type BubbleCollapseEvidenceDraftStatus = "observation-ready" | "history-open" | "underspecified";
 
 export interface BubbleLatentRegionDescriptorIR {
@@ -312,13 +343,22 @@ export interface BubbleAnchorCriterionIR {
     expression: BubbleExpressionIR;
 }
 
+export interface BubbleWorldWillCriterionIR {
+    id: string;
+    sourceLine: number;
+    description: string;
+    expression: BubbleExpressionIR;
+}
+
 export interface BubbleIR {
     address: BubbleAddressIR;
     name: string;
     axioms: Record<string, ScalarValue>;
     worldWill: string | null;
+    worldWillCriterion?: BubbleWorldWillCriterionIR;
     seed: string | null;
     observationMode: string | null;
+    boundary: BubbleBoundaryIR;
     effects: EffectIR[];
     obligations: ObligationIR[];
     effectRoles: BubbleEffectRolesIR;

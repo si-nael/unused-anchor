@@ -755,3 +755,33 @@ Bubble's negative sea, positive sea, and anchor are still the right core ontolog
 Consequence:
 
 Keep `negativeSea`, `positiveSea`, and `anchorPoint` as first-class ontology objects. Enrich negative and positive seas with explicit `pressureSources` and `supportSources`. Treat `anchorPoint.strength` as inferred support only, and expose authored same-world criterion status, runtime materialized evidence sources, and derived identity status as separate fields instead of folding them back into one score or signal list.
+
+### D-076: Boundary must become a first-class IR object before further worldhood hardening
+
+Reason:
+
+Boundary is still the largest remaining core gap. Bubble currently recovers too much boundary meaning indirectly from effect scopes, relation scopes, executable references such as `boundary.*`, and latent-topology observation or commit tags. That is enough for bounded runtime heuristics, but not enough for a stable worldhood contract.
+
+Consequence:
+
+Do not leave boundary as a permanently inferred runtime concept. The next core IR widening should add an explicit boundary object that records observation, commit, membrane, and other worldhood-relevant boundary surfaces as first-class Bubble IR. Negative or positive source kinds should be able to cite that IR directly rather than staying purely runtime-derived forever.
+
+### D-077: Promote world will from legacy text storage toward executable criterion or pressure semantics
+
+Reason:
+
+`worldWill` still survives in Bubble IR mostly as preserved text plus one coarse `generation.worldWillMode` flag. That is enough to keep authored intent, but not enough to let world will participate honestly in proof, pressure, or executable law checks.
+
+Consequence:
+
+Keep the current text field for compatibility, but treat it as legacy storage. The next world-will widening should add a criterion or pressure-oriented IR surface with legacy-text fallback, so authored world will can become executable when parseable and remain explicitly non-executable when still descriptive.
+
+### D-078: Move observation materialization law out of hard-coded runtime explanation and into a minimal law surface
+
+Reason:
+
+The current observation materialization kernel is now semantically meaningful, but its actual law still lives mainly as runtime branching logic and descriptive report text. That makes it harder to inspect as Bubble law and too easy to confuse current bounded runtime behavior with settled authored semantics.
+
+Consequence:
+
+Before inventing source syntax for observation law, extract the current bounded kernel into a minimal IR or plan-level law object that names the determinants, state-structure derivation, and realized-form mapping explicitly. Runtime materialization should consume that law surface rather than keeping the whole rule only as code and explanation strings.

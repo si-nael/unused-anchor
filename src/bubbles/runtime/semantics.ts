@@ -8,7 +8,7 @@ import type {
 import { formatBubbleExpression } from "../language";
 
 export type BubbleExecutableCheckStatus = "satisfied" | "violated" | "undetermined";
-export type BubbleSemanticEvaluationKind = "constraint" | "partial-law" | "anchor-criterion";
+export type BubbleSemanticEvaluationKind = "constraint" | "partial-law" | "world-will" | "anchor-criterion";
 
 export interface BubbleExecutableCheckResult {
     status: BubbleExecutableCheckStatus;
@@ -30,6 +30,7 @@ export interface BubbleSemanticEvaluationPlan {
     mode: "bubble-executable-semantics.v1";
     constraints: BubbleSemanticEvaluation[];
     partialLaws: BubbleSemanticEvaluation[];
+    worldWillCriterion: BubbleSemanticEvaluation | null;
     anchorCriterion: BubbleSemanticEvaluation | null;
 }
 
@@ -56,6 +57,7 @@ export function buildSemanticEvaluationPlan(
         mode: "bubble-executable-semantics.v1",
         constraints: evaluateUnresolvedSemanticKind(program, "constraint", environment),
         partialLaws: evaluateUnresolvedSemanticKind(program, "partial-law", environment),
+        worldWillCriterion: evaluateWorldWillCriterionWithEnvironment(program, environment),
         anchorCriterion: evaluateAnchorCriterionWithEnvironment(program, environment),
     };
 }
@@ -82,6 +84,38 @@ export function evaluateAnchorCriterion(
     grammarActivationPlan: BubbleExecutableGrammarActivationPlan[],
 ): BubbleSemanticEvaluation | null {
     return buildSemanticEvaluationPlan(program, emissionPlan, grammarActivationPlan).anchorCriterion;
+}
+
+function evaluateWorldWillCriterionWithEnvironment(
+    program: BubbleProgramIR,
+    environment: Map<string, ScalarValue>,
+): BubbleSemanticEvaluation | null {
+    const criterion = program.bubble.worldWillCriterion;
+    if (!criterion) {
+        return null;
+    }
+
+    return {
+        evaluationId: `semantic-evaluation:${criterion.id}`,
+        subjectKind: "world-will",
+        subjectId: criterion.id,
+        name: "world will",
+        sourceLine: criterion.sourceLine,
+        description: criterion.description,
+        expression: formatBubbleExpression(criterion.expression),
+        ...evaluateNamedExpression(
+            "World will criterion",
+            criterion.description,
+            criterion.expression,
+            environment,
+            {
+                missingExpressionBasis: "legacy-world-will",
+                satisfiedBasis: "world-will-satisfied",
+                violatedBasis: "world-will-violated",
+                unknownBasis: "world-will-reference-gap",
+            },
+        ),
+    };
 }
 
 function evaluateAnchorCriterionWithEnvironment(
@@ -397,6 +431,7 @@ function buildExecutableEnvironment(
 
     environment.set("world.seeded", bubble.seed !== null);
     environment.set("world.hasWill", bubble.worldWill !== null);
+    environment.set("world.hasExecutableWill", bubble.worldWillCriterion !== undefined);
     environment.set("world.realizationMode", bubble.generation.realizationMode);
     environment.set("world.profile", program.profile);
     environment.set("world.version", program.version);
@@ -440,11 +475,10 @@ function buildExecutableEnvironment(
 }
 
 function countBoundaryExposure(program: BubbleProgramIR): number {
-    const boundaryScopes = new Set(["membrane", "global"]);
-    const obligationExposure = program.bubble.obligations.filter((obligation) => boundaryScopes.has(obligation.scope)).length;
-    const relationExposure = program.bubble.generation.relations.filter((relation) => boundaryScopes.has(relation.scope)).length;
-
-    return obligationExposure + relationExposure;
+    return program.bubble.boundary.scopes.reduce(
+        (total, scope) => total + scope.obligationEffectIds.length + scope.relationSourceEffectIds.length,
+        0,
+    );
 }
 
 function resolveFragmentName(fragment: BubbleUnresolvedSemanticIR): string {

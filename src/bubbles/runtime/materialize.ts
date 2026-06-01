@@ -1,11 +1,13 @@
 import type {
     BubbleAddressIR,
+    BubbleBoundaryIR,
     BubbleEmissionIR,
     BubbleExpressionIR,
     BubbleGrammarArtifactIR,
     BubbleGrammarActivationIR,
     BubbleGrammarIR,
     BubbleGeneratorIR,
+    BubbleLatentRegionDescriptorIR,
     BubbleLatentTopologyIR,
     BubbleProgramIR,
     BubbleQuoteIR,
@@ -107,6 +109,84 @@ export type BubbleObservationCommitPolicyHistoryShape =
     | "uncommitted-only"
     | "mixed-open";
 
+export type BubbleObservationMaterializationLawPerturbationMix = "observation-only" | "perturb-mixed";
+export type BubbleObservationMaterializationLawNearbyHistoryInfluence = "isolated-latency" | "history-open-neighborhood" | "committed-neighborhood";
+export type BubbleObservationMaterializationLawAnchorBinding = "drifting" | "tethered" | "anchored";
+export type BubbleObservationMaterializationLawSeaBalance = "negative-skewed" | "contested" | "positive-skewed";
+export type BubbleObservationMaterializationLawMembraneCondition =
+    | "settled-edge"
+    | "pressured-edge"
+    | "frayed-edge"
+    | "settled-shell"
+    | "pressured-shell"
+    | "frayed-shell";
+export type BubbleObservationMaterializationLawCommitStatus = "uncommitted" | "history-open" | "committed";
+export type BubbleObservationMaterializationLawRealizedForm =
+    | "boundary-canopy-edge"
+    | "boundary-canopy-perturbed-edge"
+    | "boundary-canopy-frayed-edge"
+    | "boundary-canopy-frayed-wake"
+    | "boundary-canopy-anchored-edge"
+    | "boundary-canopy-anchored-wake"
+    | "boundary-canopy-anchored-fray"
+    | "latent-bubble-shell"
+    | "latent-bubble-perturbed-shell"
+    | "latent-bubble-frayed-shell"
+    | "latent-bubble-frayed-echo"
+    | "latent-bubble-anchored-shell"
+    | "latent-bubble-anchored-echo"
+    | "latent-bubble-anchored-fray";
+
+export interface BubbleObservationMaterializationAnchorBindingRule {
+    id: string;
+    whenAnchorStrength: OntologyBubbleAnchorPointStrength;
+    whenNearbyHistoryInfluence?: BubbleObservationMaterializationLawNearbyHistoryInfluence;
+    whenCommitStatus?: BubbleObservationMaterializationLawCommitStatus;
+    binding: BubbleObservationMaterializationLawAnchorBinding;
+}
+
+export interface BubbleObservationMaterializationSeaBalanceLaw {
+    positiveSeaRanks: Record<OntologyBubblePositiveSeaSupport, number>;
+    negativeSeaRanks: Record<OntologyBubbleNegativeSeaPressure, number>;
+    positiveSkewThreshold: number;
+    negativeSkewThreshold: number;
+    contestedBalance: BubbleObservationMaterializationLawSeaBalance;
+}
+
+export interface BubbleObservationMaterializationMembraneRule {
+    id: string;
+    resultPrefix: "settled" | "pressured" | "frayed";
+    whenSeaBalance?: BubbleObservationMaterializationLawSeaBalance;
+    whenPerturbationMix?: BubbleObservationMaterializationLawPerturbationMix;
+    whenNearbyHistoryInfluence?: BubbleObservationMaterializationLawNearbyHistoryInfluence;
+    whenWorldhoodCondition?: OntologyBubbleWorldhoodCondition;
+}
+
+export interface BubbleObservationMaterializationRealizedFormRule {
+    id: string;
+    regionKind: BubbleLatentRegionDescriptorIR["kind"];
+    realizedForm: BubbleObservationMaterializationLawRealizedForm;
+    whenHistoryCoupling?: BubbleObservationMaterializationLawNearbyHistoryInfluence;
+    whenCommitStatus?: BubbleObservationMaterializationLawCommitStatus;
+    whenAnchorBinding?: BubbleObservationMaterializationLawAnchorBinding;
+    whenSeaBalance?: BubbleObservationMaterializationLawSeaBalance;
+    whenMembraneCondition?: BubbleObservationMaterializationLawMembraneCondition;
+    whenPerturbationMix?: BubbleObservationMaterializationLawPerturbationMix;
+}
+
+export interface BubbleObservationMaterializationLaw {
+    mode: "bubble-observation-materialization-law.v1";
+    kernel: "single-region-observation-kernel.v3";
+    determinantAxes: string[];
+    stateStructure: {
+        anchorBindingRules: BubbleObservationMaterializationAnchorBindingRule[];
+        seaBalanceLaw: BubbleObservationMaterializationSeaBalanceLaw;
+        membraneRules: BubbleObservationMaterializationMembraneRule[];
+    };
+    realizedFormRules: BubbleObservationMaterializationRealizedFormRule[];
+    description: string;
+}
+
 export interface BubbleObservationCommitPolicyPlan {
     mode: "runtime-observation-commit-policy.v1";
     policyId: string;
@@ -197,6 +277,8 @@ export interface BubbleExecutionPlan {
     sourcePath: string | null;
     profile: BubbleProgramIR["profile"];
     bubbleAddress: BubbleAddressIR;
+    boundary: BubbleBoundaryIR;
+    observationMaterializationLaw: BubbleObservationMaterializationLaw | null;
     semantics: BubbleSemanticEvaluationPlan;
     ontology: BubbleSeaAnchorAssessment;
     proof: BubbleConsistencyCertificate;
@@ -271,6 +353,7 @@ export function planBubbleProgram(program: BubbleProgramIR, options: BubbleRunti
     const emissions = meta?.emissions ?? [];
     const grammars = buildGrammarPlan(meta?.grammars ?? []);
     const grammarActivationPlan = buildGrammarActivationPlan(meta?.grammarActivations ?? [], grammars);
+    const observationMaterializationLaw = buildObservationMaterializationLaw(program);
     const emissionPlan = emissions.map((emission) => ({
         emissionId: emission.id,
         sourceName: emission.sourceName,
@@ -293,6 +376,8 @@ export function planBubbleProgram(program: BubbleProgramIR, options: BubbleRunti
         sourcePath: program.sourcePath,
         profile: program.profile,
         bubbleAddress: program.bubble.address,
+        boundary: program.bubble.boundary,
+        observationMaterializationLaw,
         semantics,
         ontology,
         proof,
@@ -315,6 +400,396 @@ export function planBubbleProgram(program: BubbleProgramIR, options: BubbleRunti
         ...plan,
         observationCommitPolicy,
         observationCommitPolicyComparison,
+    };
+}
+
+function buildObservationMaterializationLaw(
+    program: BubbleProgramIR,
+): BubbleObservationMaterializationLaw | null {
+    if (!program.bubble.latentTopology) {
+        return null;
+    }
+
+    return {
+        mode: "bubble-observation-materialization-law.v1",
+        kernel: "single-region-observation-kernel.v3",
+        determinantAxes: [
+            "region-kind",
+            "observation-surface",
+            "history-commit-surface",
+            "perturbation-surface",
+            "perturbation-mix",
+            "nearby-history-influence",
+            "commit-status",
+            "anchor-strength",
+            "anchor-binding",
+            "negative-sea-pressure",
+            "positive-sea-support",
+            "sea-balance",
+            "worldhood-condition",
+            "membrane-condition",
+            "projected-history-shape",
+        ],
+        stateStructure: {
+            anchorBindingRules: [
+                {
+                    id: "anchor-binding:strong-is-anchored",
+                    whenAnchorStrength: "strong",
+                    binding: "anchored",
+                },
+                {
+                    id: "anchor-binding:steady-isolated-uncommitted-is-tethered",
+                    whenAnchorStrength: "steady",
+                    whenNearbyHistoryInfluence: "isolated-latency",
+                    whenCommitStatus: "uncommitted",
+                    binding: "tethered",
+                },
+                {
+                    id: "anchor-binding:steady-isolated-history-open-is-tethered",
+                    whenAnchorStrength: "steady",
+                    whenNearbyHistoryInfluence: "isolated-latency",
+                    whenCommitStatus: "history-open",
+                    binding: "tethered",
+                },
+                {
+                    id: "anchor-binding:steady-defaults-anchored",
+                    whenAnchorStrength: "steady",
+                    binding: "anchored",
+                },
+                {
+                    id: "anchor-binding:weak-committed-neighborhood-is-tethered",
+                    whenAnchorStrength: "weak",
+                    whenNearbyHistoryInfluence: "committed-neighborhood",
+                    whenCommitStatus: "committed",
+                    binding: "tethered",
+                },
+                {
+                    id: "anchor-binding:weak-defaults-drifting",
+                    whenAnchorStrength: "weak",
+                    binding: "drifting",
+                },
+            ],
+            seaBalanceLaw: {
+                positiveSeaRanks: {
+                    weak: 0,
+                    present: 1,
+                    strong: 2,
+                },
+                negativeSeaRanks: {
+                    low: 0,
+                    elevated: 1,
+                    high: 2,
+                },
+                positiveSkewThreshold: 1,
+                negativeSkewThreshold: -1,
+                contestedBalance: "contested",
+            },
+            membraneRules: [
+                {
+                    id: "membrane:negative-sea-frays",
+                    resultPrefix: "frayed",
+                    whenSeaBalance: "negative-skewed",
+                },
+                {
+                    id: "membrane:perturb-plus-history-open-frays",
+                    resultPrefix: "frayed",
+                    whenPerturbationMix: "perturb-mixed",
+                    whenNearbyHistoryInfluence: "history-open-neighborhood",
+                },
+                {
+                    id: "membrane:perturbation-pressures",
+                    resultPrefix: "pressured",
+                    whenPerturbationMix: "perturb-mixed",
+                },
+                {
+                    id: "membrane:contested-sea-pressures",
+                    resultPrefix: "pressured",
+                    whenSeaBalance: "contested",
+                },
+                {
+                    id: "membrane:stressed-worldhood-pressures",
+                    resultPrefix: "pressured",
+                    whenWorldhoodCondition: "stressed",
+                },
+                {
+                    id: "membrane:default-settled",
+                    resultPrefix: "settled",
+                },
+            ],
+        },
+        realizedFormRules: [
+            {
+                id: "hidden-region:committed-neighborhood:anchored-frayed",
+                regionKind: "hidden-region",
+                whenHistoryCoupling: "committed-neighborhood",
+                whenAnchorBinding: "anchored",
+                whenMembraneCondition: "frayed-edge",
+                realizedForm: "boundary-canopy-anchored-fray",
+            },
+            {
+                id: "hidden-region:committed-neighborhood:anchored-perturbed",
+                regionKind: "hidden-region",
+                whenHistoryCoupling: "committed-neighborhood",
+                whenAnchorBinding: "anchored",
+                whenPerturbationMix: "perturb-mixed",
+                realizedForm: "boundary-canopy-anchored-wake",
+            },
+            {
+                id: "hidden-region:committed-neighborhood:anchored-default",
+                regionKind: "hidden-region",
+                whenHistoryCoupling: "committed-neighborhood",
+                whenAnchorBinding: "anchored",
+                realizedForm: "boundary-canopy-anchored-edge",
+            },
+            {
+                id: "hidden-region:committed-neighborhood:frayed-default",
+                regionKind: "hidden-region",
+                whenHistoryCoupling: "committed-neighborhood",
+                whenMembraneCondition: "frayed-edge",
+                realizedForm: "boundary-canopy-frayed-wake",
+            },
+            {
+                id: "hidden-region:committed-neighborhood:perturbed-default",
+                regionKind: "hidden-region",
+                whenHistoryCoupling: "committed-neighborhood",
+                whenPerturbationMix: "perturb-mixed",
+                realizedForm: "boundary-canopy-perturbed-edge",
+            },
+            {
+                id: "hidden-region:committed-neighborhood:default",
+                regionKind: "hidden-region",
+                whenHistoryCoupling: "committed-neighborhood",
+                realizedForm: "boundary-canopy-edge",
+            },
+            {
+                id: "hidden-region:history-open:committed:anchored-frayed",
+                regionKind: "hidden-region",
+                whenHistoryCoupling: "history-open-neighborhood",
+                whenCommitStatus: "committed",
+                whenAnchorBinding: "anchored",
+                whenMembraneCondition: "frayed-edge",
+                realizedForm: "boundary-canopy-anchored-fray",
+            },
+            {
+                id: "hidden-region:history-open:committed:anchored-default",
+                regionKind: "hidden-region",
+                whenHistoryCoupling: "history-open-neighborhood",
+                whenCommitStatus: "committed",
+                whenAnchorBinding: "anchored",
+                realizedForm: "boundary-canopy-anchored-edge",
+            },
+            {
+                id: "hidden-region:history-open:committed:frayed-default",
+                regionKind: "hidden-region",
+                whenHistoryCoupling: "history-open-neighborhood",
+                whenCommitStatus: "committed",
+                whenMembraneCondition: "frayed-edge",
+                realizedForm: "boundary-canopy-frayed-wake",
+            },
+            {
+                id: "hidden-region:history-open:committed:default",
+                regionKind: "hidden-region",
+                whenHistoryCoupling: "history-open-neighborhood",
+                whenCommitStatus: "committed",
+                realizedForm: "boundary-canopy-frayed-edge",
+            },
+            {
+                id: "hidden-region:history-open:frayed-default",
+                regionKind: "hidden-region",
+                whenHistoryCoupling: "history-open-neighborhood",
+                whenMembraneCondition: "frayed-edge",
+                realizedForm: "boundary-canopy-frayed-wake",
+            },
+            {
+                id: "hidden-region:history-open:anchored-default",
+                regionKind: "hidden-region",
+                whenHistoryCoupling: "history-open-neighborhood",
+                whenAnchorBinding: "anchored",
+                realizedForm: "boundary-canopy-anchored-edge",
+            },
+            {
+                id: "hidden-region:history-open:perturbed-default",
+                regionKind: "hidden-region",
+                whenHistoryCoupling: "history-open-neighborhood",
+                whenPerturbationMix: "perturb-mixed",
+                realizedForm: "boundary-canopy-perturbed-edge",
+            },
+            {
+                id: "hidden-region:history-open:default",
+                regionKind: "hidden-region",
+                whenHistoryCoupling: "history-open-neighborhood",
+                realizedForm: "boundary-canopy-edge",
+            },
+            {
+                id: "hidden-region:isolated:frayed-default",
+                regionKind: "hidden-region",
+                whenMembraneCondition: "frayed-edge",
+                realizedForm: "boundary-canopy-frayed-edge",
+            },
+            {
+                id: "hidden-region:isolated:anchored-positive-perturbed",
+                regionKind: "hidden-region",
+                whenAnchorBinding: "anchored",
+                whenSeaBalance: "positive-skewed",
+                whenPerturbationMix: "perturb-mixed",
+                realizedForm: "boundary-canopy-anchored-edge",
+            },
+            {
+                id: "hidden-region:isolated:anchored-positive-default",
+                regionKind: "hidden-region",
+                whenAnchorBinding: "anchored",
+                whenSeaBalance: "positive-skewed",
+                realizedForm: "boundary-canopy-edge",
+            },
+            {
+                id: "hidden-region:isolated:pressured-perturbed",
+                regionKind: "hidden-region",
+                whenMembraneCondition: "pressured-edge",
+                whenPerturbationMix: "perturb-mixed",
+                realizedForm: "boundary-canopy-perturbed-edge",
+            },
+            {
+                id: "hidden-region:isolated:default",
+                regionKind: "hidden-region",
+                realizedForm: "boundary-canopy-edge",
+            },
+            {
+                id: "latent-bubble:committed-neighborhood:anchored-frayed",
+                regionKind: "latent-bubble",
+                whenHistoryCoupling: "committed-neighborhood",
+                whenAnchorBinding: "anchored",
+                whenMembraneCondition: "frayed-shell",
+                realizedForm: "latent-bubble-anchored-fray",
+            },
+            {
+                id: "latent-bubble:committed-neighborhood:anchored-perturbed",
+                regionKind: "latent-bubble",
+                whenHistoryCoupling: "committed-neighborhood",
+                whenAnchorBinding: "anchored",
+                whenPerturbationMix: "perturb-mixed",
+                realizedForm: "latent-bubble-anchored-echo",
+            },
+            {
+                id: "latent-bubble:committed-neighborhood:anchored-default",
+                regionKind: "latent-bubble",
+                whenHistoryCoupling: "committed-neighborhood",
+                whenAnchorBinding: "anchored",
+                realizedForm: "latent-bubble-anchored-shell",
+            },
+            {
+                id: "latent-bubble:committed-neighborhood:frayed-default",
+                regionKind: "latent-bubble",
+                whenHistoryCoupling: "committed-neighborhood",
+                whenMembraneCondition: "frayed-shell",
+                realizedForm: "latent-bubble-frayed-echo",
+            },
+            {
+                id: "latent-bubble:committed-neighborhood:perturbed-default",
+                regionKind: "latent-bubble",
+                whenHistoryCoupling: "committed-neighborhood",
+                whenPerturbationMix: "perturb-mixed",
+                realizedForm: "latent-bubble-perturbed-shell",
+            },
+            {
+                id: "latent-bubble:committed-neighborhood:default",
+                regionKind: "latent-bubble",
+                whenHistoryCoupling: "committed-neighborhood",
+                realizedForm: "latent-bubble-shell",
+            },
+            {
+                id: "latent-bubble:history-open:committed:anchored-frayed",
+                regionKind: "latent-bubble",
+                whenHistoryCoupling: "history-open-neighborhood",
+                whenCommitStatus: "committed",
+                whenAnchorBinding: "anchored",
+                whenMembraneCondition: "frayed-shell",
+                realizedForm: "latent-bubble-anchored-fray",
+            },
+            {
+                id: "latent-bubble:history-open:committed:anchored-default",
+                regionKind: "latent-bubble",
+                whenHistoryCoupling: "history-open-neighborhood",
+                whenCommitStatus: "committed",
+                whenAnchorBinding: "anchored",
+                realizedForm: "latent-bubble-anchored-shell",
+            },
+            {
+                id: "latent-bubble:history-open:committed:frayed-default",
+                regionKind: "latent-bubble",
+                whenHistoryCoupling: "history-open-neighborhood",
+                whenCommitStatus: "committed",
+                whenMembraneCondition: "frayed-shell",
+                realizedForm: "latent-bubble-frayed-echo",
+            },
+            {
+                id: "latent-bubble:history-open:committed:default",
+                regionKind: "latent-bubble",
+                whenHistoryCoupling: "history-open-neighborhood",
+                whenCommitStatus: "committed",
+                realizedForm: "latent-bubble-frayed-shell",
+            },
+            {
+                id: "latent-bubble:history-open:frayed-default",
+                regionKind: "latent-bubble",
+                whenHistoryCoupling: "history-open-neighborhood",
+                whenMembraneCondition: "frayed-shell",
+                realizedForm: "latent-bubble-frayed-echo",
+            },
+            {
+                id: "latent-bubble:history-open:anchored-default",
+                regionKind: "latent-bubble",
+                whenHistoryCoupling: "history-open-neighborhood",
+                whenAnchorBinding: "anchored",
+                realizedForm: "latent-bubble-anchored-shell",
+            },
+            {
+                id: "latent-bubble:history-open:perturbed-default",
+                regionKind: "latent-bubble",
+                whenHistoryCoupling: "history-open-neighborhood",
+                whenPerturbationMix: "perturb-mixed",
+                realizedForm: "latent-bubble-perturbed-shell",
+            },
+            {
+                id: "latent-bubble:history-open:default",
+                regionKind: "latent-bubble",
+                whenHistoryCoupling: "history-open-neighborhood",
+                realizedForm: "latent-bubble-shell",
+            },
+            {
+                id: "latent-bubble:isolated:frayed-default",
+                regionKind: "latent-bubble",
+                whenMembraneCondition: "frayed-shell",
+                realizedForm: "latent-bubble-frayed-shell",
+            },
+            {
+                id: "latent-bubble:isolated:anchored-positive-perturbed",
+                regionKind: "latent-bubble",
+                whenAnchorBinding: "anchored",
+                whenSeaBalance: "positive-skewed",
+                whenPerturbationMix: "perturb-mixed",
+                realizedForm: "latent-bubble-anchored-shell",
+            },
+            {
+                id: "latent-bubble:isolated:anchored-positive-default",
+                regionKind: "latent-bubble",
+                whenAnchorBinding: "anchored",
+                whenSeaBalance: "positive-skewed",
+                realizedForm: "latent-bubble-shell",
+            },
+            {
+                id: "latent-bubble:isolated:pressured-perturbed",
+                regionKind: "latent-bubble",
+                whenMembraneCondition: "pressured-shell",
+                whenPerturbationMix: "perturb-mixed",
+                realizedForm: "latent-bubble-perturbed-shell",
+            },
+            {
+                id: "latent-bubble:isolated:default",
+                regionKind: "latent-bubble",
+                realizedForm: "latent-bubble-shell",
+            },
+        ],
+        description: "Ordered observation materialization law for one locally materialized latent region, externalized from runtime explanation into an explicit plan-level rule surface.",
     };
 }
 

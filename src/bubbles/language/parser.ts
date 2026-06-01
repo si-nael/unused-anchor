@@ -140,10 +140,17 @@ function parseStatement(line: { lineNumber: number; text: string }, sourcePath: 
 
     const willMatch = line.text.match(WILL_PATTERN);
     if (willMatch) {
+        const expression = parseBubbleExpression(willMatch[1], {
+            context: "world will",
+            lineNumber: line.lineNumber,
+            sourcePath,
+            allowLegacyText: true,
+        });
         const statement: WillDeclaration = {
             kind: "will",
             line: line.lineNumber,
-            expression: unquote(willMatch[1]),
+            expression,
+            description: expression.kind === "text" ? expression.value : formatBubbleExpression(expression),
         };
         return statement;
     }

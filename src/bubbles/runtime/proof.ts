@@ -257,19 +257,22 @@ function collectBoundarySemanticsBasis(
     semantics: BubbleSemanticEvaluationPlan,
 ): string[] {
     const basis: string[] = [];
-    const hasBoundaryScopedEffect = program.bubble.effects.some((effect) => effect.scope === "membrane" || effect.scope === "global");
-    const hasBoundaryScopedRelation = program.bubble.generation.relations.some((relation) => relation.scope === "membrane" || relation.scope === "global");
-    const executableExpressions = [
-        ...semantics.constraints.map((constraint) => constraint.expression),
-        ...semantics.partialLaws.map((partialLaw) => partialLaw.expression),
-        semantics.anchorCriterion?.expression ?? null,
-    ];
-    const hasBoundaryReference = executableExpressions.some((expression) =>
-        expression !== null && (expression.includes("boundary.") || expression.includes("membrane.")),
-    );
+    const boundary = program.bubble.boundary;
+    const hasBoundaryScopedEffect = boundary.scopes.some((scope) => scope.effectIds.length > 0 || scope.obligationEffectIds.length > 0);
+    const hasBoundaryScopedRelation = boundary.scopes.some((scope) => scope.relationSourceEffectIds.length > 0);
+    const hasBoundaryReference = boundary.semanticReferences.length > 0;
+
+    basis.push("boundary-object");
+    if (boundary.observationSurface === "declared-observation-surface") {
+        basis.push("boundary-observation-surface");
+    }
+    if (boundary.historyCommitSurface === "declared-history-support") {
+        basis.push("boundary-history-commit-surface");
+    }
 
     if (hasBoundaryScopedEffect) {
         basis.push("boundary-scoped-effect");
+        basis.push(...boundary.scopes.map((scope) => `boundary-scope:${scope.scope}`));
     }
 
     if (hasBoundaryScopedRelation) {
@@ -278,9 +281,10 @@ function collectBoundarySemanticsBasis(
 
     if (hasBoundaryReference) {
         basis.push("boundary-referenced-semantics");
+        basis.push(...boundary.semanticReferences.map((reference) => `boundary-reference:${reference.path}`));
     }
 
-    return basis;
+    return Array.from(new Set(basis));
 }
 
 function buildRequiredEffectClaim(
@@ -431,13 +435,7 @@ function buildAnchorIdentityClaim(
     semantics: BubbleSemanticEvaluationPlan,
 ): BubbleConsistencyClaim {
     const anchorCriterion = semantics.anchorCriterion;
-    const identityBasis = ontology.anchorPoint.signals.filter((signal) =>
-        signal === "axiomatic-basis"
-        || signal === "world-will"
-        || signal === "seed-continuity"
-        || signal === "declared-history-support"
-        || signal === "observation-surface",
-    );
+    const identityBasis = collectAnchorIdentityBasis(program, ontology);
 
     if (anchorCriterion?.status === "violated") {
         return {
@@ -579,13 +577,11 @@ function buildReplayIdentityClaim(
 ): BubbleConsistencyClaim {
     const anchorCriterion = semantics.anchorCriterion;
     const latentCollapseDrafts = collectLatentCollapseDrafts(program);
-    const basis = [
-        ...(program.bubble.seed === null ? [] : ["seed-continuity"]),
-        ...(program.bubble.address.locatorKind === "source-relative" ? ["source-lineage-address"] : ["lineage-relative-address"]),
-        ...(program.bubble.generation.lifecycle.commitsHistory ? ["declared-history-support"] : []),
+    const basis = Array.from(new Set([
+        ...collectReplayIdentityBasis(program, ontology),
         ...collectLatentCollapseBasis(latentCollapseDrafts),
         ...(anchorCriterion?.basis ?? []),
-    ];
+    ]));
 
     if (anchorCriterion?.status === "violated") {
         return {
@@ -1190,4 +1186,75 @@ function unresolvedSemanticBasis(fragment: BubbleUnresolvedSemanticIR): string {
 
 function assertNever(value: never): never {
     throw new Error(`Unhandled proof variant: ${String(value)}`);
+}
+
+function collectAnchorIdentityBasis(
+    program: BubbleProgramIR,
+    ontology: BubbleSeaAnchorAssessment,
+): string[] {
+    return Array.from(new Set([
+        ...(Object.keys(program.bubble.axioms).length > 0 ? ["axiomatic-basis"] : []),
+        ...(program.bubble.worldWill === null ? [] : ["world-will"]),
+        ...(program.bubble.seed === null ? [] : ["seed-continuity"]),
+        ...(program.bubble.generation.lifecycle.commitsHistory ? ["declared-history-support"] : []),
+        ...(program.bubble.generation.lifecycle.observationMode === null ? [] : ["observation-surface"]),
+        ...collectTheoremWitnessBasis(ontology),
+        ...collectNegativeSeaSourceBasis(ontology),
+        ...collectPositiveSeaSourceBasis(ontology),
+        ...collectAnchorStateBasis(ontology),
+    ]));
+}
+
+function collectReplayIdentityBasis(
+    program: BubbleProgramIR,
+    ontology: BubbleSeaAnchorAssessment,
+): string[] {
+    return Array.from(new Set([
+        ...collectAnchorIdentityBasis(program, ontology),
+        ...(program.bubble.address.locatorKind === "source-relative" ? ["source-lineage-address"] : ["lineage-relative-address"]),
+    ]));
+}
+
+function collectTheoremWitnessBasis(ontology: BubbleSeaAnchorAssessment): string[] {
+    return [
+        ontology.theoremWitness.theorem,
+        `theorem-condition:${ontology.theoremWitness.condition}`,
+        `theorem-worldhood-delta:${ontology.theoremWitness.worldhoodDelta}`,
+        `theorem-identity-delta:${ontology.theoremWitness.identityDelta}`,
+    ];
+}
+
+function collectNegativeSeaSourceBasis(ontology: BubbleSeaAnchorAssessment): string[] {
+    return ontology.negativeSea.pressureSources.flatMap((source) => Array.from(new Set([
+        `negative-source:${source.kind}`,
+        `negative-source-strength:${source.strength}`,
+        ...(source.sourceEffectId === null ? [] : [`negative-source-effect:${source.sourceEffectId}`]),
+        ...(source.relationKind === null ? [] : [`negative-source-relation:${source.relationKind}`]),
+        ...(source.boundaryScope === null ? [] : [`negative-source-scope:${source.boundaryScope}`]),
+        ...source.evidenceBasis,
+    ])));
+}
+
+function collectPositiveSeaSourceBasis(ontology: BubbleSeaAnchorAssessment): string[] {
+    return ontology.positiveSea.supportSources.flatMap((source) => Array.from(new Set([
+        `positive-source:${source.kind}`,
+        `positive-source-support:${source.support}`,
+        ...(source.addressId === null ? [] : [`positive-source-address:${source.addressId}`]),
+        ...(source.sourceEffectId === null ? [] : [`positive-source-effect:${source.sourceEffectId}`]),
+        ...source.evidenceBasis,
+    ])));
+}
+
+function collectAnchorStateBasis(ontology: BubbleSeaAnchorAssessment): string[] {
+    return Array.from(new Set([
+        `anchor-support:${ontology.anchorPoint.strength}`,
+        `anchor-rewind:${ontology.anchorPoint.rewindStability}`,
+        `anchor-identity-status:${ontology.anchorPoint.identityStatus}`,
+        `anchor-authored-criterion-status:${ontology.anchorPoint.authoredCriterionStatus}`,
+        ...ontology.anchorPoint.authoredCriterionBasis,
+        ...ontology.anchorPoint.materializedEvidenceSources.flatMap((source) => Array.from(new Set([
+            `anchor-materialized-evidence:${source.kind}`,
+            ...source.evidenceBasis,
+        ]))),
+    ]));
 }

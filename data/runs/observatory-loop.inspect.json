@@ -68,10 +68,28 @@
       ],
       "id": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop"
     },
+    "boundary": {
+      "mode": "bubble-boundary.v1",
+      "observationSurface": "declared-observation-surface",
+      "historyCommitSurface": "declared-history-support",
+      "perturbationSurface": "no-declared-perturbation",
+      "observationEffectIds": [
+        "effect:8:observe"
+      ],
+      "commitEffectIds": [
+        "effect:9:commit"
+      ],
+      "perturbEffectIds": [],
+      "scopes": [],
+      "semanticReferences": [],
+      "description": "Bubble boundary currently tracks 1 observation surface, 1 history-commit surface, 0 scoped membrane/global boundary groups, and 0 boundary-referencing semantic paths."
+    },
+    "observationMaterializationLaw": null,
     "semantics": {
       "mode": "bubble-executable-semantics.v1",
       "constraints": [],
       "partialLaws": [],
+      "worldWillCriterion": null,
       "anchorCriterion": null
     },
     "ontology": {
@@ -212,9 +230,12 @@
           "status": "undetermined",
           "basis": [
             "local-law-basis",
+            "boundary-semantics",
+            "boundary-object",
+            "boundary-observation-surface",
+            "boundary-history-commit-surface",
             "source-lineage-address",
             "lineage-placement",
-            "missing-boundary-semantics",
             "missing-authored-anchor-criterion"
           ],
           "evidenceIds": [],
@@ -225,7 +246,7 @@
             "boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"
           ],
           "scope": "plan",
-          "explanation": "Bubble ObservatoryLoop preserves minimum authored shape, but independent worldhood remains undetermined while missing-boundary-semantics, missing-authored-anchor-criterion are not yet explicitly authored."
+          "explanation": "Bubble ObservatoryLoop preserves minimum authored shape, but independent worldhood remains undetermined while missing-authored-anchor-criterion are not yet explicitly authored."
         },
         {
           "id": "claim:required-effect-obligations",
@@ -261,6 +282,29 @@
             "seed-continuity",
             "declared-history-support",
             "observation-surface",
+            "sea-anchor-necessity.v1",
+            "theorem-condition:stable",
+            "theorem-worldhood-delta:4",
+            "theorem-identity-delta:2",
+            "positive-source:source-lineage",
+            "positive-source-support:present",
+            "positive-source-address:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+            "source-lineage-address",
+            "positive-source:seed-origin",
+            "seeded-origin",
+            "positive-source:descendant-lineage",
+            "positive-source-effect:effect:10:spawn",
+            "descendant-lineage",
+            "descendant-lineage-count:1",
+            "positive-source:staged-growth",
+            "staged-growth",
+            "staged-growth-count:1",
+            "positive-source:declared-history-support",
+            "positive-source-effect:effect:9:commit",
+            "anchor-support:strong",
+            "anchor-rewind:stable",
+            "anchor-identity-status:provisional",
+            "anchor-authored-criterion-status:absent",
             "missing-authored-anchor-criterion"
           ],
           "evidenceIds": [
@@ -302,9 +346,34 @@
           "kind": "replay",
           "status": "undetermined",
           "basis": [
+            "axiomatic-basis",
+            "world-will",
             "seed-continuity",
-            "source-lineage-address",
             "declared-history-support",
+            "observation-surface",
+            "sea-anchor-necessity.v1",
+            "theorem-condition:stable",
+            "theorem-worldhood-delta:4",
+            "theorem-identity-delta:2",
+            "positive-source:source-lineage",
+            "positive-source-support:present",
+            "positive-source-address:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+            "source-lineage-address",
+            "positive-source:seed-origin",
+            "seeded-origin",
+            "positive-source:descendant-lineage",
+            "positive-source-effect:effect:10:spawn",
+            "descendant-lineage",
+            "descendant-lineage-count:1",
+            "positive-source:staged-growth",
+            "staged-growth",
+            "staged-growth-count:1",
+            "positive-source:declared-history-support",
+            "positive-source-effect:effect:9:commit",
+            "anchor-support:strong",
+            "anchor-rewind:stable",
+            "anchor-identity-status:provisional",
+            "anchor-authored-criterion-status:absent",
             "missing-authored-anchor-criterion"
           ],
           "evidenceIds": [
@@ -610,6 +679,7 @@
     "mode": "bubble-executable-semantics.v1",
     "constraints": [],
     "partialLaws": [],
+    "worldWillCriterion": null,
     "anchorCriterion": null
   },
   "proof": {
@@ -656,9 +726,12 @@
         "status": "undetermined",
         "basis": [
           "local-law-basis",
+          "boundary-semantics",
+          "boundary-object",
+          "boundary-observation-surface",
+          "boundary-history-commit-surface",
           "source-lineage-address",
           "lineage-placement",
-          "missing-boundary-semantics",
           "missing-authored-anchor-criterion"
         ],
         "evidenceIds": [],
@@ -669,7 +742,7 @@
           "boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"
         ],
         "scope": "plan",
-        "explanation": "Bubble ObservatoryLoop preserves minimum authored shape, but independent worldhood remains undetermined while missing-boundary-semantics, missing-authored-anchor-criterion are not yet explicitly authored."
+        "explanation": "Bubble ObservatoryLoop preserves minimum authored shape, but independent worldhood remains undetermined while missing-authored-anchor-criterion are not yet explicitly authored."
       },
       {
         "id": "claim:required-effect-obligations",
@@ -705,6 +778,29 @@
           "seed-continuity",
           "declared-history-support",
           "observation-surface",
+          "sea-anchor-necessity.v1",
+          "theorem-condition:stable",
+          "theorem-worldhood-delta:4",
+          "theorem-identity-delta:2",
+          "positive-source:source-lineage",
+          "positive-source-support:present",
+          "positive-source-address:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "source-lineage-address",
+          "positive-source:seed-origin",
+          "seeded-origin",
+          "positive-source:descendant-lineage",
+          "positive-source-effect:effect:10:spawn",
+          "descendant-lineage",
+          "descendant-lineage-count:1",
+          "positive-source:staged-growth",
+          "staged-growth",
+          "staged-growth-count:1",
+          "positive-source:declared-history-support",
+          "positive-source-effect:effect:9:commit",
+          "anchor-support:strong",
+          "anchor-rewind:stable",
+          "anchor-identity-status:provisional",
+          "anchor-authored-criterion-status:absent",
           "missing-authored-anchor-criterion"
         ],
         "evidenceIds": [
@@ -746,9 +842,34 @@
         "kind": "replay",
         "status": "undetermined",
         "basis": [
+          "axiomatic-basis",
+          "world-will",
           "seed-continuity",
-          "source-lineage-address",
           "declared-history-support",
+          "observation-surface",
+          "sea-anchor-necessity.v1",
+          "theorem-condition:stable",
+          "theorem-worldhood-delta:4",
+          "theorem-identity-delta:2",
+          "positive-source:source-lineage",
+          "positive-source-support:present",
+          "positive-source-address:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "source-lineage-address",
+          "positive-source:seed-origin",
+          "seeded-origin",
+          "positive-source:descendant-lineage",
+          "positive-source-effect:effect:10:spawn",
+          "descendant-lineage",
+          "descendant-lineage-count:1",
+          "positive-source:staged-growth",
+          "staged-growth",
+          "staged-growth-count:1",
+          "positive-source:declared-history-support",
+          "positive-source-effect:effect:9:commit",
+          "anchor-support:strong",
+          "anchor-rewind:stable",
+          "anchor-identity-status:provisional",
+          "anchor-authored-criterion-status:absent",
           "missing-authored-anchor-criterion"
         ],
         "evidenceIds": [

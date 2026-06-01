@@ -249,7 +249,15 @@ export function buildSeaAnchorAssessment(
         anchorSignals.push("axiomatic-basis");
     }
 
-    if (bubble.worldWill !== null) {
+    if (semantics.worldWillCriterion?.status === "satisfied") {
+        anchorScore += 1;
+        anchorSignals.push("world-will-criterion");
+    } else if (semantics.worldWillCriterion?.status === "violated") {
+        anchorScore -= 1;
+        anchorSignals.push("world-will-criterion-failed");
+    } else if (semantics.worldWillCriterion?.status === "undetermined") {
+        anchorSignals.push("world-will-criterion-undetermined");
+    } else if (bubble.worldWill !== null) {
         anchorScore += 1;
         anchorSignals.push("world-will");
     }
@@ -489,25 +497,24 @@ function collectBoundaryExposureSources(program: BubbleProgramIR): Array<{
     boundaryScope: BubbleProgramIR["bubble"]["effects"][number]["scope"] | null;
     evidenceBasis: string[];
 }> {
-    const boundaryScopes = new Set(["membrane", "global"]);
-    const obligationExposure = program.bubble.obligations
-        .filter((obligation) => boundaryScopes.has(obligation.scope))
-        .map((obligation) => ({
-            sourceEffectId: obligation.effectId,
+    return program.bubble.boundary.scopes.flatMap((scope) => [
+        ...scope.obligationEffectIds.map((effectId) => ({
+            sourceEffectId: effectId,
             relationKind: null,
-            boundaryScope: obligation.scope,
-            evidenceBasis: ["boundary-exposure", `obligation:${obligation.effectId}`, `scope:${obligation.scope}`],
-        }));
-    const relationExposure = program.bubble.generation.relations
-        .filter((relation) => boundaryScopes.has(relation.scope))
-        .map((relation) => ({
-            sourceEffectId: relation.sourceEffectId,
-            relationKind: relation.kind,
-            boundaryScope: relation.scope,
-            evidenceBasis: ["boundary-exposure", `relation:${relation.kind}`, `scope:${relation.scope}`],
-        }));
-
-    return [...obligationExposure, ...relationExposure];
+            boundaryScope: scope.scope,
+            evidenceBasis: ["boundary-exposure", `obligation:${effectId}`, `scope:${scope.scope}`],
+        })),
+        ...scope.relationSourceEffectIds.map((effectId, index) => ({
+            sourceEffectId: effectId,
+            relationKind: scope.relationKinds[index] ?? scope.relationKinds[0] ?? null,
+            boundaryScope: scope.scope,
+            evidenceBasis: [
+                "boundary-exposure",
+                `relation:${scope.relationKinds[index] ?? scope.relationKinds[0] ?? "unknown"}`,
+                `scope:${scope.scope}`,
+            ],
+        })),
+    ]);
 }
 
 function assertNever(value: never): never {

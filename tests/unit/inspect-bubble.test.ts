@@ -908,6 +908,11 @@ test("inspection exposes sea-anchor ontology for stressed boundary worlds", () =
             "claim:internal-law-consistency": "undetermined",
         },
     );
+    const claimById = Object.fromEntries(report.proof.claims.map((claim) => [claim.id, claim]));
+    assert.ok(claimById["claim:anchor-identity"]?.basis.includes("negative-source:branch"));
+    assert.ok(claimById["claim:anchor-identity"]?.basis.includes("negative-source-effect:effect:11:branch"));
+    assert.ok(claimById["claim:replay-identity"]?.basis.includes("positive-source:descendant-lineage"));
+    assert.ok(claimById["claim:replay-identity"]?.basis.includes("theorem-condition:stressed"));
     assert.deepEqual(report.evidence.slice(0, 3).map((entry) => entry.kind), [
         "negative-sea-state",
         "positive-sea-state",

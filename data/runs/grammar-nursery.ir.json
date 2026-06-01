@@ -22,6 +22,18 @@
     "worldWill": "grow language variants",
     "seed": "grammar_seed",
     "observationMode": null,
+    "boundary": {
+      "mode": "bubble-boundary.v1",
+      "observationSurface": "undeclared-observation-surface",
+      "historyCommitSurface": "undeclared-history-support",
+      "perturbationSurface": "no-declared-perturbation",
+      "observationEffectIds": [],
+      "commitEffectIds": [],
+      "perturbEffectIds": [],
+      "scopes": [],
+      "semanticReferences": [],
+      "description": "Bubble currently declares no explicit boundary surface beyond the root address envelope."
+    },
     "effects": [
       {
         "id": "effect:5:spawn",

@@ -53,7 +53,8 @@ export interface RealizationDeclaration extends SourceSpan {
 
 export interface WillDeclaration extends SourceSpan {
     kind: "will";
-    expression: string;
+    expression: BubbleExpressionIR;
+    description: string;
 }
 
 export interface SeedDeclaration extends SourceSpan {

@@ -24,10 +24,24 @@
         ],
         "id": "bubble:examples/meta-grove.bubble::root:Nursery"
       },
+      "boundary": {
+        "mode": "bubble-boundary.v1",
+        "observationSurface": "undeclared-observation-surface",
+        "historyCommitSurface": "undeclared-history-support",
+        "perturbationSurface": "no-declared-perturbation",
+        "observationEffectIds": [],
+        "commitEffectIds": [],
+        "perturbEffectIds": [],
+        "scopes": [],
+        "semanticReferences": [],
+        "description": "Bubble currently declares no explicit boundary surface beyond the root address envelope."
+      },
+      "observationMaterializationLaw": null,
       "semantics": {
         "mode": "bubble-executable-semantics.v1",
         "constraints": [],
         "partialLaws": [],
+        "worldWillCriterion": null,
         "anchorCriterion": null
       },
       "ontology": {
@@ -156,9 +170,10 @@
             "status": "undetermined",
             "basis": [
               "local-law-basis",
+              "boundary-semantics",
+              "boundary-object",
               "source-lineage-address",
               "lineage-placement",
-              "missing-boundary-semantics",
               "missing-authored-anchor-criterion"
             ],
             "evidenceIds": [],
@@ -169,7 +184,7 @@
               "boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"
             ],
             "scope": "plan",
-            "explanation": "Bubble Nursery preserves minimum authored shape, but independent worldhood remains undetermined while missing-boundary-semantics, missing-authored-anchor-criterion are not yet explicitly authored."
+            "explanation": "Bubble Nursery preserves minimum authored shape, but independent worldhood remains undetermined while missing-authored-anchor-criterion are not yet explicitly authored."
           },
           {
             "id": "claim:required-effect-obligations",
@@ -199,6 +214,27 @@
               "axiomatic-basis",
               "world-will",
               "seed-continuity",
+              "sea-anchor-necessity.v1",
+              "theorem-condition:stable",
+              "theorem-worldhood-delta:3",
+              "theorem-identity-delta:1",
+              "positive-source:source-lineage",
+              "positive-source-support:present",
+              "positive-source-address:bubble:examples/meta-grove.bubble::root:Nursery",
+              "source-lineage-address",
+              "positive-source:seed-origin",
+              "seeded-origin",
+              "positive-source:descendant-lineage",
+              "positive-source-effect:effect:6:spawn",
+              "descendant-lineage",
+              "descendant-lineage-count:1",
+              "positive-source:staged-growth",
+              "staged-growth",
+              "staged-growth-count:1",
+              "anchor-support:steady",
+              "anchor-rewind:guarded",
+              "anchor-identity-status:provisional",
+              "anchor-authored-criterion-status:absent",
               "missing-authored-anchor-criterion"
             ],
             "evidenceIds": [
@@ -239,8 +275,30 @@
             "kind": "replay",
             "status": "undetermined",
             "basis": [
+              "axiomatic-basis",
+              "world-will",
               "seed-continuity",
+              "sea-anchor-necessity.v1",
+              "theorem-condition:stable",
+              "theorem-worldhood-delta:3",
+              "theorem-identity-delta:1",
+              "positive-source:source-lineage",
+              "positive-source-support:present",
+              "positive-source-address:bubble:examples/meta-grove.bubble::root:Nursery",
               "source-lineage-address",
+              "positive-source:seed-origin",
+              "seeded-origin",
+              "positive-source:descendant-lineage",
+              "positive-source-effect:effect:6:spawn",
+              "descendant-lineage",
+              "descendant-lineage-count:1",
+              "positive-source:staged-growth",
+              "staged-growth",
+              "staged-growth-count:1",
+              "anchor-support:steady",
+              "anchor-rewind:guarded",
+              "anchor-identity-status:provisional",
+              "anchor-authored-criterion-status:absent",
               "missing-authored-anchor-criterion"
             ],
             "evidenceIds": [
@@ -434,9 +492,10 @@
           "status": "undetermined",
           "basis": [
             "local-law-basis",
+            "boundary-semantics",
+            "boundary-object",
             "source-lineage-address",
             "lineage-placement",
-            "missing-boundary-semantics",
             "missing-authored-anchor-criterion"
           ],
           "evidenceIds": [],
@@ -447,7 +506,7 @@
             "boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"
           ],
           "scope": "plan",
-          "explanation": "Bubble Nursery preserves minimum authored shape, but independent worldhood remains undetermined while missing-boundary-semantics, missing-authored-anchor-criterion are not yet explicitly authored."
+          "explanation": "Bubble Nursery preserves minimum authored shape, but independent worldhood remains undetermined while missing-authored-anchor-criterion are not yet explicitly authored."
         },
         {
           "id": "claim:required-effect-obligations",
@@ -477,6 +536,27 @@
             "axiomatic-basis",
             "world-will",
             "seed-continuity",
+            "sea-anchor-necessity.v1",
+            "theorem-condition:stable",
+            "theorem-worldhood-delta:3",
+            "theorem-identity-delta:1",
+            "positive-source:source-lineage",
+            "positive-source-support:present",
+            "positive-source-address:bubble:examples/meta-grove.bubble::root:Nursery",
+            "source-lineage-address",
+            "positive-source:seed-origin",
+            "seeded-origin",
+            "positive-source:descendant-lineage",
+            "positive-source-effect:effect:6:spawn",
+            "descendant-lineage",
+            "descendant-lineage-count:1",
+            "positive-source:staged-growth",
+            "staged-growth",
+            "staged-growth-count:1",
+            "anchor-support:steady",
+            "anchor-rewind:guarded",
+            "anchor-identity-status:provisional",
+            "anchor-authored-criterion-status:absent",
             "missing-authored-anchor-criterion"
           ],
           "evidenceIds": [
@@ -517,8 +597,30 @@
           "kind": "replay",
           "status": "undetermined",
           "basis": [
+            "axiomatic-basis",
+            "world-will",
             "seed-continuity",
+            "sea-anchor-necessity.v1",
+            "theorem-condition:stable",
+            "theorem-worldhood-delta:3",
+            "theorem-identity-delta:1",
+            "positive-source:source-lineage",
+            "positive-source-support:present",
+            "positive-source-address:bubble:examples/meta-grove.bubble::root:Nursery",
             "source-lineage-address",
+            "positive-source:seed-origin",
+            "seeded-origin",
+            "positive-source:descendant-lineage",
+            "positive-source-effect:effect:6:spawn",
+            "descendant-lineage",
+            "descendant-lineage-count:1",
+            "positive-source:staged-growth",
+            "staged-growth",
+            "staged-growth-count:1",
+            "anchor-support:steady",
+            "anchor-rewind:guarded",
+            "anchor-identity-status:provisional",
+            "anchor-authored-criterion-status:absent",
             "missing-authored-anchor-criterion"
           ],
           "evidenceIds": [
@@ -682,6 +784,18 @@
             "worldWill": "preserve inner symmetry",
             "seed": "ember_seed",
             "observationMode": null,
+            "boundary": {
+              "mode": "bubble-boundary.v1",
+              "observationSurface": "undeclared-observation-surface",
+              "historyCommitSurface": "undeclared-history-support",
+              "perturbationSurface": "no-declared-perturbation",
+              "observationEffectIds": [],
+              "commitEffectIds": [],
+              "perturbEffectIds": [],
+              "scopes": [],
+              "semanticReferences": [],
+              "description": "Bubble currently declares no explicit boundary surface beyond the root address envelope."
+            },
             "effects": [
               {
                 "id": "effect:6:spawn",

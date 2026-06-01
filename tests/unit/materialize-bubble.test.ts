@@ -217,6 +217,13 @@ test("semantic plans preserve latent topology drafts for hidden regions and late
     const plan = planBubbleProgram(program);
 
     assert.deepEqual(plan.latentTopology, program.bubble.latentTopology ?? null);
+    assert.equal(plan.observationMaterializationLaw?.kernel, "single-region-observation-kernel.v3");
+    assert.ok(plan.observationMaterializationLaw?.determinantAxes.includes("membrane-condition"));
+    assert.ok(
+        plan.observationMaterializationLaw?.realizedFormRules.some(
+            (rule) => rule.id === "hidden-region:history-open:committed:default",
+        ),
+    );
     assert.deepEqual(plan.latentTopology, {
         mode: "bubble-latent-topology.v1",
         regions: [
@@ -1058,9 +1065,35 @@ test("executable constraints and partial laws certify internal consistency and a
     assert.equal(claimById["claim:internal-law-consistency"]?.status, "certified");
     assert.equal(claimById["claim:anchor-identity"]?.status, "certified");
     assert.equal(claimById["claim:replay-identity"]?.status, "certified");
+    assert.ok(claimById["claim:anchor-identity"]?.basis.includes("positive-source:declared-history-support"));
+    assert.ok(claimById["claim:anchor-identity"]?.basis.includes("positive-source-effect:effect:7:commit"));
+    assert.ok(claimById["claim:anchor-identity"]?.basis.includes("theorem-condition:stable"));
+    assert.ok(claimById["claim:replay-identity"]?.basis.includes("anchor-authored-criterion-status:satisfied"));
     assert.equal(plan.ontology.anchorPoint.authoredCriterionStatus, "satisfied");
     assert.ok(plan.ontology.anchorPoint.authoredCriterionBasis.includes("authored-anchor-criterion"));
     assert.equal(plan.ontology.anchorPoint.identityStatus, "provisional");
+});
+
+test("parseable world will criteria become executable pressure in the semantic plan", () => {
+    const source = [
+        "bubble GuidedPressure {",
+        "  axiom coherence = stable",
+        "  will history.commits and world.seeded",
+        "  seed guided_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "guided-pressure.bubble" });
+    const plan = planBubbleProgram(program);
+
+    assert.equal(plan.semantics.worldWillCriterion?.subjectKind, "world-will");
+    assert.equal(plan.semantics.worldWillCriterion?.status, "satisfied");
+    assert.equal(plan.semantics.worldWillCriterion?.expression, "history.commits and world.seeded");
+    assert.ok(plan.ontology.anchorPoint.signals.includes("world-will-criterion"));
+    assert.ok(!plan.ontology.anchorPoint.signals.includes("world-will"));
 });
 
 test("authored anchor criteria can contradict inferred anchor scoring", () => {
