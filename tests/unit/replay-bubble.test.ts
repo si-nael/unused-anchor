@@ -75,6 +75,7 @@ test("replay preserves inspection semantics for stored records", () => {
     const replayed = replayBubbleRecord(record);
 
     assert.deepEqual(replayed.summary, live.summary);
+    assert.deepEqual(replayed.externalObservationLimit, live.externalObservationLimit);
     assert.deepEqual(replayed.ontology, live.ontology);
     assert.deepEqual(replayed.semantics, live.semantics);
     assert.deepEqual(replayed.proof, live.proof);
@@ -533,6 +534,7 @@ test("replay can filter proof claims by id, kind, and status", () => {
         "claim:anchor-identity",
         "claim:replay-identity",
     ]);
+    assert.deepEqual(byStatus.proof, byStatus.plan.proof);
 
     const byKind = replayBubbleRecord(record, { claimKind: "consistency" });
     assert.equal(byKind.summary.proofVerdict, "certified");
@@ -544,6 +546,7 @@ test("replay can filter proof claims by id, kind, and status", () => {
         undetermined: 0,
     });
     assert.deepEqual(byKind.proof.claims.map((claim) => claim.id), ["claim:internal-law-consistency"]);
+    assert.deepEqual(byKind.proof, byKind.plan.proof);
 
     const byId = replayBubbleRecord(record, { claimId: "claim:lineage-traceability" });
     assert.equal(byId.summary.proofVerdict, "undetermined");
@@ -555,4 +558,5 @@ test("replay can filter proof claims by id, kind, and status", () => {
         undetermined: 1,
     });
     assert.deepEqual(byId.proof.claims.map((claim) => claim.id), ["claim:lineage-traceability"]);
+    assert.deepEqual(byId.proof, byId.plan.proof);
 });

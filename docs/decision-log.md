@@ -785,3 +785,33 @@ The current observation materialization kernel is now semantically meaningful, b
 Consequence:
 
 Before inventing source syntax for observation law, extract the current bounded kernel into a minimal IR or plan-level law object that names the determinants, state-structure derivation, and realized-form mapping explicitly. Runtime materialization should consume that law surface rather than keeping the whole rule only as code and explanation strings.
+
+### D-079: Promote sea-source provenance into explicit Bubble IR semantics
+
+Reason:
+
+Boundary, executable world will, and observation-materialization law now all have explicit surfaces, but negative and positive sea source kinds were still being synthesized as local runtime tags inside ontology. That left one of the main worldhood inputs with weaker provenance than the surrounding semantic model.
+
+Consequence:
+
+Compiled bubbles should now carry an explicit `bubble.seaSemantics` projection. Negative and positive source kinds remain derived from authored address, generation, boundary, effect, and staged-emission structure, but the source categories and their contribution weights are now owned by IR instead of being invented only at runtime. Ontology should consume that projection rather than reclassifying source kinds locally.
+
+### D-080: Keep quoted world will as explicit descriptive text, not a forced criterion
+
+Reason:
+
+Quoted or otherwise unparseable `will` declarations preserve authored pressure or orientation, but they do not yet justify executable truth conditions. Treating them as mere legacy residue hides authored intent, while coercing them into criterion form would pretend to executability that the source did not actually provide.
+
+Consequence:
+
+Bubble should keep two explicit authored world-will forms: `criterion` for parseable executable expressions and `descriptive-text` for quoted or otherwise non-executable declarations. The compatibility `worldWill` string remains, but `bubble.worldWillDeclaration` now records the authored mode directly, while `bubble.worldWillCriterion` remains reserved for executable semantics only.
+
+### D-081: Keep worldhood observer-free, but make outside observation explicitly bounded and interfering
+
+Reason:
+
+Bubble already preserves latent topology, hidden regions, unobservable relations, observation-induced local materialization, and replay evidence. Without one explicit statement tying those together, it is too easy to slide into either false omniscient outside inspection or the opposite mistake that unobserved interior simply does not exist.
+
+Consequence:
+
+Bubble should treat outside observation as limited prior to causal contact and interfering once contact occurs. This does not turn worldhood itself into an observer-relative object. Instead, it means an outside observer must cross authored or runtime boundary surfaces to learn concrete interior unfolding, and that crossing may leave `observation-context`, `collapse-record`, `observationState`, or `history-commit` traces. The current bounded implementation should expose this as an inspectable plan/runtime surface before any future observer-agent layer is added.

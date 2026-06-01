@@ -6,7 +6,11 @@
     "scripts": {
         "build": "tsc -p tsconfig.json",
         "check": "tsc -p tsconfig.json --noEmit",
-        "verify": "npm run check && npm test && npm run validate:example && npm run compile:example && npm run inspect:boundary-example && npm run compile:grammar-example && npm run inspect:grammar-example && npm run inspect:grammar-chain-example && npm run plan:meta-example && npm run materialize:meta-example && npm run inspect:meta-example && npm run materialize:observatory-example && npm run inspect:observatory-example && npm run record:meta-example && npm run replay:meta-example",
+        "verify:core": "npm run check && npm test",
+        "verify:examples": "npm run validate:example && npm run compile:example && npm run inspect:boundary-example && npm run compile:grammar-example && npm run inspect:grammar-example && npm run inspect:grammar-chain-example && npm run plan:meta-example && npm run materialize:meta-example && npm run inspect:meta-example && npm run materialize:observatory-example && npm run inspect:observatory-example",
+        "verify:collapse": "npm run materialize:collapse-example && npm run inspect:collapse-example && npm run materialize:collapse-open-example && npm run inspect:collapse-open-example && npm run materialize:collapse-mixed-example && npm run inspect:collapse-mixed-example",
+        "verify:replay": "npm run record:collapse-mirror-example && npm run inspect:collapse-mirror-example && npm run replay:collapse-mirror-example && npm run record:meta-example && npm run replay:meta-example",
+        "verify": "npm run verify:core && npm run verify:examples && npm run verify:collapse && npm run verify:replay",
         "validate:example": "tsx apps/hatchery/compile-bubble.ts --check examples/first-world.bubble",
         "compile:example": "tsx apps/hatchery/compile-bubble.ts examples/first-world.bubble data/runs/first-world.ir.json",
         "inspect:boundary-example": "tsx apps/hatchery/inspect-bubble.ts examples/boundary-orchard.bubble data/runs/boundary-orchard.inspect.json --section report",

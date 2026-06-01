@@ -198,6 +198,37 @@ test("plans and materializes descendant emissions from a meta bubble", () => {
     assert.equal(materialized.commits[0].committedAddressId, "bubble:nursery.bubble::root:Nursery/spawn:emit:11:Grove");
 });
 
+test("observation-collapse stays absent for bubbles without latent topology", () => {
+    const source = [
+        "bubble SteadySurface {",
+        "  axiom coherence = stable",
+        "  will \"hold one path\"",
+        "  seed steady_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "steady-surface.bubble" });
+    const plan = planBubbleProgram(program);
+    const materialized = materializeBubbleProgram(program);
+
+    assert.equal(plan.latentTopology, null);
+    assert.equal(plan.observationMaterializationLaw, null);
+    assert.equal(plan.externalObservationLimit.mode, "bubble-external-observation-limit.v1");
+    assert.equal(plan.externalObservationLimit.preContactInteriorAccess, "concrete-interior-not-fully-readable");
+    assert.deepEqual(plan.externalObservationLimit.latentInteriorKinds, []);
+    assert.equal(plan.externalObservationLimit.traceConsequences.recordsObservationContext, true);
+    assert.equal(plan.externalObservationLimit.traceConsequences.mayMaterializeLatentInterior, false);
+    assert.equal(plan.externalObservationLimit.traceConsequences.mayRecordCollapse, false);
+    assert.equal(plan.externalObservationLimit.traceConsequences.mayAnchorHistory, true);
+    assert.equal(plan.observationCommitPolicy, null);
+    assert.equal(plan.observationCommitPolicyComparison, null);
+    assert.ok(materialized.evidence.every((entry) => entry.kind !== "collapse-record"));
+    assert.ok(materialized.trace.every((event) => event.kind !== "local-collapse-materialized"));
+});
+
 test("semantic plans preserve latent topology drafts for hidden regions and latent bubbles", () => {
     const source = [
         "bubble ThresholdField {",
@@ -218,6 +249,10 @@ test("semantic plans preserve latent topology drafts for hidden regions and late
 
     assert.deepEqual(plan.latentTopology, program.bubble.latentTopology ?? null);
     assert.equal(plan.observationMaterializationLaw?.kernel, "single-region-observation-kernel.v3");
+    assert.deepEqual(plan.externalObservationLimit.latentInteriorKinds, ["hidden-region", "latent-bubble"]);
+    assert.equal(plan.externalObservationLimit.traceConsequences.mayMaterializeLatentInterior, true);
+    assert.equal(plan.externalObservationLimit.traceConsequences.mayRecordCollapse, true);
+    assert.equal(plan.externalObservationLimit.causalContactEffectIds.observation[0], "effect:6:observe");
     assert.ok(plan.observationMaterializationLaw?.determinantAxes.includes("membrane-condition"));
     assert.ok(
         plan.observationMaterializationLaw?.realizedFormRules.some(

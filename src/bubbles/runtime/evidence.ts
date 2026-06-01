@@ -33,7 +33,7 @@ import type {
     BubbleObservationCommitPolicySelectionRule,
     BubbleMaterializationCommit,
     MaterializedBubbleArtifact,
-} from "./materialize";
+} from "./types";
 
 export type BubbleEvidenceKind =
     | "observation-context"

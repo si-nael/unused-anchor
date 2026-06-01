@@ -39,6 +39,16 @@ test("compiles a valid v0.1 bubble world", () => {
     assert.equal(program.bubble.name, "Ember");
     assert.equal(program.bubble.axioms.coherence, "stable");
     assert.equal(program.bubble.worldWill, "preserve ember symmetry");
+    assert.deepEqual(program.bubble.worldWillDeclaration, {
+        id: "world-will:4",
+        sourceLine: 4,
+        kind: "descriptive-text",
+        description: "preserve ember symmetry",
+        expression: {
+            kind: "text",
+            value: "preserve ember symmetry",
+        },
+    });
     assert.equal(program.bubble.seed, "first_spark");
     assert.equal(program.bubble.observationMode, "local");
     assert.equal(program.bubble.effects.length, 3);
@@ -141,7 +151,7 @@ test("compiles a valid v0.1 bubble world", () => {
     assert.deepEqual(program.bubble.generation, {
         realizationMode: "nondeterministic",
         realizationSource: "authored",
-        worldWillMode: "governing-principle",
+        worldWillMode: "descriptive-text",
         lifecycle: {
             initialMode: "latent",
             observationMode: "local",
@@ -174,6 +184,61 @@ test("compiles a valid v0.1 bubble world", () => {
                 description: "This bubble may realize alternative bubble continuations through optional local branching.",
             },
         ],
+    });
+    assert.deepEqual(program.bubble.seaSemantics, {
+        mode: "bubble-sea-semantics.v1",
+        negativePressureSources: [
+            {
+                id: "negative-sea-source:nondeterministic-realization",
+                kind: "nondeterministic-realization",
+                sourceEffectId: null,
+                relationKind: null,
+                boundaryScope: null,
+                strength: "elevated",
+                pressureContribution: 1,
+                evidenceBasis: ["nondeterministic-realization"],
+            },
+            {
+                id: "negative-sea-source:branch",
+                kind: "branch",
+                sourceEffectId: "effect:8:branch",
+                relationKind: "branch",
+                boundaryScope: "local",
+                strength: "elevated",
+                pressureContribution: 1,
+                evidenceBasis: ["branch-pressure", "branch-count:1"],
+            },
+        ],
+        positiveSupportSources: [
+            {
+                id: "positive-sea-source:source-lineage",
+                kind: "source-lineage",
+                addressId: "bubble:inline.bubble::root:Ember",
+                sourceEffectId: null,
+                support: "present",
+                supportContribution: 1,
+                evidenceBasis: ["source-lineage-address"],
+            },
+            {
+                id: "positive-sea-source:seed-origin",
+                kind: "seed-origin",
+                addressId: "bubble:inline.bubble::root:Ember",
+                sourceEffectId: null,
+                support: "present",
+                supportContribution: 1,
+                evidenceBasis: ["seeded-origin"],
+            },
+            {
+                id: "positive-sea-source:declared-history-support",
+                kind: "declared-history-support",
+                addressId: "bubble:inline.bubble::root:Ember",
+                sourceEffectId: "effect:9:commit",
+                support: "present",
+                supportContribution: 1,
+                evidenceBasis: ["declared-history-support"],
+            },
+        ],
+        description: "Bubble sea semantics currently project 2 negative source kinds and 3 positive source kinds from authored address, boundary, generation, and effect structure.",
     });
 });
 
@@ -558,6 +623,24 @@ test("lowers parseable world will declarations into executable criteria", () => 
 
     assert.equal(result.program.profile, "bubbles.v0.4");
     assert.equal(result.program.bubble.worldWill, "history.commits and world.seeded");
+    assert.deepEqual(result.program.bubble.worldWillDeclaration, {
+        id: "world-will:3",
+        sourceLine: 3,
+        kind: "criterion",
+        description: "history.commits and world.seeded",
+        expression: {
+            kind: "logical",
+            operator: "and",
+            left: {
+                kind: "reference",
+                path: "history.commits",
+            },
+            right: {
+                kind: "reference",
+                path: "world.seeded",
+            },
+        },
+    });
     assert.equal(result.program.bubble.generation.worldWillMode, "criterion");
     assert.deepEqual(result.program.bubble.worldWillCriterion, {
         id: "world-will:3",

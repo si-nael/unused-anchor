@@ -817,7 +817,7 @@ Current `v0.4` source now does have a surface syntax for these fragments.
 
 What it still does not have is a general solver.
 
-Today the runtime can directly execute authored `constraint`, minimal `partial law`, and `anchor identity` expressions inside the shared expression subset.
+Today the runtime can directly execute authored `constraint`, minimal `partial law`, `anchor identity`, and parseable unquoted world-will expressions inside the shared expression subset.
 
 Other unresolved fragments still matter because the `internal-law-consistency` claim can cite them directly as reasons that a proof remains `undetermined`.
 
@@ -832,6 +832,7 @@ Current runtime shape:
 - `mode: bubble-executable-semantics.v1`
 - `constraints[]`
 - `partialLaws[]`
+- `worldWillCriterion`
 - `anchorCriterion`
 
 Each executable evaluation currently records:
@@ -842,13 +843,47 @@ Each executable evaluation currently records:
 - `status: satisfied | violated | undetermined`
 - basis tags and explanation text
 
-Use this section when you want to see how one constraint, partial-law fragment, or authored anchor criterion evaluated directly in the current executable environment without first reconstructing that result from proof-claim prose.
+Use this section when you want to see how one constraint, partial-law fragment, parseable world-will criterion, or authored anchor criterion evaluated directly in the current executable environment without first reconstructing that result from proof-claim prose.
 
 The inspect and replay CLIs can now narrow this section with:
 
 - `--semantic <id>` for a semantic subject id or executable evaluation id
-- `--semantic-kind <constraint|partial-law|anchor-criterion>` for one semantic subject class
+- `--semantic-kind <constraint|partial-law|world-will|anchor-criterion>` for one semantic subject class
 - `--semantic-status <satisfied|violated|undetermined>` for one executable semantic verdict slice
+
+### Executable Semantic Environment
+
+The current executable subset evaluates expressions against one bounded runtime environment.
+
+Currently documented reference paths include:
+
+- `world.seeded`
+- `world.hasWill`
+- `world.hasExecutableWill`
+- `world.realizationMode`
+- `world.profile`
+- `world.version`
+- `world.seed` when one seed exists
+- `world.will` when one world will exists
+- `world.observationMode` when one observation mode exists
+- `history.commits`
+- `history.durable`
+- `boundary.pressure`
+- `boundary.exposure`
+- `lineage.descendantCount`
+- `lineage.branchCount`
+- `effect.count`
+- `effect.requiredCount`
+- `obligation.count`
+- `emission.count`
+- `emission.descendantCount`
+- `emission.artifactCount`
+- `grammar.activationCount`
+- `axiom.<name>` and `axioms.<name>` for authored axioms
+- `<effectKind>.enabled` for declared effects such as `observe.enabled` or `commit.enabled`
+- `<effectKind>.required` for required-effect booleans such as `observe.required` or `commit.required`
+
+This environment is intentionally bounded for `v0.4.1` stabilization. It is a documented executable subset, not yet a general semantic reference namespace for all Bubble concepts.
 
 ### Bundle Output
 

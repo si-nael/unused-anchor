@@ -4,11 +4,11 @@ import {
     type BubbleInspectionQuery,
     type BubbleInspectionReport,
 } from "./inspect";
-import {
-    materializeBubbleProgram,
-    type BubbleRuntimeOptions,
-    type BubbleMaterializationResult,
-} from "./materialize";
+import { materializeBubbleProgram } from "./materialize";
+import type {
+    BubbleRuntimeOptions,
+    BubbleMaterializationResult,
+} from "./types";
 
 export interface BubbleReplayRecord {
     mode: "bubble-replay.v1";

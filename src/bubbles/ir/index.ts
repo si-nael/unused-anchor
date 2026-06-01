@@ -177,7 +177,7 @@ export interface BubbleGenerativeRelationIR {
 export interface BubbleGenerationIR {
     realizationMode: BubbleRealizationMode;
     realizationSource: "authored" | "inferred";
-    worldWillMode: "governing-principle" | "criterion" | "absent";
+    worldWillMode: "descriptive-text" | "criterion" | "absent";
     lifecycle: BubbleLifecycleIR;
     relations: BubbleGenerativeRelationIR[];
 }
@@ -210,6 +210,58 @@ export interface BubbleBoundaryIR {
     perturbEffectIds: string[];
     scopes: BubbleBoundaryScopeIR[];
     semanticReferences: BubbleBoundarySemanticReferenceIR[];
+    description: string;
+}
+
+export type BubbleWorldWillKindIR = "descriptive-text" | "criterion";
+
+export interface BubbleWorldWillIR {
+    id: string;
+    sourceLine: number;
+    kind: BubbleWorldWillKindIR;
+    description: string;
+    expression: BubbleExpressionIR;
+}
+
+export type BubbleNegativeSeaSourceKindIR =
+    | "nondeterministic-realization"
+    | "branch"
+    | "boundary-stress"
+    | "leak"
+    | "perturb";
+
+export interface BubbleNegativeSeaSourceSemanticIR {
+    id: string;
+    kind: BubbleNegativeSeaSourceKindIR;
+    sourceEffectId: string | null;
+    relationKind: BubbleRelationKind | null;
+    boundaryScope: EffectScope | null;
+    strength: "elevated" | "high";
+    pressureContribution: 1 | 2;
+    evidenceBasis: string[];
+}
+
+export type BubblePositiveSeaSourceKindIR =
+    | "source-lineage"
+    | "seed-origin"
+    | "descendant-lineage"
+    | "staged-growth"
+    | "declared-history-support";
+
+export interface BubblePositiveSeaSourceSemanticIR {
+    id: string;
+    kind: BubblePositiveSeaSourceKindIR;
+    addressId: string | null;
+    sourceEffectId: string | null;
+    support: "present" | "strong";
+    supportContribution: 1;
+    evidenceBasis: string[];
+}
+
+export interface BubbleSeaSemanticsIR {
+    mode: "bubble-sea-semantics.v1";
+    negativePressureSources: BubbleNegativeSeaSourceSemanticIR[];
+    positiveSupportSources: BubblePositiveSeaSourceSemanticIR[];
     description: string;
 }
 
@@ -355,6 +407,7 @@ export interface BubbleIR {
     name: string;
     axioms: Record<string, ScalarValue>;
     worldWill: string | null;
+    worldWillDeclaration?: BubbleWorldWillIR;
     worldWillCriterion?: BubbleWorldWillCriterionIR;
     seed: string | null;
     observationMode: string | null;
@@ -363,6 +416,7 @@ export interface BubbleIR {
     obligations: ObligationIR[];
     effectRoles: BubbleEffectRolesIR;
     generation: BubbleGenerationIR;
+    seaSemantics: BubbleSeaSemanticsIR;
     anchorCriterion?: BubbleAnchorCriterionIR;
     unresolvedSemantics?: BubbleUnresolvedSemanticIR[];
     latentTopology?: BubbleLatentTopologyIR;

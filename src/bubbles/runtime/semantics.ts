@@ -241,7 +241,7 @@ function evaluateBooleanExpression(
         case "text":
             return {
                 kind: "unknown",
-                reason: "it is still represented as legacy text",
+                reason: "it is authored as descriptive text rather than an executable predicate",
             };
         case "literal":
             return typeof expression.value === "boolean"

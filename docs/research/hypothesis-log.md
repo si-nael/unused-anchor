@@ -21,11 +21,24 @@ Define one minimal anchor-aware world schema and compare strong-anchor and weak-
 
 ### H-002: Negative sea and positive sea can be lowered into operational semantics
 
-Status: active
+Status: partially validated by v0.4.1
 
 Claim:
 
 The negative sea and positive sea can become inspectable runtime semantics rather than remaining only ontology prose.
+
+Current implementation:
+
+- `negativeSea.pressure` and `negativeSea.pressureSources`
+- `positiveSea.support` and `positiveSea.supportSources`
+- `bubble.seaSemantics` as explicit negative/positive source-kind IR
+- `negative-sea-state`, `positive-sea-state`, and separated `anchor-point-state` evidence records
+- effect-role, boundary, generation, and staged-emission structure that lower into explicit sea semantics before runtime ontology and proof basis consume them
+
+Remaining gap:
+
+- sea source kinds are now explicit IR support, but still derived from authored structure rather than direct authored sea-law declarations
+- there is still no continuous or step-level negative/positive sea dynamics model
 
 Would be weakened by:
 
@@ -34,7 +47,7 @@ Would be weakened by:
 
 Next check:
 
-Extend the current runtime slice beyond ontology assessment into explicit evidence or trace categories.
+Decide whether the current explicit IR projection is sufficient, or whether some sea source categories need direct authored law surfaces before richer dynamics work begins.
 
 ### H-003: Anchor-aware replay can preserve world identity across materialization boundaries
 
@@ -55,11 +68,22 @@ Define the first replay checks that are explicitly about identity preservation r
 
 ### H-004: Apparent inexpressibility can often be lifted into higher-order representation
 
-Status: active
+Status: partially validated by v0.4.1
 
 Claim:
 
 Many world structures that seem inexpressible at one layer can be represented at a richer layer as generators, constraint systems, placeholders, quoted laws, or partially specified semantic objects without collapsing the project into unrestricted host-language programming.
+
+Current implementation:
+
+- unresolved semantic IR for `unknown-value`, `unknown-entity`, `constraint`, `partial-law`, `hidden-region`, `unobservable-relation`, and `latent-bubble`
+- executable lowering for parseable `constraint`, `partial law`, `anchor identity`, and parseable world will
+- latent topology plus bounded observation materialization law on the plan surface
+
+Remaining gap:
+
+- broader law solving is still intentionally absent
+- representability has not yet been tested against cross-file composition, richer observation semantics, or authored collapse policy syntax
 
 Would be weakened by:
 
@@ -69,15 +93,26 @@ Would be weakened by:
 
 Next check:
 
-Define a minimal set of IR nodes for unknowns, constraints, generator schemas, and quoted law fragments.
+Stabilize the current representability frontier before adding new semantic classes, broader solvers, or cross-file composition.
 
 ### H-005: Explicit effect typing can preserve inspectability under world formation
 
-Status: active
+Status: partially validated by v0.4.1
 
 Claim:
 
 World definitions can remain replayable and inspectable even when the language includes semantic nondeterminism, provided every branch and side effect is represented explicitly in the IR and execution trace.
+
+Current implementation:
+
+- `effectRoles` now separate declarations, obligations, permissions, pressures, events, and traces in IR
+- runtime emits `effect-trace`, `collapse-record`, `history-commit`, and observation-state evidence
+- observation commit policy and observation materialization law are inspectable plan/runtime surfaces instead of hidden branching only
+
+Remaining gap:
+
+- shared runtime type surfaces still need stabilization so plan/result/policy types are not anchored to one orchestration file
+- authored commit-policy syntax remains intentionally deferred, so current observation-collapse semantics stay bounded runtime law
 
 Would be weakened by:
 
@@ -87,7 +122,7 @@ Would be weakened by:
 
 Next check:
 
-Define a minimal effect vocabulary and show how a world fragment lowers into explicit IR plus an effect trace.
+Finish runtime type decoupling and keep observation-collapse bounded while strengthening proof, query, and replay regression coverage.
 
 ### H-006: Bubble can justify itself only through unique semantic leverage
 
@@ -123,3 +158,32 @@ Would be weakened by:
 Next check:
 
 Extend the current boundary catalog beyond grammar-profile compatibility into reflective scope, activation-graph, provenance, and runtime-escape-hatch failures.
+
+### H-008: Outside observation can remain bounded and interfering without making bubble worldhood observer-dependent
+
+Status: partially validated by v0.4.1
+
+Claim:
+
+Bubble can treat outside observation as causally limited and trace-bearing while still treating bubble worldhood itself as observer-independent.
+
+Current implementation:
+
+- `hidden-region`, `latent-bubble`, and `unobservable-relation` preserve compressed or observer-bounded interior structure in IR
+- observation already leaves `observation-context`, `collapse-record`, `observationState`, and `history-commit` records instead of acting as a silent read-only query
+- semantic plans and inspect/replay reports now carry explicit `externalObservationLimit` data summarizing pre-contact boundedness, boundary contact surfaces, and trace consequences
+
+Remaining gap:
+
+- there is still no first-class observer agent or authored contact protocol beyond the current effect and boundary model
+- outside observation is still represented as a bounded runtime law surface rather than a richer causal calculus
+
+Would be weakened by:
+
+- runtime paths that let outside inspection recover full concrete interior state without any boundary crossing or trace
+- semantic drift toward `nothing exists before observation` rather than compressed lawful existence
+- future observer features that make worldhood itself observer-relative instead of keeping only access bounded
+
+Next check:
+
+Keep worldhood observer-free while testing whether explicit contact paths or observer-agent layers are needed beyond the current boundary/evidence model.

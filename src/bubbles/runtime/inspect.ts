@@ -1,13 +1,5 @@
 import type { BubbleProgramIR } from "../ir";
-import {
-    materializeBubbleProgram,
-    type BubbleBundlePlan,
-    type BubbleExecutionPlan,
-    type BubbleMaterializationCommit,
-    type BubbleMaterializationResult,
-    type BubbleMaterializationTraceEvent,
-    type BubbleRuntimeOptions,
-} from "./materialize";
+import { materializeBubbleProgram } from "./materialize";
 import type {
     BubbleEvidenceRecord,
     BubbleObservationStateRecord,
@@ -26,8 +18,16 @@ import type {
     BubbleSemanticEvaluationKind,
     BubbleSemanticEvaluationPlan,
 } from "./semantics";
+import type {
+    BubbleBundlePlan,
+    BubbleExecutionPlan,
+    BubbleMaterializationCommit,
+    BubbleMaterializationResult,
+    BubbleMaterializationTraceEvent,
+    BubbleRuntimeOptions,
+} from "./types";
 
-export type BubbleInspectionSection = "summary" | "plan" | "observationCommitPolicy" | "observationCommitPolicyComparison" | "ontology" | "semantics" | "proof" | "bundle" | "grammars" | "artifacts" | "commits" | "evidence" | "observationStates" | "trace" | "report";
+export type BubbleInspectionSection = "summary" | "plan" | "externalObservationLimit" | "observationCommitPolicy" | "observationCommitPolicyComparison" | "ontology" | "semantics" | "proof" | "bundle" | "grammars" | "artifacts" | "commits" | "evidence" | "observationStates" | "trace" | "report";
 
 export interface BubbleInspectionQuery {
     emissionId?: string;
@@ -95,6 +95,7 @@ export interface BubbleInspectionSummary {
 export interface BubbleInspectionReport {
     summary: BubbleInspectionSummary;
     plan: BubbleExecutionPlan;
+    externalObservationLimit: BubbleExecutionPlan["externalObservationLimit"];
     observationCommitPolicy: BubbleExecutionPlan["observationCommitPolicy"];
     observationCommitPolicyComparison: BubbleExecutionPlan["observationCommitPolicyComparison"];
     ontology: BubbleSeaAnchorAssessment;
@@ -190,6 +191,7 @@ export function inspectMaterializationResult(
             traceKinds: trace.map((event) => event.kind),
         },
         plan,
+        externalObservationLimit: plan.externalObservationLimit,
         observationCommitPolicy: plan.observationCommitPolicy ?? null,
         observationCommitPolicyComparison: plan.observationCommitPolicyComparison ?? null,
         ontology,

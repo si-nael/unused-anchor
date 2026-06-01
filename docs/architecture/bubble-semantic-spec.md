@@ -513,6 +513,21 @@ Current implementation status:
 - the current proof certificate can use those fragments as explicit `undetermined` basis for internal semantic consistency claims
 - there is still no solver or completion engine for this area, so it remains a partially implemented core feature rather than a completed one
 
+## External Observation Limit
+
+Bubble worldhood should remain observer-independent, but outside observation should remain bounded and interfering.
+
+An observer that does not belong to a bubble cannot fully read that bubble's concrete interior state and unfolding before causal contact. This does not mean the bubble is absent before observation. It means the bubble persists as compressed lawful existence through seed, law, latent structure, unresolved semantics, boundary, and anchor support rather than as an already unfolded total state available for free inspection.
+
+Under the current Bubble contract, outside access should occur only through declared or runtime-realized boundary contact such as observation, perturbation, and history commitment. Such contact is not a neutral query. It may materialize latent interior, change local observation state, and leave inspectable evidence in the bubble's own history.
+
+Current implementation status:
+
+- semantic plans now carry an explicit `externalObservationLimit` surface
+- observation already leaves `observation-context`, `collapse-record`, and `history-commit` evidence rather than a silent read-only trace
+- latent topology, `hidden-region`, `latent-bubble`, and `unobservable-relation` preserve the distinction between compressed existence and fully unfolded observation
+- there is still no first-class observer agent model, so this remains a boundary law and evidence principle rather than a full observer calculus
+
 ## Core Versus Profile
 
 Bubble core should own:

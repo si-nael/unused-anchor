@@ -250,6 +250,11 @@ test("inspection exposes observation evidence as a first-class report section", 
 
     assert.equal(report.summary.plannedEmissionCount, 0);
     assert.equal(report.summary.evidenceCount, 6);
+    assert.equal(report.externalObservationLimit, report.plan.externalObservationLimit);
+    assert.equal(report.externalObservationLimit.preContactInteriorAccess, "concrete-interior-not-fully-readable");
+    assert.deepEqual(report.externalObservationLimit.latentInteriorKinds, []);
+    assert.equal(report.externalObservationLimit.traceConsequences.recordsObservationContext, true);
+    assert.equal(report.externalObservationLimit.traceConsequences.mayAnchorHistory, true);
     assert.equal(report.proof.verdict, "partially-certified");
     assert.deepEqual(
         Object.fromEntries(report.proof.claims.map((claim) => [claim.id, claim.status])),
@@ -542,6 +547,8 @@ test("inspection exposes the bounded observation commit policy on the plan surfa
     const { program } = compileBubbleSource(source, { sourcePath: "collapse-open-inspect-policy.bubble" });
     const report = inspectBubbleProgram(program);
 
+    assert.equal(report.externalObservationLimit.traceConsequences.mayMaterializeLatentInterior, true);
+    assert.deepEqual(report.externalObservationLimit.latentInteriorKinds, ["hidden-region"]);
     assert.ok(report.plan.observationCommitPolicy);
     assert.equal(report.plan.observationCommitPolicy.selectionRule, "defer-multiple-hidden-region-targets");
     assert.equal(report.plan.observationCommitPolicy.projectedHistoryShape, "history-open-only");
@@ -1398,6 +1405,37 @@ test("inspection can narrow executable semantics by status", () => {
     assert.equal(undetermined.semantics.anchorCriterion, null);
 });
 
+test("inspection can narrow executable semantics by world-will kind", () => {
+    const source = [
+        "bubble GuidedWorldWill {",
+        "  axiom coherence = stable",
+        "  will history.commits and world.seeded",
+        "  seed guided_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  constraint membraneBalance = boundary.pressure <= 0",
+        "  anchor identity = world.seeded and history.commits",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "guided-world-will-inspect.bubble" });
+    const byKind = inspectBubbleProgram(program, { semanticKind: "world-will" });
+
+    assert.equal(byKind.summary.plannedSemanticCount, 1);
+    assert.deepEqual(byKind.summary.semanticKinds, ["world-will"]);
+    assert.deepEqual(byKind.summary.semanticStatusCounts, {
+        satisfied: 1,
+        violated: 0,
+        undetermined: 0,
+    });
+    assert.deepEqual(byKind.semantics.constraints, []);
+    assert.deepEqual(byKind.semantics.partialLaws, []);
+    assert.equal(byKind.semantics.worldWillCriterion?.subjectKind, "world-will");
+    assert.equal(byKind.semantics.worldWillCriterion?.status, "satisfied");
+    assert.equal(byKind.semantics.anchorCriterion, null);
+});
+
 test("inspection can narrow proof claims by id, kind, and status", () => {
     const source = [
         "bubble BrokenAnchor {",
@@ -1437,6 +1475,7 @@ test("inspection can narrow proof claims by id, kind, and status", () => {
         "claim:anchor-identity",
         "claim:replay-identity",
     ]);
+    assert.deepEqual(byStatus.proof, byStatus.plan.proof);
 
     const byKind = inspectBubbleProgram(program, { claimKind: "consistency" });
     assert.equal(byKind.summary.proofVerdict, "certified");
@@ -1448,6 +1487,7 @@ test("inspection can narrow proof claims by id, kind, and status", () => {
         undetermined: 0,
     });
     assert.deepEqual(byKind.proof.claims.map((claim) => claim.id), ["claim:internal-law-consistency"]);
+    assert.deepEqual(byKind.proof, byKind.plan.proof);
 
     const byId = inspectBubbleProgram(program, { claimId: "claim:lineage-traceability" });
     assert.equal(byId.summary.proofVerdict, "undetermined");
@@ -1459,6 +1499,7 @@ test("inspection can narrow proof claims by id, kind, and status", () => {
         undetermined: 1,
     });
     assert.deepEqual(byId.proof.claims.map((claim) => claim.id), ["claim:lineage-traceability"]);
+    assert.deepEqual(byId.proof, byId.plan.proof);
 
     const emptySlice = inspectBubbleProgram(program, { claimKind: "anchor", claimStatus: "certified" });
     assert.equal(emptySlice.summary.proofVerdict, "undetermined");
@@ -1470,4 +1511,5 @@ test("inspection can narrow proof claims by id, kind, and status", () => {
         undetermined: 0,
     });
     assert.deepEqual(emptySlice.proof.claims, []);
+    assert.deepEqual(emptySlice.proof, emptySlice.plan.proof);
 });

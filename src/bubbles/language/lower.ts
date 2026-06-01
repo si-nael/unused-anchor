@@ -15,6 +15,7 @@ import type {
     BubbleGenerationIR,
     BubbleLatentTopologyIR,
     BubbleMetaIR,
+    BubbleSeaSemanticsIR,
     BubbleProfile,
     BubbleQuoteIR,
     BubbleRealizationMode,
@@ -23,6 +24,7 @@ import type {
     BubbleUnresolvedSemanticIR,
     BubbleVersion,
     BubbleWorldWillCriterionIR,
+    BubbleWorldWillIR,
     EffectPermissionIR,
     EffectPressureIR,
     EffectIR,
@@ -183,10 +185,11 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
 
     const address = buildBubbleAddress(document.sourcePath, document.bubble.name);
     const worldWill = worldWillDeclaration?.description ?? null;
-    const worldWillCriterion = buildWorldWillCriterion(worldWillDeclaration);
+    const loweredWorldWillDeclaration = buildWorldWillDeclaration(worldWillDeclaration);
+    const worldWillCriterion = buildWorldWillCriterion(loweredWorldWillDeclaration);
     const obligations = buildObligations(effects);
     const effectRoles = buildEffectRoles(effects, obligations);
-    const generation = buildGeneration(address, effects, worldWill, worldWillCriterion, observationMode, authoredRealizationMode, spawnDeclarations);
+    const generation = buildGeneration(address, effects, loweredWorldWillDeclaration, observationMode, authoredRealizationMode, spawnDeclarations);
     const anchorCriterion = buildAnchorCriterion(anchorDeclaration);
     const unresolvedSemantics = buildUnresolvedSemantics(unresolvedSemanticDeclarations);
     const boundary = buildBoundary(effects, obligations, generation.relations, unresolvedSemantics, anchorCriterion, worldWillCriterion);
@@ -199,6 +202,7 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
         reflectDeclarations,
         emitDeclarations,
     );
+    const seaSemantics = buildSeaSemantics(address, effects, seed, generation, boundary, meta);
     const hasV04Semantics = unresolvedSemantics.length > 0 || anchorCriterion !== null || worldWillCriterion !== null;
     const hasV03Meta = grammarDeclarations.length > 0 || grammarActivationDeclarations.length > 0;
     const profile = hasV04Semantics
@@ -225,6 +229,7 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
             name: document.bubble.name,
             axioms: Object.fromEntries(axioms),
             worldWill,
+            ...(loweredWorldWillDeclaration === null ? {} : { worldWillDeclaration: loweredWorldWillDeclaration }),
             ...(worldWillCriterion === null ? {} : { worldWillCriterion }),
             seed,
             observationMode,
@@ -233,6 +238,7 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
             obligations,
             effectRoles,
             generation,
+            seaSemantics,
             ...(anchorCriterion === null ? {} : { anchorCriterion }),
             ...(unresolvedSemantics.length === 0 ? {} : { unresolvedSemantics }),
             ...(latentTopology === null ? {} : { latentTopology }),
@@ -254,14 +260,28 @@ function buildAnchorCriterion(declaration: AnchorDeclaration | null): BubbleAnch
     };
 }
 
-function buildWorldWillCriterion(declaration: WillDeclaration | null): BubbleWorldWillCriterionIR | null {
-    if (declaration === null || declaration.expression.kind === "text") {
+function buildWorldWillDeclaration(declaration: WillDeclaration | null): BubbleWorldWillIR | null {
+    if (declaration === null) {
         return null;
     }
 
     return {
         id: `world-will:${declaration.line}`,
         sourceLine: declaration.line,
+        kind: declaration.expression.kind === "text" ? "descriptive-text" : "criterion",
+        description: declaration.description,
+        expression: declaration.expression,
+    };
+}
+
+function buildWorldWillCriterion(declaration: BubbleWorldWillIR | null): BubbleWorldWillCriterionIR | null {
+    if (declaration === null || declaration.kind !== "criterion") {
+        return null;
+    }
+
+    return {
+        id: declaration.id,
+        sourceLine: declaration.sourceLine,
         description: declaration.description,
         expression: declaration.expression,
     };
@@ -637,8 +657,7 @@ function buildEffectEvents(effect: EffectIR): EffectEventIR[] {
 function buildGeneration(
     address: BubbleAddressIR,
     effects: EffectIR[],
-    worldWill: string | null,
-    worldWillCriterion: BubbleWorldWillCriterionIR | null,
+    worldWillDeclaration: BubbleWorldWillIR | null,
     observationMode: string | null,
     authoredRealizationMode: BubbleRealizationMode | null,
     spawnDeclarations: SpawnDeclaration[],
@@ -648,11 +667,7 @@ function buildGeneration(
     return {
         realizationMode: authoredRealizationMode ?? inferredRealizationMode,
         realizationSource: authoredRealizationMode === null ? "inferred" : "authored",
-        worldWillMode: worldWillCriterion !== null
-            ? "criterion"
-            : worldWill === null
-                ? "absent"
-                : "governing-principle",
+        worldWillMode: worldWillDeclaration?.kind ?? "absent",
         lifecycle: {
             initialMode: "latent",
             observationMode,
@@ -664,6 +679,201 @@ function buildGeneration(
         },
         relations: buildGenerativeRelations(address, effects, spawnDeclarations),
     };
+}
+
+function buildSeaSemantics(
+    address: BubbleAddressIR,
+    effects: EffectIR[],
+    seed: string | null,
+    generation: BubbleGenerationIR,
+    boundary: BubbleBoundaryIR,
+    meta: BubbleMetaIR | null,
+): BubbleSeaSemanticsIR {
+    const negativePressureSources: BubbleSeaSemanticsIR["negativePressureSources"] = [];
+    const positiveSupportSources: BubbleSeaSemanticsIR["positiveSupportSources"] = [];
+    const branchRelations = generation.relations.filter((relation) => relation.kind === "branch");
+    const descendantRelations = generation.relations.filter((relation) => relation.kind === "spawn");
+    const boundaryExposureSources = collectBoundaryExposureSources(boundary);
+    const descendantEmissionCount = (meta?.emissions ?? []).filter((emission) => emission.target === "descendant").length;
+
+    if (generation.realizationMode === "nondeterministic") {
+        negativePressureSources.push({
+            id: "negative-sea-source:nondeterministic-realization",
+            kind: "nondeterministic-realization",
+            sourceEffectId: null,
+            relationKind: null,
+            boundaryScope: null,
+            strength: "elevated",
+            pressureContribution: 1,
+            evidenceBasis: ["nondeterministic-realization"],
+        });
+    }
+
+    if (branchRelations.length > 0) {
+        negativePressureSources.push({
+            id: "negative-sea-source:branch",
+            kind: "branch",
+            sourceEffectId: branchRelations[0]?.sourceEffectId ?? null,
+            relationKind: "branch",
+            boundaryScope: branchRelations[0]?.scope ?? null,
+            strength: branchRelations.length > 1 ? "high" : "elevated",
+            pressureContribution: 1,
+            evidenceBasis: ["branch-pressure", `branch-count:${branchRelations.length}`],
+        });
+    }
+
+    if (boundaryExposureSources.length > 0) {
+        negativePressureSources.push({
+            id: "negative-sea-source:boundary-stress",
+            kind: "boundary-stress",
+            sourceEffectId: boundaryExposureSources[0]?.sourceEffectId ?? null,
+            relationKind: boundaryExposureSources[0]?.relationKind ?? null,
+            boundaryScope: boundaryExposureSources[0]?.boundaryScope ?? null,
+            strength: boundaryExposureSources.length > 1 ? "high" : "elevated",
+            pressureContribution: boundaryExposureSources.length > 1 ? 2 : 1,
+            evidenceBasis: Array.from(new Set([
+                "boundary-exposure",
+                `boundary-exposure-count:${boundaryExposureSources.length}`,
+                ...boundaryExposureSources.flatMap((source) => source.evidenceBasis),
+            ])),
+        });
+    }
+
+    const leakEffects = effects.filter((effect) => effect.kind === "leak");
+    if (generation.lifecycle.supportsLeakage) {
+        negativePressureSources.push({
+            id: "negative-sea-source:leak",
+            kind: "leak",
+            sourceEffectId: leakEffects[0]?.id ?? null,
+            relationKind: null,
+            boundaryScope: leakEffects[0]?.scope ?? null,
+            strength: "elevated",
+            pressureContribution: 1,
+            evidenceBasis: [resolveLeakSignal(leakEffects[0]?.scope ?? "membrane")],
+        });
+    }
+
+    const perturbEffects = effects.filter((effect) => effect.kind === "perturb");
+    if (generation.lifecycle.supportsPerturbation) {
+        negativePressureSources.push({
+            id: "negative-sea-source:perturb",
+            kind: "perturb",
+            sourceEffectId: perturbEffects[0]?.id ?? null,
+            relationKind: null,
+            boundaryScope: perturbEffects[0]?.scope ?? null,
+            strength: "elevated",
+            pressureContribution: 1,
+            evidenceBasis: ["law-perturbation"],
+        });
+    }
+
+    if (address.locatorKind === "source-relative") {
+        positiveSupportSources.push({
+            id: "positive-sea-source:source-lineage",
+            kind: "source-lineage",
+            addressId: address.id,
+            sourceEffectId: null,
+            support: "present",
+            supportContribution: 1,
+            evidenceBasis: ["source-lineage-address"],
+        });
+    }
+
+    if (seed !== null) {
+        positiveSupportSources.push({
+            id: "positive-sea-source:seed-origin",
+            kind: "seed-origin",
+            addressId: address.id,
+            sourceEffectId: null,
+            support: "present",
+            supportContribution: 1,
+            evidenceBasis: ["seeded-origin"],
+        });
+    }
+
+    if (descendantRelations.length > 0) {
+        positiveSupportSources.push({
+            id: "positive-sea-source:descendant-lineage",
+            kind: "descendant-lineage",
+            addressId: address.id,
+            sourceEffectId: descendantRelations[0]?.sourceEffectId ?? null,
+            support: descendantRelations.length > 1 ? "strong" : "present",
+            supportContribution: 1,
+            evidenceBasis: ["descendant-lineage", `descendant-lineage-count:${descendantRelations.length}`],
+        });
+    }
+
+    if (descendantEmissionCount > 0) {
+        positiveSupportSources.push({
+            id: "positive-sea-source:staged-growth",
+            kind: "staged-growth",
+            addressId: address.id,
+            sourceEffectId: descendantRelations[0]?.sourceEffectId ?? null,
+            support: descendantEmissionCount > 1 ? "strong" : "present",
+            supportContribution: 1,
+            evidenceBasis: ["staged-growth", `staged-growth-count:${descendantEmissionCount}`],
+        });
+    }
+
+    if (boundary.historyCommitSurface === "declared-history-support") {
+        positiveSupportSources.push({
+            id: "positive-sea-source:declared-history-support",
+            kind: "declared-history-support",
+            addressId: address.id,
+            sourceEffectId: effects.find((effect) => effect.kind === "commit")?.id ?? null,
+            support: "present",
+            supportContribution: 1,
+            evidenceBasis: ["declared-history-support"],
+        });
+    }
+
+    return {
+        mode: "bubble-sea-semantics.v1",
+        negativePressureSources,
+        positiveSupportSources,
+        description: negativePressureSources.length === 0 && positiveSupportSources.length === 0
+            ? "Bubble currently projects no explicit sea-balance source semantics beyond authored bubble structure."
+            : `Bubble sea semantics currently project ${negativePressureSources.length} negative source kind${negativePressureSources.length === 1 ? "" : "s"} and ${positiveSupportSources.length} positive source kind${positiveSupportSources.length === 1 ? "" : "s"} from authored address, boundary, generation, and effect structure.`,
+    };
+}
+
+function collectBoundaryExposureSources(boundary: BubbleBoundaryIR): Array<{
+    sourceEffectId: string | null;
+    relationKind: BubbleGenerationIR["relations"][number]["kind"] | null;
+    boundaryScope: EffectIR["scope"] | null;
+    evidenceBasis: string[];
+}> {
+    return boundary.scopes.flatMap((scope) => [
+        ...scope.obligationEffectIds.map((effectId) => ({
+            sourceEffectId: effectId,
+            relationKind: null,
+            boundaryScope: scope.scope,
+            evidenceBasis: ["boundary-exposure", `obligation:${effectId}`, `scope:${scope.scope}`],
+        })),
+        ...scope.relationSourceEffectIds.map((effectId, index) => ({
+            sourceEffectId: effectId,
+            relationKind: scope.relationKinds[index] ?? scope.relationKinds[0] ?? null,
+            boundaryScope: scope.scope,
+            evidenceBasis: [
+                "boundary-exposure",
+                `relation:${scope.relationKinds[index] ?? scope.relationKinds[0] ?? "unknown"}`,
+                `scope:${scope.scope}`,
+            ],
+        })),
+    ]);
+}
+
+function resolveLeakSignal(scope: EffectIR["scope"]): string {
+    switch (scope) {
+        case "local":
+            return "local-leak";
+        case "membrane":
+            return "membrane-leak";
+        case "global":
+            return "global-leak";
+        default:
+            return assertNever(scope);
+    }
 }
 
 function buildQuote(declaration: QuoteDeclaration): BubbleQuoteIR {
