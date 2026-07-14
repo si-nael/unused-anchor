@@ -77,6 +77,28 @@
       "description": "Bubble currently declares no explicit boundary surface beyond the root address envelope."
     },
     "observationMaterializationLaw": null,
+    "externalObservationLimit": {
+      "mode": "bubble-external-observation-limit.v1",
+      "observerPosition": "outside-bubble",
+      "preContactInteriorAccess": "concrete-interior-not-fully-readable",
+      "interiorExistenceMode": "compressed-lawful-existence",
+      "declaredObservationSurface": "undeclared-observation-surface",
+      "declaredPerturbationSurface": "no-declared-perturbation",
+      "declaredHistorySurface": "undeclared-history-support",
+      "latentInteriorKinds": [],
+      "causalContactEffectIds": {
+        "observation": [],
+        "perturbation": [],
+        "historyCommit": []
+      },
+      "traceConsequences": {
+        "recordsObservationContext": false,
+        "mayMaterializeLatentInterior": false,
+        "mayRecordCollapse": false,
+        "mayAnchorHistory": false
+      },
+      "description": "Within Bubble semantics, an outside observer cannot fully read the concrete interior of Nursery before causal contact. The bubble persists as compressed lawful existence, but no explicit observation, perturbation, or history-commit contact surface is currently declared."
+    },
     "semantics": {
       "mode": "bubble-executable-semantics.v1",
       "constraints": [],
@@ -487,6 +509,28 @@
         ]
       }
     ]
+  },
+  "externalObservationLimit": {
+    "mode": "bubble-external-observation-limit.v1",
+    "observerPosition": "outside-bubble",
+    "preContactInteriorAccess": "concrete-interior-not-fully-readable",
+    "interiorExistenceMode": "compressed-lawful-existence",
+    "declaredObservationSurface": "undeclared-observation-surface",
+    "declaredPerturbationSurface": "no-declared-perturbation",
+    "declaredHistorySurface": "undeclared-history-support",
+    "latentInteriorKinds": [],
+    "causalContactEffectIds": {
+      "observation": [],
+      "perturbation": [],
+      "historyCommit": []
+    },
+    "traceConsequences": {
+      "recordsObservationContext": false,
+      "mayMaterializeLatentInterior": false,
+      "mayRecordCollapse": false,
+      "mayAnchorHistory": false
+    },
+    "description": "Within Bubble semantics, an outside observer cannot fully read the concrete interior of Nursery before causal contact. The bubble persists as compressed lawful existence, but no explicit observation, perturbation, or history-commit contact surface is currently declared."
   },
   "observationCommitPolicy": null,
   "observationCommitPolicyComparison": null,
@@ -975,6 +1019,23 @@
       "materializationState": "materialized",
       "runtimeSignals": [
         "descendant-materialization"
+      ],
+      "causalLinks": [
+        {
+          "targetKind": "positive-sea-state",
+          "targetId": "evidence:positive-sea:bubble:examples/meta-grove.bubble::root:Nursery",
+          "relation": "contributes-positive-sea-support"
+        },
+        {
+          "targetKind": "materialized-artifact",
+          "targetId": "emit:11:Grove",
+          "relation": "enables-descendant-materialization"
+        },
+        {
+          "targetKind": "anchor-point-state",
+          "targetId": "evidence:anchor-point:bubble:examples/meta-grove.bubble::root:Nursery",
+          "relation": "influences-anchor-assessment"
+        }
       ],
       "description": "Bubble Nursery recorded required local spawn as materialized in this run via descendant-materialization."
     }

@@ -815,3 +815,13 @@ Bubble already preserves latent topology, hidden regions, unobservable relations
 Consequence:
 
 Bubble should treat outside observation as limited prior to causal contact and interfering once contact occurs. This does not turn worldhood itself into an observer-relative object. Instead, it means an outside observer must cross authored or runtime boundary surfaces to learn concrete interior unfolding, and that crossing may leave `observation-context`, `collapse-record`, `observationState`, or `history-commit` traces. The current bounded implementation should expose this as an inspectable plan/runtime surface before any future observer-agent layer is added.
+
+### D-082: Close the effect-role split with concrete causal targets before adding new effect semantics
+
+Reason:
+
+Bubble already projected authored effects into declarations, obligations, permissions, pressures, events, and traces, but runtime effect traces still stopped at descriptive signal strings. That left inspectors to reconstruct which observation, collapse, commit, sea, anchor, or descendant record an effect actually explained. Adding new effect kinds before closing that provenance gap would widen the model while leaving its existing causal story incomplete.
+
+Consequence:
+
+Add typed `causalLinks` to each runtime `effect-trace`. Links may target only concrete evidence records or materialized descendant artifacts present in the same run. Preserve an empty link set for potential capabilities without an executed target instead of inventing causal history. Keep the relation vocabulary bounded to current runtime records and widen it only when a new concrete transition record exists.

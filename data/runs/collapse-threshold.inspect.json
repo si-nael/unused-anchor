@@ -460,6 +460,36 @@
       ],
       "description": "Ordered observation materialization law for one locally materialized latent region, externalized from runtime explanation into an explicit plan-level rule surface."
     },
+    "externalObservationLimit": {
+      "mode": "bubble-external-observation-limit.v1",
+      "observerPosition": "outside-bubble",
+      "preContactInteriorAccess": "concrete-interior-not-fully-readable",
+      "interiorExistenceMode": "compressed-lawful-existence",
+      "declaredObservationSurface": "declared-observation-surface",
+      "declaredPerturbationSurface": "declared-perturbation",
+      "declaredHistorySurface": "declared-history-support",
+      "latentInteriorKinds": [
+        "hidden-region"
+      ],
+      "causalContactEffectIds": {
+        "observation": [
+          "effect:6:observe"
+        ],
+        "perturbation": [
+          "effect:8:perturb"
+        ],
+        "historyCommit": [
+          "effect:7:commit"
+        ]
+      },
+      "traceConsequences": {
+        "recordsObservationContext": true,
+        "mayMaterializeLatentInterior": true,
+        "mayRecordCollapse": true,
+        "mayAnchorHistory": true
+      },
+      "description": "Within Bubble semantics, an outside observer cannot fully read the concrete interior of CollapseThreshold before causal contact. The bubble persists as compressed lawful existence with latent or unobservable interior structure (hidden-region), and any outside access must pass through 1 observation surface, 1 perturbation surface, 1 history-commit surface, where observation may local-materialize latent interior and record collapse evidence."
+    },
     "semantics": {
       "mode": "bubble-executable-semantics.v1",
       "constraints": [],
@@ -912,6 +942,36 @@
     "grammars": [],
     "grammarActivationPlan": [],
     "emissionPlan": []
+  },
+  "externalObservationLimit": {
+    "mode": "bubble-external-observation-limit.v1",
+    "observerPosition": "outside-bubble",
+    "preContactInteriorAccess": "concrete-interior-not-fully-readable",
+    "interiorExistenceMode": "compressed-lawful-existence",
+    "declaredObservationSurface": "declared-observation-surface",
+    "declaredPerturbationSurface": "declared-perturbation",
+    "declaredHistorySurface": "declared-history-support",
+    "latentInteriorKinds": [
+      "hidden-region"
+    ],
+    "causalContactEffectIds": {
+      "observation": [
+        "effect:6:observe"
+      ],
+      "perturbation": [
+        "effect:8:perturb"
+      ],
+      "historyCommit": [
+        "effect:7:commit"
+      ]
+    },
+    "traceConsequences": {
+      "recordsObservationContext": true,
+      "mayMaterializeLatentInterior": true,
+      "mayRecordCollapse": true,
+      "mayAnchorHistory": true
+    },
+    "description": "Within Bubble semantics, an outside observer cannot fully read the concrete interior of CollapseThreshold before causal contact. The bubble persists as compressed lawful existence with latent or unobservable interior structure (hidden-region), and any outside access must pass through 1 observation surface, 1 perturbation surface, 1 history-commit surface, where observation may local-materialize latent interior and record collapse evidence."
   },
   "observationCommitPolicy": {
     "mode": "runtime-observation-commit-policy.v1",
@@ -1559,6 +1619,23 @@
       "runtimeSignals": [
         "observation-surface"
       ],
+      "causalLinks": [
+        {
+          "targetKind": "observation-context",
+          "targetId": "evidence:observe:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "relation": "opens-observation-context"
+        },
+        {
+          "targetKind": "collapse-record",
+          "targetId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+          "relation": "contributes-to-collapse-record"
+        },
+        {
+          "targetKind": "anchor-point-state",
+          "targetId": "evidence:anchor-point:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "relation": "influences-anchor-assessment"
+        }
+      ],
       "description": "Bubble CollapseThreshold recorded required local observe as materialized in this run via observation-surface."
     },
     {
@@ -1580,6 +1657,23 @@
         "declared-history-support",
         "history-commit"
       ],
+      "causalLinks": [
+        {
+          "targetKind": "positive-sea-state",
+          "targetId": "evidence:positive-sea:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "relation": "contributes-positive-sea-support"
+        },
+        {
+          "targetKind": "history-commit",
+          "targetId": "evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+          "relation": "supports-history-commit"
+        },
+        {
+          "targetKind": "anchor-point-state",
+          "targetId": "evidence:anchor-point:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "relation": "influences-anchor-assessment"
+        }
+      ],
       "description": "Bubble CollapseThreshold recorded required local commit as materialized in this run via declared-history-support, history-commit."
     },
     {
@@ -1599,6 +1693,23 @@
       "materializationState": "potential",
       "runtimeSignals": [
         "law-perturbation"
+      ],
+      "causalLinks": [
+        {
+          "targetKind": "negative-sea-state",
+          "targetId": "evidence:negative-sea:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "relation": "contributes-negative-sea-pressure"
+        },
+        {
+          "targetKind": "collapse-record",
+          "targetId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+          "relation": "contributes-to-collapse-record"
+        },
+        {
+          "targetKind": "anchor-point-state",
+          "targetId": "evidence:anchor-point:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
+          "relation": "influences-anchor-assessment"
+        }
       ],
       "description": "Bubble CollapseThreshold recorded optional local perturb as potential in this run via law-perturbation."
     }

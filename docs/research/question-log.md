@@ -213,7 +213,7 @@ This is the core stochastic SOT problem: how to preserve same-world identity, co
 
 ### Q-016: How should a latent region become concrete under observation or interaction?
 
-Status: first bounded implementation slice exists in v0.4.1
+Status: bounded single-region implementation slice stabilized through v0.4.8
 
 Related note: [Observation-Induced Materialization and Perturbative Collapse](observation-induced-materialization.md)
 
@@ -245,9 +245,13 @@ Remaining gap:
 - this is still a bounded runtime kernel, not authored collapse syntax or a general solver
 - multi-region coupled collapse and probabilistic observation semantics remain intentionally deferred
 
+Current closure:
+
+The current single-region law is now covered across proof, inspection, replay, causal effect traces, and the mandatory `verify:collapse` / `verify:replay` paths. Keep this slice as the stable bounded baseline rather than widening syntax or solver scope inside `v0.4.8`.
+
 Next check:
 
-Finish stabilizing the current single-region law across proof, inspection, replay, and verify coverage before widening syntax or solver scope.
+Only reopen the materialization-law surface when a concrete second-region coupling requirement or author-controlled policy choice cannot be represented by the current bounded law and evidence vocabulary.
 
 ### Q-017: How should same-world replay work once observation itself changes the world?
 

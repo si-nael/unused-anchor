@@ -692,6 +692,19 @@ Current `effect-trace` evidence records carry authored provenance plus current-r
 - source line
 - `materializationState`: whether the effect remained potential or became materialized in this run
 - `runtimeSignals`: the current runtime reasons attached to that effect in this run
+- `causalLinks`: typed links to concrete evidence records or descendant artifacts produced or influenced by that effect in the same materialization result
+
+Current causal-link relations are:
+
+- `opens-observation-context`
+- `contributes-to-collapse-record`
+- `supports-history-commit`
+- `enables-descendant-materialization`
+- `contributes-negative-sea-pressure`
+- `contributes-positive-sea-support`
+- `influences-anchor-assessment`
+
+An empty `causalLinks` array means the effect remains inspectable but the current run produced no concrete target record that can be attributed to it. Bubble does not synthesize a causal target merely because a capability was declared.
 
 ### Inspection Output
 
@@ -883,7 +896,7 @@ Currently documented reference paths include:
 - `<effectKind>.enabled` for declared effects such as `observe.enabled` or `commit.enabled`
 - `<effectKind>.required` for required-effect booleans such as `observe.required` or `commit.required`
 
-This environment is intentionally bounded for `v0.4.1` stabilization. It is a documented executable subset, not yet a general semantic reference namespace for all Bubble concepts.
+This environment is intentionally bounded for the `v0.4.x` stabilization line. It is a documented executable subset, not yet a general semantic reference namespace for all Bubble concepts.
 
 ### Bundle Output
 

@@ -457,14 +457,16 @@ The long-term semantic split should be this.
 - pressure: what acts on the world even without a discrete event
 - trace: what remains as replayable semantic record after the fact
 
-Current implementation already partially separates these layers:
+Current implementation now separates these layers explicitly in IR and preserves their runtime relationships:
 
 - declaration time: effect kind plus required or optional surface
+- IR time: `bubble.effectRoles` projects declarations, obligations, permissions, pressures, events, and declaration traces
 - planning time: obligations and generation relations
-- materialization time: effect traces marked `potential` or `materialized`
+- materialization time: effect traces are marked `potential` or `materialized`
+- evidence time: each effect trace carries `causalLinks` to the concrete observation, collapse, history-commit, sea, anchor, or descendant-artifact records it explains
 - ontology time: pressure signals from branch, leak, debt, perturb, and related structure
 
-But this split still needs to become explicit in the specification and later in IR.
+This does not claim a general causal calculus. A causal link is emitted only when the current bounded runtime produced a concrete target record; potential effects without an executed target remain traceable declarations without invented runtime consequences.
 
 ## Composition Model
 

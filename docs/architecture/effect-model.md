@@ -95,6 +95,7 @@ Current implemented slice:
 - `debt` weakens anchor support and guards rewind stability as an unresolved obligation signal
 - `perturb` raises negative-sea pressure and anchor stress as explicit law disturbance
 - authored effects now also emit first-class `effect-trace` runtime records with provenance, scope, current-run signals, and whether they remained potential or became materialized in that run
+- `v0.4.8` effect traces now carry typed `causalLinks` to concrete observation, collapse, history-commit, sea, anchor, and descendant-artifact records when those records exist in the current run
 
 ## Non-Goal
 
@@ -111,10 +112,18 @@ An explicit effect model lets the project study questions such as:
 - which observations are history-forcing
 - whether agents can infer hidden effect structure from finite traces
 
+## Current Closure
+
+The first causal-trace slice is now complete for the records the bounded runtime already materializes:
+
+- `observe` links to observation context and the collapse records it helped produce
+- `commit` links to concrete history-commit evidence
+- `spawn` links to materialized descendant artifacts
+- sea-pressure and sea-support effects link to their derived sea evidence
+- effects that shape anchor assessment link to the concrete anchor evidence record
+
+Potential `branch` or `collapse` capabilities do not receive fabricated executed-event links before the runtime produces a corresponding concrete transition record.
+
 ## Suggested Next Step
 
-The next concrete step is to make effect traces more causal by linking them to the exact runtime records they explain, for example:
-
-- which commits were history-forced by a `commit` effect
-- which descendant or branch records were enabled by `spawn` or `branch`
-- which ontology or boundary signals were influenced by `leak`, `debt`, or `perturb`
+Keep this causal-link vocabulary stable and extend it only when a new runtime record type is actually materialized. The next verification question is whether every emitted link resolves to a record in the same materialization result or its artifact list.

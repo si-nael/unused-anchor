@@ -28,6 +28,28 @@
       "description": "Bubble currently declares no explicit boundary surface beyond the root address envelope."
     },
     "observationMaterializationLaw": null,
+    "externalObservationLimit": {
+      "mode": "bubble-external-observation-limit.v1",
+      "observerPosition": "outside-bubble",
+      "preContactInteriorAccess": "concrete-interior-not-fully-readable",
+      "interiorExistenceMode": "compressed-lawful-existence",
+      "declaredObservationSurface": "undeclared-observation-surface",
+      "declaredPerturbationSurface": "no-declared-perturbation",
+      "declaredHistorySurface": "undeclared-history-support",
+      "latentInteriorKinds": [],
+      "causalContactEffectIds": {
+        "observation": [],
+        "perturbation": [],
+        "historyCommit": []
+      },
+      "traceConsequences": {
+        "recordsObservationContext": false,
+        "mayMaterializeLatentInterior": false,
+        "mayRecordCollapse": false,
+        "mayAnchorHistory": false
+      },
+      "description": "Within Bubble semantics, an outside observer cannot fully read the concrete interior of Nursery before causal contact. The bubble persists as compressed lawful existence, but no explicit observation, perturbation, or history-commit contact surface is currently declared."
+    },
     "semantics": {
       "mode": "bubble-executable-semantics.v1",
       "constraints": [],
@@ -773,6 +795,16 @@
             "coherence": "stable"
           },
           "worldWill": "preserve inner symmetry",
+          "worldWillDeclaration": {
+            "id": "world-will:4",
+            "sourceLine": 4,
+            "kind": "descriptive-text",
+            "description": "preserve inner symmetry",
+            "expression": {
+              "kind": "text",
+              "value": "preserve inner symmetry"
+            }
+          },
           "seed": "ember_seed",
           "observationMode": null,
           "boundary": {
@@ -855,7 +887,7 @@
           "generation": {
             "realizationMode": "deterministic",
             "realizationSource": "authored",
-            "worldWillMode": "governing-principle",
+            "worldWillMode": "descriptive-text",
             "lifecycle": {
               "initialMode": "latent",
               "observationMode": null,
@@ -888,6 +920,47 @@
                 "description": "This bubble may bring descendant bubbles into existence through required local spawning."
               }
             ]
+          },
+          "seaSemantics": {
+            "mode": "bubble-sea-semantics.v1",
+            "negativePressureSources": [],
+            "positiveSupportSources": [
+              {
+                "id": "positive-sea-source:source-lineage",
+                "kind": "source-lineage",
+                "addressId": "bubble:examples/meta-grove.bubble#emit:11:Grove::root:Sapling",
+                "sourceEffectId": null,
+                "support": "present",
+                "supportContribution": 1,
+                "evidenceBasis": [
+                  "source-lineage-address"
+                ]
+              },
+              {
+                "id": "positive-sea-source:seed-origin",
+                "kind": "seed-origin",
+                "addressId": "bubble:examples/meta-grove.bubble#emit:11:Grove::root:Sapling",
+                "sourceEffectId": null,
+                "support": "present",
+                "supportContribution": 1,
+                "evidenceBasis": [
+                  "seeded-origin"
+                ]
+              },
+              {
+                "id": "positive-sea-source:descendant-lineage",
+                "kind": "descendant-lineage",
+                "addressId": "bubble:examples/meta-grove.bubble#emit:11:Grove::root:Sapling",
+                "sourceEffectId": "effect:6:spawn",
+                "support": "present",
+                "supportContribution": 1,
+                "evidenceBasis": [
+                  "descendant-lineage",
+                  "descendant-lineage-count:1"
+                ]
+              }
+            ],
+            "description": "Bubble sea semantics currently project 0 negative source kinds and 3 positive source kinds from authored address, boundary, generation, and effect structure."
           }
         }
       },
@@ -1031,6 +1104,23 @@
       "materializationState": "materialized",
       "runtimeSignals": [
         "descendant-materialization"
+      ],
+      "causalLinks": [
+        {
+          "targetKind": "positive-sea-state",
+          "targetId": "evidence:positive-sea:bubble:examples/meta-grove.bubble::root:Nursery",
+          "relation": "contributes-positive-sea-support"
+        },
+        {
+          "targetKind": "materialized-artifact",
+          "targetId": "emit:11:Grove",
+          "relation": "enables-descendant-materialization"
+        },
+        {
+          "targetKind": "anchor-point-state",
+          "targetId": "evidence:anchor-point:bubble:examples/meta-grove.bubble::root:Nursery",
+          "relation": "influences-anchor-assessment"
+        }
       ],
       "description": "Bubble Nursery recorded required local spawn as materialized in this run via descendant-materialization."
     }

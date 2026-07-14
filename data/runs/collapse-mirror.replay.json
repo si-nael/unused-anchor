@@ -423,6 +423,36 @@
         ],
         "description": "Ordered observation materialization law for one locally materialized latent region, externalized from runtime explanation into an explicit plan-level rule surface."
       },
+      "externalObservationLimit": {
+        "mode": "bubble-external-observation-limit.v1",
+        "observerPosition": "outside-bubble",
+        "preContactInteriorAccess": "concrete-interior-not-fully-readable",
+        "interiorExistenceMode": "compressed-lawful-existence",
+        "declaredObservationSurface": "declared-observation-surface",
+        "declaredPerturbationSurface": "declared-perturbation",
+        "declaredHistorySurface": "declared-history-support",
+        "latentInteriorKinds": [
+          "hidden-region"
+        ],
+        "causalContactEffectIds": {
+          "observation": [
+            "effect:6:observe"
+          ],
+          "perturbation": [
+            "effect:8:perturb"
+          ],
+          "historyCommit": [
+            "effect:7:commit"
+          ]
+        },
+        "traceConsequences": {
+          "recordsObservationContext": true,
+          "mayMaterializeLatentInterior": true,
+          "mayRecordCollapse": true,
+          "mayAnchorHistory": true
+        },
+        "description": "Within Bubble semantics, an outside observer cannot fully read the concrete interior of CollapseMirror before causal contact. The bubble persists as compressed lawful existence with latent or unobservable interior structure (hidden-region), and any outside access must pass through 1 observation surface, 1 perturbation surface, 1 history-commit surface, where observation may local-materialize latent interior and record collapse evidence."
+      },
       "semantics": {
         "mode": "bubble-executable-semantics.v1",
         "constraints": [],
@@ -1319,6 +1349,16 @@
               "coherence": "stable"
             },
             "worldWill": "remain latent sibling canopy",
+            "worldWillDeclaration": {
+              "id": "world-will:3",
+              "sourceLine": 3,
+              "kind": "descriptive-text",
+              "description": "remain latent sibling canopy",
+              "expression": {
+                "kind": "text",
+                "value": "remain latent sibling canopy"
+              }
+            },
             "seed": "sibling_seed",
             "observationMode": null,
             "boundary": {
@@ -1401,7 +1441,7 @@
             "generation": {
               "realizationMode": "deterministic",
               "realizationSource": "inferred",
-              "worldWillMode": "governing-principle",
+              "worldWillMode": "descriptive-text",
               "lifecycle": {
                 "initialMode": "latent",
                 "observationMode": null,
@@ -1434,6 +1474,47 @@
                   "description": "This bubble may bring descendant bubbles into existence through required local spawning."
                 }
               ]
+            },
+            "seaSemantics": {
+              "mode": "bubble-sea-semantics.v1",
+              "negativePressureSources": [],
+              "positiveSupportSources": [
+                {
+                  "id": "positive-sea-source:source-lineage",
+                  "kind": "source-lineage",
+                  "addressId": "bubble:examples/collapse-mirror.bubble#emit:11:Sibling::root:SiblingCanopy",
+                  "sourceEffectId": null,
+                  "support": "present",
+                  "supportContribution": 1,
+                  "evidenceBasis": [
+                    "source-lineage-address"
+                  ]
+                },
+                {
+                  "id": "positive-sea-source:seed-origin",
+                  "kind": "seed-origin",
+                  "addressId": "bubble:examples/collapse-mirror.bubble#emit:11:Sibling::root:SiblingCanopy",
+                  "sourceEffectId": null,
+                  "support": "present",
+                  "supportContribution": 1,
+                  "evidenceBasis": [
+                    "seeded-origin"
+                  ]
+                },
+                {
+                  "id": "positive-sea-source:descendant-lineage",
+                  "kind": "descendant-lineage",
+                  "addressId": "bubble:examples/collapse-mirror.bubble#emit:11:Sibling::root:SiblingCanopy",
+                  "sourceEffectId": "effect:5:spawn",
+                  "support": "present",
+                  "supportContribution": 1,
+                  "evidenceBasis": [
+                    "descendant-lineage",
+                    "descendant-lineage-count:1"
+                  ]
+                }
+              ],
+              "description": "Bubble sea semantics currently project 0 negative source kinds and 3 positive source kinds from authored address, boundary, generation, and effect structure."
             },
             "unresolvedSemantics": [
               {
@@ -1739,6 +1820,23 @@
         "runtimeSignals": [
           "observation-surface"
         ],
+        "causalLinks": [
+          {
+            "targetKind": "observation-context",
+            "targetId": "evidence:observe:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+            "relation": "opens-observation-context"
+          },
+          {
+            "targetKind": "collapse-record",
+            "targetId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+            "relation": "contributes-to-collapse-record"
+          },
+          {
+            "targetKind": "anchor-point-state",
+            "targetId": "evidence:anchor-point:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+            "relation": "influences-anchor-assessment"
+          }
+        ],
         "description": "Bubble CollapseMirror recorded required local observe as materialized in this run via observation-surface."
       },
       {
@@ -1760,6 +1858,28 @@
           "declared-history-support",
           "history-commit"
         ],
+        "causalLinks": [
+          {
+            "targetKind": "positive-sea-state",
+            "targetId": "evidence:positive-sea:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+            "relation": "contributes-positive-sea-support"
+          },
+          {
+            "targetKind": "history-commit",
+            "targetId": "evidence:commit:emit:11:Sibling",
+            "relation": "supports-history-commit"
+          },
+          {
+            "targetKind": "history-commit",
+            "targetId": "evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+            "relation": "supports-history-commit"
+          },
+          {
+            "targetKind": "anchor-point-state",
+            "targetId": "evidence:anchor-point:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+            "relation": "influences-anchor-assessment"
+          }
+        ],
         "description": "Bubble CollapseMirror recorded required local commit as materialized in this run via declared-history-support, history-commit."
       },
       {
@@ -1779,6 +1899,23 @@
         "materializationState": "potential",
         "runtimeSignals": [
           "law-perturbation"
+        ],
+        "causalLinks": [
+          {
+            "targetKind": "negative-sea-state",
+            "targetId": "evidence:negative-sea:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+            "relation": "contributes-negative-sea-pressure"
+          },
+          {
+            "targetKind": "collapse-record",
+            "targetId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+            "relation": "contributes-to-collapse-record"
+          },
+          {
+            "targetKind": "anchor-point-state",
+            "targetId": "evidence:anchor-point:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+            "relation": "influences-anchor-assessment"
+          }
         ],
         "description": "Bubble CollapseMirror recorded optional local perturb as potential in this run via law-perturbation."
       }

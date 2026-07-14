@@ -20,6 +20,16 @@
       "coherence": "stable"
     },
     "worldWill": "grow language variants",
+    "worldWillDeclaration": {
+      "id": "world-will:3",
+      "sourceLine": 3,
+      "kind": "descriptive-text",
+      "description": "grow language variants",
+      "expression": {
+        "kind": "text",
+        "value": "grow language variants"
+      }
+    },
     "seed": "grammar_seed",
     "observationMode": null,
     "boundary": {
@@ -102,7 +112,7 @@
     "generation": {
       "realizationMode": "deterministic",
       "realizationSource": "inferred",
-      "worldWillMode": "governing-principle",
+      "worldWillMode": "descriptive-text",
       "lifecycle": {
         "initialMode": "latent",
         "observationMode": null,
@@ -135,6 +145,47 @@
           "description": "This bubble may bring descendant bubbles into existence through required local spawning."
         }
       ]
+    },
+    "seaSemantics": {
+      "mode": "bubble-sea-semantics.v1",
+      "negativePressureSources": [],
+      "positiveSupportSources": [
+        {
+          "id": "positive-sea-source:source-lineage",
+          "kind": "source-lineage",
+          "addressId": "bubble:examples/grammar-nursery.bubble::root:GrammarNursery",
+          "sourceEffectId": null,
+          "support": "present",
+          "supportContribution": 1,
+          "evidenceBasis": [
+            "source-lineage-address"
+          ]
+        },
+        {
+          "id": "positive-sea-source:seed-origin",
+          "kind": "seed-origin",
+          "addressId": "bubble:examples/grammar-nursery.bubble::root:GrammarNursery",
+          "sourceEffectId": null,
+          "support": "present",
+          "supportContribution": 1,
+          "evidenceBasis": [
+            "seeded-origin"
+          ]
+        },
+        {
+          "id": "positive-sea-source:descendant-lineage",
+          "kind": "descendant-lineage",
+          "addressId": "bubble:examples/grammar-nursery.bubble::root:GrammarNursery",
+          "sourceEffectId": "effect:5:spawn",
+          "support": "present",
+          "supportContribution": 1,
+          "evidenceBasis": [
+            "descendant-lineage",
+            "descendant-lineage-count:1"
+          ]
+        }
+      ],
+      "description": "Bubble sea semantics currently project 0 negative source kinds and 3 positive source kinds from authored address, boundary, generation, and effect structure."
     },
     "meta": {
       "quotes": [],

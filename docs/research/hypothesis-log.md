@@ -21,7 +21,7 @@ Define one minimal anchor-aware world schema and compare strong-anchor and weak-
 
 ### H-002: Negative sea and positive sea can be lowered into operational semantics
 
-Status: partially validated by v0.4.1
+Status: partially validated through v0.4.8
 
 Claim:
 
@@ -97,7 +97,7 @@ Stabilize the current representability frontier before adding new semantic class
 
 ### H-005: Explicit effect typing can preserve inspectability under world formation
 
-Status: partially validated by v0.4.1
+Status: partially validated through v0.4.8
 
 Claim:
 
@@ -107,11 +107,12 @@ Current implementation:
 
 - `effectRoles` now separate declarations, obligations, permissions, pressures, events, and traces in IR
 - runtime emits `effect-trace`, `collapse-record`, `history-commit`, and observation-state evidence
+- `effect-trace.causalLinks` now identify the concrete runtime evidence or descendant artifact explained by each authored effect when such a target exists
 - observation commit policy and observation materialization law are inspectable plan/runtime surfaces instead of hidden branching only
 
 Remaining gap:
 
-- shared runtime type surfaces still need stabilization so plan/result/policy types are not anchored to one orchestration file
+- potential branch and collapse capabilities still lack executed causal targets until the runtime gains concrete transition records for them
 - authored commit-policy syntax remains intentionally deferred, so current observation-collapse semantics stay bounded runtime law
 
 Would be weakened by:
@@ -122,7 +123,7 @@ Would be weakened by:
 
 Next check:
 
-Finish runtime type decoupling and keep observation-collapse bounded while strengthening proof, query, and replay regression coverage.
+Verify that every emitted causal link resolves inside the same materialization result, and add new link relations only alongside concrete new runtime record types.
 
 ### H-006: Bubble can justify itself only through unique semantic leverage
 

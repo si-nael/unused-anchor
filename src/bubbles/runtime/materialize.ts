@@ -593,12 +593,15 @@ export function materializeBubbleProgram(program: BubbleProgramIR, options: Bubb
         const commits = createLocalCollapseCommits(program, collapseEvidence);
         const commitEvidence = commits.map((commit) => createCommitEvidence(program, commit));
         appendCommitTrace(trace, commits);
-        const evidence = [
+        const supportingEvidence = [
             ...createSeaAnchorEvidence(program, runtimeOntology),
             ...baseEvidence,
             ...collapseEvidence,
             ...commitEvidence,
-            ...createEffectTraceEvidence(program, plan, [], commits),
+        ];
+        const evidence = [
+            ...supportingEvidence,
+            ...createEffectTraceEvidence(program, plan, [], commits, supportingEvidence),
         ];
         return {
             plan,
@@ -687,12 +690,15 @@ export function materializeBubbleProgram(program: BubbleProgramIR, options: Bubb
     commits.push(...localCollapseCommits);
     commitEvidence.push(...localCollapseCommits.map((commit) => createCommitEvidence(program, commit)));
     appendCommitTrace(trace, localCollapseCommits);
-    const evidence = [
+    const supportingEvidence = [
         ...createSeaAnchorEvidence(program, runtimeOntology),
         ...baseEvidence,
         ...collapseEvidence,
         ...commitEvidence,
-        ...createEffectTraceEvidence(program, plan, artifacts, commits),
+    ];
+    const evidence = [
+        ...supportingEvidence,
+        ...createEffectTraceEvidence(program, plan, artifacts, commits, supportingEvidence),
     ];
 
     return {

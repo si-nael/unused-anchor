@@ -1,5 +1,12 @@
 # Work Log
 
+## 2026-07-15
+
+- Started `v0.4.8` as a closure-first stabilization release rather than a new semantic expansion.
+- Completed the interrupted effect-role causal-trace slice: every runtime `effect-trace` now carries typed `causalLinks` to concrete observation, collapse, history-commit, sea, anchor, or descendant-artifact targets when those targets exist in the same materialization result.
+- Added focused regressions for observation/perturb contributions to collapse records, commit links to history evidence, spawn links to descendants, and ontology/anchor links; synchronized the effect specification, reference, research hypothesis, and package version with the implemented state.
+- Closed the stale observation-collapse roadmap state: the original bounded next-core checklist is now marked implemented, and Q-016 records the single-region law as stabilized across proof, inspection, replay, causal traces, and mandatory verification rather than leaving completed work phrased as a future task.
+
 ## 2026-06-01
 
 - Added an explicit `externalObservationLimit` plan/report surface so Bubble now states, in data rather than only prose, that outside observers do not get complete concrete interior access before causal contact, that bubbles persist as compressed lawful existence, and that observation, perturbation, or history contact may leave inspectable traces or local materialization effects.

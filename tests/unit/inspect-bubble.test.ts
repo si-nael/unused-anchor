@@ -367,6 +367,18 @@ test("inspection exposes observation evidence as a first-class report section", 
             sourceLine: 6,
             materializationState: "materialized",
             runtimeSignals: ["observation-surface"],
+            causalLinks: [
+                {
+                    targetKind: "observation-context",
+                    targetId: "evidence:observe:bubble:observatory-inspect.bubble::root:Observatory",
+                    relation: "opens-observation-context",
+                },
+                {
+                    targetKind: "anchor-point-state",
+                    targetId: "evidence:anchor-point:bubble:observatory-inspect.bubble::root:Observatory",
+                    relation: "influences-anchor-assessment",
+                },
+            ],
             description: "Bubble Observatory recorded required local observe as materialized in this run via observation-surface.",
         },
         {
@@ -385,6 +397,18 @@ test("inspection exposes observation evidence as a first-class report section", 
             sourceLine: 7,
             materializationState: "potential",
             runtimeSignals: ["declared-history-support"],
+            causalLinks: [
+                {
+                    targetKind: "positive-sea-state",
+                    targetId: "evidence:positive-sea:bubble:observatory-inspect.bubble::root:Observatory",
+                    relation: "contributes-positive-sea-support",
+                },
+                {
+                    targetKind: "anchor-point-state",
+                    targetId: "evidence:anchor-point:bubble:observatory-inspect.bubble::root:Observatory",
+                    relation: "influences-anchor-assessment",
+                },
+            ],
             description: "Bubble Observatory recorded required local commit as potential in this run via declared-history-support.",
         },
     ]);
@@ -1185,6 +1209,18 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
             sourceLine: 6,
             materializationState: "materialized",
             runtimeSignals: ["observation-surface"],
+            causalLinks: [
+                {
+                    targetKind: "observation-context",
+                    targetId: "evidence:observe:bubble:membrane-archive.bubble::root:MembraneArchive",
+                    relation: "opens-observation-context",
+                },
+                {
+                    targetKind: "anchor-point-state",
+                    targetId: "evidence:anchor-point:bubble:membrane-archive.bubble::root:MembraneArchive",
+                    relation: "influences-anchor-assessment",
+                },
+            ],
             description: "Bubble MembraneArchive recorded required local observe as materialized in this run via observation-surface.",
         },
         {
@@ -1203,6 +1239,18 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
             sourceLine: 7,
             materializationState: "potential",
             runtimeSignals: ["declared-history-support"],
+            causalLinks: [
+                {
+                    targetKind: "positive-sea-state",
+                    targetId: "evidence:positive-sea:bubble:membrane-archive.bubble::root:MembraneArchive",
+                    relation: "contributes-positive-sea-support",
+                },
+                {
+                    targetKind: "anchor-point-state",
+                    targetId: "evidence:anchor-point:bubble:membrane-archive.bubble::root:MembraneArchive",
+                    relation: "influences-anchor-assessment",
+                },
+            ],
             description: "Bubble MembraneArchive recorded required local commit as potential in this run via declared-history-support.",
         },
         {
@@ -1221,6 +1269,18 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
             sourceLine: 8,
             materializationState: "potential",
             runtimeSignals: ["membrane-leak"],
+            causalLinks: [
+                {
+                    targetKind: "negative-sea-state",
+                    targetId: "evidence:negative-sea:bubble:membrane-archive.bubble::root:MembraneArchive",
+                    relation: "contributes-negative-sea-pressure",
+                },
+                {
+                    targetKind: "anchor-point-state",
+                    targetId: "evidence:anchor-point:bubble:membrane-archive.bubble::root:MembraneArchive",
+                    relation: "influences-anchor-assessment",
+                },
+            ],
             description: "Bubble MembraneArchive recorded required membrane leak as potential in this run via membrane-leak.",
         },
         {
@@ -1239,6 +1299,13 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
             sourceLine: 9,
             materializationState: "potential",
             runtimeSignals: ["unresolved-debt"],
+            causalLinks: [
+                {
+                    targetKind: "anchor-point-state",
+                    targetId: "evidence:anchor-point:bubble:membrane-archive.bubble::root:MembraneArchive",
+                    relation: "influences-anchor-assessment",
+                },
+            ],
             description: "Bubble MembraneArchive recorded required local debt as potential in this run via unresolved-debt.",
         },
         {
@@ -1257,6 +1324,18 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
             sourceLine: 10,
             materializationState: "potential",
             runtimeSignals: ["law-perturbation"],
+            causalLinks: [
+                {
+                    targetKind: "negative-sea-state",
+                    targetId: "evidence:negative-sea:bubble:membrane-archive.bubble::root:MembraneArchive",
+                    relation: "contributes-negative-sea-pressure",
+                },
+                {
+                    targetKind: "anchor-point-state",
+                    targetId: "evidence:anchor-point:bubble:membrane-archive.bubble::root:MembraneArchive",
+                    relation: "influences-anchor-assessment",
+                },
+            ],
             description: "Bubble MembraneArchive recorded optional local perturb as potential in this run via law-perturbation.",
         },
     ]);

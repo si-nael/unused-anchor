@@ -45,6 +45,14 @@ export type BubbleEvidenceKind =
     | "effect-trace";
 
 export type BubbleEffectTraceMaterializationState = "potential" | "materialized";
+export type BubbleEffectTraceCausalRelation =
+    | "opens-observation-context"
+    | "contributes-to-collapse-record"
+    | "supports-history-commit"
+    | "enables-descendant-materialization"
+    | "contributes-negative-sea-pressure"
+    | "contributes-positive-sea-support"
+    | "influences-anchor-assessment";
 export type BubbleCollapseCommitStatus = "uncommitted" | "history-open" | "committed";
 export type BubbleObservationStatePhase = "observed-uncommitted" | "observed-history-open" | "observed-committed";
 export type BubbleLocalObservationPerturbationMix = BubbleObservationMaterializationLawPerturbationMix;
@@ -159,6 +167,13 @@ export interface BubbleEffectTraceEvidenceRecord extends BubbleEvidenceRecordBas
     sourceLine: number;
     materializationState: BubbleEffectTraceMaterializationState;
     runtimeSignals: string[];
+    causalLinks: BubbleEffectTraceCausalLink[];
+}
+
+export interface BubbleEffectTraceCausalLink {
+    targetKind: Exclude<BubbleEvidenceKind, "effect-trace"> | "materialized-artifact";
+    targetId: string;
+    relation: BubbleEffectTraceCausalRelation;
 }
 
 export type BubbleEvidenceRecord =
@@ -390,12 +405,14 @@ export function createEffectTraceEvidence(
     plan: BubbleExecutionPlan,
     artifacts: MaterializedBubbleArtifact[],
     commits: BubbleMaterializationCommit[],
+    supportingEvidence: BubbleEvidenceRecord[],
 ): BubbleEffectTraceEvidenceRecord[] {
     const rootAddressId = program.bubble.address.id;
 
     return program.bubble.effects.map((effect) => {
         const runtimeSignals = resolveEffectRuntimeSignals(effect, plan, artifacts, commits, program);
         const materializationState = resolveEffectMaterializationState(effect, artifacts, commits, program);
+        const causalLinks = resolveEffectCausalLinks(effect, artifacts, supportingEvidence);
 
         return {
             id: `evidence:effect:${effect.id}`,
@@ -413,6 +430,7 @@ export function createEffectTraceEvidence(
             sourceLine: effect.sourceLine,
             materializationState,
             runtimeSignals,
+            causalLinks,
             description: runtimeSignals.length === 0
                 ? `Bubble ${program.bubble.name} recorded ${effect.requirement} ${effect.scope} ${effect.kind} as ${materializationState} in this run.`
                 : `Bubble ${program.bubble.name} recorded ${effect.requirement} ${effect.scope} ${effect.kind} as ${materializationState} in this run via ${runtimeSignals.join(", ")}.`,
@@ -1057,4 +1075,92 @@ function resolveEffectRuntimeSignals(
 
 function assertNever(value: never): never {
     throw new Error(`Unhandled evidence variant: ${String(value)}`);
+}
+
+function resolveEffectCausalLinks(
+    effect: EffectIR,
+    artifacts: MaterializedBubbleArtifact[],
+    supportingEvidence: BubbleEvidenceRecord[],
+): BubbleEffectTraceCausalLink[] {
+    const links: BubbleEffectTraceCausalLink[] = [];
+
+    for (const evidence of supportingEvidence) {
+        if (effect.kind === "observe" && evidence.kind === "observation-context") {
+            links.push({
+                targetKind: evidence.kind,
+                targetId: evidence.id,
+                relation: "opens-observation-context",
+            });
+        }
+
+        if (
+            evidence.kind === "collapse-record"
+            && (
+                evidence.triggerEffectIds.includes(effect.id)
+                || evidence.perturbEffectIds.includes(effect.id)
+            )
+        ) {
+            links.push({
+                targetKind: evidence.kind,
+                targetId: evidence.id,
+                relation: "contributes-to-collapse-record",
+            });
+        }
+
+        if (effect.kind === "commit" && evidence.kind === "history-commit") {
+            links.push({
+                targetKind: evidence.kind,
+                targetId: evidence.id,
+                relation: "supports-history-commit",
+            });
+        }
+
+        if (
+            evidence.kind === "negative-sea-state"
+            && evidence.pressureSources.some((source) => source.sourceEffectId === effect.id)
+        ) {
+            links.push({
+                targetKind: evidence.kind,
+                targetId: evidence.id,
+                relation: "contributes-negative-sea-pressure",
+            });
+        }
+
+        if (
+            evidence.kind === "positive-sea-state"
+            && evidence.supportSources.some((source) => source.sourceEffectId === effect.id)
+        ) {
+            links.push({
+                targetKind: evidence.kind,
+                targetId: evidence.id,
+                relation: "contributes-positive-sea-support",
+            });
+        }
+    }
+
+    if (effect.kind === "spawn") {
+        for (const artifact of artifacts.filter((candidate) => candidate.target === "descendant")) {
+            links.push({
+                targetKind: "materialized-artifact",
+                targetId: artifact.emissionId,
+                relation: "enables-descendant-materialization",
+            });
+        }
+    }
+
+    const influencesAnchor = effect.kind === "observe" || effect.kind === "debt" || links.some((link) =>
+        link.relation === "contributes-negative-sea-pressure"
+        || link.relation === "contributes-positive-sea-support"
+        || link.relation === "supports-history-commit"
+    );
+    const anchorEvidence = supportingEvidence.find((evidence) => evidence.kind === "anchor-point-state");
+    if (influencesAnchor && anchorEvidence) {
+        links.push({
+            targetKind: anchorEvidence.kind,
+            targetId: anchorEvidence.id,
+            relation: "influences-anchor-assessment",
+        });
+    }
+
+    return links;
 }

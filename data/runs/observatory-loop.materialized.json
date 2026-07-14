@@ -32,6 +32,32 @@
       "description": "Bubble boundary currently tracks 1 observation surface, 1 history-commit surface, 0 scoped membrane/global boundary groups, and 0 boundary-referencing semantic paths."
     },
     "observationMaterializationLaw": null,
+    "externalObservationLimit": {
+      "mode": "bubble-external-observation-limit.v1",
+      "observerPosition": "outside-bubble",
+      "preContactInteriorAccess": "concrete-interior-not-fully-readable",
+      "interiorExistenceMode": "compressed-lawful-existence",
+      "declaredObservationSurface": "declared-observation-surface",
+      "declaredPerturbationSurface": "no-declared-perturbation",
+      "declaredHistorySurface": "declared-history-support",
+      "latentInteriorKinds": [],
+      "causalContactEffectIds": {
+        "observation": [
+          "effect:8:observe"
+        ],
+        "perturbation": [],
+        "historyCommit": [
+          "effect:9:commit"
+        ]
+      },
+      "traceConsequences": {
+        "recordsObservationContext": true,
+        "mayMaterializeLatentInterior": false,
+        "mayRecordCollapse": false,
+        "mayAnchorHistory": true
+      },
+      "description": "Within Bubble semantics, an outside observer cannot fully read the concrete interior of ObservatoryLoop before causal contact. The bubble persists as compressed lawful existence, and any outside access must pass through 1 observation surface, 1 history-commit surface."
+    },
     "semantics": {
       "mode": "bubble-executable-semantics.v1",
       "constraints": [],
@@ -875,6 +901,16 @@
             "coherence": "stable"
           },
           "worldWill": "preserve sampled symmetry",
+          "worldWillDeclaration": {
+            "id": "world-will:4",
+            "sourceLine": 4,
+            "kind": "descriptive-text",
+            "description": "preserve sampled symmetry",
+            "expression": {
+              "kind": "text",
+              "value": "preserve sampled symmetry"
+            }
+          },
           "seed": "latent_seed",
           "observationMode": null,
           "boundary": {
@@ -957,7 +993,7 @@
           "generation": {
             "realizationMode": "deterministic",
             "realizationSource": "authored",
-            "worldWillMode": "governing-principle",
+            "worldWillMode": "descriptive-text",
             "lifecycle": {
               "initialMode": "latent",
               "observationMode": null,
@@ -990,6 +1026,47 @@
                 "description": "This bubble may bring descendant bubbles into existence through required local spawning."
               }
             ]
+          },
+          "seaSemantics": {
+            "mode": "bubble-sea-semantics.v1",
+            "negativePressureSources": [],
+            "positiveSupportSources": [
+              {
+                "id": "positive-sea-source:source-lineage",
+                "kind": "source-lineage",
+                "addressId": "bubble:examples/observatory-loop.bubble#emit:16:Probe::root:Probe",
+                "sourceEffectId": null,
+                "support": "present",
+                "supportContribution": 1,
+                "evidenceBasis": [
+                  "source-lineage-address"
+                ]
+              },
+              {
+                "id": "positive-sea-source:seed-origin",
+                "kind": "seed-origin",
+                "addressId": "bubble:examples/observatory-loop.bubble#emit:16:Probe::root:Probe",
+                "sourceEffectId": null,
+                "support": "present",
+                "supportContribution": 1,
+                "evidenceBasis": [
+                  "seeded-origin"
+                ]
+              },
+              {
+                "id": "positive-sea-source:descendant-lineage",
+                "kind": "descendant-lineage",
+                "addressId": "bubble:examples/observatory-loop.bubble#emit:16:Probe::root:Probe",
+                "sourceEffectId": "effect:6:spawn",
+                "support": "present",
+                "supportContribution": 1,
+                "evidenceBasis": [
+                  "descendant-lineage",
+                  "descendant-lineage-count:1"
+                ]
+              }
+            ],
+            "description": "Bubble sea semantics currently project 0 negative source kinds and 3 positive source kinds from authored address, boundary, generation, and effect structure."
           }
         }
       },
@@ -1054,6 +1131,16 @@
             "coherence": "stable"
           },
           "worldWill": "preserve sampled symmetry",
+          "worldWillDeclaration": {
+            "id": "world-will:4",
+            "sourceLine": 4,
+            "kind": "descriptive-text",
+            "description": "preserve sampled symmetry",
+            "expression": {
+              "kind": "text",
+              "value": "preserve sampled symmetry"
+            }
+          },
           "seed": "field_seed",
           "observationMode": null,
           "boundary": {
@@ -1136,7 +1223,7 @@
           "generation": {
             "realizationMode": "deterministic",
             "realizationSource": "authored",
-            "worldWillMode": "governing-principle",
+            "worldWillMode": "descriptive-text",
             "lifecycle": {
               "initialMode": "latent",
               "observationMode": null,
@@ -1169,6 +1256,47 @@
                 "description": "This bubble may bring descendant bubbles into existence through required local spawning."
               }
             ]
+          },
+          "seaSemantics": {
+            "mode": "bubble-sea-semantics.v1",
+            "negativePressureSources": [],
+            "positiveSupportSources": [
+              {
+                "id": "positive-sea-source:source-lineage",
+                "kind": "source-lineage",
+                "addressId": "bubble:examples/observatory-loop.bubble#emit:17:DerivedProbe::root:Probe",
+                "sourceEffectId": null,
+                "support": "present",
+                "supportContribution": 1,
+                "evidenceBasis": [
+                  "source-lineage-address"
+                ]
+              },
+              {
+                "id": "positive-sea-source:seed-origin",
+                "kind": "seed-origin",
+                "addressId": "bubble:examples/observatory-loop.bubble#emit:17:DerivedProbe::root:Probe",
+                "sourceEffectId": null,
+                "support": "present",
+                "supportContribution": 1,
+                "evidenceBasis": [
+                  "seeded-origin"
+                ]
+              },
+              {
+                "id": "positive-sea-source:descendant-lineage",
+                "kind": "descendant-lineage",
+                "addressId": "bubble:examples/observatory-loop.bubble#emit:17:DerivedProbe::root:Probe",
+                "sourceEffectId": "effect:6:spawn",
+                "support": "present",
+                "supportContribution": 1,
+                "evidenceBasis": [
+                  "descendant-lineage",
+                  "descendant-lineage-count:1"
+                ]
+              }
+            ],
+            "description": "Bubble sea semantics currently project 0 negative source kinds and 3 positive source kinds from authored address, boundary, generation, and effect structure."
           }
         }
       },
@@ -1372,6 +1500,18 @@
       "runtimeSignals": [
         "observation-surface"
       ],
+      "causalLinks": [
+        {
+          "targetKind": "observation-context",
+          "targetId": "evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "relation": "opens-observation-context"
+        },
+        {
+          "targetKind": "anchor-point-state",
+          "targetId": "evidence:anchor-point:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "relation": "influences-anchor-assessment"
+        }
+      ],
       "description": "Bubble ObservatoryLoop recorded required local observe as materialized in this run via observation-surface."
     },
     {
@@ -1393,6 +1533,28 @@
         "declared-history-support",
         "history-commit"
       ],
+      "causalLinks": [
+        {
+          "targetKind": "positive-sea-state",
+          "targetId": "evidence:positive-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "relation": "contributes-positive-sea-support"
+        },
+        {
+          "targetKind": "history-commit",
+          "targetId": "evidence:commit:emit:16:Probe",
+          "relation": "supports-history-commit"
+        },
+        {
+          "targetKind": "history-commit",
+          "targetId": "evidence:commit:emit:17:DerivedProbe",
+          "relation": "supports-history-commit"
+        },
+        {
+          "targetKind": "anchor-point-state",
+          "targetId": "evidence:anchor-point:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "relation": "influences-anchor-assessment"
+        }
+      ],
       "description": "Bubble ObservatoryLoop recorded required local commit as materialized in this run via declared-history-support, history-commit."
     },
     {
@@ -1412,6 +1574,23 @@
       "materializationState": "materialized",
       "runtimeSignals": [
         "descendant-materialization"
+      ],
+      "causalLinks": [
+        {
+          "targetKind": "positive-sea-state",
+          "targetId": "evidence:positive-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "relation": "contributes-positive-sea-support"
+        },
+        {
+          "targetKind": "materialized-artifact",
+          "targetId": "emit:17:DerivedProbe",
+          "relation": "enables-descendant-materialization"
+        },
+        {
+          "targetKind": "anchor-point-state",
+          "targetId": "evidence:anchor-point:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "relation": "influences-anchor-assessment"
+        }
       ],
       "description": "Bubble ObservatoryLoop recorded required local spawn as materialized in this run via descendant-materialization."
     }

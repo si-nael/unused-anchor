@@ -41,7 +41,9 @@ What Bubble is committing to now is a staged path toward that architecture witho
 - latent-topology draft in IR and semantic plans
 - bounded proof awareness that latent collapse keeps replay and consistency open
 
-### Next-core
+### Completed bounded next-core slice
+
+The following bounded targets are now implemented and covered by the repository verification path:
 
 - collapse record or evidence shape for first observation of one latent region
 - one local observation-triggered materialization kernel

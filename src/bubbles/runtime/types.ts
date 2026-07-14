@@ -25,6 +25,8 @@ import type {
 import type {
     BubbleAnchorPointEvidenceRecord as EvidenceBubbleAnchorPointEvidenceRecord,
     BubbleCollapseRecordEvidenceRecord as EvidenceBubbleCollapseRecordEvidenceRecord,
+    BubbleEffectTraceCausalLink as EvidenceBubbleEffectTraceCausalLink,
+    BubbleEffectTraceCausalRelation as EvidenceBubbleEffectTraceCausalRelation,
     BubbleEffectTraceEvidenceRecord as EvidenceBubbleEffectTraceEvidenceRecord,
     BubbleEffectTraceMaterializationState as EvidenceBubbleEffectTraceMaterializationState,
     BubbleEvidenceKind as EvidenceBubbleEvidenceKind,
@@ -312,6 +314,8 @@ export interface BubbleMaterializationCommit {
 
 export type BubbleEvidenceKind = EvidenceBubbleEvidenceKind;
 export type BubbleEffectTraceMaterializationState = EvidenceBubbleEffectTraceMaterializationState;
+export type BubbleEffectTraceCausalRelation = EvidenceBubbleEffectTraceCausalRelation;
+export type BubbleEffectTraceCausalLink = EvidenceBubbleEffectTraceCausalLink;
 export type BubbleObservationEvidenceRecord = EvidenceBubbleObservationEvidenceRecord;
 export type BubbleObservationStateRecord = EvidenceBubbleObservationStateRecord;
 export type BubbleCollapseRecordEvidenceRecord = EvidenceBubbleCollapseRecordEvidenceRecord;

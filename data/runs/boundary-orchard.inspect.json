@@ -92,6 +92,32 @@
       "description": "Bubble boundary currently tracks 1 observation surface, 1 history-commit surface, 1 scoped membrane/global boundary group, and 0 boundary-referencing semantic paths."
     },
     "observationMaterializationLaw": null,
+    "externalObservationLimit": {
+      "mode": "bubble-external-observation-limit.v1",
+      "observerPosition": "outside-bubble",
+      "preContactInteriorAccess": "concrete-interior-not-fully-readable",
+      "interiorExistenceMode": "compressed-lawful-existence",
+      "declaredObservationSurface": "declared-observation-surface",
+      "declaredPerturbationSurface": "no-declared-perturbation",
+      "declaredHistorySurface": "declared-history-support",
+      "latentInteriorKinds": [],
+      "causalContactEffectIds": {
+        "observation": [
+          "effect:8:observe"
+        ],
+        "perturbation": [],
+        "historyCommit": [
+          "effect:9:commit"
+        ]
+      },
+      "traceConsequences": {
+        "recordsObservationContext": true,
+        "mayMaterializeLatentInterior": false,
+        "mayRecordCollapse": false,
+        "mayAnchorHistory": true
+      },
+      "description": "Within Bubble semantics, an outside observer cannot fully read the concrete interior of BoundaryOrchard before causal contact. The bubble persists as compressed lawful existence, and any outside access must pass through 1 observation surface, 1 history-commit surface."
+    },
     "semantics": {
       "mode": "bubble-executable-semantics.v1",
       "constraints": [],
@@ -608,6 +634,32 @@
     "grammars": [],
     "grammarActivationPlan": [],
     "emissionPlan": []
+  },
+  "externalObservationLimit": {
+    "mode": "bubble-external-observation-limit.v1",
+    "observerPosition": "outside-bubble",
+    "preContactInteriorAccess": "concrete-interior-not-fully-readable",
+    "interiorExistenceMode": "compressed-lawful-existence",
+    "declaredObservationSurface": "declared-observation-surface",
+    "declaredPerturbationSurface": "no-declared-perturbation",
+    "declaredHistorySurface": "declared-history-support",
+    "latentInteriorKinds": [],
+    "causalContactEffectIds": {
+      "observation": [
+        "effect:8:observe"
+      ],
+      "perturbation": [],
+      "historyCommit": [
+        "effect:9:commit"
+      ]
+    },
+    "traceConsequences": {
+      "recordsObservationContext": true,
+      "mayMaterializeLatentInterior": false,
+      "mayRecordCollapse": false,
+      "mayAnchorHistory": true
+    },
+    "description": "Within Bubble semantics, an outside observer cannot fully read the concrete interior of BoundaryOrchard before causal contact. The bubble persists as compressed lawful existence, and any outside access must pass through 1 observation surface, 1 history-commit surface."
   },
   "observationCommitPolicy": null,
   "observationCommitPolicyComparison": null,
@@ -1206,6 +1258,18 @@
       "runtimeSignals": [
         "observation-surface"
       ],
+      "causalLinks": [
+        {
+          "targetKind": "observation-context",
+          "targetId": "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "relation": "opens-observation-context"
+        },
+        {
+          "targetKind": "anchor-point-state",
+          "targetId": "evidence:anchor-point:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "relation": "influences-anchor-assessment"
+        }
+      ],
       "description": "Bubble BoundaryOrchard recorded required local observe as materialized in this run via observation-surface."
     },
     {
@@ -1225,6 +1289,18 @@
       "materializationState": "potential",
       "runtimeSignals": [
         "declared-history-support"
+      ],
+      "causalLinks": [
+        {
+          "targetKind": "positive-sea-state",
+          "targetId": "evidence:positive-sea:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "relation": "contributes-positive-sea-support"
+        },
+        {
+          "targetKind": "anchor-point-state",
+          "targetId": "evidence:anchor-point:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "relation": "influences-anchor-assessment"
+        }
       ],
       "description": "Bubble BoundaryOrchard recorded required local commit as potential in this run via declared-history-support."
     },
@@ -1246,6 +1322,23 @@
       "runtimeSignals": [
         "descendant-capability"
       ],
+      "causalLinks": [
+        {
+          "targetKind": "negative-sea-state",
+          "targetId": "evidence:negative-sea:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "relation": "contributes-negative-sea-pressure"
+        },
+        {
+          "targetKind": "positive-sea-state",
+          "targetId": "evidence:positive-sea:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "relation": "contributes-positive-sea-support"
+        },
+        {
+          "targetKind": "anchor-point-state",
+          "targetId": "evidence:anchor-point:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "relation": "influences-anchor-assessment"
+        }
+      ],
       "description": "Bubble BoundaryOrchard recorded required membrane spawn as potential in this run via descendant-capability."
     },
     {
@@ -1265,6 +1358,18 @@
       "materializationState": "potential",
       "runtimeSignals": [
         "branch-pressure"
+      ],
+      "causalLinks": [
+        {
+          "targetKind": "negative-sea-state",
+          "targetId": "evidence:negative-sea:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "relation": "contributes-negative-sea-pressure"
+        },
+        {
+          "targetKind": "anchor-point-state",
+          "targetId": "evidence:anchor-point:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "relation": "influences-anchor-assessment"
+        }
       ],
       "description": "Bubble BoundaryOrchard recorded optional local branch as potential in this run via branch-pressure."
     }

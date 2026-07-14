@@ -21,6 +21,16 @@
       "membrane": "porous"
     },
     "worldWill": "preserve local consistency",
+    "worldWillDeclaration": {
+      "id": "world-will:5",
+      "sourceLine": 5,
+      "kind": "descriptive-text",
+      "description": "preserve local consistency",
+      "expression": {
+        "kind": "text",
+        "value": "preserve local consistency"
+      }
+    },
     "seed": "cosmic_dust",
     "observationMode": "local",
     "boundary": {
@@ -233,7 +243,7 @@
     "generation": {
       "realizationMode": "nondeterministic",
       "realizationSource": "authored",
-      "worldWillMode": "governing-principle",
+      "worldWillMode": "descriptive-text",
       "lifecycle": {
         "initialMode": "latent",
         "observationMode": "local",
@@ -266,6 +276,72 @@
           "description": "This bubble may realize alternative bubble continuations through optional local branching."
         }
       ]
+    },
+    "seaSemantics": {
+      "mode": "bubble-sea-semantics.v1",
+      "negativePressureSources": [
+        {
+          "id": "negative-sea-source:nondeterministic-realization",
+          "kind": "nondeterministic-realization",
+          "sourceEffectId": null,
+          "relationKind": null,
+          "boundaryScope": null,
+          "strength": "elevated",
+          "pressureContribution": 1,
+          "evidenceBasis": [
+            "nondeterministic-realization"
+          ]
+        },
+        {
+          "id": "negative-sea-source:branch",
+          "kind": "branch",
+          "sourceEffectId": "effect:9:branch",
+          "relationKind": "branch",
+          "boundaryScope": "local",
+          "strength": "elevated",
+          "pressureContribution": 1,
+          "evidenceBasis": [
+            "branch-pressure",
+            "branch-count:1"
+          ]
+        }
+      ],
+      "positiveSupportSources": [
+        {
+          "id": "positive-sea-source:source-lineage",
+          "kind": "source-lineage",
+          "addressId": "bubble:examples/first-world.bubble::root:FirstLight",
+          "sourceEffectId": null,
+          "support": "present",
+          "supportContribution": 1,
+          "evidenceBasis": [
+            "source-lineage-address"
+          ]
+        },
+        {
+          "id": "positive-sea-source:seed-origin",
+          "kind": "seed-origin",
+          "addressId": "bubble:examples/first-world.bubble::root:FirstLight",
+          "sourceEffectId": null,
+          "support": "present",
+          "supportContribution": 1,
+          "evidenceBasis": [
+            "seeded-origin"
+          ]
+        },
+        {
+          "id": "positive-sea-source:declared-history-support",
+          "kind": "declared-history-support",
+          "addressId": "bubble:examples/first-world.bubble::root:FirstLight",
+          "sourceEffectId": "effect:10:commit",
+          "support": "present",
+          "supportContribution": 1,
+          "evidenceBasis": [
+            "declared-history-support"
+          ]
+        }
+      ],
+      "description": "Bubble sea semantics currently project 2 negative source kinds and 3 positive source kinds from authored address, boundary, generation, and effect structure."
     }
   }
 }

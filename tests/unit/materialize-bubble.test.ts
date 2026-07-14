@@ -413,6 +413,36 @@ test("materialization emits collapse-record evidence for observed latent regions
     assert.equal(collapseEvidence[0]?.observationState.localMaterialization?.nearbyHistoryInfluence, "history-open-neighborhood");
     assert.ok(materialized.evidence.some((entry) => entry.kind === "history-commit"));
     assert.ok(materialized.trace.some((event) => event.kind === "local-collapse-materialized"));
+
+    const effectTraceById = Object.fromEntries(
+        materialized.evidence
+            .filter((entry) => entry.kind === "effect-trace")
+            .map((entry) => [entry.effectId, entry]),
+    );
+    assert.deepEqual(
+        effectTraceById["effect:6:observe"]?.causalLinks
+            .filter((link) => link.targetKind === "collapse-record")
+            .map((link) => link.targetId),
+        [
+            "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+            "evidence:collapse:semantic:10:latent-bubble:WaitingArchive",
+        ],
+    );
+    assert.deepEqual(
+        effectTraceById["effect:7:commit"]?.causalLinks
+            .filter((link) => link.targetKind === "history-commit")
+            .map((link) => link.targetId),
+        ["evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy"],
+    );
+    assert.deepEqual(
+        effectTraceById["effect:8:perturb"]?.causalLinks
+            .filter((link) => link.targetKind === "collapse-record")
+            .map((link) => link.targetId),
+        [
+            "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+            "evidence:collapse:semantic:10:latent-bubble:WaitingArchive",
+        ],
+    );
 });
 
 test("materialization can commit one local observation target while leaving sibling observation states history-open", () => {
@@ -846,6 +876,24 @@ test("materialization distinguishes declared history support from materialized h
         "evidence:effect:effect:7:observe",
         "evidence:effect:effect:8:commit",
     ]);
+
+    const effectTraceById = Object.fromEntries(
+        materialized.evidence
+            .filter((entry) => entry.kind === "effect-trace")
+            .map((entry) => [entry.effectId, entry]),
+    );
+    assert.deepEqual(
+        effectTraceById["effect:8:commit"]?.causalLinks
+            .filter((link) => link.targetKind === "history-commit")
+            .map((link) => link.targetId),
+        ["evidence:commit:emit:12:Grove"],
+    );
+    assert.deepEqual(
+        effectTraceById["effect:9:spawn"]?.causalLinks
+            .filter((link) => link.targetKind === "materialized-artifact")
+            .map((link) => link.targetId),
+        ["emit:12:Grove"],
+    );
 });
 
 test("materializes direct quoted artifacts without generator arguments", () => {
@@ -985,6 +1033,18 @@ test("records observation evidence even when no staged emissions exist", () => {
             sourceLine: 6,
             materializationState: "materialized",
             runtimeSignals: ["observation-surface"],
+            causalLinks: [
+                {
+                    targetKind: "observation-context",
+                    targetId: "evidence:observe:bubble:observatory.bubble::root:Observatory",
+                    relation: "opens-observation-context",
+                },
+                {
+                    targetKind: "anchor-point-state",
+                    targetId: "evidence:anchor-point:bubble:observatory.bubble::root:Observatory",
+                    relation: "influences-anchor-assessment",
+                },
+            ],
             description: "Bubble Observatory recorded required local observe as materialized in this run via observation-surface.",
         },
         {
@@ -1003,6 +1063,18 @@ test("records observation evidence even when no staged emissions exist", () => {
             sourceLine: 7,
             materializationState: "potential",
             runtimeSignals: ["declared-history-support"],
+            causalLinks: [
+                {
+                    targetKind: "positive-sea-state",
+                    targetId: "evidence:positive-sea:bubble:observatory.bubble::root:Observatory",
+                    relation: "contributes-positive-sea-support",
+                },
+                {
+                    targetKind: "anchor-point-state",
+                    targetId: "evidence:anchor-point:bubble:observatory.bubble::root:Observatory",
+                    relation: "influences-anchor-assessment",
+                },
+            ],
             description: "Bubble Observatory recorded required local commit as potential in this run via declared-history-support.",
         },
     ]);
@@ -1300,4 +1372,58 @@ test("resolves staged grammar activations to the declared profile when none is r
             staged: true,
         },
     ]);
+});
+
+test("effect-trace causal links resolve inside the same materialization result", () => {
+    const source = [
+        "bubble CausalArchive {",
+        "  realization deterministic",
+        "  axiom coherence = stable",
+        "  will \"preserve causal provenance\"",
+        "  seed causal_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect spawn required",
+        "  effect leak optional scope membrane",
+        "  effect debt optional",
+        "  effect perturb optional",
+        "  hidden region OuterCanopy",
+        "  quote Sapling = bubble Sapling { realization deterministic axiom coherence = stable will 'preserve inner symmetry' seed latent_seed effect spawn required }",
+        "  generator Grove(seedName) from Sapling",
+        "  emit Grove(\"ember_seed\") as descendant",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "causal-archive.bubble" });
+    const materialized = materializeBubbleProgram(program);
+    const evidenceById = new Map(materialized.evidence.map((entry) => [entry.id, entry]));
+    const artifactIds = new Set(materialized.artifacts.map((artifact) => artifact.emissionId));
+    const effectTraces = materialized.evidence.filter((entry) => entry.kind === "effect-trace");
+
+    for (const trace of effectTraces) {
+        for (const link of trace.causalLinks) {
+            if (link.targetKind === "materialized-artifact") {
+                assert.ok(artifactIds.has(link.targetId), `${trace.effectId} links missing artifact ${link.targetId}`);
+                continue;
+            }
+
+            const target = evidenceById.get(link.targetId);
+            assert.ok(target, `${trace.effectId} links missing evidence ${link.targetId}`);
+            assert.equal(target.kind, link.targetKind);
+        }
+    }
+
+    assert.deepEqual(
+        Array.from(new Set(effectTraces.flatMap((trace) => trace.causalLinks.map((link) => link.relation)))).sort(),
+        [
+            "contributes-negative-sea-pressure",
+            "contributes-positive-sea-support",
+            "contributes-to-collapse-record",
+            "enables-descendant-materialization",
+            "influences-anchor-assessment",
+            "opens-observation-context",
+            "supports-history-commit",
+        ],
+    );
 });
