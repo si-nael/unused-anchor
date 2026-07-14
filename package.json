@@ -1,8 +1,8 @@
 {
     "name": "unused-anchor",
-    "version": "0.4.9",
+    "version": "0.5.0",
     "private": true,
-    "description": "Bubbles language bootstrap for procedural world definition and inspection.",
+    "description": "Bubble Language kernel for self-realizing worlds, semantic evidence, inspection, and replay.",
     "scripts": {
         "build": "tsc -p tsconfig.json",
         "check": "tsc -p tsconfig.json --noEmit",
@@ -12,7 +12,8 @@
         "verify:collapse": "npm run materialize:collapse-example && npm run inspect:collapse-example && npm run materialize:collapse-open-example && npm run inspect:collapse-open-example && npm run materialize:collapse-mixed-example && npm run inspect:collapse-mixed-example",
         "verify:replay": "npm run record:collapse-mirror-example && npm run inspect:collapse-mirror-example && npm run replay:collapse-mirror-example && npm run record:meta-example && npm run replay:meta-example",
         "verify:attribution": "npm run materialize:attribution-example && npm run inspect:attribution-example && npm run record:attribution-example && npm run replay:attribution-example",
-        "verify": "npm run verify:core && npm run verify:examples && npm run verify:collapse && npm run verify:replay && npm run verify:attribution",
+        "verify:self-realization": "npm run materialize:self-held-example && npm run inspect:self-held-example && npm run materialize:memory-seal-example && npm run inspect:memory-seal-example && npm run record:memory-seal-example && npm run replay:memory-seal-example",
+        "verify": "npm run verify:core && npm run verify:examples && npm run verify:collapse && npm run verify:replay && npm run verify:attribution && npm run verify:self-realization",
         "validate:example": "tsx apps/hatchery/compile-bubble.ts --check examples/first-world.bubble",
         "compile:example": "tsx apps/hatchery/compile-bubble.ts examples/first-world.bubble data/runs/first-world.ir.json",
         "inspect:boundary-example": "tsx apps/hatchery/inspect-bubble.ts examples/boundary-orchard.bubble data/runs/boundary-orchard.inspect.json --section report",
@@ -39,6 +40,12 @@
         "inspect:attribution-example": "tsx apps/hatchery/inspect-bubble.ts examples/attribution-crossroads.bubble data/runs/attribution-crossroads.inspect.json --section sourceAttributions --attribution-status unresolved",
         "record:attribution-example": "tsx apps/hatchery/record-bubble.ts examples/attribution-crossroads.bubble data/runs/attribution-crossroads.replay.json",
         "replay:attribution-example": "tsx apps/hatchery/replay-bubble.ts data/runs/attribution-crossroads.replay.json data/runs/attribution-crossroads.replayed-attributions.json --section sourceAttributions --attribution-status unresolved",
+        "materialize:self-held-example": "tsx apps/hatchery/materialize-bubble.ts examples/self-held-garden.bubble data/runs/self-held-garden.materialized.json",
+        "inspect:self-held-example": "tsx apps/hatchery/inspect-bubble.ts examples/self-held-garden.bubble data/runs/self-held-garden.inspect.json --section selfRealization",
+        "materialize:memory-seal-example": "tsx apps/hatchery/materialize-bubble.ts examples/memory-seal.bubble data/runs/memory-seal.materialized.json",
+        "inspect:memory-seal-example": "tsx apps/hatchery/inspect-bubble.ts examples/memory-seal.bubble data/runs/memory-seal.inspect.json --section selfRealization",
+        "record:memory-seal-example": "tsx apps/hatchery/record-bubble.ts examples/memory-seal.bubble data/runs/memory-seal.replay.json",
+        "replay:memory-seal-example": "tsx apps/hatchery/replay-bubble.ts data/runs/memory-seal.replay.json data/runs/memory-seal.replayed-self-realization.json --section selfRealization",
         "test": "tsx --test tests/unit/**/*.test.ts"
     },
     "devDependencies": {

@@ -10,13 +10,15 @@ import type {
 import type {
     BubbleCollapseRecordEvidenceRecord,
     BubbleEvidenceRecord,
+    BubbleSelfRealizationEvidenceRecord,
 } from "./evidence";
 import type { BubbleSeaAnchorAssessment } from "./ontology";
 import type { BubbleSemanticEvaluationPlan } from "./semantics";
+import type { BubbleSelfRealizationPlan } from "./types";
 
 export type BubbleConsistencyClaimStatus = "certified" | "contradicted" | "undetermined";
 export type BubbleConsistencyCertificateVerdict = "certified" | "partially-certified" | "contradicted" | "undetermined";
-export type BubbleConsistencyClaimKind = "syntax" | "worldhood" | "effect" | "anchor" | "lineage" | "consistency" | "replay";
+export type BubbleConsistencyClaimKind = "syntax" | "worldhood" | "effect" | "anchor" | "lineage" | "consistency" | "replay" | "self-realization";
 export type BubbleConsistencyClaimScope = "source" | "plan" | "materialized-run" | "replay";
 
 export interface BubbleConsistencyClaim {
@@ -81,6 +83,7 @@ export function buildConsistencyCertificate(
     grammarActivationPlan: BubbleProofGrammarActivationPlan[],
     ontology: BubbleSeaAnchorAssessment,
     semantics: BubbleSemanticEvaluationPlan,
+    selfRealization: BubbleSelfRealizationPlan | null,
 ): BubbleConsistencyCertificate {
     const claims = [
         buildWellFormedSourceClaim(program),
@@ -91,6 +94,7 @@ export function buildConsistencyCertificate(
         buildLineageTraceabilityClaim(program, emissionPlan, grammarActivationPlan),
         buildReplayIdentityClaim(program, ontology, semantics),
         buildInternalConsistencyClaim(program, semantics),
+        ...(selfRealization === null ? [] : [buildSelfRealizationClaim(selfRealization)]),
     ];
 
     return {
@@ -109,7 +113,10 @@ export function buildMaterializedConsistencyCertificate(
     semantics: BubbleSemanticEvaluationPlan,
 ): BubbleConsistencyCertificate {
     const collapseRecords = collectCollapseRecordEvidence(evidence);
-    if (collapseRecords.length === 0) {
+    const selfRealizationRecords = evidence.filter(
+        (record): record is BubbleSelfRealizationEvidenceRecord => record.kind === "self-realization",
+    );
+    if (collapseRecords.length === 0 && selfRealizationRecords.length === 0) {
         return planProof;
     }
 
@@ -122,6 +129,8 @@ export function buildMaterializedConsistencyCertificate(
                 return refineReplayIdentityClaim(program, claim, collapseRecords, residualDrafts);
             case "claim:internal-law-consistency":
                 return refineInternalConsistencyClaim(program, claim, collapseRecords, residualDrafts, semantics);
+            case "claim:self-realization":
+                return refineSelfRealizationClaim(claim, selfRealizationRecords);
             default:
                 return claim;
         }
@@ -1257,4 +1266,66 @@ function collectAnchorStateBasis(ontology: BubbleSeaAnchorAssessment): string[] 
             ...source.evidenceBasis,
         ]))),
     ]));
+}
+
+function refineSelfRealizationClaim(
+    claim: BubbleConsistencyClaim,
+    records: BubbleSelfRealizationEvidenceRecord[],
+): BubbleConsistencyClaim {
+    if (records.length === 0) {
+        return claim;
+    }
+
+    const status = records.some((record) => record.status === "blocked" || record.status === "contradicted")
+        ? "contradicted"
+        : records.some((record) => record.status === "underdetermined")
+            ? "undetermined"
+            : "certified";
+
+    return {
+        ...claim,
+        status,
+        basis: Array.from(new Set([
+            ...claim.basis,
+            ...records.map((record) => `materialized-self-realization:${record.realizationId}`),
+            ...records.map((record) => `history-arrow:${record.createsHistoryArrow}`),
+        ])),
+        evidenceIds: records.map((record) => record.id),
+        scope: "materialized-run",
+        explanation: `Materialized self-realization evidence preserves ${records.map((record) => record.status).join(", ")} under the authored world will.`,
+    };
+}
+
+function buildSelfRealizationClaim(selfRealization: BubbleSelfRealizationPlan): BubbleConsistencyClaim {
+    const status: BubbleConsistencyClaimStatus = selfRealization.status === "underdetermined"
+        ? "undetermined"
+        : selfRealization.status === "blocked" || selfRealization.status === "contradicted"
+            ? "contradicted"
+            : "certified";
+    const selectedNames = selfRealization.candidates
+        .filter((candidate) => candidate.selected)
+        .map((candidate) => candidate.transformationName);
+
+    return {
+        id: "claim:self-realization",
+        kind: "self-realization",
+        status,
+        basis: [
+            selfRealization.realizationId,
+            selfRealization.governingWillId,
+            selfRealization.clockAssumption,
+            `status:${selfRealization.status}`,
+            ...selectedNames.map((name) => `selected:${name}`),
+            ...selfRealization.obligationConflicts,
+        ],
+        evidenceIds: [],
+        dependsOnClaims: ["claim:worldhood-roles-present", "claim:required-effect-obligations"],
+        assumptions: ["No universal clock is introduced; only causal or committed-history order may emerge from a selected realization."],
+        scope: "plan",
+        explanation: status === "certified"
+            ? `The world will resolves self-realization as ${selfRealization.status}${selectedNames.length === 0 ? "" : ` through ${selectedNames.join(", ")}`}.`
+            : status === "undetermined"
+                ? "The world preserves multiple or unresolved possibilities explicitly; no external selector fabricates a unique continuation."
+                : `The world cannot complete self-realization under its current will: ${selfRealization.description}`,
+    };
 }

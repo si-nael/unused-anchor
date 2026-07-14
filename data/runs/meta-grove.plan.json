@@ -346,6 +346,7 @@
       }
     ]
   },
+  "selfRealization": null,
   "bundle": {
     "mode": "bubble-bundle-plan.v1",
     "bundleId": "bundle:bubble:examples/meta-grove.bubble::root:Nursery",

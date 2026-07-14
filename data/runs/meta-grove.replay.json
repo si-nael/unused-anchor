@@ -356,6 +356,7 @@
           }
         ]
       },
+      "selfRealization": null,
       "bundle": {
         "mode": "bubble-bundle-plan.v1",
         "bundleId": "bundle:bubble:examples/meta-grove.bubble::root:Nursery",
@@ -760,6 +761,7 @@
         "explanation": "Bubble worldhood remains stable because A=1, P=2, N=0, so A + P - N = 3."
       }
     },
+    "selfRealization": null,
     "artifacts": [
       {
         "emissionId": "emit:11:Grove",
@@ -814,6 +816,8 @@
                 "value": "preserve inner symmetry"
               }
             },
+            "stateVariables": [],
+            "transformations": [],
             "seed": "ember_seed",
             "observationMode": null,
             "boundary": {

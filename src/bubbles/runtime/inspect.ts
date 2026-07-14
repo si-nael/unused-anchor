@@ -29,9 +29,10 @@ import type {
     BubbleMaterializationResult,
     BubbleMaterializationTraceEvent,
     BubbleRuntimeOptions,
+    BubbleSelfRealizationStatus,
 } from "./types";
 
-export type BubbleInspectionSection = "summary" | "plan" | "externalObservationLimit" | "observationCommitPolicy" | "observationCommitPolicyComparison" | "ontology" | "semantics" | "proof" | "bundle" | "grammars" | "artifacts" | "commits" | "evidence" | "sourceAttributions" | "observationStates" | "trace" | "report";
+export type BubbleInspectionSection = "summary" | "plan" | "selfRealization" | "externalObservationLimit" | "observationCommitPolicy" | "observationCommitPolicyComparison" | "ontology" | "semantics" | "proof" | "bundle" | "grammars" | "artifacts" | "commits" | "evidence" | "sourceAttributions" | "observationStates" | "trace" | "report";
 
 export interface BubbleInspectionQuery {
     emissionId?: string;
@@ -89,6 +90,9 @@ export interface BubbleInspectionSummary {
     proofClaimCount: number;
     proofClaimKinds: BubbleConsistencyClaimKind[];
     proofClaimStatusCounts: Record<BubbleConsistencyClaimStatus, number>;
+    selfRealizationStatus: BubbleSelfRealizationStatus | null;
+    selfRealizationContinuationCount: number;
+    selfRealizationCreatesHistoryArrow: boolean;
     materializedArtifactCount: number;
     descendantCount: number;
     artifactCount: number;
@@ -105,6 +109,7 @@ export interface BubbleInspectionSummary {
 export interface BubbleInspectionReport {
     summary: BubbleInspectionSummary;
     plan: BubbleExecutionPlan;
+    selfRealization: BubbleExecutionPlan["selfRealization"];
     externalObservationLimit: BubbleExecutionPlan["externalObservationLimit"];
     observationCommitPolicy: BubbleExecutionPlan["observationCommitPolicy"];
     observationCommitPolicyComparison: BubbleExecutionPlan["observationCommitPolicyComparison"];
@@ -195,6 +200,10 @@ export function inspectMaterializationResult(
             proofClaimCount: selectedProofClaims.length,
             proofClaimKinds: listProofClaimKinds(selectedProofClaims),
             proofClaimStatusCounts: countProofClaimStatuses(selectedProofClaims),
+            selfRealizationStatus: plan.selfRealization?.status ?? null,
+            selfRealizationContinuationCount: plan.selfRealization?.continuations.length ?? 0,
+            selfRealizationCreatesHistoryArrow: plan.selfRealization?.continuations
+                .some((continuation) => continuation.createsHistoryArrow) ?? false,
             materializedArtifactCount: artifacts.length,
             descendantCount,
             artifactCount,
@@ -208,6 +217,7 @@ export function inspectMaterializationResult(
             traceKinds: trace.map((event) => event.kind),
         },
         plan,
+        selfRealization: plan.selfRealization,
         externalObservationLimit: plan.externalObservationLimit,
         observationCommitPolicy: plan.observationCommitPolicy ?? null,
         observationCommitPolicyComparison: plan.observationCommitPolicyComparison ?? null,

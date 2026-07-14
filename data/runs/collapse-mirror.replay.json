@@ -786,6 +786,7 @@
           }
         ]
       },
+      "selfRealization": null,
       "bundle": {
         "mode": "bubble-bundle-plan.v1",
         "bundleId": "bundle:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
@@ -1305,6 +1306,7 @@
         "explanation": "Bubble worldhood remains stable because A=2, P=2, N=1, so A + P - N = 3."
       }
     },
+    "selfRealization": null,
     "artifacts": [
       {
         "emissionId": "emit:11:Sibling",
@@ -1359,6 +1361,8 @@
                 "value": "remain latent sibling canopy"
               }
             },
+            "stateVariables": [],
+            "transformations": [],
             "seed": "sibling_seed",
             "observationMode": null,
             "boundary": {

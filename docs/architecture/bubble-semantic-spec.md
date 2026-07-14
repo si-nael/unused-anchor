@@ -104,8 +104,29 @@ Guarantee:
 
 Current implementation:
 
-- stored as text in the current IR and used as anchor-support evidence
-- not yet compiled into an explicit constraint, ordering, or selection rule
+- preserves an authored split between descriptive text and executable criterion
+- `bubbles.v0.5` requires the executable form and evaluates it as an admissibility rule over every eligible projected realization
+- multiple admitted deterministic possibilities remain underdetermined; nondeterministic possibilities remain plural instead of being resolved by a hidden host choice
+
+### `state` and `transform`
+
+Meaning:
+
+Declare a finite explicit state coordinate and one lawful possible transition belonging to the bubble itself.
+
+Guarantee:
+
+- state is authored world state, not an inspector cache
+- a transform describes a possibility; it does not mutate the world merely by being declared
+- the world will decides admission over projected state and typed consequence
+- reversible transforms have exact reciprocal inverses
+- irreversible consequences remain explicit through an authored effect
+
+Current implementation:
+
+- `bubbles.v0.5` lowers state variables and transformations into typed IR
+- the self-realization plan evaluates preserve and eligible transform candidates
+- an explicit provenance-bearing continuation resume can evaluate the reciprocal or next transition without an external candidate selector
 
 ### `seed`
 
@@ -320,6 +341,30 @@ Bubble distinguishes at least two layers.
 - committed history that has become durable record for the same world
 
 `commit` therefore means durable fixation into history, not mere existence.
+
+## Time, Order, And Reversibility
+
+Bubble does not assume that every universe begins with one scalar universal clock.
+
+Absence of universal time must not be conflated with absence of change. A world may be invariant, reversible, cyclic, causally ordered, partially ordered, branching, terminal, or history-directed. Time-like structure should emerge from lawful relations among realizations.
+
+Current `v0.5` distinctions are:
+
+- identity preservation: no new ordering
+- reversible transformation: causal ordering with a validated inverse, but no history arrow
+- irreversible non-commit transformation: causal ordering without automatically claiming durable history
+- irreversible commit or collapse consequence: committed-history ordering and a history arrow
+- branch or spawn consequence: branching continuation topology
+
+The runtime records `clockAssumption: no-universal-clock`. A full partial-order, cycle, duration, or metric-time calculus remains open.
+
+## World Self-Realization
+
+A bubble should not require an external agent to make it function as a world.
+
+For `bubbles.v0.5`, the bubble derives eligible continuation candidates from its own state and authored transforms, projects each candidate, evaluates its executable world will, and records one of `stable`, `realized`, `plural`, `underdetermined`, `blocked`, or `contradicted`.
+
+Deterministic ambiguity is not secretly tie-broken. Nondeterministic plurality preserves all admitted continuations. Only a selected `commit` realization materializes a durable history commit. Proof, evidence, effect causality, event attribution, inspection, and stored replay all expose the same decision surface.
 
 ## Anchor Point
 
@@ -624,9 +669,11 @@ Until this semantic specification is stable enough, Bubble should prefer semanti
 
 That means the immediate priority is not arbitrary feature growth.
 
-It is tightening the guarantees around:
+The current Phase 1 priority is to complete the bubble universe before adding embedded observer or agent systems. `v0.5` begins that work with an organic self-realization kernel. `v0.5.1` and later should tighten and connect:
 
 - worldhood
+- autonomous continuation
+- time/order/reversibility
 - lifecycle
 - composition
 - partiality and unknowns

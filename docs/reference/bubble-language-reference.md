@@ -24,12 +24,13 @@ It is a line-oriented domain language with:
 - a planning and materialization runtime
 - inspection and replay surfaces
 
-The current implementation supports four profiles:
+The current implementation supports five profiles:
 
 - `bubbles.v0.1`
 - `bubbles.v0.2`
 - `bubbles.v0.3`
 - `bubbles.v0.4`
+- `bubbles.v0.5`
 
 ## Mental Model
 
@@ -50,6 +51,7 @@ The compiler and runtime treat it as a unit that can declare:
 - bounded reflection requests
 - staged emissions
 - staged grammar artifacts and activation requests
+- explicit state and world-will-selected transformations
 
 The intended pipeline is:
 
@@ -139,6 +141,19 @@ Retains `v0.3` and adds:
 
 Typical use: preserve unresolved or latent world structure explicitly, execute the bounded `constraint` / `partial law` / `anchor identity` subset, and inspect observation-collapse evidence without pretending Bubble already has a general solver.
 
+### `bubbles.v0.5`
+
+First world self-realization profile.
+
+Retains `v0.4` and adds:
+
+- `state`
+- reversible `transform ... inverse ...`
+- irreversible `transform ... via ...`
+- projected-candidate evaluation by executable world will
+
+Typical use: let one bubble choose lawful continuations through its own world will, preserve deterministic ambiguity or nondeterministic plurality honestly, and create a history arrow only when an admitted irreversible realization commits history.
+
 ## Declarations
 
 ### `bubble`
@@ -200,12 +215,42 @@ Syntax:
 
 ```bubbles
 will "grow through porous edges"
+will realization.reversibility = "reversible"
 ```
 
 Interpretation:
 
-- world will is treated as a governing principle, not decorative text
+- quoted world will remains explicit descriptive intent
+- parseable world will is an executable criterion
+- `bubbles.v0.5` requires the executable form and evaluates it over projected realization candidates
 - a valid authored world is expected to declare a world will
+
+### `state`
+
+Declares one scalar world-state coordinate.
+
+```bubbles
+state phase = "latent"
+```
+
+The state belongs to the bubble. It is not an observer-owned cache and is preserved in continuation records.
+
+### `transform`
+
+Declares one lawful possible realization.
+
+```bubbles
+transform Awaken reversible state phase from "latent" to "manifest" inverse Rest via observe
+transform Rest reversible state phase from "manifest" to "latent" inverse Awaken via observe
+transform Seal irreversible state memory from "open" to "sealed" via commit
+```
+
+- reversible pairs must be exact reciprocal inverses
+- reversible transforms cannot use `commit`, `branch`, `spawn`, or `collapse`
+- irreversible transforms must name an authored effect and cannot declare an inverse
+- declaration only creates a candidate; executable world will determines admission
+- deterministic multiple admission stays `underdetermined`; nondeterministic multiple admission becomes `plural`
+- the runtime assumes no universal clock and creates durable history only from a selected history-commit consequence
 
 ### `seed`
 
@@ -458,6 +503,16 @@ The current implementation adds these `v0.3` constraints:
 6. duplicate declared grammar profile identities are rejected
 7. local grammar profile-extension cycles are rejected
 
+### `v0.5`
+
+The current implementation adds these `v0.5` constraints:
+
+1. `state` and `transform` names are unique
+2. every transform references a declared state and effect
+3. reversible transforms declare exact reciprocal inverse pairs and avoid structurally irreversible effects
+4. irreversible transforms declare an authored effect and no inverse
+5. world will is an executable criterion
+
 ## Profile Promotion
 
 The compiler promotes the source profile automatically based on which declarations appear.
@@ -466,6 +521,7 @@ The compiler promotes the source profile automatically based on which declaratio
 - source containing `quote`, `generator`, `reflect`, or `emit` compiles as `bubbles.v0.2`
 - source containing `grammar` or `activate grammar` compiles as `bubbles.v0.3`
 - source containing unresolved-semantics declarations such as `unknown value`, `constraint`, `partial law`, `anchor identity`, `hidden region`, `unobservable relation`, or `latent bubble` compiles as `bubbles.v0.4`
+- source containing `state` or `transform` compiles as `bubbles.v0.5`
 
 Typical compiled outputs therefore include one of:
 
@@ -473,6 +529,7 @@ Typical compiled outputs therefore include one of:
 - `"profile": "bubbles.v0.2"`
 - `"profile": "bubbles.v0.3"`
 - `"profile": "bubbles.v0.4"`
+- `"profile": "bubbles.v0.5"`
 
 ## Runtime Interpretation
 
@@ -485,6 +542,8 @@ The current runtime model is:
 - materialize: activate staged descendants or artifacts and record evidence, commits, trace, and runtime-aware proof
 - inspect: turn plan and materialization state into a stable report surface, including runtime proof distinct from `plan.proof` when execution adds new evidence
 - replay: inspect a persisted run bundle later without recompiling the original source
+
+For `bubbles.v0.5`, planning also derives a `selfRealization` frontier. It evaluates invariant preservation and eligible transforms under the executable world will, records `no-universal-clock`, and exposes explicit continuations without externally choosing among deterministic ambiguity. Materialization emits a history commit only for a selected `history-commit` consequence.
 
 For observation-collapse benchmarks, materialization may also:
 
@@ -563,6 +622,7 @@ Those proof tags plus `observationCommitPolicy` / `observationCommitPolicyCompar
 - `npm run inspect:grammar-chain-example`: inspect the chained `v0.3` grammar example
 - `npm run record:meta-example`: persist one replayable runtime bundle
 - `npm run replay:meta-example`: inspect a persisted replay bundle
+- `npm run verify:self-realization`: materialize, inspect, record, and replay the canonical `v0.5` reversible and history-commit worlds
 
 ### CLI Surface
 
@@ -579,6 +639,7 @@ The inspector supports stable sections including:
 
 - `summary`
 - `plan`
+- `selfRealization`
 - `observationCommitPolicy`
 - `observationCommitPolicyComparison`
 - `ontology`
@@ -637,7 +698,11 @@ Inside `bubble`, current outputs may include:
 - `name`
 - `axioms`
 - `worldWill`
+- `worldWillDeclaration`
+- `worldWillCriterion`
 - `seed`
+- `stateVariables`
+- `transformations`
 - `observationMode`
 - `effects`
 - `obligations`
@@ -645,6 +710,8 @@ Inside `bubble`, current outputs may include:
 - `generation`
 - `unresolvedSemantics`
 - `latentTopology`
+- `boundary`
+- `seaSemantics`
 - `meta`
 
 Interpret them as follows:
@@ -655,6 +722,8 @@ Interpret them as follows:
 - `effectRoles`: one role-split projection of the authored effect layer into declarations, obligations, permissions, pressures, events, and declaration traces
 - `generation`: realization mode, lifecycle hints, and bubble-generative relations
 - `unresolvedSemantics`: authored unknown, partial, hidden, latent, or constraint-bearing semantic fragments, each preserving a stable `id`, authored `name`, description, source line, and optional executable expression witness
+- `stateVariables`: authored scalar world-state coordinates
+- `transformations`: typed reversible or irreversible possibilities with source line, state projection, reciprocal inverse, and effect provenance
 - `latentTopology`: a first IR draft that projects `hidden-region` and `latent-bubble` fragments into explicit latent-region descriptors plus collapse-evidence drafts tied to declared observe, perturb, and commit capabilities
 - `meta`: quotes, generators, reflections, emissions, grammars, and grammar activations
 
@@ -703,6 +772,7 @@ Current causal-link relations are:
 - `contributes-negative-sea-pressure`
 - `contributes-positive-sea-support`
 - `influences-anchor-assessment`
+- `governs-self-realization`
 
 An empty `causalLinks` array means the effect remains inspectable but the current run produced no concrete target record that can be attributed to it. Bubble does not synthesize a causal target merely because a capability was declared.
 
@@ -782,6 +852,7 @@ The materializer now also emits these assessments as first-class evidence record
 - `anchor-point-state`
 - `effect-trace`
 - `event-source-attribution`
+- `self-realization`
 
 Those evidence records travel through inspection and replay the same way observation and history-commit records do.
 

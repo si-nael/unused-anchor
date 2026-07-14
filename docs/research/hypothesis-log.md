@@ -216,3 +216,55 @@ Validation evidence:
 Remaining limit:
 
 The hypothesis is not validated for continuous sea dynamics, cross-world residue transport, multi-region causal coupling, or probabilistic-fractal worldhood. Those ideas remain open and must not be treated as disproved or completed by this bounded result.
+
+### H-010: Executable world will can produce organic self-realization without a hidden external selector
+
+Status: validated for the bounded v0.5.0 single-frontier scope
+
+Claim:
+
+An authored bubble can derive lawful candidates from its own state and transformation contracts, use its executable world will to admit continuations, and preserve ambiguity honestly without host code selecting a preferred outcome.
+
+Validation evidence:
+
+- the reversible garden selects the only eligible will-admitted transform and can resume through its reciprocal inverse
+- deterministic multiple admission produces no continuation and remains `underdetermined`
+- nondeterministic multiple admission preserves both continuations as `plural`
+- descriptive world will is rejected for the `v0.5` profile
+- proof, evidence, causal links, attribution, inspection, and replay expose the same selected frontier
+
+Would be weakened by:
+
+- a runtime path that names or randomly chooses a winner outside the authored world will
+- deterministic ambiguity being silently ordered by declaration order
+- replay losing selected candidate, state, or governing-will provenance
+- required effects being ignored when the will rejects their eligible transformation
+
+Next check:
+
+Extend the same law to one bounded multi-step or concrete branching transition while preserving termination, provenance, and non-forced ambiguity.
+
+### H-011: Bubble order can emerge without imposing a universal clock
+
+Status: partially validated by v0.5.0
+
+Claim:
+
+Bubble can distinguish invariant, reversible, causal, branching, terminal, and committed-history structure without making a universal scalar clock a prerequisite of worldhood.
+
+Validation evidence:
+
+- invariant preservation has `ordering: none`
+- reciprocal transforms have `ordering: causal` and no history arrow
+- selected commit transform has `ordering: committed-history`, creates one root commit, and records the history arrow
+- all self-realization records state `no-universal-clock`
+
+Would be weakened by:
+
+- materialization count or host timestamps becoming implicit world time
+- reversible transitions creating durable commits merely because they ran
+- inability to represent a cycle or concurrent causal branches without assigning arbitrary total order
+
+Next check:
+
+Add a small explicit causal-order or cycle fixture before claiming the hypothesis beyond the current single-frontier distinction.

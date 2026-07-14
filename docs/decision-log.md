@@ -867,3 +867,33 @@ The Q-014 attribution slice now resolves every supported direct class, preserves
 Consequence:
 
 Set the package version to `0.4.9` and treat its closure gates as complete. The next version is `v0.5`; do not create another intermediate version unless the user explicitly changes that decision. Preserve original dated ideas and every partial, open, or deferred question. Mark only the bounded Q-014 runtime slice complete, retain its limitations and reopen condition, and choose one measurable `v0.5` objective without treating unselected research branches as rejected.
+
+### D-087: Keep observer and comparison work in Phase 2 until the bubble universe is complete
+
+Reason:
+
+The proposed scored observer or host-language comparison would measure an outside relationship to a world whose own organic realization semantics were still missing. That reverses the intended dependency: an observer can study a completed world, but should not define or substitute for worldhood.
+
+Consequence:
+
+Make Phase 1 completion of the bubble universe the sole current priority. Defer embedded agents, observer benchmarks, and Bubble-versus-host comparison to Phase 2. Preserve those ideas in the ledger, but do not schedule them ahead of state, transformation, world will, time/order, sea, anchor, history, lineage, and replay closure.
+
+### D-088: Use executable world will as an admission law, not an external transition command
+
+Reason:
+
+If host code directly chooses a transformation, “world will” remains descriptive even when its expression is executable. Organic world operation requires the bubble to present lawful possibilities and let its own will accept or reject their projected consequences.
+
+Consequence:
+
+`bubbles.v0.5` evaluates preserve and eligible transform candidates under projected state plus typed realization metadata. One admitted possibility may realize; deterministic multiplicity remains underdetermined; authored nondeterminism preserves plural continuations. Runtime options may resume a provenance-bearing continuation but cannot name the winning candidate.
+
+### D-089: Do not impose universal time; derive order and history from transformations
+
+Reason:
+
+Treating every materialization as a clock tick would collapse atemporal persistence, reversibility, causal change, branching, and irreversible history into one simulator convention. It would also conflict with the idea that absence of time may mean reversibility rather than frozen existence.
+
+Consequence:
+
+Record `no-universal-clock` in every `v0.5` self-realization plan. Identity preservation introduces no order; reversible transitions have validated inverse and causal order; branch/spawn/collapse expose topology; only an irreversible committed consequence creates a durable history arrow. Keep general cycles, partial causal orders, and metric time open for later `v0.5.x` work.

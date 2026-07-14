@@ -78,7 +78,7 @@ test("every decision and research question remains inside the tracked record str
 
     const questionLog = readRepositoryFile("docs/research/question-log.md");
     const questionIds = [...questionLog.matchAll(/^### (Q-\d+):/gm)].map((match) => match[1]);
-    assert.deepEqual(questionIds, Array.from({ length: 17 }, (_, index) => `Q-${String(index + 1).padStart(3, "0")}`));
+    assert.deepEqual(questionIds, Array.from({ length: 19 }, (_, index) => `Q-${String(index + 1).padStart(3, "0")}`));
 
     for (const questionId of questionIds) {
         const sectionStart = questionLog.indexOf(`### ${questionId}:`);
@@ -88,7 +88,7 @@ test("every decision and research question remains inside the tracked record str
     }
 });
 
-test("v0.4.9 closes into v0.5 without pruning the original research branches", () => {
+test("v0.5 implements self-realization without pruning the original research branches", () => {
     const packageManifest = JSON.parse(readRepositoryFile("package.json")) as { version: string };
     const packageLock = JSON.parse(readRepositoryFile("package-lock.json")) as {
         version: string;
@@ -101,10 +101,11 @@ test("v0.4.9 closes into v0.5 without pruning the original research branches", (
     const questionLog = readRepositoryFile("docs/research/question-log.md");
     const implementationMap = readRepositoryFile("docs/research/idea-implementation-map.md");
 
-    assert.equal(packageManifest.version, "0.4.9");
-    assert.equal(packageLock.version, "0.4.9");
-    assert.equal(packageLock.packages[""]?.version, "0.4.9");
-    assert.ok(projectMemory.includes("The next release after `v0.4.9` is `v0.5`."));
+    assert.equal(packageManifest.version, "0.5.0");
+    assert.equal(packageLock.version, "0.5.0");
+    assert.equal(packageLock.packages[""]?.version, "0.5.0");
+    assert.ok(projectMemory.includes("The next incremental release is `v0.5.1`."));
+    assert.ok(projectMemory.includes("Phase 2 observer, agent, and comparative benchmark work must wait"));
     assert.ok(closurePlan.includes("Status: completed on 2026-07-15"));
     assert.ok(operations.includes("## Preservation Discipline"));
 
@@ -129,6 +130,8 @@ test("v0.4.9 closes into v0.5 without pruning the original research branches", (
     assert.match(questionLog, /### Q-011:[\s\S]*?Status: open/);
     assert.match(questionLog, /### Q-014:[\s\S]*?Status: bounded runtime source-attribution slice completed in v0\.4\.9/);
     assert.match(questionLog, /### Q-015:[\s\S]*?Status: open and explicitly deferred beyond the v0\.5 entry gate/);
-    assert.ok(implementationMap.includes("The next version is `v0.5`"));
-    assert.ok(implementationMap.includes("this transition does not close or delete the partial, open, or deferred rows above"));
+    assert.match(questionLog, /### Q-018:[\s\S]*?Status: implemented bounded baseline in v0\.5\.0/);
+    assert.match(questionLog, /### Q-019:[\s\S]*?Status: partially implemented in v0\.5\.0/);
+    assert.ok(implementationMap.includes("`v0.5.0` implements the first organic self-realization vertical flow"));
+    assert.ok(implementationMap.toLowerCase().includes("this transition does not close or delete the partial, open, or deferred rows above"));
 });

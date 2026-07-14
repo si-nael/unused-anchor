@@ -19,31 +19,38 @@ The target is not decorative cosmological vocabulary. The runtime should eventua
 - **Positive sea:** the directionally structuring outer field associated with lineage, placement, continuity, relation, growth, and stabilization. It is not moral good and is wider than an anchor.
 - **Anchor point:** the identity fixpoint that explains why one bubble remains this world across disturbance, observation, commitment, replay, and growth. It binds law basis, committed history, trusted observation, and boundary coherence.
 - **World will:** an authored governing orientation. It is executable only when authored as a supported criterion; quoted prose remains explicit descriptive intent rather than fake executable law.
+- **World self-realization:** the bubble derives lawful continuation candidates from its own state and transformations, then its executable world will admits them. External tooling may inspect or resume a provenance-bearing continuation but must not choose a candidate secretly.
+- **Time/order:** Bubble assumes no universal clock. A world may be invariant, reversible, cyclic, causally or partially ordered, branching, terminal, or history-directed; the durable history arrow begins only from an irreversible commitment.
 - **Observation:** bounded causal contact, not automatically a passive complete read. A bubble may persist as compressed lawful existence before contact.
 
 The canonical ontology is [architecture/sea-anchor-model.md](architecture/sea-anchor-model.md). These definitions remain a working ontology and must not be claimed as a perfect substitute for unrecorded user intent.
 
 ## Current Implementation Boundary
 
-The completed `v0.4.9` baseline includes:
+The completed `v0.5.0` baseline includes everything in `v0.4.9`, plus:
 
-- Bubble DSL profiles from `v0.1` through `v0.4`
+- Bubble DSL profiles from `v0.1` through `v0.5`
 - explicit IR for boundary, world will mode, unresolved semantics, effects, sea-source projections, lineage, and staged artifacts
 - bounded executable semantics and three-valued consistency certificates
 - negative-sea, positive-sea, and anchor assessments with inspectable source and evidence records
 - a bounded single-region observation-materialization law with collapse, commit, inspection, and replay records
 - typed causal links from authored effects to concrete evidence and descendant artifacts produced in the same run
 - evidence-bounded event-source attribution with direct/contextual candidates, typed basis, honest ambiguity, inspection filters, and stored replay preservation
+- explicit scalar state and typed reversible or irreversible transformations
+- executable world-will admission over projected preserve/transform candidates
+- deterministic underdetermination and nondeterministic plural continuations without an external selector
+- reciprocal inverse validation, no-universal-clock runtime semantics, and commit-only history arrows
+- self-realization proof, evidence, causal-link, attribution, inspection, continuation-resume, and stored replay surfaces
 
-It does not yet constitute complete sea dynamics, a full anchor identity calculus, deterministic same-world re-execution proof, multi-region collapse, probabilistic-fractal worldhood, or a first-class embedded observer-agent model.
+It does not yet constitute complete autonomous multi-step closure, coupled state transformation, concrete self-realized branch/spawn/collapse execution, complete sea dynamics, a full anchor identity or time/order calculus, deterministic same-world re-execution proof, multi-region collapse, probabilistic-fractal worldhood, or a first-class embedded observer-agent model.
 
 ## Release Discipline
 
-Progress is closure-first through the `v0.5` boundary. Finish one already-open semantic slice, verify it, reconcile its research status, and record its limits before opening another broad feature family. `v0.4.9` served as the pre-`v0.5` convergence release; do not hide known semantic or provenance gaps inside a major version transition.
+Progress remains closure-first through the `v0.5.x` line. `v0.5.0` opens Phase 1 world self-realization. Finish one connected world-semantic seam, verify it, reconcile its research status, and record its limits before widening again.
 
 The `v0.4.9` convergence plan is complete. Its single semantic closure is evidence-bounded source attribution for Q-014: internal world event, negative-sea pressure, anchor drift, positive-sea shift, or unresolved source. The completed boundary is recorded in [architecture/v0.4.9-closure-plan.md](architecture/v0.4.9-closure-plan.md).
 
-The next release after `v0.4.9` is `v0.5`. Do not insert another `v0.4.x` release or skip directly past `v0.5` unless the user explicitly changes this succession rule.
+The release after `v0.4.9` is `v0.5.0`, now implemented. The next incremental release is `v0.5.1`. Phase 2 observer, agent, and comparative benchmark work must wait until the bubble universe itself is sufficiently complete.
 
 ## Research Preservation
 
@@ -53,7 +60,7 @@ The original dated ideas remain authoritative context even when one bounded impl
 - preserve partial, open, and deferred questions in the implementation map
 - interpret a release non-goal only as a scope boundary for that release
 - do not use runtime proxies to declare the full sea, anchor, observer, replay, or probabilistic research programs complete
-- choose one measurable objective for `v0.5` without erasing the other branches
+- close one connected objective per `v0.5.x` release without erasing the other branches
 
 ## Canonical Records
 

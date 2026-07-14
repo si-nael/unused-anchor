@@ -86,6 +86,44 @@ export function evaluateAnchorCriterion(
     return buildSemanticEvaluationPlan(program, emissionPlan, grammarActivationPlan).anchorCriterion;
 }
 
+export function buildBubbleExecutableEnvironment(
+    program: BubbleProgramIR,
+    emissionPlan: BubbleExecutableEmissionPlan[],
+    grammarActivationPlan: BubbleExecutableGrammarActivationPlan[],
+    overrides: Readonly<Record<string, ScalarValue>> = {},
+): Map<string, ScalarValue> {
+    const environment = buildExecutableEnvironment(program, emissionPlan, grammarActivationPlan);
+    for (const [path, value] of Object.entries(overrides)) {
+        environment.set(path, value);
+    }
+    return environment;
+}
+
+export function evaluateBubbleExpressionInEnvironment(
+    label: string,
+    expression: BubbleExpressionIR,
+    environment: Map<string, ScalarValue>,
+): BubbleExecutableCheckResult {
+    return evaluateNamedExpression(label, formatBubbleExpression(expression), expression, environment, {
+        missingExpressionBasis: "missing-executable-expression",
+        satisfiedBasis: "expression-satisfied",
+        violatedBasis: "expression-violated",
+        unknownBasis: "expression-reference-gap",
+    });
+}
+
+export function evaluateWorldWillForRealization(
+    program: BubbleProgramIR,
+    emissionPlan: BubbleExecutableEmissionPlan[],
+    grammarActivationPlan: BubbleExecutableGrammarActivationPlan[],
+    overrides: Readonly<Record<string, ScalarValue>>,
+): BubbleSemanticEvaluation | null {
+    return evaluateWorldWillCriterionWithEnvironment(
+        program,
+        buildBubbleExecutableEnvironment(program, emissionPlan, grammarActivationPlan, overrides),
+    );
+}
+
 function evaluateWorldWillCriterionWithEnvironment(
     program: BubbleProgramIR,
     environment: Map<string, ScalarValue>,
@@ -455,6 +493,10 @@ function buildExecutableEnvironment(
 
     if (bubble.worldWill !== null) {
         environment.set("world.will", bubble.worldWill);
+    }
+
+    for (const state of bubble.stateVariables) {
+        environment.set(`state.${state.name}`, state.initialValue);
     }
 
     if (bubble.generation.lifecycle.observationMode !== null) {

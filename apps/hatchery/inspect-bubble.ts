@@ -19,7 +19,7 @@ async function main(): Promise<void> {
     const { inputPath, outputPath, section, query, options } = parseCliArgs(process.argv.slice(2));
 
     if (!inputPath) {
-        throw new Error("Usage: tsx apps/hatchery/inspect-bubble.ts <input.bubble> [output.json] [--section summary|plan|externalObservationLimit|observationCommitPolicy|observationCommitPolicyComparison|ontology|semantics|proof|bundle|grammars|artifacts|commits|evidence|sourceAttributions|observationStates|trace|report] [--observation-policy-override <commit-single-observed-region|commit-hidden-region-with-latent-bubble-siblings|defer-multiple-hidden-region-targets|defer-no-eligible-observed-target>] [--emission <id>] [--address <id>] [--activation <id>] [--grammar-profile <name>] [--observation-state <id>] [--observation-phase <observed-uncommitted|observed-history-open|observed-committed>] [--observation-policy-rule <commit-single-observed-region|commit-hidden-region-with-latent-bubble-siblings|defer-multiple-hidden-region-targets|defer-no-eligible-observed-target>] [--observation-history-shape <fully-committed|partially-committed|history-open-only|uncommitted-only|mixed-open>] [--semantic <id>] [--semantic-kind <constraint|partial-law|anchor-criterion>] [--semantic-status <satisfied|violated|undetermined>] [--claim <id>] [--claim-kind <syntax|worldhood|effect|anchor|lineage|consistency|replay>] [--claim-status <certified|contradicted|undetermined>] [--evidence-kind <kind>] [--attribution-status <resolved|unresolved>] [--attribution <internal-world-event|negative-sea-pressure|anchor-drift|positive-sea-shift|unresolved-source>] [--kind <trace-kind>]");
+        throw new Error("Usage: tsx apps/hatchery/inspect-bubble.ts <input.bubble> [output.json] [--section summary|plan|selfRealization|externalObservationLimit|observationCommitPolicy|observationCommitPolicyComparison|ontology|semantics|proof|bundle|grammars|artifacts|commits|evidence|sourceAttributions|observationStates|trace|report] [--observation-policy-override <commit-single-observed-region|commit-hidden-region-with-latent-bubble-siblings|defer-multiple-hidden-region-targets|defer-no-eligible-observed-target>] [--emission <id>] [--address <id>] [--activation <id>] [--grammar-profile <name>] [--observation-state <id>] [--observation-phase <observed-uncommitted|observed-history-open|observed-committed>] [--observation-policy-rule <commit-single-observed-region|commit-hidden-region-with-latent-bubble-siblings|defer-multiple-hidden-region-targets|defer-no-eligible-observed-target>] [--observation-history-shape <fully-committed|partially-committed|history-open-only|uncommitted-only|mixed-open>] [--semantic <id>] [--semantic-kind <constraint|partial-law|anchor-criterion>] [--semantic-status <satisfied|violated|undetermined>] [--claim <id>] [--claim-kind <syntax|worldhood|effect|anchor|lineage|consistency|replay|self-realization>] [--claim-status <certified|contradicted|undetermined>] [--evidence-kind <kind>] [--attribution-status <resolved|unresolved>] [--attribution <internal-world-event|negative-sea-pressure|anchor-drift|positive-sea-shift|unresolved-source>] [--kind <trace-kind>]");
     }
 
     const source = await readFile(inputPath, "utf8");
@@ -60,6 +60,8 @@ function selectSection(report: BubbleInspectionReport, section: BubbleInspection
             return report.summary;
         case "plan":
             return report.plan;
+        case "selfRealization":
+            return report.selfRealization;
         case "externalObservationLimit":
             return report.externalObservationLimit;
         case "observationCommitPolicy":
@@ -112,7 +114,7 @@ function parseCliArgs(argv: string[]): {
         if (argument === "--section") {
             const rawSection = argv[index + 1];
             if (!rawSection || !isInspectionSection(rawSection)) {
-                throw new Error("--section requires one of: summary, plan, externalObservationLimit, observationCommitPolicy, observationCommitPolicyComparison, ontology, semantics, proof, bundle, grammars, artifacts, commits, evidence, observationStates, trace, report");
+                throw new Error("--section requires one of: summary, plan, selfRealization, externalObservationLimit, observationCommitPolicy, observationCommitPolicyComparison, ontology, semantics, proof, bundle, grammars, artifacts, commits, evidence, observationStates, trace, report");
             }
 
             section = rawSection;
@@ -350,6 +352,7 @@ function parseCliArgs(argv: string[]): {
 function isInspectionSection(value: string): value is BubbleInspectionSection {
     return value === "summary"
         || value === "plan"
+        || value === "selfRealization"
         || value === "externalObservationLimit"
         || value === "observationCommitPolicy"
         || value === "observationCommitPolicyComparison"
@@ -406,6 +409,7 @@ function isTraceKind(value: string): value is NonNullable<BubbleInspectionQuery[
         || value === "no-emissions"
         || value === "reflection-captured"
         || value === "emission-materialized"
+        || value === "self-realization-resolved"
         || value === "materialization-committed";
 }
 
@@ -428,7 +432,8 @@ function isClaimKind(value: string): value is NonNullable<BubbleInspectionQuery[
         || value === "anchor"
         || value === "lineage"
         || value === "consistency"
-        || value === "replay";
+        || value === "replay"
+        || value === "self-realization";
 }
 
 function isClaimStatus(value: string): value is NonNullable<BubbleInspectionQuery["claimStatus"]> {
@@ -448,6 +453,7 @@ function isEvidenceKind(value: string): value is NonNullable<BubbleInspectionQue
         || value === "negative-sea-state"
         || value === "positive-sea-state"
         || value === "anchor-point-state"
+        || value === "self-realization"
         || value === "effect-trace"
         || value === "event-source-attribution";
 }

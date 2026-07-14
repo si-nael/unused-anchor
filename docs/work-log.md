@@ -2,6 +2,14 @@
 
 ## 2026-07-15
 
+- Implemented `bubbles.v0.5` as the first Phase 1 world self-realization kernel: explicit state and reversible/irreversible transformations now lower through AST and IR, with compiler-checked reciprocal inverses and authored effect consequences.
+- Made executable world will an actual candidate-admission law over projected state and typed realization metadata; deterministic ambiguity remains `underdetermined`, nondeterministic multiplicity remains `plural`, and no hidden external selector chooses a continuation.
+- Added `no-universal-clock` semantics with distinct invariant, causal, branching/terminal, and committed-history outcomes. Only a selected `commit` transformation creates a root history commit and a history arrow.
+- Added provenance-bearing continuation resume, self-realization consistency claims, evidence, effect causal links, source attribution, trace events, summary fields, a dedicated inspection/replay section, and canonical reversible/commit artifacts.
+- Added focused regression coverage for reversible round trips, irreversible commit, deterministic underdetermination, nondeterministic plurality, descriptive-will rejection, and malformed inverse rejection.
+- Corrected the Phase 1/Phase 2 roadmap: the previously proposed observer or Bubble-versus-host benchmark is preserved as a historical proposal but deferred until the bubble universe itself is complete.
+- Reconciled the time/reversibility and world-will ideas across the semantic specification, language reference, release plan, README, project memory, idea/question/hypothesis/decision/boundary logs, and the implementation map without deleting older research branches.
+- Passed the final `npm.cmd run verify` boundary as `unused-anchor@0.5.0`: TypeScript checking, all 100 unit and research-record tests, every legacy example/collapse/replay/attribution path, and both canonical self-realization materialize/inspect/record/replay paths completed successfully.
 - Completed `v0.4.9` as the bounded Q-014 convergence release: concrete collapse, history-commit, descendant, and observation subjects now emit typed `event-source-attribution` evidence with resolved or unresolved verdict, direct/contextual candidates, and typed basis.
 - Implemented conservative discrimination rules: concrete perturb contribution can resolve negative-sea pressure, weak anchor alone cannot prove drift, concrete drifting materialization plus insecure record identity can support anchor drift, and history/lineage changes resolve positive-sea shift.
 - Added materialization, inspection, CLI filtering, and stored replay coverage; the canonical `attribution-crossroads.bubble` fixture preserves simultaneous direct negative-sea and anchor-drift evidence as `unresolved-source` across inspect and replay outputs.

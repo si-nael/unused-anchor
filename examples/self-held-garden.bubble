@@ -1,0 +1,11 @@
+bubble SelfHeldGarden {
+  realization deterministic
+  axiom coherence = stable
+  will realization.reversibility = "reversible"
+  seed self_held_seed
+  anchor identity = axiom.coherence = "stable"
+  state phase = "latent"
+  effect observe required
+  transform Awaken reversible state phase from "latent" to "manifest" inverse Rest via observe
+  transform Rest reversible state phase from "manifest" to "latent" inverse Awaken via observe
+}

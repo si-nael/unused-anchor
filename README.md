@@ -4,22 +4,22 @@
 
 This repository starts from a research question:
 
-Can an embedded AI agent, living inside a small procedural world with partial observation, infer that world's rules and detect contradictions under finite evidence?
+Can a compactly authored bubble universe become and remain a coherent world through its own laws, world will, sea relations, anchor identity, and history semantics without an external chooser forcing its unfolding?
 
 It also starts from a stronger motivating belief:
 
 Our world appears extraordinarily complex, yet it remains explainable without contradiction at least within the scope of our current best models. This motivates a sharper question for artificial worlds: must sufficiently rich virtual worlds eventually generate contradictions, or can a world be designed to remain globally coherent while still supporting complexity, history, and embedded intelligence?
 
-The project combines four directions:
+The project combines four directions, in a strict phase order:
 
 - Procedural world generation from compact rules instead of explicit full-state simulation.
-- An AI companion that treats the world as real from the inside.
-- Emergence through repeated interaction among simple agents.
+- Organic world self-realization through the bubble's own executable world will.
+- Later, only after the world core is complete, embedded intelligence and emergent interaction.
 - A small axiom-based world with a "world will," nondeterministic anomalies, and bubble universes.
 
 ## Working Thesis
 
-Build a minimal world engine that generates reality from a compressed set of axioms, then place one or more AI agents inside that world with limited perception and memory. The agents should form beliefs, discover regularities, and identify contradictions or anomalies caused by hidden rule changes, boundary effects, or nondeterministic events.
+Build a minimal world engine that generates reality from compressed axioms and lets each bubble determine lawful continuations through its own world will. Complete the observer-independent world core first. Embedded agents with limited perception and memory are a later Phase 2 research layer, not a prerequisite for worldhood.
 
 ## Long-Range Vision
 
@@ -57,12 +57,11 @@ The deepest layer of the project is not only world generation. It is the study o
 
 The final ambition can be large, but the first executable system should stay small.
 
-1. Build a formal micro-world kernel with explicit axioms and partial observation.
-2. Add a single embedded companion that learns and tests world laws.
-3. Add an inspector that evaluates contradiction, consistency, and anomaly detection.
-4. Expand to multi-agent interaction inside one world.
-5. Compose multiple bubble universes with distinct world wills and narrative structures.
-6. Study cross-world transfer, boundary effects, and multiverse-level contradictions.
+1. Complete a formal bubble-world kernel with explicit axioms, state, boundary, world will, sea relations, anchor identity, lawful transformation, and history.
+2. Connect autonomous continuation, lineage, collapse, replay, and finite representation until the bubble universe operates coherently as one world system.
+3. Only then add an embedded companion that learns and tests world laws.
+4. Add observer-facing consistency and anomaly benchmarks.
+5. Expand to multi-agent interaction and cross-world research.
 
 ## Persistence Principle
 
@@ -119,12 +118,14 @@ The repository now contains an executable Bubble Language stack rather than only
 - `bubbles.v0.2`: staged meta artifacts through `quote`, `generator`, `reflect`, and `emit`
 - `bubbles.v0.3`: staged grammar artifacts and activation planning
 - `bubbles.v0.4`: unresolved semantics, `anchor identity`, executable semantic fragments, and latent topology
+- `bubbles.v0.5`: explicit state, reversible/irreversible transformations, and world-will-selected self-realization without a forced universal clock
 - semantic planning and selective materialization
 - sea-anchor ontology assessment with explicit source arrays and separated anchor state fields
 - bounded consistency certificates and executable checks for `constraint`, `partial law`, `anchor identity`, and parseable world will
 - bounded observation-collapse evidence, observation states, observation commit policy, and replay surfaces
 - `v0.4.8` effect-trace causal links from authored effects to the concrete evidence records and descendant artifacts they explain
 - `v0.4.9` evidence-bounded event-source attribution for internal world events, negative-sea pressure, anchor drift, positive-sea shifts, and honestly unresolved sources
+- `v0.5.0` self-realization evidence, continuations, reciprocal reversibility, plural/underdetermined possibility preservation, and history arrows created only by selected commits
 
 Current stabilization commands:
 
@@ -136,6 +137,7 @@ Current stabilization commands:
 6. `npm run verify:collapse`
 7. `npm run verify:replay`
 8. `npm run verify:attribution`
+9. `npm run verify:self-realization`
 
 Representative source examples:
 
@@ -145,8 +147,10 @@ Representative source examples:
 - [examples/collapse-threshold.bubble](examples/collapse-threshold.bubble)
 - [examples/collapse-mirror.bubble](examples/collapse-mirror.bubble)
 - [examples/attribution-crossroads.bubble](examples/attribution-crossroads.bubble)
+- [examples/self-held-garden.bubble](examples/self-held-garden.bubble)
+- [examples/memory-seal.bubble](examples/memory-seal.bubble)
 
-Observation-collapse and event-source attribution are bounded runtime kernels in the completed `v0.4.9` line. They are not yet a general collapse solver, complete causal calculus, probabilistic replay model, or authored commit-policy language. The next version is `v0.5`; it should open one measurable research objective without erasing the still-open ideas and questions recorded in the repository.
+`v0.5.0` now supplies the first organic vertical world flow: authored state becomes lawful candidates, executable world will admits continuations, proof/evidence records the result, and a selected commit alone creates durable history. This is not yet the completed bubble universe. `v0.5.1` and later must deepen autonomous continuation, state coupling, concrete branch/spawn/collapse transitions, time/order structure, sea dynamics, and same-world replay before Phase 2 observer or agent work begins.
 
 ## Repository Notes
 
@@ -157,3 +161,4 @@ Observation-collapse and event-source attribution are bounded runtime kernels in
 - [docs/research/hypothesis-log.md](docs/research/hypothesis-log.md): falsifiable hypotheses and test plans
 - [docs/research/boundary-log.md](docs/research/boundary-log.md): observed language and runtime membrane failures
 - [docs/architecture/v0.4.9-closure-plan.md](docs/architecture/v0.4.9-closure-plan.md): completed bounded convergence gate before `v0.5`
+- [docs/architecture/v0.5-self-realization-plan.md](docs/architecture/v0.5-self-realization-plan.md): implemented `v0.5` Phase 1 vertical world-flow boundary and `v0.5.1` continuation queue

@@ -1,0 +1,10 @@
+bubble MemorySeal {
+  realization deterministic
+  axiom coherence = stable
+  will realization.name = "Seal"
+  seed memory_seed
+  anchor identity = axiom.coherence = "stable"
+  state memory = "open"
+  effect commit required
+  transform Seal irreversible state memory from "open" to "sealed" via commit
+}

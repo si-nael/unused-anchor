@@ -9,6 +9,8 @@ import type {
     RealizationDeclaration,
     ReflectDeclaration,
     SpawnDeclaration,
+    StateDeclaration,
+    TransformDeclaration,
     UnresolvedSemanticDeclaration,
 } from "./ast";
 import { isBubbleScalarExpression } from "./expressions";
@@ -16,7 +18,7 @@ import type { BubbleProgramIR } from "../ir";
 import { createDiagnostic, type Diagnostic } from "./diagnostics";
 
 const SUPPORTED_REFLECT_PATHS = new Set(["self.address", "self.profile", "self.seed", "self.worldWill"]);
-const SUPPORTED_GRAMMAR_BASE_PROFILES = new Set(["bubbles.v0.1", "bubbles.v0.2", "bubbles.v0.3", "bubbles.v0.4"]);
+const SUPPORTED_GRAMMAR_BASE_PROFILES = new Set(["bubbles.v0.1", "bubbles.v0.2", "bubbles.v0.3", "bubbles.v0.4", "bubbles.v0.5"]);
 
 export function validateBubbleCompilation(document: BubbleDocument, program: BubbleProgramIR): Diagnostic[] {
     const diagnostics: Diagnostic[] = [];
@@ -35,6 +37,12 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
     );
     const unresolvedSemanticDeclarations = document.bubble.declarations.filter(
         (declaration): declaration is UnresolvedSemanticDeclaration => declaration.kind === "unresolved-semantic",
+    );
+    const stateDeclarations = document.bubble.declarations.filter(
+        (declaration): declaration is StateDeclaration => declaration.kind === "state",
+    );
+    const transformDeclarations = document.bubble.declarations.filter(
+        (declaration): declaration is TransformDeclaration => declaration.kind === "transform",
     );
     const quoteDeclarations = document.bubble.declarations.filter(
         (declaration): declaration is QuoteDeclaration => declaration.kind === "quote",
@@ -206,6 +214,105 @@ export function validateBubbleCompilation(document: BubbleDocument, program: Bub
         }
 
         unresolvedSemanticLines.set(declaration.name, declaration.line);
+    }
+
+    if (profile === "bubbles.v0.5" && program.bubble.worldWillCriterion === undefined) {
+        diagnostics.push(createDiagnostic({
+            code: "BBL224",
+            severity: "error",
+            message: "A bubbles.v0.5 self-realizing world requires an executable world will rather than descriptive text.",
+            sourcePath,
+            line: document.bubble.declarations.find((declaration) => declaration.kind === "will")?.line ?? bubbleLine,
+        }));
+    }
+
+    if (transformDeclarations.length > 0 && stateDeclarations.length === 0) {
+        diagnostics.push(createDiagnostic({
+            code: "BBL225",
+            severity: "error",
+            message: "A transform requires at least one declared world state variable.",
+            sourcePath,
+            line: transformDeclarations[0].line,
+        }));
+    }
+
+    const stateNames = new Set(stateDeclarations.map((declaration) => declaration.name));
+    const transformsByName = new Map(transformDeclarations.map((declaration) => [declaration.name, declaration]));
+    const effectKinds = new Set(effectDeclarations.map((declaration) => declaration.effectKind));
+
+    for (const declaration of transformDeclarations) {
+        if (!stateNames.has(declaration.stateName)) {
+            diagnostics.push(createDiagnostic({
+                code: "BBL226",
+                severity: "error",
+                message: `Transform '${declaration.name}' targets unknown state '${declaration.stateName}'.`,
+                sourcePath,
+                line: declaration.line,
+            }));
+        }
+
+        if (declaration.effectKind !== null && !effectKinds.has(declaration.effectKind)) {
+            diagnostics.push(createDiagnostic({
+                code: "BBL227",
+                severity: "error",
+                message: `Transform '${declaration.name}' uses undeclared effect '${declaration.effectKind}'.`,
+                sourcePath,
+                line: declaration.line,
+            }));
+        }
+
+        if (declaration.reversibility === "reversible") {
+            const inverse = declaration.inverseName === null ? null : transformsByName.get(declaration.inverseName) ?? null;
+            const inverseIsExact = inverse !== null
+                && inverse.reversibility === "reversible"
+                && inverse.inverseName === declaration.name
+                && inverse.stateName === declaration.stateName
+                && inverse.fromValue === declaration.toValue
+                && inverse.toValue === declaration.fromValue;
+            if (!inverseIsExact) {
+                diagnostics.push(createDiagnostic({
+                    code: "BBL228",
+                    severity: "error",
+                    message: `Reversible transform '${declaration.name}' requires an exact reciprocal inverse over the same state variable.`,
+                    sourcePath,
+                    line: declaration.line,
+                }));
+            }
+
+            if (
+                declaration.effectKind === "commit"
+                || declaration.effectKind === "branch"
+                || declaration.effectKind === "spawn"
+                || declaration.effectKind === "collapse"
+            ) {
+                diagnostics.push(createDiagnostic({
+                    code: "BBL231",
+                    severity: "error",
+                    message: `Reversible transform '${declaration.name}' cannot use structurally irreversible effect '${declaration.effectKind}'.`,
+                    sourcePath,
+                    line: declaration.line,
+                }));
+            }
+        } else {
+            if (declaration.inverseName !== null) {
+                diagnostics.push(createDiagnostic({
+                    code: "BBL229",
+                    severity: "error",
+                    message: `Irreversible transform '${declaration.name}' cannot declare an inverse.`,
+                    sourcePath,
+                    line: declaration.line,
+                }));
+            }
+            if (declaration.effectKind === null) {
+                diagnostics.push(createDiagnostic({
+                    code: "BBL230",
+                    severity: "error",
+                    message: `Irreversible transform '${declaration.name}' must name the authored effect that makes it irreversible.`,
+                    sourcePath,
+                    line: declaration.line,
+                }));
+            }
+        }
     }
 
     const namedMetaDeclarations = [...quoteDeclarations, ...generatorDeclarations, ...grammarDeclarations];

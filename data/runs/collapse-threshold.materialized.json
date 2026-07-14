@@ -759,6 +759,7 @@
         }
       ]
     },
+    "selfRealization": null,
     "bundle": {
       "mode": "bubble-bundle-plan.v1",
       "bundleId": "bundle:bubble:examples/collapse-threshold.bubble::root:CollapseThreshold",
@@ -1215,6 +1216,7 @@
       "explanation": "Bubble worldhood remains stable because A=2, P=1, N=1, so A + P - N = 2."
     }
   },
+  "selfRealization": null,
   "artifacts": [],
   "commits": [
     {

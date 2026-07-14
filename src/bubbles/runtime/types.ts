@@ -7,7 +7,9 @@ import type {
     BubbleLatentRegionDescriptorIR,
     BubbleLatentTopologyIR,
     BubbleProgramIR,
+    BubbleTransformationIR,
     ObligationIR,
+    ScalarValue,
 } from "../ir";
 import type { Diagnostic } from "../language";
 import type {
@@ -42,9 +44,10 @@ import type {
     BubbleObservationStateRecord as EvidenceBubbleObservationStateRecord,
     BubbleObservationEvidenceRecord as EvidenceBubbleObservationEvidenceRecord,
     BubblePositiveSeaEvidenceRecord as EvidenceBubblePositiveSeaEvidenceRecord,
+    BubbleSelfRealizationEvidenceRecord as EvidenceBubbleSelfRealizationEvidenceRecord,
 } from "./evidence";
 import type { BubbleConsistencyCertificate } from "./proof";
-import type { BubbleSemanticEvaluationPlan } from "./semantics";
+import type { BubbleSemanticEvaluation, BubbleSemanticEvaluationPlan } from "./semantics";
 
 export interface BubbleEmissionPlan {
     emissionId: string;
@@ -232,6 +235,84 @@ export interface BubbleObservationCommitPolicyComparison {
 
 export interface BubbleRuntimeOptions {
     observationCommitPolicyOverride?: BubbleObservationCommitPolicyOverride | null;
+    selfRealizationResume?: BubbleSelfRealizationResume | null;
+}
+
+export interface BubbleSelfRealizationResume {
+    mode: "bubble-self-realization-resume.v1";
+    bubbleAddressId: string;
+    sourceContinuationId: string;
+    state: Record<string, ScalarValue>;
+}
+
+export type BubbleSelfRealizationStatus =
+    | "stable"
+    | "realized"
+    | "plural"
+    | "underdetermined"
+    | "blocked"
+    | "contradicted";
+export type BubbleSelfRealizationStateSource = "authored-initial" | "resumed-continuation";
+export type BubbleSelfRealizationReversibility = "identity" | BubbleTransformationIR["reversibility"];
+export type BubbleSelfRealizationOrdering = "none" | "causal" | "committed-history";
+export type BubbleSelfRealizationTopology = "single" | "branching" | "terminal";
+export type BubbleSelfRealizationIdentityOutcome = "preserved" | "open" | "released";
+export type BubbleSelfRealizationConsequence =
+    | "none"
+    | "causal-trace"
+    | "history-commit"
+    | "branch-continuation"
+    | "descendant-continuation"
+    | "world-collapse";
+
+export interface BubbleSelfRealizationCandidate {
+    candidateId: string;
+    kind: "preserve" | "transform";
+    transformationId: string | null;
+    transformationName: string;
+    reversibility: BubbleSelfRealizationReversibility;
+    ordering: BubbleSelfRealizationOrdering;
+    topology: BubbleSelfRealizationTopology;
+    identityOutcome: BubbleSelfRealizationIdentityOutcome;
+    effectId: string | null;
+    effectKind: BubbleProgramIR["bubble"]["effects"][number]["kind"] | null;
+    effectRequirement: BubbleProgramIR["bubble"]["effects"][number]["requirement"] | null;
+    consequence: BubbleSelfRealizationConsequence;
+    eligible: boolean;
+    stateBefore: Record<string, ScalarValue>;
+    stateAfter: Record<string, ScalarValue>;
+    worldWillEvaluation: BubbleSemanticEvaluation | null;
+    admittedByWorldWill: boolean;
+    selected: boolean;
+    description: string;
+}
+
+export interface BubbleSelfRealizationContinuation {
+    continuationId: string;
+    candidateId: string;
+    transformationId: string | null;
+    state: Record<string, ScalarValue>;
+    reversibility: BubbleSelfRealizationReversibility;
+    ordering: BubbleSelfRealizationOrdering;
+    topology: BubbleSelfRealizationTopology;
+    consequence: BubbleSelfRealizationConsequence;
+    createsHistoryArrow: boolean;
+}
+
+export interface BubbleSelfRealizationPlan {
+    mode: "bubble-self-realization.v1";
+    realizationId: string;
+    governingWillId: string;
+    clockAssumption: "no-universal-clock";
+    stateSource: BubbleSelfRealizationStateSource;
+    sourceContinuationId: string | null;
+    currentState: Record<string, ScalarValue>;
+    status: BubbleSelfRealizationStatus;
+    candidates: BubbleSelfRealizationCandidate[];
+    selectedCandidateIds: string[];
+    continuations: BubbleSelfRealizationContinuation[];
+    obligationConflicts: string[];
+    description: string;
 }
 
 export type BubbleNegativeSeaPressure = OntologyBubbleNegativeSeaPressure;
@@ -289,6 +370,7 @@ export interface BubbleExecutionPlan {
     semantics: BubbleSemanticEvaluationPlan;
     ontology: BubbleSeaAnchorAssessment;
     proof: BubbleConsistencyCertificate;
+    selfRealization: BubbleSelfRealizationPlan | null;
     bundle: BubbleBundlePlan;
     latentTopology: BubbleLatentTopologyIR | null;
     observationCommitPolicy: BubbleObservationCommitPolicyPlan | null;
@@ -336,11 +418,13 @@ export type BubbleNegativeSeaEvidenceRecord = EvidenceBubbleNegativeSeaEvidenceR
 export type BubblePositiveSeaEvidenceRecord = EvidenceBubblePositiveSeaEvidenceRecord;
 export type BubbleAnchorPointEvidenceRecord = EvidenceBubbleAnchorPointEvidenceRecord;
 export type BubbleEffectTraceEvidenceRecord = EvidenceBubbleEffectTraceEvidenceRecord;
+export type BubbleSelfRealizationEvidenceRecord = EvidenceBubbleSelfRealizationEvidenceRecord;
 export type BubbleEvidenceRecord = EvidenceBubbleEvidenceRecord;
 
 export interface BubbleMaterializationTraceEvent {
     kind:
     | "materialization-started"
+    | "self-realization-resolved"
     | "grammar-activation-staged"
     | "no-emissions"
     | "local-collapse-materialized"
@@ -357,6 +441,7 @@ export interface BubbleMaterializationResult {
     plan: BubbleExecutionPlan;
     proof: BubbleConsistencyCertificate;
     runtimeOntology: BubbleSeaAnchorAssessment;
+    selfRealization: BubbleSelfRealizationPlan | null;
     artifacts: MaterializedBubbleArtifact[];
     commits: BubbleMaterializationCommit[];
     evidence: BubbleEvidenceRecord[];

@@ -31,6 +31,9 @@
       "contradicted": 0,
       "undetermined": 5
     },
+    "selfRealizationStatus": null,
+    "selfRealizationContinuationCount": 0,
+    "selfRealizationCreatesHistoryArrow": false,
     "materializedArtifactCount": 0,
     "descendantCount": 0,
     "artifactCount": 0,
@@ -816,6 +819,7 @@
         }
       ]
     },
+    "selfRealization": null,
     "bundle": {
       "mode": "bubble-bundle-plan.v1",
       "bundleId": "bundle:bubble:examples/collapse-mixed.bubble::root:CollapseMixed",
@@ -991,6 +995,7 @@
     "grammarActivationPlan": [],
     "emissionPlan": []
   },
+  "selfRealization": null,
   "externalObservationLimit": {
     "mode": "bubble-external-observation-limit.v1",
     "observerPosition": "outside-bubble",

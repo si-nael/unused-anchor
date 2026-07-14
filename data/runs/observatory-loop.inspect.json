@@ -31,6 +31,9 @@
       "contradicted": 0,
       "undetermined": 4
     },
+    "selfRealizationStatus": null,
+    "selfRealizationContinuationCount": 0,
+    "selfRealizationCreatesHistoryArrow": false,
     "materializedArtifactCount": 2,
     "descendantCount": 1,
     "artifactCount": 1,
@@ -447,6 +450,7 @@
         }
       ]
     },
+    "selfRealization": null,
     "bundle": {
       "mode": "bubble-bundle-plan.v1",
       "bundleId": "bundle:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
@@ -607,6 +611,7 @@
       }
     ]
   },
+  "selfRealization": null,
   "externalObservationLimit": {
     "mode": "bubble-external-observation-limit.v1",
     "observerPosition": "outside-bubble",

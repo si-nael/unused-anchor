@@ -32,6 +32,7 @@ import type {
     BubbleObservationMaterializationMembraneRule,
     BubbleObservationCommitPolicySelectionRule,
     BubbleMaterializationCommit,
+    BubbleSelfRealizationPlan,
     MaterializedBubbleArtifact,
 } from "./types";
 
@@ -43,6 +44,7 @@ export type BubbleEvidenceKind =
     | "positive-sea-state"
     | "anchor-point-state"
     | "effect-trace"
+    | "self-realization"
     | "event-source-attribution";
 
 export type BubbleEffectTraceMaterializationState = "potential" | "materialized";
@@ -59,7 +61,8 @@ export type BubbleEventSourceSubjectKind =
     | "collapse-record"
     | "history-commit"
     | "descendant-artifact"
-    | "observation-context";
+    | "observation-context"
+    | "self-realization";
 export type BubbleEventSourceOntologyField =
     | "negativeSea.pressure"
     | "positiveSea.support"
@@ -101,7 +104,8 @@ export type BubbleEffectTraceCausalRelation =
     | "enables-descendant-materialization"
     | "contributes-negative-sea-pressure"
     | "contributes-positive-sea-support"
-    | "influences-anchor-assessment";
+    | "influences-anchor-assessment"
+    | "governs-self-realization";
 export type BubbleCollapseCommitStatus = "uncommitted" | "history-open" | "committed";
 export type BubbleObservationStatePhase = "observed-uncommitted" | "observed-history-open" | "observed-committed";
 export type BubbleLocalObservationPerturbationMix = BubbleObservationMaterializationLawPerturbationMix;
@@ -235,6 +239,21 @@ export interface BubbleEventSourceAttributionEvidenceRecord extends BubbleEviden
     basis: BubbleEventSourceAttributionBasis[];
 }
 
+export interface BubbleSelfRealizationEvidenceRecord extends BubbleEvidenceRecordBase {
+    kind: "self-realization";
+    realizationId: string;
+    status: BubbleSelfRealizationPlan["status"];
+    governingWillId: string;
+    clockAssumption: BubbleSelfRealizationPlan["clockAssumption"];
+    stateSource: BubbleSelfRealizationPlan["stateSource"];
+    selectedCandidateIds: string[];
+    selectedTransformationIds: string[];
+    selectedEffectIds: string[];
+    continuationCount: number;
+    createsHistoryArrow: boolean;
+    identityOutcomes: BubbleSelfRealizationPlan["candidates"][number]["identityOutcome"][];
+}
+
 export type BubbleEvidenceRecord =
     | BubbleObservationEvidenceRecord
     | BubbleCollapseRecordEvidenceRecord
@@ -243,7 +262,45 @@ export type BubbleEvidenceRecord =
     | BubblePositiveSeaEvidenceRecord
     | BubbleAnchorPointEvidenceRecord
     | BubbleEffectTraceEvidenceRecord
+    | BubbleSelfRealizationEvidenceRecord
     | BubbleEventSourceAttributionEvidenceRecord;
+
+export function createSelfRealizationEvidence(
+    program: BubbleProgramIR,
+    realization: BubbleSelfRealizationPlan | null,
+): BubbleSelfRealizationEvidenceRecord[] {
+    if (realization === null) {
+        return [];
+    }
+
+    const selected = realization.candidates.filter((candidate) => candidate.selected);
+    return [{
+        id: `evidence:${realization.realizationId}`,
+        kind: "self-realization",
+        bubbleAddressId: program.bubble.address.id,
+        subjectAddressId: program.bubble.address.id,
+        sourcePath: program.sourcePath,
+        observationMode: program.bubble.generation.lifecycle.observationMode,
+        emissionId: null,
+        commitId: null,
+        realizationId: realization.realizationId,
+        status: realization.status,
+        governingWillId: realization.governingWillId,
+        clockAssumption: realization.clockAssumption,
+        stateSource: realization.stateSource,
+        selectedCandidateIds: realization.selectedCandidateIds,
+        selectedTransformationIds: selected
+            .map((candidate) => candidate.transformationId)
+            .filter((id): id is string => id !== null),
+        selectedEffectIds: selected
+            .map((candidate) => candidate.effectId)
+            .filter((id): id is string => id !== null),
+        continuationCount: realization.continuations.length,
+        createsHistoryArrow: realization.continuations.some((continuation) => continuation.createsHistoryArrow),
+        identityOutcomes: Array.from(new Set(selected.map((candidate) => candidate.identityOutcome))),
+        description: realization.description,
+    }];
+}
 
 export function createSeaAnchorEvidence(
     program: BubbleProgramIR,
@@ -599,6 +656,87 @@ export function createEventSourceAttributionEvidence(
         }));
     }
 
+    for (const realization of supportingEvidence.filter(
+        (evidence): evidence is BubbleSelfRealizationEvidenceRecord => evidence.kind === "self-realization",
+    )) {
+        if (realization.selectedCandidateIds.length === 0) {
+            continue;
+        }
+
+        const selectedEffects = program.bubble.effects.filter((effect) => realization.selectedEffectIds.includes(effect.id));
+        const negativeEffects = selectedEffects.filter((effect) => negativeSourceEffectIds.has(effect.id));
+        const positiveEffects = selectedEffects.filter((effect) => effect.kind === "commit" || effect.kind === "spawn");
+        const hasAnchorRelease = realization.identityOutcomes.includes("released")
+            && (
+                assessment.anchorPoint.identityStatus === "contradicted"
+                || assessment.anchorPoint.identityStatus === "undetermined"
+            );
+        const hasSpecificCandidate = negativeEffects.length > 0 || positiveEffects.length > 0 || hasAnchorRelease;
+        const candidates: BubbleEventSourceCandidate[] = [{
+            classification: "internal-world-event",
+            strength: hasSpecificCandidate ? "contextual" : "direct",
+            basis: [
+                evidenceBasis(realization.id, "governingWillId"),
+                evidenceBasis(realization.id, "selectedTransformationIds"),
+            ],
+            explanation: hasSpecificCandidate
+                ? "The bubble's own world will selected this realization, while a more specific sea, continuity, or anchor consequence also materialized."
+                : "The bubble's executable world will and authored transformation are the only concrete source of this self-realization.",
+        }];
+
+        if (negativeEffects.length > 0) {
+            candidates.push({
+                classification: "negative-sea-pressure",
+                strength: "direct",
+                basis: [
+                    evidenceBasis(realization.id, "selectedEffectIds"),
+                    ...negativeEffects.flatMap((effect) => authoredEffectBasis(effect.id)),
+                    ...(negativeSeaEvidence ? [evidenceBasis(negativeSeaEvidence.id, "pressureSources")] : []),
+                    ontologyBasis("negativeSea.pressure"),
+                ],
+                explanation: "The selected self-realization concretely materializes an authored effect that is also a negative-sea pressure source.",
+            });
+        }
+
+        if (positiveEffects.length > 0) {
+            candidates.push({
+                classification: "positive-sea-shift",
+                strength: "direct",
+                basis: [
+                    evidenceBasis(realization.id, "selectedEffectIds"),
+                    ...positiveEffects.flatMap((effect) => authoredEffectBasis(effect.id)),
+                    ...(positiveSeaEvidence ? [evidenceBasis(positiveSeaEvidence.id, "supportSources")] : []),
+                    ontologyBasis("positiveSea.support"),
+                ],
+                explanation: "The selected self-realization concretely commits continuity or opens descendant lineage under the positive-sea structure.",
+            });
+        }
+
+        if (hasAnchorRelease) {
+            candidates.push({
+                classification: "anchor-drift",
+                strength: "direct",
+                basis: [
+                    evidenceBasis(realization.id, "identityOutcomes"),
+                    ...(anchorEvidence ? [evidenceBasis(anchorEvidence.id, "identityStatus")] : []),
+                    ontologyBasis("anchorPoint.identityStatus"),
+                ],
+                explanation: "The world-will-selected realization releases same-world identity while the runtime anchor does not securely hold it.",
+            });
+        }
+
+        attributions.push(createAttributionRecord({
+            program,
+            subjectKind: "self-realization",
+            subjectId: realization.id,
+            subjectAddressId: realization.subjectAddressId,
+            observationMode: realization.observationMode,
+            emissionId: realization.emissionId,
+            commitId: realization.commitId,
+            candidates,
+        }));
+    }
+
     for (const commit of supportingEvidence.filter(
         (evidence): evidence is BubbleHistoryCommitEvidenceRecord => evidence.kind === "history-commit",
     )) {
@@ -817,6 +955,12 @@ function resolveEffectMaterializationState(
     program: BubbleProgramIR,
     supportingEvidence: BubbleEvidenceRecord[],
 ): BubbleEffectTraceMaterializationState {
+    if (supportingEvidence.some(
+        (evidence) => evidence.kind === "self-realization" && evidence.selectedEffectIds.includes(effect.id),
+    )) {
+        return "materialized";
+    }
+
     switch (effect.kind) {
         case "observe":
             return program.bubble.generation.lifecycle.observationMode === null ? "potential" : "materialized";
@@ -1446,6 +1590,14 @@ function resolveEffectCausalLinks(
     const links: BubbleEffectTraceCausalLink[] = [];
 
     for (const evidence of supportingEvidence) {
+        if (evidence.kind === "self-realization" && evidence.selectedEffectIds.includes(effect.id)) {
+            links.push({
+                targetKind: evidence.kind,
+                targetId: evidence.id,
+                relation: "governs-self-realization",
+            });
+        }
+
         if (effect.kind === "observe" && evidence.kind === "observation-context") {
             links.push({
                 targetKind: evidence.kind,

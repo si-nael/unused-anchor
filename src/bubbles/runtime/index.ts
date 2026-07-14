@@ -1,6 +1,7 @@
 export * from "./materialize";
 export * from "./types";
 export * from "./semantics";
+export * from "./self-realization";
 export {
     buildSeaAnchorAssessment,
     withMaterializedHistoryEvidence,
@@ -12,6 +13,7 @@ export {
     createEffectTraceEvidence,
     createObservationEvidence,
     createSeaAnchorEvidence,
+    createSelfRealizationEvidence,
 } from "./evidence";
 export * from "./proof";
 export * from "./inspect";

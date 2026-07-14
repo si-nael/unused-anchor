@@ -24,6 +24,8 @@ import type {
     ReflectDeclaration,
     SeedDeclaration,
     SpawnDeclaration,
+    StateDeclaration,
+    TransformDeclaration,
     UnresolvedSemanticDeclaration,
     WillDeclaration,
 } from "./ast";
@@ -36,6 +38,8 @@ const WILL_PATTERN = /^will\s+(.+)$/;
 const SEED_PATTERN = /^seed\s+(.+)$/;
 const OBSERVE_PATTERN = /^observe\s+([A-Za-z_][\w-]*)$/;
 const ANCHOR_PATTERN = /^anchor\s+identity\s*=\s*(.+)$/;
+const STATE_PATTERN = /^state\s+([A-Za-z_][\w-]*)\s*=\s*(.+)$/;
+const TRANSFORM_PATTERN = /^transform\s+([A-Za-z_][\w-]*)\s+(reversible|irreversible)\s+state\s+([A-Za-z_][\w-]*)\s+from\s+("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|[^\s]+)\s+to\s+("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|[^\s]+)(?:\s+inverse\s+([A-Za-z_][\w-]*))?(?:\s+via\s+([A-Za-z_][\w-]*))?$/;
 const UNKNOWN_VALUE_PATTERN = /^unknown\s+value\s+([A-Za-z_][\w-]*)(?:\s*=\s*(.+))?$/;
 const UNKNOWN_ENTITY_PATTERN = /^unknown\s+entity\s+([A-Za-z_][\w-]*)(?:\s*=\s*(.+))?$/;
 const CONSTRAINT_PATTERN = /^constraint\s+([A-Za-z_][\w-]*)\s*=\s*(.+)$/;
@@ -188,6 +192,44 @@ function parseStatement(line: { lineNumber: number; text: string }, sourcePath: 
             line: line.lineNumber,
             expression,
             description: expression.kind === "text" ? expression.value : formatBubbleExpression(expression),
+        };
+        return statement;
+    }
+
+    const stateMatch = line.text.match(STATE_PATTERN);
+    if (stateMatch) {
+        const statement: StateDeclaration = {
+            kind: "state",
+            line: line.lineNumber,
+            name: stateMatch[1],
+            initialValue: parseScalar(stateMatch[2]),
+        };
+        return statement;
+    }
+
+    const transformMatch = line.text.match(TRANSFORM_PATTERN);
+    if (transformMatch) {
+        const rawEffectKind = transformMatch[7] ?? null;
+        if (rawEffectKind !== null && !isEffectKind(rawEffectKind)) {
+            throwDiagnostic({
+                code: "BBL011",
+                severity: "error",
+                message: `Unknown transform effect '${rawEffectKind}' on line ${line.lineNumber}.`,
+                sourcePath,
+                line: line.lineNumber,
+            });
+        }
+
+        const statement: TransformDeclaration = {
+            kind: "transform",
+            line: line.lineNumber,
+            name: transformMatch[1],
+            reversibility: transformMatch[2] as TransformDeclaration["reversibility"],
+            stateName: transformMatch[3],
+            fromValue: parseScalar(transformMatch[4]),
+            toValue: parseScalar(transformMatch[5]),
+            inverseName: transformMatch[6] ?? null,
+            effectKind: rawEffectKind,
         };
         return statement;
     }

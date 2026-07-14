@@ -385,6 +385,7 @@
         }
       ]
     },
+    "selfRealization": null,
     "bundle": {
       "mode": "bubble-bundle-plan.v1",
       "bundleId": "bundle:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
@@ -872,6 +873,7 @@
       "explanation": "Bubble worldhood remains stable because A=2, P=2, N=0, so A + P - N = 4."
     }
   },
+  "selfRealization": null,
   "artifacts": [
     {
       "emissionId": "emit:16:Probe",
@@ -911,6 +913,8 @@
               "value": "preserve sampled symmetry"
             }
           },
+          "stateVariables": [],
+          "transformations": [],
           "seed": "latent_seed",
           "observationMode": null,
           "boundary": {
@@ -1141,6 +1145,8 @@
               "value": "preserve sampled symmetry"
             }
           },
+          "stateVariables": [],
+          "transformations": [],
           "seed": "field_seed",
           "observationMode": null,
           "boundary": {

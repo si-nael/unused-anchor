@@ -20,6 +20,7 @@ import {
     createObservationCommitPolicyComparison,
     createObservationCommitPolicyPlan,
     createSeaAnchorEvidence,
+    createSelfRealizationEvidence,
 } from "./evidence";
 import {
     buildSeaAnchorAssessment,
@@ -30,6 +31,7 @@ import {
     buildMaterializedConsistencyCertificate,
 } from "./proof";
 import { buildSemanticEvaluationPlan } from "./semantics";
+import { buildBubbleSelfRealization } from "./self-realization";
 import type {
     BubbleBundleMemberPlan,
     BubbleBundlePlan,
@@ -70,7 +72,14 @@ export function planBubbleProgram(program: BubbleProgramIR, options: BubbleRunti
     }));
     const semantics = buildSemanticEvaluationPlan(program, emissionPlan, grammarActivationPlan);
     const ontology = buildSeaAnchorAssessment(program, emissionPlan, semantics);
-    const proof = buildConsistencyCertificate(program, emissionPlan, grammarActivationPlan, ontology, semantics);
+    const selfRealization = buildBubbleSelfRealization(
+        program,
+        emissionPlan,
+        grammarActivationPlan,
+        ontology,
+        options.selfRealizationResume ?? null,
+    );
+    const proof = buildConsistencyCertificate(program, emissionPlan, grammarActivationPlan, ontology, semantics, selfRealization);
     const bundle = buildBundlePlan(program, emissionPlan, grammarActivationPlan);
 
     const plan = {
@@ -84,6 +93,7 @@ export function planBubbleProgram(program: BubbleProgramIR, options: BubbleRunti
         semantics,
         ontology,
         proof,
+        selfRealization,
         bundle,
         latentTopology: program.bubble.latentTopology ?? null,
         observationCommitPolicy: null,
@@ -552,6 +562,7 @@ function buildExternalObservationLimit(
 export function materializeBubbleProgram(program: BubbleProgramIR, options: BubbleRuntimeOptions = {}): BubbleMaterializationResult {
     const plan = planBubbleProgram(program, options);
     const baseEvidence = createObservationEvidence(program);
+    const selfRealizationCommits = createSelfRealizationCommits(program, plan.selfRealization);
     const committedLocalObservationRegionIds = new Set(plan.observationCommitPolicy?.selectedTargetIds ?? []);
     const trace: BubbleMaterializationTraceEvent[] = [
         {
@@ -563,6 +574,18 @@ export function materializeBubbleProgram(program: BubbleProgramIR, options: Bubb
             },
         },
     ];
+    if (plan.selfRealization !== null) {
+        trace.push({
+            kind: "self-realization-resolved",
+            message: plan.selfRealization.description,
+            details: {
+                realizationId: plan.selfRealization.realizationId,
+                status: plan.selfRealization.status,
+                selectedCandidateIds: plan.selfRealization.selectedCandidateIds,
+                clockAssumption: plan.selfRealization.clockAssumption,
+            },
+        });
+    }
 
     for (const activation of plan.grammarActivationPlan) {
         trace.push({
@@ -588,15 +611,22 @@ export function materializeBubbleProgram(program: BubbleProgramIR, options: Bubb
             kind: "no-emissions",
             message: `Bubble ${program.bubble.name} has no staged emissions to materialize.`,
         });
-        const runtimeOntology = withMaterializedHistoryEvidence(plan.ontology, committedLocalObservationRegionIds.size > 0);
+        const runtimeOntology = withMaterializedHistoryEvidence(
+            plan.ontology,
+            selfRealizationCommits.length > 0 || committedLocalObservationRegionIds.size > 0,
+        );
         const collapseEvidence = createCollapseRecordEvidence(program, plan, runtimeOntology, committedLocalObservationRegionIds);
         appendLocalCollapseTrace(trace, collapseEvidence);
-        const commits = createLocalCollapseCommits(program, collapseEvidence);
+        const commits = [
+            ...selfRealizationCommits,
+            ...createLocalCollapseCommits(program, collapseEvidence),
+        ];
         const commitEvidence = commits.map((commit) => createCommitEvidence(program, commit));
         appendCommitTrace(trace, commits);
         const supportingEvidence = [
             ...createSeaAnchorEvidence(program, runtimeOntology),
             ...baseEvidence,
+            ...createSelfRealizationEvidence(program, plan.selfRealization),
             ...collapseEvidence,
             ...commitEvidence,
         ];
@@ -617,6 +647,7 @@ export function materializeBubbleProgram(program: BubbleProgramIR, options: Bubb
             plan,
             proof: buildMaterializedConsistencyCertificate(program, plan.proof, evidence, plan.semantics),
             runtimeOntology,
+            selfRealization: plan.selfRealization,
             artifacts: [],
             commits,
             evidence,
@@ -628,8 +659,10 @@ export function materializeBubbleProgram(program: BubbleProgramIR, options: Bubb
     const generatorsByName = new Map(meta.generators.map((generator) => [generator.name, generator]));
     const reflectionsById = new Map(meta.reflections.map((reflection) => [reflection.id, reflection]));
     const artifacts: MaterializedBubbleArtifact[] = [];
-    const commits: BubbleMaterializationCommit[] = [];
-    const commitEvidence: BubbleHistoryCommitEvidenceRecord[] = [];
+    const commits: BubbleMaterializationCommit[] = [...selfRealizationCommits];
+    const commitEvidence: BubbleHistoryCommitEvidenceRecord[] = selfRealizationCommits
+        .map((commit) => createCommitEvidence(program, commit));
+    appendCommitTrace(trace, selfRealizationCommits);
 
     for (const emission of meta.emissions) {
         const quote = resolveEmissionQuote(emission, quotesByName, generatorsByName);
@@ -703,6 +736,7 @@ export function materializeBubbleProgram(program: BubbleProgramIR, options: Bubb
     const supportingEvidence = [
         ...createSeaAnchorEvidence(program, runtimeOntology),
         ...baseEvidence,
+        ...createSelfRealizationEvidence(program, plan.selfRealization),
         ...collapseEvidence,
         ...commitEvidence,
     ];
@@ -724,11 +758,30 @@ export function materializeBubbleProgram(program: BubbleProgramIR, options: Bubb
         plan,
         proof: buildMaterializedConsistencyCertificate(program, plan.proof, evidence, plan.semantics),
         runtimeOntology,
+        selfRealization: plan.selfRealization,
         artifacts,
         commits,
         evidence,
         trace,
     };
+}
+
+function createSelfRealizationCommits(
+    program: BubbleProgramIR,
+    selfRealization: BubbleExecutionPlan["selfRealization"],
+): BubbleMaterializationCommit[] {
+    if (selfRealization === null) {
+        return [];
+    }
+
+    return selfRealization.candidates
+        .filter((candidate) => candidate.selected && candidate.consequence === "history-commit")
+        .map((candidate) => ({
+            id: `commit:self-realization:${candidate.transformationId ?? candidate.candidateId}`,
+            emissionId: candidate.candidateId,
+            committedAddressId: program.bubble.address.id,
+            description: `Committed self-realization ${candidate.transformationName} at ${program.bubble.address.id}; this irreversible realization creates a history arrow.`,
+        } satisfies BubbleMaterializationCommit));
 }
 
 function createLocalCollapseCommits(

@@ -31,6 +31,9 @@
       "contradicted": 0,
       "undetermined": 4
     },
+    "selfRealizationStatus": null,
+    "selfRealizationContinuationCount": 0,
+    "selfRealizationCreatesHistoryArrow": false,
     "materializedArtifactCount": 1,
     "descendantCount": 1,
     "artifactCount": 0,
@@ -404,6 +407,7 @@
         }
       ]
     },
+    "selfRealization": null,
     "bundle": {
       "mode": "bubble-bundle-plan.v1",
       "bundleId": "bundle:bubble:examples/meta-grove.bubble::root:Nursery",
@@ -518,6 +522,7 @@
       }
     ]
   },
+  "selfRealization": null,
   "externalObservationLimit": {
     "mode": "bubble-external-observation-limit.v1",
     "observerPosition": "outside-bubble",

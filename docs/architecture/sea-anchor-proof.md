@@ -28,7 +28,9 @@ So the resulting notion of worldhood is ontic before it is epistemic.
 
 Fix a separable Banach space $(\mathbb{B}, \|\cdot\|)$.
 
-For a time horizon $T > 0$, an observer-free bubble world is a tuple
+Here $t$ and the horizon $T$ are analytic path parameters used by this particular continuous model. They do not assert that every Bubble world possesses one universal physical clock. A discrete world may instead be stationary, reversible, cyclic, only partially causally ordered, or history-directed only after an irreversible commitment. The `v0.5` runtime keeps those cases separate rather than deriving ontology from the notation of this proof.
+
+For an analytic path horizon $T > 0$, an observer-free bubble world is a tuple
 
 $$
 \mathfrak{B}_T = (X, F, \Sigma, \mathcal{C}_T, \delta)

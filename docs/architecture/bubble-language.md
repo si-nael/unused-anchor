@@ -108,6 +108,12 @@ It is not merely lore.
 
 It is part of what decides which bubbles can appear, persist, interact, or vanish.
 
+The `bubbles.v0.5` baseline makes this operational for the first time. A bubble now carries explicit state and lawful transformations; its executable world will admits projected continuations. Deterministic ambiguity remains open, authored nondeterminism remains plural, and host code does not secretly choose the world's outcome.
+
+This execution model assumes no universal clock. Invariant preservation, reversible causal change, branching, terminal structure, and irreversible committed history are distinct. A history arrow is recorded only when world law selects a commit consequence.
+
+World completion remains Phase 1. Observer agents and comparison benchmarks are Phase 2 layers and must not define semantics that belong to the bubble itself.
+
 ## Infinite-Hierarchy Requirement
 
 The language should be able to talk about worlds that contain or induce further worlds across open-ended semantic depth.
@@ -276,6 +282,8 @@ This layer should own:
 - persistence hooks
 - observation commits
 - state evolution under world laws
+
+Here “stepping” and “scheduling” are implementation responsibilities, not a guarantee of scalar world time. The semantic kernel must preserve partial, reversible, cyclic, or atemporal order whenever the authored world does not justify a total clock.
 
 ## Non-Classical Execution Model
 

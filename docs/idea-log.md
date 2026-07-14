@@ -17,6 +17,24 @@
 - Deferred and currently unselected ideas remain live research branches. Their original dated formulations, current limits, and reopen conditions should stay visible while `v0.5` chooses one measurable next objective.
 - Release closure should remove implementation ambiguity, not prematurely close the conceptual universe.
 
+### Bubble universe first, observer phase later
+
+- The immediate priority is not an observer benchmark, companion agent, or Bubble-versus-host comparison. Those belong to Phase 2 after the bubble universe itself is complete enough to function organically.
+- Phase 1 must realize the accumulated world ideas as one connected system: bubble law, world will, negative sea, positive sea, anchor, boundary, lineage, state, transformation, observation, history, replay, and finite representation.
+- `v0.5` should establish the first large vertical flow inside that world rather than attach an outside evaluator to an incomplete universe.
+
+### Time without a forced clock
+
+- “No time” need not mean “nothing changes.” It may mean invariant existence, reversibility, cyclic return, or the absence of one universal scalar order.
+- A world may carry causal order without a durable history arrow. The history arrow should arise only when an irreversible realization is committed.
+- Bubble should not import clock ticks merely because ordinary simulators use them. Stationarity, reversibility, branching, partial causal order, and committed history must remain distinguishable.
+
+### World will as organic self-realization
+
+- The world should not operate because an external host, observer, or scheduler chooses what happens. Its authored state and lawful possibilities should be evaluated by the bubble's own executable world will.
+- When the will admits one possibility, the world may realize it. When deterministic law admits several, the runtime should preserve underdetermination rather than fabricate a choice. When nondeterminism is authored, plural continuations should remain real.
+- Existing ideas must remain open around this kernel. `v0.5.1` and later should deepen the world rather than treating the first self-realization slice as the whole intended universe.
+
 ## 2026-05-20
 
 ### Future research: observation-induced materialization and perturbative collapse

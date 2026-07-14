@@ -30,6 +30,8 @@
         "value": "grow language variants"
       }
     },
+    "stateVariables": [],
+    "transformations": [],
     "seed": "grammar_seed",
     "observationMode": null,
     "boundary": {

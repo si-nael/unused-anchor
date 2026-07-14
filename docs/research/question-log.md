@@ -395,3 +395,59 @@ Remaining gap:
 Next check:
 
 Preserve the current bounded semantics through `v0.4.9`. Reopen the proof shape only after source attribution is stable and a deterministic replay design can state what additional observation-history claim would discriminate.
+
+### Q-018: How can a bubble realize itself through world will rather than an external chooser?
+
+Status: implemented bounded baseline in v0.5.0
+
+Question:
+
+What minimum state, possibility, selection, continuation, and evidence structure lets a bubble operate organically through its own world will, while preserving deterministic ambiguity and authored nondeterministic plurality rather than letting host code choose a convenient outcome?
+
+Current implementation:
+
+- explicit scalar `state` declarations and reversible or irreversible `transform` declarations
+- projected preserve/transform candidate environments evaluated by executable world will
+- statuses for stable, realized, plural, underdetermined, blocked, and contradicted world states
+- provenance-bearing continuations and explicit resume input that cannot select a winner
+- self-realization proof, evidence, effect causality, source attribution, inspection, and replay
+- actual history commit only for an admitted `commit` transformation
+
+Remaining gap:
+
+- one materialization evaluates one self-realization frontier; there is no bounded autonomous multi-step traversal yet
+- branch, spawn, and collapse are typed continuation consequences but not all yet execute concrete world artifacts or retirement records from self-realization
+- transformations currently change one scalar coordinate at a time
+- selected realization consequences do not yet feed back into a full sea/anchor dynamics calculus
+
+Next check:
+
+Use `v0.5.1` to close one concrete continuation seam without introducing an external scheduler or universal clock. Prefer concrete branch/spawn/collapse execution or bounded multi-step closure only after its termination and provenance law is explicit.
+
+### Q-019: What does time mean inside a bubble universe?
+
+Status: partially implemented in v0.5.0
+
+Question:
+
+Should Bubble have universal time at all? If time is absent, does that mean no change, invariant existence, reversibility, cyclic return, or merely that world events form causal and partial orders rather than one scalar clock? When does an irreversible history arrow actually begin?
+
+Current implementation:
+
+- every self-realization records `clockAssumption: no-universal-clock`
+- invariant preservation introduces no new order
+- reversible transforms require exact reciprocal inverse and create causal order without durable history
+- non-commit irreversible transforms remain causally ordered without being misreported as committed history
+- selected commit transforms create `committed-history` order and the history arrow
+- branch and terminal consequences have distinct topology
+
+Remaining gap:
+
+- no explicit causal graph or partial-order proof
+- no first-class cyclic trajectory, duration, synchronization, or metric-time semantics
+- no theorem yet connecting the discrete realization order to the analytic path parameter used in the sea-anchor proof
+- interaction among multiple bubbles with distinct order structures remains open
+
+Next check:
+
+Keep universal time absent by default. Add order structure only when a concrete world requires cycles, concurrency, cross-bubble synchronization, or duration and the semantics can remain inspectable without reducing all worlds to host clock ticks.

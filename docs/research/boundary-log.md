@@ -10,6 +10,24 @@ The point is to keep visible the classes of failure that show where Bubble's own
 
 ## 2026-07-15
 
+### B-007: Phase-2 benchmark planning crossed the unfinished-world boundary
+
+Observed surface:
+
+The first proposed `v0.5` objective was a scored observer or Bubble-versus-host benchmark even though the user's priority was completion of the bubble universe itself and observer work was explicitly Phase 2.
+
+Boundary meaning:
+
+The planning layer imported an external evaluation concern across the Phase 1 world boundary. Had it been implemented, the repository could have optimized how an incomplete world is observed while leaving the world's own state transition, world-will agency, and time semantics unresolved.
+
+Current handling:
+
+The historical proposal remains visible in the `v0.4.9` closure plan with a supersession note. `v0.5` instead implements world self-realization, and the project memory now fixes bubble-universe completion before observer or agent work.
+
+Next check:
+
+Reject any `v0.5.x` proposal that makes an external observer, agent, scheduler, or comparison harness responsible for semantics that should belong to the bubble world itself.
+
 ### B-005: Canonical README encoding escaped the ordinary text-edit boundary
 
 Observed surface:

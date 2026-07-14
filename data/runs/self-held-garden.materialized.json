@@ -1,0 +1,1183 @@
+{
+  "plan": {
+    "mode": "semantic-plan.v1",
+    "sourcePath": "examples/self-held-garden.bubble",
+    "profile": "bubbles.v0.5",
+    "bubbleAddress": {
+      "scheme": "bubble-lineage.v1",
+      "locatorKind": "source-relative",
+      "anchor": "examples/self-held-garden.bubble",
+      "path": [
+        {
+          "kind": "root",
+          "key": "SelfHeldGarden"
+        }
+      ],
+      "id": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden"
+    },
+    "boundary": {
+      "mode": "bubble-boundary.v1",
+      "observationSurface": "declared-observation-surface",
+      "historyCommitSurface": "undeclared-history-support",
+      "perturbationSurface": "no-declared-perturbation",
+      "observationEffectIds": [
+        "effect:8:observe"
+      ],
+      "commitEffectIds": [],
+      "perturbEffectIds": [],
+      "scopes": [],
+      "semanticReferences": [],
+      "description": "Bubble boundary currently tracks 1 observation surface, 0 history-commit surfaces, 0 scoped membrane/global boundary groups, and 0 boundary-referencing semantic paths."
+    },
+    "observationMaterializationLaw": null,
+    "externalObservationLimit": {
+      "mode": "bubble-external-observation-limit.v1",
+      "observerPosition": "outside-bubble",
+      "preContactInteriorAccess": "concrete-interior-not-fully-readable",
+      "interiorExistenceMode": "compressed-lawful-existence",
+      "declaredObservationSurface": "declared-observation-surface",
+      "declaredPerturbationSurface": "no-declared-perturbation",
+      "declaredHistorySurface": "undeclared-history-support",
+      "latentInteriorKinds": [],
+      "causalContactEffectIds": {
+        "observation": [
+          "effect:8:observe"
+        ],
+        "perturbation": [],
+        "historyCommit": []
+      },
+      "traceConsequences": {
+        "recordsObservationContext": false,
+        "mayMaterializeLatentInterior": false,
+        "mayRecordCollapse": false,
+        "mayAnchorHistory": false
+      },
+      "description": "Within Bubble semantics, an outside observer cannot fully read the concrete interior of SelfHeldGarden before causal contact. The bubble persists as compressed lawful existence, and any outside access must pass through 1 observation surface."
+    },
+    "semantics": {
+      "mode": "bubble-executable-semantics.v1",
+      "constraints": [],
+      "partialLaws": [],
+      "worldWillCriterion": {
+        "evaluationId": "semantic-evaluation:world-will:4",
+        "subjectKind": "world-will",
+        "subjectId": "world-will:4",
+        "name": "world will",
+        "sourceLine": 4,
+        "description": "realization.reversibility = \"reversible\"",
+        "expression": "realization.reversibility = \"reversible\"",
+        "status": "undetermined",
+        "basis": [
+          "executable-semantic-checker",
+          "world-will-reference-gap"
+        ],
+        "explanation": "World will criterion remains undetermined because reference 'realization.reversibility' is not available in the current executable environment."
+      },
+      "anchorCriterion": {
+        "evaluationId": "semantic-evaluation:anchor:6:identity",
+        "subjectKind": "anchor-criterion",
+        "subjectId": "anchor:6:identity",
+        "name": "anchor identity",
+        "sourceLine": 6,
+        "description": "axiom.coherence = \"stable\"",
+        "expression": "axiom.coherence = \"stable\"",
+        "status": "satisfied",
+        "basis": [
+          "executable-semantic-checker",
+          "authored-anchor-criterion"
+        ],
+        "explanation": "Anchor identity criterion is satisfied by the current executable semantic environment."
+      }
+    },
+    "ontology": {
+      "negativeSea": {
+        "pressure": "low",
+        "signals": [],
+        "pressureSources": []
+      },
+      "positiveSea": {
+        "support": "present",
+        "signals": [
+          "source-lineage-address",
+          "seeded-origin"
+        ],
+        "supportSources": [
+          {
+            "kind": "source-lineage",
+            "addressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+            "sourceEffectId": null,
+            "support": "present",
+            "evidenceBasis": [
+              "source-lineage-address"
+            ]
+          },
+          {
+            "kind": "seed-origin",
+            "addressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+            "sourceEffectId": null,
+            "support": "present",
+            "evidenceBasis": [
+              "seeded-origin"
+            ]
+          }
+        ]
+      },
+      "anchorPoint": {
+        "strength": "steady",
+        "declaredHistorySupport": false,
+        "materializedHistoryEvidence": false,
+        "rewindStability": "guarded",
+        "signals": [
+          "axiomatic-basis",
+          "world-will-criterion-undetermined",
+          "seed-continuity"
+        ],
+        "authoredCriterionStatus": "satisfied",
+        "authoredCriterionBasis": [
+          "executable-semantic-checker",
+          "authored-anchor-criterion"
+        ],
+        "materializedEvidenceSources": [],
+        "identityStatus": "provisional"
+      },
+      "theoremWitness": {
+        "theorem": "sea-anchor-necessity.v1",
+        "negativeRank": 0,
+        "positiveRank": 1,
+        "anchorRank": 1,
+        "worldhoodDelta": 2,
+        "identityDelta": 1,
+        "sustained": true,
+        "condition": "stable",
+        "explanation": "Bubble worldhood remains stable because A=1, P=1, N=0, so A + P - N = 2."
+      }
+    },
+    "proof": {
+      "mode": "bubble-consistency-certificate.v1",
+      "bubbleAddressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "profile": "bubbles.v0.5",
+      "verdict": "contradicted",
+      "claims": [
+        {
+          "id": "claim:well-formed-source",
+          "kind": "syntax",
+          "status": "certified",
+          "basis": [
+            "parser",
+            "profile-validator"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [],
+          "assumptions": [],
+          "scope": "source",
+          "explanation": "Bubble SelfHeldGarden compiled into a semantic plan under bubbles.v0.5."
+        },
+        {
+          "id": "claim:minimum-authored-shape",
+          "kind": "worldhood",
+          "status": "certified",
+          "basis": [
+            "axiom",
+            "worldWill",
+            "seed",
+            "effect"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [],
+          "scope": "source",
+          "explanation": "Bubble SelfHeldGarden satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
+        },
+        {
+          "id": "claim:worldhood-roles-present",
+          "kind": "worldhood",
+          "status": "certified",
+          "basis": [
+            "local-law-basis",
+            "boundary-semantics",
+            "boundary-object",
+            "boundary-observation-surface",
+            "source-lineage-address",
+            "lineage-placement",
+            "authored-anchor-criterion"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:minimum-authored-shape"
+          ],
+          "assumptions": [],
+          "scope": "plan",
+          "explanation": "Bubble SelfHeldGarden currently presents all required worldhood roles through local-law-basis, boundary-semantics, boundary-object, boundary-observation-surface, source-lineage-address, lineage-placement, authored-anchor-criterion."
+        },
+        {
+          "id": "claim:required-effect-obligations",
+          "kind": "effect",
+          "status": "contradicted",
+          "basis": [
+            "missing-observation-surface"
+          ],
+          "evidenceIds": [
+            "evidence:effect:effect:8:observe"
+          ],
+          "dependsOnClaims": [
+            "claim:minimum-authored-shape"
+          ],
+          "assumptions": [
+            "effect-trace-records-mirror-the-current-materialization-plan"
+          ],
+          "scope": "plan",
+          "explanation": "Required effect effect:8:observe is contradicted because no observation surface is declared."
+        },
+        {
+          "id": "claim:anchor-identity",
+          "kind": "anchor",
+          "status": "certified",
+          "basis": [
+            "axiomatic-basis",
+            "world-will",
+            "seed-continuity",
+            "sea-anchor-necessity.v1",
+            "theorem-condition:stable",
+            "theorem-worldhood-delta:2",
+            "theorem-identity-delta:1",
+            "positive-source:source-lineage",
+            "positive-source-support:present",
+            "positive-source-address:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+            "source-lineage-address",
+            "positive-source:seed-origin",
+            "seeded-origin",
+            "anchor-support:steady",
+            "anchor-rewind:guarded",
+            "anchor-identity-status:provisional",
+            "anchor-authored-criterion-status:satisfied",
+            "executable-semantic-checker",
+            "authored-anchor-criterion"
+          ],
+          "evidenceIds": [
+            "evidence:anchor-point:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+            "evidence:positive-sea:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+            "evidence:negative-sea:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden"
+          ],
+          "dependsOnClaims": [
+            "claim:worldhood-roles-present"
+          ],
+          "assumptions": [
+            "sea-anchor-theorem-witness-is-bounded",
+            "anchor-criterion-evaluation-uses-the-current-executable-subset"
+          ],
+          "scope": "plan",
+          "explanation": "Bubble SelfHeldGarden currently certifies anchor identity as steady with theorem condition stable under the authored anchor criterion."
+        },
+        {
+          "id": "claim:lineage-traceability",
+          "kind": "lineage",
+          "status": "undetermined",
+          "basis": [
+            "no-descendant-lineage-claim"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [],
+          "scope": "plan",
+          "explanation": "Bubble SelfHeldGarden declares no descendant or staged grammar lineage that needs certification in the current plan."
+        },
+        {
+          "id": "claim:replay-identity",
+          "kind": "replay",
+          "status": "undetermined",
+          "basis": [
+            "axiomatic-basis",
+            "world-will",
+            "seed-continuity",
+            "sea-anchor-necessity.v1",
+            "theorem-condition:stable",
+            "theorem-worldhood-delta:2",
+            "theorem-identity-delta:1",
+            "positive-source:source-lineage",
+            "positive-source-support:present",
+            "positive-source-address:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+            "source-lineage-address",
+            "positive-source:seed-origin",
+            "seeded-origin",
+            "anchor-support:steady",
+            "anchor-rewind:guarded",
+            "anchor-identity-status:provisional",
+            "anchor-authored-criterion-status:satisfied",
+            "executable-semantic-checker",
+            "authored-anchor-criterion",
+            "missing-declared-history-support"
+          ],
+          "evidenceIds": [
+            "evidence:anchor-point:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+            "evidence:positive-sea:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+            "evidence:negative-sea:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+            "evidence:effect:effect:8:observe"
+          ],
+          "dependsOnClaims": [
+            "claim:anchor-identity"
+          ],
+          "assumptions": [
+            "same-world-replay-is-evaluated-from-the-current-plan-basis"
+          ],
+          "scope": "plan",
+          "explanation": "Bubble SelfHeldGarden preserves a replay basis, but same-world replay remains undetermined without declared history support fixation."
+        },
+        {
+          "id": "claim:internal-law-consistency",
+          "kind": "consistency",
+          "status": "undetermined",
+          "basis": [
+            "no-executable-law-semantics-yet"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [
+            "no-general-law-solver-is-present"
+          ],
+          "scope": "plan",
+          "explanation": "Bubble SelfHeldGarden does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
+        },
+        {
+          "id": "claim:self-realization",
+          "kind": "self-realization",
+          "status": "certified",
+          "basis": [
+            "self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+            "world-will:4",
+            "no-universal-clock",
+            "status:realized",
+            "selected:Awaken"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:worldhood-roles-present",
+            "claim:required-effect-obligations"
+          ],
+          "assumptions": [
+            "No universal clock is introduced; only causal or committed-history order may emerge from a selected realization."
+          ],
+          "scope": "plan",
+          "explanation": "The world will resolves self-realization as realized through Awaken."
+        }
+      ]
+    },
+    "selfRealization": {
+      "mode": "bubble-self-realization.v1",
+      "realizationId": "self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "governingWillId": "world-will:4",
+      "clockAssumption": "no-universal-clock",
+      "stateSource": "authored-initial",
+      "sourceContinuationId": null,
+      "currentState": {
+        "phase": "latent"
+      },
+      "status": "realized",
+      "candidates": [
+        {
+          "candidateId": "candidate:preserve:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "kind": "preserve",
+          "transformationId": null,
+          "transformationName": "Preserve",
+          "reversibility": "identity",
+          "ordering": "none",
+          "topology": "single",
+          "identityOutcome": "open",
+          "effectId": null,
+          "effectKind": null,
+          "effectRequirement": null,
+          "consequence": "none",
+          "eligible": true,
+          "stateBefore": {
+            "phase": "latent"
+          },
+          "stateAfter": {
+            "phase": "latent"
+          },
+          "worldWillEvaluation": {
+            "evaluationId": "semantic-evaluation:world-will:4",
+            "subjectKind": "world-will",
+            "subjectId": "world-will:4",
+            "name": "world will",
+            "sourceLine": 4,
+            "description": "realization.reversibility = \"reversible\"",
+            "expression": "realization.reversibility = \"reversible\"",
+            "status": "violated",
+            "basis": [
+              "executable-semantic-checker",
+              "world-will-violated"
+            ],
+            "explanation": "World will criterion is violated by the current executable semantic environment."
+          },
+          "admittedByWorldWill": false,
+          "selected": false,
+          "description": "Preserve keeps the authored world state invariant and introduces no causal order or history arrow."
+        },
+        {
+          "candidateId": "candidate:transform:9:Awaken",
+          "kind": "transform",
+          "transformationId": "transform:9:Awaken",
+          "transformationName": "Awaken",
+          "reversibility": "reversible",
+          "ordering": "causal",
+          "topology": "single",
+          "identityOutcome": "open",
+          "effectId": "effect:8:observe",
+          "effectKind": "observe",
+          "effectRequirement": "required",
+          "consequence": "causal-trace",
+          "eligible": true,
+          "stateBefore": {
+            "phase": "latent"
+          },
+          "stateAfter": {
+            "phase": "manifest"
+          },
+          "worldWillEvaluation": {
+            "evaluationId": "semantic-evaluation:world-will:4",
+            "subjectKind": "world-will",
+            "subjectId": "world-will:4",
+            "name": "world will",
+            "sourceLine": 4,
+            "description": "realization.reversibility = \"reversible\"",
+            "expression": "realization.reversibility = \"reversible\"",
+            "status": "satisfied",
+            "basis": [
+              "executable-semantic-checker",
+              "world-will-satisfied"
+            ],
+            "explanation": "World will criterion is satisfied by the current executable semantic environment."
+          },
+          "admittedByWorldWill": true,
+          "selected": true,
+          "description": "Transform Awaken is available from authored state phase=\"latent\" and projects phase=\"manifest\"."
+        },
+        {
+          "candidateId": "candidate:transform:10:Rest",
+          "kind": "transform",
+          "transformationId": "transform:10:Rest",
+          "transformationName": "Rest",
+          "reversibility": "reversible",
+          "ordering": "causal",
+          "topology": "single",
+          "identityOutcome": "open",
+          "effectId": "effect:8:observe",
+          "effectKind": "observe",
+          "effectRequirement": "required",
+          "consequence": "causal-trace",
+          "eligible": false,
+          "stateBefore": {
+            "phase": "latent"
+          },
+          "stateAfter": {
+            "phase": "latent"
+          },
+          "worldWillEvaluation": null,
+          "admittedByWorldWill": false,
+          "selected": false,
+          "description": "Transform Rest is unavailable because state phase is \"latent\", not \"manifest\"."
+        }
+      ],
+      "selectedCandidateIds": [
+        "candidate:transform:9:Awaken"
+      ],
+      "continuations": [
+        {
+          "continuationId": "continuation:self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden:candidate:transform:9:Awaken",
+          "candidateId": "candidate:transform:9:Awaken",
+          "transformationId": "transform:9:Awaken",
+          "state": {
+            "phase": "manifest"
+          },
+          "reversibility": "reversible",
+          "ordering": "causal",
+          "topology": "single",
+          "consequence": "causal-trace",
+          "createsHistoryArrow": false
+        }
+      ],
+      "obligationConflicts": [],
+      "description": "World will world-will:4 selects Awaken as the sole admitted self-realization."
+    },
+    "bundle": {
+      "mode": "bubble-bundle-plan.v1",
+      "bundleId": "bundle:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "rootAddressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "members": [
+        {
+          "memberId": "bundle-member:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "kind": "root-bubble",
+          "emissionId": null,
+          "activationId": null,
+          "addressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "profileName": "bubbles.v0.5",
+          "sourcePath": "examples/self-held-garden.bubble",
+          "provenance": "root-bubble",
+          "description": "Root bubble SelfHeldGarden anchors this bundle."
+        }
+      ],
+      "materializationScopes": [
+        {
+          "scopeId": "bundle-scope:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "target": "root-bubble",
+          "emissionId": null,
+          "activationId": null,
+          "addressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "description": "The root bubble SelfHeldGarden is always inside its own materialization scope."
+        }
+      ]
+    },
+    "latentTopology": null,
+    "observationCommitPolicy": null,
+    "observationCommitPolicyComparison": null,
+    "obligations": [
+      {
+        "effectId": "effect:8:observe",
+        "effectKind": "observe",
+        "scope": "local",
+        "description": "Author declared observe as a required local effect."
+      }
+    ],
+    "plannedRelations": [],
+    "grammars": [],
+    "grammarActivationPlan": [],
+    "emissionPlan": []
+  },
+  "proof": {
+    "mode": "bubble-consistency-certificate.v1",
+    "bubbleAddressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+    "profile": "bubbles.v0.5",
+    "verdict": "contradicted",
+    "claims": [
+      {
+        "id": "claim:well-formed-source",
+        "kind": "syntax",
+        "status": "certified",
+        "basis": [
+          "parser",
+          "profile-validator"
+        ],
+        "evidenceIds": [],
+        "dependsOnClaims": [],
+        "assumptions": [],
+        "scope": "source",
+        "explanation": "Bubble SelfHeldGarden compiled into a semantic plan under bubbles.v0.5."
+      },
+      {
+        "id": "claim:minimum-authored-shape",
+        "kind": "worldhood",
+        "status": "certified",
+        "basis": [
+          "axiom",
+          "worldWill",
+          "seed",
+          "effect"
+        ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [],
+        "scope": "source",
+        "explanation": "Bubble SelfHeldGarden satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
+      },
+      {
+        "id": "claim:worldhood-roles-present",
+        "kind": "worldhood",
+        "status": "certified",
+        "basis": [
+          "local-law-basis",
+          "boundary-semantics",
+          "boundary-object",
+          "boundary-observation-surface",
+          "source-lineage-address",
+          "lineage-placement",
+          "authored-anchor-criterion"
+        ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:minimum-authored-shape"
+        ],
+        "assumptions": [],
+        "scope": "plan",
+        "explanation": "Bubble SelfHeldGarden currently presents all required worldhood roles through local-law-basis, boundary-semantics, boundary-object, boundary-observation-surface, source-lineage-address, lineage-placement, authored-anchor-criterion."
+      },
+      {
+        "id": "claim:required-effect-obligations",
+        "kind": "effect",
+        "status": "contradicted",
+        "basis": [
+          "missing-observation-surface"
+        ],
+        "evidenceIds": [
+          "evidence:effect:effect:8:observe"
+        ],
+        "dependsOnClaims": [
+          "claim:minimum-authored-shape"
+        ],
+        "assumptions": [
+          "effect-trace-records-mirror-the-current-materialization-plan"
+        ],
+        "scope": "plan",
+        "explanation": "Required effect effect:8:observe is contradicted because no observation surface is declared."
+      },
+      {
+        "id": "claim:anchor-identity",
+        "kind": "anchor",
+        "status": "certified",
+        "basis": [
+          "axiomatic-basis",
+          "world-will",
+          "seed-continuity",
+          "sea-anchor-necessity.v1",
+          "theorem-condition:stable",
+          "theorem-worldhood-delta:2",
+          "theorem-identity-delta:1",
+          "positive-source:source-lineage",
+          "positive-source-support:present",
+          "positive-source-address:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "source-lineage-address",
+          "positive-source:seed-origin",
+          "seeded-origin",
+          "anchor-support:steady",
+          "anchor-rewind:guarded",
+          "anchor-identity-status:provisional",
+          "anchor-authored-criterion-status:satisfied",
+          "executable-semantic-checker",
+          "authored-anchor-criterion"
+        ],
+        "evidenceIds": [
+          "evidence:anchor-point:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "evidence:positive-sea:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "evidence:negative-sea:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden"
+        ],
+        "dependsOnClaims": [
+          "claim:worldhood-roles-present"
+        ],
+        "assumptions": [
+          "sea-anchor-theorem-witness-is-bounded",
+          "anchor-criterion-evaluation-uses-the-current-executable-subset"
+        ],
+        "scope": "plan",
+        "explanation": "Bubble SelfHeldGarden currently certifies anchor identity as steady with theorem condition stable under the authored anchor criterion."
+      },
+      {
+        "id": "claim:lineage-traceability",
+        "kind": "lineage",
+        "status": "undetermined",
+        "basis": [
+          "no-descendant-lineage-claim"
+        ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [],
+        "scope": "plan",
+        "explanation": "Bubble SelfHeldGarden declares no descendant or staged grammar lineage that needs certification in the current plan."
+      },
+      {
+        "id": "claim:replay-identity",
+        "kind": "replay",
+        "status": "undetermined",
+        "basis": [
+          "axiomatic-basis",
+          "world-will",
+          "seed-continuity",
+          "sea-anchor-necessity.v1",
+          "theorem-condition:stable",
+          "theorem-worldhood-delta:2",
+          "theorem-identity-delta:1",
+          "positive-source:source-lineage",
+          "positive-source-support:present",
+          "positive-source-address:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "source-lineage-address",
+          "positive-source:seed-origin",
+          "seeded-origin",
+          "anchor-support:steady",
+          "anchor-rewind:guarded",
+          "anchor-identity-status:provisional",
+          "anchor-authored-criterion-status:satisfied",
+          "executable-semantic-checker",
+          "authored-anchor-criterion",
+          "missing-declared-history-support"
+        ],
+        "evidenceIds": [
+          "evidence:anchor-point:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "evidence:positive-sea:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "evidence:negative-sea:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "evidence:effect:effect:8:observe"
+        ],
+        "dependsOnClaims": [
+          "claim:anchor-identity"
+        ],
+        "assumptions": [
+          "same-world-replay-is-evaluated-from-the-current-plan-basis"
+        ],
+        "scope": "materialized-run",
+        "explanation": "Bubble SelfHeldGarden preserves a replay basis, but same-world replay remains undetermined without declared history support fixation. Observed collapse records (0 records at  with shape mixed-open) mean this run is no longer pristine latent possibility; same-world replay remains open until that observed history is committed."
+      },
+      {
+        "id": "claim:internal-law-consistency",
+        "kind": "consistency",
+        "status": "undetermined",
+        "basis": [
+          "no-executable-law-semantics-yet"
+        ],
+        "evidenceIds": [],
+        "dependsOnClaims": [
+          "claim:well-formed-source"
+        ],
+        "assumptions": [
+          "no-general-law-solver-is-present"
+        ],
+        "scope": "materialized-run",
+        "explanation": "Observed collapse records (0 records at  with shape mixed-open) now witness executed observation-induced materialization for Bubble SelfHeldGarden. Bubble SelfHeldGarden still has no full executable law solver, so internal semantic consistency remains undetermined."
+      },
+      {
+        "id": "claim:self-realization",
+        "kind": "self-realization",
+        "status": "certified",
+        "basis": [
+          "self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "world-will:4",
+          "no-universal-clock",
+          "status:realized",
+          "selected:Awaken",
+          "materialized-self-realization:self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "history-arrow:false"
+        ],
+        "evidenceIds": [
+          "evidence:self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden"
+        ],
+        "dependsOnClaims": [
+          "claim:worldhood-roles-present",
+          "claim:required-effect-obligations"
+        ],
+        "assumptions": [
+          "No universal clock is introduced; only causal or committed-history order may emerge from a selected realization."
+        ],
+        "scope": "materialized-run",
+        "explanation": "Materialized self-realization evidence preserves realized under the authored world will."
+      }
+    ]
+  },
+  "runtimeOntology": {
+    "negativeSea": {
+      "pressure": "low",
+      "signals": [],
+      "pressureSources": []
+    },
+    "positiveSea": {
+      "support": "present",
+      "signals": [
+        "source-lineage-address",
+        "seeded-origin"
+      ],
+      "supportSources": [
+        {
+          "kind": "source-lineage",
+          "addressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "source-lineage-address"
+          ]
+        },
+        {
+          "kind": "seed-origin",
+          "addressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "seeded-origin"
+          ]
+        }
+      ]
+    },
+    "anchorPoint": {
+      "strength": "steady",
+      "declaredHistorySupport": false,
+      "materializedHistoryEvidence": false,
+      "rewindStability": "guarded",
+      "signals": [
+        "axiomatic-basis",
+        "world-will-criterion-undetermined",
+        "seed-continuity"
+      ],
+      "authoredCriterionStatus": "satisfied",
+      "authoredCriterionBasis": [
+        "executable-semantic-checker",
+        "authored-anchor-criterion"
+      ],
+      "materializedEvidenceSources": [],
+      "identityStatus": "provisional"
+    },
+    "theoremWitness": {
+      "theorem": "sea-anchor-necessity.v1",
+      "negativeRank": 0,
+      "positiveRank": 1,
+      "anchorRank": 1,
+      "worldhoodDelta": 2,
+      "identityDelta": 1,
+      "sustained": true,
+      "condition": "stable",
+      "explanation": "Bubble worldhood remains stable because A=1, P=1, N=0, so A + P - N = 2."
+    }
+  },
+  "selfRealization": {
+    "mode": "bubble-self-realization.v1",
+    "realizationId": "self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+    "governingWillId": "world-will:4",
+    "clockAssumption": "no-universal-clock",
+    "stateSource": "authored-initial",
+    "sourceContinuationId": null,
+    "currentState": {
+      "phase": "latent"
+    },
+    "status": "realized",
+    "candidates": [
+      {
+        "candidateId": "candidate:preserve:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+        "kind": "preserve",
+        "transformationId": null,
+        "transformationName": "Preserve",
+        "reversibility": "identity",
+        "ordering": "none",
+        "topology": "single",
+        "identityOutcome": "open",
+        "effectId": null,
+        "effectKind": null,
+        "effectRequirement": null,
+        "consequence": "none",
+        "eligible": true,
+        "stateBefore": {
+          "phase": "latent"
+        },
+        "stateAfter": {
+          "phase": "latent"
+        },
+        "worldWillEvaluation": {
+          "evaluationId": "semantic-evaluation:world-will:4",
+          "subjectKind": "world-will",
+          "subjectId": "world-will:4",
+          "name": "world will",
+          "sourceLine": 4,
+          "description": "realization.reversibility = \"reversible\"",
+          "expression": "realization.reversibility = \"reversible\"",
+          "status": "violated",
+          "basis": [
+            "executable-semantic-checker",
+            "world-will-violated"
+          ],
+          "explanation": "World will criterion is violated by the current executable semantic environment."
+        },
+        "admittedByWorldWill": false,
+        "selected": false,
+        "description": "Preserve keeps the authored world state invariant and introduces no causal order or history arrow."
+      },
+      {
+        "candidateId": "candidate:transform:9:Awaken",
+        "kind": "transform",
+        "transformationId": "transform:9:Awaken",
+        "transformationName": "Awaken",
+        "reversibility": "reversible",
+        "ordering": "causal",
+        "topology": "single",
+        "identityOutcome": "open",
+        "effectId": "effect:8:observe",
+        "effectKind": "observe",
+        "effectRequirement": "required",
+        "consequence": "causal-trace",
+        "eligible": true,
+        "stateBefore": {
+          "phase": "latent"
+        },
+        "stateAfter": {
+          "phase": "manifest"
+        },
+        "worldWillEvaluation": {
+          "evaluationId": "semantic-evaluation:world-will:4",
+          "subjectKind": "world-will",
+          "subjectId": "world-will:4",
+          "name": "world will",
+          "sourceLine": 4,
+          "description": "realization.reversibility = \"reversible\"",
+          "expression": "realization.reversibility = \"reversible\"",
+          "status": "satisfied",
+          "basis": [
+            "executable-semantic-checker",
+            "world-will-satisfied"
+          ],
+          "explanation": "World will criterion is satisfied by the current executable semantic environment."
+        },
+        "admittedByWorldWill": true,
+        "selected": true,
+        "description": "Transform Awaken is available from authored state phase=\"latent\" and projects phase=\"manifest\"."
+      },
+      {
+        "candidateId": "candidate:transform:10:Rest",
+        "kind": "transform",
+        "transformationId": "transform:10:Rest",
+        "transformationName": "Rest",
+        "reversibility": "reversible",
+        "ordering": "causal",
+        "topology": "single",
+        "identityOutcome": "open",
+        "effectId": "effect:8:observe",
+        "effectKind": "observe",
+        "effectRequirement": "required",
+        "consequence": "causal-trace",
+        "eligible": false,
+        "stateBefore": {
+          "phase": "latent"
+        },
+        "stateAfter": {
+          "phase": "latent"
+        },
+        "worldWillEvaluation": null,
+        "admittedByWorldWill": false,
+        "selected": false,
+        "description": "Transform Rest is unavailable because state phase is \"latent\", not \"manifest\"."
+      }
+    ],
+    "selectedCandidateIds": [
+      "candidate:transform:9:Awaken"
+    ],
+    "continuations": [
+      {
+        "continuationId": "continuation:self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden:candidate:transform:9:Awaken",
+        "candidateId": "candidate:transform:9:Awaken",
+        "transformationId": "transform:9:Awaken",
+        "state": {
+          "phase": "manifest"
+        },
+        "reversibility": "reversible",
+        "ordering": "causal",
+        "topology": "single",
+        "consequence": "causal-trace",
+        "createsHistoryArrow": false
+      }
+    ],
+    "obligationConflicts": [],
+    "description": "World will world-will:4 selects Awaken as the sole admitted self-realization."
+  },
+  "artifacts": [],
+  "commits": [],
+  "evidence": [
+    {
+      "id": "evidence:negative-sea:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "kind": "negative-sea-state",
+      "bubbleAddressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "subjectAddressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "sourcePath": "examples/self-held-garden.bubble",
+      "observationMode": null,
+      "emissionId": null,
+      "commitId": null,
+      "pressure": "low",
+      "signals": [],
+      "pressureSources": [],
+      "description": "Bubble SelfHeldGarden currently shows low negative-sea pressure."
+    },
+    {
+      "id": "evidence:positive-sea:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "kind": "positive-sea-state",
+      "bubbleAddressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "subjectAddressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "sourcePath": "examples/self-held-garden.bubble",
+      "observationMode": null,
+      "emissionId": null,
+      "commitId": null,
+      "support": "present",
+      "signals": [
+        "source-lineage-address",
+        "seeded-origin"
+      ],
+      "supportSources": [
+        {
+          "kind": "source-lineage",
+          "addressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "source-lineage-address"
+          ]
+        },
+        {
+          "kind": "seed-origin",
+          "addressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "sourceEffectId": null,
+          "support": "present",
+          "evidenceBasis": [
+            "seeded-origin"
+          ]
+        }
+      ],
+      "description": "Bubble SelfHeldGarden currently shows present positive-sea support via source-lineage-address, seeded-origin."
+    },
+    {
+      "id": "evidence:anchor-point:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "kind": "anchor-point-state",
+      "bubbleAddressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "subjectAddressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "sourcePath": "examples/self-held-garden.bubble",
+      "observationMode": null,
+      "emissionId": null,
+      "commitId": null,
+      "strength": "steady",
+      "declaredHistorySupport": false,
+      "materializedHistoryEvidence": false,
+      "rewindStability": "guarded",
+      "signals": [
+        "axiomatic-basis",
+        "world-will-criterion-undetermined",
+        "seed-continuity"
+      ],
+      "authoredCriterionStatus": "satisfied",
+      "authoredCriterionBasis": [
+        "executable-semantic-checker",
+        "authored-anchor-criterion"
+      ],
+      "materializedEvidenceSources": [],
+      "identityStatus": "provisional",
+      "description": "Bubble SelfHeldGarden currently shows steady inferred anchor support with guarded rewind stability and provisional identity status."
+    },
+    {
+      "id": "evidence:self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "kind": "self-realization",
+      "bubbleAddressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "subjectAddressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "sourcePath": "examples/self-held-garden.bubble",
+      "observationMode": null,
+      "emissionId": null,
+      "commitId": null,
+      "realizationId": "self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "status": "realized",
+      "governingWillId": "world-will:4",
+      "clockAssumption": "no-universal-clock",
+      "stateSource": "authored-initial",
+      "selectedCandidateIds": [
+        "candidate:transform:9:Awaken"
+      ],
+      "selectedTransformationIds": [
+        "transform:9:Awaken"
+      ],
+      "selectedEffectIds": [
+        "effect:8:observe"
+      ],
+      "continuationCount": 1,
+      "createsHistoryArrow": false,
+      "identityOutcomes": [
+        "open"
+      ],
+      "description": "World will world-will:4 selects Awaken as the sole admitted self-realization."
+    },
+    {
+      "id": "evidence:effect:effect:8:observe",
+      "kind": "effect-trace",
+      "bubbleAddressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "subjectAddressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "sourcePath": "examples/self-held-garden.bubble",
+      "observationMode": null,
+      "emissionId": null,
+      "commitId": null,
+      "effectId": "effect:8:observe",
+      "effectKind": "observe",
+      "requirement": "required",
+      "scope": "local",
+      "sourceLine": 8,
+      "materializationState": "materialized",
+      "runtimeSignals": [],
+      "causalLinks": [
+        {
+          "targetKind": "self-realization",
+          "targetId": "evidence:self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "relation": "governs-self-realization"
+        },
+        {
+          "targetKind": "anchor-point-state",
+          "targetId": "evidence:anchor-point:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "relation": "influences-anchor-assessment"
+        }
+      ],
+      "description": "Bubble SelfHeldGarden recorded required local observe as materialized in this run."
+    },
+    {
+      "id": "evidence:event-source:evidence:self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "subjectAddressId": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "sourcePath": "examples/self-held-garden.bubble",
+      "observationMode": null,
+      "emissionId": null,
+      "commitId": null,
+      "subjectKind": "self-realization",
+      "subjectId": "evidence:self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "status": "resolved",
+      "classification": "internal-world-event",
+      "candidates": [
+        {
+          "classification": "internal-world-event",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+              "field": "governingWillId"
+            },
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+              "field": "selectedTransformationIds"
+            }
+          ],
+          "explanation": "The bubble's executable world will and authored transformation are the only concrete source of this self-realization."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "field": "governingWillId"
+        },
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+          "field": "selectedTransformationIds"
+        }
+      ],
+      "description": "Classified self-realization evidence:self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden as internal-world-event from same-run evidence."
+    }
+  ],
+  "trace": [
+    {
+      "kind": "materialization-started",
+      "message": "Started materialization for SelfHeldGarden.",
+      "details": {
+        "profile": "bubbles.v0.5",
+        "address": "bubble:examples/self-held-garden.bubble::root:SelfHeldGarden"
+      }
+    },
+    {
+      "kind": "self-realization-resolved",
+      "message": "World will world-will:4 selects Awaken as the sole admitted self-realization.",
+      "details": {
+        "realizationId": "self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+        "status": "realized",
+        "selectedCandidateIds": [
+          "candidate:transform:9:Awaken"
+        ],
+        "clockAssumption": "no-universal-clock"
+      }
+    },
+    {
+      "kind": "no-emissions",
+      "message": "Bubble SelfHeldGarden has no staged emissions to materialize."
+    }
+  ]
+}

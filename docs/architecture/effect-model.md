@@ -97,6 +97,7 @@ Current implemented slice:
 - authored effects now also emit first-class `effect-trace` runtime records with provenance, scope, current-run signals, and whether they remained potential or became materialized in that run
 - `v0.4.8` effect traces now carry typed `causalLinks` to concrete observation, collapse, history-commit, sea, anchor, and descendant-artifact records when those records exist in the current run
 - `v0.4.9` marks perturb effects materialized only when a concrete collapse record names their contribution, then uses that trace and collapse evidence as direct negative-sea attribution basis
+- `v0.5.0` marks an effect materialized when a world-will-selected transformation names it, links that effect to concrete `self-realization` evidence, and creates history only when the selected consequence is `commit`
 
 ## Non-Goal
 
@@ -126,6 +127,8 @@ The first causal-trace slice is now complete for the records the bounded runtime
 Potential `branch` or `collapse` capabilities do not receive fabricated executed-event links before the runtime produces a corresponding concrete transition record.
 
 `v0.4.9` also closes the first event-source attribution layer. Concrete subjects receive `internal-world-event`, `negative-sea-pressure`, `anchor-drift`, or `positive-sea-shift` only when same-run evidence supports the class directly. Multiple direct explanations remain `unresolved-source`; potential effects remain visible candidates or background pressure rather than fabricated executed causes.
+
+`v0.5.0` adds `governs-self-realization` causal links. A declared transform does not materialize its effect merely by existing; the candidate must be selected by executable world will. Reversible transforms cannot smuggle irreversible `commit`, `branch`, `spawn`, or `collapse` consequences through the effect layer.
 
 ## Suggested Next Step
 

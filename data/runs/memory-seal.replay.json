@@ -1,0 +1,1332 @@
+{
+  "mode": "bubble-replay.v1",
+  "sourcePath": "examples/memory-seal.bubble",
+  "bubbleName": "MemorySeal",
+  "profile": "bubbles.v0.5",
+  "rootAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+  "commitCount": 1,
+  "evidenceCount": 8,
+  "traceCount": 4,
+  "materialization": {
+    "plan": {
+      "mode": "semantic-plan.v1",
+      "sourcePath": "examples/memory-seal.bubble",
+      "profile": "bubbles.v0.5",
+      "bubbleAddress": {
+        "scheme": "bubble-lineage.v1",
+        "locatorKind": "source-relative",
+        "anchor": "examples/memory-seal.bubble",
+        "path": [
+          {
+            "kind": "root",
+            "key": "MemorySeal"
+          }
+        ],
+        "id": "bubble:examples/memory-seal.bubble::root:MemorySeal"
+      },
+      "boundary": {
+        "mode": "bubble-boundary.v1",
+        "observationSurface": "undeclared-observation-surface",
+        "historyCommitSurface": "declared-history-support",
+        "perturbationSurface": "no-declared-perturbation",
+        "observationEffectIds": [],
+        "commitEffectIds": [
+          "effect:8:commit"
+        ],
+        "perturbEffectIds": [],
+        "scopes": [],
+        "semanticReferences": [],
+        "description": "Bubble boundary currently tracks 0 observation surfaces, 1 history-commit surface, 0 scoped membrane/global boundary groups, and 0 boundary-referencing semantic paths."
+      },
+      "observationMaterializationLaw": null,
+      "externalObservationLimit": {
+        "mode": "bubble-external-observation-limit.v1",
+        "observerPosition": "outside-bubble",
+        "preContactInteriorAccess": "concrete-interior-not-fully-readable",
+        "interiorExistenceMode": "compressed-lawful-existence",
+        "declaredObservationSurface": "undeclared-observation-surface",
+        "declaredPerturbationSurface": "no-declared-perturbation",
+        "declaredHistorySurface": "declared-history-support",
+        "latentInteriorKinds": [],
+        "causalContactEffectIds": {
+          "observation": [],
+          "perturbation": [],
+          "historyCommit": [
+            "effect:8:commit"
+          ]
+        },
+        "traceConsequences": {
+          "recordsObservationContext": false,
+          "mayMaterializeLatentInterior": false,
+          "mayRecordCollapse": false,
+          "mayAnchorHistory": true
+        },
+        "description": "Within Bubble semantics, an outside observer cannot fully read the concrete interior of MemorySeal before causal contact. The bubble persists as compressed lawful existence, and any outside access must pass through 1 history-commit surface."
+      },
+      "semantics": {
+        "mode": "bubble-executable-semantics.v1",
+        "constraints": [],
+        "partialLaws": [],
+        "worldWillCriterion": {
+          "evaluationId": "semantic-evaluation:world-will:4",
+          "subjectKind": "world-will",
+          "subjectId": "world-will:4",
+          "name": "world will",
+          "sourceLine": 4,
+          "description": "realization.name = \"Seal\"",
+          "expression": "realization.name = \"Seal\"",
+          "status": "undetermined",
+          "basis": [
+            "executable-semantic-checker",
+            "world-will-reference-gap"
+          ],
+          "explanation": "World will criterion remains undetermined because reference 'realization.name' is not available in the current executable environment."
+        },
+        "anchorCriterion": {
+          "evaluationId": "semantic-evaluation:anchor:6:identity",
+          "subjectKind": "anchor-criterion",
+          "subjectId": "anchor:6:identity",
+          "name": "anchor identity",
+          "sourceLine": 6,
+          "description": "axiom.coherence = \"stable\"",
+          "expression": "axiom.coherence = \"stable\"",
+          "status": "satisfied",
+          "basis": [
+            "executable-semantic-checker",
+            "authored-anchor-criterion"
+          ],
+          "explanation": "Anchor identity criterion is satisfied by the current executable semantic environment."
+        }
+      },
+      "ontology": {
+        "negativeSea": {
+          "pressure": "low",
+          "signals": [],
+          "pressureSources": []
+        },
+        "positiveSea": {
+          "support": "present",
+          "signals": [
+            "source-lineage-address",
+            "seeded-origin",
+            "declared-history-support"
+          ],
+          "supportSources": [
+            {
+              "kind": "source-lineage",
+              "addressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+              "sourceEffectId": null,
+              "support": "present",
+              "evidenceBasis": [
+                "source-lineage-address"
+              ]
+            },
+            {
+              "kind": "seed-origin",
+              "addressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+              "sourceEffectId": null,
+              "support": "present",
+              "evidenceBasis": [
+                "seeded-origin"
+              ]
+            },
+            {
+              "kind": "declared-history-support",
+              "addressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+              "sourceEffectId": "effect:8:commit",
+              "support": "present",
+              "evidenceBasis": [
+                "declared-history-support"
+              ]
+            }
+          ]
+        },
+        "anchorPoint": {
+          "strength": "steady",
+          "declaredHistorySupport": true,
+          "materializedHistoryEvidence": false,
+          "rewindStability": "stable",
+          "signals": [
+            "axiomatic-basis",
+            "world-will-criterion-undetermined",
+            "seed-continuity",
+            "declared-history-support"
+          ],
+          "authoredCriterionStatus": "satisfied",
+          "authoredCriterionBasis": [
+            "executable-semantic-checker",
+            "authored-anchor-criterion"
+          ],
+          "materializedEvidenceSources": [],
+          "identityStatus": "provisional"
+        },
+        "theoremWitness": {
+          "theorem": "sea-anchor-necessity.v1",
+          "negativeRank": 0,
+          "positiveRank": 1,
+          "anchorRank": 1,
+          "worldhoodDelta": 2,
+          "identityDelta": 1,
+          "sustained": true,
+          "condition": "stable",
+          "explanation": "Bubble worldhood remains stable because A=1, P=1, N=0, so A + P - N = 2."
+        }
+      },
+      "proof": {
+        "mode": "bubble-consistency-certificate.v1",
+        "bubbleAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "profile": "bubbles.v0.5",
+        "verdict": "partially-certified",
+        "claims": [
+          {
+            "id": "claim:well-formed-source",
+            "kind": "syntax",
+            "status": "certified",
+            "basis": [
+              "parser",
+              "profile-validator"
+            ],
+            "evidenceIds": [],
+            "dependsOnClaims": [],
+            "assumptions": [],
+            "scope": "source",
+            "explanation": "Bubble MemorySeal compiled into a semantic plan under bubbles.v0.5."
+          },
+          {
+            "id": "claim:minimum-authored-shape",
+            "kind": "worldhood",
+            "status": "certified",
+            "basis": [
+              "axiom",
+              "worldWill",
+              "seed",
+              "effect"
+            ],
+            "evidenceIds": [],
+            "dependsOnClaims": [
+              "claim:well-formed-source"
+            ],
+            "assumptions": [],
+            "scope": "source",
+            "explanation": "Bubble MemorySeal satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
+          },
+          {
+            "id": "claim:worldhood-roles-present",
+            "kind": "worldhood",
+            "status": "certified",
+            "basis": [
+              "local-law-basis",
+              "boundary-semantics",
+              "boundary-object",
+              "boundary-history-commit-surface",
+              "source-lineage-address",
+              "lineage-placement",
+              "authored-anchor-criterion"
+            ],
+            "evidenceIds": [],
+            "dependsOnClaims": [
+              "claim:minimum-authored-shape"
+            ],
+            "assumptions": [],
+            "scope": "plan",
+            "explanation": "Bubble MemorySeal currently presents all required worldhood roles through local-law-basis, boundary-semantics, boundary-object, boundary-history-commit-surface, source-lineage-address, lineage-placement, authored-anchor-criterion."
+          },
+          {
+            "id": "claim:required-effect-obligations",
+            "kind": "effect",
+            "status": "certified",
+            "basis": [
+              "declared-history-support"
+            ],
+            "evidenceIds": [
+              "evidence:effect:effect:8:commit"
+            ],
+            "dependsOnClaims": [
+              "claim:minimum-authored-shape"
+            ],
+            "assumptions": [
+              "effect-trace-records-mirror-the-current-materialization-plan"
+            ],
+            "scope": "plan",
+            "explanation": "Required effect effect:8:commit is certified by declared history support."
+          },
+          {
+            "id": "claim:anchor-identity",
+            "kind": "anchor",
+            "status": "certified",
+            "basis": [
+              "axiomatic-basis",
+              "world-will",
+              "seed-continuity",
+              "declared-history-support",
+              "sea-anchor-necessity.v1",
+              "theorem-condition:stable",
+              "theorem-worldhood-delta:2",
+              "theorem-identity-delta:1",
+              "positive-source:source-lineage",
+              "positive-source-support:present",
+              "positive-source-address:bubble:examples/memory-seal.bubble::root:MemorySeal",
+              "source-lineage-address",
+              "positive-source:seed-origin",
+              "seeded-origin",
+              "positive-source:declared-history-support",
+              "positive-source-effect:effect:8:commit",
+              "anchor-support:steady",
+              "anchor-rewind:stable",
+              "anchor-identity-status:provisional",
+              "anchor-authored-criterion-status:satisfied",
+              "executable-semantic-checker",
+              "authored-anchor-criterion"
+            ],
+            "evidenceIds": [
+              "evidence:anchor-point:bubble:examples/memory-seal.bubble::root:MemorySeal",
+              "evidence:positive-sea:bubble:examples/memory-seal.bubble::root:MemorySeal",
+              "evidence:negative-sea:bubble:examples/memory-seal.bubble::root:MemorySeal"
+            ],
+            "dependsOnClaims": [
+              "claim:worldhood-roles-present"
+            ],
+            "assumptions": [
+              "sea-anchor-theorem-witness-is-bounded",
+              "anchor-criterion-evaluation-uses-the-current-executable-subset"
+            ],
+            "scope": "plan",
+            "explanation": "Bubble MemorySeal currently certifies anchor identity as steady with theorem condition stable under the authored anchor criterion."
+          },
+          {
+            "id": "claim:lineage-traceability",
+            "kind": "lineage",
+            "status": "undetermined",
+            "basis": [
+              "no-descendant-lineage-claim"
+            ],
+            "evidenceIds": [],
+            "dependsOnClaims": [
+              "claim:well-formed-source"
+            ],
+            "assumptions": [],
+            "scope": "plan",
+            "explanation": "Bubble MemorySeal declares no descendant or staged grammar lineage that needs certification in the current plan."
+          },
+          {
+            "id": "claim:replay-identity",
+            "kind": "replay",
+            "status": "certified",
+            "basis": [
+              "axiomatic-basis",
+              "world-will",
+              "seed-continuity",
+              "declared-history-support",
+              "sea-anchor-necessity.v1",
+              "theorem-condition:stable",
+              "theorem-worldhood-delta:2",
+              "theorem-identity-delta:1",
+              "positive-source:source-lineage",
+              "positive-source-support:present",
+              "positive-source-address:bubble:examples/memory-seal.bubble::root:MemorySeal",
+              "source-lineage-address",
+              "positive-source:seed-origin",
+              "seeded-origin",
+              "positive-source:declared-history-support",
+              "positive-source-effect:effect:8:commit",
+              "anchor-support:steady",
+              "anchor-rewind:stable",
+              "anchor-identity-status:provisional",
+              "anchor-authored-criterion-status:satisfied",
+              "executable-semantic-checker",
+              "authored-anchor-criterion"
+            ],
+            "evidenceIds": [
+              "evidence:anchor-point:bubble:examples/memory-seal.bubble::root:MemorySeal",
+              "evidence:positive-sea:bubble:examples/memory-seal.bubble::root:MemorySeal",
+              "evidence:negative-sea:bubble:examples/memory-seal.bubble::root:MemorySeal",
+              "evidence:effect:effect:8:commit"
+            ],
+            "dependsOnClaims": [
+              "claim:anchor-identity"
+            ],
+            "assumptions": [
+              "same-world-replay-is-evaluated-from-the-current-plan-basis"
+            ],
+            "scope": "plan",
+            "explanation": "Bubble MemorySeal currently certifies replay identity through seed continuity, stable root addressing, and declared history support."
+          },
+          {
+            "id": "claim:internal-law-consistency",
+            "kind": "consistency",
+            "status": "undetermined",
+            "basis": [
+              "no-executable-law-semantics-yet"
+            ],
+            "evidenceIds": [],
+            "dependsOnClaims": [
+              "claim:well-formed-source"
+            ],
+            "assumptions": [
+              "no-general-law-solver-is-present"
+            ],
+            "scope": "plan",
+            "explanation": "Bubble MemorySeal does not yet have a full executable law solver, so internal semantic consistency remains undetermined."
+          },
+          {
+            "id": "claim:self-realization",
+            "kind": "self-realization",
+            "status": "certified",
+            "basis": [
+              "self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal",
+              "world-will:4",
+              "no-universal-clock",
+              "status:realized",
+              "selected:Seal"
+            ],
+            "evidenceIds": [],
+            "dependsOnClaims": [
+              "claim:worldhood-roles-present",
+              "claim:required-effect-obligations"
+            ],
+            "assumptions": [
+              "No universal clock is introduced; only causal or committed-history order may emerge from a selected realization."
+            ],
+            "scope": "plan",
+            "explanation": "The world will resolves self-realization as realized through Seal."
+          }
+        ]
+      },
+      "selfRealization": {
+        "mode": "bubble-self-realization.v1",
+        "realizationId": "self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "governingWillId": "world-will:4",
+        "clockAssumption": "no-universal-clock",
+        "stateSource": "authored-initial",
+        "sourceContinuationId": null,
+        "currentState": {
+          "memory": "open"
+        },
+        "status": "realized",
+        "candidates": [
+          {
+            "candidateId": "candidate:preserve:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "kind": "preserve",
+            "transformationId": null,
+            "transformationName": "Preserve",
+            "reversibility": "identity",
+            "ordering": "none",
+            "topology": "single",
+            "identityOutcome": "open",
+            "effectId": null,
+            "effectKind": null,
+            "effectRequirement": null,
+            "consequence": "none",
+            "eligible": true,
+            "stateBefore": {
+              "memory": "open"
+            },
+            "stateAfter": {
+              "memory": "open"
+            },
+            "worldWillEvaluation": {
+              "evaluationId": "semantic-evaluation:world-will:4",
+              "subjectKind": "world-will",
+              "subjectId": "world-will:4",
+              "name": "world will",
+              "sourceLine": 4,
+              "description": "realization.name = \"Seal\"",
+              "expression": "realization.name = \"Seal\"",
+              "status": "violated",
+              "basis": [
+                "executable-semantic-checker",
+                "world-will-violated"
+              ],
+              "explanation": "World will criterion is violated by the current executable semantic environment."
+            },
+            "admittedByWorldWill": false,
+            "selected": false,
+            "description": "Preserve keeps the authored world state invariant and introduces no causal order or history arrow."
+          },
+          {
+            "candidateId": "candidate:transform:9:Seal",
+            "kind": "transform",
+            "transformationId": "transform:9:Seal",
+            "transformationName": "Seal",
+            "reversibility": "irreversible",
+            "ordering": "committed-history",
+            "topology": "single",
+            "identityOutcome": "preserved",
+            "effectId": "effect:8:commit",
+            "effectKind": "commit",
+            "effectRequirement": "required",
+            "consequence": "history-commit",
+            "eligible": true,
+            "stateBefore": {
+              "memory": "open"
+            },
+            "stateAfter": {
+              "memory": "sealed"
+            },
+            "worldWillEvaluation": {
+              "evaluationId": "semantic-evaluation:world-will:4",
+              "subjectKind": "world-will",
+              "subjectId": "world-will:4",
+              "name": "world will",
+              "sourceLine": 4,
+              "description": "realization.name = \"Seal\"",
+              "expression": "realization.name = \"Seal\"",
+              "status": "satisfied",
+              "basis": [
+                "executable-semantic-checker",
+                "world-will-satisfied"
+              ],
+              "explanation": "World will criterion is satisfied by the current executable semantic environment."
+            },
+            "admittedByWorldWill": true,
+            "selected": true,
+            "description": "Transform Seal is available from authored state memory=\"open\" and projects memory=\"sealed\"."
+          }
+        ],
+        "selectedCandidateIds": [
+          "candidate:transform:9:Seal"
+        ],
+        "continuations": [
+          {
+            "continuationId": "continuation:self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal:candidate:transform:9:Seal",
+            "candidateId": "candidate:transform:9:Seal",
+            "transformationId": "transform:9:Seal",
+            "state": {
+              "memory": "sealed"
+            },
+            "reversibility": "irreversible",
+            "ordering": "committed-history",
+            "topology": "single",
+            "consequence": "history-commit",
+            "createsHistoryArrow": true
+          }
+        ],
+        "obligationConflicts": [],
+        "description": "World will world-will:4 selects Seal as the sole admitted self-realization."
+      },
+      "bundle": {
+        "mode": "bubble-bundle-plan.v1",
+        "bundleId": "bundle:bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "rootAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "members": [
+          {
+            "memberId": "bundle-member:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "kind": "root-bubble",
+            "emissionId": null,
+            "activationId": null,
+            "addressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "profileName": "bubbles.v0.5",
+            "sourcePath": "examples/memory-seal.bubble",
+            "provenance": "root-bubble",
+            "description": "Root bubble MemorySeal anchors this bundle."
+          }
+        ],
+        "materializationScopes": [
+          {
+            "scopeId": "bundle-scope:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "target": "root-bubble",
+            "emissionId": null,
+            "activationId": null,
+            "addressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "description": "The root bubble MemorySeal is always inside its own materialization scope."
+          }
+        ]
+      },
+      "latentTopology": null,
+      "observationCommitPolicy": null,
+      "observationCommitPolicyComparison": null,
+      "obligations": [
+        {
+          "effectId": "effect:8:commit",
+          "effectKind": "commit",
+          "scope": "local",
+          "description": "Author declared commit as a required local effect."
+        }
+      ],
+      "plannedRelations": [],
+      "grammars": [],
+      "grammarActivationPlan": [],
+      "emissionPlan": []
+    },
+    "proof": {
+      "mode": "bubble-consistency-certificate.v1",
+      "bubbleAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+      "profile": "bubbles.v0.5",
+      "verdict": "partially-certified",
+      "claims": [
+        {
+          "id": "claim:well-formed-source",
+          "kind": "syntax",
+          "status": "certified",
+          "basis": [
+            "parser",
+            "profile-validator"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [],
+          "assumptions": [],
+          "scope": "source",
+          "explanation": "Bubble MemorySeal compiled into a semantic plan under bubbles.v0.5."
+        },
+        {
+          "id": "claim:minimum-authored-shape",
+          "kind": "worldhood",
+          "status": "certified",
+          "basis": [
+            "axiom",
+            "worldWill",
+            "seed",
+            "effect"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [],
+          "scope": "source",
+          "explanation": "Bubble MemorySeal satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
+        },
+        {
+          "id": "claim:worldhood-roles-present",
+          "kind": "worldhood",
+          "status": "certified",
+          "basis": [
+            "local-law-basis",
+            "boundary-semantics",
+            "boundary-object",
+            "boundary-history-commit-surface",
+            "source-lineage-address",
+            "lineage-placement",
+            "authored-anchor-criterion"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:minimum-authored-shape"
+          ],
+          "assumptions": [],
+          "scope": "plan",
+          "explanation": "Bubble MemorySeal currently presents all required worldhood roles through local-law-basis, boundary-semantics, boundary-object, boundary-history-commit-surface, source-lineage-address, lineage-placement, authored-anchor-criterion."
+        },
+        {
+          "id": "claim:required-effect-obligations",
+          "kind": "effect",
+          "status": "certified",
+          "basis": [
+            "declared-history-support"
+          ],
+          "evidenceIds": [
+            "evidence:effect:effect:8:commit"
+          ],
+          "dependsOnClaims": [
+            "claim:minimum-authored-shape"
+          ],
+          "assumptions": [
+            "effect-trace-records-mirror-the-current-materialization-plan"
+          ],
+          "scope": "plan",
+          "explanation": "Required effect effect:8:commit is certified by declared history support."
+        },
+        {
+          "id": "claim:anchor-identity",
+          "kind": "anchor",
+          "status": "certified",
+          "basis": [
+            "axiomatic-basis",
+            "world-will",
+            "seed-continuity",
+            "declared-history-support",
+            "sea-anchor-necessity.v1",
+            "theorem-condition:stable",
+            "theorem-worldhood-delta:2",
+            "theorem-identity-delta:1",
+            "positive-source:source-lineage",
+            "positive-source-support:present",
+            "positive-source-address:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "source-lineage-address",
+            "positive-source:seed-origin",
+            "seeded-origin",
+            "positive-source:declared-history-support",
+            "positive-source-effect:effect:8:commit",
+            "anchor-support:steady",
+            "anchor-rewind:stable",
+            "anchor-identity-status:provisional",
+            "anchor-authored-criterion-status:satisfied",
+            "executable-semantic-checker",
+            "authored-anchor-criterion"
+          ],
+          "evidenceIds": [
+            "evidence:anchor-point:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "evidence:positive-sea:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "evidence:negative-sea:bubble:examples/memory-seal.bubble::root:MemorySeal"
+          ],
+          "dependsOnClaims": [
+            "claim:worldhood-roles-present"
+          ],
+          "assumptions": [
+            "sea-anchor-theorem-witness-is-bounded",
+            "anchor-criterion-evaluation-uses-the-current-executable-subset"
+          ],
+          "scope": "plan",
+          "explanation": "Bubble MemorySeal currently certifies anchor identity as steady with theorem condition stable under the authored anchor criterion."
+        },
+        {
+          "id": "claim:lineage-traceability",
+          "kind": "lineage",
+          "status": "undetermined",
+          "basis": [
+            "no-descendant-lineage-claim"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [],
+          "scope": "plan",
+          "explanation": "Bubble MemorySeal declares no descendant or staged grammar lineage that needs certification in the current plan."
+        },
+        {
+          "id": "claim:replay-identity",
+          "kind": "replay",
+          "status": "certified",
+          "basis": [
+            "axiomatic-basis",
+            "world-will",
+            "seed-continuity",
+            "declared-history-support",
+            "sea-anchor-necessity.v1",
+            "theorem-condition:stable",
+            "theorem-worldhood-delta:2",
+            "theorem-identity-delta:1",
+            "positive-source:source-lineage",
+            "positive-source-support:present",
+            "positive-source-address:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "source-lineage-address",
+            "positive-source:seed-origin",
+            "seeded-origin",
+            "positive-source:declared-history-support",
+            "positive-source-effect:effect:8:commit",
+            "anchor-support:steady",
+            "anchor-rewind:stable",
+            "anchor-identity-status:provisional",
+            "anchor-authored-criterion-status:satisfied",
+            "executable-semantic-checker",
+            "authored-anchor-criterion"
+          ],
+          "evidenceIds": [
+            "evidence:anchor-point:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "evidence:positive-sea:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "evidence:negative-sea:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "evidence:effect:effect:8:commit"
+          ],
+          "dependsOnClaims": [
+            "claim:anchor-identity"
+          ],
+          "assumptions": [
+            "same-world-replay-is-evaluated-from-the-current-plan-basis"
+          ],
+          "scope": "materialized-run",
+          "explanation": "Bubble MemorySeal currently certifies replay identity through seed continuity, stable root addressing, and declared history support. Observed collapse records (0 records at  with shape mixed-open) mean this run is no longer pristine latent possibility; same-world replay remains open until that observed history is committed."
+        },
+        {
+          "id": "claim:internal-law-consistency",
+          "kind": "consistency",
+          "status": "undetermined",
+          "basis": [
+            "no-executable-law-semantics-yet"
+          ],
+          "evidenceIds": [],
+          "dependsOnClaims": [
+            "claim:well-formed-source"
+          ],
+          "assumptions": [
+            "no-general-law-solver-is-present"
+          ],
+          "scope": "materialized-run",
+          "explanation": "Observed collapse records (0 records at  with shape mixed-open) now witness executed observation-induced materialization for Bubble MemorySeal. Bubble MemorySeal still has no full executable law solver, so internal semantic consistency remains undetermined."
+        },
+        {
+          "id": "claim:self-realization",
+          "kind": "self-realization",
+          "status": "certified",
+          "basis": [
+            "self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "world-will:4",
+            "no-universal-clock",
+            "status:realized",
+            "selected:Seal",
+            "materialized-self-realization:self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "history-arrow:true"
+          ],
+          "evidenceIds": [
+            "evidence:self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal"
+          ],
+          "dependsOnClaims": [
+            "claim:worldhood-roles-present",
+            "claim:required-effect-obligations"
+          ],
+          "assumptions": [
+            "No universal clock is introduced; only causal or committed-history order may emerge from a selected realization."
+          ],
+          "scope": "materialized-run",
+          "explanation": "Materialized self-realization evidence preserves realized under the authored world will."
+        }
+      ]
+    },
+    "runtimeOntology": {
+      "negativeSea": {
+        "pressure": "low",
+        "signals": [],
+        "pressureSources": []
+      },
+      "positiveSea": {
+        "support": "present",
+        "signals": [
+          "source-lineage-address",
+          "seeded-origin",
+          "declared-history-support"
+        ],
+        "supportSources": [
+          {
+            "kind": "source-lineage",
+            "addressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "sourceEffectId": null,
+            "support": "present",
+            "evidenceBasis": [
+              "source-lineage-address"
+            ]
+          },
+          {
+            "kind": "seed-origin",
+            "addressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "sourceEffectId": null,
+            "support": "present",
+            "evidenceBasis": [
+              "seeded-origin"
+            ]
+          },
+          {
+            "kind": "declared-history-support",
+            "addressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "sourceEffectId": "effect:8:commit",
+            "support": "present",
+            "evidenceBasis": [
+              "declared-history-support"
+            ]
+          }
+        ]
+      },
+      "anchorPoint": {
+        "strength": "steady",
+        "declaredHistorySupport": true,
+        "materializedHistoryEvidence": true,
+        "rewindStability": "stable",
+        "signals": [
+          "axiomatic-basis",
+          "world-will-criterion-undetermined",
+          "seed-continuity",
+          "declared-history-support"
+        ],
+        "authoredCriterionStatus": "satisfied",
+        "authoredCriterionBasis": [
+          "executable-semantic-checker",
+          "authored-anchor-criterion"
+        ],
+        "materializedEvidenceSources": [
+          {
+            "kind": "materialized-history",
+            "evidenceBasis": [
+              "materialized-history-evidence"
+            ]
+          }
+        ],
+        "identityStatus": "certified"
+      },
+      "theoremWitness": {
+        "theorem": "sea-anchor-necessity.v1",
+        "negativeRank": 0,
+        "positiveRank": 1,
+        "anchorRank": 1,
+        "worldhoodDelta": 2,
+        "identityDelta": 1,
+        "sustained": true,
+        "condition": "stable",
+        "explanation": "Bubble worldhood remains stable because A=1, P=1, N=0, so A + P - N = 2."
+      }
+    },
+    "selfRealization": {
+      "mode": "bubble-self-realization.v1",
+      "realizationId": "self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal",
+      "governingWillId": "world-will:4",
+      "clockAssumption": "no-universal-clock",
+      "stateSource": "authored-initial",
+      "sourceContinuationId": null,
+      "currentState": {
+        "memory": "open"
+      },
+      "status": "realized",
+      "candidates": [
+        {
+          "candidateId": "candidate:preserve:bubble:examples/memory-seal.bubble::root:MemorySeal",
+          "kind": "preserve",
+          "transformationId": null,
+          "transformationName": "Preserve",
+          "reversibility": "identity",
+          "ordering": "none",
+          "topology": "single",
+          "identityOutcome": "open",
+          "effectId": null,
+          "effectKind": null,
+          "effectRequirement": null,
+          "consequence": "none",
+          "eligible": true,
+          "stateBefore": {
+            "memory": "open"
+          },
+          "stateAfter": {
+            "memory": "open"
+          },
+          "worldWillEvaluation": {
+            "evaluationId": "semantic-evaluation:world-will:4",
+            "subjectKind": "world-will",
+            "subjectId": "world-will:4",
+            "name": "world will",
+            "sourceLine": 4,
+            "description": "realization.name = \"Seal\"",
+            "expression": "realization.name = \"Seal\"",
+            "status": "violated",
+            "basis": [
+              "executable-semantic-checker",
+              "world-will-violated"
+            ],
+            "explanation": "World will criterion is violated by the current executable semantic environment."
+          },
+          "admittedByWorldWill": false,
+          "selected": false,
+          "description": "Preserve keeps the authored world state invariant and introduces no causal order or history arrow."
+        },
+        {
+          "candidateId": "candidate:transform:9:Seal",
+          "kind": "transform",
+          "transformationId": "transform:9:Seal",
+          "transformationName": "Seal",
+          "reversibility": "irreversible",
+          "ordering": "committed-history",
+          "topology": "single",
+          "identityOutcome": "preserved",
+          "effectId": "effect:8:commit",
+          "effectKind": "commit",
+          "effectRequirement": "required",
+          "consequence": "history-commit",
+          "eligible": true,
+          "stateBefore": {
+            "memory": "open"
+          },
+          "stateAfter": {
+            "memory": "sealed"
+          },
+          "worldWillEvaluation": {
+            "evaluationId": "semantic-evaluation:world-will:4",
+            "subjectKind": "world-will",
+            "subjectId": "world-will:4",
+            "name": "world will",
+            "sourceLine": 4,
+            "description": "realization.name = \"Seal\"",
+            "expression": "realization.name = \"Seal\"",
+            "status": "satisfied",
+            "basis": [
+              "executable-semantic-checker",
+              "world-will-satisfied"
+            ],
+            "explanation": "World will criterion is satisfied by the current executable semantic environment."
+          },
+          "admittedByWorldWill": true,
+          "selected": true,
+          "description": "Transform Seal is available from authored state memory=\"open\" and projects memory=\"sealed\"."
+        }
+      ],
+      "selectedCandidateIds": [
+        "candidate:transform:9:Seal"
+      ],
+      "continuations": [
+        {
+          "continuationId": "continuation:self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal:candidate:transform:9:Seal",
+          "candidateId": "candidate:transform:9:Seal",
+          "transformationId": "transform:9:Seal",
+          "state": {
+            "memory": "sealed"
+          },
+          "reversibility": "irreversible",
+          "ordering": "committed-history",
+          "topology": "single",
+          "consequence": "history-commit",
+          "createsHistoryArrow": true
+        }
+      ],
+      "obligationConflicts": [],
+      "description": "World will world-will:4 selects Seal as the sole admitted self-realization."
+    },
+    "artifacts": [],
+    "commits": [
+      {
+        "id": "commit:self-realization:transform:9:Seal",
+        "emissionId": "candidate:transform:9:Seal",
+        "committedAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "description": "Committed self-realization Seal at bubble:examples/memory-seal.bubble::root:MemorySeal; this irreversible realization creates a history arrow."
+      }
+    ],
+    "evidence": [
+      {
+        "id": "evidence:negative-sea:bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "kind": "negative-sea-state",
+        "bubbleAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "subjectAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "sourcePath": "examples/memory-seal.bubble",
+        "observationMode": null,
+        "emissionId": null,
+        "commitId": null,
+        "pressure": "low",
+        "signals": [],
+        "pressureSources": [],
+        "description": "Bubble MemorySeal currently shows low negative-sea pressure."
+      },
+      {
+        "id": "evidence:positive-sea:bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "kind": "positive-sea-state",
+        "bubbleAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "subjectAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "sourcePath": "examples/memory-seal.bubble",
+        "observationMode": null,
+        "emissionId": null,
+        "commitId": null,
+        "support": "present",
+        "signals": [
+          "source-lineage-address",
+          "seeded-origin",
+          "declared-history-support"
+        ],
+        "supportSources": [
+          {
+            "kind": "source-lineage",
+            "addressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "sourceEffectId": null,
+            "support": "present",
+            "evidenceBasis": [
+              "source-lineage-address"
+            ]
+          },
+          {
+            "kind": "seed-origin",
+            "addressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "sourceEffectId": null,
+            "support": "present",
+            "evidenceBasis": [
+              "seeded-origin"
+            ]
+          },
+          {
+            "kind": "declared-history-support",
+            "addressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "sourceEffectId": "effect:8:commit",
+            "support": "present",
+            "evidenceBasis": [
+              "declared-history-support"
+            ]
+          }
+        ],
+        "description": "Bubble MemorySeal currently shows present positive-sea support via source-lineage-address, seeded-origin, declared-history-support."
+      },
+      {
+        "id": "evidence:anchor-point:bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "kind": "anchor-point-state",
+        "bubbleAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "subjectAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "sourcePath": "examples/memory-seal.bubble",
+        "observationMode": null,
+        "emissionId": null,
+        "commitId": null,
+        "strength": "steady",
+        "declaredHistorySupport": true,
+        "materializedHistoryEvidence": true,
+        "rewindStability": "stable",
+        "signals": [
+          "axiomatic-basis",
+          "world-will-criterion-undetermined",
+          "seed-continuity",
+          "declared-history-support"
+        ],
+        "authoredCriterionStatus": "satisfied",
+        "authoredCriterionBasis": [
+          "executable-semantic-checker",
+          "authored-anchor-criterion"
+        ],
+        "materializedEvidenceSources": [
+          {
+            "kind": "materialized-history",
+            "evidenceBasis": [
+              "materialized-history-evidence"
+            ]
+          }
+        ],
+        "identityStatus": "certified",
+        "description": "Bubble MemorySeal currently shows steady inferred anchor support with stable rewind stability and certified identity status."
+      },
+      {
+        "id": "evidence:self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "kind": "self-realization",
+        "bubbleAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "subjectAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "sourcePath": "examples/memory-seal.bubble",
+        "observationMode": null,
+        "emissionId": null,
+        "commitId": null,
+        "realizationId": "self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "status": "realized",
+        "governingWillId": "world-will:4",
+        "clockAssumption": "no-universal-clock",
+        "stateSource": "authored-initial",
+        "selectedCandidateIds": [
+          "candidate:transform:9:Seal"
+        ],
+        "selectedTransformationIds": [
+          "transform:9:Seal"
+        ],
+        "selectedEffectIds": [
+          "effect:8:commit"
+        ],
+        "continuationCount": 1,
+        "createsHistoryArrow": true,
+        "identityOutcomes": [
+          "preserved"
+        ],
+        "description": "World will world-will:4 selects Seal as the sole admitted self-realization."
+      },
+      {
+        "id": "evidence:commit:self-realization:transform:9:Seal",
+        "kind": "history-commit",
+        "bubbleAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "subjectAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "sourcePath": "examples/memory-seal.bubble",
+        "observationMode": null,
+        "emissionId": "candidate:transform:9:Seal",
+        "commitId": "commit:self-realization:transform:9:Seal",
+        "description": "Recorded durable history for candidate:transform:9:Seal at bubble:examples/memory-seal.bubble::root:MemorySeal."
+      },
+      {
+        "id": "evidence:effect:effect:8:commit",
+        "kind": "effect-trace",
+        "bubbleAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "subjectAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "sourcePath": "examples/memory-seal.bubble",
+        "observationMode": null,
+        "emissionId": null,
+        "commitId": null,
+        "effectId": "effect:8:commit",
+        "effectKind": "commit",
+        "requirement": "required",
+        "scope": "local",
+        "sourceLine": 8,
+        "materializationState": "materialized",
+        "runtimeSignals": [
+          "declared-history-support",
+          "history-commit"
+        ],
+        "causalLinks": [
+          {
+            "targetKind": "positive-sea-state",
+            "targetId": "evidence:positive-sea:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "relation": "contributes-positive-sea-support"
+          },
+          {
+            "targetKind": "self-realization",
+            "targetId": "evidence:self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "relation": "governs-self-realization"
+          },
+          {
+            "targetKind": "history-commit",
+            "targetId": "evidence:commit:self-realization:transform:9:Seal",
+            "relation": "supports-history-commit"
+          },
+          {
+            "targetKind": "anchor-point-state",
+            "targetId": "evidence:anchor-point:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "relation": "influences-anchor-assessment"
+          }
+        ],
+        "description": "Bubble MemorySeal recorded required local commit as materialized in this run via declared-history-support, history-commit."
+      },
+      {
+        "id": "evidence:event-source:evidence:self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "kind": "event-source-attribution",
+        "bubbleAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "subjectAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "sourcePath": "examples/memory-seal.bubble",
+        "observationMode": null,
+        "emissionId": null,
+        "commitId": null,
+        "subjectKind": "self-realization",
+        "subjectId": "evidence:self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "status": "resolved",
+        "classification": "positive-sea-shift",
+        "candidates": [
+          {
+            "classification": "internal-world-event",
+            "strength": "contextual",
+            "basis": [
+              {
+                "sourceKind": "evidence-record",
+                "sourceId": "evidence:self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal",
+                "field": "governingWillId"
+              },
+              {
+                "sourceKind": "evidence-record",
+                "sourceId": "evidence:self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal",
+                "field": "selectedTransformationIds"
+              }
+            ],
+            "explanation": "The bubble's own world will selected this realization, while a more specific sea, continuity, or anchor consequence also materialized."
+          },
+          {
+            "classification": "positive-sea-shift",
+            "strength": "direct",
+            "basis": [
+              {
+                "sourceKind": "evidence-record",
+                "sourceId": "evidence:self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal",
+                "field": "selectedEffectIds"
+              },
+              {
+                "sourceKind": "authored-effect",
+                "sourceId": "effect:8:commit",
+                "field": "kind"
+              },
+              {
+                "sourceKind": "authored-effect",
+                "sourceId": "effect:8:commit",
+                "field": "scope"
+              },
+              {
+                "sourceKind": "evidence-record",
+                "sourceId": "evidence:positive-sea:bubble:examples/memory-seal.bubble::root:MemorySeal",
+                "field": "supportSources"
+              },
+              {
+                "sourceKind": "runtime-ontology",
+                "sourceId": "runtime-ontology",
+                "field": "positiveSea.support"
+              }
+            ],
+            "explanation": "The selected self-realization concretely commits continuity or opens descendant lineage under the positive-sea structure."
+          }
+        ],
+        "basis": [
+          {
+            "sourceKind": "evidence-record",
+            "sourceId": "evidence:self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "field": "selectedEffectIds"
+          },
+          {
+            "sourceKind": "authored-effect",
+            "sourceId": "effect:8:commit",
+            "field": "kind"
+          },
+          {
+            "sourceKind": "authored-effect",
+            "sourceId": "effect:8:commit",
+            "field": "scope"
+          },
+          {
+            "sourceKind": "evidence-record",
+            "sourceId": "evidence:positive-sea:bubble:examples/memory-seal.bubble::root:MemorySeal",
+            "field": "supportSources"
+          },
+          {
+            "sourceKind": "runtime-ontology",
+            "sourceId": "runtime-ontology",
+            "field": "positiveSea.support"
+          }
+        ],
+        "description": "Classified self-realization evidence:self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal as positive-sea-shift from same-run evidence."
+      },
+      {
+        "id": "evidence:event-source:evidence:commit:self-realization:transform:9:Seal",
+        "kind": "event-source-attribution",
+        "bubbleAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "subjectAddressId": "bubble:examples/memory-seal.bubble::root:MemorySeal",
+        "sourcePath": "examples/memory-seal.bubble",
+        "observationMode": null,
+        "emissionId": "candidate:transform:9:Seal",
+        "commitId": "commit:self-realization:transform:9:Seal",
+        "subjectKind": "history-commit",
+        "subjectId": "evidence:commit:self-realization:transform:9:Seal",
+        "status": "resolved",
+        "classification": "positive-sea-shift",
+        "candidates": [
+          {
+            "classification": "positive-sea-shift",
+            "strength": "direct",
+            "basis": [
+              {
+                "sourceKind": "evidence-record",
+                "sourceId": "evidence:commit:self-realization:transform:9:Seal",
+                "field": "commitId"
+              },
+              {
+                "sourceKind": "runtime-ontology",
+                "sourceId": "runtime-ontology",
+                "field": "anchorPoint.materializedHistoryEvidence"
+              }
+            ],
+            "explanation": "This concrete history commit changes durable continuity and therefore constitutes a positive-sea shift for its subject."
+          }
+        ],
+        "basis": [
+          {
+            "sourceKind": "evidence-record",
+            "sourceId": "evidence:commit:self-realization:transform:9:Seal",
+            "field": "commitId"
+          },
+          {
+            "sourceKind": "runtime-ontology",
+            "sourceId": "runtime-ontology",
+            "field": "anchorPoint.materializedHistoryEvidence"
+          }
+        ],
+        "description": "Classified history-commit evidence:commit:self-realization:transform:9:Seal as positive-sea-shift from same-run evidence."
+      }
+    ],
+    "trace": [
+      {
+        "kind": "materialization-started",
+        "message": "Started materialization for MemorySeal.",
+        "details": {
+          "profile": "bubbles.v0.5",
+          "address": "bubble:examples/memory-seal.bubble::root:MemorySeal"
+        }
+      },
+      {
+        "kind": "self-realization-resolved",
+        "message": "World will world-will:4 selects Seal as the sole admitted self-realization.",
+        "details": {
+          "realizationId": "self-realization:bubble:examples/memory-seal.bubble::root:MemorySeal",
+          "status": "realized",
+          "selectedCandidateIds": [
+            "candidate:transform:9:Seal"
+          ],
+          "clockAssumption": "no-universal-clock"
+        }
+      },
+      {
+        "kind": "no-emissions",
+        "message": "Bubble MemorySeal has no staged emissions to materialize."
+      },
+      {
+        "kind": "materialization-committed",
+        "emissionId": "candidate:transform:9:Seal",
+        "message": "Committed self-realization Seal at bubble:examples/memory-seal.bubble::root:MemorySeal; this irreversible realization creates a history arrow.",
+        "details": {
+          "commitId": "commit:self-realization:transform:9:Seal"
+        }
+      }
+    ]
+  }
+}

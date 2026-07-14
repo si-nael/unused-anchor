@@ -844,6 +844,7 @@
           }
         ]
       },
+      "selfRealization": null,
       "bundle": {
         "mode": "bubble-bundle-plan.v1",
         "bundleId": "bundle:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
@@ -1408,6 +1409,7 @@
         "explanation": "Bubble worldhood is dissolving because A=0, P=1, N=2, so A + P - N = -1 with identity margin -2."
       }
     },
+    "selfRealization": null,
     "artifacts": [],
     "commits": [],
     "evidence": [

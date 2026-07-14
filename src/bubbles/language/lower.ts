@@ -16,6 +16,8 @@ import type {
     BubbleLatentTopologyIR,
     BubbleMetaIR,
     BubbleSeaSemanticsIR,
+    BubbleStateVariableIR,
+    BubbleTransformationIR,
     BubbleProfile,
     BubbleQuoteIR,
     BubbleRealizationMode,
@@ -42,6 +44,8 @@ import type {
     QuoteDeclaration,
     ReflectDeclaration,
     SpawnDeclaration,
+    StateDeclaration,
+    TransformDeclaration,
     UnresolvedSemanticDeclaration,
     WillDeclaration,
 } from "./ast";
@@ -56,6 +60,8 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
     let anchorDeclaration: AnchorDeclaration | null = null;
     const unresolvedSemanticDeclarations: UnresolvedSemanticDeclaration[] = [];
     const spawnDeclarations: SpawnDeclaration[] = [];
+    const stateDeclarations: StateDeclaration[] = [];
+    const transformDeclarations: TransformDeclaration[] = [];
     const quoteDeclarations: QuoteDeclaration[] = [];
     const generatorDeclarations: GeneratorDeclaration[] = [];
     const grammarDeclarations: GrammarDeclaration[] = [];
@@ -144,6 +150,12 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
 
                 anchorDeclaration = declaration;
                 break;
+            case "state":
+                stateDeclarations.push(declaration);
+                break;
+            case "transform":
+                transformDeclarations.push(declaration);
+                break;
             case "unresolved-semantic":
                 unresolvedSemanticDeclarations.push(declaration);
                 break;
@@ -203,16 +215,23 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
         emitDeclarations,
     );
     const seaSemantics = buildSeaSemantics(address, effects, seed, generation, boundary, meta);
+    const stateVariables = buildStateVariables(stateDeclarations, document.sourcePath);
+    const transformations = buildTransformations(transformDeclarations, effects, document.sourcePath);
+    const hasV05Semantics = stateVariables.length > 0 || transformations.length > 0;
     const hasV04Semantics = unresolvedSemantics.length > 0 || anchorCriterion !== null || worldWillCriterion !== null;
     const hasV03Meta = grammarDeclarations.length > 0 || grammarActivationDeclarations.length > 0;
-    const profile = hasV04Semantics
+    const profile = hasV05Semantics
+        ? "bubbles.v0.5"
+        : hasV04Semantics
         ? "bubbles.v0.4"
         : hasV03Meta
             ? "bubbles.v0.3"
             : meta === null
                 ? "bubbles.v0.1"
                 : "bubbles.v0.2";
-    const version = profile === "bubbles.v0.4"
+    const version = profile === "bubbles.v0.5"
+        ? "0.5.0"
+        : profile === "bubbles.v0.4"
         ? "0.4.0"
         : profile === "bubbles.v0.3"
             ? "0.3.0"
@@ -231,6 +250,8 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
             worldWill,
             ...(loweredWorldWillDeclaration === null ? {} : { worldWillDeclaration: loweredWorldWillDeclaration }),
             ...(worldWillCriterion === null ? {} : { worldWillCriterion }),
+            stateVariables,
+            transformations,
             seed,
             observationMode,
             boundary,
@@ -245,6 +266,72 @@ export function lowerBubbleDocument(document: BubbleDocument): BubbleProgramIR {
             ...(meta === null ? {} : { meta }),
         },
     };
+}
+
+function buildStateVariables(
+    declarations: StateDeclaration[],
+    sourcePath: string | null,
+): BubbleStateVariableIR[] {
+    const names = new Map<string, number>();
+
+    return declarations.map((declaration) => {
+        const previousLine = names.get(declaration.name);
+        if (previousLine !== undefined) {
+            throwDiagnostic({
+                code: "BBL107",
+                severity: "error",
+                message: `State '${declaration.name}' was already declared on line ${previousLine}.`,
+                sourcePath,
+                line: declaration.line,
+            });
+        }
+        names.set(declaration.name, declaration.line);
+
+        return {
+            id: `state:${declaration.line}:${declaration.name}`,
+            name: declaration.name,
+            sourceLine: declaration.line,
+            initialValue: declaration.initialValue,
+        };
+    });
+}
+
+function buildTransformations(
+    declarations: TransformDeclaration[],
+    effects: EffectIR[],
+    sourcePath: string | null,
+): BubbleTransformationIR[] {
+    const names = new Map<string, number>();
+
+    return declarations.map((declaration) => {
+        const previousLine = names.get(declaration.name);
+        if (previousLine !== undefined) {
+            throwDiagnostic({
+                code: "BBL108",
+                severity: "error",
+                message: `Transform '${declaration.name}' was already declared on line ${previousLine}.`,
+                sourcePath,
+                line: declaration.line,
+            });
+        }
+        names.set(declaration.name, declaration.line);
+        const linkedEffect = declaration.effectKind === null
+            ? null
+            : effects.find((effect) => effect.kind === declaration.effectKind) ?? null;
+
+        return {
+            id: `transform:${declaration.line}:${declaration.name}`,
+            name: declaration.name,
+            sourceLine: declaration.line,
+            reversibility: declaration.reversibility,
+            stateName: declaration.stateName,
+            fromValue: declaration.fromValue,
+            toValue: declaration.toValue,
+            inverseName: declaration.inverseName,
+            effectKind: declaration.effectKind,
+            effectId: linkedEffect?.id ?? null,
+        };
+    });
 }
 
 function buildAnchorCriterion(declaration: AnchorDeclaration | null): BubbleAnchorCriterionIR | null {

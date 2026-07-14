@@ -2,8 +2,8 @@ import type { EffectKind, EffectScope, EffectSpec } from "../effects";
 
 export type ScalarValue = boolean | number | string;
 
-export type BubbleVersion = "0.1.0" | "0.2.0" | "0.3.0" | "0.4.0";
-export type BubbleProfile = "bubbles.v0.1" | "bubbles.v0.2" | "bubbles.v0.3" | "bubbles.v0.4";
+export type BubbleVersion = "0.1.0" | "0.2.0" | "0.3.0" | "0.4.0" | "0.5.0";
+export type BubbleProfile = "bubbles.v0.1" | "bubbles.v0.2" | "bubbles.v0.3" | "bubbles.v0.4" | "bubbles.v0.5";
 export type BubbleRealizationMode = "deterministic" | "nondeterministic";
 export type BubbleLifecycleMode = "latent" | "active";
 export type BubbleRelationKind = "branch" | "spawn" | "collapse";
@@ -402,6 +402,28 @@ export interface BubbleWorldWillCriterionIR {
     expression: BubbleExpressionIR;
 }
 
+export interface BubbleStateVariableIR {
+    id: string;
+    name: string;
+    sourceLine: number;
+    initialValue: ScalarValue;
+}
+
+export type BubbleTransformationReversibilityIR = "reversible" | "irreversible";
+
+export interface BubbleTransformationIR {
+    id: string;
+    name: string;
+    sourceLine: number;
+    reversibility: BubbleTransformationReversibilityIR;
+    stateName: string;
+    fromValue: ScalarValue;
+    toValue: ScalarValue;
+    inverseName: string | null;
+    effectKind: EffectIR["kind"] | null;
+    effectId: string | null;
+}
+
 export interface BubbleIR {
     address: BubbleAddressIR;
     name: string;
@@ -409,6 +431,8 @@ export interface BubbleIR {
     worldWill: string | null;
     worldWillDeclaration?: BubbleWorldWillIR;
     worldWillCriterion?: BubbleWorldWillCriterionIR;
+    stateVariables: BubbleStateVariableIR[];
+    transformations: BubbleTransformationIR[];
     seed: string | null;
     observationMode: string | null;
     boundary: BubbleBoundaryIR;

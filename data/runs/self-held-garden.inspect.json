@@ -1,0 +1,137 @@
+{
+  "mode": "bubble-self-realization.v1",
+  "realizationId": "self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+  "governingWillId": "world-will:4",
+  "clockAssumption": "no-universal-clock",
+  "stateSource": "authored-initial",
+  "sourceContinuationId": null,
+  "currentState": {
+    "phase": "latent"
+  },
+  "status": "realized",
+  "candidates": [
+    {
+      "candidateId": "candidate:preserve:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden",
+      "kind": "preserve",
+      "transformationId": null,
+      "transformationName": "Preserve",
+      "reversibility": "identity",
+      "ordering": "none",
+      "topology": "single",
+      "identityOutcome": "open",
+      "effectId": null,
+      "effectKind": null,
+      "effectRequirement": null,
+      "consequence": "none",
+      "eligible": true,
+      "stateBefore": {
+        "phase": "latent"
+      },
+      "stateAfter": {
+        "phase": "latent"
+      },
+      "worldWillEvaluation": {
+        "evaluationId": "semantic-evaluation:world-will:4",
+        "subjectKind": "world-will",
+        "subjectId": "world-will:4",
+        "name": "world will",
+        "sourceLine": 4,
+        "description": "realization.reversibility = \"reversible\"",
+        "expression": "realization.reversibility = \"reversible\"",
+        "status": "violated",
+        "basis": [
+          "executable-semantic-checker",
+          "world-will-violated"
+        ],
+        "explanation": "World will criterion is violated by the current executable semantic environment."
+      },
+      "admittedByWorldWill": false,
+      "selected": false,
+      "description": "Preserve keeps the authored world state invariant and introduces no causal order or history arrow."
+    },
+    {
+      "candidateId": "candidate:transform:9:Awaken",
+      "kind": "transform",
+      "transformationId": "transform:9:Awaken",
+      "transformationName": "Awaken",
+      "reversibility": "reversible",
+      "ordering": "causal",
+      "topology": "single",
+      "identityOutcome": "open",
+      "effectId": "effect:8:observe",
+      "effectKind": "observe",
+      "effectRequirement": "required",
+      "consequence": "causal-trace",
+      "eligible": true,
+      "stateBefore": {
+        "phase": "latent"
+      },
+      "stateAfter": {
+        "phase": "manifest"
+      },
+      "worldWillEvaluation": {
+        "evaluationId": "semantic-evaluation:world-will:4",
+        "subjectKind": "world-will",
+        "subjectId": "world-will:4",
+        "name": "world will",
+        "sourceLine": 4,
+        "description": "realization.reversibility = \"reversible\"",
+        "expression": "realization.reversibility = \"reversible\"",
+        "status": "satisfied",
+        "basis": [
+          "executable-semantic-checker",
+          "world-will-satisfied"
+        ],
+        "explanation": "World will criterion is satisfied by the current executable semantic environment."
+      },
+      "admittedByWorldWill": true,
+      "selected": true,
+      "description": "Transform Awaken is available from authored state phase=\"latent\" and projects phase=\"manifest\"."
+    },
+    {
+      "candidateId": "candidate:transform:10:Rest",
+      "kind": "transform",
+      "transformationId": "transform:10:Rest",
+      "transformationName": "Rest",
+      "reversibility": "reversible",
+      "ordering": "causal",
+      "topology": "single",
+      "identityOutcome": "open",
+      "effectId": "effect:8:observe",
+      "effectKind": "observe",
+      "effectRequirement": "required",
+      "consequence": "causal-trace",
+      "eligible": false,
+      "stateBefore": {
+        "phase": "latent"
+      },
+      "stateAfter": {
+        "phase": "latent"
+      },
+      "worldWillEvaluation": null,
+      "admittedByWorldWill": false,
+      "selected": false,
+      "description": "Transform Rest is unavailable because state phase is \"latent\", not \"manifest\"."
+    }
+  ],
+  "selectedCandidateIds": [
+    "candidate:transform:9:Awaken"
+  ],
+  "continuations": [
+    {
+      "continuationId": "continuation:self-realization:bubble:examples/self-held-garden.bubble::root:SelfHeldGarden:candidate:transform:9:Awaken",
+      "candidateId": "candidate:transform:9:Awaken",
+      "transformationId": "transform:9:Awaken",
+      "state": {
+        "phase": "manifest"
+      },
+      "reversibility": "reversible",
+      "ordering": "causal",
+      "topology": "single",
+      "consequence": "causal-trace",
+      "createsHistoryArrow": false
+    }
+  ],
+  "obligationConflicts": [],
+  "description": "World will world-will:4 selects Awaken as the sole admitted self-realization."
+}
