@@ -1,0 +1,162 @@
+[
+  {
+    "id": "evidence:event-source:evidence:collapse:semantic:12:hidden-region:Crossroads",
+    "kind": "event-source-attribution",
+    "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+    "subjectAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+    "sourcePath": "examples/attribution-crossroads.bubble",
+    "observationMode": "witness",
+    "emissionId": null,
+    "commitId": null,
+    "subjectKind": "collapse-record",
+    "subjectId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
+    "status": "unresolved",
+    "classification": "unresolved-source",
+    "candidates": [
+      {
+        "classification": "internal-world-event",
+        "strength": "contextual",
+        "basis": [
+          {
+            "sourceKind": "evidence-record",
+            "sourceId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
+            "field": "triggerEffectIds"
+          },
+          {
+            "sourceKind": "authored-effect",
+            "sourceId": "effect:7:observe",
+            "field": "kind"
+          },
+          {
+            "sourceKind": "authored-effect",
+            "sourceId": "effect:7:observe",
+            "field": "scope"
+          }
+        ],
+        "explanation": "Authored local observation triggered this collapse, but more specific sea or anchor evidence also shaped the realized event."
+      },
+      {
+        "classification": "negative-sea-pressure",
+        "strength": "direct",
+        "basis": [
+          {
+            "sourceKind": "evidence-record",
+            "sourceId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
+            "field": "perturbEffectIds"
+          },
+          {
+            "sourceKind": "authored-effect",
+            "sourceId": "effect:11:perturb",
+            "field": "kind"
+          },
+          {
+            "sourceKind": "authored-effect",
+            "sourceId": "effect:11:perturb",
+            "field": "scope"
+          },
+          {
+            "sourceKind": "evidence-record",
+            "sourceId": "evidence:negative-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+            "field": "pressureSources"
+          },
+          {
+            "sourceKind": "runtime-ontology",
+            "sourceId": "runtime-ontology",
+            "field": "negativeSea.pressure"
+          }
+        ],
+        "explanation": "A perturbation recorded on this concrete collapse is also an explicit negative-sea pressure source in the same run."
+      },
+      {
+        "classification": "anchor-drift",
+        "strength": "direct",
+        "basis": [
+          {
+            "sourceKind": "evidence-record",
+            "sourceId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
+            "field": "observationState.localMaterialization.stateStructure.anchorBinding"
+          },
+          {
+            "sourceKind": "evidence-record",
+            "sourceId": "evidence:anchor-point:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+            "field": "identityStatus"
+          },
+          {
+            "sourceKind": "runtime-ontology",
+            "sourceId": "runtime-ontology",
+            "field": "anchorPoint.identityStatus"
+          },
+          {
+            "sourceKind": "runtime-ontology",
+            "sourceId": "runtime-ontology",
+            "field": "anchorPoint.rewindStability"
+          }
+        ],
+        "explanation": "The concrete local materialization is drifting while same-world identity or rewind support is not securely holding its uncommitted record."
+      }
+    ],
+    "basis": [
+      {
+        "sourceKind": "evidence-record",
+        "sourceId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
+        "field": "triggerEffectIds"
+      },
+      {
+        "sourceKind": "authored-effect",
+        "sourceId": "effect:7:observe",
+        "field": "kind"
+      },
+      {
+        "sourceKind": "authored-effect",
+        "sourceId": "effect:7:observe",
+        "field": "scope"
+      },
+      {
+        "sourceKind": "evidence-record",
+        "sourceId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
+        "field": "perturbEffectIds"
+      },
+      {
+        "sourceKind": "authored-effect",
+        "sourceId": "effect:11:perturb",
+        "field": "kind"
+      },
+      {
+        "sourceKind": "authored-effect",
+        "sourceId": "effect:11:perturb",
+        "field": "scope"
+      },
+      {
+        "sourceKind": "evidence-record",
+        "sourceId": "evidence:negative-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+        "field": "pressureSources"
+      },
+      {
+        "sourceKind": "runtime-ontology",
+        "sourceId": "runtime-ontology",
+        "field": "negativeSea.pressure"
+      },
+      {
+        "sourceKind": "evidence-record",
+        "sourceId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
+        "field": "observationState.localMaterialization.stateStructure.anchorBinding"
+      },
+      {
+        "sourceKind": "evidence-record",
+        "sourceId": "evidence:anchor-point:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+        "field": "identityStatus"
+      },
+      {
+        "sourceKind": "runtime-ontology",
+        "sourceId": "runtime-ontology",
+        "field": "anchorPoint.identityStatus"
+      },
+      {
+        "sourceKind": "runtime-ontology",
+        "sourceId": "runtime-ontology",
+        "field": "anchorPoint.rewindStability"
+      }
+    ],
+    "description": "Kept collapse-record evidence:collapse:semantic:12:hidden-region:Crossroads as unresolved-source because direct evidence did not select exactly one class among internal-world-event:contextual, negative-sea-pressure:direct, anchor-drift:direct."
+  }
+]

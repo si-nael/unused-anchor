@@ -1,6 +1,10 @@
 import type { BubbleProgramIR } from "../ir";
 import { materializeBubbleProgram } from "./materialize";
 import type {
+    BubbleEventSourceAttributionEvidenceRecord,
+    BubbleEventSourceAttributionStatus,
+    BubbleEventSourceClassification,
+    BubbleEvidenceKind,
     BubbleEvidenceRecord,
     BubbleObservationStateRecord,
 } from "./evidence";
@@ -27,7 +31,7 @@ import type {
     BubbleRuntimeOptions,
 } from "./types";
 
-export type BubbleInspectionSection = "summary" | "plan" | "externalObservationLimit" | "observationCommitPolicy" | "observationCommitPolicyComparison" | "ontology" | "semantics" | "proof" | "bundle" | "grammars" | "artifacts" | "commits" | "evidence" | "observationStates" | "trace" | "report";
+export type BubbleInspectionSection = "summary" | "plan" | "externalObservationLimit" | "observationCommitPolicy" | "observationCommitPolicyComparison" | "ontology" | "semantics" | "proof" | "bundle" | "grammars" | "artifacts" | "commits" | "evidence" | "sourceAttributions" | "observationStates" | "trace" | "report";
 
 export interface BubbleInspectionQuery {
     emissionId?: string;
@@ -44,6 +48,9 @@ export interface BubbleInspectionQuery {
     claimId?: string;
     claimKind?: BubbleConsistencyClaimKind;
     claimStatus?: BubbleConsistencyClaimStatus;
+    evidenceKind?: BubbleEvidenceKind;
+    attributionStatus?: BubbleEventSourceAttributionStatus;
+    attributionClassification?: BubbleEventSourceClassification;
     kind?: BubbleMaterializationTraceEvent["kind"];
 }
 
@@ -87,6 +94,9 @@ export interface BubbleInspectionSummary {
     artifactCount: number;
     commitCount: number;
     evidenceCount: number;
+    sourceAttributionCount: number;
+    sourceAttributionStatusCounts: Record<BubbleEventSourceAttributionStatus, number>;
+    sourceAttributionClassifications: BubbleEventSourceClassification[];
     observationStateCount: number;
     reflectionPaths: string[];
     traceKinds: BubbleMaterializationTraceEvent["kind"][];
@@ -106,6 +116,7 @@ export interface BubbleInspectionReport {
     artifacts: BubbleArtifactInspection[];
     commits: BubbleMaterializationCommit[];
     evidence: BubbleEvidenceRecord[];
+    sourceAttributions: BubbleEventSourceAttributionEvidenceRecord[];
     observationStates: BubbleObservationStateRecord[];
     trace: BubbleMaterializationTraceEvent[];
 }
@@ -159,6 +170,9 @@ export function inspectMaterializationResult(
 
     const selectedSemantics = collectSemanticEvaluations(plan.semantics);
     const selectedProofClaims = proof.claims;
+    const sourceAttributions = evidence.filter(
+        (entry): entry is BubbleEventSourceAttributionEvidenceRecord => entry.kind === "event-source-attribution",
+    );
     const observationStates = collectObservationStates(evidence).filter((state) => matchesObservationStateQuery(state, query));
     const reflectionPaths = Array.from(new Set(plan.emissionPlan.flatMap((emission) => emission.reflectionPaths)));
     const descendantCount = artifacts.filter((artifact) => artifact.target === "descendant").length;
@@ -186,6 +200,9 @@ export function inspectMaterializationResult(
             artifactCount,
             commitCount: commits.length,
             evidenceCount: evidence.length,
+            sourceAttributionCount: sourceAttributions.length,
+            sourceAttributionStatusCounts: countSourceAttributionStatuses(sourceAttributions),
+            sourceAttributionClassifications: listSourceAttributionClassifications(sourceAttributions),
             observationStateCount: observationStates.length,
             reflectionPaths,
             traceKinds: trace.map((event) => event.kind),
@@ -205,6 +222,7 @@ export function inspectMaterializationResult(
         artifacts,
         commits,
         evidence,
+        sourceAttributions,
         observationStates,
         trace,
     };
@@ -371,6 +389,21 @@ function filterBundlePlan(
     };
 }
 
+function listSourceAttributionClassifications(
+    attributions: BubbleEventSourceAttributionEvidenceRecord[],
+): BubbleEventSourceClassification[] {
+    return Array.from(new Set(attributions.map((attribution) => attribution.classification)));
+}
+
+function countSourceAttributionStatuses(
+    attributions: BubbleEventSourceAttributionEvidenceRecord[],
+): Record<BubbleEventSourceAttributionStatus, number> {
+    return {
+        resolved: attributions.filter((attribution) => attribution.status === "resolved").length,
+        unresolved: attributions.filter((attribution) => attribution.status === "unresolved").length,
+    };
+}
+
 function filterGrammarPlan(
     grammars: BubbleExecutionPlan["grammars"],
     grammarActivationPlan: BubbleExecutionPlan["grammarActivationPlan"],
@@ -488,6 +521,28 @@ function matchesTraceQuery(
 }
 
 function matchesEvidenceQuery(evidence: BubbleEvidenceRecord, query: BubbleInspectionQuery): boolean {
+    if (query.evidenceKind && evidence.kind !== query.evidenceKind) {
+        return false;
+    }
+
+    if (query.attributionStatus || query.attributionClassification) {
+        if (evidence.kind !== "event-source-attribution") {
+            return false;
+        }
+
+        if (query.attributionStatus && evidence.status !== query.attributionStatus) {
+            return false;
+        }
+
+        if (
+            query.attributionClassification
+            && evidence.classification !== query.attributionClassification
+            && !evidence.candidates.some((candidate) => candidate.classification === query.attributionClassification)
+        ) {
+            return false;
+        }
+    }
+
     if (query.emissionId && evidence.emissionId !== query.emissionId) {
         return false;
     }

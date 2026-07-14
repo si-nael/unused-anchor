@@ -34,7 +34,15 @@
   "descendantCount": 1,
   "artifactCount": 0,
   "commitCount": 1,
-  "evidenceCount": 4,
+  "evidenceCount": 5,
+  "sourceAttributionCount": 1,
+  "sourceAttributionStatusCounts": {
+    "resolved": 1,
+    "unresolved": 0
+  },
+  "sourceAttributionClassifications": [
+    "positive-sea-shift"
+  ],
   "observationStateCount": 0,
   "reflectionPaths": [
     "self.address",

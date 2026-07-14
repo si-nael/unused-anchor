@@ -2,6 +2,19 @@
 
 ## 2026-07-15
 
+- Completed `v0.4.9` as the bounded Q-014 convergence release: concrete collapse, history-commit, descendant, and observation subjects now emit typed `event-source-attribution` evidence with resolved or unresolved verdict, direct/contextual candidates, and typed basis.
+- Implemented conservative discrimination rules: concrete perturb contribution can resolve negative-sea pressure, weak anchor alone cannot prove drift, concrete drifting materialization plus insecure record identity can support anchor drift, and history/lineage changes resolve positive-sea shift.
+- Added materialization, inspection, CLI filtering, and stored replay coverage; the canonical `attribution-crossroads.bubble` fixture preserves simultaneous direct negative-sea and anchor-drift evidence as `unresolved-source` across inspect and replay outputs.
+- Added `verify:attribution` to mandatory verification, synchronized the reference and semantic specification, promoted package and lockfile to `0.4.9`, and recorded `v0.5` as the sole next version.
+- Added research-preservation rules and automated guards so completing Q-014 does not delete, reject, or falsely complete the wider sea, anchor, observer, replay, unbounded-world, or probabilistic-fractal ideas.
+- Passed the final `npm.cmd run verify` boundary as `unused-anchor@0.4.9`: all 93 unit and record tests passed, every compile/materialize/inspect/record/replay path completed, the attribution example's inspect and replay payloads matched exactly, and generated attribution distributions were manually checked for overconfident classification.
+- Audited the research records before further semantic work: corrected D-082 into the 2026-07-15 decision section, recorded closure-first progression, and established `docs/project-memory.md` as the explicit durable repository-memory artifact.
+- Preserved the current user direction in the idea log: accumulated ideas and questions are connected constraints on one intended bubble universe, and version promotion must follow coherent semantic convergence rather than feature count.
+- Logged the README UTF-16 incident and the policy-blocked PowerShell `npm.ps1` wrapper as visible tooling-boundary failures instead of leaving them as unrecorded session accidents.
+- Reconciled Q-001 through Q-017 against the current code and verification surfaces, added an idea/question implementation map with contradiction guards, and selected Q-014 event-source distinction as the required bounded `v0.4.9` closure before `v0.5`.
+- Added the `v0.4.9` closure plan, H-009 falsifiable attribution hypothesis, and automated research-record checks for canonical files, UTF-8 readability, monotonic date sections, unique decision identifiers, and explicit Q-001 through Q-017 statuses.
+- Verified the new record checks and TypeScript surface with `npm.cmd run verify:records` and `npm.cmd run check`; direct `npm` invocation was blocked by the local PowerShell wrapper policy and is recorded as B-006.
+- Re-ran the complete mandatory repository path with `npm.cmd run verify`: all 89 unit and record tests passed, and the compile, example, collapse, inspection, record, and replay commands completed successfully without producing unexpected artifact drift.
 - Started `v0.4.8` as a closure-first stabilization release rather than a new semantic expansion.
 - Completed the interrupted effect-role causal-trace slice: every runtime `effect-trace` now carries typed `causalLinks` to concrete observation, collapse, history-commit, sea, anchor, or descendant-artifact targets when those targets exist in the same materialization result.
 - Added focused regressions for observation/perturb contributions to collapse records, commit links to history evidence, spawn links to descendants, and ontology/anchor links; synchronized the effect specification, reference, research hypothesis, and package version with the implemented state.

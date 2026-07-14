@@ -1,5 +1,22 @@
 # Idea Log
 
+## 2026-07-15
+
+### Coherent completion toward the intended bubble universe
+
+- The accumulated user ideas and research questions are not a loose feature backlog. They are connected constraints on one intended bubble universe and should be implemented, tested, and developed without silently contradicting one another.
+- Progress should preserve the distinction between a faithful bounded implementation, an informed interpretation, and an unresolved research direction. A convenient proxy must not be recorded as the completed idea.
+- Before `v0.5`, the project should trace each foundational idea and question to its current specification, implementation, evidence, and remaining gap so that unfinished work is visible rather than rediscovered.
+- Version promotion should follow semantic convergence. If one bounded pre-`v0.5` closure release is necessary to reconcile records or finish an already-open core semantic slice, use `v0.4.9` rather than hiding the gap inside `v0.5`.
+- The target is not merely a language with sea-anchor vocabulary. It is a coherently operating bubble universe in which independent worldhood, the two seas, anchor identity, observation, history, replay, lineage, and boundary pressure retain their intended relations.
+
+### Version succession without research amnesia
+
+- Complete `v0.4.9` firmly, then make `v0.5` the next version.
+- Finishing one bounded semantic slice must not make the larger originating idea disappear from planning or be misreported as exhausted.
+- Deferred and currently unselected ideas remain live research branches. Their original dated formulations, current limits, and reopen conditions should stay visible while `v0.5` chooses one measurable next objective.
+- Release closure should remove implementation ambiguity, not prematurely close the conceptual universe.
+
 ## 2026-05-20
 
 ### Future research: observation-induced materialization and perturbative collapse

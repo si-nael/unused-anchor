@@ -1,0 +1,14 @@
+bubble AttributionCrossroads {
+  axiom coherence = stable
+  will axiom.coherence = "broken"
+  seed crossroads_seed
+  observe witness
+  anchor identity = axiom.coherence = "broken"
+  effect observe required
+  effect commit required
+  effect debt required
+  effect branch optional
+  effect perturb optional
+  hidden region Crossroads
+  hidden region CrossroadsMirror
+}

@@ -96,6 +96,7 @@ Current implemented slice:
 - `perturb` raises negative-sea pressure and anchor stress as explicit law disturbance
 - authored effects now also emit first-class `effect-trace` runtime records with provenance, scope, current-run signals, and whether they remained potential or became materialized in that run
 - `v0.4.8` effect traces now carry typed `causalLinks` to concrete observation, collapse, history-commit, sea, anchor, and descendant-artifact records when those records exist in the current run
+- `v0.4.9` marks perturb effects materialized only when a concrete collapse record names their contribution, then uses that trace and collapse evidence as direct negative-sea attribution basis
 
 ## Non-Goal
 
@@ -123,6 +124,8 @@ The first causal-trace slice is now complete for the records the bounded runtime
 - effects that shape anchor assessment link to the concrete anchor evidence record
 
 Potential `branch` or `collapse` capabilities do not receive fabricated executed-event links before the runtime produces a corresponding concrete transition record.
+
+`v0.4.9` also closes the first event-source attribution layer. Concrete subjects receive `internal-world-event`, `negative-sea-pressure`, `anchor-drift`, or `positive-sea-shift` only when same-run evidence supports the class directly. Multiple direct explanations remain `unresolved-source`; potential effects remain visible candidates or background pressure rather than fabricated executed causes.
 
 ## Suggested Next Step
 

@@ -1123,6 +1123,82 @@
         }
       ],
       "description": "Bubble Nursery recorded required local spawn as materialized in this run via descendant-materialization."
+    },
+    {
+      "id": "evidence:event-source:emit:11:Grove",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/meta-grove.bubble::root:Nursery",
+      "subjectAddressId": "bubble:examples/meta-grove.bubble::root:Nursery/spawn:emit:11:Grove",
+      "sourcePath": "examples/meta-grove.bubble",
+      "observationMode": null,
+      "emissionId": "emit:11:Grove",
+      "commitId": null,
+      "subjectKind": "descendant-artifact",
+      "subjectId": "emit:11:Grove",
+      "status": "resolved",
+      "classification": "positive-sea-shift",
+      "candidates": [
+        {
+          "classification": "positive-sea-shift",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "materialized-artifact",
+              "sourceId": "emit:11:Grove",
+              "field": "target"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:6:spawn",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:6:spawn",
+              "field": "scope"
+            },
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:positive-sea:bubble:examples/meta-grove.bubble::root:Nursery",
+              "field": "supportSources"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "positiveSea.support"
+            }
+          ],
+          "explanation": "A descendant was concretely materialized with lineage provenance, changing placement and growth in the positive sea."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "materialized-artifact",
+          "sourceId": "emit:11:Grove",
+          "field": "target"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:6:spawn",
+          "field": "kind"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:6:spawn",
+          "field": "scope"
+        },
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:positive-sea:bubble:examples/meta-grove.bubble::root:Nursery",
+          "field": "supportSources"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "positiveSea.support"
+        }
+      ],
+      "description": "Classified descendant-artifact emit:11:Grove as positive-sea-shift from same-run evidence."
     }
   ],
   "trace": [

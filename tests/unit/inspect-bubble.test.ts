@@ -50,7 +50,13 @@ test("inspects a meta bubble into a stable summary and artifact view", () => {
         descendantCount: 1,
         artifactCount: 0,
         commitCount: 1,
-        evidenceCount: 4,
+        evidenceCount: 5,
+        sourceAttributionCount: 1,
+        sourceAttributionStatusCounts: {
+            resolved: 1,
+            unresolved: 0,
+        },
+        sourceAttributionClassifications: ["positive-sea-shift"],
         observationStateCount: 0,
         reflectionPaths: ["self.address", "self.worldWill"],
         traceKinds: [
@@ -88,6 +94,7 @@ test("inspects a meta bubble into a stable summary and artifact view", () => {
         "positive-sea-state",
         "anchor-point-state",
         "effect-trace",
+        "event-source-attribution",
     ]);
 });
 
@@ -249,7 +256,7 @@ test("inspection exposes observation evidence as a first-class report section", 
     const report = inspectBubbleProgram(program);
 
     assert.equal(report.summary.plannedEmissionCount, 0);
-    assert.equal(report.summary.evidenceCount, 6);
+    assert.equal(report.summary.evidenceCount, 7);
     assert.equal(report.externalObservationLimit, report.plan.externalObservationLimit);
     assert.equal(report.externalObservationLimit.preContactInteriorAccess, "concrete-interior-not-fully-readable");
     assert.deepEqual(report.externalObservationLimit.latentInteriorKinds, []);
@@ -269,7 +276,7 @@ test("inspection exposes observation evidence as a first-class report section", 
             "claim:internal-law-consistency": "undetermined",
         },
     );
-    assert.deepEqual(report.evidence, [
+    assert.deepEqual(report.evidence.filter((entry) => entry.kind !== "event-source-attribution"), [
         {
             id: "evidence:negative-sea:bubble:observatory-inspect.bubble::root:Observatory",
             kind: "negative-sea-state",
@@ -535,7 +542,7 @@ test("inspection preserves collapse-record evidence for observed latent regions"
     const report = inspectBubbleProgram(program);
     const collapseEvidence = report.evidence.filter((entry) => entry.kind === "collapse-record");
 
-    assert.equal(report.summary.evidenceCount, 10);
+    assert.equal(report.summary.evidenceCount, 13);
     assert.equal(collapseEvidence.length, 2);
     assert.deepEqual(collapseEvidence.map((entry) => entry.commitStatus), ["committed", "history-open"]);
     assert.deepEqual(collapseEvidence.map((entry) => entry.draftStatus), ["observation-ready", "observation-ready"]);
@@ -1192,7 +1199,7 @@ test("inspection reflects leak, debt, and perturb as runtime ontology stress", (
             description: "Bubble MembraneArchive currently shows weak inferred anchor support with guarded rewind stability and contradicted identity status.",
         },
     ]);
-    assert.deepEqual(report.evidence.slice(4), [
+    assert.deepEqual(report.evidence.filter((entry) => entry.kind === "effect-trace"), [
         {
             id: "evidence:effect:effect:6:observe",
             kind: "effect-trace",
@@ -1591,4 +1598,43 @@ test("inspection can narrow proof claims by id, kind, and status", () => {
     });
     assert.deepEqual(emptySlice.proof.claims, []);
     assert.deepEqual(emptySlice.proof, emptySlice.plan.proof);
+});
+
+test("inspection exposes and filters unresolved event-source attribution without hiding candidates", () => {
+    const source = [
+        "bubble AttributionCrossroads {",
+        "  axiom coherence = stable",
+        "  will axiom.coherence = \"broken\"",
+        "  seed crossroads_seed",
+        "  observe witness",
+        "  anchor identity = axiom.coherence = \"broken\"",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect debt required",
+        "  effect branch optional",
+        "  effect perturb optional",
+        "  hidden region Crossroads",
+        "  hidden region CrossroadsMirror",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "attribution-crossroads-inspect.bubble" });
+    const report = inspectBubbleProgram(program, {
+        attributionStatus: "unresolved",
+        attributionClassification: "anchor-drift",
+    });
+
+    assert.equal(report.sourceAttributions.length, 1);
+    assert.equal(report.sourceAttributions[0]?.classification, "unresolved-source");
+    assert.equal(report.sourceAttributions[0]?.status, "unresolved");
+    assert.deepEqual(
+        report.sourceAttributions[0]?.candidates.map((candidate) => candidate.classification),
+        ["internal-world-event", "negative-sea-pressure", "anchor-drift"],
+    );
+    assert.deepEqual(report.summary.sourceAttributionStatusCounts, {
+        resolved: 0,
+        unresolved: 1,
+    });
+    assert.deepEqual(report.summary.sourceAttributionClassifications, ["unresolved-source"]);
+    assert.ok(report.evidence.every((entry) => entry.kind === "event-source-attribution"));
 });

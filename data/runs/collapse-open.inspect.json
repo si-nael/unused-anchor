@@ -35,7 +35,15 @@
     "descendantCount": 0,
     "artifactCount": 0,
     "commitCount": 0,
-    "evidenceCount": 9,
+    "evidenceCount": 11,
+    "sourceAttributionCount": 2,
+    "sourceAttributionStatusCounts": {
+      "resolved": 2,
+      "unresolved": 0
+    },
+    "sourceAttributionClassifications": [
+      "negative-sea-pressure"
+    ],
     "observationStateCount": 2,
     "reflectionPaths": [],
     "traceKinds": [
@@ -1739,7 +1747,7 @@
       "requirement": "optional",
       "scope": "local",
       "sourceLine": 8,
-      "materializationState": "potential",
+      "materializationState": "materialized",
       "runtimeSignals": [
         "law-perturbation"
       ],
@@ -1765,7 +1773,401 @@
           "relation": "influences-anchor-assessment"
         }
       ],
-      "description": "Bubble CollapseOpen recorded optional local perturb as potential in this run via law-perturbation."
+      "description": "Bubble CollapseOpen recorded optional local perturb as materialized in this run via law-perturbation."
+    },
+    {
+      "id": "evidence:event-source:evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "sourcePath": "examples/collapse-open.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "subjectKind": "collapse-record",
+      "subjectId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+      "status": "resolved",
+      "classification": "negative-sea-pressure",
+      "candidates": [
+        {
+          "classification": "internal-world-event",
+          "strength": "contextual",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+              "field": "triggerEffectIds"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:6:observe",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:6:observe",
+              "field": "scope"
+            }
+          ],
+          "explanation": "Authored local observation triggered this collapse, but more specific sea or anchor evidence also shaped the realized event."
+        },
+        {
+          "classification": "negative-sea-pressure",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+              "field": "perturbEffectIds"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:perturb",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:perturb",
+              "field": "scope"
+            },
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+              "field": "pressureSources"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "negativeSea.pressure"
+            }
+          ],
+          "explanation": "A perturbation recorded on this concrete collapse is also an explicit negative-sea pressure source in the same run."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+          "field": "perturbEffectIds"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:perturb",
+          "field": "kind"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:perturb",
+          "field": "scope"
+        },
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "field": "pressureSources"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "negativeSea.pressure"
+        }
+      ],
+      "description": "Classified collapse-record evidence:collapse:semantic:9:hidden-region:OuterCanopy as negative-sea-pressure from same-run evidence."
+    },
+    {
+      "id": "evidence:event-source:evidence:collapse:semantic:10:hidden-region:InnerCanopy",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "sourcePath": "examples/collapse-open.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "subjectKind": "collapse-record",
+      "subjectId": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
+      "status": "resolved",
+      "classification": "negative-sea-pressure",
+      "candidates": [
+        {
+          "classification": "internal-world-event",
+          "strength": "contextual",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
+              "field": "triggerEffectIds"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:6:observe",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:6:observe",
+              "field": "scope"
+            }
+          ],
+          "explanation": "Authored local observation triggered this collapse, but more specific sea or anchor evidence also shaped the realized event."
+        },
+        {
+          "classification": "negative-sea-pressure",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
+              "field": "perturbEffectIds"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:perturb",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:perturb",
+              "field": "scope"
+            },
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+              "field": "pressureSources"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "negativeSea.pressure"
+            }
+          ],
+          "explanation": "A perturbation recorded on this concrete collapse is also an explicit negative-sea pressure source in the same run."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
+          "field": "perturbEffectIds"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:perturb",
+          "field": "kind"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:perturb",
+          "field": "scope"
+        },
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "field": "pressureSources"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "negativeSea.pressure"
+        }
+      ],
+      "description": "Classified collapse-record evidence:collapse:semantic:10:hidden-region:InnerCanopy as negative-sea-pressure from same-run evidence."
+    }
+  ],
+  "sourceAttributions": [
+    {
+      "id": "evidence:event-source:evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "sourcePath": "examples/collapse-open.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "subjectKind": "collapse-record",
+      "subjectId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+      "status": "resolved",
+      "classification": "negative-sea-pressure",
+      "candidates": [
+        {
+          "classification": "internal-world-event",
+          "strength": "contextual",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+              "field": "triggerEffectIds"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:6:observe",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:6:observe",
+              "field": "scope"
+            }
+          ],
+          "explanation": "Authored local observation triggered this collapse, but more specific sea or anchor evidence also shaped the realized event."
+        },
+        {
+          "classification": "negative-sea-pressure",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+              "field": "perturbEffectIds"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:perturb",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:perturb",
+              "field": "scope"
+            },
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+              "field": "pressureSources"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "negativeSea.pressure"
+            }
+          ],
+          "explanation": "A perturbation recorded on this concrete collapse is also an explicit negative-sea pressure source in the same run."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+          "field": "perturbEffectIds"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:perturb",
+          "field": "kind"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:perturb",
+          "field": "scope"
+        },
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "field": "pressureSources"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "negativeSea.pressure"
+        }
+      ],
+      "description": "Classified collapse-record evidence:collapse:semantic:9:hidden-region:OuterCanopy as negative-sea-pressure from same-run evidence."
+    },
+    {
+      "id": "evidence:event-source:evidence:collapse:semantic:10:hidden-region:InnerCanopy",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "sourcePath": "examples/collapse-open.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "subjectKind": "collapse-record",
+      "subjectId": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
+      "status": "resolved",
+      "classification": "negative-sea-pressure",
+      "candidates": [
+        {
+          "classification": "internal-world-event",
+          "strength": "contextual",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
+              "field": "triggerEffectIds"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:6:observe",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:6:observe",
+              "field": "scope"
+            }
+          ],
+          "explanation": "Authored local observation triggered this collapse, but more specific sea or anchor evidence also shaped the realized event."
+        },
+        {
+          "classification": "negative-sea-pressure",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
+              "field": "perturbEffectIds"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:perturb",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:perturb",
+              "field": "scope"
+            },
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+              "field": "pressureSources"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "negativeSea.pressure"
+            }
+          ],
+          "explanation": "A perturbation recorded on this concrete collapse is also an explicit negative-sea pressure source in the same run."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
+          "field": "perturbEffectIds"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:perturb",
+          "field": "kind"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:perturb",
+          "field": "scope"
+        },
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "field": "pressureSources"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "negativeSea.pressure"
+        }
+      ],
+      "description": "Classified collapse-record evidence:collapse:semantic:10:hidden-region:InnerCanopy as negative-sea-pressure from same-run evidence."
     }
   ],
   "observationStates": [

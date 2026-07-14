@@ -29,6 +29,12 @@ import type {
     BubbleEffectTraceCausalRelation as EvidenceBubbleEffectTraceCausalRelation,
     BubbleEffectTraceEvidenceRecord as EvidenceBubbleEffectTraceEvidenceRecord,
     BubbleEffectTraceMaterializationState as EvidenceBubbleEffectTraceMaterializationState,
+    BubbleEventSourceAttributionBasis as EvidenceBubbleEventSourceAttributionBasis,
+    BubbleEventSourceAttributionEvidenceRecord as EvidenceBubbleEventSourceAttributionEvidenceRecord,
+    BubbleEventSourceAttributionStatus as EvidenceBubbleEventSourceAttributionStatus,
+    BubbleEventSourceCandidate as EvidenceBubbleEventSourceCandidate,
+    BubbleEventSourceClassification as EvidenceBubbleEventSourceClassification,
+    BubbleEventSourceSubjectKind as EvidenceBubbleEventSourceSubjectKind,
     BubbleEvidenceKind as EvidenceBubbleEvidenceKind,
     BubbleEvidenceRecord as EvidenceBubbleEvidenceRecord,
     BubbleHistoryCommitEvidenceRecord as EvidenceBubbleHistoryCommitEvidenceRecord,
@@ -316,6 +322,12 @@ export type BubbleEvidenceKind = EvidenceBubbleEvidenceKind;
 export type BubbleEffectTraceMaterializationState = EvidenceBubbleEffectTraceMaterializationState;
 export type BubbleEffectTraceCausalRelation = EvidenceBubbleEffectTraceCausalRelation;
 export type BubbleEffectTraceCausalLink = EvidenceBubbleEffectTraceCausalLink;
+export type BubbleEventSourceClassification = EvidenceBubbleEventSourceClassification;
+export type BubbleEventSourceAttributionStatus = EvidenceBubbleEventSourceAttributionStatus;
+export type BubbleEventSourceSubjectKind = EvidenceBubbleEventSourceSubjectKind;
+export type BubbleEventSourceAttributionBasis = EvidenceBubbleEventSourceAttributionBasis;
+export type BubbleEventSourceCandidate = EvidenceBubbleEventSourceCandidate;
+export type BubbleEventSourceAttributionEvidenceRecord = EvidenceBubbleEventSourceAttributionEvidenceRecord;
 export type BubbleObservationEvidenceRecord = EvidenceBubbleObservationEvidenceRecord;
 export type BubbleObservationStateRecord = EvidenceBubbleObservationStateRecord;
 export type BubbleCollapseRecordEvidenceRecord = EvidenceBubbleCollapseRecordEvidenceRecord;

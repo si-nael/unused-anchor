@@ -10,6 +10,7 @@ For the consolidated language reference, see `docs/reference/bubble-language-ref
 - `observatory-loop.bubble`: `v0.2` observation, artifact emission, descendant emission, and evidence example
 - `grammar-nursery.bubble`: minimal `bubbles.v0.3` grammar artifact example
 - `grammar-canopy.bubble`: `v0.3` layered local grammar-profile chain with default activation resolution
+- `attribution-crossroads.bubble`: `v0.4.9` ambiguity fixture where direct negative-sea and anchor-drift evidence must remain `unresolved-source`
 
 Run the examples through the existing CLI scripts:
 
@@ -19,6 +20,7 @@ Run the examples through the existing CLI scripts:
 - `npm run inspect:meta-example`
 - `npm run materialize:observatory-example`
 - `npm run inspect:observatory-example`
+- `npm run verify:attribution`
 - `npm run compile:grammar-example`
 - `npm run inspect:grammar-example`
 - `npm run inspect:grammar-chain-example`

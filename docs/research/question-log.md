@@ -1,18 +1,35 @@
 # Question Log
 
+Last reconciled: 2026-07-15
+
 ## Open Questions
 
 ### Q-001: What is the minimal independent bubble-world schema?
 
-Status: open
+Status: partially answered through v0.4.9
 
 Question:
 
 What is the smallest Bubble world definition that still deserves to count as an independent world rather than as a loose generated fragment?
 
+Current implementation:
+
+- the compiler separates minimum authored shape from stronger runtime worldhood certification
+- a bubble receives its own lineage-relative address, boundary, generation lifecycle, semantic plan, ontology assessment, and proof surface
+- `claim:worldhood` prevents mere syntax success from being presented as sufficient worldhood
+
+Remaining gap:
+
+- the current minimum is still a bounded engineering contract, not a final philosophical criterion for independent worldhood
+- observer-agent recovery and long-running autonomous persistence are not part of the minimum schema yet
+
+Next check:
+
+Use the current minimum schema as the `v0.4` baseline and revise it only when a concrete world that should count as independent cannot be represented or certified honestly.
+
 ### Q-002: How should the negative sea be represented operationally?
 
-Status: partially answered by v0.4.1
+Status: partially answered through v0.4.9
 
 Question:
 
@@ -37,7 +54,7 @@ Decide whether any negative-sea source classes need direct authored syntax beyon
 
 ### Q-003: How should the positive sea be represented operationally?
 
-Status: partially answered by v0.4.1
+Status: partially answered through v0.4.9
 
 Question:
 
@@ -62,7 +79,7 @@ Decide whether any stabilization or lineage signals need direct authored law sur
 
 ### Q-004: What makes an anchor point strong enough?
 
-Status: partially answered by v0.4.1
+Status: partially answered through v0.4.9
 
 Question:
 
@@ -86,7 +103,7 @@ Continue replacing coarse proxy scoring with explicit authored or IR-supported i
 
 ### Q-005: When does replay return to the same world?
 
-Status: partially answered by v0.4.1
+Status: partially answered through v0.4.9
 
 Question:
 
@@ -106,35 +123,73 @@ Remaining gap:
 
 Next check:
 
-Keep replay identity bounded during `v0.4.1` stabilization and decide later whether observation-history shape deserves its own first-class proof claim.
+Keep the stored-report replay claim explicitly bounded. Before `v0.5` promises same-world replay, define a deterministic re-execution comparison that can distinguish artifact equality, lawful same-world evolution, and nearby reconstruction.
 
 ### Q-006: How should an unbounded multiverse be represented?
 
-Status: open
+Status: partially answered through v0.4.9
 
 Question:
 
 What finite representation can preserve the operational meaning of a potentially unbounded collection of bubble universes without storing full explicit state for each one?
 
+Current implementation:
+
+- lineage-relative addresses and templates avoid one cheap absolute multiverse index
+- quotes, generators, latent-bubble semantics, staged emissions, and bundle plans preserve world families intensionally
+- materialization creates only selected artifacts and local observed regions
+
+Remaining gap:
+
+- there is no long-running store, eviction policy, or traversal protocol for a genuinely unbounded generated lineage
+- finite-memory behavior has examples and IR shape but no scale benchmark yet
+
+Next check:
+
+Measure one expanding lineage using bounded materialization and replay storage before adding a global multiverse catalog.
+
 ### Q-007: When does a latent world become committed history?
 
-Status: open
+Status: partially answered through v0.4.9
 
 Question:
 
 What events force a procedurally generable world or region to become persistent history rather than a regenerable possibility?
 
+Current implementation:
+
+- authored `commit` support is separated from concrete `history-commit` evidence
+- selected local observation targets can move from latent state through collapse record into committed history
+- materialized descendant or artifact runs carry commit records, and observed history shape survives inspection and replay bundles
+
+Remaining gap:
+
+- commit selection is still a bounded runtime policy rather than a stable author-controlled semantic contract
+- multi-region dependency and conflicting concurrent commit semantics do not exist yet
+
+Next check:
+
+Keep the single-region commit rule stable until a concrete second-region case proves that the existing policy cannot preserve history honestly.
+
 ### Q-008: Should world definition use a DSL or a full programming language?
 
-Status: open
+Status: answered for the current architecture through v0.4.9
 
 Question:
 
 What is the smallest language expressive enough to define rich bubble universes while still supporting static checks, replay, compilation, and explicit world semantics?
 
+Answer in force:
+
+Use a dedicated constrained Bubble DSL bootstrapped in TypeScript, with versioned profiles, explicit lowering, validation, runtime evidence, and host-language implementation kept behind the semantic boundary. Do not widen it into an unrestricted general-purpose language while the current semantics remain research-active.
+
+Reopen condition:
+
+Reopen this decision only if representative bubble-native tasks repeatedly require opaque host-language escape hatches or if the constrained DSL blocks a necessary semantic construct that cannot remain inspectable any other way.
+
 ### Q-009: How can the language raise the representability frontier without becoming opaque?
 
-Status: partially answered by v0.4.1
+Status: partially answered through v0.4.9
 
 Question:
 
@@ -157,15 +212,29 @@ Stabilize the current unresolved-semantics and executable-semantics frontier bef
 
 ### Q-010: What should be the primitive sea-anchor effects?
 
-Status: open
+Status: partially answered through v0.4.9
 
 Question:
 
 Which effects should exist as first-class Bubble primitives, such as branch, spawn, collapse, commit, leak, debt, perturb, or observe, so that world formation remains analyzable rather than opaque?
 
+Current implementation:
+
+- all eight candidate effects are parsed, validated, lowered, typed by requirement and scope, and projected into separate declaration, obligation, permission, pressure, event, and trace roles
+- concrete runtime effects emit provenance-bearing evidence and `v0.4.8` causal links without inventing executed targets for potential capabilities
+
+Remaining gap:
+
+- `branch` and retirement `collapse` still lack concrete executed transition record types
+- primitive completeness has not been tested against a demanding multi-world experiment
+
+Next check:
+
+Do not add another primitive until a concrete transition cannot be represented by the current eight. Add branch or retirement records only when the runtime actually executes those transitions.
+
 ### Q-011: What work can only Bubble do cleanly?
 
-Status: open
+Status: partially answered through v0.4.9
 
 Question:
 
@@ -179,25 +248,68 @@ Question:
 
 If Bubble Language is itself one governing bubble, where do membrane pressure and boundary failure first appear inside it: profile compatibility, staged activation, reflective scope, runtime escape hatches, provenance loss, or some other boundary?
 
+Current implementation:
+
+- the boundary log records grammar-base, activation-target, staged-cycle, provenance, and canonical-document encoding failures
+- compiler diagnostics preserve profile compatibility and staged activation boundaries
+
+Remaining gap:
+
+- reflective scope, runtime escape hatches, and evidence-loss membranes do not yet have a systematic executable catalog
+
+Next check:
+
+Add a boundary class only from an observed failure, then decide whether repeated classes justify first-class runtime boundary evidence.
+
 ### Q-013: What is the first directly usable sea-anchor benchmark loop?
 
-Status: open
+Status: partially answered through v0.4.9
 
 Question:
 
 What is the smallest end-to-end combination of Bubble-authored world, operational step semantics, lineage or boundary signals, and evaluation surface that would let the project run immediate sea-anchor experiments rather than only language validation?
 
+Current implementation:
+
+- canonical examples compile, plan, materialize, inspect, record, and replay through mandatory verification commands
+- reports expose boundary, ontology, proof, observation state, effect provenance, commits, and artifacts
+
+Remaining gap:
+
+- this is an executable experiment loop, but not yet a benchmark: it has no scored task, perturbation matrix, repeated trials, or host-language comparison
+
+Next check:
+
+Define one small scored same-world attribution or replay task before claiming that Bubble has demonstrated unique research leverage.
+
 ### Q-014: How should runtime distinguish internal event, negative-sea residue, and anchor drift?
 
-Status: open
+Status: bounded runtime source-attribution slice completed in v0.4.9
 
 Question:
 
 When a weakly anchored bubble world is observed under pressure from outside residue or boundary disturbance, how should the runtime classify what appears to be an internal event, a negative-sea intrusion, or record instability from anchor weakness?
 
+Current implementation:
+
+- typed `event-source-attribution` evidence for collapse records, history commits, descendant artifacts, and observation contexts
+- `internal-world-event`, `negative-sea-pressure`, `anchor-drift`, `positive-sea-shift`, and `unresolved-source` classifications
+- direct and contextual candidates with typed basis references to authored effects, same-run evidence, runtime ontology, or materialized artifacts
+- perturb effects become materialized sources only when a concrete collapse record names their contribution
+- weak anchor state alone does not become drift; concrete drifting materialization plus insecure identity or rewind support is required
+- inspection filters, a dedicated `sourceAttributions` section, stored replay preservation, and the canonical `attribution-crossroads` ambiguity fixture
+
+Bounded result:
+
+The implemented fixtures resolve all four supported direct classes. When negative-sea pressure and anchor drift remain simultaneously direct for the same concrete collapse, the final verdict stays `unresolved-source` and both candidates survive inspection and replay unchanged.
+
+Remaining gap and reopen condition:
+
+This is event-level attribution over the bounded current runtime, not a general causal calculus or a classifier for continuous sea dynamics. Reopen Q-014 only when a concrete new runtime subject, cross-world residue transfer, or observer benchmark cannot be classified honestly by the current evidence vocabulary.
+
 ### Q-015: How can a deterministic machine host a probabilistic fractal bubble world without destroying anchor semantics?
 
-Status: open
+Status: open and explicitly deferred beyond the v0.5 entry gate
 
 Related note: [Deterministic Substrate and Probabilistic-Fractal Worldhood](probabilistic-fractal-worldhood.md)
 
@@ -255,7 +367,7 @@ Only reopen the materialization-law surface when a concrete second-region coupli
 
 ### Q-017: How should same-world replay work once observation itself changes the world?
 
-Status: partially explored by v0.4.1
+Status: partially explored through v0.4.9
 
 Related note: [Observation-Induced Materialization and Perturbative Collapse](observation-induced-materialization.md)
 
@@ -282,4 +394,4 @@ Remaining gap:
 
 Next check:
 
-Preserve the current bounded semantics during `v0.4.1` stabilization, then decide whether observation-history shape should become its own proof claim.
+Preserve the current bounded semantics through `v0.4.9`. Reopen the proof shape only after source attribution is stable and a deterministic replay design can state what additional observation-history claim would discriminate.

@@ -1,19 +1,19 @@
 {
   "plan": {
     "mode": "semantic-plan.v1",
-    "sourcePath": "examples/collapse-open.bubble",
+    "sourcePath": "examples/attribution-crossroads.bubble",
     "profile": "bubbles.v0.4",
     "bubbleAddress": {
       "scheme": "bubble-lineage.v1",
       "locatorKind": "source-relative",
-      "anchor": "examples/collapse-open.bubble",
+      "anchor": "examples/attribution-crossroads.bubble",
       "path": [
         {
           "kind": "root",
-          "key": "CollapseOpen"
+          "key": "AttributionCrossroads"
         }
       ],
-      "id": "bubble:examples/collapse-open.bubble::root:CollapseOpen"
+      "id": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads"
     },
     "boundary": {
       "mode": "bubble-boundary.v1",
@@ -21,13 +21,13 @@
       "historyCommitSurface": "declared-history-support",
       "perturbationSurface": "declared-perturbation",
       "observationEffectIds": [
-        "effect:6:observe"
+        "effect:7:observe"
       ],
       "commitEffectIds": [
-        "effect:7:commit"
+        "effect:8:commit"
       ],
       "perturbEffectIds": [
-        "effect:8:perturb"
+        "effect:11:perturb"
       ],
       "scopes": [],
       "semanticReferences": [],
@@ -427,13 +427,13 @@
       ],
       "causalContactEffectIds": {
         "observation": [
-          "effect:6:observe"
+          "effect:7:observe"
         ],
         "perturbation": [
-          "effect:8:perturb"
+          "effect:11:perturb"
         ],
         "historyCommit": [
-          "effect:7:commit"
+          "effect:8:commit"
         ]
       },
       "traceConsequences": {
@@ -442,25 +442,76 @@
         "mayRecordCollapse": true,
         "mayAnchorHistory": true
       },
-      "description": "Within Bubble semantics, an outside observer cannot fully read the concrete interior of CollapseOpen before causal contact. The bubble persists as compressed lawful existence with latent or unobservable interior structure (hidden-region), and any outside access must pass through 1 observation surface, 1 perturbation surface, 1 history-commit surface, where observation may local-materialize latent interior and record collapse evidence."
+      "description": "Within Bubble semantics, an outside observer cannot fully read the concrete interior of AttributionCrossroads before causal contact. The bubble persists as compressed lawful existence with latent or unobservable interior structure (hidden-region), and any outside access must pass through 1 observation surface, 1 perturbation surface, 1 history-commit surface, where observation may local-materialize latent interior and record collapse evidence."
     },
     "semantics": {
       "mode": "bubble-executable-semantics.v1",
       "constraints": [],
       "partialLaws": [],
-      "worldWillCriterion": null,
-      "anchorCriterion": null
+      "worldWillCriterion": {
+        "evaluationId": "semantic-evaluation:world-will:3",
+        "subjectKind": "world-will",
+        "subjectId": "world-will:3",
+        "name": "world will",
+        "sourceLine": 3,
+        "description": "axiom.coherence = \"broken\"",
+        "expression": "axiom.coherence = \"broken\"",
+        "status": "violated",
+        "basis": [
+          "executable-semantic-checker",
+          "world-will-violated"
+        ],
+        "explanation": "World will criterion is violated by the current executable semantic environment."
+      },
+      "anchorCriterion": {
+        "evaluationId": "semantic-evaluation:anchor:6:identity",
+        "subjectKind": "anchor-criterion",
+        "subjectId": "anchor:6:identity",
+        "name": "anchor identity",
+        "sourceLine": 6,
+        "description": "axiom.coherence = \"broken\"",
+        "expression": "axiom.coherence = \"broken\"",
+        "status": "violated",
+        "basis": [
+          "executable-semantic-checker",
+          "anchor-criterion-failed"
+        ],
+        "explanation": "Anchor identity criterion is violated by the current executable semantic environment."
+      }
     },
     "ontology": {
       "negativeSea": {
-        "pressure": "elevated",
+        "pressure": "high",
         "signals": [
+          "nondeterministic-realization",
+          "branch-pressure",
           "law-perturbation"
         ],
         "pressureSources": [
           {
+            "kind": "nondeterministic-realization",
+            "sourceEffectId": null,
+            "relationKind": null,
+            "boundaryScope": null,
+            "strength": "elevated",
+            "evidenceBasis": [
+              "nondeterministic-realization"
+            ]
+          },
+          {
+            "kind": "branch",
+            "sourceEffectId": "effect:10:branch",
+            "relationKind": "branch",
+            "boundaryScope": "local",
+            "strength": "elevated",
+            "evidenceBasis": [
+              "branch-pressure",
+              "branch-count:1"
+            ]
+          },
+          {
             "kind": "perturb",
-            "sourceEffectId": "effect:8:perturb",
+            "sourceEffectId": "effect:11:perturb",
             "relationKind": null,
             "boundaryScope": "local",
             "strength": "elevated",
@@ -480,7 +531,7 @@
         "supportSources": [
           {
             "kind": "source-lineage",
-            "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "addressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
             "sourceEffectId": null,
             "support": "present",
             "evidenceBasis": [
@@ -489,7 +540,7 @@
           },
           {
             "kind": "seed-origin",
-            "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "addressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
             "sourceEffectId": null,
             "support": "present",
             "evidenceBasis": [
@@ -498,8 +549,8 @@
           },
           {
             "kind": "declared-history-support",
-            "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-            "sourceEffectId": "effect:7:commit",
+            "addressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+            "sourceEffectId": "effect:8:commit",
             "support": "present",
             "evidenceBasis": [
               "declared-history-support"
@@ -508,40 +559,46 @@
         ]
       },
       "anchorPoint": {
-        "strength": "strong",
+        "strength": "weak",
         "declaredHistorySupport": true,
         "materializedHistoryEvidence": false,
-        "rewindStability": "stable",
+        "rewindStability": "guarded",
         "signals": [
           "axiomatic-basis",
-          "world-will",
+          "world-will-criterion-failed",
           "seed-continuity",
           "declared-history-support",
           "observation-surface",
+          "negative-pressure",
+          "branch-instability",
+          "unresolved-debt",
           "perturbation-stress"
         ],
-        "authoredCriterionStatus": "absent",
-        "authoredCriterionBasis": [],
+        "authoredCriterionStatus": "violated",
+        "authoredCriterionBasis": [
+          "executable-semantic-checker",
+          "anchor-criterion-failed"
+        ],
         "materializedEvidenceSources": [],
-        "identityStatus": "provisional"
+        "identityStatus": "contradicted"
       },
       "theoremWitness": {
         "theorem": "sea-anchor-necessity.v1",
-        "negativeRank": 1,
+        "negativeRank": 2,
         "positiveRank": 1,
-        "anchorRank": 2,
-        "worldhoodDelta": 2,
-        "identityDelta": 1,
-        "sustained": true,
-        "condition": "stable",
-        "explanation": "Bubble worldhood remains stable because A=2, P=1, N=1, so A + P - N = 2."
+        "anchorRank": 0,
+        "worldhoodDelta": -1,
+        "identityDelta": -2,
+        "sustained": false,
+        "condition": "dissolving",
+        "explanation": "Bubble worldhood is dissolving because A=0, P=1, N=2, so A + P - N = -1 with identity margin -2."
       }
     },
     "proof": {
       "mode": "bubble-consistency-certificate.v1",
-      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
       "profile": "bubbles.v0.4",
-      "verdict": "partially-certified",
+      "verdict": "contradicted",
       "claims": [
         {
           "id": "claim:well-formed-source",
@@ -555,7 +612,7 @@
           "dependsOnClaims": [],
           "assumptions": [],
           "scope": "source",
-          "explanation": "Bubble CollapseOpen compiled into a semantic plan under bubbles.v0.4."
+          "explanation": "Bubble AttributionCrossroads compiled into a semantic plan under bubbles.v0.4."
         },
         {
           "id": "claim:minimum-authored-shape",
@@ -573,12 +630,12 @@
           ],
           "assumptions": [],
           "scope": "source",
-          "explanation": "Bubble CollapseOpen satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
+          "explanation": "Bubble AttributionCrossroads satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
         },
         {
           "id": "claim:worldhood-roles-present",
           "kind": "worldhood",
-          "status": "undetermined",
+          "status": "certified",
           "basis": [
             "local-law-basis",
             "boundary-semantics",
@@ -587,17 +644,15 @@
             "boundary-history-commit-surface",
             "source-lineage-address",
             "lineage-placement",
-            "missing-authored-anchor-criterion"
+            "authored-anchor-criterion"
           ],
           "evidenceIds": [],
           "dependsOnClaims": [
             "claim:minimum-authored-shape"
           ],
-          "assumptions": [
-            "boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"
-          ],
+          "assumptions": [],
           "scope": "plan",
-          "explanation": "Bubble CollapseOpen preserves minimum authored shape, but independent worldhood remains undetermined while missing-authored-anchor-criterion are not yet explicitly authored."
+          "explanation": "Bubble AttributionCrossroads currently presents all required worldhood roles through local-law-basis, boundary-semantics, boundary-object, boundary-observation-surface, boundary-history-commit-surface, source-lineage-address, lineage-placement, authored-anchor-criterion."
         },
         {
           "id": "claim:required-effect-obligations",
@@ -605,11 +660,13 @@
           "status": "certified",
           "basis": [
             "observation-surface",
-            "declared-history-support"
+            "declared-history-support",
+            "unresolved-debt"
           ],
           "evidenceIds": [
-            "evidence:effect:effect:6:observe",
-            "evidence:effect:effect:7:commit"
+            "evidence:effect:effect:7:observe",
+            "evidence:effect:effect:8:commit",
+            "evidence:effect:effect:9:debt"
           ],
           "dependsOnClaims": [
             "claim:minimum-authored-shape"
@@ -618,12 +675,12 @@
             "effect-trace-records-mirror-the-current-materialization-plan"
           ],
           "scope": "plan",
-          "explanation": "Required effect effect:6:observe is certified by the declared observation surface. Required effect effect:7:commit is certified by declared history support."
+          "explanation": "Required effect effect:7:observe is certified by the declared observation surface. Required effect effect:8:commit is certified by declared history support. Required effect effect:9:debt is certified by explicit unresolved debt semantics."
         },
         {
           "id": "claim:anchor-identity",
           "kind": "anchor",
-          "status": "undetermined",
+          "status": "contradicted",
           "basis": [
             "axiomatic-basis",
             "world-will",
@@ -631,42 +688,51 @@
             "declared-history-support",
             "observation-surface",
             "sea-anchor-necessity.v1",
-            "theorem-condition:stable",
-            "theorem-worldhood-delta:2",
-            "theorem-identity-delta:1",
-            "negative-source:perturb",
+            "theorem-condition:dissolving",
+            "theorem-worldhood-delta:-1",
+            "theorem-identity-delta:-2",
+            "negative-source:nondeterministic-realization",
             "negative-source-strength:elevated",
-            "negative-source-effect:effect:8:perturb",
+            "nondeterministic-realization",
+            "negative-source:branch",
+            "negative-source-effect:effect:10:branch",
+            "negative-source-relation:branch",
             "negative-source-scope:local",
+            "branch-pressure",
+            "branch-count:1",
+            "negative-source:perturb",
+            "negative-source-effect:effect:11:perturb",
             "law-perturbation",
             "positive-source:source-lineage",
             "positive-source-support:present",
-            "positive-source-address:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "positive-source-address:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
             "source-lineage-address",
             "positive-source:seed-origin",
             "seeded-origin",
             "positive-source:declared-history-support",
-            "positive-source-effect:effect:7:commit",
-            "anchor-support:strong",
-            "anchor-rewind:stable",
-            "anchor-identity-status:provisional",
-            "anchor-authored-criterion-status:absent",
-            "missing-authored-anchor-criterion"
+            "positive-source-effect:effect:8:commit",
+            "anchor-support:weak",
+            "anchor-rewind:guarded",
+            "anchor-identity-status:contradicted",
+            "anchor-authored-criterion-status:violated",
+            "executable-semantic-checker",
+            "anchor-criterion-failed"
           ],
           "evidenceIds": [
-            "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-            "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-            "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-            "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen"
+            "evidence:anchor-point:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+            "evidence:positive-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+            "evidence:negative-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+            "evidence:observe:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads"
           ],
           "dependsOnClaims": [
             "claim:worldhood-roles-present"
           ],
           "assumptions": [
-            "sea-anchor-theorem-witness-is-bounded"
+            "sea-anchor-theorem-witness-is-bounded",
+            "anchor-criterion-evaluation-uses-the-current-executable-subset"
           ],
           "scope": "plan",
-          "explanation": "Bubble CollapseOpen keeps an inferred anchor basis, but same-world anchor identity remains undetermined without an authored anchor criterion."
+          "explanation": "Anchor identity criterion is violated by the current executable semantic environment. Bubble AttributionCrossroads therefore does not currently certify same-world anchor identity."
         },
         {
           "id": "claim:lineage-traceability",
@@ -675,18 +741,20 @@
           "basis": [
             "no-descendant-lineage-claim"
           ],
-          "evidenceIds": [],
+          "evidenceIds": [
+            "evidence:effect:effect:10:branch"
+          ],
           "dependsOnClaims": [
             "claim:well-formed-source"
           ],
           "assumptions": [],
           "scope": "plan",
-          "explanation": "Bubble CollapseOpen declares no descendant or staged grammar lineage that needs certification in the current plan."
+          "explanation": "Bubble AttributionCrossroads declares no descendant or staged grammar lineage that needs certification in the current plan."
         },
         {
           "id": "claim:replay-identity",
           "kind": "replay",
-          "status": "undetermined",
+          "status": "contradicted",
           "basis": [
             "axiomatic-basis",
             "world-will",
@@ -694,46 +762,54 @@
             "declared-history-support",
             "observation-surface",
             "sea-anchor-necessity.v1",
-            "theorem-condition:stable",
-            "theorem-worldhood-delta:2",
-            "theorem-identity-delta:1",
-            "negative-source:perturb",
+            "theorem-condition:dissolving",
+            "theorem-worldhood-delta:-1",
+            "theorem-identity-delta:-2",
+            "negative-source:nondeterministic-realization",
             "negative-source-strength:elevated",
-            "negative-source-effect:effect:8:perturb",
+            "nondeterministic-realization",
+            "negative-source:branch",
+            "negative-source-effect:effect:10:branch",
+            "negative-source-relation:branch",
             "negative-source-scope:local",
+            "branch-pressure",
+            "branch-count:1",
+            "negative-source:perturb",
+            "negative-source-effect:effect:11:perturb",
             "law-perturbation",
             "positive-source:source-lineage",
             "positive-source-support:present",
-            "positive-source-address:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+            "positive-source-address:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
             "source-lineage-address",
             "positive-source:seed-origin",
             "seeded-origin",
             "positive-source:declared-history-support",
-            "positive-source-effect:effect:7:commit",
-            "anchor-support:strong",
-            "anchor-rewind:stable",
-            "anchor-identity-status:provisional",
-            "anchor-authored-criterion-status:absent",
+            "positive-source-effect:effect:8:commit",
+            "anchor-support:weak",
+            "anchor-rewind:guarded",
+            "anchor-identity-status:contradicted",
+            "anchor-authored-criterion-status:violated",
+            "executable-semantic-checker",
+            "anchor-criterion-failed",
             "latent-topology",
             "latent-observation-ready"
           ],
           "evidenceIds": [
-            "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-            "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-            "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-            "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-            "evidence:effect:effect:6:observe",
-            "evidence:effect:effect:7:commit"
+            "evidence:anchor-point:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+            "evidence:positive-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+            "evidence:negative-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+            "evidence:observe:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+            "evidence:effect:effect:7:observe",
+            "evidence:effect:effect:8:commit"
           ],
           "dependsOnClaims": [
             "claim:anchor-identity"
           ],
           "assumptions": [
-            "same-world-replay-is-evaluated-from-the-current-plan-basis",
-            "latent-collapse-history-is-not-yet-materialized"
+            "same-world-replay-is-evaluated-from-the-current-plan-basis"
           ],
           "scope": "plan",
-          "explanation": "Bubble CollapseOpen preserves a replay basis for currently declared history, but same-world replay across latent regions remains undetermined while collapse drafts are only observation-ready."
+          "explanation": "Anchor identity criterion is violated by the current executable semantic environment. Bubble AttributionCrossroads therefore does not currently certify same-world replay."
         },
         {
           "id": "claim:internal-law-consistency",
@@ -761,29 +837,29 @@
     },
     "bundle": {
       "mode": "bubble-bundle-plan.v1",
-      "bundleId": "bundle:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "rootAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "bundleId": "bundle:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "rootAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
       "members": [
         {
-          "memberId": "bundle-member:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "memberId": "bundle-member:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "kind": "root-bubble",
           "emissionId": null,
           "activationId": null,
-          "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "addressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "profileName": "bubbles.v0.4",
-          "sourcePath": "examples/collapse-open.bubble",
+          "sourcePath": "examples/attribution-crossroads.bubble",
           "provenance": "root-bubble",
-          "description": "Root bubble CollapseOpen anchors this bundle."
+          "description": "Root bubble AttributionCrossroads anchors this bundle."
         }
       ],
       "materializationScopes": [
         {
-          "scopeId": "bundle-scope:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "scopeId": "bundle-scope:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "target": "root-bubble",
           "emissionId": null,
           "activationId": null,
-          "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-          "description": "The root bubble CollapseOpen is always inside its own materialization scope."
+          "addressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "description": "The root bubble AttributionCrossroads is always inside its own materialization scope."
         }
       ]
     },
@@ -791,24 +867,24 @@
       "mode": "bubble-latent-topology.v1",
       "regions": [
         {
-          "id": "latent-region:semantic:9:hidden-region:OuterCanopy",
-          "sourceSemanticId": "semantic:9:hidden-region:OuterCanopy",
-          "name": "OuterCanopy",
+          "id": "latent-region:semantic:12:hidden-region:Crossroads",
+          "sourceSemanticId": "semantic:12:hidden-region:Crossroads",
+          "name": "Crossroads",
           "kind": "hidden-region",
-          "description": "Hidden region OuterCanopy remains outside the current observation surface.",
-          "sourceLine": 9,
+          "description": "Hidden region Crossroads remains outside the current observation surface.",
+          "sourceLine": 12,
           "initialState": "latent",
           "observationBoundary": "declared-observation-surface",
           "commitBoundary": "declared-history-support",
           "perturbationMode": "declared-perturbation"
         },
         {
-          "id": "latent-region:semantic:10:hidden-region:InnerCanopy",
-          "sourceSemanticId": "semantic:10:hidden-region:InnerCanopy",
-          "name": "InnerCanopy",
+          "id": "latent-region:semantic:13:hidden-region:CrossroadsMirror",
+          "sourceSemanticId": "semantic:13:hidden-region:CrossroadsMirror",
+          "name": "CrossroadsMirror",
           "kind": "hidden-region",
-          "description": "Hidden region InnerCanopy remains outside the current observation surface.",
-          "sourceLine": 10,
+          "description": "Hidden region CrossroadsMirror remains outside the current observation surface.",
+          "sourceLine": 13,
           "initialState": "latent",
           "observationBoundary": "declared-observation-surface",
           "commitBoundary": "declared-history-support",
@@ -817,125 +893,153 @@
       ],
       "collapseEvidenceDrafts": [
         {
-          "id": "collapse-evidence-draft:semantic:9:hidden-region:OuterCanopy",
-          "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
-          "sourceSemanticId": "semantic:9:hidden-region:OuterCanopy",
+          "id": "collapse-evidence-draft:semantic:12:hidden-region:Crossroads",
+          "latentRegionId": "latent-region:semantic:12:hidden-region:Crossroads",
+          "sourceSemanticId": "semantic:12:hidden-region:Crossroads",
           "observationEffectIds": [
-            "effect:6:observe"
+            "effect:7:observe"
           ],
           "perturbEffectIds": [
-            "effect:8:perturb"
+            "effect:11:perturb"
           ],
           "commitEffectIds": [
-            "effect:7:commit"
+            "effect:8:commit"
           ],
           "draftStatus": "observation-ready",
-          "description": "Latent region OuterCanopy can materialize under the declared observation surface with declared perturbation support and later anchor that collapse through declared history support."
+          "description": "Latent region Crossroads can materialize under the declared observation surface with declared perturbation support and later anchor that collapse through declared history support."
         },
         {
-          "id": "collapse-evidence-draft:semantic:10:hidden-region:InnerCanopy",
-          "latentRegionId": "latent-region:semantic:10:hidden-region:InnerCanopy",
-          "sourceSemanticId": "semantic:10:hidden-region:InnerCanopy",
+          "id": "collapse-evidence-draft:semantic:13:hidden-region:CrossroadsMirror",
+          "latentRegionId": "latent-region:semantic:13:hidden-region:CrossroadsMirror",
+          "sourceSemanticId": "semantic:13:hidden-region:CrossroadsMirror",
           "observationEffectIds": [
-            "effect:6:observe"
+            "effect:7:observe"
           ],
           "perturbEffectIds": [
-            "effect:8:perturb"
+            "effect:11:perturb"
           ],
           "commitEffectIds": [
-            "effect:7:commit"
+            "effect:8:commit"
           ],
           "draftStatus": "observation-ready",
-          "description": "Latent region InnerCanopy can materialize under the declared observation surface with declared perturbation support and later anchor that collapse through declared history support."
+          "description": "Latent region CrossroadsMirror can materialize under the declared observation surface with declared perturbation support and later anchor that collapse through declared history support."
         }
       ]
     },
     "observationCommitPolicy": {
       "mode": "runtime-observation-commit-policy.v1",
-      "policyId": "observation-commit-policy:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "policyId": "observation-commit-policy:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
       "decisionSource": "bounded-runtime",
       "selectionRule": "defer-multiple-hidden-region-targets",
-      "localMaterializationTargetId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+      "localMaterializationTargetId": "latent-region:semantic:12:hidden-region:Crossroads",
       "observedRegionIds": [
-        "latent-region:semantic:9:hidden-region:OuterCanopy",
-        "latent-region:semantic:10:hidden-region:InnerCanopy"
+        "latent-region:semantic:12:hidden-region:Crossroads",
+        "latent-region:semantic:13:hidden-region:CrossroadsMirror"
       ],
       "selectedTargetIds": [],
       "deferredTargetIds": [
-        "latent-region:semantic:9:hidden-region:OuterCanopy",
-        "latent-region:semantic:10:hidden-region:InnerCanopy"
+        "latent-region:semantic:12:hidden-region:Crossroads",
+        "latent-region:semantic:13:hidden-region:CrossroadsMirror"
       ],
       "projectedHistoryShape": "history-open-only",
-      "description": "Bubble CollapseOpen defers local commit because multiple hidden-region observation targets remain in play (latent-region:semantic:9:hidden-region:OuterCanopy, latent-region:semantic:10:hidden-region:InnerCanopy), projecting shape history-open-only."
+      "description": "Bubble AttributionCrossroads defers local commit because multiple hidden-region observation targets remain in play (latent-region:semantic:12:hidden-region:Crossroads, latent-region:semantic:13:hidden-region:CrossroadsMirror), projecting shape history-open-only."
     },
     "observationCommitPolicyComparison": {
       "mode": "runtime-observation-commit-policy-comparison.v1",
-      "comparisonId": "observation-commit-policy-comparison:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "comparisonId": "observation-commit-policy-comparison:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
       "overrideApplied": false,
       "override": null,
       "baseline": {
         "mode": "runtime-observation-commit-policy.v1",
-        "policyId": "observation-commit-policy:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "policyId": "observation-commit-policy:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
         "decisionSource": "bounded-runtime",
         "selectionRule": "defer-multiple-hidden-region-targets",
-        "localMaterializationTargetId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+        "localMaterializationTargetId": "latent-region:semantic:12:hidden-region:Crossroads",
         "observedRegionIds": [
-          "latent-region:semantic:9:hidden-region:OuterCanopy",
-          "latent-region:semantic:10:hidden-region:InnerCanopy"
+          "latent-region:semantic:12:hidden-region:Crossroads",
+          "latent-region:semantic:13:hidden-region:CrossroadsMirror"
         ],
         "selectedTargetIds": [],
         "deferredTargetIds": [
-          "latent-region:semantic:9:hidden-region:OuterCanopy",
-          "latent-region:semantic:10:hidden-region:InnerCanopy"
+          "latent-region:semantic:12:hidden-region:Crossroads",
+          "latent-region:semantic:13:hidden-region:CrossroadsMirror"
         ],
         "projectedHistoryShape": "history-open-only",
-        "description": "Bubble CollapseOpen defers local commit because multiple hidden-region observation targets remain in play (latent-region:semantic:9:hidden-region:OuterCanopy, latent-region:semantic:10:hidden-region:InnerCanopy), projecting shape history-open-only."
+        "description": "Bubble AttributionCrossroads defers local commit because multiple hidden-region observation targets remain in play (latent-region:semantic:12:hidden-region:Crossroads, latent-region:semantic:13:hidden-region:CrossroadsMirror), projecting shape history-open-only."
       },
       "effective": {
         "mode": "runtime-observation-commit-policy.v1",
-        "policyId": "observation-commit-policy:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+        "policyId": "observation-commit-policy:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
         "decisionSource": "bounded-runtime",
         "selectionRule": "defer-multiple-hidden-region-targets",
-        "localMaterializationTargetId": "latent-region:semantic:9:hidden-region:OuterCanopy",
+        "localMaterializationTargetId": "latent-region:semantic:12:hidden-region:Crossroads",
         "observedRegionIds": [
-          "latent-region:semantic:9:hidden-region:OuterCanopy",
-          "latent-region:semantic:10:hidden-region:InnerCanopy"
+          "latent-region:semantic:12:hidden-region:Crossroads",
+          "latent-region:semantic:13:hidden-region:CrossroadsMirror"
         ],
         "selectedTargetIds": [],
         "deferredTargetIds": [
-          "latent-region:semantic:9:hidden-region:OuterCanopy",
-          "latent-region:semantic:10:hidden-region:InnerCanopy"
+          "latent-region:semantic:12:hidden-region:Crossroads",
+          "latent-region:semantic:13:hidden-region:CrossroadsMirror"
         ],
         "projectedHistoryShape": "history-open-only",
-        "description": "Bubble CollapseOpen defers local commit because multiple hidden-region observation targets remain in play (latent-region:semantic:9:hidden-region:OuterCanopy, latent-region:semantic:10:hidden-region:InnerCanopy), projecting shape history-open-only."
+        "description": "Bubble AttributionCrossroads defers local commit because multiple hidden-region observation targets remain in play (latent-region:semantic:12:hidden-region:Crossroads, latent-region:semantic:13:hidden-region:CrossroadsMirror), projecting shape history-open-only."
       },
       "differences": [],
-      "description": "Bubble CollapseOpen compares the current bounded observation policy against itself: rule defer-multiple-hidden-region-targets, projected shape history-open-only."
+      "description": "Bubble AttributionCrossroads compares the current bounded observation policy against itself: rule defer-multiple-hidden-region-targets, projected shape history-open-only."
     },
     "obligations": [
       {
-        "effectId": "effect:6:observe",
+        "effectId": "effect:7:observe",
         "effectKind": "observe",
         "scope": "local",
         "description": "Author declared observe as a required local effect."
       },
       {
-        "effectId": "effect:7:commit",
+        "effectId": "effect:8:commit",
         "effectKind": "commit",
         "scope": "local",
         "description": "Author declared commit as a required local effect."
+      },
+      {
+        "effectId": "effect:9:debt",
+        "effectKind": "debt",
+        "scope": "local",
+        "description": "Author declared debt as a required local effect."
       }
     ],
-    "plannedRelations": [],
+    "plannedRelations": [
+      {
+        "kind": "branch",
+        "sourceEffectId": "effect:10:branch",
+        "requirement": "optional",
+        "scope": "local",
+        "target": "alternative-bubble",
+        "familyName": null,
+        "condition": null,
+        "targetAddressTemplate": {
+          "locatorKind": "lineage-relative",
+          "baseAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "pathSuffix": [
+            {
+              "kind": "branch",
+              "key": "effect:10:branch"
+            }
+          ],
+          "description": "Derive a alternative-bubble address from bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads via optional local branch relation effect:10:branch."
+        },
+        "description": "This bubble may realize alternative bubble continuations through optional local branching."
+      }
+    ],
     "grammars": [],
     "grammarActivationPlan": [],
     "emissionPlan": []
   },
   "proof": {
     "mode": "bubble-consistency-certificate.v1",
-    "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+    "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
     "profile": "bubbles.v0.4",
-    "verdict": "partially-certified",
+    "verdict": "contradicted",
     "claims": [
       {
         "id": "claim:well-formed-source",
@@ -949,7 +1053,7 @@
         "dependsOnClaims": [],
         "assumptions": [],
         "scope": "source",
-        "explanation": "Bubble CollapseOpen compiled into a semantic plan under bubbles.v0.4."
+        "explanation": "Bubble AttributionCrossroads compiled into a semantic plan under bubbles.v0.4."
       },
       {
         "id": "claim:minimum-authored-shape",
@@ -967,12 +1071,12 @@
         ],
         "assumptions": [],
         "scope": "source",
-        "explanation": "Bubble CollapseOpen satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
+        "explanation": "Bubble AttributionCrossroads satisfies the current minimum authored shape through axiom, worldWill, seed, effect."
       },
       {
         "id": "claim:worldhood-roles-present",
         "kind": "worldhood",
-        "status": "undetermined",
+        "status": "certified",
         "basis": [
           "local-law-basis",
           "boundary-semantics",
@@ -981,17 +1085,15 @@
           "boundary-history-commit-surface",
           "source-lineage-address",
           "lineage-placement",
-          "missing-authored-anchor-criterion"
+          "authored-anchor-criterion"
         ],
         "evidenceIds": [],
         "dependsOnClaims": [
           "claim:minimum-authored-shape"
         ],
-        "assumptions": [
-          "boundary-and-anchor-worldhood-roles-remain-partially-explicit-in-v0.4"
-        ],
+        "assumptions": [],
         "scope": "plan",
-        "explanation": "Bubble CollapseOpen preserves minimum authored shape, but independent worldhood remains undetermined while missing-authored-anchor-criterion are not yet explicitly authored."
+        "explanation": "Bubble AttributionCrossroads currently presents all required worldhood roles through local-law-basis, boundary-semantics, boundary-object, boundary-observation-surface, boundary-history-commit-surface, source-lineage-address, lineage-placement, authored-anchor-criterion."
       },
       {
         "id": "claim:required-effect-obligations",
@@ -999,11 +1101,13 @@
         "status": "certified",
         "basis": [
           "observation-surface",
-          "declared-history-support"
+          "declared-history-support",
+          "unresolved-debt"
         ],
         "evidenceIds": [
-          "evidence:effect:effect:6:observe",
-          "evidence:effect:effect:7:commit"
+          "evidence:effect:effect:7:observe",
+          "evidence:effect:effect:8:commit",
+          "evidence:effect:effect:9:debt"
         ],
         "dependsOnClaims": [
           "claim:minimum-authored-shape"
@@ -1012,12 +1116,12 @@
           "effect-trace-records-mirror-the-current-materialization-plan"
         ],
         "scope": "plan",
-        "explanation": "Required effect effect:6:observe is certified by the declared observation surface. Required effect effect:7:commit is certified by declared history support."
+        "explanation": "Required effect effect:7:observe is certified by the declared observation surface. Required effect effect:8:commit is certified by declared history support. Required effect effect:9:debt is certified by explicit unresolved debt semantics."
       },
       {
         "id": "claim:anchor-identity",
         "kind": "anchor",
-        "status": "undetermined",
+        "status": "contradicted",
         "basis": [
           "axiomatic-basis",
           "world-will",
@@ -1025,42 +1129,51 @@
           "declared-history-support",
           "observation-surface",
           "sea-anchor-necessity.v1",
-          "theorem-condition:stable",
-          "theorem-worldhood-delta:2",
-          "theorem-identity-delta:1",
-          "negative-source:perturb",
+          "theorem-condition:dissolving",
+          "theorem-worldhood-delta:-1",
+          "theorem-identity-delta:-2",
+          "negative-source:nondeterministic-realization",
           "negative-source-strength:elevated",
-          "negative-source-effect:effect:8:perturb",
+          "nondeterministic-realization",
+          "negative-source:branch",
+          "negative-source-effect:effect:10:branch",
+          "negative-source-relation:branch",
           "negative-source-scope:local",
+          "branch-pressure",
+          "branch-count:1",
+          "negative-source:perturb",
+          "negative-source-effect:effect:11:perturb",
           "law-perturbation",
           "positive-source:source-lineage",
           "positive-source-support:present",
-          "positive-source-address:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "positive-source-address:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "source-lineage-address",
           "positive-source:seed-origin",
           "seeded-origin",
           "positive-source:declared-history-support",
-          "positive-source-effect:effect:7:commit",
-          "anchor-support:strong",
-          "anchor-rewind:stable",
-          "anchor-identity-status:provisional",
-          "anchor-authored-criterion-status:absent",
-          "missing-authored-anchor-criterion"
+          "positive-source-effect:effect:8:commit",
+          "anchor-support:weak",
+          "anchor-rewind:guarded",
+          "anchor-identity-status:contradicted",
+          "anchor-authored-criterion-status:violated",
+          "executable-semantic-checker",
+          "anchor-criterion-failed"
         ],
         "evidenceIds": [
-          "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-          "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-          "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-          "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen"
+          "evidence:anchor-point:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "evidence:positive-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "evidence:negative-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "evidence:observe:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads"
         ],
         "dependsOnClaims": [
           "claim:worldhood-roles-present"
         ],
         "assumptions": [
-          "sea-anchor-theorem-witness-is-bounded"
+          "sea-anchor-theorem-witness-is-bounded",
+          "anchor-criterion-evaluation-uses-the-current-executable-subset"
         ],
         "scope": "plan",
-        "explanation": "Bubble CollapseOpen keeps an inferred anchor basis, but same-world anchor identity remains undetermined without an authored anchor criterion."
+        "explanation": "Anchor identity criterion is violated by the current executable semantic environment. Bubble AttributionCrossroads therefore does not currently certify same-world anchor identity."
       },
       {
         "id": "claim:lineage-traceability",
@@ -1069,18 +1182,20 @@
         "basis": [
           "no-descendant-lineage-claim"
         ],
-        "evidenceIds": [],
+        "evidenceIds": [
+          "evidence:effect:effect:10:branch"
+        ],
         "dependsOnClaims": [
           "claim:well-formed-source"
         ],
         "assumptions": [],
         "scope": "plan",
-        "explanation": "Bubble CollapseOpen declares no descendant or staged grammar lineage that needs certification in the current plan."
+        "explanation": "Bubble AttributionCrossroads declares no descendant or staged grammar lineage that needs certification in the current plan."
       },
       {
         "id": "claim:replay-identity",
         "kind": "replay",
-        "status": "undetermined",
+        "status": "contradicted",
         "basis": [
           "axiomatic-basis",
           "world-will",
@@ -1088,39 +1203,48 @@
           "declared-history-support",
           "observation-surface",
           "sea-anchor-necessity.v1",
-          "theorem-condition:stable",
-          "theorem-worldhood-delta:2",
-          "theorem-identity-delta:1",
-          "negative-source:perturb",
+          "theorem-condition:dissolving",
+          "theorem-worldhood-delta:-1",
+          "theorem-identity-delta:-2",
+          "negative-source:nondeterministic-realization",
           "negative-source-strength:elevated",
-          "negative-source-effect:effect:8:perturb",
+          "nondeterministic-realization",
+          "negative-source:branch",
+          "negative-source-effect:effect:10:branch",
+          "negative-source-relation:branch",
           "negative-source-scope:local",
+          "branch-pressure",
+          "branch-count:1",
+          "negative-source:perturb",
+          "negative-source-effect:effect:11:perturb",
           "law-perturbation",
           "positive-source:source-lineage",
           "positive-source-support:present",
-          "positive-source-address:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "positive-source-address:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "source-lineage-address",
           "positive-source:seed-origin",
           "seeded-origin",
           "positive-source:declared-history-support",
-          "positive-source-effect:effect:7:commit",
-          "anchor-support:strong",
-          "anchor-rewind:stable",
-          "anchor-identity-status:provisional",
-          "anchor-authored-criterion-status:absent",
+          "positive-source-effect:effect:8:commit",
+          "anchor-support:weak",
+          "anchor-rewind:guarded",
+          "anchor-identity-status:contradicted",
+          "anchor-authored-criterion-status:violated",
+          "executable-semantic-checker",
+          "anchor-criterion-failed",
           "collapse-record",
           "observed-history-shape-history-open-only",
           "observed-history-open"
         ],
         "evidenceIds": [
-          "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-          "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-          "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-          "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-          "evidence:effect:effect:6:observe",
-          "evidence:effect:effect:7:commit",
-          "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
-          "evidence:collapse:semantic:10:hidden-region:InnerCanopy"
+          "evidence:anchor-point:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "evidence:positive-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "evidence:negative-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "evidence:observe:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "evidence:effect:effect:7:observe",
+          "evidence:effect:effect:8:commit",
+          "evidence:collapse:semantic:12:hidden-region:Crossroads",
+          "evidence:collapse:semantic:13:hidden-region:CrossroadsMirror"
         ],
         "dependsOnClaims": [
           "claim:anchor-identity"
@@ -1130,7 +1254,7 @@
           "observed-collapse-history-is-not-yet-committed"
         ],
         "scope": "materialized-run",
-        "explanation": "Bubble CollapseOpen preserves a replay basis for currently declared history, but same-world replay across latent regions remains undetermined while collapse drafts are only observation-ready. Observed collapse records (2 records at history-open with shape history-open-only) mean this run is no longer pristine latent possibility; same-world replay remains open until that observed history is committed."
+        "explanation": "Anchor identity criterion is violated by the current executable semantic environment. Bubble AttributionCrossroads therefore does not currently certify same-world replay. Observed collapse records (2 records at history-open with shape history-open-only) mean this run is no longer pristine latent possibility; same-world replay remains open until that observed history is committed."
       },
       {
         "id": "claim:internal-law-consistency",
@@ -1144,8 +1268,8 @@
           "no-executable-law-semantics-yet"
         ],
         "evidenceIds": [
-          "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
-          "evidence:collapse:semantic:10:hidden-region:InnerCanopy"
+          "evidence:collapse:semantic:12:hidden-region:Crossroads",
+          "evidence:collapse:semantic:13:hidden-region:CrossroadsMirror"
         ],
         "dependsOnClaims": [
           "claim:well-formed-source"
@@ -1156,20 +1280,43 @@
           "observed-collapse-history-is-not-yet-committed"
         ],
         "scope": "materialized-run",
-        "explanation": "Observed collapse records (2 records at history-open with shape history-open-only) now witness executed observation-induced materialization for Bubble CollapseOpen. Residual unresolved semantic fragments (hidden-region) keep overall internal semantic consistency undetermined. Bubble CollapseOpen still has no full executable law solver, so internal semantic consistency remains undetermined."
+        "explanation": "Observed collapse records (2 records at history-open with shape history-open-only) now witness executed observation-induced materialization for Bubble AttributionCrossroads. Residual unresolved semantic fragments (hidden-region) keep overall internal semantic consistency undetermined. Bubble AttributionCrossroads still has no full executable law solver, so internal semantic consistency remains undetermined."
       }
     ]
   },
   "runtimeOntology": {
     "negativeSea": {
-      "pressure": "elevated",
+      "pressure": "high",
       "signals": [
+        "nondeterministic-realization",
+        "branch-pressure",
         "law-perturbation"
       ],
       "pressureSources": [
         {
+          "kind": "nondeterministic-realization",
+          "sourceEffectId": null,
+          "relationKind": null,
+          "boundaryScope": null,
+          "strength": "elevated",
+          "evidenceBasis": [
+            "nondeterministic-realization"
+          ]
+        },
+        {
+          "kind": "branch",
+          "sourceEffectId": "effect:10:branch",
+          "relationKind": "branch",
+          "boundaryScope": "local",
+          "strength": "elevated",
+          "evidenceBasis": [
+            "branch-pressure",
+            "branch-count:1"
+          ]
+        },
+        {
           "kind": "perturb",
-          "sourceEffectId": "effect:8:perturb",
+          "sourceEffectId": "effect:11:perturb",
           "relationKind": null,
           "boundaryScope": "local",
           "strength": "elevated",
@@ -1189,7 +1336,7 @@
       "supportSources": [
         {
           "kind": "source-lineage",
-          "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "addressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "sourceEffectId": null,
           "support": "present",
           "evidenceBasis": [
@@ -1198,7 +1345,7 @@
         },
         {
           "kind": "seed-origin",
-          "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "addressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "sourceEffectId": null,
           "support": "present",
           "evidenceBasis": [
@@ -1207,8 +1354,8 @@
         },
         {
           "kind": "declared-history-support",
-          "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-          "sourceEffectId": "effect:7:commit",
+          "addressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "sourceEffectId": "effect:8:commit",
           "support": "present",
           "evidenceBasis": [
             "declared-history-support"
@@ -1217,55 +1364,84 @@
       ]
     },
     "anchorPoint": {
-      "strength": "strong",
+      "strength": "weak",
       "declaredHistorySupport": true,
       "materializedHistoryEvidence": false,
-      "rewindStability": "stable",
+      "rewindStability": "guarded",
       "signals": [
         "axiomatic-basis",
-        "world-will",
+        "world-will-criterion-failed",
         "seed-continuity",
         "declared-history-support",
         "observation-surface",
+        "negative-pressure",
+        "branch-instability",
+        "unresolved-debt",
         "perturbation-stress"
       ],
-      "authoredCriterionStatus": "absent",
-      "authoredCriterionBasis": [],
+      "authoredCriterionStatus": "violated",
+      "authoredCriterionBasis": [
+        "executable-semantic-checker",
+        "anchor-criterion-failed"
+      ],
       "materializedEvidenceSources": [],
-      "identityStatus": "provisional"
+      "identityStatus": "contradicted"
     },
     "theoremWitness": {
       "theorem": "sea-anchor-necessity.v1",
-      "negativeRank": 1,
+      "negativeRank": 2,
       "positiveRank": 1,
-      "anchorRank": 2,
-      "worldhoodDelta": 2,
-      "identityDelta": 1,
-      "sustained": true,
-      "condition": "stable",
-      "explanation": "Bubble worldhood remains stable because A=2, P=1, N=1, so A + P - N = 2."
+      "anchorRank": 0,
+      "worldhoodDelta": -1,
+      "identityDelta": -2,
+      "sustained": false,
+      "condition": "dissolving",
+      "explanation": "Bubble worldhood is dissolving because A=0, P=1, N=2, so A + P - N = -1 with identity margin -2."
     }
   },
   "artifacts": [],
   "commits": [],
   "evidence": [
     {
-      "id": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "id": "evidence:negative-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
       "kind": "negative-sea-state",
-      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "sourcePath": "examples/collapse-open.bubble",
+      "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "subjectAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "sourcePath": "examples/attribution-crossroads.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
-      "pressure": "elevated",
+      "pressure": "high",
       "signals": [
+        "nondeterministic-realization",
+        "branch-pressure",
         "law-perturbation"
       ],
       "pressureSources": [
         {
+          "kind": "nondeterministic-realization",
+          "sourceEffectId": null,
+          "relationKind": null,
+          "boundaryScope": null,
+          "strength": "elevated",
+          "evidenceBasis": [
+            "nondeterministic-realization"
+          ]
+        },
+        {
+          "kind": "branch",
+          "sourceEffectId": "effect:10:branch",
+          "relationKind": "branch",
+          "boundaryScope": "local",
+          "strength": "elevated",
+          "evidenceBasis": [
+            "branch-pressure",
+            "branch-count:1"
+          ]
+        },
+        {
           "kind": "perturb",
-          "sourceEffectId": "effect:8:perturb",
+          "sourceEffectId": "effect:11:perturb",
           "relationKind": null,
           "boundaryScope": "local",
           "strength": "elevated",
@@ -1274,14 +1450,14 @@
           ]
         }
       ],
-      "description": "Bubble CollapseOpen currently shows elevated negative-sea pressure via law-perturbation."
+      "description": "Bubble AttributionCrossroads currently shows high negative-sea pressure via nondeterministic-realization, branch-pressure, law-perturbation."
     },
     {
-      "id": "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "id": "evidence:positive-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
       "kind": "positive-sea-state",
-      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "sourcePath": "examples/collapse-open.bubble",
+      "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "subjectAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "sourcePath": "examples/attribution-crossroads.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
@@ -1294,7 +1470,7 @@
       "supportSources": [
         {
           "kind": "source-lineage",
-          "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "addressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "sourceEffectId": null,
           "support": "present",
           "evidenceBasis": [
@@ -1303,7 +1479,7 @@
         },
         {
           "kind": "seed-origin",
-          "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "addressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "sourceEffectId": null,
           "support": "present",
           "evidenceBasis": [
@@ -1312,103 +1488,109 @@
         },
         {
           "kind": "declared-history-support",
-          "addressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-          "sourceEffectId": "effect:7:commit",
+          "addressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "sourceEffectId": "effect:8:commit",
           "support": "present",
           "evidenceBasis": [
             "declared-history-support"
           ]
         }
       ],
-      "description": "Bubble CollapseOpen currently shows present positive-sea support via source-lineage-address, seeded-origin, declared-history-support."
+      "description": "Bubble AttributionCrossroads currently shows present positive-sea support via source-lineage-address, seeded-origin, declared-history-support."
     },
     {
-      "id": "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "id": "evidence:anchor-point:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
       "kind": "anchor-point-state",
-      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "sourcePath": "examples/collapse-open.bubble",
+      "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "subjectAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "sourcePath": "examples/attribution-crossroads.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
-      "strength": "strong",
+      "strength": "weak",
       "declaredHistorySupport": true,
       "materializedHistoryEvidence": false,
-      "rewindStability": "stable",
+      "rewindStability": "guarded",
       "signals": [
         "axiomatic-basis",
-        "world-will",
+        "world-will-criterion-failed",
         "seed-continuity",
         "declared-history-support",
         "observation-surface",
+        "negative-pressure",
+        "branch-instability",
+        "unresolved-debt",
         "perturbation-stress"
       ],
-      "authoredCriterionStatus": "absent",
-      "authoredCriterionBasis": [],
+      "authoredCriterionStatus": "violated",
+      "authoredCriterionBasis": [
+        "executable-semantic-checker",
+        "anchor-criterion-failed"
+      ],
       "materializedEvidenceSources": [],
-      "identityStatus": "provisional",
-      "description": "Bubble CollapseOpen currently shows strong inferred anchor support with stable rewind stability and provisional identity status."
+      "identityStatus": "contradicted",
+      "description": "Bubble AttributionCrossroads currently shows weak inferred anchor support with guarded rewind stability and contradicted identity status."
     },
     {
-      "id": "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+      "id": "evidence:observe:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
       "kind": "observation-context",
-      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "sourcePath": "examples/collapse-open.bubble",
+      "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "subjectAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "sourcePath": "examples/attribution-crossroads.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
-      "description": "Bubble CollapseOpen declares observation mode witness with declared history support."
+      "description": "Bubble AttributionCrossroads declares observation mode witness with declared history support."
     },
     {
-      "id": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+      "id": "evidence:collapse:semantic:12:hidden-region:Crossroads",
       "kind": "collapse-record",
-      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "sourcePath": "examples/collapse-open.bubble",
+      "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "subjectAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "sourcePath": "examples/attribution-crossroads.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
-      "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
-      "sourceSemanticId": "semantic:9:hidden-region:OuterCanopy",
+      "latentRegionId": "latent-region:semantic:12:hidden-region:Crossroads",
+      "sourceSemanticId": "semantic:12:hidden-region:Crossroads",
       "triggerEffectIds": [
-        "effect:6:observe"
+        "effect:7:observe"
       ],
       "perturbEffectIds": [
-        "effect:8:perturb"
+        "effect:11:perturb"
       ],
-      "observationStateId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "observationStateId": "observation-state:latent-region:semantic:12:hidden-region:Crossroads",
       "observationState": {
-        "id": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+        "id": "observation-state:latent-region:semantic:12:hidden-region:Crossroads",
         "phase": "observed-history-open",
         "observationMode": "witness",
-        "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
-        "sourceSemanticId": "semantic:9:hidden-region:OuterCanopy",
+        "latentRegionId": "latent-region:semantic:12:hidden-region:Crossroads",
+        "sourceSemanticId": "semantic:12:hidden-region:Crossroads",
         "triggerEffectIds": [
-          "effect:6:observe"
+          "effect:7:observe"
         ],
         "perturbEffectIds": [
-          "effect:8:perturb"
+          "effect:11:perturb"
         ],
         "commitStatus": "history-open",
         "draftStatus": "observation-ready",
         "localMaterialization": {
           "mode": "single-region-observation-kernel.v3",
-          "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
-          "regionName": "OuterCanopy",
+          "latentRegionId": "latent-region:semantic:12:hidden-region:Crossroads",
+          "regionName": "Crossroads",
           "regionKind": "hidden-region",
           "realizedForm": "boundary-canopy-frayed-wake",
           "perturbationMix": "perturb-mixed",
           "nearbyHistoryInfluence": "history-open-neighborhood",
           "stateStructure": {
-            "anchorBinding": "anchored",
-            "seaBalance": "contested",
+            "anchorBinding": "drifting",
+            "seaBalance": "negative-skewed",
             "membraneCondition": "frayed-edge",
             "historyCoupling": "history-open-neighborhood",
-            "worldhoodCondition": "stable"
+            "worldhoodCondition": "dissolving"
           },
-          "anchorStrength": "strong",
-          "negativeSeaPressure": "elevated",
+          "anchorStrength": "weak",
+          "negativeSeaPressure": "high",
           "positiveSeaSupport": "present",
           "determinants": [
             "law:single-region-observation-kernel.v3",
@@ -1417,78 +1599,78 @@
             "perturb:declared-perturbation",
             "perturbation-mix:perturb-mixed",
             "nearby-history:history-open-neighborhood",
-            "anchor-binding:anchored",
-            "sea-balance:contested",
+            "anchor-binding:drifting",
+            "sea-balance:negative-skewed",
             "membrane-condition:frayed-edge",
-            "worldhood:stable",
+            "worldhood:dissolving",
             "projected-history:history-open-only",
-            "anchor:strong",
-            "negative-sea:elevated",
+            "anchor:weak",
+            "negative-sea:high",
             "positive-sea:present",
-            "effect:6:observe",
-            "effect:8:perturb"
+            "effect:7:observe",
+            "effect:11:perturb"
           ],
-          "description": "Local observation kernel materialized OuterCanopy as boundary-canopy-frayed-wake with perturb-mixed, history-open-neighborhood, anchor binding anchored, sea balance contested, membrane frayed-edge, and worldhood stable."
+          "description": "Local observation kernel materialized Crossroads as boundary-canopy-frayed-wake with perturb-mixed, history-open-neighborhood, anchor binding drifting, sea balance negative-skewed, membrane frayed-edge, and worldhood dissolving."
         },
-        "description": "Observation state observation-state:latent-region:semantic:9:hidden-region:OuterCanopy records OuterCanopy as observed-history-open under witness with one local materialization kernel."
+        "description": "Observation state observation-state:latent-region:semantic:12:hidden-region:Crossroads records Crossroads as observed-history-open under witness with one local materialization kernel."
       },
       "commitStatus": "history-open",
       "draftStatus": "observation-ready",
-      "description": "Bubble CollapseOpen observed latent region OuterCanopy into observation-state:latent-region:semantic:9:hidden-region:OuterCanopy via effect:6:observe with perturb contributions effect:8:perturb; history remains open pending a later commit-specific collapse kernel."
+      "description": "Bubble AttributionCrossroads observed latent region Crossroads into observation-state:latent-region:semantic:12:hidden-region:Crossroads via effect:7:observe with perturb contributions effect:11:perturb; history remains open pending a later commit-specific collapse kernel."
     },
     {
-      "id": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
+      "id": "evidence:collapse:semantic:13:hidden-region:CrossroadsMirror",
       "kind": "collapse-record",
-      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "sourcePath": "examples/collapse-open.bubble",
+      "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "subjectAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "sourcePath": "examples/attribution-crossroads.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
-      "latentRegionId": "latent-region:semantic:10:hidden-region:InnerCanopy",
-      "sourceSemanticId": "semantic:10:hidden-region:InnerCanopy",
+      "latentRegionId": "latent-region:semantic:13:hidden-region:CrossroadsMirror",
+      "sourceSemanticId": "semantic:13:hidden-region:CrossroadsMirror",
       "triggerEffectIds": [
-        "effect:6:observe"
+        "effect:7:observe"
       ],
       "perturbEffectIds": [
-        "effect:8:perturb"
+        "effect:11:perturb"
       ],
-      "observationStateId": "observation-state:latent-region:semantic:10:hidden-region:InnerCanopy",
+      "observationStateId": "observation-state:latent-region:semantic:13:hidden-region:CrossroadsMirror",
       "observationState": {
-        "id": "observation-state:latent-region:semantic:10:hidden-region:InnerCanopy",
+        "id": "observation-state:latent-region:semantic:13:hidden-region:CrossroadsMirror",
         "phase": "observed-history-open",
         "observationMode": "witness",
-        "latentRegionId": "latent-region:semantic:10:hidden-region:InnerCanopy",
-        "sourceSemanticId": "semantic:10:hidden-region:InnerCanopy",
+        "latentRegionId": "latent-region:semantic:13:hidden-region:CrossroadsMirror",
+        "sourceSemanticId": "semantic:13:hidden-region:CrossroadsMirror",
         "triggerEffectIds": [
-          "effect:6:observe"
+          "effect:7:observe"
         ],
         "perturbEffectIds": [
-          "effect:8:perturb"
+          "effect:11:perturb"
         ],
         "commitStatus": "history-open",
         "draftStatus": "observation-ready",
         "localMaterialization": null,
-        "description": "Observation state observation-state:latent-region:semantic:10:hidden-region:InnerCanopy records InnerCanopy as observed-history-open under witness."
+        "description": "Observation state observation-state:latent-region:semantic:13:hidden-region:CrossroadsMirror records CrossroadsMirror as observed-history-open under witness."
       },
       "commitStatus": "history-open",
       "draftStatus": "observation-ready",
-      "description": "Bubble CollapseOpen observed latent region InnerCanopy into observation-state:latent-region:semantic:10:hidden-region:InnerCanopy via effect:6:observe with perturb contributions effect:8:perturb; history remains open pending a later commit-specific collapse kernel."
+      "description": "Bubble AttributionCrossroads observed latent region CrossroadsMirror into observation-state:latent-region:semantic:13:hidden-region:CrossroadsMirror via effect:7:observe with perturb contributions effect:11:perturb; history remains open pending a later commit-specific collapse kernel."
     },
     {
-      "id": "evidence:effect:effect:6:observe",
+      "id": "evidence:effect:effect:7:observe",
       "kind": "effect-trace",
-      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "sourcePath": "examples/collapse-open.bubble",
+      "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "subjectAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "sourcePath": "examples/attribution-crossroads.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
-      "effectId": "effect:6:observe",
+      "effectId": "effect:7:observe",
       "effectKind": "observe",
       "requirement": "required",
       "scope": "local",
-      "sourceLine": 6,
+      "sourceLine": 7,
       "materializationState": "materialized",
       "runtimeSignals": [
         "observation-surface"
@@ -1496,41 +1678,41 @@
       "causalLinks": [
         {
           "targetKind": "observation-context",
-          "targetId": "evidence:observe:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "targetId": "evidence:observe:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "relation": "opens-observation-context"
         },
         {
           "targetKind": "collapse-record",
-          "targetId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+          "targetId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
           "relation": "contributes-to-collapse-record"
         },
         {
           "targetKind": "collapse-record",
-          "targetId": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
+          "targetId": "evidence:collapse:semantic:13:hidden-region:CrossroadsMirror",
           "relation": "contributes-to-collapse-record"
         },
         {
           "targetKind": "anchor-point-state",
-          "targetId": "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "targetId": "evidence:anchor-point:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "relation": "influences-anchor-assessment"
         }
       ],
-      "description": "Bubble CollapseOpen recorded required local observe as materialized in this run via observation-surface."
+      "description": "Bubble AttributionCrossroads recorded required local observe as materialized in this run via observation-surface."
     },
     {
-      "id": "evidence:effect:effect:7:commit",
+      "id": "evidence:effect:effect:8:commit",
       "kind": "effect-trace",
-      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "sourcePath": "examples/collapse-open.bubble",
+      "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "subjectAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "sourcePath": "examples/attribution-crossroads.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
-      "effectId": "effect:7:commit",
+      "effectId": "effect:8:commit",
       "effectKind": "commit",
       "requirement": "required",
       "scope": "local",
-      "sourceLine": 7,
+      "sourceLine": 8,
       "materializationState": "potential",
       "runtimeSignals": [
         "declared-history-support"
@@ -1538,31 +1720,90 @@
       "causalLinks": [
         {
           "targetKind": "positive-sea-state",
-          "targetId": "evidence:positive-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "targetId": "evidence:positive-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "relation": "contributes-positive-sea-support"
         },
         {
           "targetKind": "anchor-point-state",
-          "targetId": "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "targetId": "evidence:anchor-point:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "relation": "influences-anchor-assessment"
         }
       ],
-      "description": "Bubble CollapseOpen recorded required local commit as potential in this run via declared-history-support."
+      "description": "Bubble AttributionCrossroads recorded required local commit as potential in this run via declared-history-support."
     },
     {
-      "id": "evidence:effect:effect:8:perturb",
+      "id": "evidence:effect:effect:9:debt",
       "kind": "effect-trace",
-      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "sourcePath": "examples/collapse-open.bubble",
+      "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "subjectAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "sourcePath": "examples/attribution-crossroads.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
-      "effectId": "effect:8:perturb",
+      "effectId": "effect:9:debt",
+      "effectKind": "debt",
+      "requirement": "required",
+      "scope": "local",
+      "sourceLine": 9,
+      "materializationState": "potential",
+      "runtimeSignals": [
+        "unresolved-debt"
+      ],
+      "causalLinks": [
+        {
+          "targetKind": "anchor-point-state",
+          "targetId": "evidence:anchor-point:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "relation": "influences-anchor-assessment"
+        }
+      ],
+      "description": "Bubble AttributionCrossroads recorded required local debt as potential in this run via unresolved-debt."
+    },
+    {
+      "id": "evidence:effect:effect:10:branch",
+      "kind": "effect-trace",
+      "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "subjectAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "sourcePath": "examples/attribution-crossroads.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "effectId": "effect:10:branch",
+      "effectKind": "branch",
+      "requirement": "optional",
+      "scope": "local",
+      "sourceLine": 10,
+      "materializationState": "potential",
+      "runtimeSignals": [
+        "branch-pressure"
+      ],
+      "causalLinks": [
+        {
+          "targetKind": "negative-sea-state",
+          "targetId": "evidence:negative-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "relation": "contributes-negative-sea-pressure"
+        },
+        {
+          "targetKind": "anchor-point-state",
+          "targetId": "evidence:anchor-point:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "relation": "influences-anchor-assessment"
+        }
+      ],
+      "description": "Bubble AttributionCrossroads recorded optional local branch as potential in this run via branch-pressure."
+    },
+    {
+      "id": "evidence:effect:effect:11:perturb",
+      "kind": "effect-trace",
+      "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "subjectAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "sourcePath": "examples/attribution-crossroads.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "effectId": "effect:11:perturb",
       "effectKind": "perturb",
       "requirement": "optional",
       "scope": "local",
-      "sourceLine": 8,
+      "sourceLine": 11,
       "materializationState": "materialized",
       "runtimeSignals": [
         "law-perturbation"
@@ -1570,40 +1811,40 @@
       "causalLinks": [
         {
           "targetKind": "negative-sea-state",
-          "targetId": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "targetId": "evidence:negative-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "relation": "contributes-negative-sea-pressure"
         },
         {
           "targetKind": "collapse-record",
-          "targetId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+          "targetId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
           "relation": "contributes-to-collapse-record"
         },
         {
           "targetKind": "collapse-record",
-          "targetId": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
+          "targetId": "evidence:collapse:semantic:13:hidden-region:CrossroadsMirror",
           "relation": "contributes-to-collapse-record"
         },
         {
           "targetKind": "anchor-point-state",
-          "targetId": "evidence:anchor-point:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "targetId": "evidence:anchor-point:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "relation": "influences-anchor-assessment"
         }
       ],
-      "description": "Bubble CollapseOpen recorded optional local perturb as materialized in this run via law-perturbation."
+      "description": "Bubble AttributionCrossroads recorded optional local perturb as materialized in this run via law-perturbation."
     },
     {
-      "id": "evidence:event-source:evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+      "id": "evidence:event-source:evidence:collapse:semantic:12:hidden-region:Crossroads",
       "kind": "event-source-attribution",
-      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "sourcePath": "examples/collapse-open.bubble",
+      "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "subjectAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "sourcePath": "examples/attribution-crossroads.bubble",
       "observationMode": "witness",
       "emissionId": null,
       "commitId": null,
       "subjectKind": "collapse-record",
-      "subjectId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
-      "status": "resolved",
-      "classification": "negative-sea-pressure",
+      "subjectId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
+      "status": "unresolved",
+      "classification": "unresolved-source",
       "candidates": [
         {
           "classification": "internal-world-event",
@@ -1611,17 +1852,17 @@
           "basis": [
             {
               "sourceKind": "evidence-record",
-              "sourceId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+              "sourceId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
               "field": "triggerEffectIds"
             },
             {
               "sourceKind": "authored-effect",
-              "sourceId": "effect:6:observe",
+              "sourceId": "effect:7:observe",
               "field": "kind"
             },
             {
               "sourceKind": "authored-effect",
-              "sourceId": "effect:6:observe",
+              "sourceId": "effect:7:observe",
               "field": "scope"
             }
           ],
@@ -1633,22 +1874,182 @@
           "basis": [
             {
               "sourceKind": "evidence-record",
-              "sourceId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+              "sourceId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
               "field": "perturbEffectIds"
             },
             {
               "sourceKind": "authored-effect",
-              "sourceId": "effect:8:perturb",
+              "sourceId": "effect:11:perturb",
               "field": "kind"
             },
             {
               "sourceKind": "authored-effect",
-              "sourceId": "effect:8:perturb",
+              "sourceId": "effect:11:perturb",
               "field": "scope"
             },
             {
               "sourceKind": "evidence-record",
-              "sourceId": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+              "sourceId": "evidence:negative-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+              "field": "pressureSources"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "negativeSea.pressure"
+            }
+          ],
+          "explanation": "A perturbation recorded on this concrete collapse is also an explicit negative-sea pressure source in the same run."
+        },
+        {
+          "classification": "anchor-drift",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
+              "field": "observationState.localMaterialization.stateStructure.anchorBinding"
+            },
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:anchor-point:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+              "field": "identityStatus"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "anchorPoint.identityStatus"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "anchorPoint.rewindStability"
+            }
+          ],
+          "explanation": "The concrete local materialization is drifting while same-world identity or rewind support is not securely holding its uncommitted record."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
+          "field": "triggerEffectIds"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:7:observe",
+          "field": "kind"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:7:observe",
+          "field": "scope"
+        },
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
+          "field": "perturbEffectIds"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:11:perturb",
+          "field": "kind"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:11:perturb",
+          "field": "scope"
+        },
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:negative-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "field": "pressureSources"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "negativeSea.pressure"
+        },
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:collapse:semantic:12:hidden-region:Crossroads",
+          "field": "observationState.localMaterialization.stateStructure.anchorBinding"
+        },
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:anchor-point:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+          "field": "identityStatus"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "anchorPoint.identityStatus"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "anchorPoint.rewindStability"
+        }
+      ],
+      "description": "Kept collapse-record evidence:collapse:semantic:12:hidden-region:Crossroads as unresolved-source because direct evidence did not select exactly one class among internal-world-event:contextual, negative-sea-pressure:direct, anchor-drift:direct."
+    },
+    {
+      "id": "evidence:event-source:evidence:collapse:semantic:13:hidden-region:CrossroadsMirror",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "subjectAddressId": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
+      "sourcePath": "examples/attribution-crossroads.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "subjectKind": "collapse-record",
+      "subjectId": "evidence:collapse:semantic:13:hidden-region:CrossroadsMirror",
+      "status": "resolved",
+      "classification": "negative-sea-pressure",
+      "candidates": [
+        {
+          "classification": "internal-world-event",
+          "strength": "contextual",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:collapse:semantic:13:hidden-region:CrossroadsMirror",
+              "field": "triggerEffectIds"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:7:observe",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:7:observe",
+              "field": "scope"
+            }
+          ],
+          "explanation": "Authored local observation triggered this collapse, but more specific sea or anchor evidence also shaped the realized event."
+        },
+        {
+          "classification": "negative-sea-pressure",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:collapse:semantic:13:hidden-region:CrossroadsMirror",
+              "field": "perturbEffectIds"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:11:perturb",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:11:perturb",
+              "field": "scope"
+            },
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:negative-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
               "field": "pressureSources"
             },
             {
@@ -1663,22 +2064,22 @@
       "basis": [
         {
           "sourceKind": "evidence-record",
-          "sourceId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+          "sourceId": "evidence:collapse:semantic:13:hidden-region:CrossroadsMirror",
           "field": "perturbEffectIds"
         },
         {
           "sourceKind": "authored-effect",
-          "sourceId": "effect:8:perturb",
+          "sourceId": "effect:11:perturb",
           "field": "kind"
         },
         {
           "sourceKind": "authored-effect",
-          "sourceId": "effect:8:perturb",
+          "sourceId": "effect:11:perturb",
           "field": "scope"
         },
         {
           "sourceKind": "evidence-record",
-          "sourceId": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
+          "sourceId": "evidence:negative-sea:bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads",
           "field": "pressureSources"
         },
         {
@@ -1687,126 +2088,28 @@
           "field": "negativeSea.pressure"
         }
       ],
-      "description": "Classified collapse-record evidence:collapse:semantic:9:hidden-region:OuterCanopy as negative-sea-pressure from same-run evidence."
-    },
-    {
-      "id": "evidence:event-source:evidence:collapse:semantic:10:hidden-region:InnerCanopy",
-      "kind": "event-source-attribution",
-      "bubbleAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "subjectAddressId": "bubble:examples/collapse-open.bubble::root:CollapseOpen",
-      "sourcePath": "examples/collapse-open.bubble",
-      "observationMode": "witness",
-      "emissionId": null,
-      "commitId": null,
-      "subjectKind": "collapse-record",
-      "subjectId": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
-      "status": "resolved",
-      "classification": "negative-sea-pressure",
-      "candidates": [
-        {
-          "classification": "internal-world-event",
-          "strength": "contextual",
-          "basis": [
-            {
-              "sourceKind": "evidence-record",
-              "sourceId": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
-              "field": "triggerEffectIds"
-            },
-            {
-              "sourceKind": "authored-effect",
-              "sourceId": "effect:6:observe",
-              "field": "kind"
-            },
-            {
-              "sourceKind": "authored-effect",
-              "sourceId": "effect:6:observe",
-              "field": "scope"
-            }
-          ],
-          "explanation": "Authored local observation triggered this collapse, but more specific sea or anchor evidence also shaped the realized event."
-        },
-        {
-          "classification": "negative-sea-pressure",
-          "strength": "direct",
-          "basis": [
-            {
-              "sourceKind": "evidence-record",
-              "sourceId": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
-              "field": "perturbEffectIds"
-            },
-            {
-              "sourceKind": "authored-effect",
-              "sourceId": "effect:8:perturb",
-              "field": "kind"
-            },
-            {
-              "sourceKind": "authored-effect",
-              "sourceId": "effect:8:perturb",
-              "field": "scope"
-            },
-            {
-              "sourceKind": "evidence-record",
-              "sourceId": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-              "field": "pressureSources"
-            },
-            {
-              "sourceKind": "runtime-ontology",
-              "sourceId": "runtime-ontology",
-              "field": "negativeSea.pressure"
-            }
-          ],
-          "explanation": "A perturbation recorded on this concrete collapse is also an explicit negative-sea pressure source in the same run."
-        }
-      ],
-      "basis": [
-        {
-          "sourceKind": "evidence-record",
-          "sourceId": "evidence:collapse:semantic:10:hidden-region:InnerCanopy",
-          "field": "perturbEffectIds"
-        },
-        {
-          "sourceKind": "authored-effect",
-          "sourceId": "effect:8:perturb",
-          "field": "kind"
-        },
-        {
-          "sourceKind": "authored-effect",
-          "sourceId": "effect:8:perturb",
-          "field": "scope"
-        },
-        {
-          "sourceKind": "evidence-record",
-          "sourceId": "evidence:negative-sea:bubble:examples/collapse-open.bubble::root:CollapseOpen",
-          "field": "pressureSources"
-        },
-        {
-          "sourceKind": "runtime-ontology",
-          "sourceId": "runtime-ontology",
-          "field": "negativeSea.pressure"
-        }
-      ],
-      "description": "Classified collapse-record evidence:collapse:semantic:10:hidden-region:InnerCanopy as negative-sea-pressure from same-run evidence."
+      "description": "Classified collapse-record evidence:collapse:semantic:13:hidden-region:CrossroadsMirror as negative-sea-pressure from same-run evidence."
     }
   ],
   "trace": [
     {
       "kind": "materialization-started",
-      "message": "Started materialization for CollapseOpen.",
+      "message": "Started materialization for AttributionCrossroads.",
       "details": {
         "profile": "bubbles.v0.4",
-        "address": "bubble:examples/collapse-open.bubble::root:CollapseOpen"
+        "address": "bubble:examples/attribution-crossroads.bubble::root:AttributionCrossroads"
       }
     },
     {
       "kind": "no-emissions",
-      "message": "Bubble CollapseOpen has no staged emissions to materialize."
+      "message": "Bubble AttributionCrossroads has no staged emissions to materialize."
     },
     {
       "kind": "local-collapse-materialized",
-      "message": "Locally materialized OuterCanopy into observation-state:latent-region:semantic:9:hidden-region:OuterCanopy.",
+      "message": "Locally materialized Crossroads into observation-state:latent-region:semantic:12:hidden-region:Crossroads.",
       "details": {
-        "latentRegionId": "latent-region:semantic:9:hidden-region:OuterCanopy",
-        "observationStateId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+        "latentRegionId": "latent-region:semantic:12:hidden-region:Crossroads",
+        "observationStateId": "observation-state:latent-region:semantic:12:hidden-region:Crossroads",
         "realizedForm": "boundary-canopy-frayed-wake",
         "mode": "single-region-observation-kernel.v3"
       }

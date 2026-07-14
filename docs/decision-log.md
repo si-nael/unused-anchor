@@ -816,6 +816,8 @@ Consequence:
 
 Bubble should treat outside observation as limited prior to causal contact and interfering once contact occurs. This does not turn worldhood itself into an observer-relative object. Instead, it means an outside observer must cross authored or runtime boundary surfaces to learn concrete interior unfolding, and that crossing may leave `observation-context`, `collapse-record`, `observationState`, or `history-commit` traces. The current bounded implementation should expose this as an inspectable plan/runtime surface before any future observer-agent layer is added.
 
+## 2026-07-15
+
 ### D-082: Close the effect-role split with concrete causal targets before adding new effect semantics
 
 Reason:
@@ -825,3 +827,43 @@ Bubble already projected authored effects into declarations, obligations, permis
 Consequence:
 
 Add typed `causalLinks` to each runtime `effect-trace`. Links may target only concrete evidence records or materialized descendant artifacts present in the same run. Preserve an empty link set for potential capabilities without an executed target instead of inventing causal history. Keep the relation vocabulary bounded to current runtime records and widen it only when a new concrete transition record exists.
+
+### D-083: Use closure-first progression as the release rule through the v0.5 boundary
+
+Reason:
+
+The project already carries a wide research surface. Advancing by adding another broad semantic layer before reconciling interrupted implementation, stale question status, missing verification, and record drift would make the version number move faster than the world model. The immediate user direction is to finish what has already been opened, one bounded slice at a time.
+
+Consequence:
+
+Treat `v0.4.8` and any required `v0.4.9` as convergence releases. Before opening a new feature family, identify one existing idea or question whose semantics are already sufficiently specified, finish its implementation and verification, update its research status, and record remaining limits without pretending they are solved. Do not promote to `v0.5` while known contradictions exist between canonical ideas, research status, code, tests, and public documentation.
+
+### D-084: Make repository memory an explicit maintained artifact
+
+Reason:
+
+The operating rules require durable repository memory, but the repository previously relied on README and dispersed logs without naming one canonical continuity document. That made stable vocabulary, release discipline, and current boundaries easier to reinterpret between sessions.
+
+Consequence:
+
+Maintain `docs/project-memory.md` as a concise index of durable project facts. Keep raw ideas, open questions, falsifiable hypotheses, decisions, concrete work, and boundary failures in their specialized logs; repository memory links to those records and stores only stable cross-session context. Date every memory revision and update it whenever the core question, scope, vocabulary, release discipline, or canonical record set changes.
+
+### D-085: Require one v0.4.9 convergence release before opening v0.5
+
+Reason:
+
+The `v0.4.8` causal-link work completed effect provenance but exposed the next unresolved foundational seam: the runtime has concrete sea, anchor, observation, commit, collapse, and effect evidence, yet it still does not produce one honest source-attribution assessment that distinguishes an internal world event from negative-sea pressure, anchor drift, positive-sea shift, or an unresolved source. Q-014 asks for exactly this distinction, and the original sea-anchor idea names it as a principal reason for the ontology. Promoting to `v0.5` before closing that seam would leave the triad inspectable but unable to perform one of its intended jobs.
+
+Consequence:
+
+Use `v0.4.9` as a narrow pre-`v0.5` convergence release. Its only semantic addition is evidence-bounded runtime source attribution for Q-014, propagated through materialization, inspection, stored replay, and focused verification. Include the research-record reconciliation and continuity safeguards begun on 2026-07-15. Do not add authored sea syntax, continuous sea dynamics, multi-region collapse, probabilistic-fractal semantics, observer agents, or a general replay solver in this release. Keep package version `0.4.8` until every `v0.4.9` completion gate is met.
+
+### D-086: Close v0.4.9 and make v0.5 the sole next version without closing the research ledger
+
+Reason:
+
+The Q-014 attribution slice now resolves every supported direct class, preserves genuine negative-sea versus anchor-drift ambiguity, carries typed basis through inspection and stored replay, and passes the mandatory example and test paths. The user also requires that version succession remain explicit and that a bounded implementation not erase or over-close the larger ideas that motivated it.
+
+Consequence:
+
+Set the package version to `0.4.9` and treat its closure gates as complete. The next version is `v0.5`; do not create another intermediate version unless the user explicitly changes that decision. Preserve original dated ideas and every partial, open, or deferred question. Mark only the bounded Q-014 runtime slice complete, retain its limitations and reopen condition, and choose one measurable `v0.5` objective without treating unselected research branches as rejected.

@@ -8,6 +8,7 @@ export {
 export {
     createCollapseRecordEvidence,
     createCommitEvidence,
+    createEventSourceAttributionEvidence,
     createEffectTraceEvidence,
     createObservationEvidence,
     createSeaAnchorEvidence,

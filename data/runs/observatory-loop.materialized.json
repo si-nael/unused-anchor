@@ -1593,6 +1593,230 @@
         }
       ],
       "description": "Bubble ObservatoryLoop recorded required local spawn as materialized in this run via descendant-materialization."
+    },
+    {
+      "id": "evidence:event-source:evidence:commit:emit:16:Probe",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "subjectAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "sourcePath": "examples/observatory-loop.bubble",
+      "observationMode": "witness",
+      "emissionId": "emit:16:Probe",
+      "commitId": "commit:emit:16:Probe",
+      "subjectKind": "history-commit",
+      "subjectId": "evidence:commit:emit:16:Probe",
+      "status": "resolved",
+      "classification": "positive-sea-shift",
+      "candidates": [
+        {
+          "classification": "positive-sea-shift",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:commit:emit:16:Probe",
+              "field": "commitId"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "anchorPoint.materializedHistoryEvidence"
+            }
+          ],
+          "explanation": "This concrete history commit changes durable continuity and therefore constitutes a positive-sea shift for its subject."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:commit:emit:16:Probe",
+          "field": "commitId"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "anchorPoint.materializedHistoryEvidence"
+        }
+      ],
+      "description": "Classified history-commit evidence:commit:emit:16:Probe as positive-sea-shift from same-run evidence."
+    },
+    {
+      "id": "evidence:event-source:evidence:commit:emit:17:DerivedProbe",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "subjectAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop/spawn:emit:17:DerivedProbe",
+      "sourcePath": "examples/observatory-loop.bubble",
+      "observationMode": "witness",
+      "emissionId": "emit:17:DerivedProbe",
+      "commitId": "commit:emit:17:DerivedProbe",
+      "subjectKind": "history-commit",
+      "subjectId": "evidence:commit:emit:17:DerivedProbe",
+      "status": "resolved",
+      "classification": "positive-sea-shift",
+      "candidates": [
+        {
+          "classification": "positive-sea-shift",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:commit:emit:17:DerivedProbe",
+              "field": "commitId"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "anchorPoint.materializedHistoryEvidence"
+            }
+          ],
+          "explanation": "This concrete history commit changes durable continuity and therefore constitutes a positive-sea shift for its subject."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:commit:emit:17:DerivedProbe",
+          "field": "commitId"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "anchorPoint.materializedHistoryEvidence"
+        }
+      ],
+      "description": "Classified history-commit evidence:commit:emit:17:DerivedProbe as positive-sea-shift from same-run evidence."
+    },
+    {
+      "id": "evidence:event-source:emit:17:DerivedProbe",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "subjectAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop/spawn:emit:17:DerivedProbe",
+      "sourcePath": "examples/observatory-loop.bubble",
+      "observationMode": "witness",
+      "emissionId": "emit:17:DerivedProbe",
+      "commitId": null,
+      "subjectKind": "descendant-artifact",
+      "subjectId": "emit:17:DerivedProbe",
+      "status": "resolved",
+      "classification": "positive-sea-shift",
+      "candidates": [
+        {
+          "classification": "positive-sea-shift",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "materialized-artifact",
+              "sourceId": "emit:17:DerivedProbe",
+              "field": "target"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:10:spawn",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:10:spawn",
+              "field": "scope"
+            },
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:positive-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+              "field": "supportSources"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "positiveSea.support"
+            }
+          ],
+          "explanation": "A descendant was concretely materialized with lineage provenance, changing placement and growth in the positive sea."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "materialized-artifact",
+          "sourceId": "emit:17:DerivedProbe",
+          "field": "target"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:10:spawn",
+          "field": "kind"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:10:spawn",
+          "field": "scope"
+        },
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:positive-sea:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "field": "supportSources"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "positiveSea.support"
+        }
+      ],
+      "description": "Classified descendant-artifact emit:17:DerivedProbe as positive-sea-shift from same-run evidence."
+    },
+    {
+      "id": "evidence:event-source:evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "subjectAddressId": "bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "sourcePath": "examples/observatory-loop.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "subjectKind": "observation-context",
+      "subjectId": "evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+      "status": "resolved",
+      "classification": "internal-world-event",
+      "candidates": [
+        {
+          "classification": "internal-world-event",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+              "field": "observationMode"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:observe",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:observe",
+              "field": "scope"
+            }
+          ],
+          "explanation": "The concrete observation context is caused by an authored observation effect and carries no more specific sea or anchor event evidence."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop",
+          "field": "observationMode"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:observe",
+          "field": "kind"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:observe",
+          "field": "scope"
+        }
+      ],
+      "description": "Classified observation-context evidence:observe:bubble:examples/observatory-loop.bubble::root:ObservatoryLoop as internal-world-event from same-run evidence."
     }
   ],
   "trace": [

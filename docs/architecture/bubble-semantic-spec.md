@@ -468,6 +468,29 @@ Current implementation now separates these layers explicitly in IR and preserves
 
 This does not claim a general causal calculus. A causal link is emitted only when the current bounded runtime produced a concrete target record; potential effects without an executed target remain traceable declarations without invented runtime consequences.
 
+### Event-Source Attribution
+
+`v0.4.9` adds one evidence-bounded attribution layer over concrete runtime subjects. It classifies a collapse record, history commit, descendant materialization, or observation context with this vocabulary:
+
+- `internal-world-event`
+- `negative-sea-pressure`
+- `anchor-drift`
+- `positive-sea-shift`
+- `unresolved-source`
+
+The attribution unit is one concrete subject, not one label for the whole run. This prevents a descendant lineage change from erasing a simultaneous pressured collapse elsewhere in the same materialization.
+
+Each `event-source-attribution` record carries candidate classifications, `direct | contextual` strength, typed basis references, a resolved or unresolved status, and the final classification. Resolution requires exactly one direct class. If multiple direct classes remain, the final classification must be `unresolved-source` while preserving every candidate and its basis.
+
+Current bounded rules include:
+
+- an authored observation trigger is an internal-event candidate
+- a perturb effect becomes materialized only when a concrete collapse record names it, and then it may directly support negative-sea attribution
+- weak anchor strength alone never proves drift; the observed local materialization must be `drifting` and its uncommitted record must also lack secure identity or rewind support
+- concrete history commitment and descendant materialization directly support positive-sea shift because continuity or lineage placement actually changed
+
+Every basis must resolve to an authored effect represented in the current trace, a same-run evidence record, the runtime ontology, or a same-run materialized artifact. Attribution is preserved through inspection and stored replay, but it is still a bounded causal assessment rather than a complete ontology of every possible event source.
+
 ## Composition Model
 
 Bubble cannot remain only a one-root-per-file bootstrap forever if it is meant to be a multiverse language.
@@ -586,6 +609,7 @@ At minimum, Bubble still needs explicit mathematical proof obligations for:
 - composition and import preservation of lineage and boundary semantics
 - sound separation of ontic world state from epistemic observation state
 - effect provenance and effect-trace soundness
+- event-source attribution soundness and ambiguity preservation
 - anchor identity semantics under branching, collapse, and replay
 
 The bounded consistency certificate is therefore not a replacement for these proofs.

@@ -1,7 +1,137 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { compileBubbleSource } from "../../src/bubbles/language";
-import { materializeBubbleProgram, planBubbleProgram } from "../../src/bubbles/runtime";
+import {
+    materializeBubbleProgram,
+    planBubbleProgram,
+    type BubbleEventSourceAttributionEvidenceRecord,
+    type BubbleMaterializationResult,
+} from "../../src/bubbles/runtime";
+
+function sourceAttributions(result: BubbleMaterializationResult): BubbleEventSourceAttributionEvidenceRecord[] {
+    return result.evidence.filter(
+        (evidence): evidence is BubbleEventSourceAttributionEvidenceRecord => evidence.kind === "event-source-attribution",
+    );
+}
+
+function materializeInline(sourceLines: string[], sourcePath: string): BubbleMaterializationResult {
+    const { program } = compileBubbleSource(sourceLines.join("\n"), { sourcePath });
+    return materializeBubbleProgram(program);
+}
+
+test("event-source attribution resolves supported classes and preserves genuine ambiguity", () => {
+    const internal = materializeInline([
+        "bubble InternalWitness {",
+        "  axiom coherence = stable",
+        "  will \"preserve local observation\"",
+        "  seed internal_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  hidden region InnerReach",
+        "}",
+    ], "internal-witness.bubble");
+    const negative = materializeInline([
+        "bubble NegativeWake {",
+        "  axiom coherence = stable",
+        "  will \"preserve a pressured observation\"",
+        "  seed negative_seed",
+        "  observe witness",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect perturb optional",
+        "  hidden region OuterWake",
+        "}",
+    ], "negative-wake.bubble");
+    const anchor = materializeInline([
+        "bubble AnchorDrift {",
+        "  axiom coherence = stable",
+        "  will axiom.coherence = \"broken\"",
+        "  seed drift_seed",
+        "  observe witness",
+        "  anchor identity = axiom.coherence = \"broken\"",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect debt required",
+        "  effect branch optional",
+        "  hidden region UnsecuredArchive",
+        "  hidden region UnsecuredMirror",
+        "}",
+    ], "anchor-drift.bubble");
+    const positive = materializeInline([
+        "bubble LineageShift {",
+        "  realization deterministic",
+        "  axiom coherence = stable",
+        "  will \"grow one descendant\"",
+        "  seed lineage_seed",
+        "  effect spawn required",
+        "  quote Child = bubble Child { realization deterministic axiom coherence = stable will 'remain a child world' seed child_seed effect spawn required }",
+        "  emit Child as descendant",
+        "}",
+    ], "lineage-shift.bubble");
+    const ambiguous = materializeInline([
+        "bubble CrossPressure {",
+        "  axiom coherence = stable",
+        "  will axiom.coherence = \"broken\"",
+        "  seed cross_seed",
+        "  observe witness",
+        "  anchor identity = axiom.coherence = \"broken\"",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect debt required",
+        "  effect branch optional",
+        "  effect perturb optional",
+        "  hidden region Crossroads",
+        "  hidden region CrossroadsMirror",
+        "}",
+    ], "cross-pressure.bubble");
+
+    assert.equal(sourceAttributions(internal).find((entry) => entry.subjectKind === "collapse-record")?.classification, "internal-world-event");
+    assert.equal(sourceAttributions(negative).find((entry) => entry.subjectKind === "collapse-record")?.classification, "negative-sea-pressure");
+    assert.equal(sourceAttributions(anchor).find((entry) => entry.subjectKind === "collapse-record")?.classification, "anchor-drift");
+    assert.equal(sourceAttributions(positive).find((entry) => entry.subjectKind === "descendant-artifact")?.classification, "positive-sea-shift");
+
+    const unresolved = sourceAttributions(ambiguous).find((entry) => entry.subjectKind === "collapse-record");
+    assert.equal(unresolved?.status, "unresolved");
+    assert.equal(unresolved?.classification, "unresolved-source");
+    assert.deepEqual(
+        unresolved?.candidates.map((candidate) => [candidate.classification, candidate.strength]),
+        [
+            ["internal-world-event", "contextual"],
+            ["negative-sea-pressure", "direct"],
+            ["anchor-drift", "direct"],
+        ],
+    );
+
+    for (const result of [internal, negative, anchor, positive, ambiguous]) {
+        const evidenceIds = new Set(result.evidence.map((evidence) => evidence.id));
+        const effectIds = new Set(result.evidence
+            .filter((evidence) => evidence.kind === "effect-trace")
+            .map((evidence) => evidence.effectId));
+        const artifactIds = new Set(result.artifacts.map((artifact) => artifact.emissionId));
+
+        for (const attribution of sourceAttributions(result)) {
+            for (const basis of [...attribution.basis, ...attribution.candidates.flatMap((candidate) => candidate.basis)]) {
+                switch (basis.sourceKind) {
+                    case "authored-effect":
+                        assert.ok(effectIds.has(basis.sourceId), `${basis.sourceId} must resolve to authored effect IR`);
+                        break;
+                    case "evidence-record":
+                        assert.ok(evidenceIds.has(basis.sourceId), `${basis.sourceId} must resolve inside same-run evidence`);
+                        break;
+                    case "runtime-ontology":
+                        assert.equal(basis.sourceId, "runtime-ontology");
+                        break;
+                    case "materialized-artifact":
+                        assert.ok(artifactIds.has(basis.sourceId), `${basis.sourceId} must resolve inside same-run artifacts`);
+                        break;
+                    default:
+                        assert.fail(`Unhandled attribution basis ${JSON.stringify(basis)}`);
+                }
+            }
+        }
+    }
+});
 
 test("plans and materializes descendant emissions from a meta bubble", () => {
     const source = [
@@ -194,6 +324,7 @@ test("plans and materializes descendant emissions from a meta bubble", () => {
         "positive-sea-state",
         "anchor-point-state",
         "effect-trace",
+        "event-source-attribution",
     ]);
     assert.equal(materialized.commits[0].committedAddressId, "bubble:nursery.bubble::root:Nursery/spawn:emit:11:Grove");
 });
@@ -369,7 +500,7 @@ test("materialization emits collapse-record evidence for observed latent regions
     const materialized = materializeBubbleProgram(program);
     const collapseEvidence = materialized.evidence.filter((entry) => entry.kind === "collapse-record");
 
-    assert.equal(materialized.evidence.length, 10);
+    assert.equal(materialized.evidence.length, 13);
     assert.equal(collapseEvidence.length, 2);
     assert.equal(collapseEvidence.filter((entry) => entry.observationState.localMaterialization !== null).length, 1);
     assert.deepEqual(collapseEvidence.map((entry) => ({
@@ -649,7 +780,7 @@ test("materialization can preserve a history-open-only collapse shape when multi
 
     assert.equal(materialized.commits.length, 0);
     assert.equal(materialized.runtimeOntology.anchorPoint.materializedHistoryEvidence, false);
-    assert.equal(materialized.evidence.length, 9);
+    assert.equal(materialized.evidence.length, 11);
     assert.deepEqual(collapseEvidence.map((entry) => ({
         latentRegionId: entry.latentRegionId,
         commitStatus: entry.commitStatus,
@@ -935,7 +1066,7 @@ test("records observation evidence even when no staged emissions exist", () => {
 
     assert.equal(materialized.artifacts.length, 0);
     assert.equal(materialized.commits.length, 0);
-    assert.deepEqual(materialized.evidence, [
+    assert.deepEqual(materialized.evidence.filter((entry) => entry.kind !== "event-source-attribution"), [
         {
             id: "evidence:negative-sea:bubble:observatory.bubble::root:Observatory",
             kind: "negative-sea-state",

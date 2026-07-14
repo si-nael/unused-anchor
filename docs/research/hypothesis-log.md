@@ -21,7 +21,7 @@ Define one minimal anchor-aware world schema and compare strong-anchor and weak-
 
 ### H-002: Negative sea and positive sea can be lowered into operational semantics
 
-Status: partially validated through v0.4.8
+Status: partially validated through v0.4.9
 
 Claim:
 
@@ -33,6 +33,7 @@ Current implementation:
 - `positiveSea.support` and `positiveSea.supportSources`
 - `bubble.seaSemantics` as explicit negative/positive source-kind IR
 - `negative-sea-state`, `positive-sea-state`, and separated `anchor-point-state` evidence records
+- event-level `event-source-attribution` evidence that can resolve a concrete negative-sea contribution without relabeling every pressure declaration as an executed intrusion
 - effect-role, boundary, generation, and staged-emission structure that lower into explicit sea semantics before runtime ontology and proof basis consume them
 
 Remaining gap:
@@ -97,7 +98,7 @@ Stabilize the current representability frontier before adding new semantic class
 
 ### H-005: Explicit effect typing can preserve inspectability under world formation
 
-Status: partially validated through v0.4.8
+Status: partially validated through v0.4.9
 
 Claim:
 
@@ -108,6 +109,7 @@ Current implementation:
 - `effectRoles` now separate declarations, obligations, permissions, pressures, events, and traces in IR
 - runtime emits `effect-trace`, `collapse-record`, `history-commit`, and observation-state evidence
 - `effect-trace.causalLinks` now identify the concrete runtime evidence or descendant artifact explained by each authored effect when such a target exists
+- `event-source-attribution` consumes concrete effect provenance and preserves direct versus contextual candidates rather than collapsing every declared capability into an executed cause
 - observation commit policy and observation materialization law are inspectable plan/runtime surfaces instead of hidden branching only
 
 Remaining gap:
@@ -188,3 +190,29 @@ Would be weakened by:
 Next check:
 
 Keep worldhood observer-free while testing whether explicit contact paths or observer-agent layers are needed beyond the current boundary/evidence model.
+
+### H-009: Evidence-bounded attribution can distinguish sea pressure from anchor drift without false certainty
+
+Status: validated for the bounded v0.4.9 runtime scope
+
+Claim:
+
+The existing authored effect provenance, concrete causal links, sea-source evidence, anchor state, collapse records, and commit records contain enough information for the bounded runtime to classify some observed changes as internal world events, negative-sea pressure, anchor drift, or positive-sea shift while preserving `unresolved-source` when those explanations remain observationally entangled.
+
+Would be weakened by:
+
+- fixtures where the proposed classifier can resolve a verdict only by reading information not present in the current materialization result
+- systematic collapse of weak anchor state into false claims that anchor drift actually occurred
+- systematic relabeling of authored local perturbation as foreign negative-sea residue
+- replay changing an attribution verdict or basis without any change in the stored evidence
+
+Validation evidence:
+
+- focused fixtures resolve internal world event, negative-sea pressure, anchor drift, and positive-sea shift from current-run evidence
+- the canonical crossroads fixture preserves simultaneous direct negative-sea and anchor-drift candidates as `unresolved-source`
+- regression checks resolve every basis to current-run effect provenance, evidence, ontology, or artifacts
+- inspection filters and stored replay preserve verdict, candidates, and basis unchanged
+
+Remaining limit:
+
+The hypothesis is not validated for continuous sea dynamics, cross-world residue transport, multi-region causal coupling, or probabilistic-fractal worldhood. Those ideas remain open and must not be treated as disproved or completed by this bounded result.

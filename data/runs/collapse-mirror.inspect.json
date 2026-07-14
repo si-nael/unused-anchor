@@ -35,7 +35,16 @@
     "descendantCount": 1,
     "artifactCount": 0,
     "commitCount": 2,
-    "evidenceCount": 10,
+    "evidenceCount": 14,
+    "sourceAttributionCount": 4,
+    "sourceAttributionStatusCounts": {
+      "resolved": 4,
+      "unresolved": 0
+    },
+    "sourceAttributionClassifications": [
+      "negative-sea-pressure",
+      "positive-sea-shift"
+    ],
     "observationStateCount": 1,
     "reflectionPaths": [],
     "traceKinds": [
@@ -1841,7 +1850,7 @@
       "requirement": "optional",
       "scope": "local",
       "sourceLine": 8,
-      "materializationState": "potential",
+      "materializationState": "materialized",
       "runtimeSignals": [
         "law-perturbation"
       ],
@@ -1862,7 +1871,501 @@
           "relation": "influences-anchor-assessment"
         }
       ],
-      "description": "Bubble CollapseMirror recorded optional local perturb as potential in this run via law-perturbation."
+      "description": "Bubble CollapseMirror recorded optional local perturb as materialized in this run via law-perturbation."
+    },
+    {
+      "id": "evidence:event-source:evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "subjectAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "sourcePath": "examples/collapse-mirror.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "subjectKind": "collapse-record",
+      "subjectId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+      "status": "resolved",
+      "classification": "negative-sea-pressure",
+      "candidates": [
+        {
+          "classification": "internal-world-event",
+          "strength": "contextual",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+              "field": "triggerEffectIds"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:6:observe",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:6:observe",
+              "field": "scope"
+            }
+          ],
+          "explanation": "Authored local observation triggered this collapse, but more specific sea or anchor evidence also shaped the realized event."
+        },
+        {
+          "classification": "negative-sea-pressure",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+              "field": "perturbEffectIds"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:perturb",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:perturb",
+              "field": "scope"
+            },
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:negative-sea:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+              "field": "pressureSources"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "negativeSea.pressure"
+            }
+          ],
+          "explanation": "A perturbation recorded on this concrete collapse is also an explicit negative-sea pressure source in the same run."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+          "field": "perturbEffectIds"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:perturb",
+          "field": "kind"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:perturb",
+          "field": "scope"
+        },
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:negative-sea:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+          "field": "pressureSources"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "negativeSea.pressure"
+        }
+      ],
+      "description": "Classified collapse-record evidence:collapse:semantic:9:hidden-region:OuterCanopy as negative-sea-pressure from same-run evidence."
+    },
+    {
+      "id": "evidence:event-source:evidence:commit:emit:11:Sibling",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "subjectAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror/spawn:emit:11:Sibling",
+      "sourcePath": "examples/collapse-mirror.bubble",
+      "observationMode": "witness",
+      "emissionId": "emit:11:Sibling",
+      "commitId": "commit:emit:11:Sibling",
+      "subjectKind": "history-commit",
+      "subjectId": "evidence:commit:emit:11:Sibling",
+      "status": "resolved",
+      "classification": "positive-sea-shift",
+      "candidates": [
+        {
+          "classification": "positive-sea-shift",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:commit:emit:11:Sibling",
+              "field": "commitId"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "anchorPoint.materializedHistoryEvidence"
+            }
+          ],
+          "explanation": "This concrete history commit changes durable continuity and therefore constitutes a positive-sea shift for its subject."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:commit:emit:11:Sibling",
+          "field": "commitId"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "anchorPoint.materializedHistoryEvidence"
+        }
+      ],
+      "description": "Classified history-commit evidence:commit:emit:11:Sibling as positive-sea-shift from same-run evidence."
+    },
+    {
+      "id": "evidence:event-source:evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "subjectAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "sourcePath": "examples/collapse-mirror.bubble",
+      "observationMode": "witness",
+      "emissionId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "commitId": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "subjectKind": "history-commit",
+      "subjectId": "evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "status": "resolved",
+      "classification": "positive-sea-shift",
+      "candidates": [
+        {
+          "classification": "positive-sea-shift",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+              "field": "commitId"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "anchorPoint.materializedHistoryEvidence"
+            }
+          ],
+          "explanation": "This concrete history commit changes durable continuity and therefore constitutes a positive-sea shift for its subject."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+          "field": "commitId"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "anchorPoint.materializedHistoryEvidence"
+        }
+      ],
+      "description": "Classified history-commit evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy as positive-sea-shift from same-run evidence."
+    },
+    {
+      "id": "evidence:event-source:emit:11:Sibling",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "subjectAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror/spawn:emit:11:Sibling",
+      "sourcePath": "examples/collapse-mirror.bubble",
+      "observationMode": "witness",
+      "emissionId": "emit:11:Sibling",
+      "commitId": null,
+      "subjectKind": "descendant-artifact",
+      "subjectId": "emit:11:Sibling",
+      "status": "resolved",
+      "classification": "positive-sea-shift",
+      "candidates": [
+        {
+          "classification": "positive-sea-shift",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "materialized-artifact",
+              "sourceId": "emit:11:Sibling",
+              "field": "target"
+            },
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:positive-sea:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+              "field": "supportSources"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "positiveSea.support"
+            }
+          ],
+          "explanation": "A descendant was concretely materialized with lineage provenance, changing placement and growth in the positive sea."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "materialized-artifact",
+          "sourceId": "emit:11:Sibling",
+          "field": "target"
+        },
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:positive-sea:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+          "field": "supportSources"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "positiveSea.support"
+        }
+      ],
+      "description": "Classified descendant-artifact emit:11:Sibling as positive-sea-shift from same-run evidence."
+    }
+  ],
+  "sourceAttributions": [
+    {
+      "id": "evidence:event-source:evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "subjectAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "sourcePath": "examples/collapse-mirror.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "subjectKind": "collapse-record",
+      "subjectId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+      "status": "resolved",
+      "classification": "negative-sea-pressure",
+      "candidates": [
+        {
+          "classification": "internal-world-event",
+          "strength": "contextual",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+              "field": "triggerEffectIds"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:6:observe",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:6:observe",
+              "field": "scope"
+            }
+          ],
+          "explanation": "Authored local observation triggered this collapse, but more specific sea or anchor evidence also shaped the realized event."
+        },
+        {
+          "classification": "negative-sea-pressure",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+              "field": "perturbEffectIds"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:perturb",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:perturb",
+              "field": "scope"
+            },
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:negative-sea:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+              "field": "pressureSources"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "negativeSea.pressure"
+            }
+          ],
+          "explanation": "A perturbation recorded on this concrete collapse is also an explicit negative-sea pressure source in the same run."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:collapse:semantic:9:hidden-region:OuterCanopy",
+          "field": "perturbEffectIds"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:perturb",
+          "field": "kind"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:perturb",
+          "field": "scope"
+        },
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:negative-sea:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+          "field": "pressureSources"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "negativeSea.pressure"
+        }
+      ],
+      "description": "Classified collapse-record evidence:collapse:semantic:9:hidden-region:OuterCanopy as negative-sea-pressure from same-run evidence."
+    },
+    {
+      "id": "evidence:event-source:evidence:commit:emit:11:Sibling",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "subjectAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror/spawn:emit:11:Sibling",
+      "sourcePath": "examples/collapse-mirror.bubble",
+      "observationMode": "witness",
+      "emissionId": "emit:11:Sibling",
+      "commitId": "commit:emit:11:Sibling",
+      "subjectKind": "history-commit",
+      "subjectId": "evidence:commit:emit:11:Sibling",
+      "status": "resolved",
+      "classification": "positive-sea-shift",
+      "candidates": [
+        {
+          "classification": "positive-sea-shift",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:commit:emit:11:Sibling",
+              "field": "commitId"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "anchorPoint.materializedHistoryEvidence"
+            }
+          ],
+          "explanation": "This concrete history commit changes durable continuity and therefore constitutes a positive-sea shift for its subject."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:commit:emit:11:Sibling",
+          "field": "commitId"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "anchorPoint.materializedHistoryEvidence"
+        }
+      ],
+      "description": "Classified history-commit evidence:commit:emit:11:Sibling as positive-sea-shift from same-run evidence."
+    },
+    {
+      "id": "evidence:event-source:evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "subjectAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "sourcePath": "examples/collapse-mirror.bubble",
+      "observationMode": "witness",
+      "emissionId": "observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "commitId": "commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "subjectKind": "history-commit",
+      "subjectId": "evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+      "status": "resolved",
+      "classification": "positive-sea-shift",
+      "candidates": [
+        {
+          "classification": "positive-sea-shift",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+              "field": "commitId"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "anchorPoint.materializedHistoryEvidence"
+            }
+          ],
+          "explanation": "This concrete history commit changes durable continuity and therefore constitutes a positive-sea shift for its subject."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy",
+          "field": "commitId"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "anchorPoint.materializedHistoryEvidence"
+        }
+      ],
+      "description": "Classified history-commit evidence:commit:observation-state:latent-region:semantic:9:hidden-region:OuterCanopy as positive-sea-shift from same-run evidence."
+    },
+    {
+      "id": "evidence:event-source:emit:11:Sibling",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+      "subjectAddressId": "bubble:examples/collapse-mirror.bubble::root:CollapseMirror/spawn:emit:11:Sibling",
+      "sourcePath": "examples/collapse-mirror.bubble",
+      "observationMode": "witness",
+      "emissionId": "emit:11:Sibling",
+      "commitId": null,
+      "subjectKind": "descendant-artifact",
+      "subjectId": "emit:11:Sibling",
+      "status": "resolved",
+      "classification": "positive-sea-shift",
+      "candidates": [
+        {
+          "classification": "positive-sea-shift",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "materialized-artifact",
+              "sourceId": "emit:11:Sibling",
+              "field": "target"
+            },
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:positive-sea:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+              "field": "supportSources"
+            },
+            {
+              "sourceKind": "runtime-ontology",
+              "sourceId": "runtime-ontology",
+              "field": "positiveSea.support"
+            }
+          ],
+          "explanation": "A descendant was concretely materialized with lineage provenance, changing placement and growth in the positive sea."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "materialized-artifact",
+          "sourceId": "emit:11:Sibling",
+          "field": "target"
+        },
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:positive-sea:bubble:examples/collapse-mirror.bubble::root:CollapseMirror",
+          "field": "supportSources"
+        },
+        {
+          "sourceKind": "runtime-ontology",
+          "sourceId": "runtime-ontology",
+          "field": "positiveSea.support"
+        }
+      ],
+      "description": "Classified descendant-artifact emit:11:Sibling as positive-sea-shift from same-run evidence."
     }
   ],
   "observationStates": [

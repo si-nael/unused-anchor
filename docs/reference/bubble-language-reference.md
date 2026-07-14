@@ -706,6 +706,16 @@ Current causal-link relations are:
 
 An empty `causalLinks` array means the effect remains inspectable but the current run produced no concrete target record that can be attributed to it. Bubble does not synthesize a causal target merely because a capability was declared.
 
+`v0.4.9` adds `event-source-attribution` evidence records for concrete collapse, commit, descendant, and observation subjects. Each record includes:
+
+- `subjectKind` and `subjectId`
+- `status: resolved | unresolved`
+- `classification: internal-world-event | negative-sea-pressure | anchor-drift | positive-sea-shift | unresolved-source`
+- `candidates[]`, each with `direct | contextual` strength, typed basis, and explanation
+- `basis[]`, preserving the exact current-run sources used for the verdict
+
+Exactly one direct class resolves the attribution. Multiple direct classes produce `unresolved-source` without deleting the competing candidates. A weak anchor by itself is not enough to claim drift, and a merely declared perturbation is not enough to claim a negative-sea event; the perturbation must occur in a concrete collapse record.
+
 ### Inspection Output
 
 Inspection outputs are the most shareable runtime view.
@@ -722,6 +732,7 @@ Typical fields include:
 - `artifacts`
 - `commits`
 - `evidence`
+- `sourceAttributions`
 - `trace`
 
 Interpretation guidelines:
@@ -737,6 +748,7 @@ Interpretation guidelines:
 - `proofClaimStatusCounts` tells you how that selected proof slice is distributed across certified, contradicted, and undetermined claims
 - `reflectionPaths` tell you which bounded self-views were captured during materialization
 - `traceKinds` tell you which runtime events actually occurred in the run
+- `sourceAttributionCount`, `sourceAttributionStatusCounts`, and `sourceAttributionClassifications` summarize the selected attribution slice without turning unresolved candidates into a false verdict
 
 ### Ontology Output
 
@@ -769,8 +781,17 @@ The materializer now also emits these assessments as first-class evidence record
 - `positive-sea-state`
 - `anchor-point-state`
 - `effect-trace`
+- `event-source-attribution`
 
 Those evidence records travel through inspection and replay the same way observation and history-commit records do.
+
+The inspect and replay CLIs can select the `sourceAttributions` section and narrow it with:
+
+- `--evidence-kind event-source-attribution`
+- `--attribution-status <resolved|unresolved>`
+- `--attribution <internal-world-event|negative-sea-pressure|anchor-drift|positive-sea-shift|unresolved-source>`
+
+An attribution filter also matches an unresolved record when the requested resolved class remains one of its preserved candidates. The record's final classification remains `unresolved-source`.
 
 ### Proof Certificate Output
 

@@ -14,6 +14,7 @@ import {
     createLocalObservationCommitId,
     createCollapseRecordEvidence,
     createCommitEvidence,
+    createEventSourceAttributionEvidence,
     createEffectTraceEvidence,
     createObservationEvidence,
     createObservationCommitPolicyComparison,
@@ -599,9 +600,18 @@ export function materializeBubbleProgram(program: BubbleProgramIR, options: Bubb
             ...collapseEvidence,
             ...commitEvidence,
         ];
+        const effectTraceEvidence = createEffectTraceEvidence(program, plan, [], commits, supportingEvidence);
+        const eventSourceAttributionEvidence = createEventSourceAttributionEvidence(
+            program,
+            runtimeOntology,
+            [],
+            supportingEvidence,
+            effectTraceEvidence,
+        );
         const evidence = [
             ...supportingEvidence,
-            ...createEffectTraceEvidence(program, plan, [], commits, supportingEvidence),
+            ...effectTraceEvidence,
+            ...eventSourceAttributionEvidence,
         ];
         return {
             plan,
@@ -696,9 +706,18 @@ export function materializeBubbleProgram(program: BubbleProgramIR, options: Bubb
         ...collapseEvidence,
         ...commitEvidence,
     ];
+    const effectTraceEvidence = createEffectTraceEvidence(program, plan, artifacts, commits, supportingEvidence);
+    const eventSourceAttributionEvidence = createEventSourceAttributionEvidence(
+        program,
+        runtimeOntology,
+        artifacts,
+        supportingEvidence,
+        effectTraceEvidence,
+    );
     const evidence = [
         ...supportingEvidence,
-        ...createEffectTraceEvidence(program, plan, artifacts, commits, supportingEvidence),
+        ...effectTraceEvidence,
+        ...eventSourceAttributionEvidence,
     ];
 
     return {

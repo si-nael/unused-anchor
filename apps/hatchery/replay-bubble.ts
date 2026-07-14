@@ -12,7 +12,7 @@ async function main(): Promise<void> {
     const { inputPath, outputPath, query, section } = parseCliArgs(process.argv.slice(2));
 
     if (!inputPath) {
-        throw new Error("Usage: tsx apps/hatchery/replay-bubble.ts <record.json> [output.json] [--section summary|plan|externalObservationLimit|observationCommitPolicy|observationCommitPolicyComparison|ontology|semantics|proof|bundle|grammars|artifacts|commits|evidence|observationStates|trace|report] [--emission <id>] [--address <id>] [--activation <id>] [--grammar-profile <name>] [--observation-state <id>] [--observation-phase <observed-uncommitted|observed-history-open|observed-committed>] [--observation-policy-rule <commit-single-observed-region|commit-hidden-region-with-latent-bubble-siblings|defer-multiple-hidden-region-targets|defer-no-eligible-observed-target>] [--observation-history-shape <fully-committed|partially-committed|history-open-only|uncommitted-only|mixed-open>] [--semantic <id>] [--semantic-kind <constraint|partial-law|anchor-criterion>] [--semantic-status <satisfied|violated|undetermined>] [--claim <id>] [--claim-kind <syntax|worldhood|effect|anchor|lineage|consistency|replay>] [--claim-status <certified|contradicted|undetermined>] [--kind <trace-kind>]");
+        throw new Error("Usage: tsx apps/hatchery/replay-bubble.ts <record.json> [output.json] [--section summary|plan|externalObservationLimit|observationCommitPolicy|observationCommitPolicyComparison|ontology|semantics|proof|bundle|grammars|artifacts|commits|evidence|sourceAttributions|observationStates|trace|report] [--emission <id>] [--address <id>] [--activation <id>] [--grammar-profile <name>] [--observation-state <id>] [--observation-phase <observed-uncommitted|observed-history-open|observed-committed>] [--observation-policy-rule <commit-single-observed-region|commit-hidden-region-with-latent-bubble-siblings|defer-multiple-hidden-region-targets|defer-no-eligible-observed-target>] [--observation-history-shape <fully-committed|partially-committed|history-open-only|uncommitted-only|mixed-open>] [--semantic <id>] [--semantic-kind <constraint|partial-law|anchor-criterion>] [--semantic-status <satisfied|violated|undetermined>] [--claim <id>] [--claim-kind <syntax|worldhood|effect|anchor|lineage|consistency|replay>] [--claim-status <certified|contradicted|undetermined>] [--evidence-kind <kind>] [--attribution-status <resolved|unresolved>] [--attribution <internal-world-event|negative-sea-pressure|anchor-drift|positive-sea-shift|unresolved-source>] [--kind <trace-kind>]");
     }
 
     const record = JSON.parse(await readFile(inputPath, "utf8")) as BubbleReplayRecord;
@@ -63,6 +63,8 @@ function selectSection(report: BubbleInspectionReport, section: BubbleInspection
             return report.commits;
         case "evidence":
             return report.evidence;
+        case "sourceAttributions":
+            return report.sourceAttributions;
         case "observationStates":
             return report.observationStates;
         case "trace":
@@ -251,6 +253,39 @@ function parseCliArgs(argv: string[]): {
             continue;
         }
 
+        if (argument === "--evidence-kind") {
+            const rawKind = argv[index + 1];
+            if (!rawKind || !isEvidenceKind(rawKind)) {
+                throw new Error("--evidence-kind requires a supported evidence kind");
+            }
+
+            query.evidenceKind = rawKind;
+            index += 1;
+            continue;
+        }
+
+        if (argument === "--attribution-status") {
+            const rawStatus = argv[index + 1];
+            if (!rawStatus || !isAttributionStatus(rawStatus)) {
+                throw new Error("--attribution-status requires one of: resolved, unresolved");
+            }
+
+            query.attributionStatus = rawStatus;
+            index += 1;
+            continue;
+        }
+
+        if (argument === "--attribution") {
+            const rawClassification = argv[index + 1];
+            if (!rawClassification || !isAttributionClassification(rawClassification)) {
+                throw new Error("--attribution requires one of: internal-world-event, negative-sea-pressure, anchor-drift, positive-sea-shift, unresolved-source");
+            }
+
+            query.attributionClassification = rawClassification;
+            index += 1;
+            continue;
+        }
+
         if (argument === "--kind" || argument === "--trace-kind") {
             const rawKind = argv[index + 1];
             if (!rawKind || !isTraceKind(rawKind)) {
@@ -291,6 +326,7 @@ function isInspectionSection(value: string): value is BubbleInspectionSection {
         || value === "artifacts"
         || value === "commits"
         || value === "evidence"
+        || value === "sourceAttributions"
         || value === "observationStates"
         || value === "trace"
         || value === "report";
@@ -356,4 +392,29 @@ function isClaimStatus(value: string): value is NonNullable<BubbleInspectionQuer
 
 function assertNever(value: never): never {
     throw new Error(`Unhandled replay section: ${String(value)}`);
+}
+
+function isEvidenceKind(value: string): value is NonNullable<BubbleInspectionQuery["evidenceKind"]> {
+    return value === "observation-context"
+        || value === "collapse-record"
+        || value === "history-commit"
+        || value === "negative-sea-state"
+        || value === "positive-sea-state"
+        || value === "anchor-point-state"
+        || value === "effect-trace"
+        || value === "event-source-attribution";
+}
+
+function isAttributionStatus(value: string): value is NonNullable<BubbleInspectionQuery["attributionStatus"]> {
+    return value === "resolved" || value === "unresolved";
+}
+
+function isAttributionClassification(
+    value: string,
+): value is NonNullable<BubbleInspectionQuery["attributionClassification"]> {
+    return value === "internal-world-event"
+        || value === "negative-sea-pressure"
+        || value === "anchor-drift"
+        || value === "positive-sea-shift"
+        || value === "unresolved-source";
 }

@@ -94,6 +94,8 @@ An older AIPS repository plan remains useful as a reference model for future gro
 - [docs/architecture/repo-strategy.md](docs/architecture/repo-strategy.md): recommendation for running research and language work in one repository without losing separation
 - [docs/architecture/persistence-model.md](docs/architecture/persistence-model.md): how to represent many or unbounded bubble universes without explicit full storage
 - [docs/research/foundation.md](docs/research/foundation.md): core consistency problem and formal framing
+- [docs/project-memory.md](docs/project-memory.md): durable cross-session vocabulary, boundaries, and release discipline
+- [docs/research/idea-implementation-map.md](docs/research/idea-implementation-map.md): idea and question traceability into specifications, code, evidence, and next milestones
 - [docs/process/research-ops.md](docs/process/research-ops.md): rules for maintaining logs, ideas, questions, and hypotheses
 
 ## Current Operating Model
@@ -122,15 +124,18 @@ The repository now contains an executable Bubble Language stack rather than only
 - bounded consistency certificates and executable checks for `constraint`, `partial law`, `anchor identity`, and parseable world will
 - bounded observation-collapse evidence, observation states, observation commit policy, and replay surfaces
 - `v0.4.8` effect-trace causal links from authored effects to the concrete evidence records and descendant artifacts they explain
+- `v0.4.9` evidence-bounded event-source attribution for internal world events, negative-sea pressure, anchor drift, positive-sea shifts, and honestly unresolved sources
 
 Current stabilization commands:
 
 1. `npm install`
 2. `npm run verify`
 3. `npm run verify:core`
-4. `npm run verify:examples`
-5. `npm run verify:collapse`
-6. `npm run verify:replay`
+4. `npm run verify:records`
+5. `npm run verify:examples`
+6. `npm run verify:collapse`
+7. `npm run verify:replay`
+8. `npm run verify:attribution`
 
 Representative source examples:
 
@@ -139,8 +144,9 @@ Representative source examples:
 - [examples/observatory-loop.bubble](examples/observatory-loop.bubble)
 - [examples/collapse-threshold.bubble](examples/collapse-threshold.bubble)
 - [examples/collapse-mirror.bubble](examples/collapse-mirror.bubble)
+- [examples/attribution-crossroads.bubble](examples/attribution-crossroads.bubble)
 
-Observation-collapse is still a bounded runtime kernel in the `v0.4.8` stabilization line. It is not yet a general collapse solver, probabilistic replay model, or authored commit-policy language.
+Observation-collapse and event-source attribution are bounded runtime kernels in the completed `v0.4.9` line. They are not yet a general collapse solver, complete causal calculus, probabilistic replay model, or authored commit-policy language. The next version is `v0.5`; it should open one measurable research objective without erasing the still-open ideas and questions recorded in the repository.
 
 ## Repository Notes
 
@@ -149,3 +155,5 @@ Observation-collapse is still a bounded runtime kernel in the `v0.4.8` stabiliza
 - [docs/work-log.md](docs/work-log.md): progress log
 - [docs/research/question-log.md](docs/research/question-log.md): open research questions and status
 - [docs/research/hypothesis-log.md](docs/research/hypothesis-log.md): falsifiable hypotheses and test plans
+- [docs/research/boundary-log.md](docs/research/boundary-log.md): observed language and runtime membrane failures
+- [docs/architecture/v0.4.9-closure-plan.md](docs/architecture/v0.4.9-closure-plan.md): completed bounded convergence gate before `v0.5`

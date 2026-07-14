@@ -8,6 +8,44 @@ The point is not to treat every compiler error as deep theory.
 
 The point is to keep visible the classes of failure that show where Bubble's own membranes, compatibility rules, or self-descriptive limits need to harden.
 
+## 2026-07-15
+
+### B-005: Canonical README encoding escaped the ordinary text-edit boundary
+
+Observed surface:
+
+The repository README had become UTF-16 while the surrounding TypeScript and Markdown toolchain expected ordinary UTF-8 text. Normal line-oriented patching and inspection therefore treated a canonical public document as binary or failed to match its content reliably.
+
+Boundary meaning:
+
+This was a language-bubble tooling boundary failure: the semantic content still existed, but its encoding prevented the repository's normal inspection and editing surfaces from preserving that content transparently.
+
+Current handling:
+
+The README was normalized back to UTF-8 during `v0.4.8`. Canonical source and documentation files should remain UTF-8, and an encoding anomaly must be logged rather than handled as an invisible editor inconvenience.
+
+Next check:
+
+Keep README and canonical Markdown readable by the same text-oriented verification and patch surfaces used for the rest of the repository.
+
+### B-006: PowerShell command discovery selected a policy-blocked npm wrapper
+
+Observed surface:
+
+Running `npm run verify:records` or `npm run check` from PowerShell selected `npm.ps1`, which the local execution policy refused to load even though the installed Node and npm runtime were otherwise usable.
+
+Boundary meaning:
+
+The repository verification path crossed an operating-shell membrane whose wrapper policy was stricter than the underlying executable. Treating that failure as a test failure would confuse host tooling access with Bubble correctness.
+
+Current handling:
+
+Use `npm.cmd` for repository commands in this Windows PowerShell environment. The same record verification and TypeScript check passed through that executable.
+
+Next check:
+
+Keep user-facing Windows launch instructions explicit when a `.ps1` wrapper may be blocked, while preserving ordinary `npm` commands for shells where command discovery is not policy-constrained.
+
 ## 2026-05-15
 
 ### B-001: Unknown grammar base profile

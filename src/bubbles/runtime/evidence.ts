@@ -42,9 +42,58 @@ export type BubbleEvidenceKind =
     | "negative-sea-state"
     | "positive-sea-state"
     | "anchor-point-state"
-    | "effect-trace";
+    | "effect-trace"
+    | "event-source-attribution";
 
 export type BubbleEffectTraceMaterializationState = "potential" | "materialized";
+export type BubbleEventSourceClassification =
+    | "internal-world-event"
+    | "negative-sea-pressure"
+    | "anchor-drift"
+    | "positive-sea-shift"
+    | "unresolved-source";
+export type BubbleResolvedEventSourceClassification = Exclude<BubbleEventSourceClassification, "unresolved-source">;
+export type BubbleEventSourceAttributionStatus = "resolved" | "unresolved";
+export type BubbleEventSourceCandidateStrength = "direct" | "contextual";
+export type BubbleEventSourceSubjectKind =
+    | "collapse-record"
+    | "history-commit"
+    | "descendant-artifact"
+    | "observation-context";
+export type BubbleEventSourceOntologyField =
+    | "negativeSea.pressure"
+    | "positiveSea.support"
+    | "anchorPoint.identityStatus"
+    | "anchorPoint.rewindStability"
+    | "anchorPoint.materializedHistoryEvidence";
+export type BubbleEventSourceAttributionBasis =
+    | {
+        sourceKind: "authored-effect";
+        sourceId: string;
+        field: "kind" | "scope" | "requirement";
+    }
+    | {
+        sourceKind: "evidence-record";
+        sourceId: string;
+        field: string;
+    }
+    | {
+        sourceKind: "runtime-ontology";
+        sourceId: "runtime-ontology";
+        field: BubbleEventSourceOntologyField;
+    }
+    | {
+        sourceKind: "materialized-artifact";
+        sourceId: string;
+        field: "target" | "address";
+    };
+
+export interface BubbleEventSourceCandidate {
+    classification: BubbleResolvedEventSourceClassification;
+    strength: BubbleEventSourceCandidateStrength;
+    basis: BubbleEventSourceAttributionBasis[];
+    explanation: string;
+}
 export type BubbleEffectTraceCausalRelation =
     | "opens-observation-context"
     | "contributes-to-collapse-record"
@@ -171,9 +220,19 @@ export interface BubbleEffectTraceEvidenceRecord extends BubbleEvidenceRecordBas
 }
 
 export interface BubbleEffectTraceCausalLink {
-    targetKind: Exclude<BubbleEvidenceKind, "effect-trace"> | "materialized-artifact";
+    targetKind: Exclude<BubbleEvidenceKind, "effect-trace" | "event-source-attribution"> | "materialized-artifact";
     targetId: string;
     relation: BubbleEffectTraceCausalRelation;
+}
+
+export interface BubbleEventSourceAttributionEvidenceRecord extends BubbleEvidenceRecordBase {
+    kind: "event-source-attribution";
+    subjectKind: BubbleEventSourceSubjectKind;
+    subjectId: string;
+    status: BubbleEventSourceAttributionStatus;
+    classification: BubbleEventSourceClassification;
+    candidates: BubbleEventSourceCandidate[];
+    basis: BubbleEventSourceAttributionBasis[];
 }
 
 export type BubbleEvidenceRecord =
@@ -183,7 +242,8 @@ export type BubbleEvidenceRecord =
     | BubbleNegativeSeaEvidenceRecord
     | BubblePositiveSeaEvidenceRecord
     | BubbleAnchorPointEvidenceRecord
-    | BubbleEffectTraceEvidenceRecord;
+    | BubbleEffectTraceEvidenceRecord
+    | BubbleEventSourceAttributionEvidenceRecord;
 
 export function createSeaAnchorEvidence(
     program: BubbleProgramIR,
@@ -411,7 +471,7 @@ export function createEffectTraceEvidence(
 
     return program.bubble.effects.map((effect) => {
         const runtimeSignals = resolveEffectRuntimeSignals(effect, plan, artifacts, commits, program);
-        const materializationState = resolveEffectMaterializationState(effect, artifacts, commits, program);
+        const materializationState = resolveEffectMaterializationState(effect, artifacts, commits, program, supportingEvidence);
         const causalLinks = resolveEffectCausalLinks(effect, artifacts, supportingEvidence);
 
         return {
@@ -438,6 +498,301 @@ export function createEffectTraceEvidence(
     });
 }
 
+export function createEventSourceAttributionEvidence(
+    program: BubbleProgramIR,
+    assessment: BubbleSeaAnchorAssessment,
+    artifacts: MaterializedBubbleArtifact[],
+    supportingEvidence: BubbleEvidenceRecord[],
+    effectTraces: BubbleEffectTraceEvidenceRecord[],
+): BubbleEventSourceAttributionEvidenceRecord[] {
+    const rootAddressId = program.bubble.address.id;
+    const negativeSeaEvidence = supportingEvidence.find(
+        (evidence): evidence is BubbleNegativeSeaEvidenceRecord => evidence.kind === "negative-sea-state",
+    );
+    const positiveSeaEvidence = supportingEvidence.find(
+        (evidence): evidence is BubblePositiveSeaEvidenceRecord => evidence.kind === "positive-sea-state",
+    );
+    const anchorEvidence = supportingEvidence.find(
+        (evidence): evidence is BubbleAnchorPointEvidenceRecord => evidence.kind === "anchor-point-state",
+    );
+    const negativeSourceEffectIds = new Set(
+        assessment.negativeSea.pressureSources
+            .map((source) => source.sourceEffectId)
+            .filter((effectId): effectId is string => effectId !== null),
+    );
+    const materializedEffectIds = new Set(
+        effectTraces
+            .filter((trace) => trace.materializationState === "materialized")
+            .map((trace) => trace.effectId),
+    );
+    const attributions: BubbleEventSourceAttributionEvidenceRecord[] = [];
+    const collapseRecords = supportingEvidence.filter(
+        (evidence): evidence is BubbleCollapseRecordEvidenceRecord => evidence.kind === "collapse-record",
+    );
+
+    for (const collapse of collapseRecords) {
+        const negativeEffectIds = collapse.perturbEffectIds.filter(
+            (effectId) => negativeSourceEffectIds.has(effectId) && materializedEffectIds.has(effectId),
+        );
+        const localMaterialization = collapse.observationState.localMaterialization;
+        const hasConcreteAnchorDrift = localMaterialization?.stateStructure.anchorBinding === "drifting"
+            && collapse.commitStatus !== "committed"
+            && (
+                assessment.anchorPoint.identityStatus === "contradicted"
+                || assessment.anchorPoint.identityStatus === "undetermined"
+                || assessment.anchorPoint.rewindStability === "fragile"
+            );
+        const hasSpecificCandidate = negativeEffectIds.length > 0 || hasConcreteAnchorDrift;
+        const candidates: BubbleEventSourceCandidate[] = [];
+
+        if (collapse.triggerEffectIds.length > 0) {
+            candidates.push({
+                classification: "internal-world-event",
+                strength: hasSpecificCandidate ? "contextual" : "direct",
+                basis: [
+                    evidenceBasis(collapse.id, "triggerEffectIds"),
+                    ...collapse.triggerEffectIds.flatMap((effectId) => authoredEffectBasis(effectId)),
+                ],
+                explanation: hasSpecificCandidate
+                    ? "Authored local observation triggered this collapse, but more specific sea or anchor evidence also shaped the realized event."
+                    : "Authored local observation is the only concrete source carried by this collapse record.",
+            });
+        }
+
+        if (negativeEffectIds.length > 0) {
+            candidates.push({
+                classification: "negative-sea-pressure",
+                strength: "direct",
+                basis: [
+                    evidenceBasis(collapse.id, "perturbEffectIds"),
+                    ...negativeEffectIds.flatMap((effectId) => authoredEffectBasis(effectId)),
+                    ...(negativeSeaEvidence ? [evidenceBasis(negativeSeaEvidence.id, "pressureSources")] : []),
+                    ontologyBasis("negativeSea.pressure"),
+                ],
+                explanation: "A perturbation recorded on this concrete collapse is also an explicit negative-sea pressure source in the same run.",
+            });
+        }
+
+        if (hasConcreteAnchorDrift) {
+            candidates.push({
+                classification: "anchor-drift",
+                strength: "direct",
+                basis: [
+                    evidenceBasis(collapse.id, "observationState.localMaterialization.stateStructure.anchorBinding"),
+                    ...(anchorEvidence ? [evidenceBasis(anchorEvidence.id, "identityStatus")] : []),
+                    ontologyBasis("anchorPoint.identityStatus"),
+                    ontologyBasis("anchorPoint.rewindStability"),
+                ],
+                explanation: "The concrete local materialization is drifting while same-world identity or rewind support is not securely holding its uncommitted record.",
+            });
+        }
+
+        attributions.push(createAttributionRecord({
+            program,
+            subjectKind: "collapse-record",
+            subjectId: collapse.id,
+            subjectAddressId: collapse.subjectAddressId,
+            observationMode: collapse.observationMode,
+            emissionId: collapse.emissionId,
+            commitId: collapse.commitId,
+            candidates,
+        }));
+    }
+
+    for (const commit of supportingEvidence.filter(
+        (evidence): evidence is BubbleHistoryCommitEvidenceRecord => evidence.kind === "history-commit",
+    )) {
+        attributions.push(createAttributionRecord({
+            program,
+            subjectKind: "history-commit",
+            subjectId: commit.id,
+            subjectAddressId: commit.subjectAddressId,
+            observationMode: commit.observationMode,
+            emissionId: commit.emissionId,
+            commitId: commit.commitId,
+            candidates: [{
+                classification: "positive-sea-shift",
+                strength: "direct",
+                basis: [
+                    evidenceBasis(commit.id, "commitId"),
+                    ontologyBasis("anchorPoint.materializedHistoryEvidence"),
+                ],
+                explanation: "This concrete history commit changes durable continuity and therefore constitutes a positive-sea shift for its subject.",
+            }],
+        }));
+    }
+
+    for (const artifact of artifacts.filter((candidate) => candidate.target === "descendant")) {
+        const spawnTraces = effectTraces.filter((trace) =>
+            trace.materializationState === "materialized"
+            && trace.causalLinks.some((link) =>
+                link.targetKind === "materialized-artifact"
+                && link.targetId === artifact.emissionId
+                && link.relation === "enables-descendant-materialization"
+            )
+        );
+
+        attributions.push(createAttributionRecord({
+            program,
+            subjectKind: "descendant-artifact",
+            subjectId: artifact.emissionId,
+            subjectAddressId: artifact.address?.id ?? rootAddressId,
+            observationMode: program.bubble.generation.lifecycle.observationMode,
+            emissionId: artifact.emissionId,
+            commitId: null,
+            candidates: [{
+                classification: "positive-sea-shift",
+                strength: "direct",
+                basis: [
+                    artifactBasis(artifact.emissionId, "target"),
+                    ...spawnTraces.flatMap((trace) => authoredEffectBasis(trace.effectId)),
+                    ...(positiveSeaEvidence ? [evidenceBasis(positiveSeaEvidence.id, "supportSources")] : []),
+                    ontologyBasis("positiveSea.support"),
+                ],
+                explanation: "A descendant was concretely materialized with lineage provenance, changing placement and growth in the positive sea.",
+            }],
+        }));
+    }
+
+    if (collapseRecords.length === 0) {
+        for (const observation of supportingEvidence.filter(
+            (evidence): evidence is BubbleObservationEvidenceRecord => evidence.kind === "observation-context",
+        )) {
+            const observationTraces = effectTraces.filter((trace) =>
+                trace.materializationState === "materialized"
+                && trace.causalLinks.some((link) =>
+                    link.targetKind === "observation-context"
+                    && link.targetId === observation.id
+                )
+            );
+
+            if (observationTraces.length === 0) {
+                continue;
+            }
+
+            attributions.push(createAttributionRecord({
+                program,
+                subjectKind: "observation-context",
+                subjectId: observation.id,
+                subjectAddressId: observation.subjectAddressId,
+                observationMode: observation.observationMode,
+                emissionId: observation.emissionId,
+                commitId: observation.commitId,
+                candidates: [{
+                    classification: "internal-world-event",
+                    strength: "direct",
+                    basis: [
+                        evidenceBasis(observation.id, "observationMode"),
+                        ...observationTraces.flatMap((trace) => authoredEffectBasis(trace.effectId)),
+                    ],
+                    explanation: "The concrete observation context is caused by an authored observation effect and carries no more specific sea or anchor event evidence.",
+                }],
+            }));
+        }
+    }
+
+    return attributions;
+}
+
+function createAttributionRecord(input: {
+    program: BubbleProgramIR;
+    subjectKind: BubbleEventSourceSubjectKind;
+    subjectId: string;
+    subjectAddressId: string;
+    observationMode: string | null;
+    emissionId: string | null;
+    commitId: string | null;
+    candidates: BubbleEventSourceCandidate[];
+}): BubbleEventSourceAttributionEvidenceRecord {
+    const directCandidates = input.candidates.filter((candidate) => candidate.strength === "direct");
+    const directClassifications = [...new Set(directCandidates.map((candidate) => candidate.classification))];
+    const resolved = directClassifications.length === 1;
+    const classification: BubbleEventSourceClassification = resolved
+        ? directClassifications[0]
+        : "unresolved-source";
+    const basis = uniqueAttributionBasis(
+        (resolved ? directCandidates : input.candidates).flatMap((candidate) => candidate.basis),
+    );
+    const candidateNames = input.candidates.map((candidate) => `${candidate.classification}:${candidate.strength}`);
+
+    return {
+        id: `evidence:event-source:${input.subjectId}`,
+        kind: "event-source-attribution",
+        bubbleAddressId: input.program.bubble.address.id,
+        subjectAddressId: input.subjectAddressId,
+        sourcePath: input.program.sourcePath,
+        observationMode: input.observationMode,
+        emissionId: input.emissionId,
+        commitId: input.commitId,
+        subjectKind: input.subjectKind,
+        subjectId: input.subjectId,
+        status: resolved ? "resolved" : "unresolved",
+        classification,
+        candidates: input.candidates,
+        basis,
+        description: resolved
+            ? `Classified ${input.subjectKind} ${input.subjectId} as ${classification} from same-run evidence.`
+            : `Kept ${input.subjectKind} ${input.subjectId} as unresolved-source because direct evidence did not select exactly one class${candidateNames.length === 0 ? "" : ` among ${candidateNames.join(", ")}`}.`,
+    };
+}
+
+function authoredEffectBasis(effectId: string): BubbleEventSourceAttributionBasis[] {
+    return [
+        {
+            sourceKind: "authored-effect",
+            sourceId: effectId,
+            field: "kind",
+        },
+        {
+            sourceKind: "authored-effect",
+            sourceId: effectId,
+            field: "scope",
+        },
+    ];
+}
+
+function evidenceBasis(sourceId: string, field: string): BubbleEventSourceAttributionBasis {
+    return {
+        sourceKind: "evidence-record",
+        sourceId,
+        field,
+    };
+}
+
+function ontologyBasis(field: BubbleEventSourceOntologyField): BubbleEventSourceAttributionBasis {
+    return {
+        sourceKind: "runtime-ontology",
+        sourceId: "runtime-ontology",
+        field,
+    };
+}
+
+function artifactBasis(
+    sourceId: string,
+    field: Extract<BubbleEventSourceAttributionBasis, { sourceKind: "materialized-artifact" }>["field"],
+): BubbleEventSourceAttributionBasis {
+    return {
+        sourceKind: "materialized-artifact",
+        sourceId,
+        field,
+    };
+}
+
+function uniqueAttributionBasis(
+    basis: BubbleEventSourceAttributionBasis[],
+): BubbleEventSourceAttributionBasis[] {
+    const seen = new Set<string>();
+    return basis.filter((entry) => {
+        const key = `${entry.sourceKind}:${entry.sourceId}:${entry.field}`;
+        if (seen.has(key)) {
+            return false;
+        }
+
+        seen.add(key);
+        return true;
+    });
+}
+
 export function createCommitEvidence(
     program: BubbleProgramIR,
     commit: BubbleMaterializationCommit,
@@ -460,6 +815,7 @@ function resolveEffectMaterializationState(
     artifacts: MaterializedBubbleArtifact[],
     commits: BubbleMaterializationCommit[],
     program: BubbleProgramIR,
+    supportingEvidence: BubbleEvidenceRecord[],
 ): BubbleEffectTraceMaterializationState {
     switch (effect.kind) {
         case "observe":
@@ -472,8 +828,13 @@ function resolveEffectMaterializationState(
         case "collapse":
         case "leak":
         case "debt":
-        case "perturb":
             return "potential";
+        case "perturb":
+            return supportingEvidence.some(
+                (evidence) => evidence.kind === "collapse-record" && evidence.perturbEffectIds.includes(effect.id),
+            )
+                ? "materialized"
+                : "potential";
         default:
             return assertNever(effect.kind);
     }

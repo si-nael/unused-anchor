@@ -35,7 +35,15 @@
     "descendantCount": 0,
     "artifactCount": 0,
     "commitCount": 0,
-    "evidenceCount": 8,
+    "evidenceCount": 9,
+    "sourceAttributionCount": 1,
+    "sourceAttributionStatusCounts": {
+      "resolved": 1,
+      "unresolved": 0
+    },
+    "sourceAttributionClassifications": [
+      "internal-world-event"
+    ],
     "observationStateCount": 0,
     "reflectionPaths": [],
     "traceKinds": [
@@ -1372,6 +1380,120 @@
         }
       ],
       "description": "Bubble BoundaryOrchard recorded optional local branch as potential in this run via branch-pressure."
+    },
+    {
+      "id": "evidence:event-source:evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "subjectAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "sourcePath": "examples/boundary-orchard.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "subjectKind": "observation-context",
+      "subjectId": "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "status": "resolved",
+      "classification": "internal-world-event",
+      "candidates": [
+        {
+          "classification": "internal-world-event",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+              "field": "observationMode"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:observe",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:observe",
+              "field": "scope"
+            }
+          ],
+          "explanation": "The concrete observation context is caused by an authored observation effect and carries no more specific sea or anchor event evidence."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "field": "observationMode"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:observe",
+          "field": "kind"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:observe",
+          "field": "scope"
+        }
+      ],
+      "description": "Classified observation-context evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard as internal-world-event from same-run evidence."
+    }
+  ],
+  "sourceAttributions": [
+    {
+      "id": "evidence:event-source:evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "kind": "event-source-attribution",
+      "bubbleAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "subjectAddressId": "bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "sourcePath": "examples/boundary-orchard.bubble",
+      "observationMode": "witness",
+      "emissionId": null,
+      "commitId": null,
+      "subjectKind": "observation-context",
+      "subjectId": "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+      "status": "resolved",
+      "classification": "internal-world-event",
+      "candidates": [
+        {
+          "classification": "internal-world-event",
+          "strength": "direct",
+          "basis": [
+            {
+              "sourceKind": "evidence-record",
+              "sourceId": "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+              "field": "observationMode"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:observe",
+              "field": "kind"
+            },
+            {
+              "sourceKind": "authored-effect",
+              "sourceId": "effect:8:observe",
+              "field": "scope"
+            }
+          ],
+          "explanation": "The concrete observation context is caused by an authored observation effect and carries no more specific sea or anchor event evidence."
+        }
+      ],
+      "basis": [
+        {
+          "sourceKind": "evidence-record",
+          "sourceId": "evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard",
+          "field": "observationMode"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:observe",
+          "field": "kind"
+        },
+        {
+          "sourceKind": "authored-effect",
+          "sourceId": "effect:8:observe",
+          "field": "scope"
+        }
+      ],
+      "description": "Classified observation-context evidence:observe:bubble:examples/boundary-orchard.bubble::root:BoundaryOrchard as internal-world-event from same-run evidence."
     }
   ],
   "observationStates": [],

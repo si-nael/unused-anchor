@@ -33,7 +33,7 @@ test("records a materialized bubble into a replayable run bundle", () => {
     assert.equal(record.sourcePath, "archive.bubble");
     assert.equal(record.bubbleName, "Archive");
     assert.equal(record.commitCount, 1);
-    assert.equal(record.evidenceCount, 8);
+    assert.equal(record.evidenceCount, 11);
     assert.equal(record.traceCount, 4);
     assert.equal(record.materialization.plan.proof.mode, "bubble-consistency-certificate.v1");
     assert.equal(record.materialization.plan.proof.verdict, "partially-certified");
@@ -50,6 +50,9 @@ test("records a materialized bubble into a replayable run bundle", () => {
         "effect-trace",
         "effect-trace",
         "effect-trace",
+        "event-source-attribution",
+        "event-source-attribution",
+        "event-source-attribution",
     ]);
 });
 
@@ -122,7 +125,7 @@ test("records and replays collapse-record evidence for observed latent regions",
     const replayed = replayBubbleRecord(record);
     const collapseEvidence = replayed.evidence.filter((entry) => entry.kind === "collapse-record");
 
-    assert.equal(record.evidenceCount, 10);
+    assert.equal(record.evidenceCount, 13);
     assert.deepEqual(record.materialization.evidence.map((entry) => entry.kind), [
         "negative-sea-state",
         "positive-sea-state",
@@ -134,6 +137,9 @@ test("records and replays collapse-record evidence for observed latent regions",
         "effect-trace",
         "effect-trace",
         "effect-trace",
+        "event-source-attribution",
+        "event-source-attribution",
+        "event-source-attribution",
     ]);
     assert.equal(collapseEvidence.length, 2);
     assert.deepEqual(collapseEvidence.map((entry) => entry.observationStateId), [
@@ -559,4 +565,42 @@ test("replay can filter proof claims by id, kind, and status", () => {
     });
     assert.deepEqual(byId.proof.claims.map((claim) => claim.id), ["claim:lineage-traceability"]);
     assert.deepEqual(byId.proof, byId.plan.proof);
+});
+
+test("replay preserves event-source attribution verdict, candidates, and basis", () => {
+    const source = [
+        "bubble AttributionCrossroads {",
+        "  axiom coherence = stable",
+        "  will axiom.coherence = \"broken\"",
+        "  seed crossroads_seed",
+        "  observe witness",
+        "  anchor identity = axiom.coherence = \"broken\"",
+        "  effect observe required",
+        "  effect commit required",
+        "  effect debt required",
+        "  effect branch optional",
+        "  effect perturb optional",
+        "  hidden region Crossroads",
+        "  hidden region CrossroadsMirror",
+        "}",
+    ].join("\n");
+
+    const { program } = compileBubbleSource(source, { sourcePath: "attribution-crossroads-replay.bubble" });
+    const record = recordBubbleProgram(program);
+    const storedAttributions = record.materialization.evidence.filter(
+        (evidence) => evidence.kind === "event-source-attribution" && evidence.status === "unresolved",
+    );
+    const replayed = replayBubbleRecord(record, {
+        attributionStatus: "unresolved",
+        attributionClassification: "negative-sea-pressure",
+    });
+
+    assert.equal(storedAttributions.length, 1);
+    assert.deepEqual(replayed.sourceAttributions, storedAttributions);
+    assert.ok(replayed.sourceAttributions.every((entry) => entry.classification === "unresolved-source"));
+    assert.ok(replayed.sourceAttributions.every((entry) => entry.basis.length > 0));
+    assert.deepEqual(replayed.summary.sourceAttributionStatusCounts, {
+        resolved: 0,
+        unresolved: 1,
+    });
 });

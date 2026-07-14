@@ -1,16 +1,18 @@
 {
     "name": "unused-anchor",
-    "version": "0.4.8",
+    "version": "0.4.9",
     "private": true,
     "description": "Bubbles language bootstrap for procedural world definition and inspection.",
     "scripts": {
         "build": "tsc -p tsconfig.json",
         "check": "tsc -p tsconfig.json --noEmit",
         "verify:core": "npm run check && npm test",
+        "verify:records": "tsx --test tests/unit/research-records.test.ts",
         "verify:examples": "npm run validate:example && npm run compile:example && npm run inspect:boundary-example && npm run compile:grammar-example && npm run inspect:grammar-example && npm run inspect:grammar-chain-example && npm run plan:meta-example && npm run materialize:meta-example && npm run inspect:meta-example && npm run materialize:observatory-example && npm run inspect:observatory-example",
         "verify:collapse": "npm run materialize:collapse-example && npm run inspect:collapse-example && npm run materialize:collapse-open-example && npm run inspect:collapse-open-example && npm run materialize:collapse-mixed-example && npm run inspect:collapse-mixed-example",
         "verify:replay": "npm run record:collapse-mirror-example && npm run inspect:collapse-mirror-example && npm run replay:collapse-mirror-example && npm run record:meta-example && npm run replay:meta-example",
-        "verify": "npm run verify:core && npm run verify:examples && npm run verify:collapse && npm run verify:replay",
+        "verify:attribution": "npm run materialize:attribution-example && npm run inspect:attribution-example && npm run record:attribution-example && npm run replay:attribution-example",
+        "verify": "npm run verify:core && npm run verify:examples && npm run verify:collapse && npm run verify:replay && npm run verify:attribution",
         "validate:example": "tsx apps/hatchery/compile-bubble.ts --check examples/first-world.bubble",
         "compile:example": "tsx apps/hatchery/compile-bubble.ts examples/first-world.bubble data/runs/first-world.ir.json",
         "inspect:boundary-example": "tsx apps/hatchery/inspect-bubble.ts examples/boundary-orchard.bubble data/runs/boundary-orchard.inspect.json --section report",
@@ -33,6 +35,10 @@
         "replay:collapse-mirror-example": "tsx apps/hatchery/replay-bubble.ts data/runs/collapse-mirror.replay.json data/runs/collapse-mirror.replayed-report.json --section report",
         "record:meta-example": "tsx apps/hatchery/record-bubble.ts examples/meta-grove.bubble data/runs/meta-grove.replay.json",
         "replay:meta-example": "tsx apps/hatchery/replay-bubble.ts data/runs/meta-grove.replay.json data/runs/meta-grove.replayed-summary.json --section summary",
+        "materialize:attribution-example": "tsx apps/hatchery/materialize-bubble.ts examples/attribution-crossroads.bubble data/runs/attribution-crossroads.materialized.json",
+        "inspect:attribution-example": "tsx apps/hatchery/inspect-bubble.ts examples/attribution-crossroads.bubble data/runs/attribution-crossroads.inspect.json --section sourceAttributions --attribution-status unresolved",
+        "record:attribution-example": "tsx apps/hatchery/record-bubble.ts examples/attribution-crossroads.bubble data/runs/attribution-crossroads.replay.json",
+        "replay:attribution-example": "tsx apps/hatchery/replay-bubble.ts data/runs/attribution-crossroads.replay.json data/runs/attribution-crossroads.replayed-attributions.json --section sourceAttributions --attribution-status unresolved",
         "test": "tsx --test tests/unit/**/*.test.ts"
     },
     "devDependencies": {
