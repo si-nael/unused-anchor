@@ -967,3 +967,33 @@ The exact runtime now connects formal fields, protagonist action, sea-dependent 
 Consequence:
 
 Certify `v0.5.1` as a bounded connected release while OB-001 remains open. Keep the next release identifier undecided until the completed boundary is reviewed. Preserve Q-022 recursive self-construction as deferred, and do not commit or stage this session's work.
+
+### D-097: Correct mandatory narrative by forward generalization in v0.5.2
+
+Reason:
+
+The author introduced protagonists and stories as an explanatory image of the richness a Bubble should permit, then clarified that forcing those concepts into every world would damage the original project. Deleting them would make the opposite error. `v0.5.1` is already a completed and pushed bounded release, so rewriting it would also destroy valid evidence and version history.
+
+Consequence:
+
+Keep `bubble-anchored-narrative-world.v1` unchanged as an explicitly agent-bearing special case. Make `v0.5.2` the forward corrective release and add a separate actor-neutral causal world kernel from which persistent beings, agency, relations, and stories may later arise. Preserve D-092 and D-093 as historical decisions whose universal reading is superseded by AI-20260715-012 through AI-20260715-015 and Q-023.
+
+### D-098: Generate events from state-bound internal laws and keep World Will out of protected structure
+
+Reason:
+
+A pre-authored event graph can demonstrate a story but cannot establish that the Bubble itself forms its causal development. Conversely, letting World Will directly write a field called coherence or agency would only rename external construction as emergence. Simultaneously enabled laws also cannot inherit an arbitrary host order without violating organic necessity.
+
+Consequence:
+
+In `bubble-anchored-causal-program.v2`, evaluate exact state-bound guards to generate causal events. Apply a simultaneous frontier only when its effects commute; otherwise return `underdetermined`. World Will may optimize and alter permitted condition, boundary, sea, or viability fields through an identity-checked anchor, but may not mutate protected internal fields. Record generic emergence from initial/final predicates and witnesses without assigning protagonist, life, or story identity in the core.
+
+### D-099: Require post-state identity and evidence integrity before closing v0.5.2
+
+Reason:
+
+Passing canonical examples did not prove that an intervention preserved anchor identity, that simultaneous contributors remained present in the causal graph, that viability traces used one semantic layer, that the search bound constrained allocation, or that stored replay content was intact. Each gap admitted a concrete counterexample while ordinary tests still passed.
+
+Consequence:
+
+Do not close `v0.5.2` from the happy path alone. Re-evaluate every declared anchor after candidate closure; preserve all direct same-frontier causes; distinguish intrinsic from sea-coupled viability in traces; enumerate intervention subsets lazily under an exact cardinality bound; and require stored-run, program, and full-run digest agreement for same-world re-execution. Reject unknown runtime override names and require an explicit target for stabilization. Keep one regression test for each counterexample.

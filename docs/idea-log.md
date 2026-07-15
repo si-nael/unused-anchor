@@ -2,6 +2,14 @@
 
 ## 2026-07-15
 
+### A universe from which agents and stories may arise
+
+- The protagonist example was explanatory. Requiring every Bubble to start with a named protagonist and authored story would narrow the original universe into a fiction schema.
+- The correction is not removal. Persistent beings, agency, relationships, and narrative histories must remain realizable as structures generated and sustained by world law when their conditions arise.
+- The general core is world state, guarded local law, boundaries, positive and negative seas, anchors, World Will, causal order, and committed history. An agent or story is a possible higher-order organization of that substrate.
+- World Will is an internal objective-and-constraint orientation, not a narrator. It may alter lawful conditions through anchors but may not directly manufacture protected internal structure and call it emergence.
+- `v0.5.2` preserves the pushed `v0.5.1` narrative kernel as a compatible agent-bearing specialization and adds a separate actor-neutral generative causal kernel.
+
 ### Formal language for infinity without natural-language execution
 
 - Natural language is necessary for preserving the author's ideas and may remain an authoring aid, but it cannot be the authority that decides executable world law.

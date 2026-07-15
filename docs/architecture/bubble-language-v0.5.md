@@ -102,4 +102,4 @@ An explicit continuation resume may evaluate the next lawful realization. It mus
 
 ## Honest Boundary
 
-This release is the first organic self-realization kernel, not the completed bubble universe. Multi-step autonomous closure, richer state coupling, concrete branch/spawn/collapse execution, sea dynamics, and a full identity/time calculus remain live work for `v0.5.1` and later. Observer and agent work remains Phase 2.
+This release is the first organic self-realization kernel, not the completed bubble universe. `v0.5.1` later proves an explicit agent-bearing connected seam, and `v0.5.2` adds actor-neutral multi-frontier causal closure with generic emergence. Persistent/cyclic dynamics, derived identity and agency, concrete branch/spawn/collapse execution, global sea dynamics, and a full identity/time calculus remain live work. External observer-agent and comparison work remains Phase 2.

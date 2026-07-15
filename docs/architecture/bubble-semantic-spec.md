@@ -669,7 +669,7 @@ Until this semantic specification is stable enough, Bubble should prefer semanti
 
 That means the immediate priority is not arbitrary feature growth.
 
-The current Phase 1 priority is to complete the bubble universe before adding embedded observer or agent systems. `v0.5` begins that work with an organic self-realization kernel. `v0.5.1` and later should tighten and connect:
+The current Phase 1 priority is to complete the bubble universe before adding external observer-agent or comparison systems. `v0.5` begins that work with an organic self-realization kernel. `v0.5.1` proves an explicit agent-bearing seam; `v0.5.2` generalizes the minimum to actor-neutral state-generated causal closure while retaining agents and stories as lawful emergent possibilities. Later releases should tighten and connect:
 
 - worldhood
 - autonomous continuation

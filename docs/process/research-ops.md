@@ -76,7 +76,7 @@ Completing one bounded implementation slice does not close the larger user idea 
 - do not promote an implementation proxy into the full intended ontology
 - never alter an author quotation to match a later implementation; update only its separate obligation status and evidence
 
-`v0.5.0` follows `v0.4.9` and establishes the Phase 1 self-realization baseline. Completed `v0.5.1` closes the first exact anchored-narrative execution seam while leaving whole-universe completion open. Each `v0.5.x` release must close one connected world-semantic seam while preserving the rest of the idea and question ledger. Observer, agent, and comparative benchmark work remains Phase 2 until the bubble universe itself is sufficiently complete.
+`v0.5.0` follows `v0.4.9` and establishes the Phase 1 self-realization baseline. Completed `v0.5.1` closes the first exact explicit anchored-narrative seam. Completed bounded `v0.5.2` corrects its universal reading with an actor-neutral state-generated causal kernel while preserving the narrative kernel as a specialization. Each `v0.5.x` release must close one connected world-semantic seam while preserving the rest of the idea and question ledger. Observer, external-agent, and comparative benchmark work remains Phase 2 until the bubble universe itself is sufficiently complete.
 
 ## Practical Rule
 

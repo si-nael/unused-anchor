@@ -1,0 +1,266 @@
+{
+  "mode": "bubble-anchored-causal-program.v2",
+  "world": {
+    "mode": "bubble-anchored-causal-world.v2",
+    "formal": {
+      "mode": "bubble-intensional-system.v1",
+      "families": [
+        {
+          "id": "positive-initial",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "rational",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "rational", "numerator": "2", "denominator": "1" } }
+        },
+        {
+          "id": "negative-initial",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "rational",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+        },
+        {
+          "id": "viability-initial",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "rational",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+        },
+        {
+          "id": "zero-initial",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "rational",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "rational", "numerator": "0", "denominator": "1" } }
+        },
+        {
+          "id": "always-true",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "boolean",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "boolean", "value": true } }
+        },
+        {
+          "id": "coherence-is-zero",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "boolean",
+          "parameters": [{ "name": "coherence", "valueKind": "rational" }],
+          "body": {
+            "kind": "binary",
+            "operator": "equal",
+            "left": { "kind": "parameter", "name": "coherence" },
+            "right": { "kind": "value", "value": { "kind": "rational", "numerator": "0", "denominator": "1" } }
+          }
+        },
+        {
+          "id": "coherence-is-one",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "boolean",
+          "parameters": [{ "name": "coherence", "valueKind": "rational" }],
+          "body": {
+            "kind": "binary",
+            "operator": "equal",
+            "left": { "kind": "parameter", "name": "coherence" },
+            "right": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+          }
+        },
+        {
+          "id": "condition-meets-structure",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "boolean",
+          "parameters": [
+            { "name": "condition", "valueKind": "rational" },
+            { "name": "coherence", "valueKind": "rational" }
+          ],
+          "body": {
+            "kind": "binary",
+            "operator": "and",
+            "left": {
+              "kind": "binary",
+              "operator": "equal",
+              "left": { "kind": "parameter", "name": "condition" },
+              "right": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+            },
+            "right": {
+              "kind": "binary",
+              "operator": "greater-than-or-equal",
+              "left": { "kind": "parameter", "name": "coherence" },
+              "right": { "kind": "value", "value": { "kind": "rational", "numerator": "2", "denominator": "1" } }
+            }
+          }
+        },
+        {
+          "id": "coherent-structure",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "boolean",
+          "parameters": [{ "name": "coherence", "valueKind": "rational" }],
+          "body": {
+            "kind": "binary",
+            "operator": "greater-than-or-equal",
+            "left": { "kind": "parameter", "name": "coherence" },
+            "right": { "kind": "value", "value": { "kind": "rational", "numerator": "2", "denominator": "1" } }
+          }
+        }
+      ]
+    },
+    "worlds": [
+      {
+        "id": "field-world",
+        "fields": [
+          { "id": "positive", "familyId": "positive-initial", "role": "positive-sea" },
+          { "id": "negative", "familyId": "negative-initial", "role": "negative-sea" },
+          { "id": "viability", "familyId": "viability-initial", "role": "viability" },
+          { "id": "density", "familyId": "zero-initial", "role": "world-state" },
+          { "id": "coherence", "familyId": "zero-initial", "role": "structural-state" },
+          { "id": "condition", "familyId": "zero-initial", "role": "world-condition" }
+        ],
+        "protectedFieldIds": ["coherence"],
+        "seaCoupling": {
+          "positiveFieldId": "positive",
+          "negativeFieldId": "negative",
+          "viabilityFieldId": "viability"
+        }
+      }
+    ],
+    "anchors": [
+      {
+        "id": "field-anchor",
+        "endpoints": [
+          { "kind": "world", "worldId": "field-world", "portId": "field-boundary" },
+          {
+            "kind": "unresolved-world-relation",
+            "relationId": "unique-world-topology",
+            "portId": "unresolved-origin",
+            "questionId": "Q-021"
+          }
+        ],
+        "identityPredicateFamilyIds": ["always-true"],
+        "permittedInterventionKinds": ["condition"]
+      }
+    ],
+    "worldWill": {
+      "id": "field-will",
+      "objectives": [
+        {
+          "id": "preserve-field-viability",
+          "targetWorldId": "field-world",
+          "fieldId": "viability",
+          "direction": "maximize",
+          "weight": { "kind": "rational", "numerator": "1", "denominator": "1" }
+        }
+      ],
+      "hardConstraintFamilyIds": ["always-true"],
+      "interventions": [
+        {
+          "id": "alter-boundary-condition",
+          "targetWorldId": "field-world",
+          "anchorId": "field-anchor",
+          "kind": "condition",
+          "effects": [
+            { "fieldId": "condition", "operation": "set", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
+            { "fieldId": "viability", "operation": "add", "value": { "kind": "rational", "numerator": "3", "denominator": "1" } }
+          ]
+        }
+      ]
+    },
+    "internalLaws": [
+      {
+        "id": "condense",
+        "worldId": "field-world",
+        "guard": {
+          "id": "condense-when-diffuse",
+          "query": { "familyId": "coherence-is-zero", "at": { "coordinate": "0" }, "parameters": {} },
+          "fieldParameters": [{ "parameterName": "coherence", "worldId": "field-world", "fieldId": "coherence" }]
+        },
+        "effects": [
+          { "fieldId": "density", "operation": "add", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
+          { "fieldId": "coherence", "operation": "add", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+        ],
+        "application": "once-per-realization",
+        "reversibility": "irreversible"
+      },
+      {
+        "id": "self-organize",
+        "worldId": "field-world",
+        "guard": {
+          "id": "organize-when-condensed",
+          "query": { "familyId": "coherence-is-one", "at": { "coordinate": "0" }, "parameters": {} },
+          "fieldParameters": [{ "parameterName": "coherence", "worldId": "field-world", "fieldId": "coherence" }]
+        },
+        "effects": [
+          { "fieldId": "coherence", "operation": "add", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+        ],
+        "application": "once-per-realization",
+        "reversibility": "irreversible",
+        "commitAffectedFieldIds": ["density", "coherence"]
+      },
+      {
+        "id": "respond-to-condition",
+        "worldId": "field-world",
+        "guard": {
+          "id": "respond-after-organization",
+          "query": { "familyId": "condition-meets-structure", "at": { "coordinate": "0" }, "parameters": {} },
+          "fieldParameters": [
+            { "parameterName": "condition", "worldId": "field-world", "fieldId": "condition" },
+            { "parameterName": "coherence", "worldId": "field-world", "fieldId": "coherence" }
+          ]
+        },
+        "effects": [
+          { "fieldId": "coherence", "operation": "add", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
+          { "fieldId": "positive", "operation": "add", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+        ],
+        "application": "once-per-realization",
+        "reversibility": "irreversible"
+      }
+    ],
+    "emergenceCriteria": [
+      {
+        "id": "coherent-pattern",
+        "worldId": "field-world",
+        "predicate": {
+          "id": "coherent-pattern-present",
+          "query": { "familyId": "coherent-structure", "at": { "coordinate": "0" }, "parameters": {} },
+          "fieldParameters": [{ "parameterName": "coherence", "worldId": "field-world", "fieldId": "coherence" }]
+        },
+        "witnessFieldIds": ["density", "coherence"]
+      }
+    ],
+    "order": { "kind": "causal-partial-order", "universalClock": false }
+  },
+  "fieldInitializers": [
+    { "worldId": "field-world", "fieldId": "positive", "query": { "familyId": "positive-initial", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "field-world", "fieldId": "negative", "query": { "familyId": "negative-initial", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "field-world", "fieldId": "viability", "query": { "familyId": "viability-initial", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "field-world", "fieldId": "density", "query": { "familyId": "zero-initial", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "field-world", "fieldId": "coherence", "query": { "familyId": "zero-initial", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "field-world", "fieldId": "condition", "query": { "familyId": "zero-initial", "at": { "coordinate": "0" }, "parameters": {} } }
+  ],
+  "seaLaws": [
+    {
+      "worldId": "field-world",
+      "positiveWeight": { "kind": "rational", "numerator": "1", "denominator": "1" },
+      "negativeWeight": { "kind": "rational", "numerator": "1", "denominator": "1" }
+    }
+  ],
+  "execution": {
+    "decisionMode": "deterministic",
+    "hardConstraints": [
+      {
+        "id": "field-remains-admissible",
+        "query": { "familyId": "always-true", "at": { "coordinate": "0" }, "parameters": {} },
+        "fieldParameters": []
+      }
+    ],
+    "anchorIdentity": [
+      {
+        "id": "field-anchor-remains-itself",
+        "anchorId": "field-anchor",
+        "query": { "familyId": "always-true", "at": { "coordinate": "0" }, "parameters": {} },
+        "fieldParameters": []
+      }
+    ],
+    "interventionCosts": [
+      { "interventionId": "alter-boundary-condition", "cost": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+    ]
+  }
+}

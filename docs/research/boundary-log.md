@@ -10,6 +10,24 @@ The point is to keep visible the classes of failure that show where Bubble's own
 
 ## 2026-07-15
 
+### B-009: Explanatory protagonist metaphor crossed into mandatory world ontology
+
+Observed surface:
+
+The completed `v0.5.1` seam required named protagonists and an authored story graph in every world kernel. The implementation was internally consistent and useful for an agent-bearing example, but it treated the author's explanatory analogy as the universal minimum of a Bubble and risked turning a universe project into a narrative schema.
+
+Boundary meaning:
+
+An example crossed the membrane between evidence and ontology. The correction cannot be deletion, because worlds must still be able to form persistent beings and stories naturally. It must move the universal boundary downward to causal state, law, seas, anchors, World Will, and history while retaining stronger structures as lawful possibilities.
+
+Current handling:
+
+`v0.5.1` remains immutable as a pushed bounded release. `v0.5.2` adds the actor-neutral `bubble-anchored-causal-world.v2`; internal guards generate events, generic predicates record emergence, protected fields block direct World-Will manufacture, and the narrative kernel is tested as a compatible special case.
+
+Next check:
+
+Reject both mandatory narrative labels and their blanket removal. Require executable persistence, boundary, memory, or counterfactual evidence before promoting an emergent structure to a stronger ontology such as agent, protagonist, relationship, or story.
+
 ### B-008: Independent semantic-regime selection violated the organic-world boundary
 
 Observed surface:

@@ -61,7 +61,8 @@ Engineering interpretation:
 
 Engineering interpretation:
 
-- Protagonists and their agency are internal Phase 1 world constituents, not the deferred Phase 2 external observer-agent benchmark.
+- This passage establishes a concrete possible world rich enough to test agency and intervention; AI-20260715-012 through AI-20260715-014 later clarify that its protagonist language is explanatory, not a universal minimum ontology.
+- When protagonists do arise, they and their agency are internal Phase 1 world constituents, not the deferred Phase 2 external observer-agent benchmark.
 - World Will needs explicit objectives and constraints, and its intervention must be routed through anchors without reducing protagonists to puppets.
 - The phrase `고유 세계` does not yet settle whether there is one privileged root, a relational base for each bubble, or another topology; implementation must not choose one silently.
 
@@ -111,6 +112,42 @@ Engineering interpretation:
 - This was explicitly excluded from the completed `v0.5.1` gate and must not displace completion of the currently intended Bubble universe.
 - Reopen implementation only after the existing idea-obligation ledger has been fully realized and the author accepts the current Bubble as complete.
 - Existing `quote`, `generator`, reflection, grammar-artifact, and intensional-kernel work may become bootstrap material later, but none currently constitutes recursive self-hosting.
+
+### AI-20260715-012: Protagonist was an explanation, not a mandatory primitive
+
+> 주인공은 내가 설명을 하기 위해 도입한거지, 억지로 도입하면 망가질걸...
+
+Engineering interpretation:
+
+- A Bubble world must not be required to begin as a cast list or authored narrative.
+- The `v0.5.1` narrative kernel remains valid for explicitly agent-bearing worlds, but cannot define the universal minimum for worldhood.
+
+### AI-20260715-013: Do not erase protagonists; make their emergence possible
+
+> 아니지. 없애는게 아니라, 자연스럽게 나올 수 있는 구조를 만드는거지.
+
+Engineering interpretation:
+
+- Correcting forced narrative does not mean banning beings, agency, relationships, or stories.
+- The core must provide fields, laws, boundaries, memory, causal persistence, and emergence evidence from which stronger structures can arise lawfully.
+
+### AI-20260715-014: Bubble is a universe, not a novel
+
+> 나는 소설을 쓰는게 아니라, 진짜 거품 우주를 만드는거야
+
+Engineering interpretation:
+
+- Narrative is at most one projection of a world history; it is not the substance or success criterion of Bubble.
+- World state and events must be produced by coupled law, seas, anchors, boundaries, and World Will, not by a pre-authored plot graph.
+
+### AI-20260715-015: Preserve the philosophy that predates the implementation
+
+> 그래. 해. 나는 소설 쓰는게 아니다. 너가 건드리기 전 철학을 잘 계승해
+
+Engineering interpretation:
+
+- Later implementation convenience may not silently replace the earlier sea-anchor and independent-world ontology.
+- Correct mistaken narrowing by forward generalization, preserve immutable prior releases and idea records, and keep remaining consequences open.
 
 ## Non-Closure Rule
 

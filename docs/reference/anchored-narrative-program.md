@@ -3,6 +3,8 @@
 Recorded: 2026-07-15  
 Applies to: `bubble-anchored-narrative-program.v1` in `v0.5.1`
 
+Compatibility note: from `v0.5.2`, this remains the explicit agent-bearing specialization. The actor-neutral general kernel is documented in [Anchored Causal World Reference](anchored-causal-world.md).
+
 ## Purpose
 
 This program is the first bounded executable form in which a formal world field, internal protagonist action, positive and negative sea projection, anchor-mediated World Will, causal story consequence, and history record operate in one run. Natural-language prose may explain a program but never supplies missing runtime law.

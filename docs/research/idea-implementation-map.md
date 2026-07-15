@@ -24,7 +24,7 @@ This map prevents user ideas, research questions, specifications, implementation
 | World will acts as governing law rather than lore | Q-001, Q-004, Q-009, Q-018 | Executable candidate-admission law over projected state and realization consequence | Implemented bounded baseline | Extend through concrete autonomous continuation seams in `v0.5.x` |
 | A world may change without universal time | Q-018, Q-019 | No-universal-clock self-realization, explicit causal DAG, separate host evaluation order, reciprocal reversibility, and commit-only history arrow | Partial | Add cycles, concurrency, or synchronization only from a concrete world requirement |
 | Finite language denotes infinity and infinite-dimensional world structure | Q-006, Q-009, Q-020 | Exact intensional families, countable product domains, guarded recursion, demand proofs, state-bound narrative predicates, honest budget exhaustion | Implemented bounded baseline | Extend only from a concrete representation failure |
-| Distinct protagonists carry autonomous stories inside each bubble | Q-001, Q-018, Q-021 | Typed protagonist/goal/relationship/story/event IR, executable autonomous causal closure, agency validation, counterfactual analysis, inspection and replay | Partial | Add persistent or relationship-mediated story behavior from a concrete need |
+| Persistent beings, agency, and stories may arise without being mandatory world primitives | Q-001, Q-018, Q-021, Q-023 | Actor-neutral causal fields/laws and emergence evidence plus a compatible explicit protagonist/goal/relationship/story specialization | Partial | Add persistence, boundary, memory, and counterfactual agency from an unlabeled structure |
 | World Will intervenes through anchors under objectives without puppeteering protagonists | Q-004, Q-018, Q-021 | Exact global objective/cost, post-state hard constraints, identity-checked anchor execution, no-choice-overwrite guard, causal trace, cut-anchor counterfactual | Implemented bounded baseline | Extend to cross-world anchor transfer without weakening agency |
 | Bubble recursively creates modules, code, and a successor form of itself | Q-009, Q-012, Q-022 | Meta artifacts, staged grammar descriptions, reflection, and an intensional kernel are precursors only | Deferred | Reopen after every prior obligation and the current Bubble universe are complete |
 | A dedicated language raises the representability frontier | Q-008, Q-009 | Versioned DSL, typed AST/IR, partial laws, constraints, quotations, reflection, latent semantics | Implemented baseline | Compare one Bubble-native task with a realistic host-language embedding |
@@ -43,7 +43,7 @@ This map prevents user ideas, research questions, specifications, implementation
 | Q-002 negative sea | Partial | Exact local pressure changes viability, but global transport and erosion laws do not exist | Reopen from a multi-world or membrane-pressure case |
 | Q-003 positive sea | Partial | Exact local support changes viability, but placement/growth transport does not exist | Reopen from lineage placement or cross-world growth |
 | Q-004 strong anchor | Partial | Inferred score and criterion are not a full identity calculus | Later same-world counterexamples |
-| Q-005 same-world replay | Partial | v0.5.1 has deterministic same-program re-execution, not a universal identity theorem across implementations | Extend from a concrete migration or semantic-version case |
+| Q-005 same-world replay | Partial | v0.5.1 and v0.5.2 have deterministic same-program re-execution, not a universal identity theorem across implementations | Extend from a concrete migration or semantic-version case |
 | Q-006 unbounded multiverse | Partial | Intensional forms exist without scale/storage experiment | Later Phase 1 lineage experiment |
 | Q-007 latent-to-history commit | Partial | Single-region runtime policy lacks coupled commits | Reopen only from second-region case |
 | Q-008 DSL or general language | Answered for current architecture | Long-term language shape may still evolve | Dedicated constrained DSL remains in force |
@@ -56,11 +56,12 @@ This map prevents user ideas, research questions, specifications, implementation
 | Q-015 probabilistic-fractal worldhood | Deferred | Identity and replay under probability clouds are undefined | Later, after deterministic world core |
 | Q-016 observation materialization | Implemented bounded baseline | No coupled regions or general solver | Keep closed until concrete reopen condition |
 | Q-017 observation-changing replay | Partial | History shape is preserved but not separately proven | Reopen after deterministic replay design |
-| Q-018 organic self-realization | Implemented bounded baseline | Single-frontier kernel lacks autonomous multi-step and concrete branch/spawn/collapse execution | Close one continuation seam per `v0.5.x` release |
+| Q-018 organic self-realization | Implemented bounded baseline | Multi-frontier once-per-realization closure exists, but persistent cycles and concrete branch/spawn/collapse execution do not | Close one continuation seam per `v0.5.x` release |
 | Q-019 time inside a bubble | Partial | A causal DAG exists without cycles, duration, metric time, or cross-world synchronization | Extend only from a concrete world law |
 | Q-020 finite language for infinity | Implemented bounded baseline | Exact countable indexed families and state-bound narrative queries exist; richer domains and authored lowering do not | Extend from a concrete representation failure |
-| Q-021 anchored narrative agency | Implemented bounded connected baseline | Finite acyclic story/intervention execution exists; persistent stories, relationship affordances, global seas, and cross-world anchors do not | Reopen one organic extension at a time |
+| Q-021 anchored narrative agency | Implemented bounded connected special case | Finite explicit agent-bearing execution exists; it is not the universal world minimum and persistent stories, relationship affordances, global seas, and cross-world anchors do not | Reopen one organic extension at a time |
 | Q-022 recursive self-construction | Deferred | No self-hosting compiler, module generator, verified code execution, or successor-equivalence proof exists | Later version after accepted Bubble completion |
+| Q-023 natural emergence without forced narrative | Implemented actor-neutral baseline | Generic structure emergence exists; persistent identity, agency, relations, and narrative projection are not yet derived | Next bounded persistence-and-boundary case |
 
 ## Contradiction Guards
 
@@ -77,12 +78,12 @@ These tensions are intentional and must not be collapsed into accidental contrad
 9. **No universal clock vs no change:** absence of one global clock preserves invariant, reversible, cyclic, causal, branching, and committed-history possibilities; it does not mean every world is frozen.
 10. **Phase 1 world completion vs Phase 2 observation:** observers may later investigate worldhood but must not define or substitute for the unfinished world core.
 11. **Natural-language provenance vs executable semantics:** author text remains immutable evidence of intent, while only typed formal lowering may govern execution.
-12. **Internal protagonist vs external observer-agent:** protagonists constitute Phase 1 stories; a later evaluator or benchmark agent remains Phase 2.
+12. **Possible internal being vs external observer-agent:** a being that lawfully emerges inside a Bubble belongs to Phase 1 world semantics; a later evaluator or benchmark agent remains Phase 2. Neither makes protagonists mandatory schema.
 13. **Finite representation vs literal completion of infinity:** an intensional family denotes all lawful coordinates but one run proves only demanded coordinates.
-14. **World-Will influence vs puppeteering:** intervention may change conditions through an anchor; direct replacement of protagonist choice violates the agency contract.
+14. **World-Will influence vs manufacture:** intervention may change permitted conditions through an anchor; direct replacement of protagonist choice or direct writing of protected internal structure violates the causal contract.
 15. **Self-construction horizon vs current completion:** later recursive code and module generation must not replace or hide unfinished Bubble-universe semantics.
 
-## v0.5 Status And Completed v0.5.1 Gate
+## v0.5 Status And Completed v0.5.1/v0.5.2 Gates
 
 `v0.5.0` implements the first organic self-realization vertical flow. It does not declare the whole bubble universe complete.
 
@@ -105,3 +106,16 @@ Current evidence:
 - long-running persistence, relationship-mediated action, global sea transport, cross-world anchors, and full identity remain open
 
 This transition does not close or delete the partial, open, or deferred rows above.
+
+Completed bounded `v0.5.2` adds the forward corrective gate by:
+
+- preserving the already completed and pushed `v0.5.1` narrative kernel as a compatible explicit specialization
+- removing protagonists and authored event graphs from the universal minimum without banning their later formation
+- generating internal events from exact state-bound law guards over multiple causal frontiers
+- applying simultaneous frontiers only when their effects commute and preserving non-commutation as `underdetermined`
+- coupling both seas after state transitions and keeping universal-clock claims false
+- preventing World Will from directly mutating protected structure while allowing anchored condition changes to activate internal response
+- recording generic structure emergence or dissolution with exact witnesses and causal provenance
+- preserving run, inspection, stored record, and deterministic replay evidence
+
+Remaining work includes persistent identity and memory, self-maintenance, derived agency and relations, narrative projection, cycles, global sea transport, cross-world anchors, and full identity. This corrective gate does not close OB-001, OB-005, or OB-011.

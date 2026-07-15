@@ -323,3 +323,34 @@ Validation evidence:
 Next check:
 
 Reopen when relationship-dependent action, long-running story persistence, cross-world anchor transfer, or global sea transport is implemented; each extension must repeat the agency counterfactuals.
+
+### H-014: An actor-neutral causal kernel can generate structure without excluding later agency
+
+Status: validated for the bounded v0.5.2 once-per-realization closure
+
+Claim:
+
+A Bubble can form exact causal events and detectable internal organization from state-bound laws without requiring a protagonist or authored story graph, while still preserving the narrative kernel as a valid specialization and preventing World Will from manufacturing protected structure directly.
+
+Validation evidence:
+
+- the canonical field world declares no protagonists and no causal event list
+- exact guards generate `condense` and then `self-organize` events from changing coherence state
+- the coherent-pattern criterion changes from false to true with exact witness fields and causal provenance even when World Will is disabled
+- World Will changes only condition and viability through an identity-checked anchor; a separate internal law changes protected coherence
+- simultaneous non-commuting laws and insufficient formal budgets remain `underdetermined`
+- run, inspection, stored record, and deterministic replay preserve the emergence assessment
+- the complete `v0.5.1` narrative example still validates through its original kernel
+- adversarial regressions reject post-state anchor-identity loss, preserve simultaneous co-causes, bound power-set search before allocation, keep viability arithmetic in one trace layer, and detect stored-run tampering
+
+Would be weakened by:
+
+- a generated event whose guard is false or unavailable
+- declaration order deciding a non-commuting simultaneous frontier
+- an emergence claim with no exact state change or witness fields
+- World Will directly writing a protected field and the runtime reporting it as internally emerged
+- actor-neutral generalization making an explicitly agent-bearing world unrepresentable
+
+Next check:
+
+Model one bounded persistent structure with boundary, memory, self-maintenance, and causal counterfactuals across more than one closure. Do not call it an agent until the stronger criteria are executable.

@@ -1,0 +1,2369 @@
+{
+  "mode": "bubble-anchored-causal-run.v2",
+  "programDigest": "8bb05e2bb63b09f77eb0422c7bd0b16196a5df56ce8d3372dec6f340d30a427f",
+  "status": "realized",
+  "reason": "World Will selected exact admissible continuation(s)",
+  "options": {
+    "worldWillEnabled": true,
+    "cutAnchorIds": [],
+    "fieldOverrides": {},
+    "evaluationBudgetPerQuery": 10000,
+    "maxInterventionCombinations": 1024,
+    "maxInternalFrontiers": 1024
+  },
+  "diagnostics": [],
+  "formalEvidence": [
+    {
+      "subjectId": "field-world.coherence",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "0",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "zero-initial",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "field-world.condition",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "0",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "zero-initial",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "field-world.density",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "0",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "zero-initial",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "field-world.negative",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "negative-initial",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "field-world.positive",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "2",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "positive-initial",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "field-world.viability",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "viability-initial",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:0:condense:condense-when-diffuse",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "coherence-is-zero",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "coherence": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:0:respond-to-condition:respond-after-organization",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "condition-meets-structure",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "coherence": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "condition": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:0:self-organize:organize-when-condensed",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "coherence-is-one",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "coherence": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:1:respond-to-condition:respond-after-organization",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "condition-meets-structure",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "coherence": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "condition": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:1:self-organize:organize-when-condensed",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "coherence-is-one",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "coherence": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:2:respond-to-condition:respond-after-organization",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "condition-meets-structure",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "coherence": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "condition": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "continuation:autonomous:initial:coherent-pattern:coherent-pattern-present",
+      "purpose": "emergence-criterion",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "coherent-structure",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "coherence": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "continuation:autonomous:final:coherent-pattern:coherent-pattern-present",
+      "purpose": "emergence-criterion",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "coherent-structure",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "coherence": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "anchor:field-anchor:field-anchor-remains-itself",
+      "purpose": "anchor-identity",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "always-true",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "candidate:alter-boundary-condition:frontier:0:respond-to-condition:respond-after-organization",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "condition-meets-structure",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "coherence": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "condition": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "candidate:alter-boundary-condition:post-anchor:field-anchor:field-anchor-remains-itself",
+      "purpose": "anchor-identity",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "always-true",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "candidate:alter-boundary-condition:field-remains-admissible",
+      "purpose": "hard-constraint",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "always-true",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "continuation:alter-boundary-condition:initial:coherent-pattern:coherent-pattern-present",
+      "purpose": "emergence-criterion",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "coherent-structure",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "coherence": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "continuation:alter-boundary-condition:final:coherent-pattern:coherent-pattern-present",
+      "purpose": "emergence-criterion",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "coherent-structure",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "coherence": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    }
+  ],
+  "initialWorldStates": [
+    {
+      "worldId": "field-world",
+      "fields": {
+        "coherence": {
+          "kind": "rational",
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "condition": {
+          "kind": "rational",
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "density": {
+          "kind": "rational",
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "negative": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "positive": {
+          "kind": "rational",
+          "numerator": "2",
+          "denominator": "1"
+        },
+        "viability": {
+          "kind": "rational",
+          "numerator": "2",
+          "denominator": "1"
+        }
+      },
+      "intrinsicViability": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "seaContribution": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      }
+    }
+  ],
+  "interventionEligibility": [
+    {
+      "interventionId": "alter-boundary-condition",
+      "anchorId": "field-anchor",
+      "status": "eligible",
+      "reasons": []
+    }
+  ],
+  "candidateAssessments": [
+    {
+      "id": "candidate:alter-boundary-condition",
+      "interventionIds": [
+        "alter-boundary-condition"
+      ],
+      "status": "improved",
+      "score": {
+        "kind": "rational",
+        "numerator": "6",
+        "denominator": "1"
+      },
+      "cost": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "improvement": {
+        "kind": "rational",
+        "numerator": "3",
+        "denominator": "1"
+      },
+      "objectiveContributions": [
+        {
+          "objectiveId": "preserve-field-viability",
+          "worldId": "field-world",
+          "fieldId": "viability",
+          "direction": "maximize",
+          "weightedValue": {
+            "kind": "rational",
+            "numerator": "6",
+            "denominator": "1"
+          }
+        }
+      ],
+      "reasons": []
+    }
+  ],
+  "continuations": [
+    {
+      "id": "continuation:autonomous",
+      "selection": "baseline",
+      "interventionIds": [],
+      "score": {
+        "kind": "rational",
+        "numerator": "2",
+        "denominator": "1"
+      },
+      "worldStates": [
+        {
+          "worldId": "field-world",
+          "fields": {
+            "coherence": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "condition": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "density": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "negative": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "positive": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "viability": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          },
+          "intrinsicViability": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "seaContribution": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          }
+        }
+      ],
+      "realizedEventIds": [
+        "law:condense",
+        "law:self-organize",
+        "commit:law:self-organize"
+      ],
+      "trace": [
+        {
+          "id": "trace:1:initial:field-world.coherence",
+          "kind": "initial-field",
+          "worldId": "field-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "coherence",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:2:initial:field-world.condition",
+          "kind": "initial-field",
+          "worldId": "field-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "condition",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:3:initial:field-world.density",
+          "kind": "initial-field",
+          "worldId": "field-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "density",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:4:initial:field-world.negative",
+          "kind": "initial-field",
+          "worldId": "field-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "negative",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:5:initial:field-world.positive",
+          "kind": "initial-field",
+          "worldId": "field-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "positive",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:6:initial:field-world.viability",
+          "kind": "initial-field",
+          "worldId": "field-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:7:sea:field-world",
+          "kind": "sea-coupling",
+          "worldId": "field-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:8:law:condense",
+          "kind": "internal-law",
+          "worldId": "field-world",
+          "eventId": "law:condense",
+          "lawId": "condense",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "density",
+              "layer": "world-field",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "coherence",
+              "layer": "world-field",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:9:sea:field-world",
+          "kind": "sea-coupling",
+          "worldId": "field-world",
+          "causes": [
+            "law:condense"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:10:law:self-organize",
+          "kind": "internal-law",
+          "worldId": "field-world",
+          "eventId": "law:self-organize",
+          "lawId": "self-organize",
+          "causes": [
+            "law:condense"
+          ],
+          "effects": [
+            {
+              "fieldId": "coherence",
+              "layer": "world-field",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:11:sea:field-world",
+          "kind": "sea-coupling",
+          "worldId": "field-world",
+          "causes": [
+            "law:self-organize"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:12:commit:law:self-organize",
+          "kind": "history-commit",
+          "worldId": "field-world",
+          "eventId": "commit:law:self-organize",
+          "lawId": "self-organize",
+          "causes": [
+            "law:self-organize"
+          ],
+          "effects": [
+            {
+              "fieldId": "density",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "coherence",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        }
+      ],
+      "historyCommits": [
+        {
+          "eventId": "commit:law:self-organize",
+          "causedByEventId": "law:self-organize",
+          "worldId": "field-world",
+          "affectedFields": {
+            "density": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "coherence": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          },
+          "stateDigest": "efadcd2a206df07ae013b17cf9b8cb5d874c78d87372ee3d1aecc07b2d701fd4"
+        }
+      ],
+      "emergenceAssessments": [
+        {
+          "criterionId": "coherent-pattern",
+          "worldId": "field-world",
+          "status": "emerged",
+          "witnessFields": {
+            "density": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "coherence": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          },
+          "causedByEventIds": [
+            "law:condense",
+            "law:self-organize"
+          ],
+          "initialEvidence": {
+            "subjectId": "continuation:autonomous:initial:coherent-pattern:coherent-pattern-present",
+            "purpose": "emergence-criterion",
+            "status": "resolved",
+            "value": {
+              "kind": "boolean",
+              "value": false
+            },
+            "proof": [
+              {
+                "id": "coordinate-proof:1",
+                "familyId": "coherent-structure",
+                "coordinate": {
+                  "coordinate": "0"
+                },
+                "parameters": {
+                  "coherence": {
+                    "kind": "rational",
+                    "numerator": "0",
+                    "denominator": "1"
+                  }
+                },
+                "rule": "intensional-definition",
+                "status": "resolved",
+                "dependencies": []
+              }
+            ]
+          },
+          "finalEvidence": {
+            "subjectId": "continuation:autonomous:final:coherent-pattern:coherent-pattern-present",
+            "purpose": "emergence-criterion",
+            "status": "resolved",
+            "value": {
+              "kind": "boolean",
+              "value": true
+            },
+            "proof": [
+              {
+                "id": "coordinate-proof:1",
+                "familyId": "coherent-structure",
+                "coordinate": {
+                  "coordinate": "0"
+                },
+                "parameters": {
+                  "coherence": {
+                    "kind": "rational",
+                    "numerator": "2",
+                    "denominator": "1"
+                  }
+                },
+                "rule": "intensional-definition",
+                "status": "resolved",
+                "dependencies": []
+              }
+            ]
+          }
+        }
+      ],
+      "order": {
+        "kind": "causal-partial-order",
+        "universalClock": false,
+        "causalEdges": [
+          {
+            "cause": "law:condense",
+            "effect": "law:self-organize"
+          },
+          {
+            "cause": "law:self-organize",
+            "effect": "commit:law:self-organize"
+          }
+        ],
+        "evaluationOrder": [
+          "law:condense",
+          "law:self-organize",
+          "commit:law:self-organize"
+        ],
+        "evaluationFrontiers": [
+          [
+            "law:condense"
+          ],
+          [
+            "law:self-organize"
+          ]
+        ],
+        "reversibleEventIds": [],
+        "irreversibleEventIds": [
+          "commit:law:self-organize",
+          "law:condense",
+          "law:self-organize"
+        ],
+        "createsHistoryArrow": true
+      }
+    },
+    {
+      "id": "continuation:alter-boundary-condition",
+      "selection": "selected",
+      "interventionIds": [
+        "alter-boundary-condition"
+      ],
+      "score": {
+        "kind": "rational",
+        "numerator": "6",
+        "denominator": "1"
+      },
+      "worldStates": [
+        {
+          "worldId": "field-world",
+          "fields": {
+            "coherence": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            },
+            "condition": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "density": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "negative": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "positive": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            },
+            "viability": {
+              "kind": "rational",
+              "numerator": "6",
+              "denominator": "1"
+            }
+          },
+          "intrinsicViability": {
+            "kind": "rational",
+            "numerator": "4",
+            "denominator": "1"
+          },
+          "seaContribution": {
+            "kind": "rational",
+            "numerator": "2",
+            "denominator": "1"
+          }
+        }
+      ],
+      "realizedEventIds": [
+        "law:condense",
+        "law:self-organize",
+        "commit:law:self-organize",
+        "will:alter-boundary-condition",
+        "law:respond-to-condition"
+      ],
+      "trace": [
+        {
+          "id": "trace:1:initial:field-world.coherence",
+          "kind": "initial-field",
+          "worldId": "field-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "coherence",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:2:initial:field-world.condition",
+          "kind": "initial-field",
+          "worldId": "field-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "condition",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:3:initial:field-world.density",
+          "kind": "initial-field",
+          "worldId": "field-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "density",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:4:initial:field-world.negative",
+          "kind": "initial-field",
+          "worldId": "field-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "negative",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:5:initial:field-world.positive",
+          "kind": "initial-field",
+          "worldId": "field-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "positive",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:6:initial:field-world.viability",
+          "kind": "initial-field",
+          "worldId": "field-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:7:sea:field-world",
+          "kind": "sea-coupling",
+          "worldId": "field-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:8:law:condense",
+          "kind": "internal-law",
+          "worldId": "field-world",
+          "eventId": "law:condense",
+          "lawId": "condense",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "density",
+              "layer": "world-field",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "coherence",
+              "layer": "world-field",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:9:sea:field-world",
+          "kind": "sea-coupling",
+          "worldId": "field-world",
+          "causes": [
+            "law:condense"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:10:law:self-organize",
+          "kind": "internal-law",
+          "worldId": "field-world",
+          "eventId": "law:self-organize",
+          "lawId": "self-organize",
+          "causes": [
+            "law:condense"
+          ],
+          "effects": [
+            {
+              "fieldId": "coherence",
+              "layer": "world-field",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:11:sea:field-world",
+          "kind": "sea-coupling",
+          "worldId": "field-world",
+          "causes": [
+            "law:self-organize"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:12:commit:law:self-organize",
+          "kind": "history-commit",
+          "worldId": "field-world",
+          "eventId": "commit:law:self-organize",
+          "lawId": "self-organize",
+          "causes": [
+            "law:self-organize"
+          ],
+          "effects": [
+            {
+              "fieldId": "density",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "coherence",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:13:will:alter-boundary-condition",
+          "kind": "world-will-intervention",
+          "worldId": "field-world",
+          "eventId": "will:alter-boundary-condition",
+          "interventionId": "alter-boundary-condition",
+          "anchorId": "field-anchor",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "condition",
+              "layer": "world-field",
+              "operation": "set",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "viability",
+              "layer": "intrinsic-viability",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "4",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:14:sea:field-world",
+          "kind": "sea-coupling",
+          "worldId": "field-world",
+          "causes": [
+            "will:alter-boundary-condition"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "5",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:15:law:respond-to-condition",
+          "kind": "internal-law",
+          "worldId": "field-world",
+          "eventId": "law:respond-to-condition",
+          "lawId": "respond-to-condition",
+          "causes": [
+            "law:self-organize",
+            "will:alter-boundary-condition"
+          ],
+          "effects": [
+            {
+              "fieldId": "coherence",
+              "layer": "world-field",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "positive",
+              "layer": "world-field",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:16:sea:field-world",
+          "kind": "sea-coupling",
+          "worldId": "field-world",
+          "causes": [
+            "law:respond-to-condition"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "5",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "6",
+                "denominator": "1"
+              }
+            }
+          ]
+        }
+      ],
+      "historyCommits": [
+        {
+          "eventId": "commit:law:self-organize",
+          "causedByEventId": "law:self-organize",
+          "worldId": "field-world",
+          "affectedFields": {
+            "density": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "coherence": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          },
+          "stateDigest": "efadcd2a206df07ae013b17cf9b8cb5d874c78d87372ee3d1aecc07b2d701fd4"
+        }
+      ],
+      "emergenceAssessments": [
+        {
+          "criterionId": "coherent-pattern",
+          "worldId": "field-world",
+          "status": "emerged",
+          "witnessFields": {
+            "density": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "coherence": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            }
+          },
+          "causedByEventIds": [
+            "law:condense",
+            "law:respond-to-condition",
+            "law:self-organize"
+          ],
+          "initialEvidence": {
+            "subjectId": "continuation:alter-boundary-condition:initial:coherent-pattern:coherent-pattern-present",
+            "purpose": "emergence-criterion",
+            "status": "resolved",
+            "value": {
+              "kind": "boolean",
+              "value": false
+            },
+            "proof": [
+              {
+                "id": "coordinate-proof:1",
+                "familyId": "coherent-structure",
+                "coordinate": {
+                  "coordinate": "0"
+                },
+                "parameters": {
+                  "coherence": {
+                    "kind": "rational",
+                    "numerator": "0",
+                    "denominator": "1"
+                  }
+                },
+                "rule": "intensional-definition",
+                "status": "resolved",
+                "dependencies": []
+              }
+            ]
+          },
+          "finalEvidence": {
+            "subjectId": "continuation:alter-boundary-condition:final:coherent-pattern:coherent-pattern-present",
+            "purpose": "emergence-criterion",
+            "status": "resolved",
+            "value": {
+              "kind": "boolean",
+              "value": true
+            },
+            "proof": [
+              {
+                "id": "coordinate-proof:1",
+                "familyId": "coherent-structure",
+                "coordinate": {
+                  "coordinate": "0"
+                },
+                "parameters": {
+                  "coherence": {
+                    "kind": "rational",
+                    "numerator": "3",
+                    "denominator": "1"
+                  }
+                },
+                "rule": "intensional-definition",
+                "status": "resolved",
+                "dependencies": []
+              }
+            ]
+          }
+        }
+      ],
+      "order": {
+        "kind": "causal-partial-order",
+        "universalClock": false,
+        "causalEdges": [
+          {
+            "cause": "law:condense",
+            "effect": "law:self-organize"
+          },
+          {
+            "cause": "law:self-organize",
+            "effect": "commit:law:self-organize"
+          },
+          {
+            "cause": "law:self-organize",
+            "effect": "law:respond-to-condition"
+          },
+          {
+            "cause": "will:alter-boundary-condition",
+            "effect": "law:respond-to-condition"
+          }
+        ],
+        "evaluationOrder": [
+          "law:condense",
+          "law:self-organize",
+          "commit:law:self-organize",
+          "will:alter-boundary-condition",
+          "law:respond-to-condition"
+        ],
+        "evaluationFrontiers": [
+          [
+            "law:condense"
+          ],
+          [
+            "law:self-organize"
+          ],
+          [
+            "will:alter-boundary-condition"
+          ],
+          [
+            "law:respond-to-condition"
+          ]
+        ],
+        "reversibleEventIds": [],
+        "irreversibleEventIds": [
+          "commit:law:self-organize",
+          "law:condense",
+          "law:respond-to-condition",
+          "law:self-organize",
+          "will:alter-boundary-condition"
+        ],
+        "createsHistoryArrow": true
+      }
+    }
+  ],
+  "selectedContinuationIds": [
+    "continuation:alter-boundary-condition"
+  ],
+  "unresolvedAlternativeIds": [],
+  "resourceUse": {
+    "formalQueryCount": 20,
+    "formalEvaluationSteps": 58,
+    "internalFrontierCount": 3,
+    "interventionCombinationCount": 1,
+    "combinationLimit": 1024,
+    "exhaustiveInterventionSearch": true
+  },
+  "autonomousContinuation": {
+    "id": "continuation:autonomous",
+    "selection": "baseline",
+    "interventionIds": [],
+    "score": {
+      "kind": "rational",
+      "numerator": "2",
+      "denominator": "1"
+    },
+    "worldStates": [
+      {
+        "worldId": "field-world",
+        "fields": {
+          "coherence": {
+            "kind": "rational",
+            "numerator": "2",
+            "denominator": "1"
+          },
+          "condition": {
+            "kind": "rational",
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "density": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "negative": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "positive": {
+            "kind": "rational",
+            "numerator": "2",
+            "denominator": "1"
+          },
+          "viability": {
+            "kind": "rational",
+            "numerator": "2",
+            "denominator": "1"
+          }
+        },
+        "intrinsicViability": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "seaContribution": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        }
+      }
+    ],
+    "realizedEventIds": [
+      "law:condense",
+      "law:self-organize",
+      "commit:law:self-organize"
+    ],
+    "trace": [
+      {
+        "id": "trace:1:initial:field-world.coherence",
+        "kind": "initial-field",
+        "worldId": "field-world",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "coherence",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:2:initial:field-world.condition",
+        "kind": "initial-field",
+        "worldId": "field-world",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "condition",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:3:initial:field-world.density",
+        "kind": "initial-field",
+        "worldId": "field-world",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "density",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:4:initial:field-world.negative",
+        "kind": "initial-field",
+        "worldId": "field-world",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "negative",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:5:initial:field-world.positive",
+        "kind": "initial-field",
+        "worldId": "field-world",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "positive",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:6:initial:field-world.viability",
+        "kind": "initial-field",
+        "worldId": "field-world",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "viability",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:7:sea:field-world",
+        "kind": "sea-coupling",
+        "worldId": "field-world",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "viability",
+            "layer": "world-field",
+            "operation": "derive",
+            "before": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:8:law:condense",
+        "kind": "internal-law",
+        "worldId": "field-world",
+        "eventId": "law:condense",
+        "lawId": "condense",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "density",
+            "layer": "world-field",
+            "operation": "add",
+            "before": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          {
+            "fieldId": "coherence",
+            "layer": "world-field",
+            "operation": "add",
+            "before": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:9:sea:field-world",
+        "kind": "sea-coupling",
+        "worldId": "field-world",
+        "causes": [
+          "law:condense"
+        ],
+        "effects": [
+          {
+            "fieldId": "viability",
+            "layer": "world-field",
+            "operation": "derive",
+            "before": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:10:law:self-organize",
+        "kind": "internal-law",
+        "worldId": "field-world",
+        "eventId": "law:self-organize",
+        "lawId": "self-organize",
+        "causes": [
+          "law:condense"
+        ],
+        "effects": [
+          {
+            "fieldId": "coherence",
+            "layer": "world-field",
+            "operation": "add",
+            "before": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:11:sea:field-world",
+        "kind": "sea-coupling",
+        "worldId": "field-world",
+        "causes": [
+          "law:self-organize"
+        ],
+        "effects": [
+          {
+            "fieldId": "viability",
+            "layer": "world-field",
+            "operation": "derive",
+            "before": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:12:commit:law:self-organize",
+        "kind": "history-commit",
+        "worldId": "field-world",
+        "eventId": "commit:law:self-organize",
+        "lawId": "self-organize",
+        "causes": [
+          "law:self-organize"
+        ],
+        "effects": [
+          {
+            "fieldId": "density",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          {
+            "fieldId": "coherence",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          }
+        ]
+      }
+    ],
+    "historyCommits": [
+      {
+        "eventId": "commit:law:self-organize",
+        "causedByEventId": "law:self-organize",
+        "worldId": "field-world",
+        "affectedFields": {
+          "density": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "coherence": {
+            "kind": "rational",
+            "numerator": "2",
+            "denominator": "1"
+          }
+        },
+        "stateDigest": "efadcd2a206df07ae013b17cf9b8cb5d874c78d87372ee3d1aecc07b2d701fd4"
+      }
+    ],
+    "emergenceAssessments": [
+      {
+        "criterionId": "coherent-pattern",
+        "worldId": "field-world",
+        "status": "emerged",
+        "witnessFields": {
+          "density": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "coherence": {
+            "kind": "rational",
+            "numerator": "2",
+            "denominator": "1"
+          }
+        },
+        "causedByEventIds": [
+          "law:condense",
+          "law:self-organize"
+        ],
+        "initialEvidence": {
+          "subjectId": "continuation:autonomous:initial:coherent-pattern:coherent-pattern-present",
+          "purpose": "emergence-criterion",
+          "status": "resolved",
+          "value": {
+            "kind": "boolean",
+            "value": false
+          },
+          "proof": [
+            {
+              "id": "coordinate-proof:1",
+              "familyId": "coherent-structure",
+              "coordinate": {
+                "coordinate": "0"
+              },
+              "parameters": {
+                "coherence": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              },
+              "rule": "intensional-definition",
+              "status": "resolved",
+              "dependencies": []
+            }
+          ]
+        },
+        "finalEvidence": {
+          "subjectId": "continuation:autonomous:final:coherent-pattern:coherent-pattern-present",
+          "purpose": "emergence-criterion",
+          "status": "resolved",
+          "value": {
+            "kind": "boolean",
+            "value": true
+          },
+          "proof": [
+            {
+              "id": "coordinate-proof:1",
+              "familyId": "coherent-structure",
+              "coordinate": {
+                "coordinate": "0"
+              },
+              "parameters": {
+                "coherence": {
+                  "kind": "rational",
+                  "numerator": "2",
+                  "denominator": "1"
+                }
+              },
+              "rule": "intensional-definition",
+              "status": "resolved",
+              "dependencies": []
+            }
+          ]
+        }
+      }
+    ],
+    "order": {
+      "kind": "causal-partial-order",
+      "universalClock": false,
+      "causalEdges": [
+        {
+          "cause": "law:condense",
+          "effect": "law:self-organize"
+        },
+        {
+          "cause": "law:self-organize",
+          "effect": "commit:law:self-organize"
+        }
+      ],
+      "evaluationOrder": [
+        "law:condense",
+        "law:self-organize",
+        "commit:law:self-organize"
+      ],
+      "evaluationFrontiers": [
+        [
+          "law:condense"
+        ],
+        [
+          "law:self-organize"
+        ]
+      ],
+      "reversibleEventIds": [],
+      "irreversibleEventIds": [
+        "commit:law:self-organize",
+        "law:condense",
+        "law:self-organize"
+      ],
+      "createsHistoryArrow": true
+    }
+  },
+  "baselineScore": {
+    "kind": "rational",
+    "numerator": "2",
+    "denominator": "1"
+  }
+}

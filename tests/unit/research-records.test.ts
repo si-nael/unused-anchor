@@ -79,7 +79,7 @@ test("every decision and research question remains inside the tracked record str
 
     const questionLog = readRepositoryFile("docs/research/question-log.md");
     const questionIds = [...questionLog.matchAll(/^### (Q-\d+):/gm)].map((match) => match[1]);
-    assert.deepEqual(questionIds, Array.from({ length: 22 }, (_, index) => `Q-${String(index + 1).padStart(3, "0")}`));
+    assert.deepEqual(questionIds, Array.from({ length: 23 }, (_, index) => `Q-${String(index + 1).padStart(3, "0")}`));
 
     for (const questionId of questionIds) {
         const sectionStart = questionLog.indexOf(`### ${questionId}:`);
@@ -89,7 +89,7 @@ test("every decision and research question remains inside the tracked record str
     }
 });
 
-test("completed v0.5.1 preserves v0.5 self-realization and every open research branch", () => {
+test("completed v0.5.2 preserves prior kernels, the original philosophy, and every open research branch", () => {
     const packageManifest = JSON.parse(readRepositoryFile("package.json")) as { version: string };
     const packageLock = JSON.parse(readRepositoryFile("package-lock.json")) as {
         version: string;
@@ -102,20 +102,28 @@ test("completed v0.5.1 preserves v0.5 self-realization and every open research b
     const questionLog = readRepositoryFile("docs/research/question-log.md");
     const implementationMap = readRepositoryFile("docs/research/idea-implementation-map.md");
     const architecture = readRepositoryFile("docs/architecture/v0.5.1-anchored-narrative-world.md");
+    const causalArchitecture = readRepositoryFile("docs/architecture/v0.5.2-generative-causal-universe.md");
     const manifest = JSON.parse(readRepositoryFile("package.json")) as { scripts: Record<string, string> };
 
-    assert.equal(packageManifest.version, "0.5.1");
-    assert.equal(packageLock.version, "0.5.1");
-    assert.equal(packageLock.packages[""]?.version, "0.5.1");
-    assert.ok(projectMemory.includes("its completed successor is `v0.5.1`"));
+    assert.equal(packageManifest.version, "0.5.2");
+    assert.equal(packageLock.version, "0.5.2");
+    assert.equal(packageLock.packages[""]?.version, "0.5.2");
+    assert.ok(projectMemory.includes("its completed successors are `v0.5.1` and the forward corrective `v0.5.2`"));
     assert.ok(projectMemory.includes("does not certify OB-001 whole-universe completion"));
     assert.ok(projectMemory.includes("Phase 2 observer, agent, and comparative benchmark work must wait"));
     assert.ok(architecture.includes("Status: completed bounded connected release on 2026-07-15"));
     assert.ok(architecture.includes("all thirteen gates have bounded executable evidence"));
     assert.ok(architecture.includes("not the complete Bubble universe promised by OB-001"));
+    assert.ok(architecture.includes("explicitly agent-bearing specialization"));
+    assert.ok(causalArchitecture.includes("Status: completed bounded corrective release on 2026-07-15"));
+    assert.ok(causalArchitecture.includes("does not require a protagonist, an action vocabulary, or a story field"));
+    assert.ok(causalArchitecture.includes("It also does not forbid them from arising"));
     assert.ok(manifest.scripts["verify"].includes("verify:narrative-example"));
+    assert.ok(manifest.scripts["verify"].includes("verify:causal-example"));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/anchored-garden.world.json")));
+    assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/self-organizing-field.world.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/anchored-garden.replay.json")));
+    assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/self-organizing-field.replay.json")));
     assert.ok(closurePlan.includes("Status: completed on 2026-07-15"));
     assert.ok(operations.includes("## Preservation Discipline"));
 
@@ -140,13 +148,15 @@ test("completed v0.5.1 preserves v0.5 self-realization and every open research b
     assert.match(questionLog, /### Q-011:[\s\S]*?Status: open/);
     assert.match(questionLog, /### Q-014:[\s\S]*?Status: bounded runtime source-attribution slice completed in v0\.4\.9/);
     assert.match(questionLog, /### Q-015:[\s\S]*?Status: open and explicitly deferred beyond the v0\.5 entry gate/);
-    assert.match(questionLog, /### Q-018:[\s\S]*?Status: implemented bounded baseline through v0\.5\.1/);
-    assert.match(questionLog, /### Q-019:[\s\S]*?Status: partially implemented through v0\.5\.1/);
+    assert.match(questionLog, /### Q-018:[\s\S]*?Status: implemented bounded baseline through v0\.5\.2/);
+    assert.match(questionLog, /### Q-019:[\s\S]*?Status: partially implemented through v0\.5\.2/);
     assert.match(questionLog, /### Q-020:[\s\S]*?Status: implemented bounded baseline in v0\.5\.1/);
     assert.match(questionLog, /### Q-021:[\s\S]*?Status: implemented bounded connected baseline in v0\.5\.1/);
     assert.match(questionLog, /### Q-022:[\s\S]*?Status: explicitly deferred until the current Bubble universe and prior idea obligations are complete/);
+    assert.match(questionLog, /### Q-023:[\s\S]*?Status: implemented actor-neutral generative baseline in v0\.5\.2; stronger emergence remains open/);
     assert.ok(implementationMap.includes("`v0.5.0` implements the first organic self-realization vertical flow"));
     assert.ok(implementationMap.includes("Completed `v0.5.1` satisfies its bounded connected gate"));
+    assert.ok(implementationMap.includes("Completed bounded `v0.5.2` adds the forward corrective gate"));
     assert.ok(implementationMap.includes("long-running persistence, relationship-mediated action, global sea transport, cross-world anchors, and full identity remain open"));
     assert.ok(implementationMap.toLowerCase().includes("this transition does not close or delete the partial, open, or deferred rows above"));
 });
@@ -171,7 +181,7 @@ test("author ideas remain immutable source obligations rather than prose-only me
     assert.equal(ledger.mode, "bubble-author-idea-obligations.v1");
     assert.equal(ledger.recordedDate, "2026-07-15");
     assert.equal(new Set(ledger.obligations.map((entry) => entry.id)).size, ledger.obligations.length);
-    assert.ok(ledger.obligations.length >= 9);
+    assert.ok(ledger.obligations.length >= 11);
     for (const obligation of ledger.obligations) {
         assert.ok(obligation.sourceIds.length > 0, `${obligation.id} needs primary-source provenance`);
         for (const sourceId of obligation.sourceIds) {
@@ -184,5 +194,5 @@ test("author ideas remain immutable source obligations rather than prose-only me
             assert.ok(obligation.acceptanceTests.length > 0, `${obligation.id} realized status needs acceptance tests`);
         }
     }
-    assert.ok(ledger.sessionConstraints.some((entry) => entry.id === "SC-001" && entry.status === "in-force"));
+    assert.ok(ledger.sessionConstraints.some((entry) => entry.id === "SC-002" && entry.status === "in-force"));
 });

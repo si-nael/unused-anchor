@@ -6,7 +6,7 @@ Last reconciled: 2026-07-15
 
 ### Q-001: What is the minimal independent bubble-world schema?
 
-Status: partially answered through v0.5.1
+Status: partially answered through v0.5.2
 
 Question:
 
@@ -30,7 +30,7 @@ Use the current minimum schema as the `v0.4` baseline and revise it only when a 
 
 ### Q-002: How should the negative sea be represented operationally?
 
-Status: partially answered through v0.5.1
+Status: partially answered through v0.5.2
 
 Question:
 
@@ -56,7 +56,7 @@ Reopen from the first world that requires cross-world transport, continuous eros
 
 ### Q-003: How should the positive sea be represented operationally?
 
-Status: partially answered through v0.5.1
+Status: partially answered through v0.5.2
 
 Question:
 
@@ -82,7 +82,7 @@ Reopen from the first lineage-placement, cross-world transport, or growth case t
 
 ### Q-004: What makes an anchor point strong enough?
 
-Status: partially answered through v0.5.1
+Status: partially answered through v0.5.2
 
 Question:
 
@@ -107,7 +107,7 @@ Extend identity only from a concrete same-world counterexample, semantic migrati
 
 ### Q-005: When does replay return to the same world?
 
-Status: partially answered through v0.5.1
+Status: partially answered through v0.5.2
 
 Question:
 
@@ -132,7 +132,7 @@ Reopen from the first runtime-version migration, cross-implementation execution,
 
 ### Q-006: How should an unbounded multiverse be represented?
 
-Status: partially answered through v0.5.1
+Status: partially answered through v0.5.2
 
 Question:
 
@@ -404,7 +404,7 @@ Preserve the current bounded semantics through `v0.4.9`. Reopen the proof shape 
 
 ### Q-018: How can a bubble realize itself through world will rather than an external chooser?
 
-Status: implemented bounded baseline through v0.5.1
+Status: implemented bounded baseline through v0.5.2
 
 Question:
 
@@ -433,7 +433,7 @@ Reopen from a concrete persistent-story, branch/spawn/collapse artifact, relatio
 
 ### Q-019: What does time mean inside a bubble universe?
 
-Status: partially implemented through v0.5.1
+Status: partially implemented through v0.5.2
 
 Question:
 
@@ -492,6 +492,8 @@ Add a new mathematical form only when a concrete required Bubble field, law, or 
 
 Status: implemented bounded connected baseline in v0.5.1
 
+Correction in force from v0.5.2: this remains a valid explicitly agent-bearing special case, not the universal minimum Bubble ontology. Q-023 owns the actor-neutral generative generalization.
+
 Question:
 
 What coupled formal structure lets each bubble universe carry distinct protagonists and an autonomous story while World Will pursues explicit objectives through anchors, positive and negative seas alter viability, and no hidden host selector or menu of unrelated regimes decides the outcome?
@@ -538,9 +540,40 @@ Existing precursors:
 Why it is deferred:
 
 - these components do not yet form a self-hosting compiler, module system, code synthesizer, verifier, or execution sandbox
-- implementing recursive self-construction now would divert work from the incomplete protagonist/story/World-Will/anchor/sea universe
+- implementing recursive self-construction now would divert work from the incomplete generative world/World-Will/anchor/sea universe and from lawful emergence of stronger internal structures
 - self-generation must not become a shortcut that silently invents or forgets unfinished semantics
 
 Reopen condition:
 
 Reopen only after all earlier idea obligations are realized, the current Bubble universe passes its full completion gates, and the author explicitly chooses a later version for recursive self-construction.
+
+### Q-023: How can protagonists, agency, and stories arise without being forced into every world?
+
+Status: implemented actor-neutral generative baseline in v0.5.2; stronger emergence remains open
+
+Question:
+
+What is the most general executable Bubble substrate that forms real world states and causal events from its own laws, while allowing persistent beings, agency, relationships, and narrative histories to emerge naturally when supported rather than requiring or deleting them by schema?
+
+Current implementation:
+
+- `bubble-anchored-causal-world.v2` requires exact fields, guarded internal laws, sea coupling, generic anchors, World-Will objectives and constraints, causal partial order, and optional history commits; it requires no protagonist or story field
+- enabled internal laws generate events from exact state predicates instead of replaying a pre-authored causal-event graph
+- simultaneously enabled non-commuting laws return `underdetermined` rather than inheriting host or declaration order
+- protected fields prevent World Will from directly manufacturing internal structure; it may change lawful conditions through an identity-checked anchor, after which the world's own law may respond
+- generic emergence criteria compare initial and realized states, preserve exact witness fields and causal provenance, and distinguish absent, persistent, emerged, dissolved, unresolved, and contradicted structure
+- the canonical actor-neutral field world self-organizes even with World Will disabled; an anchored condition intervention can later activate an internal response without directly writing coherence
+- pre- and post-state anchor identity checks prevent an intervention-dependent closure from silently leaving the declared world identity
+- same-frontier co-causes, explicit viability trace layers, lazy exact-bounded intervention search, and stored-run integrity close the first adversarial audit counterexamples
+- the `v0.5.1` narrative kernel remains validated as a compatible explicitly agent-bearing specialization
+
+Remaining gap:
+
+- the current emergence predicate detects authored structural properties; it does not derive the criterion for life, persistent identity, goals, counterfactual agency, relationships, or narrative coherence
+- internal laws apply once per realization and produce finite closure; persistent, cyclic, coinductive, spatial, or evolutionary dynamics remain open
+- no law yet forms a new field schema, entity boundary, memory-bearing individual, or relationship network dynamically
+- multi-world sea transport, anchor transfer, and full identity remain absent
+
+Next check:
+
+Add the smallest persistence-and-boundary case in which a structure maintains identity, memory, and causal influence across more than one closure without naming it a protagonist in advance. Define the stronger label only from explicit invariant and counterfactual evidence.
