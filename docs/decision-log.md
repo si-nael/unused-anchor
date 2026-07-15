@@ -997,3 +997,23 @@ Passing canonical examples did not prove that an intervention preserved anchor i
 Consequence:
 
 Do not close `v0.5.2` from the happy path alone. Re-evaluate every declared anchor after candidate closure; preserve all direct same-frontier causes; distinguish intrinsic from sea-coupled viability in traces; enumerate intervention subsets lazily under an exact cardinality bound; and require stored-run, program, and full-run digest agreement for same-world re-execution. Reject unknown runtime override names and require an explicit target for stabilization. Keep one regression test for each counterexample.
+
+### D-100: Require five independent evidence surfaces before calling a recurrent structure persistent
+
+Reason:
+
+Exact state repetition alone can describe a passive loop, and fields named `boundary` or `memory` can remain decorative. Promoting such a pattern to an entity, agent, or living structure would repeat the ontology error corrected in `v0.5.2`. Persistence must also remain compatible with no universal clock and with plural causal continuations that tooling may not select.
+
+Consequence:
+
+Make `v0.5.3` a separate persistence layer over the unchanged actor-neutral kernel. Derive candidate components and membrane cuts from exact law dependencies; unfold every lawful selected continuation; require at least two closures and an exact lasso for recurrence; and certify persistence only when boundary, identity, memory erasure, negative-sea erosion/internal restoration, and outward causal influence all pass. Preserve budget exhaustion as `undetermined`, contradiction as contradiction, excessive erosion as lawful failure, and all replay-integrity checks. Do not call the result an agent or protagonist before goal, affordance, and action-ablation evidence exists.
+
+### D-101: Separate recurrent configuration from anchor history and quantify persistence evidence universally
+
+Reason:
+
+The first passing `v0.5.3` candidate hashed only causal field configurations while calling the result exact world-state recurrence, flattened conjunctive guards into pairwise edges, accepted any change-and-return trace as repair, and unioned plural memory-counterfactual differences existentially. Each implementation passed the canonical tests but admitted a stronger claim than its evidence.
+
+Consequence:
+
+Treat the anchored state as a causal configuration paired with a monotone commit ledger. Certify lasso recurrence only in the configuration projection and report whether the full anchored state repeated. Preserve whole guard/effect tuples in a field/law factor graph; require every crossing law to bind boundary state and require pre-formation boundary-state ablation to change every crossing law's realization after unrelated recovery laws are suppressed. Require negative-sea-caused deviation from, and exact restoration to, the recurrent reference configuration. Quantify memory erasure, boundary ablation, and outward influence over every lawful continuation; mixed evidence is `undetermined`. Retain direct regression tests for all four false-positive classes before closing `v0.5.3`.

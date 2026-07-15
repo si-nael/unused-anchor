@@ -79,7 +79,7 @@ test("every decision and research question remains inside the tracked record str
 
     const questionLog = readRepositoryFile("docs/research/question-log.md");
     const questionIds = [...questionLog.matchAll(/^### (Q-\d+):/gm)].map((match) => match[1]);
-    assert.deepEqual(questionIds, Array.from({ length: 23 }, (_, index) => `Q-${String(index + 1).padStart(3, "0")}`));
+    assert.deepEqual(questionIds, Array.from({ length: 24 }, (_, index) => `Q-${String(index + 1).padStart(3, "0")}`));
 
     for (const questionId of questionIds) {
         const sectionStart = questionLog.indexOf(`### ${questionId}:`);
@@ -89,7 +89,7 @@ test("every decision and research question remains inside the tracked record str
     }
 });
 
-test("completed v0.5.2 preserves prior kernels, the original philosophy, and every open research branch", () => {
+test("completed v0.5.3 preserves prior kernels, the original philosophy, and every open research branch", () => {
     const packageManifest = JSON.parse(readRepositoryFile("package.json")) as { version: string };
     const packageLock = JSON.parse(readRepositoryFile("package-lock.json")) as {
         version: string;
@@ -103,13 +103,14 @@ test("completed v0.5.2 preserves prior kernels, the original philosophy, and eve
     const implementationMap = readRepositoryFile("docs/research/idea-implementation-map.md");
     const architecture = readRepositoryFile("docs/architecture/v0.5.1-anchored-narrative-world.md");
     const causalArchitecture = readRepositoryFile("docs/architecture/v0.5.2-generative-causal-universe.md");
+    const persistenceArchitecture = readRepositoryFile("docs/architecture/v0.5.3-persistent-causal-structure.md");
     const manifest = JSON.parse(readRepositoryFile("package.json")) as { scripts: Record<string, string> };
 
-    assert.equal(packageManifest.version, "0.5.2");
-    assert.equal(packageLock.version, "0.5.2");
-    assert.equal(packageLock.packages[""]?.version, "0.5.2");
-    assert.ok(projectMemory.includes("its completed successors are `v0.5.1` and the forward corrective `v0.5.2`"));
-    assert.ok(projectMemory.includes("does not certify OB-001 whole-universe completion"));
+    assert.equal(packageManifest.version, "0.5.3");
+    assert.equal(packageLock.version, "0.5.3");
+    assert.equal(packageLock.packages[""]?.version, "0.5.3");
+    assert.ok(projectMemory.includes("its completed successors are `v0.5.1`, the forward corrective `v0.5.2`, and the bounded persistence release `v0.5.3`"));
+    assert.ok(projectMemory.includes("does not certify life, agency, or OB-001 whole-universe completion"));
     assert.ok(projectMemory.includes("Phase 2 observer, agent, and comparative benchmark work must wait"));
     assert.ok(architecture.includes("Status: completed bounded connected release on 2026-07-15"));
     assert.ok(architecture.includes("all thirteen gates have bounded executable evidence"));
@@ -118,12 +119,18 @@ test("completed v0.5.2 preserves prior kernels, the original philosophy, and eve
     assert.ok(causalArchitecture.includes("Status: completed bounded corrective release on 2026-07-15"));
     assert.ok(causalArchitecture.includes("does not require a protagonist, an action vocabulary, or a story field"));
     assert.ok(causalArchitecture.includes("It also does not forbid them from arising"));
+    assert.ok(persistenceArchitecture.includes("Status: completed bounded persistence release on 2026-07-15"));
+    assert.ok(persistenceArchitecture.includes("No entity, protagonist, agent, or persistence criterion is declared"));
+    assert.ok(persistenceArchitecture.includes("It still does not establish consciousness, agency, a protagonist, a goal, a relationship, or a story"));
     assert.ok(manifest.scripts["verify"].includes("verify:narrative-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:causal-example"));
+    assert.ok(manifest.scripts["verify"].includes("verify:persistence-example"));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/anchored-garden.world.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/self-organizing-field.world.json")));
+    assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/self-maintaining-field.world.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/anchored-garden.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/self-organizing-field.replay.json")));
+    assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/self-maintaining-field.replay.json")));
     assert.ok(closurePlan.includes("Status: completed on 2026-07-15"));
     assert.ok(operations.includes("## Preservation Discipline"));
 
@@ -148,16 +155,18 @@ test("completed v0.5.2 preserves prior kernels, the original philosophy, and eve
     assert.match(questionLog, /### Q-011:[\s\S]*?Status: open/);
     assert.match(questionLog, /### Q-014:[\s\S]*?Status: bounded runtime source-attribution slice completed in v0\.4\.9/);
     assert.match(questionLog, /### Q-015:[\s\S]*?Status: open and explicitly deferred beyond the v0\.5 entry gate/);
-    assert.match(questionLog, /### Q-018:[\s\S]*?Status: implemented bounded baseline through v0\.5\.2/);
-    assert.match(questionLog, /### Q-019:[\s\S]*?Status: partially implemented through v0\.5\.2/);
+    assert.match(questionLog, /### Q-018:[\s\S]*?Status: implemented bounded baseline through v0\.5\.3/);
+    assert.match(questionLog, /### Q-019:[\s\S]*?Status: partially implemented through v0\.5\.3/);
     assert.match(questionLog, /### Q-020:[\s\S]*?Status: implemented bounded baseline in v0\.5\.1/);
     assert.match(questionLog, /### Q-021:[\s\S]*?Status: implemented bounded connected baseline in v0\.5\.1/);
     assert.match(questionLog, /### Q-022:[\s\S]*?Status: explicitly deferred until the current Bubble universe and prior idea obligations are complete/);
-    assert.match(questionLog, /### Q-023:[\s\S]*?Status: implemented actor-neutral generative baseline in v0\.5\.2; stronger emergence remains open/);
+    assert.match(questionLog, /### Q-023:[\s\S]*?Status: implemented actor-neutral generative and bounded persistent baseline through v0\.5\.3; agency remains open/);
+    assert.match(questionLog, /### Q-024:[\s\S]*?Status: implemented bounded exact baseline in v0\.5\.3/);
     assert.ok(implementationMap.includes("`v0.5.0` implements the first organic self-realization vertical flow"));
     assert.ok(implementationMap.includes("Completed `v0.5.1` satisfies its bounded connected gate"));
     assert.ok(implementationMap.includes("Completed bounded `v0.5.2` adds the forward corrective gate"));
-    assert.ok(implementationMap.includes("long-running persistence, relationship-mediated action, global sea transport, cross-world anchors, and full identity remain open"));
+    assert.ok(implementationMap.includes("Completed bounded `v0.5.3` adds the first persistence-and-boundary gate"));
+    assert.ok(implementationMap.includes("general open-ended persistence, relationship-mediated action, global sea transport, cross-world anchors, and full identity remain open"));
     assert.ok(implementationMap.toLowerCase().includes("this transition does not close or delete the partial, open, or deferred rows above"));
 });
 

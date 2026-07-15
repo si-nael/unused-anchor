@@ -9,6 +9,7 @@
 - The general core is world state, guarded local law, boundaries, positive and negative seas, anchors, World Will, causal order, and committed history. An agent or story is a possible higher-order organization of that substrate.
 - World Will is an internal objective-and-constraint orientation, not a narrator. It may alter lawful conditions through anchors but may not directly manufacture protected internal structure and call it emergence.
 - `v0.5.2` preserves the pushed `v0.5.1` narrative kernel as a compatible agent-bearing specialization and adds a separate actor-neutral generative causal kernel.
+- `v0.5.3` derives one recurrent causal component from conjunctive law dependencies and requires a fully boundary-mediated hypercut, invariant identity, universally effective memory erasure, negative-sea-caused deviation and exact recurrent-reference restoration, and outward influence before calling it persistent. It records causal-configuration recurrence separately from append-only anchor history. This is still not a primitive or derived claim of life, agency, protagonist identity, or story.
 
 ### Formal language for infinity without natural-language execution
 

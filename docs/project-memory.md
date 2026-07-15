@@ -25,6 +25,7 @@ The target is not decorative cosmological vocabulary. The runtime should eventua
 - **Formal intensional family:** a finite typed definition of an indexed object `f : I -> V`. It may denote countably infinite or infinite-dimensional structure while materializing only demanded coordinates.
 - **Time/order:** Bubble assumes no universal clock. A world may be invariant, reversible, cyclic, causally or partially ordered, branching, terminal, or history-directed; the durable history arrow begins only from an irreversible commitment.
 - **Observation:** bounded causal contact, not automatically a passive complete read. A bubble may persist as compressed lawful existence before contact.
+- **Persistent causal structure:** a recurrent component derived from conjunctive law dependencies whose boundary-mediated hypercuts, invariant identity, universally effective retained-memory counterfactual, recurrent-reference restoration, and outward influence all have exact evidence. Configuration recurrence is kept separate from monotone committed anchor history. It is not automatically alive, agentic, conscious, a protagonist, or a story.
 
 The canonical ontology is [architecture/sea-anchor-model.md](architecture/sea-anchor-model.md). These definitions remain a working ontology and must not be claimed as a perfect substitute for unrecorded user intent.
 
@@ -49,7 +50,9 @@ Completed `v0.5.1` adds an exact demand-driven intensional-family kernel with na
 
 Completed bounded `v0.5.2` corrects the universal interpretation of that seam. Its actor-neutral anchored-causal kernel needs no protagonist or authored event graph: exact state guards generate internal events, commuting frontiers close causally, generic criteria record structure emergence or dissolution, and protected fields prevent World Will from directly manufacturing internal organization. The `v0.5.1` narrative kernel remains a compatible explicitly agent-bearing specialization rather than being removed or rewritten.
 
-The repository still does not constitute the complete Bubble universe. The bounded executor does not yet derive persistent entities, agency, relationships, or narrative projection from the general causal substrate; nor does it provide cyclic/open-ended dynamics, concrete self-realized branch/spawn/collapse artifacts, a global multi-world sea field, cross-world transfer, a full anchor identity or time-order calculus, multi-region collapse, probabilistic-fractal worldhood, or a first-class external observer-agent model. Deterministic re-execution proves continuity only for the exact recorded program and runtime semantics, not a universal philosophical same-world theorem.
+Completed bounded `v0.5.3` adds an exact persistence layer without changing the `v0.5.2` kernel. It derives recurrent field components from a field/law factor graph, retains conjunctive dependencies for two-sided boundary-mediated hypercuts, unfolds all lawful closure continuations, and certifies finite causal-configuration lassos without a universal clock while preserving committed anchor history as a separate monotone ledger. Identity invariance, memory erasure, boundary cut ablation, negative-sea-caused deviation and recurrent-reference restoration, and outward influence are universally checked across lawful counterfactual continuations. The canonical component remains unlabeled; persistence is not yet agency or life.
+
+The repository still does not constitute the complete Bubble universe. The bounded executor derives one persistent causal structure but not life, internally maintained goals, choice among affordances, agency, relationships, populations, or narrative projection; nor does it provide general coinductive/open-ended dynamics, concrete self-realized branch/spawn/collapse artifacts, a global multi-world sea field, cross-world transfer, a full anchor identity or time-order calculus, multi-region collapse, probabilistic-fractal worldhood, or a first-class external observer-agent model. Deterministic re-execution proves continuity only for the exact recorded program and runtime semantics, not a universal philosophical same-world theorem.
 
 ## Release Discipline
 
@@ -57,9 +60,9 @@ Progress remains closure-first through the `v0.5.x` line. `v0.5.0` opens Phase 1
 
 The `v0.4.9` convergence plan is complete. Its single semantic closure is evidence-bounded source attribution for Q-014: internal world event, negative-sea pressure, anchor drift, positive-sea shift, or unresolved source. The completed boundary is recorded in [architecture/v0.4.9-closure-plan.md](architecture/v0.4.9-closure-plan.md).
 
-The release after `v0.4.9` is `v0.5.0`; its completed successors are `v0.5.1` and the forward corrective `v0.5.2`. `v0.5.2` certifies one bounded actor-neutral generative seam and does not certify OB-001 whole-universe completion. No next release identifier is chosen by this record. Phase 2 observer, agent, and comparative benchmark work must wait until the bubble universe itself is sufficiently complete.
+The release after `v0.4.9` is `v0.5.0`; its completed successors are `v0.5.1`, the forward corrective `v0.5.2`, and the bounded persistence release `v0.5.3`. `v0.5.3` certifies one unlabeled self-maintaining causal component and does not certify life, agency, or OB-001 whole-universe completion. No next release identifier is chosen by this record. Phase 2 observer, agent, and comparative benchmark work must wait until the bubble universe itself is sufficiently complete.
 
-Recursive self-construction is a later horizon, not a `v0.5.1` or `v0.5.2` gate. A future Bubble may generate modules, synthesize and execute verified code, and construct a successor form of itself, but this direction reopens only after every prior idea obligation is realized and the author accepts the current Bubble universe as complete.
+Recursive self-construction is a later horizon, not a `v0.5.1`, `v0.5.2`, or `v0.5.3` gate. A future Bubble may generate modules, synthesize and execute verified code, and construct a successor form of itself, but this direction reopens only after every prior idea obligation is realized and the author accepts the current Bubble universe as complete.
 
 ## Research Preservation
 
@@ -90,6 +93,7 @@ The original dated ideas remain authoritative context even when one bounded impl
 - Do not label a bounded score or proxy as the completed ontology.
 - Do not invent executed causal history for effects that remain potential.
 - Do not claim same-world replay merely because a stored report can be reopened.
+- Do not claim persistence from recurrence, field-role names, or stable scores alone; require causal boundary, identity, memory, maintenance, and influence evidence.
 - Date new records with the actual recording date.
 - Natural language may preserve intent but must not silently become executable law; executable semantics require typed formal lowering.
 - When evidence cannot distinguish an internal event, negative-sea pressure, anchor drift, or positive-sea shift, record the source as unresolved.

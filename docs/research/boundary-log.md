@@ -10,6 +10,96 @@ The point is to keep visible the classes of failure that show where Bubble's own
 
 ## 2026-07-15
 
+### B-014: Pairwise dependency projection crossed into a causal-membrane claim
+
+Observed surface:
+
+The first passing `v0.5.3` candidate expanded each conjunctive guard into independent field-to-effect edges and accepted any two-sided SCC cut containing a boundary-role field. That topology did not prove that boundary state mediated the crossing laws.
+
+Boundary meaning:
+
+An inspectable dependency projection crossed the membrane into causal sufficiency. A decorative boundary field could have certified a membrane while outside influence entered through an unrelated conjunct.
+
+Current handling:
+
+The runtime now retains exact guard/effect tuples in a field/law factor graph. Every incoming and outgoing crossing dependency must bind boundary state. The runtime then restores that state to its pre-formation value, suppresses unrelated recovery laws, and requires every crossing law's realization to change on every lawful counterfactual continuation. One regression rebinds the apparent boundary conjunct to identity; another keeps the binding but makes its predicate tautological. Both are rejected.
+
+Next check:
+
+Do not promote a projected graph cut to topology, individuality, or membrane transport without exact law-level mediation evidence.
+
+### B-013: Change-and-return crossed into recurrent self-maintenance
+
+Observed surface:
+
+The first maintenance detector accepted a negative-sea-caused structural change followed by a return to the closure's final value, even when the alleged disturbance began away from the recurrent reference.
+
+Boundary meaning:
+
+Coincidental return crossed into repair. Without a reference configuration or authored health order, an arbitrary structural excursion could be named erosion and restoration.
+
+Current handling:
+
+The detector derives the exact reference from the certified configuration cycle. The disturbance must begin at that value, deviate from it, and the boundary-and-memory-dependent law must restore exactly that value. A synthetic pre-shift/change/return trace is rejected.
+
+Next check:
+
+Use `deviation` generically; reserve directional terms such as erosion or healing for worlds that supply a formal structural order or potential.
+
+### B-012: Existential union crossed into plural counterfactual proof
+
+Observed surface:
+
+Memory-erasure differences from plural lawful continuations were unioned before classification. One changed branch could therefore certify causal memory even when another lawful branch was unchanged.
+
+Boundary meaning:
+
+Host aggregation silently selected an existential success while the documentation claimed evidence on every lawful continuation.
+
+Current handling:
+
+Every counterfactual continuation now carries separate difference evidence. All changed is `causally-effective`, none changed is `not-effective`, and a mixture is `mixed` and therefore `undetermined`. Outward influence likewise requires an external change on every continuation.
+
+Next check:
+
+Apply the same explicit quantifier discipline to future goal, affordance, action-ablation, and relationship evidence.
+
+### B-011: Configuration recurrence crossed into full anchored-world recurrence
+
+Observed surface:
+
+The first passing lasso hashed causal field configurations only, yet its reason string called the result exact world-state recurrence. The canonical closure appended a new restoration commit on every loop.
+
+Boundary meaning:
+
+A quotient observation crossed into identity of the whole. Treating committed anchor history as if it repeated would erase the very history arrow the repository is required to preserve.
+
+Current handling:
+
+Closure certificates now distinguish causal-configuration digests from an append-only anchor-history ledger. The lasso records ledger counts at cycle start and recurrence and explicitly reports whether the full anchored state repeated. In the canonical case the configuration repeats and the full anchored state does not.
+
+Next check:
+
+Any future recurrence, reversibility, or same-world claim must state its projection and retain non-recurrent identity/history dimensions explicitly.
+
+### B-010: Joint sea-and-damage effects confounded pressure with structural cause
+
+Observed surface:
+
+The first `v0.5.3` canonical fixture used one internal event to increase negative sea and reduce structural integrity simultaneously. It produced the intended final values and a repair cycle, but could not prove that the negative sea caused erosion rather than merely accompanying an unrelated damage effect.
+
+Boundary meaning:
+
+A correlated field change crossed the membrane into a causal claim. If retained, the runtime could have advertised sea-driven self-maintenance using a trace that did not contain a sea-to-structure causal edge.
+
+Current handling:
+
+The fixture now separates negative-sea admission, sea-dependent erosion, sea release, and boundary-and-memory-dependent restoration into distinct exact events. The persistence runtime accepts maintenance evidence only when a negative-sea increase causally precedes structural deviation from the recurrent reference and that deviation causally precedes exact internal restoration to the reference.
+
+Next check:
+
+Reject stronger sea, anchor, agency, or relationship claims whenever the evidence records only simultaneous correlation or a convenient final score rather than the required directed causal chain.
+
 ### B-009: Explanatory protagonist metaphor crossed into mandatory world ontology
 
 Observed surface:

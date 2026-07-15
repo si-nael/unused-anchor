@@ -128,6 +128,7 @@ The repository now contains an executable Bubble Language stack rather than only
 - `v0.5.0` self-realization evidence, continuations, reciprocal reversibility, plural/underdetermined possibility preservation, and history arrows created only by selected commits
 - completed bounded `v0.5.1`: exact intensional families plus autonomous protagonist action, sea-coupled viability, post-state constrained World Will, identity-checked anchor intervention, causal story/history, inspection, and deterministic same-program replay
 - completed bounded `v0.5.2`: actor-neutral causal worlds whose exact state guards generate events and generic structure, protected internal fields, pre/post identity-checked anchored World-Will conditions, honest non-commuting and bounded-search underdetermination, exact layered traces, inspection, and integrity-checked emergence-preserving replay; `v0.5.1` remains a compatible agent-bearing specialization
+- completed bounded `v0.5.3`: unlabeled recurrent components derived from conjunctive law dependencies, boundary-mediated causal hypercuts, causal-configuration recurrence separated from monotone anchor history, universally quantified memory/cut counterfactuals, recurrent-reference restoration after negative-sea deviation, outward influence, and integrity-checked persistence replay
 
 Current stabilization commands:
 
@@ -140,11 +141,13 @@ Current stabilization commands:
 7. `npm run verify:narrative-example`
 8. `npm run verify:causal`
 9. `npm run verify:causal-example`
-10. `npm run verify:examples`
-11. `npm run verify:collapse`
-12. `npm run verify:replay`
-13. `npm run verify:attribution`
-14. `npm run verify:self-realization`
+10. `npm run verify:persistence`
+11. `npm run verify:persistence-example`
+12. `npm run verify:examples`
+13. `npm run verify:collapse`
+14. `npm run verify:replay`
+15. `npm run verify:attribution`
+16. `npm run verify:self-realization`
 
 Representative source examples:
 
@@ -158,8 +161,9 @@ Representative source examples:
 - [examples/memory-seal.bubble](examples/memory-seal.bubble)
 - [examples/anchored-garden.world.json](examples/anchored-garden.world.json)
 - [examples/self-organizing-field.world.json](examples/self-organizing-field.world.json)
+- [examples/self-maintaining-field.world.json](examples/self-maintaining-field.world.json)
 
-`v0.5.0` supplies the first bounded vertical world flow. Completed `v0.5.1` proves one explicit agent-bearing narrative seam. Completed bounded `v0.5.2` generalizes the core so state-bound internal laws generate causal events and structure without requiring a protagonist or plot graph; World Will changes permitted conditions through anchors and cannot directly write protected organization. The narrative kernel remains available as a specialization. None of these releases is the completed Bubble universe: persistent identity, naturally derived agency and relations, open-ended dynamics, global multi-world seas, cross-world anchors, and the full identity calculus remain open before Phase 2.
+`v0.5.0` supplies the first bounded vertical world flow. Completed `v0.5.1` proves one explicit agent-bearing narrative seam. Completed bounded `v0.5.2` generalizes the core so state-bound internal laws generate causal events and structure without requiring a protagonist or plot graph. Completed bounded `v0.5.3` derives one recurrent causal component and verifies boundary, identity, memory, repair, and influence across closures without naming it an agent or imposing universal time. None of these releases is the completed Bubble universe: goals, affordance choice, agency, relations, populations, open-ended dynamics, global multi-world seas, cross-world anchors, and the full identity calculus remain open before Phase 2.
 
 ## Repository Notes
 
@@ -174,5 +178,7 @@ Representative source examples:
 - [docs/reference/anchored-narrative-program.md](docs/reference/anchored-narrative-program.md): executable program, state-bound constraints, decision semantics, CLI, and replay contract
 - [docs/architecture/v0.5.2-generative-causal-universe.md](docs/architecture/v0.5.2-generative-causal-universe.md): actor-neutral generative correction, event formation, emergence, and compatibility boundary
 - [docs/reference/anchored-causal-world.md](docs/reference/anchored-causal-world.md): causal IR, law closure, World-Will constraints, CLI, inspection, and replay contract
+- [docs/architecture/v0.5.3-persistent-causal-structure.md](docs/architecture/v0.5.3-persistent-causal-structure.md): closure coalgebra, derived causal boundary, memory and maintenance counterfactuals, and non-closure boundary
+- [docs/reference/persistent-causal-world.md](docs/reference/persistent-causal-world.md): persistence program, execution, inspection, CLI, and replay contract
 - [docs/architecture/v0.4.9-closure-plan.md](docs/architecture/v0.4.9-closure-plan.md): completed bounded convergence gate before `v0.5`
 - [docs/architecture/v0.5-self-realization-plan.md](docs/architecture/v0.5-self-realization-plan.md): implemented `v0.5` Phase 1 vertical world-flow boundary and `v0.5.1` continuation queue

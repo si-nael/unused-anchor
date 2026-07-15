@@ -11,6 +11,8 @@ For the consolidated language reference, see `docs/reference/bubble-language-ref
 - `grammar-nursery.bubble`: minimal `bubbles.v0.3` grammar artifact example
 - `grammar-canopy.bubble`: `v0.3` layered local grammar-profile chain with default activation resolution
 - `attribution-crossroads.bubble`: `v0.4.9` ambiguity fixture where direct negative-sea and anchor-drift evidence must remain `unresolved-source`
+- `self-organizing-field.world.json`: `v0.5.2` actor-neutral state-generated structure and anchored causal replay
+- `self-maintaining-field.world.json`: `v0.5.3` derived causal boundary, exact recurrence, memory erasure, sea erosion, internal repair, and persistence replay
 
 Run the examples through the existing CLI scripts:
 
@@ -24,5 +26,7 @@ Run the examples through the existing CLI scripts:
 - `npm run compile:grammar-example`
 - `npm run inspect:grammar-example`
 - `npm run inspect:grammar-chain-example`
+- `npm run verify:causal-example`
+- `npm run verify:persistence-example`
 
 Generated outputs land under `data/runs/`.

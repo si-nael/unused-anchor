@@ -30,7 +30,7 @@ Use the current minimum schema as the `v0.4` baseline and revise it only when a 
 
 ### Q-002: How should the negative sea be represented operationally?
 
-Status: partially answered through v0.5.2
+Status: partially answered through v0.5.3
 
 Question:
 
@@ -44,6 +44,7 @@ Current implementation:
 - `negative-sea-state` evidence records
 - boundary and effect-role structure lowering into explicit sea-source IR, then feeding runtime ontology and proof basis
 - `bubble-anchored-narrative-program.v1` projects exact negative-sea state into viability after initialization and every causal transition
+- the v0.5.3 persistence fixture separates negative-sea admission, sea-caused structural erosion, sea release, and internal restoration into directed causal events
 
 Remaining gap:
 
@@ -107,7 +108,7 @@ Extend identity only from a concrete same-world counterexample, semantic migrati
 
 ### Q-005: When does replay return to the same world?
 
-Status: partially answered through v0.5.2
+Status: partially answered through v0.5.3
 
 Question:
 
@@ -120,6 +121,7 @@ Current implementation:
 - authored anchor criterion and runtime ontology basis feeding replay proof
 - observed history shapes preserved through materialization, inspection, and replay
 - anchored narrative records store the exact formal program and options, re-execute them, compare the complete run digest, and preserve selected and unresolved continuation identities
+- persistent causal records additionally preserve exact closure cycles, derived-component assessments, memory counterfactuals, maintenance evidence, and stored-run integrity across re-execution
 
 Remaining gap:
 
@@ -404,7 +406,7 @@ Preserve the current bounded semantics through `v0.4.9`. Reopen the proof shape 
 
 ### Q-018: How can a bubble realize itself through world will rather than an external chooser?
 
-Status: implemented bounded baseline through v0.5.2
+Status: implemented bounded baseline through v0.5.3
 
 Question:
 
@@ -419,10 +421,11 @@ Current implementation:
 - self-realization proof, evidence, effect causality, source attribution, inspection, and replay
 - actual history commit only for an admitted `commit` transformation
 - the v0.5.1 anchored narrative runtime closes a finite causal story, evaluates exact World-Will objectives/costs and post-state constraints, preserves equal alternatives, and reports resource exhaustion without a host selection
+- the v0.5.3 persistence layer unfolds every selected causal continuation, preserves contradiction and unresolved frontiers, and certifies exact recurrence without choosing a branch
 
 Remaining gap:
 
-- the original `.bubble` self-realization path still evaluates one scalar frontier; the new formal narrative path executes a finite acyclic multi-event closure but is not persistent across records
+- the original `.bubble` self-realization path still evaluates one scalar frontier; the v0.5.3 recurrence proof is bounded to an exact actor-neutral field structure rather than a persistent story or general open-ended process
 - branch, spawn, and collapse are typed continuation consequences but not all yet execute concrete world artifacts or retirement records from self-realization
 - transformations currently change one scalar coordinate at a time
 - narrative consequences feed exact local sea-coupled viability but not a global multi-world sea/anchor dynamics calculus
@@ -433,7 +436,7 @@ Reopen from a concrete persistent-story, branch/spawn/collapse artifact, relatio
 
 ### Q-019: What does time mean inside a bubble universe?
 
-Status: partially implemented through v0.5.2
+Status: partially implemented through v0.5.3
 
 Question:
 
@@ -448,10 +451,11 @@ Current implementation:
 - selected commit transforms create `committed-history` order and the history arrow
 - branch and terminal consequences have distinct topology
 - the anchored narrative runtime records an explicit causal DAG, host evaluation order, reversible/irreversible event sets, and commit-created history arrows separately
+- the persistent causal runtime records an exact closure coalgebra and finite lasso recurrence certificate while keeping `universalClock: false`; closure numbers are proof coordinates rather than duration
 
 Remaining gap:
 
-- no first-class cyclic trajectory, duration, synchronization, or metric-time semantics
+- no duration, synchronization, metric-time semantics, or general concurrent/cross-world recurrence calculus
 - no theorem yet connecting the discrete realization order to the analytic path parameter used in the sea-anchor proof
 - interaction among multiple bubbles with distinct order structures remains open
 
@@ -549,7 +553,7 @@ Reopen only after all earlier idea obligations are realized, the current Bubble 
 
 ### Q-023: How can protagonists, agency, and stories arise without being forced into every world?
 
-Status: implemented actor-neutral generative baseline in v0.5.2; stronger emergence remains open
+Status: implemented actor-neutral generative and bounded persistent baseline through v0.5.3; agency remains open
 
 Question:
 
@@ -566,14 +570,50 @@ Current implementation:
 - pre- and post-state anchor identity checks prevent an intervention-dependent closure from silently leaving the declared world identity
 - same-frontier co-causes, explicit viability trace layers, lazy exact-bounded intervention search, and stored-run integrity close the first adversarial audit counterexamples
 - the `v0.5.1` narrative kernel remains validated as a compatible explicitly agent-bearing specialization
+- `bubble-persistent-causal-program.v1` derives recurrent field components from a field/law factor graph while retaining complete conjunctive law dependencies rather than declaring an entity
+- every lawful selected closure path is unfolded; exact causal-configuration recurrence yields a finite lasso without a universal clock or host-selected branch, while irreversible commits extend a separate monotone anchor-history ledger
+- a stronger persistence assessment separately requires a fully boundary-mediated causal hypercut with effective cut ablation, invariant identity, memory effective on every counterfactual continuation, negative-sea-caused deviation followed by exact recurrent-reference restoration, and universally counterfactually discriminated outward influence
+- memory erasure, excessive erosion, proof-budget exhaustion, contradiction, stored-record tampering, and disabled World Will have explicit regression evidence
 
 Remaining gap:
 
-- the current emergence predicate detects authored structural properties; it does not derive the criterion for life, persistent identity, goals, counterfactual agency, relationships, or narrative coherence
-- internal laws apply once per realization and produce finite closure; persistent, cyclic, coinductive, spatial, or evolutionary dynamics remain open
-- no law yet forms a new field schema, entity boundary, memory-bearing individual, or relationship network dynamically
+- the bounded persistence detector does not derive life, goals, counterfactual choice among affordances, relationships, or narrative coherence
+- recurrence is certified only by finite exact closure lassos; general coinductive, spatial, evolutionary, concurrent, and open-ended dynamics remain open
+- the causal boundary is derived around existing exact fields; no law yet forms a new field schema, population, or relationship network dynamically
 - multi-world sea transport, anchor transfer, and full identity remain absent
 
 Next check:
 
-Add the smallest persistence-and-boundary case in which a structure maintains identity, memory, and causal influence across more than one closure without naming it a protagonist in advance. Define the stronger label only from explicit invariant and counterfactual evidence.
+Add the smallest goal-and-affordance case in which a certified persistent structure changes a lawful outcome under an internally maintained objective and action ablation. Do not call it an agent until counterfactual choice and autonomy are executable, and do not force that structure into worlds whose laws do not generate it.
+
+### Q-024: When is a recurrent causal structure genuinely persistent?
+
+Status: implemented bounded exact baseline in v0.5.3
+
+Question:
+
+What executable evidence distinguishes a field pattern that merely repeats from a structure that maintains a boundary and identity, carries causally active memory, repairs sea-caused damage, and affects its surroundings without being named as an entity in advance?
+
+Current implementation:
+
+- internal-law guard tuples and effect tuples derive a field/law factor graph and strongly connected field projections without discarding conjunctive dependency structure
+- single-world recurrent components with structural, identity, memory, and boundary roles become candidates without an entity declaration
+- incoming and outgoing law hypercuts provide a bounded causal membrane only when every crossing law binds boundary state and pre-formation boundary-state ablation changes every crossing law's realization on every lawful anchored continuation after unrelated recovery laws are suppressed
+- the closure map is unfolded as a finite-branching coalgebra; all lawful selected continuations survive and an exact repeated causal configuration creates a finite lasso certificate only after at least two closures; committed anchor history remains a separate monotone extension and is never claimed to repeat with the configuration
+- identity fields must remain invariant across the certified recurrence cuts
+- erasing retained memory to its pre-formation value must change every lawful next continuation; mixed branches remain `undetermined`
+- self-maintenance requires an explicit causal chain from negative-sea increase to structural deviation away from the recurrent reference and a boundary-and-memory-dependent internal restoration to that exact reference
+- outward causal influence requires a realized outgoing-cut law and an externally changed field in every memory-erasure continuation
+- non-recurrence under the closure bound and path-capacity exhaustion remain `undetermined`; contradiction remains contradiction
+- run, inspection, stored record, and deterministic re-execution preserve cycles and all persistence evidence
+
+Remaining gap:
+
+- the component detector uses exact strongly connected field dependencies and four semantic field roles; this is not a universal biological, topological, or categorical account of individuality
+- finite configuration-lasso recurrence does not prove an actually infinite physical history or repeated committed history, only exact closure of the causal configuration under the implemented coalgebra
+- maintenance covers one exact sea pulse and restoration capacity, not continuous membrane flow, learning, metabolism, reproduction, or evolution
+- persistence alone does not establish goals, action alternatives, agency, relationships, experience, or narrative
+
+Next check:
+
+Reopen from the first certified persistent structure that needs an internal objective, more than one lawful affordance, and action-ablation evidence. Preserve the distinction between persistence, agency, protagonist identity, and narrative projection.

@@ -2,6 +2,8 @@
 
 Applies to: `bubble-anchored-causal-world.v2`, `bubble-anchored-causal-program.v2`, and `v0.5.2`
 
+Compatibility note: `v0.5.3` leaves this once-per-realization contract unchanged and unfolds it through the separate [Persistent Causal World](persistent-causal-world.md) layer.
+
 ## Program Shape
 
 An executable program contains:

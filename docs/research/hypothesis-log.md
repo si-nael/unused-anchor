@@ -246,7 +246,7 @@ Extend the same law to one bounded multi-step or concrete branching transition w
 
 ### H-011: Bubble order can emerge without imposing a universal clock
 
-Status: partially validated by v0.5.0
+Status: partially validated through v0.5.3
 
 Claim:
 
@@ -258,6 +258,7 @@ Validation evidence:
 - reciprocal transforms have `ordering: causal` and no history arrow
 - selected commit transform has `ordering: committed-history`, creates one root commit, and records the history arrow
 - all self-realization records state `no-universal-clock`
+- v0.5.3 unfolds exact causal closures, records configuration-continuation edges, certifies finite causal-configuration lassos, and preserves monotone committed anchor history separately while explicitly keeping closure indices separate from world duration
 
 Would be weakened by:
 
@@ -267,7 +268,7 @@ Would be weakened by:
 
 Next check:
 
-Add a small explicit causal-order or cycle fixture before claiming the hypothesis beyond the current single-frontier distinction.
+Reopen from a concrete need for concurrent recurrence, duration, synchronization, or cross-world order; do not reinterpret closure proof coordinates as metric time.
 
 ### H-012: Exact intensional families can preserve infinite denotation under finite observation
 
@@ -353,4 +354,39 @@ Would be weakened by:
 
 Next check:
 
-Model one bounded persistent structure with boundary, memory, self-maintenance, and causal counterfactuals across more than one closure. Do not call it an agent until the stronger criteria are executable.
+The bounded persistence case is now H-015. Reopen H-014 only if a stronger persistent or agent-bearing extension makes actor-neutral worlds unrepresentable or lets World Will manufacture protected structure.
+
+### H-015: Exact recurrence plus counterfactual evidence can certify bounded self-maintenance
+
+Status: validated for the bounded v0.5.3 persistent causal world
+
+Claim:
+
+An unlabeled recurrent field component can be distinguished from a merely repeating pattern when conjunctive law hypercuts are fully mediated by its boundary, identity remains invariant across a causal-configuration lasso, retained memory changes every lawful next continuation under erasure, negative-sea pressure causes an inspectable deviation from the recurrent reference followed by exact internal restoration, and the component has universally counterfactually discriminated outward influence.
+
+Validation evidence:
+
+- a field/law factor graph retains complete conjunctive dependencies and derives one strongly connected field projection containing boundary, identity, integrity, memory, and repair phase without declaring an entity
+- negative sea remains outside that component and crosses its incoming law hypercut; every incoming/outgoing crossing law binds boundary state, and pre-formation boundary-state ablation changes every crossing law's realization on every continuation after unrelated recovery is suppressed
+- the formed causal configuration recurs after two exact closures with a one-closure cycle and `universalClock: false`; two distinct restoration commits remain in the monotone anchor ledger, so the full anchored state is not misreported as repeating
+- an authored plural World-Will tie produces two lawful persistence paths and the persistence layer unfolds and verifies both rather than selecting one
+- identity remains exact at every certified recurrence cut
+- erasing retained memory to its pre-formation value prevents repair and changes the external signal on every lawful counterfactual continuation; a synthetic mixed-branch regression remains unresolved
+- negative-sea admission causes a distinct deviation event from the recurrent integrity reference, which causes a boundary-and-memory-dependent exact restoration event
+- excessive erosion defeats the restoration law and is not misreported as persistence
+- a synthetic change-return trace whose alleged disturbance begins away from the recurrent reference is rejected as self-maintenance
+- World-Will-disabled execution preserves the self-maintenance cycle
+- closure/path exhaustion remains unresolved, underlying contradiction remains contradiction, and stored-record tampering produces replay drift
+
+Would be weakened by:
+
+- a boundary supplied only as an authored entity membership list or pairwise dependency cut rather than a boundary-mediated conjunctive law hypercut
+- a memory field whose erasure changes no lawful continuation, or only some plural continuations
+- a restoration event with no causal negative-sea predecessor or no exact recurrent-reference deviation and return
+- host selection of one recurrent branch while another lawful branch dissolves
+- treating state repetition, a field role name, or a stable report score alone as persistence
+- calling the certified component an agent without goal, affordance, and action-ablation evidence
+
+Next check:
+
+Model one internally maintained objective with at least two lawful affordances and counterfactual action ablation on a certified persistent component. Keep agency, protagonist identity, relationships, and story projection as separate later claims.
