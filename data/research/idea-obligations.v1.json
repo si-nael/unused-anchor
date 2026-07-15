@@ -1,0 +1,137 @@
+{
+  "mode": "bubble-author-idea-obligations.v1",
+  "recordedDate": "2026-07-15",
+  "workingRelease": "0.5.1",
+  "sourceDocument": "docs/research/author-idea-corpus.md",
+  "nonClosureRule": "A bounded implementation may advance status but must not delete source text, erase remaining obligations, or claim the whole idea from a proxy.",
+  "obligations": [
+    {
+      "id": "OB-001",
+      "sourceIds": ["AI-20260715-001"],
+      "concept": "whole-universe completion",
+      "invariant": "No release or proxy may be called the complete Bubble universe while a recorded reasonable consequence remains unrealizable.",
+      "dependencies": ["OB-003", "OB-004", "OB-005", "OB-006", "OB-007", "OB-008"],
+      "status": "open",
+      "implementationEvidence": [],
+      "acceptanceTests": [],
+      "remainingLimits": ["The completeness frontier and the closure rule for newly derived reasonable concepts remain open."],
+      "reopenCondition": "Always live until the author accepts a complete connected realization and its derivation ledger."
+    },
+    {
+      "id": "OB-002",
+      "sourceIds": ["AI-20260715-002"],
+      "concept": "order without universal time",
+      "invariant": "Change, reversibility, recurrence, causal order, and irreversible history remain distinct without a mandatory scalar clock.",
+      "dependencies": ["OB-004", "OB-007"],
+      "status": "partial",
+      "implementationEvidence": ["src/bubbles/runtime/self-realization.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "docs/research/question-log.md#q-019"],
+      "acceptanceTests": ["tests/unit/self-realization.test.ts", "tests/unit/anchored-narrative-runtime.test.ts"],
+      "remainingLimits": ["The bounded causal DAG has no cyclic trajectory, duration, metric time, or cross-world synchronization calculus."],
+      "reopenCondition": "Reopen for every world law requiring concurrency, cycles, duration, or cross-bubble order."
+    },
+    {
+      "id": "OB-003",
+      "sourceIds": ["AI-20260715-003", "AI-20260715-005"],
+      "concept": "organic world self-realization",
+      "invariant": "World continuation follows from one coupled lawful structure and never from a hidden host selector or an unrelated menu of regimes.",
+      "dependencies": ["OB-004", "OB-005", "OB-006", "OB-007"],
+      "status": "partial",
+      "implementationEvidence": ["src/bubbles/runtime/self-realization.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "docs/research/question-log.md#q-018", "docs/research/question-log.md#q-021"],
+      "acceptanceTests": ["tests/unit/self-realization.test.ts", "tests/unit/anchored-narrative-runtime.test.ts"],
+      "remainingLimits": ["The connected v0.5.1 seam is a finite acyclic closure; persistent stories, relationship affordances, cross-world transfer, and complete universe generation remain open."],
+      "reopenCondition": "Remains open until coupled narrative dynamics replace the bounded candidate-admission baseline."
+    },
+    {
+      "id": "OB-004",
+      "sourceIds": ["AI-20260715-004"],
+      "concept": "internal whole generation",
+      "invariant": "A Bubble can lawfully generate its own connected internal whole without the host inventing missing world semantics.",
+      "dependencies": ["OB-006", "OB-007", "OB-008"],
+      "status": "open",
+      "implementationEvidence": ["src/bubbles/language/grammars.ts", "src/bubbles/runtime/materialize.ts"],
+      "acceptanceTests": [],
+      "remainingLimits": ["Current staged grammar and descendant generation do not generate a whole narrative world."],
+      "reopenCondition": "Remains open through every partial self-generation slice."
+    },
+    {
+      "id": "OB-005",
+      "sourceIds": ["AI-20260715-006"],
+      "concept": "protagonist agency and autonomous story",
+      "invariant": "Each Bubble may contain distinct protagonists whose causal actions sustain a coherent story even when World Will does not intervene.",
+      "dependencies": ["OB-006", "OB-007"],
+      "status": "partial",
+      "implementationEvidence": ["src/bubbles/world-kernel/narrative.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "examples/anchored-garden.world.json"],
+      "acceptanceTests": ["tests/unit/anchored-narrative-world.test.ts", "tests/unit/anchored-narrative-runtime.test.ts"],
+      "remainingLimits": ["Autonomous finite causal closure exists, but persistent open-ended story evolution and relationship-dependent action affordances do not."],
+      "reopenCondition": "Remains open until autonomous multi-step stories and agency-preservation counterfactuals pass."
+    },
+    {
+      "id": "OB-006",
+      "sourceIds": ["AI-20260715-006"],
+      "concept": "objective World Will and anchor-mediated intervention",
+      "invariant": "World Will acts under explicit objective and constraint structure, and any cross-world intervention is carried by an anchor with identity and causal provenance.",
+      "dependencies": ["OB-005", "OB-007"],
+      "status": "partial",
+      "implementationEvidence": ["src/bubbles/runtime/ontology.ts", "src/bubbles/runtime/self-realization.ts", "src/bubbles/world-kernel/narrative.ts", "src/bubbles/world-kernel/narrative-runtime.ts"],
+      "acceptanceTests": ["tests/unit/anchored-narrative-world.test.ts", "tests/unit/anchored-narrative-runtime.test.ts"],
+      "remainingLimits": ["World Will executes exact bounded objective/cost/constraint optimization through local anchors, but cross-world transfer and a full identity calculus remain open."],
+      "reopenCondition": "Remains open until anchor-cut and World-Will-disabled counterfactuals discriminate the mechanisms."
+    },
+    {
+      "id": "OB-007",
+      "sourceIds": ["AI-20260715-006"],
+      "concept": "positive and negative sea dynamics",
+      "invariant": "Positive and negative seas materially alter world viability, continuity, and intervention conditions without becoming moral labels or decorative scores.",
+      "dependencies": ["OB-006"],
+      "status": "partial",
+      "implementationEvidence": ["src/bubbles/runtime/ontology.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "docs/architecture/sea-anchor-model.md"],
+      "acceptanceTests": ["tests/unit/materialize-bubble.test.ts", "tests/unit/anchored-narrative-runtime.test.ts"],
+      "remainingLimits": ["Exact local sea projections change viability after causal events, but global multi-world sea transport and membrane dynamics remain open."],
+      "reopenCondition": "Remains open until dynamic sea pressure changes a lawful narrative outcome through an inspectable causal path."
+    },
+    {
+      "id": "OB-008",
+      "sourceIds": ["AI-20260715-007", "AI-20260715-008", "AI-20260715-009"],
+      "concept": "formal intensional language",
+      "invariant": "Natural language preserves intent but executable truth is a typed formal object able to denote unbounded and infinite-dimensional structures without eager enumeration.",
+      "dependencies": [],
+      "status": "partial",
+      "implementationEvidence": ["src/bubbles/world-kernel/intensional.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "docs/architecture/v0.5.1-anchored-narrative-world.md"],
+      "acceptanceTests": ["tests/unit/intensional-world-kernel.test.ts", "tests/unit/anchored-narrative-runtime.test.ts"],
+      "remainingLimits": ["The kernel covers exact countable index products, guarded natural recursion, and state-bound narrative queries, not uncountable domains, coinductive streams, symbolic limits, integration, or authored Bubble-syntax lowering."],
+      "reopenCondition": "Reopen whenever a required Bubble object cannot be denoted or queried without opaque host behavior."
+    },
+    {
+      "id": "OB-009",
+      "sourceIds": ["AI-20260715-006"],
+      "concept": "non-privileged world topology",
+      "invariant": "The meaning of the unique or core world and its anchor relation must remain explicit; no implementation may silently install one privileged absolute original.",
+      "dependencies": ["OB-006"],
+      "status": "open",
+      "implementationEvidence": ["src/bubbles/ir/index.ts", "src/bubbles/world-kernel/narrative.ts", "examples/anchored-garden.world.json"],
+      "acceptanceTests": ["tests/unit/anchored-narrative-world.test.ts"],
+      "remainingLimits": ["Lineage-relative addressing exists, but the intended topology of 고유 세계 remains an author question."],
+      "reopenCondition": "Must be resolved with the author before a root-world hierarchy becomes executable semantics."
+    },
+    {
+      "id": "OB-010",
+      "sourceIds": ["AI-20260715-011"],
+      "concept": "recursive self-construction and code realization",
+      "invariant": "A future Bubble may generate modules, a successor form of itself, and executable formal code only with preserved semantics, provenance, verification, and resource boundaries.",
+      "dependencies": ["OB-001", "OB-004", "OB-008"],
+      "status": "deferred",
+      "implementationEvidence": ["src/bubbles/language/grammars.ts", "src/bubbles/world-kernel/intensional.ts"],
+      "acceptanceTests": [],
+      "remainingLimits": ["Current Bubble can stage artifacts and grammar descriptions but cannot generate, verify, rebuild, or execute a successor implementation of itself."],
+      "reopenCondition": "Reopen only after every prior obligation is realized and the author explicitly accepts the current Bubble universe as complete."
+    }
+  ],
+  "sessionConstraints": [
+    {
+      "id": "SC-001",
+      "sourceIds": ["AI-20260715-010"],
+      "rule": "The working release is v0.5.1 and this development session must not create a commit.",
+      "status": "in-force"
+    }
+  ]
+}

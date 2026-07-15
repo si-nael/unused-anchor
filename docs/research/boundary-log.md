@@ -10,6 +10,24 @@ The point is to keep visible the classes of failure that show where Bubble's own
 
 ## 2026-07-15
 
+### B-008: Independent semantic-regime selection violated the organic-world boundary
+
+Observed surface:
+
+An initial `v0.5.1` experiment modeled several mathematical or semantic regimes as parallel authored candidates and let runtime machinery select a staged winner. It compiled and passed tests but contradicted the author's requirement that the Bubble universe be one organically and necessarily coupled world.
+
+Boundary meaning:
+
+External implementation mathematics crossed into the world ontology as a menu. That confused how Bubble is implemented with what Bubble inhabitants and worlds choose, and it repeated the bounded `v0.5.0` candidate pattern at a level where protagonists, story, anchors, seas, and World Will should instead be causally integrated.
+
+Current handling:
+
+All code, examples, generated records, and documentation from that experiment were removed before `v0.5.1` development resumed. The replacement architecture keeps mathematical techniques host-side, records natural language as provenance only, and starts from one typed intensional kernel plus an anchored narrative-world contract.
+
+Next check:
+
+Reject any architecture that introduces unrelated regime menus, hidden host selection, or direct World-Will puppeteering where one coupled causal model is required.
+
 ### B-007: Phase-2 benchmark planning crossed the unfinished-world boundary
 
 Observed surface:

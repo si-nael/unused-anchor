@@ -126,6 +126,7 @@ The repository now contains an executable Bubble Language stack rather than only
 - `v0.4.8` effect-trace causal links from authored effects to the concrete evidence records and descendant artifacts they explain
 - `v0.4.9` evidence-bounded event-source attribution for internal world events, negative-sea pressure, anchor drift, positive-sea shifts, and honestly unresolved sources
 - `v0.5.0` self-realization evidence, continuations, reciprocal reversibility, plural/underdetermined possibility preservation, and history arrows created only by selected commits
+- completed bounded `v0.5.1`: exact intensional families plus autonomous protagonist action, sea-coupled viability, post-state constrained World Will, identity-checked anchor intervention, causal story/history, inspection, and deterministic same-program replay
 
 Current stabilization commands:
 
@@ -133,11 +134,14 @@ Current stabilization commands:
 2. `npm run verify`
 3. `npm run verify:core`
 4. `npm run verify:records`
-5. `npm run verify:examples`
-6. `npm run verify:collapse`
-7. `npm run verify:replay`
-8. `npm run verify:attribution`
-9. `npm run verify:self-realization`
+5. `npm run verify:intensional`
+6. `npm run verify:narrative`
+7. `npm run verify:narrative-example`
+8. `npm run verify:examples`
+9. `npm run verify:collapse`
+10. `npm run verify:replay`
+11. `npm run verify:attribution`
+12. `npm run verify:self-realization`
 
 Representative source examples:
 
@@ -149,8 +153,9 @@ Representative source examples:
 - [examples/attribution-crossroads.bubble](examples/attribution-crossroads.bubble)
 - [examples/self-held-garden.bubble](examples/self-held-garden.bubble)
 - [examples/memory-seal.bubble](examples/memory-seal.bubble)
+- [examples/anchored-garden.world.json](examples/anchored-garden.world.json)
 
-`v0.5.0` now supplies the first organic vertical world flow: authored state becomes lawful candidates, executable world will admits continuations, proof/evidence records the result, and a selected commit alone creates durable history. This is not yet the completed bubble universe. `v0.5.1` and later must deepen autonomous continuation, state coupling, concrete branch/spawn/collapse transitions, time/order structure, sea dynamics, and same-world replay before Phase 2 observer or agent work begins.
+`v0.5.0` supplies the first bounded vertical world flow: authored state becomes lawful candidates, executable World Will admits continuations, proof/evidence records the result, and a selected commit alone creates durable history. Completed `v0.5.1` connects exact intensional fields, autonomous protagonist action, sea-dependent viability, objective-and-constraint World Will, anchor-mediated condition changes, causal story, commit-only history, inspection, and deterministic same-program replay. This is one bounded connected seam, not the completed Bubble universe; persistent stories, relationship affordances, global multi-world seas, cross-world anchors, and the full identity calculus remain open before Phase 2.
 
 ## Repository Notes
 
@@ -160,5 +165,8 @@ Representative source examples:
 - [docs/research/question-log.md](docs/research/question-log.md): open research questions and status
 - [docs/research/hypothesis-log.md](docs/research/hypothesis-log.md): falsifiable hypotheses and test plans
 - [docs/research/boundary-log.md](docs/research/boundary-log.md): observed language and runtime membrane failures
+- [docs/research/author-idea-corpus.md](docs/research/author-idea-corpus.md): immutable author quotations separated from engineering interpretation
+- [docs/architecture/v0.5.1-anchored-narrative-world.md](docs/architecture/v0.5.1-anchored-narrative-world.md): completed bounded connected world architecture, evidence, and reopen frontier
+- [docs/reference/anchored-narrative-program.md](docs/reference/anchored-narrative-program.md): executable program, state-bound constraints, decision semantics, CLI, and replay contract
 - [docs/architecture/v0.4.9-closure-plan.md](docs/architecture/v0.4.9-closure-plan.md): completed bounded convergence gate before `v0.5`
 - [docs/architecture/v0.5-self-realization-plan.md](docs/architecture/v0.5-self-realization-plan.md): implemented `v0.5` Phase 1 vertical world-flow boundary and `v0.5.1` continuation queue

@@ -6,7 +6,7 @@ Last reconciled: 2026-07-15
 
 ### Q-001: What is the minimal independent bubble-world schema?
 
-Status: partially answered through v0.4.9
+Status: partially answered through v0.5.1
 
 Question:
 
@@ -15,6 +15,7 @@ What is the smallest Bubble world definition that still deserves to count as an 
 Current implementation:
 
 - the compiler separates minimum authored shape from stronger runtime worldhood certification
+- the anchored narrative IR adds formal fields, protagonists, goals, relationships, local sea coupling, anchors, World Will, causal events, and no-universal-clock order to the executable minimum
 - a bubble receives its own lineage-relative address, boundary, generation lifecycle, semantic plan, ontology assessment, and proof surface
 - `claim:worldhood` prevents mere syntax success from being presented as sufficient worldhood
 
@@ -29,7 +30,7 @@ Use the current minimum schema as the `v0.4` baseline and revise it only when a 
 
 ### Q-002: How should the negative sea be represented operationally?
 
-Status: partially answered through v0.4.9
+Status: partially answered through v0.5.1
 
 Question:
 
@@ -42,19 +43,20 @@ Current implementation:
 - `bubble.seaSemantics.negativePressureSources`
 - `negative-sea-state` evidence records
 - boundary and effect-role structure lowering into explicit sea-source IR, then feeding runtime ontology and proof basis
+- `bubble-anchored-narrative-program.v1` projects exact negative-sea state into viability after initialization and every causal transition
 
 Remaining gap:
 
 - pressure sources are now explicit IR semantics, but still projected from authored structure rather than direct source-level law objects
-- no continuous or step-level negative-sea dynamics exists yet
+- local step-level coupling exists, but no global multi-world transport, continuous erosion, or membrane flow law exists yet
 
 Next check:
 
-Decide whether any negative-sea source classes need direct authored syntax beyond the current IR projection, or whether richer dynamics should come first.
+Reopen from the first world that requires cross-world transport, continuous erosion, or a membrane pressure law beyond exact local projection.
 
 ### Q-003: How should the positive sea be represented operationally?
 
-Status: partially answered through v0.4.9
+Status: partially answered through v0.5.1
 
 Question:
 
@@ -67,19 +69,20 @@ Current implementation:
 - `bubble.seaSemantics.positiveSupportSources`
 - `positive-sea-state` evidence records
 - lineage, boundary, history-support, and staged-emission structure lowering into explicit sea-source IR, then feeding runtime ontology and proof basis
+- `bubble-anchored-narrative-program.v1` projects exact positive-sea state into viability after initialization and every causal transition
 
 Remaining gap:
 
 - support sources are now explicit IR semantics, but still projected from authored structure rather than direct source-level stabilization law
-- there is still no richer positive-sea dynamics model beyond bounded source aggregation
+- local step-level coupling exists, but no global placement, transport, or growth law exists yet
 
 Next check:
 
-Decide whether any stabilization or lineage signals need direct authored law surfaces beyond the current IR projection.
+Reopen from the first lineage-placement, cross-world transport, or growth case that exact local projection cannot express.
 
 ### Q-004: What makes an anchor point strong enough?
 
-Status: partially answered through v0.4.9
+Status: partially answered through v0.5.1
 
 Question:
 
@@ -91,19 +94,20 @@ Current implementation:
 - separated `declaredHistorySupport` and `materializedHistoryEvidence`
 - `authoredCriterionStatus`, `authoredCriterionBasis`, `materializedEvidenceSources`, and `identityStatus`
 - theorem witness plus bounded proof claims for anchor and replay identity
+- exact formal anchor-identity predicates, route permission, target reachability, cut-anchor counterfactuals, and intervention trace are executable in the anchored narrative runtime
 
 Remaining gap:
 
 - anchor strength is still an inferred bounded score, not a full authored identity calculus
-- boundary, world will, and runtime evidence are more honest now, but still not yet a complete same-world proof basis
+- the bounded predicate and route contract is not yet a complete cross-world same-identity calculus
 
 Next check:
 
-Continue replacing coarse proxy scoring with explicit authored or IR-supported identity conditions where the semantics are now stable enough.
+Extend identity only from a concrete same-world counterexample, semantic migration, or cross-world anchor transfer that the current exact predicate cannot decide.
 
 ### Q-005: When does replay return to the same world?
 
-Status: partially answered through v0.4.9
+Status: partially answered through v0.5.1
 
 Question:
 
@@ -115,19 +119,20 @@ Current implementation:
 - explicit distinction between declared history support and materialized history evidence
 - authored anchor criterion and runtime ontology basis feeding replay proof
 - observed history shapes preserved through materialization, inspection, and replay
+- anchored narrative records store the exact formal program and options, re-execute them, compare the complete run digest, and preserve selected and unresolved continuation identities
 
 Remaining gap:
 
 - observation-history shape still influences replay mainly through basis and runtime policy surfaces rather than a dedicated proof family
-- multi-region and stochastic replay semantics remain intentionally out of scope for stabilization
+- same-program deterministic re-execution is bounded to the current runtime semantics; cross-version, multi-region, and stochastic replay remain open
 
 Next check:
 
-Keep the stored-report replay claim explicitly bounded. Before `v0.5` promises same-world replay, define a deterministic re-execution comparison that can distinguish artifact equality, lawful same-world evolution, and nearby reconstruction.
+Reopen from the first runtime-version migration, cross-implementation execution, multi-region history, or stochastic identity case; do not generalize same-program digest equality into a universal same-world theorem.
 
 ### Q-006: How should an unbounded multiverse be represented?
 
-Status: partially answered through v0.4.9
+Status: partially answered through v0.5.1
 
 Question:
 
@@ -138,6 +143,7 @@ Current implementation:
 - lineage-relative addresses and templates avoid one cheap absolute multiverse index
 - quotes, generators, latent-bubble semantics, staged emissions, and bundle plans preserve world families intensionally
 - materialization creates only selected artifacts and local observed regions
+- exact natural, integer, and finite-product intensional families denote countably infinite and infinite-dimensional fields while evaluating only demanded coordinates
 
 Remaining gap:
 
@@ -398,7 +404,7 @@ Preserve the current bounded semantics through `v0.4.9`. Reopen the proof shape 
 
 ### Q-018: How can a bubble realize itself through world will rather than an external chooser?
 
-Status: implemented bounded baseline in v0.5.0
+Status: implemented bounded baseline through v0.5.1
 
 Question:
 
@@ -412,21 +418,22 @@ Current implementation:
 - provenance-bearing continuations and explicit resume input that cannot select a winner
 - self-realization proof, evidence, effect causality, source attribution, inspection, and replay
 - actual history commit only for an admitted `commit` transformation
+- the v0.5.1 anchored narrative runtime closes a finite causal story, evaluates exact World-Will objectives/costs and post-state constraints, preserves equal alternatives, and reports resource exhaustion without a host selection
 
 Remaining gap:
 
-- one materialization evaluates one self-realization frontier; there is no bounded autonomous multi-step traversal yet
+- the original `.bubble` self-realization path still evaluates one scalar frontier; the new formal narrative path executes a finite acyclic multi-event closure but is not persistent across records
 - branch, spawn, and collapse are typed continuation consequences but not all yet execute concrete world artifacts or retirement records from self-realization
 - transformations currently change one scalar coordinate at a time
-- selected realization consequences do not yet feed back into a full sea/anchor dynamics calculus
+- narrative consequences feed exact local sea-coupled viability but not a global multi-world sea/anchor dynamics calculus
 
 Next check:
 
-Use `v0.5.1` to close one concrete continuation seam without introducing an external scheduler or universal clock. Prefer concrete branch/spawn/collapse execution or bounded multi-step closure only after its termination and provenance law is explicit.
+Reopen from a concrete persistent-story, branch/spawn/collapse artifact, relationship-affordance, or cross-world sea/anchor requirement. Preserve explicit termination, provenance, and no hidden scheduler.
 
 ### Q-019: What does time mean inside a bubble universe?
 
-Status: partially implemented in v0.5.0
+Status: partially implemented through v0.5.1
 
 Question:
 
@@ -440,10 +447,10 @@ Current implementation:
 - non-commit irreversible transforms remain causally ordered without being misreported as committed history
 - selected commit transforms create `committed-history` order and the history arrow
 - branch and terminal consequences have distinct topology
+- the anchored narrative runtime records an explicit causal DAG, host evaluation order, reversible/irreversible event sets, and commit-created history arrows separately
 
 Remaining gap:
 
-- no explicit causal graph or partial-order proof
 - no first-class cyclic trajectory, duration, synchronization, or metric-time semantics
 - no theorem yet connecting the discrete realization order to the analytic path parameter used in the sea-anchor proof
 - interaction among multiple bubbles with distinct order structures remains open
@@ -451,3 +458,89 @@ Remaining gap:
 Next check:
 
 Keep universal time absent by default. Add order structure only when a concrete world requires cycles, concurrency, cross-bubble synchronization, or duration and the semantics can remain inspectable without reducing all worlds to host clock ticks.
+
+### Q-020: How can a finite formal language denote infinity and infinite-dimensional Bubble structure?
+
+Status: implemented bounded baseline in v0.5.1
+
+Question:
+
+What exact representation lets a finite Bubble source denote unbounded world families, infinite-dimensional fields, operators, or recurrences without eager enumeration, opaque host callbacks, floating-point drift, or a false claim that literal infinity has been materialized?
+
+Current implementation:
+
+- `bubble-intensional-system.v1` defines exact indexed families over natural, integer, finite, and finite-product axes
+- values are exact rationals, booleans, or symbols
+- evaluation is demand-driven and records coordinate proof dependencies
+- direct recursion requires a declared natural-axis measure and strict syntactic descent
+- cross-family cycles without a well-founded measure are rejected
+- budget exhaustion returns `undetermined` without a fabricated value
+- narrative world fields, hard constraints, and anchor identity predicates are evaluated through the same exact query and proof surface
+- state-bound predicate parameters let a formal constraint inspect the post-intervention connected world without an opaque callback
+
+Remaining gap:
+
+- no authored Bubble surface syntax lowers into the anchored narrative kernel yet; the current canonical input is typed JSON
+- no coinduction, uncountable domain, symbolic limit, infinite sum/integral, operator composition, probability measure, or topology exists
+- guardedness currently proves only a strict natural-number descent fragment
+
+Next check:
+
+Add a new mathematical form only when a concrete required Bubble field, law, or proof cannot be represented by the exact countable fragment.
+
+### Q-021: How can protagonists, story, World Will, anchors, and seas form one organic causal world?
+
+Status: implemented bounded connected baseline in v0.5.1
+
+Question:
+
+What coupled formal structure lets each bubble universe carry distinct protagonists and an autonomous story while World Will pursues explicit objectives through anchors, positive and negative seas alter viability, and no hidden host selector or menu of unrelated regimes decides the outcome?
+
+Current architecture:
+
+- [v0.5.1 Anchored Narrative World Architecture](../architecture/v0.5.1-anchored-narrative-world.md) separates protagonist action, World-Will intervention, anchor route, sea condition, causal event order, and committed history
+- the author corpus and obligation ledger preserve the no-menu, agency, story, anchor, and formal-language requirements
+- internal protagonists are explicitly Phase 1 constituents, distinct from the Phase 2 external observer-agent
+- `bubble-anchored-narrative-world.v1` now types worlds, fields, protagonists, goals, relationships, sea coupling, anchors, World-Will objectives/constraints/interventions, and causal events
+- validation rejects direct intervention into protagonist choice, anchor routes that do not reach the target world, forbidden intervention kinds, causal cycles, and stories with no World-Will-independent protagonist action
+- analysis derives World-Will-disabled and per-anchor-cut causal counterfactuals without inventing an execution result
+- `bubble-anchored-narrative-program.v1` evaluates typed field initializers, autonomous non-intervention causal closure, exact sea-dependent viability, state-bound hard constraints, global objective and cost, and exhaustive bounded intervention combinations
+- every executed intervention crosses an identity-validated anchor and carries causal provenance; direct mutation of protagonist choice or story by World Will is rejected
+- inspection, stored record, and deterministic re-execution preserve selected continuations and unresolved alternatives
+- canonical and counterfactual tests cover Will disabled, anchor cut, objective conflict, post-state constraint failure, sea pressure, deterministic ties, plural ties, and resource exhaustion
+
+Remaining gap:
+
+- causal closure is finite and acyclic; it is not a persistent open-ended or cyclic story process across records
+- relationship state is typed but does not yet change action affordances or objective structure
+- anchors execute bounded local channels but do not yet transfer state across multiple worlds or provide a full identity calculus
+- sea projections change local viability after events, but there is no global multi-world sea field or transport law
+- the unresolved `고유 세계` topology remains explicit rather than being silently replaced by a privileged root
+
+Next check:
+
+Reopen from the first concrete need for persistent story continuation, relationship-mediated agency, cross-world anchor transfer, or global sea transport. Do not widen source syntax ahead of that semantic need.
+
+### Q-022: Can Bubble recursively construct modules, code, and a successor form of itself?
+
+Status: explicitly deferred until the current Bubble universe and prior idea obligations are complete
+
+Question:
+
+After the intended Bubble universe is complete, can Bubble use its own concept and language to generate modules, synthesize formally admissible code, execute that code, and construct a verified successor representation of itself without losing identity, provenance, boundaries, or the author's accumulated ideas?
+
+Existing precursors:
+
+- quoted artifacts, generators, bounded reflection, staged emission, grammar artifacts, and later-stage activation
+- exact intensional families and structural narrative-world IR
+- proof, evidence, inspection, replay, and idea-obligation records
+
+Why it is deferred:
+
+- these components do not yet form a self-hosting compiler, module system, code synthesizer, verifier, or execution sandbox
+- implementing recursive self-construction now would divert work from the incomplete protagonist/story/World-Will/anchor/sea universe
+- self-generation must not become a shortcut that silently invents or forgets unfinished semantics
+
+Reopen condition:
+
+Reopen only after all earlier idea obligations are realized, the current Bubble universe passes its full completion gates, and the author explicitly chooses a later version for recursive self-construction.

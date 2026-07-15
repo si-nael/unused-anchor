@@ -1,0 +1,235 @@
+{
+  "mode": "bubble-anchored-narrative-program.v1",
+  "world": {
+    "mode": "bubble-anchored-narrative-world.v1",
+    "formal": {
+      "mode": "bubble-intensional-system.v1",
+      "families": [
+        {
+          "id": "positive-field",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "rational",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "rational", "numerator": "3", "denominator": "1" } }
+        },
+        {
+          "id": "negative-field",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "rational",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+        },
+        {
+          "id": "viability-field",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "rational",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "rational", "numerator": "2", "denominator": "1" } }
+        },
+        {
+          "id": "story-field",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "symbol",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "symbol", "value": "opening" } }
+        },
+        {
+          "id": "choice-field",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "symbol",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "symbol", "value": "undecided" } }
+        },
+        {
+          "id": "opportunity-field",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "rational",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "rational", "numerator": "0", "denominator": "1" } }
+        },
+        {
+          "id": "identity-predicate",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "boolean",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "boolean", "value": true } }
+        },
+        {
+          "id": "will-constraint",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "boolean",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "boolean", "value": true } }
+        }
+      ]
+    },
+    "worlds": [
+      {
+        "id": "garden-world",
+        "fields": [
+          { "id": "positive", "familyId": "positive-field", "role": "positive-sea" },
+          { "id": "negative", "familyId": "negative-field", "role": "negative-sea" },
+          { "id": "viability", "familyId": "viability-field", "role": "viability" },
+          { "id": "story", "familyId": "story-field", "role": "story-state" },
+          { "id": "aria-choice", "familyId": "choice-field", "role": "protagonist-choice", "ownerId": "aria" },
+          { "id": "opportunity", "familyId": "opportunity-field", "role": "world-condition" }
+        ],
+        "protagonists": [
+          {
+            "id": "aria",
+            "goals": [
+              { "id": "keep-garden-viable", "fieldId": "viability", "direction": "maximize" }
+            ],
+            "actionKinds": ["explore", "tend"]
+          }
+        ],
+        "relationships": [],
+        "seaCoupling": {
+          "positiveFieldId": "positive",
+          "negativeFieldId": "negative",
+          "viabilityFieldId": "viability"
+        }
+      }
+    ],
+    "anchors": [
+      {
+        "id": "garden-anchor",
+        "endpoints": [
+          { "kind": "world", "worldId": "garden-world", "portId": "garden-membrane" },
+          {
+            "kind": "unresolved-world-relation",
+            "relationId": "unique-world-topology",
+            "portId": "unresolved-origin",
+            "questionId": "Q-021"
+          }
+        ],
+        "identityPredicateFamilyIds": ["identity-predicate"],
+        "permittedInterventionKinds": ["signal"]
+      }
+    ],
+    "worldWill": {
+      "id": "garden-will",
+      "objectives": [
+        {
+          "id": "stabilize-garden",
+          "targetWorldId": "garden-world",
+          "fieldId": "viability",
+          "direction": "maximize",
+          "weight": { "kind": "rational", "numerator": "1", "denominator": "1" }
+        }
+      ],
+      "hardConstraintFamilyIds": ["will-constraint"],
+      "interventions": [
+        {
+          "id": "offer-path",
+          "targetWorldId": "garden-world",
+          "anchorId": "garden-anchor",
+          "kind": "signal",
+          "targetFieldId": "opportunity"
+        }
+      ]
+    },
+    "causalEvents": [
+      {
+        "id": "aria-explores",
+        "kind": "protagonist-action",
+        "worldId": "garden-world",
+        "causes": [],
+        "protagonistId": "aria",
+        "actionKind": "explore"
+      },
+      {
+        "id": "will-offers-path",
+        "kind": "world-will-intervention",
+        "worldId": "garden-world",
+        "causes": ["aria-explores"],
+        "interventionId": "offer-path"
+      },
+      {
+        "id": "path-is-found",
+        "kind": "story-consequence",
+        "worldId": "garden-world",
+        "causes": ["aria-explores", "will-offers-path"],
+        "affectedFieldIds": ["story"]
+      },
+      {
+        "id": "aria-tends",
+        "kind": "protagonist-action",
+        "worldId": "garden-world",
+        "causes": ["path-is-found"],
+        "protagonistId": "aria",
+        "actionKind": "tend"
+      },
+      {
+        "id": "garden-remembers",
+        "kind": "history-commit",
+        "worldId": "garden-world",
+        "causes": ["aria-tends"],
+        "affectedFieldIds": ["story", "aria-choice", "viability"],
+        "irreversible": true
+      }
+    ],
+    "order": { "kind": "causal-partial-order", "universalClock": false }
+  },
+  "fieldInitializers": [
+    { "worldId": "garden-world", "fieldId": "positive", "query": { "familyId": "positive-field", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "garden-world", "fieldId": "negative", "query": { "familyId": "negative-field", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "garden-world", "fieldId": "viability", "query": { "familyId": "viability-field", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "garden-world", "fieldId": "story", "query": { "familyId": "story-field", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "garden-world", "fieldId": "aria-choice", "query": { "familyId": "choice-field", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "garden-world", "fieldId": "opportunity", "query": { "familyId": "opportunity-field", "at": { "coordinate": "0" }, "parameters": {} } }
+  ],
+  "seaLaws": [
+    {
+      "worldId": "garden-world",
+      "positiveWeight": { "kind": "rational", "numerator": "1", "denominator": "1" },
+      "negativeWeight": { "kind": "rational", "numerator": "1", "denominator": "1" }
+    }
+  ],
+  "eventTransitions": [
+    {
+      "eventId": "aria-explores",
+      "reversibility": "reversible",
+      "effects": [
+        { "fieldId": "positive", "operation": "add", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+      ],
+      "inverseEffects": [
+        { "fieldId": "positive", "operation": "subtract", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+      ]
+    },
+    {
+      "eventId": "will-offers-path",
+      "reversibility": "irreversible",
+      "effects": [
+        { "fieldId": "opportunity", "operation": "set", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
+        { "fieldId": "viability", "operation": "add", "value": { "kind": "rational", "numerator": "3", "denominator": "1" } }
+      ]
+    },
+    {
+      "eventId": "path-is-found",
+      "reversibility": "irreversible",
+      "effects": [
+        { "fieldId": "story", "operation": "set", "value": { "kind": "symbol", "value": "path-found" } }
+      ]
+    },
+    {
+      "eventId": "aria-tends",
+      "reversibility": "irreversible",
+      "effects": [
+        { "fieldId": "aria-choice", "operation": "set", "value": { "kind": "symbol", "value": "tend" } }
+      ]
+    }
+  ],
+  "worldWillExecution": {
+    "decisionMode": "deterministic",
+    "hardConstraints": [
+      { "id": "identity-must-hold", "query": { "familyId": "will-constraint", "at": { "coordinate": "0" }, "parameters": {} } }
+    ],
+    "anchorIdentity": [
+      { "id": "garden-is-itself", "anchorId": "garden-anchor", "query": { "familyId": "identity-predicate", "at": { "coordinate": "0" }, "parameters": {} } }
+    ],
+    "interventionCosts": [
+      { "interventionId": "offer-path", "cost": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+    ]
+  }
+}

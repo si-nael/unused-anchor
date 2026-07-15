@@ -897,3 +897,73 @@ Treating every materialization as a clock tick would collapse atemporal persiste
 Consequence:
 
 Record `no-universal-clock` in every `v0.5` self-realization plan. Identity preservation introduces no order; reversible transitions have validated inverse and causal order; branch/spawn/collapse expose topology; only an irreversible committed consequence creates a durable history arrow. Keep general cycles, partial causal orders, and metric time open for later `v0.5.x` work.
+
+### D-090: Separate author language from executable semantic authority
+
+Reason:
+
+The author's concepts need the expressive range and provenance of natural language, but using NLP or free prose as runtime truth would make law, identity, agency, and contradiction dependent on an opaque and unstable interpretation step.
+
+Consequence:
+
+Preserve author quotations immutably with separate engineering interpretations and machine-readable obligations. A statement becomes executable only through deterministic lowering to a typed, versioned formal object. NLP may later assist authoring but cannot silently govern the world.
+
+### D-091: Denote infinity intensionally and evaluate it by exact demand
+
+Reason:
+
+Literal completed infinity cannot be stored on a finite machine, while eager finite approximations would destroy the intended meaning of unbounded lineages and infinite-dimensional fields.
+
+Consequence:
+
+Begin `v0.5.1` with exact indexed families `f : I -> V`, finite product domains, guarded natural recursion, demand-driven coordinate evaluation, and proof traces. Treat computation budget as an epistemic limit that yields `undetermined`, never as the boundary of the denoted world.
+
+### D-092: Make v0.5.1 an anchored narrative-world development line
+
+Reason:
+
+The intended Bubble universe contains distinct protagonists and stories, objective World-Will influence, anchors connecting worlds, and positive and negative sea conditions. Modeling implementation mathematics as parallel selectable regimes does not realize that world.
+
+Consequence:
+
+Use [architecture/v0.5.1-anchored-narrative-world.md](architecture/v0.5.1-anchored-narrative-world.md) as the active design. Build a connected seam from formal representation through protagonist agency, causal story, anchor-mediated intervention, sea coupling, inspection, and replay. Do not declare the release complete from the initial formal kernel.
+
+### D-093: Keep internal protagonists in Phase 1 and preserve their agency
+
+Reason:
+
+Protagonists are inhabitants whose actions make each bubble's story, whereas the previously deferred observer or benchmark agent is external to the world. Treating both as Phase 2 would leave the world without its intended internal actors.
+
+Consequence:
+
+Add protagonist, goal, relationship, action, and story-state semantics before Phase 2. World Will may change lawful conditions through an anchor but must not directly replace protagonist choice. Validate this distinction with World-Will-disabled and anchor-cut counterfactuals.
+
+### D-094: Defer recursive Bubble self-construction until the current universe is complete
+
+Reason:
+
+Recursive module generation, code synthesis and execution, and construction of a successor Bubble are coherent with Bubble as universe, language, and concept. They also depend on stable semantics for every world constituent and could otherwise generate or conceal the very gaps that Phase 1 is still trying to close.
+
+Consequence:
+
+Preserve the direction as Q-022 and OB-010, with current meta-language and intensional work recorded only as precursors. Do not include recursive self-hosting in `v0.5.1` completion. Reopen it in a later version only after the prior obligation ledger is realized and the author explicitly accepts the current Bubble universe as complete.
+
+### D-095: Evaluate bounded World Will from the post-transition connected state
+
+Reason:
+
+A hard constraint that cannot read the world it constrains is only a static flag, and a host-chosen intervention would contradict organic realization. World Will also needs an honest answer when exact exhaustive search exceeds available resources or several optima remain equal.
+
+Consequence:
+
+For `bubble-anchored-narrative-program.v1`, bind declared formal predicate parameters to exact world fields, evaluate hard constraints after each candidate transition, score the connected result after explicit intervention cost, and exhaust the finite intervention frontier up to a declared bound. Return `underdetermined` on budget exhaustion or an unresolved deterministic tie; preserve all equal optima only when authored plural semantics permits it.
+
+### D-096: Complete only the v0.5.1 connected seam, not the whole Bubble universe
+
+Reason:
+
+The exact runtime now connects formal fields, protagonist action, sea-dependent viability, anchor-mediated World-Will intervention, causal story, history, inspection, and deterministic re-execution. Calling the entire Bubble universe complete would still erase persistent story, relationship affordance, cross-world sea/anchor, full identity, and other obligations.
+
+Consequence:
+
+Certify `v0.5.1` as a bounded connected release while OB-001 remains open. Keep the next release identifier undecided until the completed boundary is reviewed. Preserve Q-022 recursive self-construction as deferred, and do not commit or stage this session's work.

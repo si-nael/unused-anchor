@@ -268,3 +268,58 @@ Would be weakened by:
 Next check:
 
 Add a small explicit causal-order or cycle fixture before claiming the hypothesis beyond the current single-frontier distinction.
+
+### H-012: Exact intensional families can preserve infinite denotation under finite observation
+
+Status: validated for the bounded exact v0.5.1 kernel
+
+Claim:
+
+A finite typed definition can denote countably infinite and infinite-dimensional Bubble structure while exact demand evaluation materializes only contacted coordinates, preserves dependency evidence, and reports finite computational limits without shrinking the denoted world.
+
+Validation evidence:
+
+- a basis vector over the natural numbers resolves a coordinate far beyond JavaScript safe integers without enumerating prior coordinates
+- an identity operator over `N x N` resolves exact diagonal and off-diagonal values
+- guarded Fibonacci recursion resolves only demanded dependencies and records coordinate proof steps
+- insufficient budget returns `undetermined`, and non-decreasing recursion fails validation
+- narrative fields, anchor identity, and post-intervention hard constraints use the same exact query and proof mechanism
+
+Would be weakened by:
+
+- a supposedly infinite family whose reachable coordinates depend on prior eager enumeration
+- floating-point drift changing exact identity or anchor predicates
+- budget exhaustion producing a guessed value
+- host callbacks adding semantics absent from the formal object
+
+Next check:
+
+Reopen from a concrete required world structure that needs coinduction, symbolic limits, measures, topology, or another form outside the exact countable kernel.
+
+### H-013: Anchor-mediated World Will can shape stories without erasing protagonist agency
+
+Status: validated for the bounded connected v0.5.1 runtime
+
+Claim:
+
+A coupled Bubble world can let World Will optimize explicit objectives by changing conditions through anchors while protagonists retain causally attributable action and the story remains autonomous when intervention is disabled.
+
+Would be weakened by:
+
+- the same alleged intervention occurring after its anchor route is cut without an independent internal cause
+- World Will directly selecting a protagonist action and still reporting preserved agency
+- a story that cannot continue at all when World Will is disabled
+- positive or negative sea changes appearing only in report scores and never in causal viability
+
+Validation evidence:
+
+- disabling World Will or cutting the only anchor preserves the autonomous `aria-explores` action while removing the intervention-dependent story
+- the intervention trace names `garden-anchor`, changes opportunity and intrinsic viability, and never mutates the protagonist-choice field directly
+- exact negative-sea pressure changes realized viability through a recorded sea-coupling trace
+- conflicting objectives and post-state hard constraints reject locally attractive interventions
+- deterministic ties remain unresolved, plural mode preserves all equal optima, and resource exhaustion reports an unsearched frontier
+- stored replay performs same-program re-execution and preserves selected and unresolved continuation identities
+
+Next check:
+
+Reopen when relationship-dependent action, long-running story persistence, cross-world anchor transfer, or global sea transport is implemented; each extension must repeat the agency counterfactuals.

@@ -16,6 +16,8 @@ Maintain the following documents continuously:
 - [../research/hypothesis-log.md](../research/hypothesis-log.md): falsifiable claims, evidence, and planned checks
 - [../research/boundary-log.md](../research/boundary-log.md): language or runtime boundary and membrane failures worth keeping visible
 - [../research/idea-implementation-map.md](../research/idea-implementation-map.md): traceability from foundational ideas and questions to implementation, evidence, and planned boundaries
+- [../research/author-idea-corpus.md](../research/author-idea-corpus.md): immutable primary-source quotations separated from engineering interpretation
+- [../../data/research/idea-obligations.v1.json](../../data/research/idea-obligations.v1.json): machine-checkable obligations, evidence, remaining limits, and reopen conditions
 
 ## Update Rules
 
@@ -72,8 +74,9 @@ Completing one bounded implementation slice does not close the larger user idea 
 - a release non-goal means `not implemented in this release`, not `rejected` or `forgotten`
 - update the idea-implementation map when status changes so adjacent ideas remain visible
 - do not promote an implementation proxy into the full intended ontology
+- never alter an author quotation to match a later implementation; update only its separate obligation status and evidence
 
-`v0.5.0` follows `v0.4.9` and establishes the Phase 1 self-realization baseline. The next incremental release is `v0.5.1`. Each `v0.5.x` release must close one connected world-semantic seam while preserving the rest of the idea and question ledger. Observer, agent, and comparative benchmark work remains Phase 2 until the bubble universe itself is sufficiently complete.
+`v0.5.0` follows `v0.4.9` and establishes the Phase 1 self-realization baseline. Completed `v0.5.1` closes the first exact anchored-narrative execution seam while leaving whole-universe completion open. Each `v0.5.x` release must close one connected world-semantic seam while preserving the rest of the idea and question ledger. Observer, agent, and comparative benchmark work remains Phase 2 until the bubble universe itself is sufficiently complete.
 
 ## Practical Rule
 

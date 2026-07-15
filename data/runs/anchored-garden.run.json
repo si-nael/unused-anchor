@@ -1,0 +1,1112 @@
+{
+  "mode": "bubble-anchored-narrative-run.v1",
+  "programDigest": "27dff7c1170f0a8a5c594e561864a0816bf920ac37acefbe4c8d14ab5f1027ec",
+  "options": {
+    "worldWillEnabled": true,
+    "cutAnchorIds": [],
+    "fieldOverrides": {},
+    "evaluationBudgetPerQuery": 10000,
+    "maxInterventionCombinations": 1024
+  },
+  "diagnostics": [],
+  "formalEvidence": [
+    {
+      "subjectId": "garden-world.positive",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "3",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "positive-field",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "garden-world.negative",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "negative-field",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "garden-world.viability",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "2",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "viability-field",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "garden-world.story",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "symbol",
+        "value": "opening"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "story-field",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "garden-world.aria-choice",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "symbol",
+        "value": "undecided"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "choice-field",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "garden-world.opportunity",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "0",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "opportunity-field",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "garden-is-itself",
+      "purpose": "anchor-identity",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "identity-predicate",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "candidate:offer-path:identity-must-hold",
+      "purpose": "hard-constraint",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "will-constraint",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    }
+  ],
+  "initialWorldStates": [
+    {
+      "worldId": "garden-world",
+      "fields": {
+        "aria-choice": {
+          "kind": "symbol",
+          "value": "undecided"
+        },
+        "negative": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "opportunity": {
+          "kind": "rational",
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "positive": {
+          "kind": "rational",
+          "numerator": "3",
+          "denominator": "1"
+        },
+        "story": {
+          "kind": "symbol",
+          "value": "opening"
+        },
+        "viability": {
+          "kind": "rational",
+          "numerator": "4",
+          "denominator": "1"
+        }
+      },
+      "seaContribution": {
+        "kind": "rational",
+        "numerator": "2",
+        "denominator": "1"
+      },
+      "intrinsicViability": {
+        "kind": "rational",
+        "numerator": "2",
+        "denominator": "1"
+      }
+    }
+  ],
+  "interventionEligibility": [
+    {
+      "interventionId": "offer-path",
+      "eventId": "will-offers-path",
+      "anchorId": "garden-anchor",
+      "status": "eligible",
+      "reasons": []
+    }
+  ],
+  "candidateAssessments": [
+    {
+      "id": "candidate:offer-path",
+      "interventionIds": [
+        "offer-path"
+      ],
+      "status": "improved",
+      "score": {
+        "kind": "rational",
+        "numerator": "7",
+        "denominator": "1"
+      },
+      "cost": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "improvement": {
+        "kind": "rational",
+        "numerator": "2",
+        "denominator": "1"
+      },
+      "objectiveContributions": [
+        {
+          "objectiveId": "stabilize-garden",
+          "worldId": "garden-world",
+          "fieldId": "viability",
+          "direction": "maximize",
+          "weightedValue": {
+            "kind": "rational",
+            "numerator": "8",
+            "denominator": "1"
+          }
+        }
+      ],
+      "reasons": []
+    }
+  ],
+  "continuations": [
+    {
+      "id": "continuation:offer-path",
+      "selection": "selected",
+      "interventionIds": [
+        "offer-path"
+      ],
+      "score": {
+        "kind": "rational",
+        "numerator": "7",
+        "denominator": "1"
+      },
+      "worldStates": [
+        {
+          "worldId": "garden-world",
+          "fields": {
+            "aria-choice": {
+              "kind": "symbol",
+              "value": "tend"
+            },
+            "negative": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "opportunity": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "positive": {
+              "kind": "rational",
+              "numerator": "4",
+              "denominator": "1"
+            },
+            "story": {
+              "kind": "symbol",
+              "value": "path-found"
+            },
+            "viability": {
+              "kind": "rational",
+              "numerator": "8",
+              "denominator": "1"
+            }
+          },
+          "seaContribution": {
+            "kind": "rational",
+            "numerator": "3",
+            "denominator": "1"
+          },
+          "intrinsicViability": {
+            "kind": "rational",
+            "numerator": "5",
+            "denominator": "1"
+          }
+        }
+      ],
+      "realizedEventIds": [
+        "aria-explores",
+        "aria-tends",
+        "garden-remembers",
+        "path-is-found",
+        "will-offers-path"
+      ],
+      "trace": [
+        {
+          "id": "trace:1:initial:garden-world.positive",
+          "kind": "initial-field",
+          "worldId": "garden-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "positive",
+              "operation": "set",
+              "after": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:2:initial:garden-world.negative",
+          "kind": "initial-field",
+          "worldId": "garden-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "negative",
+              "operation": "set",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:3:initial:garden-world.viability",
+          "kind": "initial-field",
+          "worldId": "garden-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "operation": "set",
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:4:initial:garden-world.story",
+          "kind": "initial-field",
+          "worldId": "garden-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "story",
+              "operation": "set",
+              "after": {
+                "kind": "symbol",
+                "value": "opening"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:5:initial:garden-world.aria-choice",
+          "kind": "initial-field",
+          "worldId": "garden-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "aria-choice",
+              "operation": "set",
+              "after": {
+                "kind": "symbol",
+                "value": "undecided"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:6:initial:garden-world.opportunity",
+          "kind": "initial-field",
+          "worldId": "garden-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "opportunity",
+              "operation": "set",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:7:sea:garden-world",
+          "kind": "sea-coupling",
+          "worldId": "garden-world",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "4",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:8:aria-explores",
+          "kind": "protagonist-action",
+          "worldId": "garden-world",
+          "eventId": "aria-explores",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "positive",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "4",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:9:sea:garden-world",
+          "kind": "sea-coupling",
+          "worldId": "garden-world",
+          "eventId": "aria-explores",
+          "causes": [
+            "aria-explores"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "4",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "5",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:10:will-offers-path",
+          "kind": "world-will-intervention",
+          "worldId": "garden-world",
+          "eventId": "will-offers-path",
+          "causes": [
+            "aria-explores"
+          ],
+          "anchorId": "garden-anchor",
+          "interventionId": "offer-path",
+          "effects": [
+            {
+              "fieldId": "opportunity",
+              "operation": "set",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "viability",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "5",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "5",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:11:sea:garden-world",
+          "kind": "sea-coupling",
+          "worldId": "garden-world",
+          "eventId": "will-offers-path",
+          "causes": [
+            "will-offers-path"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "5",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "8",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:12:path-is-found",
+          "kind": "story-consequence",
+          "worldId": "garden-world",
+          "eventId": "path-is-found",
+          "causes": [
+            "aria-explores",
+            "will-offers-path"
+          ],
+          "effects": [
+            {
+              "fieldId": "story",
+              "operation": "set",
+              "before": {
+                "kind": "symbol",
+                "value": "opening"
+              },
+              "operand": {
+                "kind": "symbol",
+                "value": "path-found"
+              },
+              "after": {
+                "kind": "symbol",
+                "value": "path-found"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:13:sea:garden-world",
+          "kind": "sea-coupling",
+          "worldId": "garden-world",
+          "eventId": "path-is-found",
+          "causes": [
+            "path-is-found"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "8",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "8",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:14:aria-tends",
+          "kind": "protagonist-action",
+          "worldId": "garden-world",
+          "eventId": "aria-tends",
+          "causes": [
+            "path-is-found"
+          ],
+          "effects": [
+            {
+              "fieldId": "aria-choice",
+              "operation": "set",
+              "before": {
+                "kind": "symbol",
+                "value": "undecided"
+              },
+              "operand": {
+                "kind": "symbol",
+                "value": "tend"
+              },
+              "after": {
+                "kind": "symbol",
+                "value": "tend"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:15:sea:garden-world",
+          "kind": "sea-coupling",
+          "worldId": "garden-world",
+          "eventId": "aria-tends",
+          "causes": [
+            "aria-tends"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "8",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "8",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:16:garden-remembers",
+          "kind": "history-commit",
+          "worldId": "garden-world",
+          "eventId": "garden-remembers",
+          "causes": [
+            "aria-tends"
+          ],
+          "effects": [
+            {
+              "fieldId": "story",
+              "operation": "derive",
+              "after": {
+                "kind": "symbol",
+                "value": "path-found"
+              }
+            },
+            {
+              "fieldId": "aria-choice",
+              "operation": "derive",
+              "after": {
+                "kind": "symbol",
+                "value": "tend"
+              }
+            },
+            {
+              "fieldId": "viability",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "8",
+                "denominator": "1"
+              }
+            }
+          ]
+        }
+      ],
+      "historyCommits": [
+        {
+          "eventId": "garden-remembers",
+          "worldId": "garden-world",
+          "affectedFields": {
+            "story": {
+              "kind": "symbol",
+              "value": "path-found"
+            },
+            "aria-choice": {
+              "kind": "symbol",
+              "value": "tend"
+            },
+            "viability": {
+              "kind": "rational",
+              "numerator": "8",
+              "denominator": "1"
+            }
+          },
+          "stateDigest": "1eca062ceabcaca455e20a8aed71ab488881bd07e7cf7ed91c971fb64169581e"
+        }
+      ],
+      "order": {
+        "kind": "causal-partial-order",
+        "universalClock": false,
+        "causalEdges": [
+          {
+            "cause": "aria-explores",
+            "effect": "will-offers-path"
+          },
+          {
+            "cause": "aria-explores",
+            "effect": "path-is-found"
+          },
+          {
+            "cause": "will-offers-path",
+            "effect": "path-is-found"
+          },
+          {
+            "cause": "path-is-found",
+            "effect": "aria-tends"
+          },
+          {
+            "cause": "aria-tends",
+            "effect": "garden-remembers"
+          }
+        ],
+        "evaluationOrder": [
+          "aria-explores",
+          "will-offers-path",
+          "path-is-found",
+          "aria-tends",
+          "garden-remembers"
+        ],
+        "reversibleEventIds": [
+          "aria-explores"
+        ],
+        "irreversibleEventIds": [
+          "aria-tends",
+          "garden-remembers",
+          "path-is-found",
+          "will-offers-path"
+        ],
+        "createsHistoryArrow": true
+      }
+    }
+  ],
+  "selectedContinuationIds": [
+    "continuation:offer-path"
+  ],
+  "unresolvedAlternativeIds": [],
+  "resourceUse": {
+    "formalQueryCount": 8,
+    "formalEvaluationSteps": 8,
+    "interventionCombinationCount": 1,
+    "combinationLimit": 1024,
+    "exhaustiveInterventionSearch": true
+  },
+  "status": "realized",
+  "autonomousContinuation": {
+    "id": "continuation:baseline",
+    "selection": "baseline",
+    "interventionIds": [],
+    "score": {
+      "kind": "rational",
+      "numerator": "5",
+      "denominator": "1"
+    },
+    "worldStates": [
+      {
+        "worldId": "garden-world",
+        "fields": {
+          "aria-choice": {
+            "kind": "symbol",
+            "value": "undecided"
+          },
+          "negative": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "opportunity": {
+            "kind": "rational",
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "positive": {
+            "kind": "rational",
+            "numerator": "4",
+            "denominator": "1"
+          },
+          "story": {
+            "kind": "symbol",
+            "value": "opening"
+          },
+          "viability": {
+            "kind": "rational",
+            "numerator": "5",
+            "denominator": "1"
+          }
+        },
+        "seaContribution": {
+          "kind": "rational",
+          "numerator": "3",
+          "denominator": "1"
+        },
+        "intrinsicViability": {
+          "kind": "rational",
+          "numerator": "2",
+          "denominator": "1"
+        }
+      }
+    ],
+    "realizedEventIds": [
+      "aria-explores"
+    ],
+    "trace": [
+      {
+        "id": "trace:1:initial:garden-world.positive",
+        "kind": "initial-field",
+        "worldId": "garden-world",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "positive",
+            "operation": "set",
+            "after": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:2:initial:garden-world.negative",
+        "kind": "initial-field",
+        "worldId": "garden-world",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "negative",
+            "operation": "set",
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:3:initial:garden-world.viability",
+        "kind": "initial-field",
+        "worldId": "garden-world",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "viability",
+            "operation": "set",
+            "after": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:4:initial:garden-world.story",
+        "kind": "initial-field",
+        "worldId": "garden-world",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "story",
+            "operation": "set",
+            "after": {
+              "kind": "symbol",
+              "value": "opening"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:5:initial:garden-world.aria-choice",
+        "kind": "initial-field",
+        "worldId": "garden-world",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "aria-choice",
+            "operation": "set",
+            "after": {
+              "kind": "symbol",
+              "value": "undecided"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:6:initial:garden-world.opportunity",
+        "kind": "initial-field",
+        "worldId": "garden-world",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "opportunity",
+            "operation": "set",
+            "after": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:7:sea:garden-world",
+        "kind": "sea-coupling",
+        "worldId": "garden-world",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "viability",
+            "operation": "derive",
+            "before": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "4",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:8:aria-explores",
+        "kind": "protagonist-action",
+        "worldId": "garden-world",
+        "eventId": "aria-explores",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "positive",
+            "operation": "add",
+            "before": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "4",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:9:sea:garden-world",
+        "kind": "sea-coupling",
+        "worldId": "garden-world",
+        "eventId": "aria-explores",
+        "causes": [
+          "aria-explores"
+        ],
+        "effects": [
+          {
+            "fieldId": "viability",
+            "operation": "derive",
+            "before": {
+              "kind": "rational",
+              "numerator": "4",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "5",
+              "denominator": "1"
+            }
+          }
+        ]
+      }
+    ],
+    "historyCommits": [],
+    "order": {
+      "kind": "causal-partial-order",
+      "universalClock": false,
+      "causalEdges": [],
+      "evaluationOrder": [
+        "aria-explores"
+      ],
+      "reversibleEventIds": [
+        "aria-explores"
+      ],
+      "irreversibleEventIds": [],
+      "createsHistoryArrow": false
+    }
+  },
+  "baselineScore": {
+    "kind": "rational",
+    "numerator": "5",
+    "denominator": "1"
+  }
+}

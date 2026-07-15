@@ -2,6 +2,35 @@
 
 ## 2026-07-15
 
+### Formal language for infinity without natural-language execution
+
+- Natural language is necessary for preserving the author's ideas and may remain an authoring aid, but it cannot be the authority that decides executable world law.
+- A finite formal language can denote infinite objects intensionally through indexed families, equations, generators, guarded recursion or corecursion, and operators. It must materialize only demanded slices and state finite computation limits honestly.
+- Infinite-dimensional vectors and operators should begin as families such as `x : I -> V` and `A : I x J -> V`, not as impossible eagerly stored arrays.
+- The first `v0.5.1` kernel should use exact arithmetic, machine-checkable guardedness, demand traces, and `undetermined` budget exhaustion before broadening surface syntax.
+
+### Anchored protagonists and stories
+
+- Each bubble universe may contain its own persistent protagonists, goals, relationships, actions, and story state. These internal beings are part of Phase 1 world completion, not the Phase 2 external observer-agent program.
+- World Will should act under explicit objectives and constraints, but influence a story through anchors and world conditions rather than overwrite a protagonist's choice.
+- An anchor must eventually combine identity witness, causal channel, provenance, and intervention permission. The existing strength assessment is only a partial precursor.
+- Positive and negative seas must participate in the coupled viability and causal structure of stories rather than remain independent scores.
+- `고유 세계` remains deliberately unresolved: no implementation should silently choose one privileged root topology before the author clarifies it.
+
+### Organic necessity rather than parallel regime selection
+
+- A final Bubble universe cannot be built as a loose list of semantic regimes followed by a chooser. Mathematical techniques belong to the external implementation and proof layer, not to an in-world regime menu.
+- Protagonist action, story state, World Will, anchors, boundaries, and both seas must form one coupled causal world. The existing `v0.5.0` candidate-admission kernel remains an honest bounded precursor, not the final organic form.
+- `v0.5.1` begins this connected architecture and must remain uncommitted in the current development session.
+- The bounded `v0.5.1` seam is complete only when the same formal world executes protagonist action, sea coupling, anchor-mediated World Will, causal story/history, inspection, and replay together; this completion must not close the wider Bubble idea.
+
+### Deferred recursive self-construction horizon
+
+- A future Bubble may create its own modules, synthesize possible code, execute verified code, and construct a successor form of itself.
+- This direction belongs after the currently intended Bubble universe and every prior idea obligation are complete, not inside the `v0.5.1` gate.
+- Existing meta-language and formal-kernel work should be preserved as possible bootstrap material without being misreported as self-hosting.
+- Any later realization must preserve identity, provenance, proof, resource boundaries, and the entire idea ledger across self-generation.
+
 ### Coherent completion toward the intended bubble universe
 
 - The accumulated user ideas and research questions are not a loose feature backlog. They are connected constraints on one intended bubble universe and should be implemented, tested, and developed without silently contradicting one another.

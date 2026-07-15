@@ -20,6 +20,9 @@ The target is not decorative cosmological vocabulary. The runtime should eventua
 - **Anchor point:** the identity fixpoint that explains why one bubble remains this world across disturbance, observation, commitment, replay, and growth. It binds law basis, committed history, trusted observation, and boundary coherence.
 - **World will:** an authored governing orientation. It is executable only when authored as a supported criterion; quoted prose remains explicit descriptive intent rather than fake executable law.
 - **World self-realization:** the bubble derives lawful continuation candidates from its own state and transformations, then its executable world will admits them. External tooling may inspect or resume a provenance-bearing continuation but must not choose a candidate secretly.
+- **Protagonist:** a persistent internal being whose goals, relationships, actions, and story consequences belong to Phase 1 world semantics. It is not the later external observer-agent benchmark.
+- **Story:** an executable causal structure formed by protagonist action, local law, sea condition, anchor-mediated intervention, and committed or unresolved consequences; it is not a prose description field.
+- **Formal intensional family:** a finite typed definition of an indexed object `f : I -> V`. It may denote countably infinite or infinite-dimensional structure while materializing only demanded coordinates.
 - **Time/order:** Bubble assumes no universal clock. A world may be invariant, reversible, cyclic, causally or partially ordered, branching, terminal, or history-directed; the durable history arrow begins only from an irreversible commitment.
 - **Observation:** bounded causal contact, not automatically a passive complete read. A bubble may persist as compressed lawful existence before contact.
 
@@ -42,7 +45,9 @@ The completed `v0.5.0` baseline includes everything in `v0.4.9`, plus:
 - reciprocal inverse validation, no-universal-clock runtime semantics, and commit-only history arrows
 - self-realization proof, evidence, causal-link, attribution, inspection, continuation-resume, and stored replay surfaces
 
-It does not yet constitute complete autonomous multi-step closure, coupled state transformation, concrete self-realized branch/spawn/collapse execution, complete sea dynamics, a full anchor identity or time/order calculus, deterministic same-world re-execution proof, multi-region collapse, probabilistic-fractal worldhood, or a first-class embedded observer-agent model.
+Completed `v0.5.1` adds an exact demand-driven intensional-family kernel with natural, integer, finite, and product index domains, guarded natural recursion, finite-budget `undetermined` results, and coordinate proof traces. Its anchored-narrative runtime executes a finite causal story seam: autonomous protagonist action, exact positive/negative sea coupling, post-state World-Will objectives/costs/hard constraints, identity-checked anchor intervention, condition-mediated consequences, no-universal-clock causal order, commit-only history, inspection, stored record, and deterministic same-program re-execution.
+
+The repository still does not constitute the complete Bubble universe. The bounded executor does not yet provide persistent open-ended stories across records, relationship-dependent action affordances, concrete self-realized branch/spawn/collapse artifacts, a global multi-world sea field, cross-world transfer, a full anchor identity or cyclic/time-order calculus, multi-region collapse, probabilistic-fractal worldhood, or a first-class external observer-agent model. Its deterministic re-execution proves continuity only for the exact `bubble-anchored-narrative-program.v1` record and runtime semantics, not a universal philosophical same-world theorem.
 
 ## Release Discipline
 
@@ -50,7 +55,9 @@ Progress remains closure-first through the `v0.5.x` line. `v0.5.0` opens Phase 1
 
 The `v0.4.9` convergence plan is complete. Its single semantic closure is evidence-bounded source attribution for Q-014: internal world event, negative-sea pressure, anchor drift, positive-sea shift, or unresolved source. The completed boundary is recorded in [architecture/v0.4.9-closure-plan.md](architecture/v0.4.9-closure-plan.md).
 
-The release after `v0.4.9` is `v0.5.0`, now implemented. The next incremental release is `v0.5.1`. Phase 2 observer, agent, and comparative benchmark work must wait until the bubble universe itself is sufficiently complete.
+The release after `v0.4.9` is `v0.5.0`, and its completed successor is `v0.5.1`. This completion certifies one bounded connected narrative seam and does not certify OB-001 whole-universe completion. No next release identifier is chosen by this record. Phase 2 observer, agent, and comparative benchmark work must wait until the bubble universe itself is sufficiently complete.
+
+Recursive self-construction is a later horizon, not a `v0.5.1` gate. A future Bubble may generate modules, synthesize and execute verified code, and construct a successor form of itself, but this direction reopens only after every prior idea obligation is realized and the author accepts the current Bubble universe as complete.
 
 ## Research Preservation
 
@@ -71,6 +78,8 @@ The original dated ideas remain authoritative context even when one bounded impl
 - [work-log.md](work-log.md): concrete completed actions
 - [research/boundary-log.md](research/boundary-log.md): visible language and runtime boundary failures
 - [research/idea-implementation-map.md](research/idea-implementation-map.md): traceability from user ideas and research questions to current implementation and planned milestones
+- [research/author-idea-corpus.md](research/author-idea-corpus.md): primary-source author quotations kept separate from engineering interpretation
+- [../data/research/idea-obligations.v1.json](../data/research/idea-obligations.v1.json): machine-checkable idea obligations and non-closure conditions
 - [process/research-ops.md](process/research-ops.md): record-maintenance rules
 
 ## Honesty Rules
@@ -80,4 +89,5 @@ The original dated ideas remain authoritative context even when one bounded impl
 - Do not invent executed causal history for effects that remain potential.
 - Do not claim same-world replay merely because a stored report can be reopened.
 - Date new records with the actual recording date.
+- Natural language may preserve intent but must not silently become executable law; executable semantics require typed formal lowering.
 - When evidence cannot distinguish an internal event, negative-sea pressure, anchor drift, or positive-sea shift, record the source as unresolved.
