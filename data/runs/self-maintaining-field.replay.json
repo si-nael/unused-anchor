@@ -2848,7 +2848,8 @@
                 "fieldOverrides": {},
                 "evaluationBudgetPerQuery": 10000,
                 "maxInterventionCombinations": 1024,
-                "maxInternalFrontiers": 1024
+                "maxInternalFrontiers": 1024,
+                "maxInternalBranches": 1024
               },
               "diagnostics": [],
               "formalEvidence": [
@@ -3910,7 +3911,7 @@
                   ]
                 },
                 {
-                  "subjectId": "anchor:maintenance-anchor:maintenance-anchor-remains-itself",
+                  "subjectId": "anchor:continuation:autonomous:maintenance-anchor:maintenance-anchor-remains-itself",
                   "purpose": "anchor-identity",
                   "status": "resolved",
                   "value": {
@@ -5039,9 +5040,12 @@
                 "formalQueryCount": 30,
                 "formalEvaluationSteps": 304,
                 "internalFrontierCount": 3,
+                "internalBranchCount": 0,
                 "interventionCombinationCount": 0,
                 "combinationLimit": 1024,
-                "exhaustiveInterventionSearch": true
+                "branchLimit": 1024,
+                "exhaustiveInterventionSearch": true,
+                "exhaustiveInternalBranching": true
               },
               "autonomousContinuation": {
                 "id": "continuation:autonomous",
@@ -6312,7 +6316,8 @@
                 },
                 "evaluationBudgetPerQuery": 10000,
                 "maxInterventionCombinations": 1024,
-                "maxInternalFrontiers": 1024
+                "maxInternalFrontiers": 1024,
+                "maxInternalBranches": 1024
               },
               "diagnostics": [],
               "formalEvidence": [
@@ -7458,7 +7463,7 @@
                   ]
                 },
                 {
-                  "subjectId": "anchor:maintenance-anchor:maintenance-anchor-remains-itself",
+                  "subjectId": "anchor:continuation:autonomous:maintenance-anchor:maintenance-anchor-remains-itself",
                   "purpose": "anchor-identity",
                   "status": "resolved",
                   "value": {
@@ -8461,9 +8466,12 @@
                 "formalQueryCount": 33,
                 "formalEvaluationSteps": 313,
                 "internalFrontierCount": 3,
+                "internalBranchCount": 0,
                 "interventionCombinationCount": 0,
                 "combinationLimit": 1024,
-                "exhaustiveInterventionSearch": true
+                "branchLimit": 1024,
+                "exhaustiveInterventionSearch": true,
+                "exhaustiveInternalBranching": true
               },
               "autonomousContinuation": {
                 "id": "continuation:autonomous",
@@ -9608,7 +9616,8 @@
                 },
                 "evaluationBudgetPerQuery": 10000,
                 "maxInterventionCombinations": 1024,
-                "maxInternalFrontiers": 1024
+                "maxInternalFrontiers": 1024,
+                "maxInternalBranches": 1024
               },
               "diagnostics": [],
               "formalEvidence": [
@@ -10754,7 +10763,7 @@
                   ]
                 },
                 {
-                  "subjectId": "anchor:maintenance-anchor:maintenance-anchor-remains-itself",
+                  "subjectId": "anchor:continuation:autonomous:maintenance-anchor:maintenance-anchor-remains-itself",
                   "purpose": "anchor-identity",
                   "status": "resolved",
                   "value": {
@@ -11757,9 +11766,12 @@
                 "formalQueryCount": 33,
                 "formalEvaluationSteps": 313,
                 "internalFrontierCount": 3,
+                "internalBranchCount": 0,
                 "interventionCombinationCount": 0,
                 "combinationLimit": 1024,
-                "exhaustiveInterventionSearch": true
+                "branchLimit": 1024,
+                "exhaustiveInterventionSearch": true,
+                "exhaustiveInternalBranching": true
               },
               "autonomousContinuation": {
                 "id": "continuation:autonomous",
@@ -13340,5 +13352,5 @@
       "exhaustive": true
     }
   },
-  "recordedDigest": "e4d1f74b2ad0f2d62c5659a39081db6f2b4eeb024a68c33a31cebe46b4b7be9e"
+  "recordedDigest": "5f0c15e5a826a8b52b3a52264ac625a2f15eb02af41ee2ad615164a854d245fc"
 }

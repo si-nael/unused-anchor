@@ -1190,7 +1190,8 @@
                 "fieldOverrides": {},
                 "evaluationBudgetPerQuery": 10000,
                 "maxInterventionCombinations": 1024,
-                "maxInternalFrontiers": 1024
+                "maxInternalFrontiers": 1024,
+                "maxInternalBranches": 1024
               },
               "diagnostics": [],
               "formalEvidence": [
@@ -2252,7 +2253,7 @@
                   ]
                 },
                 {
-                  "subjectId": "anchor:maintenance-anchor:maintenance-anchor-remains-itself",
+                  "subjectId": "anchor:continuation:autonomous:maintenance-anchor:maintenance-anchor-remains-itself",
                   "purpose": "anchor-identity",
                   "status": "resolved",
                   "value": {
@@ -3381,9 +3382,12 @@
                 "formalQueryCount": 30,
                 "formalEvaluationSteps": 304,
                 "internalFrontierCount": 3,
+                "internalBranchCount": 0,
                 "interventionCombinationCount": 0,
                 "combinationLimit": 1024,
-                "exhaustiveInterventionSearch": true
+                "branchLimit": 1024,
+                "exhaustiveInterventionSearch": true,
+                "exhaustiveInternalBranching": true
               },
               "autonomousContinuation": {
                 "id": "continuation:autonomous",
@@ -4654,7 +4658,8 @@
                 },
                 "evaluationBudgetPerQuery": 10000,
                 "maxInterventionCombinations": 1024,
-                "maxInternalFrontiers": 1024
+                "maxInternalFrontiers": 1024,
+                "maxInternalBranches": 1024
               },
               "diagnostics": [],
               "formalEvidence": [
@@ -5800,7 +5805,7 @@
                   ]
                 },
                 {
-                  "subjectId": "anchor:maintenance-anchor:maintenance-anchor-remains-itself",
+                  "subjectId": "anchor:continuation:autonomous:maintenance-anchor:maintenance-anchor-remains-itself",
                   "purpose": "anchor-identity",
                   "status": "resolved",
                   "value": {
@@ -6803,9 +6808,12 @@
                 "formalQueryCount": 33,
                 "formalEvaluationSteps": 313,
                 "internalFrontierCount": 3,
+                "internalBranchCount": 0,
                 "interventionCombinationCount": 0,
                 "combinationLimit": 1024,
-                "exhaustiveInterventionSearch": true
+                "branchLimit": 1024,
+                "exhaustiveInterventionSearch": true,
+                "exhaustiveInternalBranching": true
               },
               "autonomousContinuation": {
                 "id": "continuation:autonomous",
@@ -7950,7 +7958,8 @@
                 },
                 "evaluationBudgetPerQuery": 10000,
                 "maxInterventionCombinations": 1024,
-                "maxInternalFrontiers": 1024
+                "maxInternalFrontiers": 1024,
+                "maxInternalBranches": 1024
               },
               "diagnostics": [],
               "formalEvidence": [
@@ -9096,7 +9105,7 @@
                   ]
                 },
                 {
-                  "subjectId": "anchor:maintenance-anchor:maintenance-anchor-remains-itself",
+                  "subjectId": "anchor:continuation:autonomous:maintenance-anchor:maintenance-anchor-remains-itself",
                   "purpose": "anchor-identity",
                   "status": "resolved",
                   "value": {
@@ -10099,9 +10108,12 @@
                 "formalQueryCount": 33,
                 "formalEvaluationSteps": 313,
                 "internalFrontierCount": 3,
+                "internalBranchCount": 0,
                 "interventionCombinationCount": 0,
                 "combinationLimit": 1024,
-                "exhaustiveInterventionSearch": true
+                "branchLimit": 1024,
+                "exhaustiveInterventionSearch": true,
+                "exhaustiveInternalBranching": true
               },
               "autonomousContinuation": {
                 "id": "continuation:autonomous",

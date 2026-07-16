@@ -1079,3 +1079,33 @@ The initial completion claim was correctly withdrawn. Subsequent audits replaced
 Consequence:
 
 Confirm `v0.5.4` as the bounded teleonomic-capacity release dated 2026-07-17. Its closed claim is limited to finite lasso-derived invariant norms with plural organically regenerated, event-necessary, memory-dependent internal responses and World-Will/anchor-independent persistence under the current causal kernel. Do not infer life, deliberation, agency, endogenous branching, relations, narrative coherence, global sea transport, cross-world anchors, whole-universe completion, or recursive self-construction. Preserve D-103 through D-106 and B-020 through B-025 as part of the release evidence rather than erasing the failed candidates.
+
+### D-108: Derive endogenous branches from every maximal commuting frontier
+
+Reason:
+
+Returning `underdetermined` for non-commuting simultaneous laws preserved honesty through `v0.5.4`, but the Bubble universe still could not actualize lawful internal plurality. Declaration order, randomness, a World-Will score, or an authored branch list would all install a selector outside the causal relation being represented. Applying an excluded alternative in a later frontier would also erase the meaning of actual branch formation.
+
+Consequence:
+
+Make `v0.5.5` an opt-in extension of `bubble-anchored-causal-program.v2`. Build the enabled-law compatibility graph and realize every maximal clique as one causal frontier. Record the full enabled set, realized laws, mutually excluded nonrealized laws, maximal-frontier derivation, and `hostSelection: false`. A law compatible with every alternative must appear in every branch. Excluded alternatives remain in the program but cannot execute later in that branch. Preserve the earlier `underdetermined` default for programs that do not explicitly opt in.
+
+### D-109: Treat branching intervention consequences as set-valued World-Will outcomes
+
+Reason:
+
+Once autonomous closure or post-intervention closure becomes plural, scoring each internal outcome independently would let World Will select the favorable branch and silently discard the rest. That would convert an objective-and-anchor mechanism into a hidden branch collapse rule. One valid outcome also cannot excuse an inadmissible or unresolved sibling outcome.
+
+Consequence:
+
+Evaluate anchor identity, intervention eligibility, and objective baselines separately for every autonomous branch. Treat every endogenous result of one intervention combination as one outcome set. Require anchor identity and hard constraints across the entire set, compare the intervention by its minimum exact net improvement, and preserve every outcome of a selected group. Existing deterministic/plural decision mode may resolve ties between intervention groups only; it never selects an internal branch outcome.
+
+### D-110: Confirm bounded v0.5.5 after branch, persistence, replay, and evidence-density closure
+
+Reason:
+
+The maximal-frontier kernel passed its focused cases, but release closure also required backward-compatible default ambiguity, exact commutativity, exhaustive resource failure, robust World-Will behavior, path-universal persistence evidence, replay integrity, and repository-scale artifact discipline. The first plural run schema duplicated every singular continuation inside nested records; that was removed before the final complete verification.
+
+Consequence:
+
+Confirm `v0.5.5` as the bounded endogenous-causal-branching release dated 2026-07-17. Its closed claim is finite exhaustive realization of maximal commuting internal-law frontiers, branch-local anchor and World-Will evaluation, robust set-valued intervention outcomes, real plural persistence paths, and exact inspection/replay preservation without a host selector. The complete `npm.cmd run verify` boundary passes with TypeScript checking, all 179 tests, every canonical run/inspect/record/replay path, and compact singular evidence. Do not infer deliberation, agency, relations, narrative coherence, causal spawn/collapse, global sea transport, cross-world anchors, whole-universe completion, or recursive self-construction.

@@ -426,3 +426,36 @@ Would be weakened by:
 Next check:
 
 Only a later version should test the first organically generated relational or simultaneous-alternative structure that could support a stronger agency claim. Require a new counterfactual contract rather than renaming the completed `v0.5.4` evidence.
+
+### H-017: Maximal commuting frontiers can realize bounded endogenous plurality without an external selector
+
+Status: validated for the bounded v0.5.5 causal branch contract
+
+Claim:
+
+When simultaneously enabled internal laws contain order-dependent effect conflicts, a Bubble can realize every lawful finite autonomous continuation by deriving all maximal commuting frontiers, while preserving common compatible laws, excluding conflicting alternatives only per realized branch, integrating anchors and robust World-Will optimization, and unfolding persistence without declaration order, randomness, an authored option menu, or a host-selected path.
+
+Validation evidence:
+
+- the legacy default still returns `underdetermined` for non-commuting simultaneous laws
+- the opt-in branch contract produces two autonomous continuations from two incompatible formation laws
+- every branch records the complete enabled set, realized and nonrealized law ids, maximal-frontier derivation, and `hostSelection: false`
+- a third law compatible with both formation alternatives occurs in both branch frontiers
+- identical set projections remain one commuting frontier and produce no false branch
+- an insufficient branch bound returns `underdetermined` with no selected partial continuation
+- an anchor-mediated intervention that itself branches is evaluated as one outcome set by guaranteed minimum exact improvement, and every selected outcome remains present
+- the persistent causal runtime unfolds two incompatible formation histories and certifies boundary, invariant identity, causally effective memory, sea-caused restoration, and outward influence on both
+- inspection and stored replay preserve branch lineage, exhaustive status, selected continuations, emergence, and complete run equality
+
+Would be weakened by:
+
+- declaration or enumeration order selecting one maximal frontier
+- executing a branch-excluded alternative later in the same realization
+- omitting a law compatible with every alternative from one branch
+- reporting a partial branch prefix as realized after resource exhaustion
+- allowing World Will to select the favorable outcome inside one branching intervention
+- treating endogenous causal plurality as proof that an internal being deliberated or chose
+
+Next check:
+
+Use the first internally generated relation or preference-bearing selector to distinguish world branching from agency. Require causal evidence for option representation, norm or preference, and internal selection before using the words deliberation or choice. Concrete causal `spawn` and `collapse` execution also remain separate open seams.

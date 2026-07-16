@@ -1,9 +1,9 @@
 {
   "mode": "bubble-anchored-causal-replay-result.v2",
   "status": "same-world-reexecution",
-  "recordedDigest": "513940b940e0fb535c66e8ad7aed54cfb60c80b36c53159f776f2954c736f16c",
-  "recordedRunDigest": "513940b940e0fb535c66e8ad7aed54cfb60c80b36c53159f776f2954c736f16c",
-  "replayedDigest": "513940b940e0fb535c66e8ad7aed54cfb60c80b36c53159f776f2954c736f16c",
+  "recordedDigest": "2cd3c8bd5832cb416775f2ecd003b1397a72b1d5dda0da8dbdbe24360cba2d85",
+  "recordedRunDigest": "2cd3c8bd5832cb416775f2ecd003b1397a72b1d5dda0da8dbdbe24360cba2d85",
+  "replayedDigest": "2cd3c8bd5832cb416775f2ecd003b1397a72b1d5dda0da8dbdbe24360cba2d85",
   "recordIntegrityValid": true,
   "recordedProgramDigestValid": true,
   "fullRunPreserved": true,
@@ -14,14 +14,15 @@
     "mode": "bubble-anchored-causal-run.v2",
     "programDigest": "8bb05e2bb63b09f77eb0422c7bd0b16196a5df56ce8d3372dec6f340d30a427f",
     "status": "realized",
-    "reason": "World Will selected exact admissible continuation(s)",
+    "reason": "World Will selected an exact admissible intervention group",
     "options": {
       "worldWillEnabled": true,
       "cutAnchorIds": [],
       "fieldOverrides": {},
       "evaluationBudgetPerQuery": 10000,
       "maxInterventionCombinations": 1024,
-      "maxInternalFrontiers": 1024
+      "maxInternalFrontiers": 1024,
+      "maxInternalBranches": 1024
     },
     "diagnostics": [],
     "formalEvidence": [
@@ -403,7 +404,7 @@
         ]
       },
       {
-        "subjectId": "anchor:field-anchor:field-anchor-remains-itself",
+        "subjectId": "anchor:continuation:autonomous:field-anchor:field-anchor-remains-itself",
         "purpose": "anchor-identity",
         "status": "resolved",
         "value": {
@@ -458,7 +459,7 @@
         ]
       },
       {
-        "subjectId": "candidate:alter-boundary-condition:post-anchor:field-anchor:field-anchor-remains-itself",
+        "subjectId": "candidate:alter-boundary-condition:outcome:0:post-anchor:field-anchor:field-anchor-remains-itself",
         "purpose": "anchor-identity",
         "status": "resolved",
         "value": {
@@ -480,7 +481,7 @@
         ]
       },
       {
-        "subjectId": "candidate:alter-boundary-condition:field-remains-admissible",
+        "subjectId": "candidate:alter-boundary-condition:outcome:0:field-remains-admissible",
         "purpose": "hard-constraint",
         "status": "resolved",
         "value": {
@@ -1862,9 +1863,12 @@
       "formalQueryCount": 20,
       "formalEvaluationSteps": 58,
       "internalFrontierCount": 3,
+      "internalBranchCount": 0,
       "interventionCombinationCount": 1,
       "combinationLimit": 1024,
-      "exhaustiveInterventionSearch": true
+      "branchLimit": 1024,
+      "exhaustiveInterventionSearch": true,
+      "exhaustiveInternalBranching": true
     },
     "autonomousContinuation": {
       "id": "continuation:autonomous",

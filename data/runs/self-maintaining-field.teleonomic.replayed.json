@@ -4,9 +4,9 @@
   "recordIntegrityValid": true,
   "programIdentityValid": true,
   "fullRunPreserved": true,
-  "recordedDigest": "ce2d600aa4d2ef8d2b4ec5d07923f697730894eea8d525d612c133b0bd6434b6",
-  "recordedRunDigest": "ce2d600aa4d2ef8d2b4ec5d07923f697730894eea8d525d612c133b0bd6434b6",
-  "replayedDigest": "ce2d600aa4d2ef8d2b4ec5d07923f697730894eea8d525d612c133b0bd6434b6",
+  "recordedDigest": "3908c316544777d321d253ace1dc917c8cd7f0b5ae93cbacee8a2c964ddc2e63",
+  "recordedRunDigest": "3908c316544777d321d253ace1dc917c8cd7f0b5ae93cbacee8a2c964ddc2e63",
+  "replayedDigest": "3908c316544777d321d253ace1dc917c8cd7f0b5ae93cbacee8a2c964ddc2e63",
   "replayedRun": {
     "mode": "bubble-teleonomic-causal-run.v1",
     "programDigest": "915ad831c65b6ccb4f0a0d2a1aba5922c070150308cd5ce3d9e6cc006bc99716",
@@ -1199,7 +1199,8 @@
                   "fieldOverrides": {},
                   "evaluationBudgetPerQuery": 10000,
                   "maxInterventionCombinations": 1024,
-                  "maxInternalFrontiers": 1024
+                  "maxInternalFrontiers": 1024,
+                  "maxInternalBranches": 1024
                 },
                 "diagnostics": [],
                 "formalEvidence": [
@@ -2261,7 +2262,7 @@
                     ]
                   },
                   {
-                    "subjectId": "anchor:maintenance-anchor:maintenance-anchor-remains-itself",
+                    "subjectId": "anchor:continuation:autonomous:maintenance-anchor:maintenance-anchor-remains-itself",
                     "purpose": "anchor-identity",
                     "status": "resolved",
                     "value": {
@@ -3390,9 +3391,12 @@
                   "formalQueryCount": 30,
                   "formalEvaluationSteps": 304,
                   "internalFrontierCount": 3,
+                  "internalBranchCount": 0,
                   "interventionCombinationCount": 0,
                   "combinationLimit": 1024,
-                  "exhaustiveInterventionSearch": true
+                  "branchLimit": 1024,
+                  "exhaustiveInterventionSearch": true,
+                  "exhaustiveInternalBranching": true
                 },
                 "autonomousContinuation": {
                   "id": "continuation:autonomous",
@@ -4663,7 +4667,8 @@
                   },
                   "evaluationBudgetPerQuery": 10000,
                   "maxInterventionCombinations": 1024,
-                  "maxInternalFrontiers": 1024
+                  "maxInternalFrontiers": 1024,
+                  "maxInternalBranches": 1024
                 },
                 "diagnostics": [],
                 "formalEvidence": [
@@ -5809,7 +5814,7 @@
                     ]
                   },
                   {
-                    "subjectId": "anchor:maintenance-anchor:maintenance-anchor-remains-itself",
+                    "subjectId": "anchor:continuation:autonomous:maintenance-anchor:maintenance-anchor-remains-itself",
                     "purpose": "anchor-identity",
                     "status": "resolved",
                     "value": {
@@ -6812,9 +6817,12 @@
                   "formalQueryCount": 33,
                   "formalEvaluationSteps": 313,
                   "internalFrontierCount": 3,
+                  "internalBranchCount": 0,
                   "interventionCombinationCount": 0,
                   "combinationLimit": 1024,
-                  "exhaustiveInterventionSearch": true
+                  "branchLimit": 1024,
+                  "exhaustiveInterventionSearch": true,
+                  "exhaustiveInternalBranching": true
                 },
                 "autonomousContinuation": {
                   "id": "continuation:autonomous",
@@ -7959,7 +7967,8 @@
                   },
                   "evaluationBudgetPerQuery": 10000,
                   "maxInterventionCombinations": 1024,
-                  "maxInternalFrontiers": 1024
+                  "maxInternalFrontiers": 1024,
+                  "maxInternalBranches": 1024
                 },
                 "diagnostics": [],
                 "formalEvidence": [
@@ -9105,7 +9114,7 @@
                     ]
                   },
                   {
-                    "subjectId": "anchor:maintenance-anchor:maintenance-anchor-remains-itself",
+                    "subjectId": "anchor:continuation:autonomous:maintenance-anchor:maintenance-anchor-remains-itself",
                     "purpose": "anchor-identity",
                     "status": "resolved",
                     "value": {
@@ -10108,9 +10117,12 @@
                   "formalQueryCount": 33,
                   "formalEvaluationSteps": 313,
                   "internalFrontierCount": 3,
+                  "internalBranchCount": 0,
                   "interventionCombinationCount": 0,
                   "combinationLimit": 1024,
-                  "exhaustiveInterventionSearch": true
+                  "branchLimit": 1024,
+                  "exhaustiveInterventionSearch": true,
+                  "exhaustiveInternalBranching": true
                 },
                 "autonomousContinuation": {
                   "id": "continuation:autonomous",

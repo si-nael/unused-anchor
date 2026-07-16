@@ -9,7 +9,8 @@
     "emergedStructureCount": 1,
     "dissolvedStructureCount": 0,
     "createsHistoryArrow": true,
-    "exhaustiveInterventionSearch": true
+    "exhaustiveInterventionSearch": true,
+    "exhaustiveInternalBranching": true
   },
   "decision": {
     "baselineScore": {
@@ -1646,7 +1647,7 @@
       ]
     },
     {
-      "subjectId": "anchor:field-anchor:field-anchor-remains-itself",
+      "subjectId": "anchor:continuation:autonomous:field-anchor:field-anchor-remains-itself",
       "purpose": "anchor-identity",
       "status": "resolved",
       "value": {
@@ -1701,7 +1702,7 @@
       ]
     },
     {
-      "subjectId": "candidate:alter-boundary-condition:post-anchor:field-anchor:field-anchor-remains-itself",
+      "subjectId": "candidate:alter-boundary-condition:outcome:0:post-anchor:field-anchor:field-anchor-remains-itself",
       "purpose": "anchor-identity",
       "status": "resolved",
       "value": {
@@ -1723,7 +1724,7 @@
       ]
     },
     {
-      "subjectId": "candidate:alter-boundary-condition:field-remains-admissible",
+      "subjectId": "candidate:alter-boundary-condition:outcome:0:field-remains-admissible",
       "purpose": "hard-constraint",
       "status": "resolved",
       "value": {

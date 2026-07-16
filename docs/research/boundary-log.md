@@ -10,6 +10,78 @@ The point is to keep visible the classes of failure that show where Bubble's own
 
 ## 2026-07-17
 
+### B-029: A plural run surface crossed into duplicate single-world evidence
+
+Observed surface:
+
+The first passing v0.5.5 run schema emitted both `autonomousContinuation` and an `autonomousContinuations` array even when only one autonomous world existed. Nested persistence and teleonomic records then repeated the same complete trace many times and expanded generated evidence by tens of thousands of lines.
+
+Boundary meaning:
+
+API generality crossed into repository-memory duplication. The data remained correct but made the durable evidence harder to inspect, review, and preserve.
+
+Current handling:
+
+Single-world runs retain the compatible singular continuation and baseline score. Plural arrays and branch lineage appear only when real plurality exists. The complete repository was regenerated and reverified after this compaction.
+
+Next check:
+
+Require future plural schemas to add information proportional to actual multiplicity rather than copying complete singular evidence into parallel compatibility fields.
+
+### B-028: A favorable internal outcome crossed into World-Will selection
+
+Observed surface:
+
+After one intervention creates several endogenous internal branches, the ordinary candidate structure makes it tempting to score each result as if it were an independently selectable continuation.
+
+Boundary meaning:
+
+Objective optimization crossed into branch collapse. World Will would become a hidden selector able to erase unfavorable lawful outcomes that the world's own law generated.
+
+Current handling:
+
+One intervention combination is one set-valued candidate. Every outcome must preserve anchor identity and hard constraints. Its decision value is the minimum exact net improvement across all outcomes, and selecting the group preserves every outcome.
+
+Next check:
+
+If later preferences, agents, or relations can lawfully select among internal alternatives, keep their causal selection evidence separate from World-Will robust optimization.
+
+### B-027: The presence of any set effect crossed into non-commutativity
+
+Observed surface:
+
+The original conflict predicate classified every pair of same-field effects containing `set` as non-commuting, including two identical projections and additive zero.
+
+Boundary meaning:
+
+A conservative implementation shortcut crossed into the mathematical semantics and could fabricate branch plurality where execution order changes nothing.
+
+Current handling:
+
+Identical set projections and zero additive effects commute. Unequal sets, or a meaningful additive operation combined with a set on the same field, remain order-dependent. A regression requires identical projections to share one frontier with no branch lineage.
+
+Next check:
+
+Extend commutativity only from exact operator semantics; do not infer it from syntax names alone when richer field operations arrive.
+
+### B-026: A rejected simultaneous law crossed back into the same branch later
+
+Observed surface:
+
+A first branching sketch applied one maximal commuting subset but left conflicting enabled alternatives merely unapplied. An always-true excluded law could then execute on the next frontier, making branches converge by sequentially realizing mutually exclusive alternatives.
+
+Boundary meaning:
+
+Potential law membership crossed into actual history. The branch record would claim one actualization while execution later smuggled the rejected alternative into the same world.
+
+Current handling:
+
+Each branch records `nonrealizedLawIds` for the enabled alternatives outside its maximal frontier. Those laws remain in the program for provenance and other branches but are resolved as nonrealized for the current realization.
+
+Next check:
+
+Reuse the distinction between retained law, nonrealized event, and removed program element for future choice, collapse, and counterfactual semantics.
+
 ### B-025: Syntactic memory binding crossed into semantic dependence
 
 Observed surface:

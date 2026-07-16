@@ -55,6 +55,7 @@ export interface ExecutableAnchoredCausalProgram {
     seaLaws: CausalSeaLaw[];
     execution: {
         decisionMode: "deterministic" | "plural";
+        internalConflictMode?: "underdetermined" | "maximal-commuting-branches";
         hardConstraints: CausalStatePredicate[];
         anchorIdentity: CausalAnchorIdentityQuery[];
         interventionCosts: CausalInterventionCost[];
@@ -69,6 +70,7 @@ export interface CausalExecutionOptions {
     evaluationBudgetPerQuery?: number;
     maxInterventionCombinations?: number;
     maxInternalFrontiers?: number;
+    maxInternalBranches?: number;
 }
 
 export type ResolvedCausalExecutionOptions = Omit<Required<CausalExecutionOptions>, "counterfactualInternalEventAblationLawIds">
@@ -153,6 +155,7 @@ export interface CausalObjectiveContribution {
 export interface CausalInterventionEligibility {
     interventionId: string;
     anchorId: string;
+    baselineContinuationId?: string;
     status: "eligible" | "blocked";
     reasons: string[];
 }
@@ -160,19 +163,38 @@ export interface CausalInterventionEligibility {
 export interface CausalCandidateAssessment {
     id: string;
     interventionIds: string[];
+    baselineContinuationId?: string;
     status: "improved" | "rejected" | "inadmissible" | "undetermined";
     score?: ExactValue;
     cost?: ExactValue;
     improvement?: ExactValue;
     objectiveContributions?: CausalObjectiveContribution[];
+    outcomes?: Array<{
+        id: string;
+        score: ExactValue;
+        improvement: ExactValue;
+        objectiveContributions: CausalObjectiveContribution[];
+        branchLineage: CausalInternalBranchStep[];
+    }>;
     reasons: string[];
+}
+
+export interface CausalInternalBranchStep {
+    id: string;
+    frontierIndex: number;
+    enabledLawIds: string[];
+    realizedLawIds: string[];
+    nonrealizedLawIds: string[];
+    derivation: "maximal-commuting-frontier";
+    hostSelection: false;
 }
 
 export interface CausalContinuation {
     id: string;
-    selection: "baseline" | "selected" | "selected-plural" | "alternative";
+    selection: "baseline" | "autonomous-plural" | "selected" | "selected-plural" | "alternative";
     interventionIds: string[];
     score: ExactValue;
+    branchLineage?: CausalInternalBranchStep[];
     worldStates: CausalWorldState[];
     realizedEventIds: string[];
     trace: CausalTraceEntry[];
@@ -201,8 +223,10 @@ export interface AnchoredCausalRun {
     formalEvidence: CausalFormalEvidence[];
     initialWorldStates: CausalWorldState[];
     autonomousContinuation?: CausalContinuation;
+    autonomousContinuations?: CausalContinuation[];
     interventionEligibility: CausalInterventionEligibility[];
     baselineScore?: ExactValue;
+    baselineScores?: Array<{ continuationId: string; score: ExactValue }>;
     candidateAssessments: CausalCandidateAssessment[];
     continuations: CausalContinuation[];
     selectedContinuationIds: string[];
@@ -211,9 +235,12 @@ export interface AnchoredCausalRun {
         formalQueryCount: number;
         formalEvaluationSteps: number;
         internalFrontierCount: number;
+        internalBranchCount: number;
         interventionCombinationCount: number;
         combinationLimit: number;
+        branchLimit: number;
         exhaustiveInterventionSearch: boolean;
+        exhaustiveInternalBranching: boolean;
     };
 }
 
@@ -229,9 +256,11 @@ export interface AnchoredCausalInspection {
         dissolvedStructureCount: number;
         createsHistoryArrow: boolean;
         exhaustiveInterventionSearch: boolean;
+        exhaustiveInternalBranching: boolean;
     };
     decision: {
         baselineScore?: ExactValue;
+        baselineScores?: Array<{ continuationId: string; score: ExactValue }>;
         interventionEligibility: CausalInterventionEligibility[];
         candidates: CausalCandidateAssessment[];
     };
@@ -278,6 +307,8 @@ interface MutableRealization {
     trace: CausalTraceEntry[];
     historyCommits: CausalHistoryCommit[];
     internalEventAblations: CausalInternalEventAblation[];
+    branchedAwayLawIds: Set<string>;
+    branchLineage: CausalInternalBranchStep[];
     events: EventRecord[];
     evaluationOrder: string[];
     evaluationFrontiers: string[][];
@@ -293,9 +324,12 @@ interface ClosureResult {
     status: "closed" | "undetermined" | "contradicted";
     reason?: string;
     unresolvedLawIds: string[];
+    realizations: MutableRealization[];
     formalEvidence: CausalFormalEvidence[];
     formalSteps: number;
     frontierCount: number;
+    branchCount: number;
+    exhaustiveBranching: boolean;
 }
 
 interface ObjectiveScore {
@@ -425,6 +459,15 @@ export function validateExecutableCausalProgram(program: ExecutableAnchoredCausa
     if (program.execution.decisionMode !== "deterministic" && program.execution.decisionMode !== "plural") {
         diagnostics.push(runtimeIssue("CKR016", "execution.decisionMode", "decision mode must be deterministic or plural"));
     }
+    if (program.execution.internalConflictMode !== undefined
+        && program.execution.internalConflictMode !== "underdetermined"
+        && program.execution.internalConflictMode !== "maximal-commuting-branches") {
+        diagnostics.push(runtimeIssue(
+            "CKR025",
+            "execution.internalConflictMode",
+            "internal conflict mode must be underdetermined or maximal-commuting-branches",
+        ));
+    }
     for (const [index, predicate] of program.execution.hardConstraints.entries()) {
         validateRuntimePredicate(program, predicate, `execution.hardConstraints[${index}]`, diagnostics);
         if (!program.world.worldWill.hardConstraintFamilyIds.includes(predicate.query.familyId)) {
@@ -473,6 +516,7 @@ function normalizedOptions(options: CausalExecutionOptions): Required<CausalExec
         evaluationBudgetPerQuery: options.evaluationBudgetPerQuery ?? 10_000,
         maxInterventionCombinations: options.maxInterventionCombinations ?? 1_024,
         maxInternalFrontiers: options.maxInternalFrontiers ?? 1_024,
+        maxInternalBranches: options.maxInternalBranches ?? 1_024,
     };
 }
 
@@ -579,6 +623,8 @@ function cloneRealization(source: MutableRealization): MutableRealization {
         trace: cloneValue(source.trace),
         historyCommits: cloneValue(source.historyCommits),
         internalEventAblations: cloneValue(source.internalEventAblations),
+        branchedAwayLawIds: new Set(source.branchedAwayLawIds),
+        branchLineage: cloneValue(source.branchLineage),
         events: cloneValue(source.events),
         evaluationOrder: [...source.evaluationOrder],
         evaluationFrontiers: cloneValue(source.evaluationFrontiers),
@@ -669,7 +715,72 @@ function effectSetsConflict(
             byField.set(key, [...byField.get(key) ?? [], effect]);
         }
     }
-    return [...byField.values()].some((effects) => effects.length > 1 && effects.some((effect) => effect.operation === "set"));
+    return [...byField.values()].some((effects) => {
+        const meaningful = effects.filter((effect) => (
+            effect.operation === "set" || !exactValuesEqual(effect.value, exact.integer(0))
+        ));
+        if (meaningful.length <= 1) return false;
+        const setters = meaningful.filter((effect) => effect.operation === "set");
+        if (setters.length === 0) return false;
+        return setters.length !== meaningful.length
+            || setters.some((effect) => !exactValuesEqual(effect.value, setters[0]!.value));
+    });
+}
+
+function maximalCommutingLawFrontiers(
+    laws: CausalInternalLaw[],
+    limit: number,
+): { frontiers: CausalInternalLaw[][]; exhaustive: boolean } {
+    const ordered = [...laws].sort((left, right) => left.id.localeCompare(right.id));
+    const byId = new Map(ordered.map((law) => [law.id, law]));
+    const compatible = new Map(ordered.map((law) => [
+        law.id,
+        new Set(ordered
+            .filter((candidate) => candidate.id !== law.id && !effectSetsConflict([
+                { worldId: law.worldId, effects: law.effects },
+                { worldId: candidate.worldId, effects: candidate.effects },
+            ]))
+            .map((candidate) => candidate.id)),
+    ]));
+    const results: string[][] = [];
+    let exhaustive = true;
+    const search = (chosen: string[], possibleInput: string[], excludedInput: string[]): void => {
+        if (!exhaustive) return;
+        let possible = [...possibleInput];
+        let excluded = [...excludedInput];
+        if (possible.length === 0 && excluded.length === 0) {
+            results.push([...chosen].sort());
+            if (results.length > limit) exhaustive = false;
+            return;
+        }
+        const pivot = [...possible, ...excluded]
+            .sort((left, right) => {
+                const leftDegree = possible.filter((id) => compatible.get(left)?.has(id)).length;
+                const rightDegree = possible.filter((id) => compatible.get(right)?.has(id)).length;
+                return rightDegree - leftDegree || left.localeCompare(right);
+            })[0];
+        const candidates = possible.filter((id) => !pivot || !compatible.get(pivot)?.has(id));
+        for (const candidate of candidates) {
+            if (!possible.includes(candidate)) continue;
+            const neighbors = compatible.get(candidate) ?? new Set<string>();
+            search(
+                [...chosen, candidate],
+                possible.filter((id) => neighbors.has(id)),
+                excluded.filter((id) => neighbors.has(id)),
+            );
+            possible = possible.filter((id) => id !== candidate);
+            excluded = [...excluded, candidate];
+            if (!exhaustive) return;
+        }
+    };
+    search([], ordered.map((law) => law.id), []);
+    return {
+        frontiers: results
+            .slice(0, limit)
+            .sort((left, right) => left.join("+").localeCompare(right.join("+")))
+            .map((ids) => ids.map((id) => byId.get(id)!)),
+        exhaustive,
+    };
 }
 
 function predicateCauses(predicate: CausalStatePredicate, mutable: MutableRealization): string[] {
@@ -787,99 +898,225 @@ function applyLawFrontier(
 
 function closeInternalLaws(
     program: ExecutableAnchoredCausalProgram,
-    mutable: MutableRealization,
+    initial: MutableRealization,
     options: Required<CausalExecutionOptions>,
     subjectPrefix: string,
 ): ClosureResult {
     const formalEvidence: CausalFormalEvidence[] = [];
     let formalSteps = 0;
     let frontierCount = 0;
-    while (true) {
-        if (frontierCount >= options.maxInternalFrontiers) {
-            return {
-                status: "undetermined",
-                reason: "internal causal-closure frontier budget exhausted",
-                unresolvedLawIds: program.world.internalLaws.filter((law) => !mutable.appliedLawIds.has(law.id)
-                    && !options.counterfactualInternalEventAblationLawIds.includes(law.id)).map((law) => law.id).sort(),
-                formalEvidence,
-                formalSteps,
-                frontierCount,
-            };
-        }
-        const enabled: CausalInternalLaw[] = [];
-        const unresolved: string[] = [];
-        for (const law of [...program.world.internalLaws].sort((left, right) => left.id.localeCompare(right.id))) {
-            if (mutable.appliedLawIds.has(law.id)) continue;
-            const evaluated = evaluatePredicate(
-                program,
-                law.guard,
-                "law-guard",
-                mutable.states,
-                options.evaluationBudgetPerQuery,
-                `${subjectPrefix}frontier:${frontierCount}:${law.id}:`,
-            );
-            formalEvidence.push(evaluated.evidence);
-            formalSteps += evaluated.steps;
-            if (evaluated.evidence.status === "undetermined") {
-                unresolved.push(law.id);
-            } else if (evaluated.evidence.status === "contradicted" || evaluated.evidence.value?.kind !== "boolean") {
+    let branchCount = 0;
+    const completed: MutableRealization[] = [];
+    const queue: Array<{ mutable: MutableRealization; localFrontierCount: number }> = [{
+        mutable: initial,
+        localFrontierCount: 0,
+    }];
+    const partialRealizations = (current?: MutableRealization): MutableRealization[] => [
+        ...completed,
+        ...(current ? [current] : []),
+        ...queue.map((entry) => entry.mutable),
+    ];
+    while (queue.length > 0) {
+        const node = queue.shift()!;
+        const mutable = node.mutable;
+        while (true) {
+            const enabled: CausalInternalLaw[] = [];
+            const unresolved: string[] = [];
+            const branchSubject = mutable.branchLineage.length > 0
+                ? `branch:${mutable.branchLineage.map((step) => step.id).join("/")}:`
+                : "";
+            for (const law of [...program.world.internalLaws].sort((left, right) => left.id.localeCompare(right.id))) {
+                if (mutable.appliedLawIds.has(law.id) || mutable.branchedAwayLawIds.has(law.id)) continue;
+                const evaluated = evaluatePredicate(
+                    program,
+                    law.guard,
+                    "law-guard",
+                    mutable.states,
+                    options.evaluationBudgetPerQuery,
+                    `${subjectPrefix}${branchSubject}frontier:${node.localFrontierCount}:${law.id}:`,
+                );
+                formalEvidence.push(evaluated.evidence);
+                formalSteps += evaluated.steps;
+                if (evaluated.evidence.status === "undetermined") {
+                    unresolved.push(law.id);
+                } else if (evaluated.evidence.status === "contradicted" || evaluated.evidence.value?.kind !== "boolean") {
+                    return {
+                        status: "contradicted",
+                        reason: `guard for internal law '${law.id}' did not produce a boolean`,
+                        unresolvedLawIds: [law.id],
+                        realizations: partialRealizations(mutable),
+                        formalEvidence,
+                        formalSteps,
+                        frontierCount,
+                        branchCount,
+                        exhaustiveBranching: true,
+                    };
+                } else if (evaluated.evidence.value.value) {
+                    if (options.counterfactualInternalEventAblationLawIds.includes(law.id)) {
+                        mutable.appliedLawIds.add(law.id);
+                        mutable.internalEventAblations.push({
+                            id: `ablation:law:${law.id}`,
+                            kind: "internal-event-nonrealization",
+                            lawId: law.id,
+                            worldId: law.worldId,
+                            wouldHaveEventId: `law:${law.id}`,
+                            guardEvidenceSubjectId: evaluated.evidence.subjectId,
+                            frontierIndex: node.localFrontierCount,
+                            causes: predicateCauses(law.guard, mutable),
+                            lawRetainedInProgram: true,
+                            effectsSuppressed: true,
+                        });
+                    } else {
+                        enabled.push(law);
+                    }
+                }
+            }
+            if (unresolved.length > 0) {
                 return {
-                    status: "contradicted",
-                    reason: `guard for internal law '${law.id}' did not produce a boolean`,
-                    unresolvedLawIds: [law.id],
+                    status: "undetermined",
+                    reason: "one or more internal-law guards are unresolved",
+                    unresolvedLawIds: unresolved.sort(),
+                    realizations: partialRealizations(mutable),
                     formalEvidence,
                     formalSteps,
                     frontierCount,
+                    branchCount,
+                    exhaustiveBranching: true,
                 };
-            } else if (evaluated.evidence.value.value) {
-                if (options.counterfactualInternalEventAblationLawIds.includes(law.id)) {
-                    mutable.appliedLawIds.add(law.id);
-                    mutable.internalEventAblations.push({
-                        id: `ablation:law:${law.id}`,
-                        kind: "internal-event-nonrealization",
-                        lawId: law.id,
-                        worldId: law.worldId,
-                        wouldHaveEventId: `law:${law.id}`,
-                        guardEvidenceSubjectId: evaluated.evidence.subjectId,
-                        frontierIndex: frontierCount,
-                        causes: predicateCauses(law.guard, mutable),
-                        lawRetainedInProgram: true,
-                        effectsSuppressed: true,
-                    });
-                } else {
-                    enabled.push(law);
-                }
             }
+            if (enabled.length === 0) {
+                completed.push(mutable);
+                break;
+            }
+            const conflict = effectSetsConflict(enabled.map((law) => ({ worldId: law.worldId, effects: law.effects })));
+            if (conflict && program.execution.internalConflictMode !== "maximal-commuting-branches") {
+                return {
+                    status: "undetermined",
+                    reason: "simultaneously enabled internal laws have non-commuting set effects",
+                    unresolvedLawIds: enabled.map((law) => law.id).sort(),
+                    realizations: partialRealizations(mutable),
+                    formalEvidence,
+                    formalSteps,
+                    frontierCount,
+                    branchCount,
+                    exhaustiveBranching: true,
+                };
+            }
+            if (conflict) {
+                const remainingBranchBudget = options.maxInternalBranches - branchCount;
+                const alternatives = maximalCommutingLawFrontiers(enabled, Math.max(remainingBranchBudget, 0));
+                if (!alternatives.exhaustive || alternatives.frontiers.length === 0
+                    || branchCount + alternatives.frontiers.length > options.maxInternalBranches) {
+                    return {
+                        status: "undetermined",
+                        reason: "endogenous internal-branch budget exhausted before every maximal commuting frontier was preserved",
+                        unresolvedLawIds: enabled.map((law) => law.id).sort(),
+                        realizations: partialRealizations(mutable),
+                        formalEvidence,
+                        formalSteps,
+                        frontierCount,
+                        branchCount,
+                        exhaustiveBranching: false,
+                    };
+                }
+                if (frontierCount + alternatives.frontiers.length > options.maxInternalFrontiers) {
+                    return {
+                        status: "undetermined",
+                        reason: "internal causal-closure frontier budget cannot preserve every endogenous branch",
+                        unresolvedLawIds: enabled.map((law) => law.id).sort(),
+                        realizations: partialRealizations(mutable),
+                        formalEvidence,
+                        formalSteps,
+                        frontierCount,
+                        branchCount,
+                        exhaustiveBranching: true,
+                    };
+                }
+                const enabledLawIds = enabled.map((law) => law.id).sort();
+                for (const frontier of alternatives.frontiers) {
+                    const child = cloneRealization(mutable);
+                    const realizedLawIds = frontier.map((law) => law.id).sort();
+                    const nonrealizedLawIds = enabledLawIds.filter((lawId) => !realizedLawIds.includes(lawId));
+                    nonrealizedLawIds.forEach((lawId) => child.branchedAwayLawIds.add(lawId));
+                    const step: CausalInternalBranchStep = {
+                        id: `branch:${digest({
+                            parent: child.branchLineage.map((entry) => entry.id),
+                            frontierIndex: node.localFrontierCount,
+                            realizedLawIds,
+                        }).slice(0, 16)}`,
+                        frontierIndex: node.localFrontierCount,
+                        enabledLawIds,
+                        realizedLawIds,
+                        nonrealizedLawIds,
+                        derivation: "maximal-commuting-frontier",
+                        hostSelection: false,
+                    };
+                    child.branchLineage.push(step);
+                    const error = applyLawFrontier(program, child, frontier);
+                    if (error) {
+                        return {
+                            status: "contradicted",
+                            reason: error,
+                            unresolvedLawIds: realizedLawIds,
+                            realizations: partialRealizations(child),
+                            formalEvidence,
+                            formalSteps,
+                            frontierCount,
+                            branchCount,
+                            exhaustiveBranching: true,
+                        };
+                    }
+                    queue.push({ mutable: child, localFrontierCount: node.localFrontierCount + 1 });
+                    frontierCount += 1;
+                    branchCount += 1;
+                }
+                break;
+            }
+            if (frontierCount + 1 > options.maxInternalFrontiers) {
+                return {
+                    status: "undetermined",
+                    reason: "internal causal-closure frontier budget exhausted",
+                    unresolvedLawIds: enabled.map((law) => law.id).sort(),
+                    realizations: partialRealizations(mutable),
+                    formalEvidence,
+                    formalSteps,
+                    frontierCount,
+                    branchCount,
+                    exhaustiveBranching: true,
+                };
+            }
+            const error = applyLawFrontier(program, mutable, enabled);
+            if (error) {
+                return {
+                    status: "contradicted",
+                    reason: error,
+                    unresolvedLawIds: enabled.map((law) => law.id),
+                    realizations: partialRealizations(mutable),
+                    formalEvidence,
+                    formalSteps,
+                    frontierCount,
+                    branchCount,
+                    exhaustiveBranching: true,
+                };
+            }
+            frontierCount += 1;
+            node.localFrontierCount += 1;
         }
-        if (unresolved.length > 0) {
-            return {
-                status: "undetermined",
-                reason: "one or more internal-law guards are unresolved",
-                unresolvedLawIds: unresolved.sort(),
-                formalEvidence,
-                formalSteps,
-                frontierCount,
-            };
-        }
-        if (enabled.length === 0) {
-            return { status: "closed", unresolvedLawIds: [], formalEvidence, formalSteps, frontierCount };
-        }
-        if (effectSetsConflict(enabled.map((law) => ({ worldId: law.worldId, effects: law.effects })))) {
-            return {
-                status: "undetermined",
-                reason: "simultaneously enabled internal laws have non-commuting set effects",
-                unresolvedLawIds: enabled.map((law) => law.id).sort(),
-                formalEvidence,
-                formalSteps,
-                frontierCount,
-            };
-        }
-        const error = applyLawFrontier(program, mutable, enabled);
-        if (error) {
-            return { status: "contradicted", reason: error, unresolvedLawIds: enabled.map((law) => law.id), formalEvidence, formalSteps, frontierCount };
-        }
-        frontierCount += 1;
     }
+    return {
+        status: "closed",
+        unresolvedLawIds: [],
+        realizations: completed.sort((left, right) => (
+            left.branchLineage.map((step) => step.realizedLawIds.join("+")).join("/").localeCompare(
+                right.branchLineage.map((step) => step.realizedLawIds.join("+")).join("/"),
+            )
+        )),
+        formalEvidence,
+        formalSteps,
+        frontierCount,
+        branchCount,
+        exhaustiveBranching: true,
+    };
 }
 
 function absoluteExact(value: ExactValue): ExactValue | undefined {
@@ -1101,6 +1338,7 @@ function continuationFromRealization(
             selection,
             interventionIds: [...interventionIds].sort(),
             score,
+            ...(mutable.branchLineage.length > 0 ? { branchLineage: cloneValue(mutable.branchLineage) } : {}),
             worldStates: serializeStates(mutable.states),
             realizedEventIds: mutable.events.map((event) => event.id),
             trace: cloneValue(mutable.trace),
@@ -1161,6 +1399,8 @@ function initializeRealization(
         trace: [],
         historyCommits: [],
         internalEventAblations: [],
+        branchedAwayLawIds: new Set(),
+        branchLineage: [],
         events: [],
         evaluationOrder: [],
         evaluationFrontiers: [],
@@ -1235,6 +1475,23 @@ function evaluateConstraintSet(
     return { admissible, evidence, formalSteps, reasons };
 }
 
+function branchContinuationSuffix(mutable: MutableRealization): string {
+    return mutable.branchLineage.length === 0
+        ? ""
+        : `:branch:${mutable.branchLineage.map((step) => step.id.slice("branch:".length)).join(".")}`;
+}
+
+function minimumExactRational(values: ExactValue[]): ExactValue | undefined {
+    if (values.length === 0) return undefined;
+    let minimum = values[0]!;
+    for (const value of values.slice(1)) {
+        const comparison = compareExactRationals(value, minimum);
+        if (comparison === undefined) return undefined;
+        if (comparison < 0) minimum = value;
+    }
+    return minimum;
+}
+
 export function realizeAnchoredCausalWorld(
     program: ExecutableAnchoredCausalProgram,
     requestedOptions: CausalExecutionOptions = {},
@@ -1245,8 +1502,10 @@ export function realizeAnchoredCausalWorld(
     const formalEvidence: CausalFormalEvidence[] = [];
     let formalSteps = 0;
     let internalFrontierCount = 0;
+    let internalBranchCount = 0;
     let interventionCombinationCount = 0;
     let exhaustiveInterventionSearch = true;
+    let exhaustiveInternalBranching = true;
     const emptyRun = (
         status: AnchoredCausalRun["status"],
         reason: string,
@@ -1269,9 +1528,12 @@ export function realizeAnchoredCausalWorld(
             formalQueryCount: formalEvidence.length,
             formalEvaluationSteps: formalSteps,
             internalFrontierCount,
+            internalBranchCount,
             interventionCombinationCount,
             combinationLimit: options.maxInterventionCombinations,
+            branchLimit: options.maxInternalBranches,
             exhaustiveInterventionSearch,
+            exhaustiveInternalBranching,
         },
         ...extra,
     });
@@ -1297,10 +1559,12 @@ export function realizeAnchoredCausalWorld(
     if (!Number.isSafeInteger(options.evaluationBudgetPerQuery)
         || !Number.isSafeInteger(options.maxInterventionCombinations)
         || !Number.isSafeInteger(options.maxInternalFrontiers)
+        || !Number.isSafeInteger(options.maxInternalBranches)
         || options.evaluationBudgetPerQuery < 1
         || options.maxInterventionCombinations < 0
-        || options.maxInternalFrontiers < 1) {
-        return emptyRun("contradicted", "execution budgets must be positive, except that the combination limit may be zero");
+        || options.maxInternalFrontiers < 1
+        || options.maxInternalBranches < 1) {
+        return emptyRun("contradicted", "execution budgets must be positive, except that the intervention combination limit may be zero");
     }
     const initialized = initializeRealization(program, options);
     formalEvidence.push(...initialized.evidence);
@@ -1309,213 +1573,365 @@ export function realizeAnchoredCausalWorld(
         return emptyRun(initialized.status ?? "contradicted", initialized.reason ?? "world initialization failed");
     }
     const initialWorldStates = serializeStates(initialized.mutable.states);
-    const autonomous = initialized.mutable;
-    const closure = closeInternalLaws(program, autonomous, options, "autonomous:");
+    const closure = closeInternalLaws(program, initialized.mutable, options, "autonomous:");
     formalEvidence.push(...closure.formalEvidence);
     formalSteps += closure.formalSteps;
     internalFrontierCount += closure.frontierCount;
-    const autonomousScore = scoreObjectives(program, autonomous.states);
-    if (!autonomousScore) {
-        return emptyRun("contradicted", "World Will objectives could not be scored exactly", { initialWorldStates });
+    internalBranchCount += closure.branchCount;
+    exhaustiveInternalBranching = exhaustiveInternalBranching && closure.exhaustiveBranching;
+    const autonomousBases: Array<{
+        mutable: MutableRealization;
+        objective: ObjectiveScore;
+        continuation: CausalContinuation;
+    }> = [];
+    for (const mutable of closure.realizations) {
+        const objective = scoreObjectives(program, mutable.states);
+        if (!objective) {
+            return emptyRun("contradicted", "World Will objectives could not be scored exactly", { initialWorldStates });
+        }
+        const built = continuationFromRealization(
+            program,
+            mutable,
+            initialWorldStates,
+            `continuation:autonomous${branchContinuationSuffix(mutable)}`,
+            closure.realizations.length > 1 ? "autonomous-plural" : "baseline",
+            [],
+            objective.score,
+            options,
+        );
+        autonomousBases.push({ mutable, objective, continuation: built.continuation });
+        formalEvidence.push(...built.emergence.evidence);
+        formalSteps += built.emergence.formalSteps;
     }
-    const autonomousBuilt = continuationFromRealization(
-        program,
-        autonomous,
-        initialWorldStates,
-        "continuation:autonomous",
-        "baseline",
-        [],
-        autonomousScore.score,
-        options,
-    );
-    formalEvidence.push(...autonomousBuilt.emergence.evidence);
-    formalSteps += autonomousBuilt.emergence.formalSteps;
+    const autonomousContinuations = autonomousBases.map((base) => base.continuation);
+    const baselineScores = autonomousBases.map((base) => ({
+        continuationId: base.continuation.id,
+        score: base.objective.score,
+    }));
+    const singularAutonomous = autonomousBases.length === 1 ? autonomousBases[0] : undefined;
     if (closure.status !== "closed") {
         return emptyRun(closure.status === "contradicted" ? "contradicted" : "underdetermined", closure.reason ?? "internal causal closure failed", {
             initialWorldStates,
-            autonomousContinuation: autonomousBuilt.continuation,
-            baselineScore: autonomousScore.score,
-            continuations: [autonomousBuilt.continuation],
+            ...(singularAutonomous ? {
+                autonomousContinuation: singularAutonomous.continuation,
+                baselineScore: singularAutonomous.objective.score,
+            } : {}),
+            ...(autonomousBases.length > 1 ? { autonomousContinuations, baselineScores } : {}),
+            continuations: autonomousContinuations,
             selectedContinuationIds: [],
             unresolvedAlternativeIds: closure.unresolvedLawIds.map((id) => `law:${id}`),
         });
     }
 
-    const identityByAnchor = new Map<string, ReturnType<typeof evaluateConstraintSet>>();
-    for (const anchor of program.world.anchors) {
-        const predicates = program.execution.anchorIdentity.filter((predicate) => predicate.anchorId === anchor.id);
-        const result = evaluateConstraintSet(program, predicates, "anchor-identity", autonomous.states, options, `anchor:${anchor.id}:`);
-        identityByAnchor.set(anchor.id, result);
-        formalEvidence.push(...result.evidence);
-        formalSteps += result.formalSteps;
-    }
-    const eligibility: CausalInterventionEligibility[] = program.world.worldWill.interventions
-        .map((intervention) => {
-            const reasons: string[] = [];
-            if (!options.worldWillEnabled) reasons.push("World Will execution is disabled");
-            if (options.cutAnchorIds.includes(intervention.anchorId)) reasons.push(`anchor '${intervention.anchorId}' is cut`);
-            const identity = identityByAnchor.get(intervention.anchorId);
-            if (identity?.admissible !== true) reasons.push(...(identity?.reasons ?? ["anchor identity is unavailable"]));
-            return {
-                interventionId: intervention.id,
-                anchorId: intervention.anchorId,
-                status: reasons.length === 0 ? "eligible" as const : "blocked" as const,
-                reasons,
-            };
-        })
-        .sort((left, right) => left.interventionId.localeCompare(right.interventionId));
-    const eligibleInterventions = program.world.worldWill.interventions
-        .filter((intervention) => eligibility.some((entry) => entry.interventionId === intervention.id && entry.status === "eligible"))
-        .sort((left, right) => left.id.localeCompare(right.id));
-    const totalCombinations = combinationCardinality(eligibleInterventions.length);
-    exhaustiveInterventionSearch = totalCombinations <= BigInt(options.maxInterventionCombinations);
-    const combinationsToEvaluate = boundedCombinations(eligibleInterventions, options.maxInterventionCombinations);
-    const candidateAssessments: CausalCandidateAssessment[] = [];
-    const candidateRealizations = new Map<string, { mutable: MutableRealization; objective: ObjectiveScore }>();
-    const unresolvedAlternativeIds: string[] = [];
-    for (const combination of combinationsToEvaluate) {
-        interventionCombinationCount += 1;
-        const interventionIds = combination.map((entry) => entry.id).sort();
-        const id = `candidate:${interventionIds.join("+")}`;
-        if (effectSetsConflict(combination.map((entry) => ({ worldId: entry.targetWorldId, effects: entry.effects })))) {
-            candidateAssessments.push({ id, interventionIds, status: "undetermined", reasons: ["simultaneous interventions have non-commuting set effects"] });
-            unresolvedAlternativeIds.push(id);
-            continue;
-        }
-        const mutable = cloneRealization(autonomous);
-        const interventionError = applyInterventions(program, mutable, combination);
-        if (interventionError) {
-            candidateAssessments.push({ id, interventionIds, status: "inadmissible", reasons: [interventionError] });
-            continue;
-        }
-        const candidateClosure = closeInternalLaws(program, mutable, options, `${id}:`);
-        formalEvidence.push(...candidateClosure.formalEvidence);
-        formalSteps += candidateClosure.formalSteps;
-        internalFrontierCount += candidateClosure.frontierCount;
-        if (candidateClosure.status !== "closed") {
-            candidateAssessments.push({
-                id,
-                interventionIds,
-                status: candidateClosure.status === "undetermined" ? "undetermined" : "inadmissible",
-                reasons: [candidateClosure.reason ?? "candidate internal closure failed"],
-            });
-            if (candidateClosure.status === "undetermined") unresolvedAlternativeIds.push(id);
-            continue;
-        }
-        let postAnchorStatus: "admissible" | "inadmissible" | "undetermined" = "admissible";
-        const postAnchorReasons: string[] = [];
+    const eligibility: CausalInterventionEligibility[] = [];
+    const eligibleByBaseline = new Map<string, CausalWorldWillIntervention[]>();
+    for (const base of autonomousBases) {
+        const identityByAnchor = new Map<string, ReturnType<typeof evaluateConstraintSet>>();
         for (const anchor of program.world.anchors) {
             const predicates = program.execution.anchorIdentity.filter((predicate) => predicate.anchorId === anchor.id);
-            const postIdentity = evaluateConstraintSet(
+            const result = evaluateConstraintSet(
                 program,
                 predicates,
                 "anchor-identity",
-                mutable.states,
+                base.mutable.states,
                 options,
-                `${id}:post-anchor:${anchor.id}:`,
+                `anchor:${base.continuation.id}:${anchor.id}:`,
             );
-            formalEvidence.push(...postIdentity.evidence);
-            formalSteps += postIdentity.formalSteps;
-            if (postIdentity.admissible === undefined) postAnchorStatus = "undetermined";
-            else if (!postIdentity.admissible && postAnchorStatus !== "undetermined") postAnchorStatus = "inadmissible";
-            postAnchorReasons.push(...postIdentity.reasons.map((reason) => `post-state anchor '${anchor.id}': ${reason}`));
+            identityByAnchor.set(anchor.id, result);
+            formalEvidence.push(...result.evidence);
+            formalSteps += result.formalSteps;
         }
-        if (postAnchorStatus !== "admissible") {
-            const status = postAnchorStatus === "undetermined" ? "undetermined" as const : "inadmissible" as const;
-            candidateAssessments.push({ id, interventionIds, status, reasons: postAnchorReasons });
-            if (status === "undetermined") unresolvedAlternativeIds.push(id);
-            continue;
+        const baseEligibility = program.world.worldWill.interventions
+            .map((intervention): CausalInterventionEligibility => {
+                const reasons: string[] = [];
+                if (!options.worldWillEnabled) reasons.push("World Will execution is disabled");
+                if (options.cutAnchorIds.includes(intervention.anchorId)) reasons.push(`anchor '${intervention.anchorId}' is cut`);
+                const identity = identityByAnchor.get(intervention.anchorId);
+                if (identity?.admissible !== true) reasons.push(...(identity?.reasons ?? ["anchor identity is unavailable"]));
+                return {
+                    interventionId: intervention.id,
+                    anchorId: intervention.anchorId,
+                    ...(autonomousBases.length > 1 ? { baselineContinuationId: base.continuation.id } : {}),
+                    status: reasons.length === 0 ? "eligible" : "blocked",
+                    reasons,
+                };
+            })
+            .sort((left, right) => left.interventionId.localeCompare(right.interventionId));
+        eligibility.push(...baseEligibility);
+        eligibleByBaseline.set(
+            base.continuation.id,
+            program.world.worldWill.interventions
+                .filter((intervention) => baseEligibility.some((entry) => (
+                    entry.interventionId === intervention.id && entry.status === "eligible"
+                )))
+                .sort((left, right) => left.id.localeCompare(right.id)),
+        );
+    }
+    const totalCombinations = autonomousBases.reduce(
+        (total, base) => total + combinationCardinality(eligibleByBaseline.get(base.continuation.id)?.length ?? 0),
+        0n,
+    );
+    exhaustiveInterventionSearch = totalCombinations <= BigInt(options.maxInterventionCombinations);
+    const candidateAssessments: CausalCandidateAssessment[] = [];
+    const candidateRealizations = new Map<string, Array<{ mutable: MutableRealization; objective: ObjectiveScore }>>();
+    const unresolvedAlternativeIds: string[] = [];
+    for (const base of autonomousBases) {
+        const eligibleInterventions = eligibleByBaseline.get(base.continuation.id) ?? [];
+        const remainingCombinationBudget = Math.max(
+            options.maxInterventionCombinations - interventionCombinationCount,
+            0,
+        );
+        for (const combination of boundedCombinations(eligibleInterventions, remainingCombinationBudget)) {
+            interventionCombinationCount += 1;
+            const interventionIds = combination.map((entry) => entry.id).sort();
+            const baseDiscriminator = autonomousBases.length > 1
+                ? `${base.continuation.id.slice("continuation:autonomous:".length)}:`
+                : "";
+            const id = `candidate:${baseDiscriminator}${interventionIds.join("+")}`;
+            const baselineReference = autonomousBases.length > 1
+                ? { baselineContinuationId: base.continuation.id }
+                : {};
+            if (effectSetsConflict(combination.map((entry) => ({ worldId: entry.targetWorldId, effects: entry.effects })))) {
+                candidateAssessments.push({
+                    id,
+                    interventionIds,
+                    ...baselineReference,
+                    status: "undetermined",
+                    reasons: ["simultaneous interventions have non-commuting set effects"],
+                });
+                unresolvedAlternativeIds.push(id);
+                continue;
+            }
+            const mutable = cloneRealization(base.mutable);
+            const interventionError = applyInterventions(program, mutable, combination);
+            if (interventionError) {
+                candidateAssessments.push({
+                    id,
+                    interventionIds,
+                    ...baselineReference,
+                    status: "inadmissible",
+                    reasons: [interventionError],
+                });
+                continue;
+            }
+            const candidateClosure = closeInternalLaws(program, mutable, options, `${id}:`);
+            formalEvidence.push(...candidateClosure.formalEvidence);
+            formalSteps += candidateClosure.formalSteps;
+            internalFrontierCount += candidateClosure.frontierCount;
+            internalBranchCount += candidateClosure.branchCount;
+            exhaustiveInternalBranching = exhaustiveInternalBranching && candidateClosure.exhaustiveBranching;
+            if (candidateClosure.status !== "closed") {
+                candidateAssessments.push({
+                    id,
+                    interventionIds,
+                    ...baselineReference,
+                    status: candidateClosure.status === "undetermined" ? "undetermined" : "inadmissible",
+                    reasons: [candidateClosure.reason ?? "candidate internal closure failed"],
+                });
+                if (candidateClosure.status === "undetermined") unresolvedAlternativeIds.push(id);
+                continue;
+            }
+            const outcomes: Array<{ mutable: MutableRealization; objective: ObjectiveScore; improvement: ExactValue }> = [];
+            let groupStatus: "admissible" | "inadmissible" | "undetermined" = "admissible";
+            const groupReasons: string[] = [];
+            const cost = totalCost(program, interventionIds);
+            for (const [outcomeIndex, outcome] of candidateClosure.realizations.entries()) {
+                for (const anchor of program.world.anchors) {
+                    const predicates = program.execution.anchorIdentity.filter((predicate) => predicate.anchorId === anchor.id);
+                    const postIdentity = evaluateConstraintSet(
+                        program,
+                        predicates,
+                        "anchor-identity",
+                        outcome.states,
+                        options,
+                        `${id}:outcome:${outcomeIndex}:post-anchor:${anchor.id}:`,
+                    );
+                    formalEvidence.push(...postIdentity.evidence);
+                    formalSteps += postIdentity.formalSteps;
+                    if (postIdentity.admissible === undefined) groupStatus = "undetermined";
+                    else if (!postIdentity.admissible && groupStatus !== "undetermined") groupStatus = "inadmissible";
+                    groupReasons.push(...postIdentity.reasons.map((reason) => (
+                        `outcome '${outcomeIndex}' post-state anchor '${anchor.id}': ${reason}`
+                    )));
+                }
+                const constraints = evaluateConstraintSet(
+                    program,
+                    program.execution.hardConstraints,
+                    "hard-constraint",
+                    outcome.states,
+                    options,
+                    `${id}:outcome:${outcomeIndex}:`,
+                );
+                formalEvidence.push(...constraints.evidence);
+                formalSteps += constraints.formalSteps;
+                if (constraints.admissible === undefined) groupStatus = "undetermined";
+                else if (!constraints.admissible && groupStatus !== "undetermined") groupStatus = "inadmissible";
+                groupReasons.push(...constraints.reasons.map((reason) => `outcome '${outcomeIndex}': ${reason}`));
+                const objective = scoreObjectives(program, outcome.states);
+                const objectiveGain = objective ? subtractExactRationals(objective.score, base.objective.score) : undefined;
+                const improvement = objectiveGain && cost ? subtractExactRationals(objectiveGain, cost) : undefined;
+                if (!objective || !cost || !improvement) {
+                    groupStatus = "undetermined";
+                    groupReasons.push(`outcome '${outcomeIndex}' score or intervention cost is not an exact rational`);
+                } else {
+                    outcomes.push({ mutable: outcome, objective, improvement });
+                }
+            }
+            if (groupStatus !== "admissible" || outcomes.length !== candidateClosure.realizations.length || !cost) {
+                const status = groupStatus === "undetermined" ? "undetermined" : "inadmissible";
+                candidateAssessments.push({
+                    id,
+                    interventionIds,
+                    ...baselineReference,
+                    status,
+                    reasons: [...new Set(groupReasons)].sort(),
+                });
+                if (status === "undetermined") unresolvedAlternativeIds.push(id);
+                continue;
+            }
+            const guaranteedImprovement = minimumExactRational(outcomes.map((outcome) => outcome.improvement));
+            const guaranteedScore = minimumExactRational(outcomes.map((outcome) => outcome.objective.score));
+            if (!guaranteedImprovement || !guaranteedScore) {
+                candidateAssessments.push({
+                    id,
+                    interventionIds,
+                    ...baselineReference,
+                    status: "undetermined",
+                    reasons: ["plural candidate outcomes could not be ordered exactly"],
+                });
+                unresolvedAlternativeIds.push(id);
+                continue;
+            }
+            const improved = compareExactRationals(guaranteedImprovement, exact.integer(0)) === 1;
+            candidateAssessments.push({
+                id,
+                interventionIds,
+                ...baselineReference,
+                status: improved ? "improved" : "rejected",
+                score: guaranteedScore,
+                cost,
+                improvement: guaranteedImprovement,
+                ...(outcomes.length === 1
+                    ? { objectiveContributions: outcomes[0]!.objective.contributions }
+                    : {
+                        outcomes: outcomes.map((outcome) => ({
+                            id: `outcome:${id}${branchContinuationSuffix(outcome.mutable)}`,
+                            score: outcome.objective.score,
+                            improvement: outcome.improvement,
+                            objectiveContributions: outcome.objective.contributions,
+                            branchLineage: cloneValue(outcome.mutable.branchLineage),
+                        })),
+                    }),
+                reasons: improved
+                    ? []
+                    : ["guaranteed net exact objective improvement across every endogenous outcome is not positive"],
+            });
+            candidateRealizations.set(id, outcomes.map((outcome) => ({
+                mutable: outcome.mutable,
+                objective: outcome.objective,
+            })));
         }
-        const constraints = evaluateConstraintSet(program, program.execution.hardConstraints, "hard-constraint", mutable.states, options, `${id}:`);
-        formalEvidence.push(...constraints.evidence);
-        formalSteps += constraints.formalSteps;
-        if (constraints.admissible !== true) {
-            const status = constraints.admissible === undefined ? "undetermined" as const : "inadmissible" as const;
-            candidateAssessments.push({ id, interventionIds, status, reasons: constraints.reasons });
-            if (status === "undetermined") unresolvedAlternativeIds.push(id);
-            continue;
-        }
-        const objective = scoreObjectives(program, mutable.states);
-        const cost = totalCost(program, interventionIds);
-        const objectiveGain = objective ? subtractExactRationals(objective.score, autonomousScore.score) : undefined;
-        const improvement = objectiveGain && cost ? subtractExactRationals(objectiveGain, cost) : undefined;
-        if (!objective || !cost || !improvement) {
-            candidateAssessments.push({ id, interventionIds, status: "undetermined", reasons: ["candidate score or intervention cost is not an exact rational"] });
-            unresolvedAlternativeIds.push(id);
-            continue;
-        }
-        const improved = compareExactRationals(improvement, exact.integer(0)) === 1;
-        candidateAssessments.push({
-            id,
-            interventionIds,
-            status: improved ? "improved" : "rejected",
-            score: objective.score,
-            cost,
-            improvement,
-            objectiveContributions: objective.contributions,
-            reasons: improved ? [] : ["net exact objective improvement is not positive"],
-        });
-        candidateRealizations.set(id, { mutable, objective });
     }
     if (!exhaustiveInterventionSearch) unresolvedAlternativeIds.push("intervention-search:not-exhaustive");
 
     const baseExtra: Partial<AnchoredCausalRun> = {
         initialWorldStates,
-        autonomousContinuation: autonomousBuilt.continuation,
+        ...(singularAutonomous
+            ? { autonomousContinuation: singularAutonomous.continuation }
+            : { autonomousContinuations }),
         interventionEligibility: eligibility,
-        baselineScore: autonomousScore.score,
+        ...(singularAutonomous
+            ? { baselineScore: singularAutonomous.objective.score }
+            : { baselineScores }),
         candidateAssessments,
     };
     if (unresolvedAlternativeIds.length > 0) {
         return emptyRun("underdetermined", "one or more intervention alternatives remain unresolved", {
             ...baseExtra,
-            continuations: [autonomousBuilt.continuation],
+            continuations: autonomousContinuations,
             unresolvedAlternativeIds: [...new Set(unresolvedAlternativeIds)].sort(),
         });
     }
-    const improved = candidateAssessments.filter((candidate) => candidate.status === "improved" && candidate.improvement);
-    if (improved.length === 0) {
-        const noEligible = program.world.worldWill.interventions.length > 0 && eligibleInterventions.length === 0 && options.worldWillEnabled;
-        return emptyRun(noEligible ? "blocked" : "stable", noEligible ? "all World Will interventions are blocked" : "autonomous closure is not improved by any admissible intervention", {
-            ...baseExtra,
-            continuations: [autonomousBuilt.continuation],
-            selectedContinuationIds: [autonomousBuilt.continuation.id],
-        });
-    }
-    let best = improved[0]!;
-    for (const candidate of improved.slice(1)) {
-        if (compareExactRationals(candidate.improvement!, best.improvement!) === 1) best = candidate;
-    }
-    const tied = improved.filter((candidate) => compareExactRationals(candidate.improvement!, best.improvement!) === 0);
-    if (tied.length > 1 && program.execution.decisionMode === "deterministic") {
-        return emptyRun("underdetermined", "equally optimal continuations have no intrinsic deterministic selector", {
-            ...baseExtra,
-            continuations: [autonomousBuilt.continuation],
-            unresolvedAlternativeIds: tied.map((candidate) => candidate.id),
-        });
-    }
-    const selectedCandidates = program.execution.decisionMode === "plural" ? tied : [best];
     const selectedContinuations: CausalContinuation[] = [];
-    for (const candidate of selectedCandidates) {
-        const realization = candidateRealizations.get(candidate.id)!;
-        const built = continuationFromRealization(
-            program,
-            realization.mutable,
-            initialWorldStates,
-            `continuation:${candidate.interventionIds.join("+")}`,
-            selectedCandidates.length > 1 ? "selected-plural" : "selected",
-            candidate.interventionIds,
-            realization.objective.score,
-            options,
-        );
-        selectedContinuations.push(built.continuation);
-        formalEvidence.push(...built.emergence.evidence);
-        formalSteps += built.emergence.formalSteps;
+    const selectedAutonomousIds: string[] = [];
+    let selectedInterventionGroupCount = 0;
+    for (const base of autonomousBases) {
+        const improved = candidateAssessments.filter((candidate) => (
+            candidate.status === "improved"
+            && candidate.improvement
+            && (autonomousBases.length === 1 || candidate.baselineContinuationId === base.continuation.id)
+        ));
+        if (improved.length === 0) {
+            selectedAutonomousIds.push(base.continuation.id);
+            continue;
+        }
+        let best = improved[0]!;
+        for (const candidate of improved.slice(1)) {
+            if (compareExactRationals(candidate.improvement!, best.improvement!) === 1) best = candidate;
+        }
+        const tied = improved.filter((candidate) => compareExactRationals(candidate.improvement!, best.improvement!) === 0);
+        if (tied.length > 1 && program.execution.decisionMode === "deterministic") {
+            return emptyRun("underdetermined", "equally optimal intervention groups have no intrinsic deterministic selector", {
+                ...baseExtra,
+                continuations: autonomousContinuations,
+                unresolvedAlternativeIds: tied.map((candidate) => candidate.id).sort(),
+            });
+        }
+        const selectedGroups = program.execution.decisionMode === "plural" ? tied : [best];
+        selectedInterventionGroupCount += selectedGroups.length;
+        for (const candidate of selectedGroups) {
+            for (const realization of candidateRealizations.get(candidate.id) ?? []) {
+                const built = continuationFromRealization(
+                    program,
+                    realization.mutable,
+                    initialWorldStates,
+                    `continuation:${candidate.interventionIds.join("+")}${branchContinuationSuffix(realization.mutable)}`,
+                    "selected",
+                    candidate.interventionIds,
+                    realization.objective.score,
+                    options,
+                );
+                selectedContinuations.push(built.continuation);
+                formalEvidence.push(...built.emergence.evidence);
+                formalSteps += built.emergence.formalSteps;
+            }
+        }
     }
-    return emptyRun(selectedContinuations.length > 1 ? "plural" : "realized", "World Will selected exact admissible continuation(s)", {
+    const selectedIds = [
+        ...selectedAutonomousIds,
+        ...selectedContinuations.map((continuation) => continuation.id),
+    ];
+    if (selectedIds.length > 1) {
+        selectedContinuations.forEach((continuation) => {
+            continuation.selection = "selected-plural";
+        });
+        autonomousContinuations
+            .filter((continuation) => selectedAutonomousIds.includes(continuation.id))
+            .forEach((continuation) => {
+                continuation.selection = "autonomous-plural";
+            });
+    }
+    const noEligible = program.world.worldWill.interventions.length > 0
+        && options.worldWillEnabled
+        && autonomousBases.every((base) => (eligibleByBaseline.get(base.continuation.id)?.length ?? 0) === 0);
+    const status: AnchoredCausalRun["status"] = noEligible
+        ? "blocked"
+        : selectedIds.length > 1
+            ? "plural"
+            : selectedInterventionGroupCount > 0
+                ? "realized"
+                : "stable";
+    const reason = noEligible
+        ? "all World Will interventions are blocked on every endogenous continuation"
+        : selectedIds.length > 1
+            ? "endogenous branches and any selected World Will intervention groups preserve every lawful continuation"
+            : selectedInterventionGroupCount > 0
+                ? "World Will selected an exact admissible intervention group"
+                : "autonomous closure is not improved by any admissible intervention";
+    return emptyRun(status, reason, {
         ...baseExtra,
-        continuations: [autonomousBuilt.continuation, ...selectedContinuations],
-        selectedContinuationIds: selectedContinuations.map((continuation) => continuation.id),
+        continuations: [...autonomousContinuations, ...selectedContinuations],
+        selectedContinuationIds: selectedIds,
     });
 }
 
@@ -1537,9 +1953,11 @@ export function inspectAnchoredCausalRun(run: AnchoredCausalRun): AnchoredCausal
                 .filter((assessment) => assessment.status === "dissolved").length,
             createsHistoryArrow: relevantContinuations.some((continuation) => continuation.order.createsHistoryArrow),
             exhaustiveInterventionSearch: run.resourceUse.exhaustiveInterventionSearch,
+            exhaustiveInternalBranching: run.resourceUse.exhaustiveInternalBranching,
         },
         decision: {
             ...(run.baselineScore ? { baselineScore: run.baselineScore } : {}),
+            ...(run.baselineScores ? { baselineScores: cloneValue(run.baselineScores) } : {}),
             interventionEligibility: cloneValue(run.interventionEligibility),
             candidates: cloneValue(run.candidateAssessments),
         },

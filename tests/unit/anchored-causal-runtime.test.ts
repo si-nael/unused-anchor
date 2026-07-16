@@ -217,6 +217,165 @@ test("simultaneously enabled non-commuting laws remain underdetermined instead o
     assert.deepEqual(run.unresolvedAlternativeIds, ["law:competing-condensation", "law:condense"]);
 });
 
+test("maximal commuting frontiers become endogenous plural worlds without a host selector", () => {
+    const program = fieldProgram();
+    program.execution.internalConflictMode = "maximal-commuting-branches";
+    program.world.internalLaws.push({
+        id: "competing-condensation",
+        worldId: "field-world",
+        guard: structuredClone(program.world.internalLaws[0]!.guard),
+        effects: [{ fieldId: "coherence", operation: "set", value: exact.integer(7) }],
+        application: "once-per-realization",
+        reversibility: "irreversible",
+    });
+    program.world.internalLaws.at(-1)!.guard.id = "competing-condensation-guard";
+
+    const run = realizeAnchoredCausalWorld(program, { worldWillEnabled: false });
+    const autonomous = run.autonomousContinuations!;
+    assert.equal(run.status, "plural");
+    assert.equal(run.autonomousContinuation, undefined);
+    assert.equal(autonomous.length, 2);
+    assert.deepEqual(run.selectedContinuationIds, autonomous.map((continuation) => continuation.id));
+    assert.ok(autonomous.every((continuation) => (
+        continuation.selection === "autonomous-plural"
+        && continuation.interventionIds.length === 0
+        && continuation.branchLineage?.length === 1
+        && continuation.branchLineage?.[0]?.derivation === "maximal-commuting-frontier"
+        && continuation.branchLineage?.[0]?.hostSelection === false
+    )));
+    assert.deepEqual(
+        autonomous.map((continuation) => continuation.branchLineage?.[0]?.realizedLawIds),
+        [["competing-condensation"], ["condense"]],
+    );
+    assert.deepEqual(
+        autonomous.map((continuation) => continuation.branchLineage?.[0]?.nonrealizedLawIds),
+        [["condense"], ["competing-condensation"]],
+    );
+    assert.deepEqual(
+        autonomous.map((continuation) => continuation.worldStates[0]?.fields.coherence),
+        [exact.integer(7), exact.integer(2)],
+    );
+});
+
+test("every maximal branch retains laws commuting with all conflicting alternatives", () => {
+    const program = fieldProgram();
+    program.execution.internalConflictMode = "maximal-commuting-branches";
+    program.world.internalLaws.push({
+        id: "competing-condensation",
+        worldId: "field-world",
+        guard: structuredClone(program.world.internalLaws[0]!.guard),
+        effects: [{ fieldId: "coherence", operation: "set", value: exact.integer(7) }],
+        application: "once-per-realization",
+        reversibility: "irreversible",
+    }, {
+        id: "shared-positive-gradient",
+        worldId: "field-world",
+        guard: structuredClone(program.world.internalLaws[0]!.guard),
+        effects: [{ fieldId: "positive", operation: "add", value: exact.integer(1) }],
+        application: "once-per-realization",
+        reversibility: "irreversible",
+    });
+    program.world.internalLaws.at(-2)!.guard.id = "competing-condensation-guard";
+    program.world.internalLaws.at(-1)!.guard.id = "shared-positive-gradient-guard";
+
+    const run = realizeAnchoredCausalWorld(program, { worldWillEnabled: false });
+    assert.equal(run.status, "plural");
+    assert.deepEqual(
+        run.autonomousContinuations!.map((continuation) => continuation.branchLineage?.[0]?.realizedLawIds),
+        [
+            ["competing-condensation", "shared-positive-gradient"],
+            ["condense", "shared-positive-gradient"],
+        ],
+    );
+    assert.ok(run.autonomousContinuations!.every((continuation) => (
+        continuation.realizedEventIds.includes("law:shared-positive-gradient")
+    )));
+});
+
+test("identical set projections commute and do not fabricate a branch", () => {
+    const program = fieldProgram();
+    program.execution.internalConflictMode = "maximal-commuting-branches";
+    for (const suffix of ["a", "b"]) {
+        const guard = structuredClone(program.world.internalLaws[0]!.guard);
+        guard.id = `same-condition-guard-${suffix}`;
+        program.world.internalLaws.push({
+            id: `same-condition-${suffix}`,
+            worldId: "field-world",
+            guard,
+            effects: [{ fieldId: "condition", operation: "set", value: exact.integer(1) }],
+            application: "once-per-realization",
+            reversibility: "irreversible",
+        });
+    }
+
+    const run = realizeAnchoredCausalWorld(program, { worldWillEnabled: false });
+    assert.equal(run.status, "stable");
+    assert.equal(run.resourceUse.internalBranchCount, 0);
+    assert.equal(run.autonomousContinuation?.branchLineage, undefined);
+    assert.deepEqual(run.autonomousContinuation?.order.evaluationFrontiers[0], [
+        "law:condense",
+        "law:same-condition-a",
+        "law:same-condition-b",
+    ]);
+});
+
+test("an insufficient internal branch budget preserves no arbitrary partial choice", () => {
+    const program = fieldProgram();
+    program.execution.internalConflictMode = "maximal-commuting-branches";
+    program.world.internalLaws.push({
+        id: "competing-condensation",
+        worldId: "field-world",
+        guard: structuredClone(program.world.internalLaws[0]!.guard),
+        effects: [{ fieldId: "coherence", operation: "set", value: exact.integer(7) }],
+        application: "once-per-realization",
+        reversibility: "irreversible",
+    });
+    program.world.internalLaws.at(-1)!.guard.id = "competing-condensation-guard";
+
+    const run = realizeAnchoredCausalWorld(program, {
+        worldWillEnabled: false,
+        maxInternalBranches: 1,
+    });
+    assert.equal(run.status, "underdetermined");
+    assert.match(run.reason ?? "", /branch budget exhausted/);
+    assert.deepEqual(run.selectedContinuationIds, []);
+    assert.equal(run.resourceUse.exhaustiveInternalBranching, false);
+    assert.equal(run.resourceUse.internalBranchCount, 0);
+});
+
+test("World Will evaluates a branching intervention as a set and preserves every selected outcome", () => {
+    const program = fieldProgram();
+    program.execution.internalConflictMode = "maximal-commuting-branches";
+    const competingResponse = structuredClone(program.world.internalLaws.find((law) => law.id === "respond-to-condition")!);
+    competingResponse.id = "alternate-condition-response";
+    competingResponse.guard.id = "alternate-response-after-organization";
+    competingResponse.effects = [{
+        fieldId: "coherence",
+        operation: "set",
+        value: exact.integer(9),
+    }];
+    program.world.internalLaws.push(competingResponse);
+
+    const run = realizeAnchoredCausalWorld(program);
+    const candidate = run.candidateAssessments[0];
+    assert.equal(run.status, "plural");
+    assert.equal(candidate?.status, "improved");
+    assert.deepEqual(candidate?.improvement, exact.integer(2));
+    assert.equal(candidate?.outcomes?.length, 2);
+    assert.equal(run.selectedContinuationIds.length, 2);
+    assert.ok(run.continuations
+        .filter((continuation) => run.selectedContinuationIds.includes(continuation.id))
+        .every((continuation) => (
+            continuation.selection === "selected-plural"
+            && continuation.interventionIds.includes("alter-boundary-condition")
+            && continuation.branchLineage?.length === 1
+        )));
+    assert.deepEqual(
+        candidate?.outcomes?.map((outcome) => outcome.score),
+        [exact.integer(5), exact.integer(6)],
+    );
+});
+
 test("World-Will-disabled closure cannot inherit plural intervention paths", () => {
     const program = fieldProgram();
     program.world.formal.families.push({
@@ -287,6 +446,35 @@ test("inspection and replay preserve generic emergence and exact selected contin
     assert.equal(inspection.summary.emergedStructureCount, 1);
     assert.equal(inspection.summary.createsHistoryArrow, true);
     assert.equal(inspection.summary.exhaustiveInterventionSearch, true);
+});
+
+test("inspection and replay preserve endogenous branch lineage and exhaustive plurality", () => {
+    const program = fieldProgram();
+    program.execution.internalConflictMode = "maximal-commuting-branches";
+    program.world.internalLaws.push({
+        id: "competing-condensation",
+        worldId: "field-world",
+        guard: structuredClone(program.world.internalLaws[0]!.guard),
+        effects: [{ fieldId: "coherence", operation: "set", value: exact.integer(7) }],
+        application: "once-per-realization",
+        reversibility: "irreversible",
+    });
+    program.world.internalLaws.at(-1)!.guard.id = "competing-condensation-guard";
+
+    const record = recordAnchoredCausalReplay(program, { worldWillEnabled: false });
+    const replay = replayAnchoredCausalRecord(record);
+    const inspection = inspectAnchoredCausalRun(record.recordedRun);
+
+    assert.equal(replay.status, "same-world-reexecution");
+    assert.equal(replay.fullRunPreserved, true);
+    assert.equal(replay.selectedContinuationsPreserved, true);
+    assert.equal(inspection.summary.status, "plural");
+    assert.equal(inspection.summary.selectedContinuationCount, 2);
+    assert.equal(inspection.summary.exhaustiveInternalBranching, true);
+    assert.equal(record.recordedRun.resourceUse.internalBranchCount, 2);
+    assert.ok(record.recordedRun.autonomousContinuations!.every((continuation) => (
+        continuation.branchLineage?.[0]?.hostSelection === false
+    )));
 });
 
 test("replay rejects a stored run whose recorded digest no longer matches its content", () => {

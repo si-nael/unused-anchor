@@ -225,6 +225,34 @@ test("plural lawful continuations are all unfolded instead of selecting one host
     assert.ok(run.paths.some((path) => path.id.includes("support-right")));
 });
 
+test("endogenous internal branches both retain persistent boundary, identity, and causal memory evidence", () => {
+    const program = persistentProgram();
+    program.causalProgram.execution.internalConflictMode = "maximal-commuting-branches";
+    const alternateFormation = structuredClone(
+        program.causalProgram.world.internalLaws.find((law) => law.id === "form-structure")!,
+    );
+    alternateFormation.id = "form-structure-through-route-b";
+    alternateFormation.guard.id = "form-route-b-while-unbounded";
+    alternateFormation.effects.find((effect) => effect.fieldId === "phase")!.value = exact.integer(2);
+    program.causalProgram.world.internalLaws.push(alternateFormation);
+
+    const run = realizePersistentCausalWorld(program);
+    assert.equal(run.status, "persistent");
+    assert.equal(run.paths.length, 2);
+    assert.ok(run.paths.every((path) => path.status === "cycle"));
+    assert.ok(run.paths.every((path) => path.closures[0]?.run.status === "plural"));
+    assert.ok(run.paths.every((path) => (
+        path.closures[0]?.run.selectedContinuationIds.length === 2
+    )));
+    assert.equal(run.assessments.length, 2);
+    assert.ok(run.assessments.every((assessment) => (
+        assessment.status === "persistent"
+        && assessment.boundary.derivedFromCausalCut
+        && assessment.identity.invariantAcrossCycleCuts
+        && assessment.memory.every((memory) => memory.status === "causally-effective")
+    )));
+});
+
 test("a memory-shaped field is not evidence when erasure has no causal consequence", () => {
     const program = persistentProgram();
     const form = program.causalProgram.world.internalLaws.find((law) => law.id === "form-structure")!;

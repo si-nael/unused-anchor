@@ -14,6 +14,7 @@ For the consolidated language reference, see `docs/reference/bubble-language-ref
 - `self-organizing-field.world.json`: `v0.5.2` actor-neutral state-generated structure and anchored causal replay
 - `self-maintaining-field.world.json`: `v0.5.3` persistence plus completed bounded `v0.5.4` two-state invariant viability, causally regenerated memory-dependent necessary responses, autonomy ablation, and separate persistence/teleonomic replay
 - `distributed-channel-field.world.json`: independent `v0.5.4` teleonomic world with two coupled causal channel coordinates, no scalar phase field or parameter, per-response semantic memory dependence, and mandatory teleonomic run/inspect/record/replay evidence
+- `endogenous-branching-field.world.json`: `v0.5.5` actor-neutral world whose internal conflict graph yields two maximal commuting autonomous formation frontiers, preserves one common positive-sea law in both, evaluates World Will separately in each branch, and replays the full plural lineage
 
 Run the examples through the existing CLI scripts:
 
@@ -28,6 +29,7 @@ Run the examples through the existing CLI scripts:
 - `npm run inspect:grammar-example`
 - `npm run inspect:grammar-chain-example`
 - `npm run verify:causal-example`
+- `npm run verify:branching-example`
 - `npm run verify:persistence-example`
 - `npm run verify:teleonomy-example`
 

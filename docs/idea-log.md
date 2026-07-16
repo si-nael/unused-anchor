@@ -2,6 +2,14 @@
 
 ## 2026-07-17
 
+### A world may branch without anyone choosing a branch
+
+- Simultaneously available internal laws must not become a host-facing menu. If their effects cannot all coexist, the Bubble's own causal structure should determine the complete lawful plurality.
+- `v0.5.5` represents enabled laws as a compatibility graph and realizes every maximal commuting frontier. No declaration order, random draw, World-Will score, protagonist, or tooling action chooses an internal outcome.
+- A law compatible with every conflicting alternative belongs to every branch. A conflicting law excluded from one actual branch remains present in the program and is recorded as nonrealized there, while another branch may realize it.
+- World Will acts after the world has supplied its plural baselines. It may compare anchor-mediated intervention groups but cannot collapse an intervention's endogenous outcome set; robust guaranteed improvement is evaluated across all outcomes.
+- This is a necessary world-formation capability, not yet deliberative agency. A future agency claim would need an internally generated chooser, preference or norm relation, counterfactual option awareness, and causal evidence that the being rather than the host selected.
+
 ### Distributed state is not a hidden universal phase
 
 - Any finite recurrence can be encoded by a scalar index from outside, but Bubble semantics must not require or privilege that encoding inside the world.

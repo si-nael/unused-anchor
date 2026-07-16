@@ -4,9 +4,9 @@
   "recordIntegrityValid": true,
   "programIdentityValid": true,
   "fullRunPreserved": true,
-  "recordedDigest": "0412d21db3a0e882c48230ca9e8d9268482fa7f7cd41299550bf3b6df7ad740b",
-  "recordedRunDigest": "0412d21db3a0e882c48230ca9e8d9268482fa7f7cd41299550bf3b6df7ad740b",
-  "replayedDigest": "0412d21db3a0e882c48230ca9e8d9268482fa7f7cd41299550bf3b6df7ad740b",
+  "recordedDigest": "8f200c48153cd192295975b76172ef9e794b419f2e3f65b066a1486a8fe6ec1a",
+  "recordedRunDigest": "8f200c48153cd192295975b76172ef9e794b419f2e3f65b066a1486a8fe6ec1a",
+  "replayedDigest": "8f200c48153cd192295975b76172ef9e794b419f2e3f65b066a1486a8fe6ec1a",
   "replayedRun": {
     "mode": "bubble-teleonomic-causal-run.v1",
     "programDigest": "ae26ac77359c7e940406e52e02698531a9d9e06e486afe01a3ae70b95a852c71",
@@ -1371,7 +1371,8 @@
                   "fieldOverrides": {},
                   "evaluationBudgetPerQuery": 10000,
                   "maxInterventionCombinations": 1024,
-                  "maxInternalFrontiers": 1024
+                  "maxInternalFrontiers": 1024,
+                  "maxInternalBranches": 1024
                 },
                 "diagnostics": [],
                 "formalEvidence": [
@@ -2521,7 +2522,7 @@
                     ]
                   },
                   {
-                    "subjectId": "anchor:distributed-maintenance-anchor:distributed-maintenance-anchor-remains-itself",
+                    "subjectId": "anchor:continuation:autonomous:distributed-maintenance-anchor:distributed-maintenance-anchor-remains-itself",
                     "purpose": "anchor-identity",
                     "status": "resolved",
                     "value": {
@@ -3738,9 +3739,12 @@
                   "formalQueryCount": 31,
                   "formalEvaluationSteps": 357,
                   "internalFrontierCount": 3,
+                  "internalBranchCount": 0,
                   "interventionCombinationCount": 0,
                   "combinationLimit": 1024,
-                  "exhaustiveInterventionSearch": true
+                  "branchLimit": 1024,
+                  "exhaustiveInterventionSearch": true,
+                  "exhaustiveInternalBranching": true
                 },
                 "autonomousContinuation": {
                   "id": "continuation:autonomous",
@@ -5109,7 +5113,8 @@
                   },
                   "evaluationBudgetPerQuery": 10000,
                   "maxInterventionCombinations": 1024,
-                  "maxInternalFrontiers": 1024
+                  "maxInternalFrontiers": 1024,
+                  "maxInternalBranches": 1024
                 },
                 "diagnostics": [],
                 "formalEvidence": [
@@ -6343,7 +6348,7 @@
                     ]
                   },
                   {
-                    "subjectId": "anchor:distributed-maintenance-anchor:distributed-maintenance-anchor-remains-itself",
+                    "subjectId": "anchor:continuation:autonomous:distributed-maintenance-anchor:distributed-maintenance-anchor-remains-itself",
                     "purpose": "anchor-identity",
                     "status": "resolved",
                     "value": {
@@ -7414,9 +7419,12 @@
                   "formalQueryCount": 34,
                   "formalEvaluationSteps": 366,
                   "internalFrontierCount": 3,
+                  "internalBranchCount": 0,
                   "interventionCombinationCount": 0,
                   "combinationLimit": 1024,
-                  "exhaustiveInterventionSearch": true
+                  "branchLimit": 1024,
+                  "exhaustiveInterventionSearch": true,
+                  "exhaustiveInternalBranching": true
                 },
                 "autonomousContinuation": {
                   "id": "continuation:autonomous",
@@ -8639,7 +8647,8 @@
                   },
                   "evaluationBudgetPerQuery": 10000,
                   "maxInterventionCombinations": 1024,
-                  "maxInternalFrontiers": 1024
+                  "maxInternalFrontiers": 1024,
+                  "maxInternalBranches": 1024
                 },
                 "diagnostics": [],
                 "formalEvidence": [
@@ -9873,7 +9882,7 @@
                     ]
                   },
                   {
-                    "subjectId": "anchor:distributed-maintenance-anchor:distributed-maintenance-anchor-remains-itself",
+                    "subjectId": "anchor:continuation:autonomous:distributed-maintenance-anchor:distributed-maintenance-anchor-remains-itself",
                     "purpose": "anchor-identity",
                     "status": "resolved",
                     "value": {
@@ -10944,9 +10953,12 @@
                   "formalQueryCount": 34,
                   "formalEvaluationSteps": 366,
                   "internalFrontierCount": 3,
+                  "internalBranchCount": 0,
                   "interventionCombinationCount": 0,
                   "combinationLimit": 1024,
-                  "exhaustiveInterventionSearch": true
+                  "branchLimit": 1024,
+                  "exhaustiveInterventionSearch": true,
+                  "exhaustiveInternalBranching": true
                 },
                 "autonomousContinuation": {
                   "id": "continuation:autonomous",

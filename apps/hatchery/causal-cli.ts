@@ -35,6 +35,7 @@ export function parseCausalExecutionArgs(argv: string[]): {
     let evaluationBudgetPerQuery: number | undefined;
     let maxInterventionCombinations: number | undefined;
     let maxInternalFrontiers: number | undefined;
+    let maxInternalBranches: number | undefined;
     for (let index = 0; index < argv.length; index += 1) {
         const argument = argv[index]!;
         if (argument === "--disable-world-will") {
@@ -49,6 +50,8 @@ export function parseCausalExecutionArgs(argv: string[]): {
             maxInterventionCombinations = nonNegativeInteger(requiredValue(argv, ++index, argument), argument, true);
         } else if (argument === "--max-internal-frontiers") {
             maxInternalFrontiers = nonNegativeInteger(requiredValue(argv, ++index, argument), argument, false);
+        } else if (argument === "--max-internal-branches") {
+            maxInternalBranches = nonNegativeInteger(requiredValue(argv, ++index, argument), argument, false);
         } else if (argument.startsWith("--")) {
             throw new Error(`Unknown option: ${argument}`);
         } else {
@@ -68,6 +71,7 @@ export function parseCausalExecutionArgs(argv: string[]): {
             evaluationBudgetPerQuery,
             maxInterventionCombinations,
             maxInternalFrontiers,
+            maxInternalBranches,
         },
     };
 }

@@ -89,7 +89,7 @@ test("every decision and research question remains inside the tracked record str
     }
 });
 
-test("completed bounded v0.5.4 preserves prior kernels, the original philosophy, and every open research branch", () => {
+test("completed bounded v0.5.5 preserves prior kernels, the original philosophy, and every open research branch", () => {
     const packageManifest = JSON.parse(readRepositoryFile("package.json")) as { version: string };
     const packageLock = JSON.parse(readRepositoryFile("package-lock.json")) as {
         version: string;
@@ -105,13 +105,14 @@ test("completed bounded v0.5.4 preserves prior kernels, the original philosophy,
     const causalArchitecture = readRepositoryFile("docs/architecture/v0.5.2-generative-causal-universe.md");
     const persistenceArchitecture = readRepositoryFile("docs/architecture/v0.5.3-persistent-causal-structure.md");
     const teleonomicArchitecture = readRepositoryFile("docs/architecture/v0.5.4-endogenous-teleonomy.md");
+    const branchingArchitecture = readRepositoryFile("docs/architecture/v0.5.5-endogenous-causal-branching.md");
     const manifest = JSON.parse(readRepositoryFile("package.json")) as { scripts: Record<string, string> };
 
-    assert.equal(packageManifest.version, "0.5.4");
-    assert.equal(packageLock.version, "0.5.4");
-    assert.equal(packageLock.packages[""]?.version, "0.5.4");
-    assert.ok(projectMemory.includes("the bounded persistence release `v0.5.3`, and the bounded teleonomic-capacity release `v0.5.4`"));
-    assert.ok(projectMemory.includes("does not certify life, agency, endogenous branching, or OB-001 whole-universe completion"));
+    assert.equal(packageManifest.version, "0.5.5");
+    assert.equal(packageLock.version, "0.5.5");
+    assert.equal(packageLock.packages[""]?.version, "0.5.5");
+    assert.ok(projectMemory.includes("the bounded endogenous-causal-branching release `v0.5.5`"));
+    assert.ok(projectMemory.includes("does not certify deliberation, agency, concrete spawn/collapse, or OB-001 whole-universe completion"));
     assert.ok(projectMemory.includes("Phase 2 observer, external-agent, and comparative benchmark work must wait"));
     assert.ok(architecture.includes("Status: completed bounded connected release on 2026-07-15"));
     assert.ok(architecture.includes("all thirteen gates have bounded executable evidence"));
@@ -127,8 +128,13 @@ test("completed bounded v0.5.4 preserves prior kernels, the original philosophy,
     assert.ok(teleonomicArchitecture.includes("introduces no entity, agent, protagonist, goal declaration, action list, or story graph"));
     assert.ok(teleonomicArchitecture.includes("teleonomic capacity**, not life or agency"));
     assert.ok(teleonomicArchitecture.includes("examples/distributed-channel-field.world.json"));
+    assert.ok(branchingArchitecture.includes("Status: completed bounded endogenous-causal-branching release on 2026-07-17"));
+    assert.ok(branchingArchitecture.includes("every maximal clique of that compatibility graph"));
+    assert.ok(branchingArchitecture.includes("hostSelection: false"));
+    assert.ok(branchingArchitecture.includes("This is not deliberative agency"));
     assert.ok(manifest.scripts["verify"].includes("verify:narrative-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:causal-example"));
+    assert.ok(manifest.scripts["verify"].includes("verify:branching-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:persistence-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:teleonomy-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:teleonomy-distributed-example"));
@@ -136,11 +142,13 @@ test("completed bounded v0.5.4 preserves prior kernels, the original philosophy,
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/self-organizing-field.world.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/self-maintaining-field.world.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/distributed-channel-field.world.json")));
+    assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/endogenous-branching-field.world.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/anchored-garden.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/self-organizing-field.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/self-maintaining-field.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/self-maintaining-field.teleonomic.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/distributed-channel-field.teleonomic.replay.json")));
+    assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/endogenous-branching-field.replay.json")));
     assert.ok(closurePlan.includes("Status: completed on 2026-07-15"));
     assert.ok(operations.includes("## Preservation Discipline"));
 
@@ -165,12 +173,12 @@ test("completed bounded v0.5.4 preserves prior kernels, the original philosophy,
     assert.match(questionLog, /### Q-011:[\s\S]*?Status: open/);
     assert.match(questionLog, /### Q-014:[\s\S]*?Status: bounded runtime source-attribution slice completed in v0\.4\.9/);
     assert.match(questionLog, /### Q-015:[\s\S]*?Status: open and explicitly deferred beyond the v0\.5 entry gate/);
-    assert.match(questionLog, /### Q-018:[\s\S]*?Status: implemented bounded baseline through v0\.5\.4/);
-    assert.match(questionLog, /### Q-019:[\s\S]*?Status: partially implemented through v0\.5\.4/);
+    assert.match(questionLog, /### Q-018:[\s\S]*?Status: implemented bounded baseline through v0\.5\.5/);
+    assert.match(questionLog, /### Q-019:[\s\S]*?Status: partially implemented through v0\.5\.5/);
     assert.match(questionLog, /### Q-020:[\s\S]*?Status: implemented bounded baseline in v0\.5\.1/);
     assert.match(questionLog, /### Q-021:[\s\S]*?Status: implemented bounded connected baseline in v0\.5\.1/);
     assert.match(questionLog, /### Q-022:[\s\S]*?Status: explicitly deferred until the current Bubble universe and prior idea obligations are complete/);
-    assert.match(questionLog, /### Q-023:[\s\S]*?Status: implemented actor-neutral generative, persistent, and bounded teleonomic-capacity baseline through v0\.5\.4; agency remains open/);
+    assert.match(questionLog, /### Q-023:[\s\S]*?Status: implemented actor-neutral generative, persistent, teleonomic-capacity, and endogenous-branching baselines through v0\.5\.5; agency remains open/);
     assert.match(questionLog, /### Q-024:[\s\S]*?Status: implemented bounded exact baseline in v0\.5\.3/);
     assert.match(questionLog, /### Q-025:[\s\S]*?Status: implemented bounded teleonomic-capacity baseline in v0\.5\.4; agency remains open/);
     assert.ok(implementationMap.includes("`v0.5.0` implements the first organic self-realization vertical flow"));
@@ -178,6 +186,7 @@ test("completed bounded v0.5.4 preserves prior kernels, the original philosophy,
     assert.ok(implementationMap.includes("Completed bounded `v0.5.2` adds the forward corrective gate"));
     assert.ok(implementationMap.includes("Completed bounded `v0.5.3` adds the first persistence-and-boundary gate"));
     assert.ok(implementationMap.includes("Completed bounded `v0.5.4` adds the teleonomic-capacity gate"));
+    assert.ok(implementationMap.includes("Completed bounded `v0.5.5` adds the endogenous-causal-branching gate"));
     assert.ok(implementationMap.includes("deliberative or simultaneous counterfactual choice, relation-mediated action"));
     assert.ok(implementationMap.toLowerCase().includes("this transition does not close or delete the partial, open, or deferred rows above"));
 });

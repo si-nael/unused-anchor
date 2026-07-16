@@ -1,6 +1,6 @@
 # Persistent Causal World Reference
 
-Applies to: `bubble-persistent-causal-program.v1` and `v0.5.3`
+Applies to: `bubble-persistent-causal-program.v1`, `v0.5.3`, and the `v0.5.5` endogenous-branch extension
 
 ## Program
 
@@ -49,6 +49,8 @@ Each assessment separately reports:
 For a multi-state recurrence, boundary ablation ranges over every closure in the certified cycle. Every crossing law must be realized and semantically discriminated in at least one relevant closure; a law that appears only in a later phase cannot escape the proof.
 
 `persistent` requires all surfaces on every lawful path and every selected counterfactual continuation. Mixed or unresolved counterfactuals make the assessment `undetermined`. Missing evidence makes it `non-persistent`.
+
+With `internalConflictMode: maximal-commuting-branches`, the underlying causal run supplies real plural autonomous continuations. The persistence layer unfolds every branch exactly as it already unfolded plural World-Will continuations. No host path is preferred. A positive `v0.5.5` regression requires both incompatible formation branches to retain boundary, identity, causal memory, recurrent-reference restoration, and outward influence.
 
 ## Closure Paths And Order
 

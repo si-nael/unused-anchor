@@ -1,8 +1,8 @@
 # Anchored Causal World Reference
 
-Applies to: `bubble-anchored-causal-world.v2`, `bubble-anchored-causal-program.v2`, and `v0.5.2`
+Applies to: `bubble-anchored-causal-world.v2`, `bubble-anchored-causal-program.v2`, and `v0.5.2` through `v0.5.5`
 
-Compatibility note: `v0.5.3` leaves this once-per-realization contract unchanged and unfolds it through the separate [Persistent Causal World](persistent-causal-world.md) layer.
+Compatibility note: `v0.5.3` unfolds this once-per-realization contract through the separate [Persistent Causal World](persistent-causal-world.md) layer. `v0.5.5` adds opt-in endogenous internal branching while preserving the previous default.
 
 ## Program Shape
 
@@ -11,7 +11,7 @@ An executable program contains:
 - `world`: exact formal families, worlds, anchors, World Will, internal laws, emergence criteria, and causal order;
 - `fieldInitializers`: one exact intensional query per field;
 - `seaLaws`: exact non-negative positive/negative weights per world;
-- `execution`: decision mode, post-state hard constraints, anchor-identity queries, and exact intervention costs.
+- `execution`: World-Will decision mode, internal-conflict mode, post-state hard constraints, anchor-identity queries, and exact intervention costs.
 
 The schema is defined in [`src/bubbles/world-kernel/causal.ts`](../../src/bubbles/world-kernel/causal.ts). Execution and replay are defined in [`src/bubbles/world-kernel/causal-runtime.ts`](../../src/bubbles/world-kernel/causal-runtime.ts).
 
@@ -37,7 +37,18 @@ Each law has:
 - `reversible` with exact additive `inverseEffects`, or `irreversible`;
 - optional `commitAffectedFieldIds` for an explicit irreversible history record.
 
-The runtime repeatedly evaluates all unapplied guards. All true commuting laws form one causal frontier. An unresolved guard, exhausted frontier budget, or non-commuting simultaneous effect returns `underdetermined`.
+The runtime repeatedly evaluates all unresolved guards. All true commuting laws form one causal frontier. An unresolved guard or exhausted frontier budget returns `underdetermined`.
+
+`execution.internalConflictMode` has two meanings:
+
+- omitted or `underdetermined`: preserve the `v0.5.2` through `v0.5.4` contract; a non-commuting simultaneous frontier remains unresolved;
+- `maximal-commuting-branches`: form the exact compatibility graph of enabled laws, enumerate every maximal commuting frontier, and continue every frontier as an autonomous world.
+
+The branch derivation does not rank alternatives. Every branch records all enabled laws, its realized maximal frontier, excluded nonrealized laws, `derivation: maximal-commuting-frontier`, and `hostSelection: false`. Excluded alternatives are not executed later in that branch.
+
+Two same-field effect sets commute when their order cannot change the result. Additive changes commute. Identical `set` projections commute. Zero additive effects are neutral. Unequal sets, or a meaningful additive change combined with a set on the same field, do not commute.
+
+`maxInternalBranches` bounds generated branch states. If either the branch or frontier bound prevents exhaustive preservation, execution is `underdetermined`; the runtime never selects a prefix of enumerated branches.
 
 ## Anchors And World Will
 
@@ -50,6 +61,8 @@ World Will may directly affect only `world-condition`, `boundary-state`, the two
 Anchor identity is checked both before intervention eligibility and after the intervention plus internal causal closure. A candidate that destroys any declared anchor identity is inadmissible; an unresolved post-state identity makes the candidate `undetermined`.
 
 The power-set cardinality is computed exactly with `bigint`, while candidate subsets are generated lazily only up to the configured bound. The runtime never allocates the full intervention power set before applying the bound.
+
+When autonomous internal closure is plural, each branch receives its own objective baseline, anchor-identity evaluation, and intervention search. If one intervention group creates plural internal outcomes, World Will compares the group by the minimum exact net improvement across all outcomes. It may select an intervention group, but it cannot select one endogenous outcome inside that group. Every outcome of a selected group remains selected.
 
 ## Emergence
 
@@ -67,7 +80,7 @@ The criterion is generic. Domain-specific claims such as life, agency, protagoni
 ## Run Status
 
 - `realized`: one unique exact improving continuation was selected;
-- `plural`: authored plural semantics preserves all equal best continuations;
+- `plural`: endogenous internal branches, plural World-Will ties, or both preserve more than one lawful selected continuation;
 - `stable`: autonomous closure remains the best admissible state;
 - `blocked`: World Will is enabled but every intervention route is blocked;
 - `underdetermined`: formal evaluation, commutation, search, or deterministic selection is unresolved;
@@ -86,8 +99,9 @@ npm run record:causal-example
 npm run replay:causal-example
 npm run verify:causal
 npm run verify:causal-example
+npm run verify:branching-example
 ```
 
-Common direct options are `--disable-world-will`, repeated `--cut-anchor <id>`, `--evaluation-budget <n>`, `--max-intervention-combinations <n>`, and `--max-internal-frontiers <n>`.
+Common direct options are `--disable-world-will`, repeated `--cut-anchor <id>`, `--evaluation-budget <n>`, `--max-intervention-combinations <n>`, `--max-internal-frontiers <n>`, and `--max-internal-branches <n>`.
 
 Replay stores the complete typed program and options, verifies that the stored run still hashes to `recordedDigest`, verifies that its program digest matches the stored program, re-executes, and compares the complete run plus selected continuation identities, unresolved alternatives, and emergence assessments. A modified stored run is `reexecution-drift`, even if its selection labels remain unchanged. This is deterministic same-program continuity, not a universal cross-version same-world theorem.

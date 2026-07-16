@@ -1,0 +1,350 @@
+{
+  "mode": "bubble-anchored-causal-program.v2",
+  "world": {
+    "mode": "bubble-anchored-causal-world.v2",
+    "formal": {
+      "mode": "bubble-intensional-system.v1",
+      "families": [
+        {
+          "id": "zero",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "rational",
+          "parameters": [],
+          "body": {
+            "kind": "value",
+            "value": { "kind": "rational", "numerator": "0", "denominator": "1" }
+          }
+        },
+        {
+          "id": "one",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "rational",
+          "parameters": [],
+          "body": {
+            "kind": "value",
+            "value": { "kind": "rational", "numerator": "1", "denominator": "1" }
+          }
+        },
+        {
+          "id": "always-true",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "boolean",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "boolean", "value": true } }
+        },
+        {
+          "id": "boundary-is-open",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "boolean",
+          "parameters": [{ "name": "boundary", "valueKind": "rational" }],
+          "body": {
+            "kind": "binary",
+            "operator": "equal",
+            "left": { "kind": "parameter", "name": "boundary" },
+            "right": {
+              "kind": "value",
+              "value": { "kind": "rational", "numerator": "0", "denominator": "1" }
+            }
+          }
+        },
+        {
+          "id": "structure-exists",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "boolean",
+          "parameters": [{ "name": "structure", "valueKind": "rational" }],
+          "body": {
+            "kind": "binary",
+            "operator": "greater-than-or-equal",
+            "left": { "kind": "parameter", "name": "structure" },
+            "right": {
+              "kind": "value",
+              "value": { "kind": "rational", "numerator": "1", "denominator": "1" }
+            }
+          }
+        }
+      ]
+    },
+    "worlds": [
+      {
+        "id": "branching-field",
+        "fields": [
+          { "id": "positive", "familyId": "zero", "role": "positive-sea" },
+          { "id": "negative", "familyId": "zero", "role": "negative-sea" },
+          { "id": "viability", "familyId": "one", "role": "viability" },
+          { "id": "structure", "familyId": "zero", "role": "structural-state" },
+          { "id": "memory", "familyId": "zero", "role": "memory-state" },
+          { "id": "boundary", "familyId": "zero", "role": "boundary-state" },
+          { "id": "signal", "familyId": "zero", "role": "world-state" }
+        ],
+        "protectedFieldIds": ["structure", "memory", "boundary"],
+        "seaCoupling": {
+          "positiveFieldId": "positive",
+          "negativeFieldId": "negative",
+          "viabilityFieldId": "viability"
+        }
+      }
+    ],
+    "anchors": [
+      {
+        "id": "branching-anchor",
+        "endpoints": [
+          { "kind": "world", "worldId": "branching-field", "portId": "field-boundary" },
+          {
+            "kind": "unresolved-world-relation",
+            "relationId": "unique-world-topology",
+            "portId": "unresolved-origin",
+            "questionId": "Q-021"
+          }
+        ],
+        "identityPredicateFamilyIds": ["always-true"],
+        "permittedInterventionKinds": ["condition"]
+      }
+    ],
+    "worldWill": {
+      "id": "branching-field-will",
+      "objectives": [
+        {
+          "id": "preserve-branch-viability",
+          "targetWorldId": "branching-field",
+          "fieldId": "viability",
+          "direction": "maximize",
+          "weight": { "kind": "rational", "numerator": "1", "denominator": "1" }
+        }
+      ],
+      "hardConstraintFamilyIds": ["always-true"],
+      "interventions": [
+        {
+          "id": "support-every-realized-branch",
+          "targetWorldId": "branching-field",
+          "anchorId": "branching-anchor",
+          "kind": "condition",
+          "effects": [
+            {
+              "fieldId": "viability",
+              "operation": "add",
+              "value": { "kind": "rational", "numerator": "2", "denominator": "1" }
+            }
+          ]
+        }
+      ]
+    },
+    "internalLaws": [
+      {
+        "id": "form-left-structure",
+        "worldId": "branching-field",
+        "guard": {
+          "id": "left-formation-while-open",
+          "query": {
+            "familyId": "boundary-is-open",
+            "at": { "coordinate": "0" },
+            "parameters": {}
+          },
+          "fieldParameters": [
+            {
+              "parameterName": "boundary",
+              "worldId": "branching-field",
+              "fieldId": "boundary"
+            }
+          ]
+        },
+        "effects": [
+          {
+            "fieldId": "structure",
+            "operation": "set",
+            "value": { "kind": "rational", "numerator": "1", "denominator": "1" }
+          },
+          {
+            "fieldId": "memory",
+            "operation": "set",
+            "value": { "kind": "rational", "numerator": "1", "denominator": "1" }
+          },
+          {
+            "fieldId": "boundary",
+            "operation": "set",
+            "value": { "kind": "rational", "numerator": "1", "denominator": "1" }
+          },
+          {
+            "fieldId": "signal",
+            "operation": "set",
+            "value": { "kind": "rational", "numerator": "-1", "denominator": "1" }
+          }
+        ],
+        "application": "once-per-realization",
+        "reversibility": "irreversible",
+        "commitAffectedFieldIds": ["structure", "memory", "boundary"]
+      },
+      {
+        "id": "form-right-structure",
+        "worldId": "branching-field",
+        "guard": {
+          "id": "right-formation-while-open",
+          "query": {
+            "familyId": "boundary-is-open",
+            "at": { "coordinate": "0" },
+            "parameters": {}
+          },
+          "fieldParameters": [
+            {
+              "parameterName": "boundary",
+              "worldId": "branching-field",
+              "fieldId": "boundary"
+            }
+          ]
+        },
+        "effects": [
+          {
+            "fieldId": "structure",
+            "operation": "set",
+            "value": { "kind": "rational", "numerator": "2", "denominator": "1" }
+          },
+          {
+            "fieldId": "memory",
+            "operation": "set",
+            "value": { "kind": "rational", "numerator": "1", "denominator": "1" }
+          },
+          {
+            "fieldId": "boundary",
+            "operation": "set",
+            "value": { "kind": "rational", "numerator": "1", "denominator": "1" }
+          },
+          {
+            "fieldId": "signal",
+            "operation": "set",
+            "value": { "kind": "rational", "numerator": "1", "denominator": "1" }
+          }
+        ],
+        "application": "once-per-realization",
+        "reversibility": "irreversible",
+        "commitAffectedFieldIds": ["structure", "memory", "boundary"]
+      },
+      {
+        "id": "raise-common-positive-gradient",
+        "worldId": "branching-field",
+        "guard": {
+          "id": "common-gradient-while-open",
+          "query": {
+            "familyId": "boundary-is-open",
+            "at": { "coordinate": "0" },
+            "parameters": {}
+          },
+          "fieldParameters": [
+            {
+              "parameterName": "boundary",
+              "worldId": "branching-field",
+              "fieldId": "boundary"
+            }
+          ]
+        },
+        "effects": [
+          {
+            "fieldId": "positive",
+            "operation": "add",
+            "value": { "kind": "rational", "numerator": "1", "denominator": "1" }
+          }
+        ],
+        "application": "once-per-realization",
+        "reversibility": "irreversible"
+      }
+    ],
+    "emergenceCriteria": [
+      {
+        "id": "formed-branch-structure",
+        "worldId": "branching-field",
+        "predicate": {
+          "id": "branch-structure-is-present",
+          "query": {
+            "familyId": "structure-exists",
+            "at": { "coordinate": "0" },
+            "parameters": {}
+          },
+          "fieldParameters": [
+            {
+              "parameterName": "structure",
+              "worldId": "branching-field",
+              "fieldId": "structure"
+            }
+          ]
+        },
+        "witnessFieldIds": ["structure", "memory", "boundary", "signal"]
+      }
+    ],
+    "order": { "kind": "causal-partial-order", "universalClock": false }
+  },
+  "fieldInitializers": [
+    {
+      "worldId": "branching-field",
+      "fieldId": "positive",
+      "query": { "familyId": "zero", "at": { "coordinate": "0" }, "parameters": {} }
+    },
+    {
+      "worldId": "branching-field",
+      "fieldId": "negative",
+      "query": { "familyId": "zero", "at": { "coordinate": "0" }, "parameters": {} }
+    },
+    {
+      "worldId": "branching-field",
+      "fieldId": "viability",
+      "query": { "familyId": "one", "at": { "coordinate": "0" }, "parameters": {} }
+    },
+    {
+      "worldId": "branching-field",
+      "fieldId": "structure",
+      "query": { "familyId": "zero", "at": { "coordinate": "0" }, "parameters": {} }
+    },
+    {
+      "worldId": "branching-field",
+      "fieldId": "memory",
+      "query": { "familyId": "zero", "at": { "coordinate": "0" }, "parameters": {} }
+    },
+    {
+      "worldId": "branching-field",
+      "fieldId": "boundary",
+      "query": { "familyId": "zero", "at": { "coordinate": "0" }, "parameters": {} }
+    },
+    {
+      "worldId": "branching-field",
+      "fieldId": "signal",
+      "query": { "familyId": "zero", "at": { "coordinate": "0" }, "parameters": {} }
+    }
+  ],
+  "seaLaws": [
+    {
+      "worldId": "branching-field",
+      "positiveWeight": { "kind": "rational", "numerator": "1", "denominator": "1" },
+      "negativeWeight": { "kind": "rational", "numerator": "1", "denominator": "1" }
+    }
+  ],
+  "execution": {
+    "decisionMode": "deterministic",
+    "internalConflictMode": "maximal-commuting-branches",
+    "hardConstraints": [
+      {
+        "id": "branching-field-remains-admissible",
+        "query": {
+          "familyId": "always-true",
+          "at": { "coordinate": "0" },
+          "parameters": {}
+        },
+        "fieldParameters": []
+      }
+    ],
+    "anchorIdentity": [
+      {
+        "id": "branching-anchor-remains-itself",
+        "anchorId": "branching-anchor",
+        "query": {
+          "familyId": "always-true",
+          "at": { "coordinate": "0" },
+          "parameters": {}
+        },
+        "fieldParameters": []
+      }
+    ],
+    "interventionCosts": [
+      {
+        "interventionId": "support-every-realized-branch",
+        "cost": { "kind": "rational", "numerator": "1", "denominator": "1" }
+      }
+    ]
+  }
+}

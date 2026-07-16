@@ -62,6 +62,15 @@ test("reversible internal laws must carry exact additive inverses", () => {
     assert.ok(validateAnchoredCausalWorld(program.world).some((entry) => entry.code === "CKW044"));
 });
 
+test("internal conflict semantics must use an explicit supported contract", () => {
+    const program = fieldProgram();
+    program.execution.internalConflictMode = "maximal-commuting-branches";
+    assert.deepEqual(validateExecutableCausalProgram(program), []);
+
+    (program.execution as { internalConflictMode?: string }).internalConflictMode = "pick-first";
+    assert.ok(validateExecutableCausalProgram(program).some((entry) => entry.code === "CKR025"));
+});
+
 test("the v0.5.1 narrative kernel remains a valid compatible special case", () => {
     const previous = structuredClone(anchoredGarden) as ExecutableAnchoredNarrativeProgram;
     assert.deepEqual(validateAnchoredNarrativeWorld(previous.world), []);

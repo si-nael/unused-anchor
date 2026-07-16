@@ -2,7 +2,7 @@
   "mode": "bubble-author-idea-obligations.v1",
   "recordedDate": "2026-07-15",
   "lastReconciledDate": "2026-07-17",
-  "workingRelease": "0.5.4",
+  "workingRelease": "0.5.5",
   "sourceDocument": "docs/research/author-idea-corpus.md",
   "nonClosureRule": "A bounded implementation may advance status but must not delete source text, erase remaining obligations, or claim the whole idea from a proxy.",
   "obligations": [
@@ -37,9 +37,9 @@
       "invariant": "World continuation follows from one coupled lawful structure and never from a hidden host selector or an unrelated menu of regimes.",
       "dependencies": ["OB-004", "OB-005", "OB-006", "OB-007"],
       "status": "partial",
-      "implementationEvidence": ["src/bubbles/runtime/self-realization.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "src/bubbles/world-kernel/teleonomic-runtime.ts", "docs/research/question-log.md#q-018", "docs/research/question-log.md#q-023", "docs/research/question-log.md#q-024", "docs/research/question-log.md#q-025"],
+      "implementationEvidence": ["src/bubbles/runtime/self-realization.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "src/bubbles/world-kernel/teleonomic-runtime.ts", "examples/endogenous-branching-field.world.json", "docs/architecture/v0.5.5-endogenous-causal-branching.md", "docs/research/question-log.md#q-018", "docs/research/question-log.md#q-023", "docs/research/question-log.md#q-024", "docs/research/question-log.md#q-025"],
       "acceptanceTests": ["tests/unit/self-realization.test.ts", "tests/unit/anchored-narrative-runtime.test.ts", "tests/unit/anchored-causal-runtime.test.ts", "tests/unit/persistent-causal-world.test.ts", "tests/unit/persistent-causal-runtime.test.ts", "tests/unit/teleonomic-causal-runtime.test.ts"],
-      "remainingLimits": ["Canonical and distributed-state actor-neutral structures persist and have completed bounded teleonomic-capacity evidence with no host selection, but endogenous branching, deliberative agency, relationships, dynamic populations, cross-world transfer, and complete universe generation remain open."],
+      "remainingLimits": ["Canonical and distributed-state actor-neutral structures persist, have bounded teleonomic evidence, and now form finite endogenous maximal-frontier branches with no host selection, but deliberative agency, relationships, dynamic populations, causal spawn/collapse, cross-world transfer, and complete universe generation remain open."],
       "reopenCondition": "Remains open through every stronger self-generated continuation seam until the whole connected universe is realized."
     },
     {
@@ -61,10 +61,10 @@
       "invariant": "A Bubble may lawfully form persistent beings, agency, relations, and coherent histories without requiring those labels as primitive fields or making them depend on World Will.",
       "dependencies": ["OB-006", "OB-007"],
       "status": "partial",
-      "implementationEvidence": ["src/bubbles/world-kernel/narrative.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "src/bubbles/world-kernel/causal.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "src/bubbles/world-kernel/teleonomic-runtime.ts", "examples/anchored-garden.world.json", "examples/self-organizing-field.world.json", "examples/self-maintaining-field.world.json", "examples/distributed-channel-field.world.json", "docs/architecture/v0.5.4-endogenous-teleonomy.md"],
+      "implementationEvidence": ["src/bubbles/world-kernel/narrative.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "src/bubbles/world-kernel/causal.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "src/bubbles/world-kernel/teleonomic-runtime.ts", "examples/anchored-garden.world.json", "examples/self-organizing-field.world.json", "examples/self-maintaining-field.world.json", "examples/distributed-channel-field.world.json", "examples/endogenous-branching-field.world.json", "docs/architecture/v0.5.4-endogenous-teleonomy.md", "docs/architecture/v0.5.5-endogenous-causal-branching.md"],
       "acceptanceTests": ["tests/unit/anchored-narrative-world.test.ts", "tests/unit/anchored-narrative-runtime.test.ts", "tests/unit/anchored-causal-world.test.ts", "tests/unit/anchored-causal-runtime.test.ts", "tests/unit/persistent-causal-world.test.ts", "tests/unit/persistent-causal-runtime.test.ts", "tests/unit/teleonomic-causal-runtime.test.ts"],
-      "remainingLimits": ["Canonical and distributed-state recurrent components now have completed bounded evidence for invariant norms, plural causally regenerated response-event necessity, per-response semantic memory dependence, and autonomy independent of World Will and anchors, but endogenous branching, deliberative choice, agency, relationships, and narrative projection are not derived."],
-      "reopenCondition": "Remains open through v0.5.4 adversarial hardening and until a relation-mediated or simultaneous-alternative structure supplies a stronger counterfactual agency contract without a mandatory agent label."
+      "remainingLimits": ["Canonical and distributed-state recurrent components have bounded teleonomic evidence, and v0.5.5 realizes simultaneous world alternatives without a host selector, but no internal being represents, prefers, or selects among them; deliberative agency, relationships, and narrative projection are not derived."],
+      "reopenCondition": "Remains open after v0.5.5 until a relation- or preference-mediated internal selection structure supplies a stronger counterfactual agency contract without a mandatory agent label."
     },
     {
       "id": "OB-006",
@@ -133,10 +133,10 @@
       "invariant": "The universal Bubble core is causal world structure rather than a mandatory plot schema, while agent and narrative structures remain lawfully realizable rather than forbidden.",
       "dependencies": ["OB-002", "OB-003", "OB-004", "OB-006", "OB-007", "OB-008"],
       "status": "partial",
-      "implementationEvidence": ["src/bubbles/world-kernel/causal.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "src/bubbles/world-kernel/teleonomic-runtime.ts", "examples/self-organizing-field.world.json", "examples/self-maintaining-field.world.json", "examples/distributed-channel-field.world.json", "docs/architecture/v0.5.2-generative-causal-universe.md", "docs/architecture/v0.5.3-persistent-causal-structure.md", "docs/architecture/v0.5.4-endogenous-teleonomy.md"],
+      "implementationEvidence": ["src/bubbles/world-kernel/causal.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "src/bubbles/world-kernel/teleonomic-runtime.ts", "examples/self-organizing-field.world.json", "examples/self-maintaining-field.world.json", "examples/distributed-channel-field.world.json", "examples/endogenous-branching-field.world.json", "docs/architecture/v0.5.2-generative-causal-universe.md", "docs/architecture/v0.5.3-persistent-causal-structure.md", "docs/architecture/v0.5.4-endogenous-teleonomy.md", "docs/architecture/v0.5.5-endogenous-causal-branching.md"],
       "acceptanceTests": ["tests/unit/anchored-causal-world.test.ts", "tests/unit/anchored-causal-runtime.test.ts", "tests/unit/persistent-causal-world.test.ts", "tests/unit/persistent-causal-runtime.test.ts", "tests/unit/teleonomic-causal-runtime.test.ts"],
-      "remainingLimits": ["The actor-neutral substrate now generates canonical and distributed-state bounded persistent structures with completed v0.5.4 teleonomic-capacity evidence, but endogenous branching, deliberative agency, relationships, narrative projection, dynamic populations, general coinduction, and whole-universe generation are not yet derived."],
-      "reopenCondition": "Reopen throughout v0.5.4 hardening and later at the smallest organically generated relation or simultaneous-alternative structure beyond its accepted evidence contract."
+      "remainingLimits": ["The actor-neutral substrate now generates bounded persistent teleonomic structures and finite endogenous branch worlds, but deliberative agency, relationships, narrative projection, dynamic populations, causal spawn/collapse, general coinduction, and whole-universe generation are not yet derived."],
+      "reopenCondition": "Reopen after v0.5.5 at the smallest organically generated relation, internal selector, spawn/collapse, or wider world structure beyond its accepted evidence contract."
     }
   ],
   "sessionConstraints": [

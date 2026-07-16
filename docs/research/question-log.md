@@ -30,7 +30,7 @@ Use the current minimum schema as the `v0.4` baseline and revise it only when a 
 
 ### Q-002: How should the negative sea be represented operationally?
 
-Status: partially answered through v0.5.4
+Status: partially answered through v0.5.5
 
 Question:
 
@@ -108,7 +108,7 @@ Extend identity only from a concrete same-world counterexample, semantic migrati
 
 ### Q-005: When does replay return to the same world?
 
-Status: partially answered through v0.5.4
+Status: partially answered through v0.5.5
 
 Question:
 
@@ -123,6 +123,7 @@ Current implementation:
 - anchored narrative records store the exact formal program and options, re-execute them, compare the complete run digest, and preserve selected and unresolved continuation identities
 - persistent causal records additionally preserve exact closure cycles, derived-component assessments, memory counterfactuals, maintenance evidence, and stored-run integrity across re-execution
 - teleonomic records preserve the exact invariant component kernel, every same-program response-event nonrealization witness, every per-response memory-erasure verdict, path-universal World-Will-disabled/all-anchors-cut autonomy evidence, and stored-run integrity across re-execution
+- v0.5.5 causal records preserve every endogenous maximal-frontier branch, its realized/nonrealized law lineage, exhaustive branch verdict, branch-local World-Will candidates, and exact selected plural continuations
 
 Remaining gap:
 
@@ -407,7 +408,7 @@ Preserve the current bounded semantics through `v0.4.9`. Reopen the proof shape 
 
 ### Q-018: How can a bubble realize itself through world will rather than an external chooser?
 
-Status: implemented bounded baseline through v0.5.4
+Status: implemented bounded baseline through v0.5.5
 
 Question:
 
@@ -424,21 +425,23 @@ Current implementation:
 - the v0.5.1 anchored narrative runtime closes a finite causal story, evaluates exact World-Will objectives/costs and post-state constraints, preserves equal alternatives, and reports resource exhaustion without a host selection
 - the v0.5.3 persistence layer unfolds every selected causal continuation, preserves contradiction and unresolved frontiers, and certifies exact recurrence without choosing a branch
 - the v0.5.4 teleonomic layer derives responses from causally regenerated internal state and causal law rather than an action menu, universally checks same-program response-event nonrealization and per-response memory erasure, and disables World Will and all anchors without adding a host selector
+- the v0.5.5 causal kernel optionally derives every maximal commuting frontier of simultaneously enabled laws as a real autonomous continuation, records excluded alternatives as nonrealized, and refuses partial branch selection under exhausted bounds
+- every autonomous branch receives separate anchor identity and World-Will evaluation; branching intervention consequences remain set-valued and are compared by guaranteed minimum exact improvement without selecting one internal outcome
 
 Remaining gap:
 
 - the original `.bubble` self-realization path still evaluates one scalar frontier; the v0.5.4 recurrence and teleonomic proof is bounded to one exact actor-neutral field structure rather than a persistent story or general open-ended process
-- branch, spawn, and collapse are typed continuation consequences but not all yet execute concrete world artifacts or retirement records from self-realization
+- causal branch actualization is now concrete in the anchored-causal kernel, but `spawn` and `collapse` still do not execute concrete causal-world artifacts or retirement records from self-realization
 - transformations currently change one scalar coordinate at a time
 - narrative consequences feed exact local sea-coupled viability but not a global multi-world sea/anchor dynamics calculus
 
 Next check:
 
-Reopen from a concrete persistent-story, branch/spawn/collapse artifact, relationship-affordance, or cross-world sea/anchor requirement. Preserve explicit termination, provenance, and no hidden scheduler.
+Reopen from a concrete persistent-story, causal spawn/collapse artifact, relationship-affordance, or cross-world sea/anchor requirement. Preserve explicit termination, provenance, exhaustive plurality, and no hidden scheduler.
 
 ### Q-019: What does time mean inside a bubble universe?
 
-Status: partially implemented through v0.5.4
+Status: partially implemented through v0.5.5
 
 Question:
 
@@ -455,6 +458,7 @@ Current implementation:
 - the anchored narrative runtime records an explicit causal DAG, host evaluation order, reversible/irreversible event sets, and commit-created history arrows separately
 - the persistent causal runtime records an exact closure coalgebra and finite lasso recurrence certificate while keeping `universalClock: false`; closure numbers are proof coordinates rather than duration
 - the teleonomic runtime analyzes a period-two invariant set in causal-closure coordinates without turning phase, closure count, or host evaluation order into universal or metric time
+- endogenous branches share a causal prefix and then carry separate partial orders and histories; branch ids and enumeration order are proof coordinates, not a universal time axis
 
 Remaining gap:
 
@@ -556,7 +560,7 @@ Reopen only after all earlier idea obligations are realized, the current Bubble 
 
 ### Q-023: How can protagonists, agency, and stories arise without being forced into every world?
 
-Status: implemented actor-neutral generative, persistent, and bounded teleonomic-capacity baseline through v0.5.4; agency remains open
+Status: implemented actor-neutral generative, persistent, teleonomic-capacity, and endogenous-branching baselines through v0.5.5; agency remains open
 
 Question:
 
@@ -566,7 +570,7 @@ Current implementation:
 
 - `bubble-anchored-causal-world.v2` requires exact fields, guarded internal laws, sea coupling, generic anchors, World-Will objectives and constraints, causal partial order, and optional history commits; it requires no protagonist or story field
 - enabled internal laws generate events from exact state predicates instead of replaying a pre-authored causal-event graph
-- simultaneously enabled non-commuting laws return `underdetermined` rather than inheriting host or declaration order
+- simultaneously enabled non-commuting laws remain `underdetermined` by default; an explicit v0.5.5 mode derives every maximal commuting frontier as an autonomous world without host or declaration-order selection
 - protected fields prevent World Will from directly manufacturing internal structure; it may change lawful conditions through an identity-checked anchor, after which the world's own law may respond
 - generic emergence criteria compare initial and realized states, preserve exact witness fields and causal provenance, and distinguish absent, persistent, emerged, dissolved, unresolved, and contradicted structure
 - the canonical actor-neutral field world self-organizes even with World Will disabled; an anchored condition intervention can later activate an internal response without directly writing coherence
@@ -579,17 +583,18 @@ Current implementation:
 - memory erasure, excessive erosion, proof-budget exhaustion, contradiction, stored-record tampering, and disabled World Will have explicit regression evidence
 - `v0.5.4` derives finite bounded invariant viability kernels without an authored goal, recognizes response laws only under pairwise-disjoint states causally regenerated by the response cycle, and universally verifies through same-program event nonrealization and memory erasure that each factual response occurrence is necessary and semantically memory-dependent
 - disabling World Will and cutting every anchor preserves the same persistent viability kernel; no host-side affordance menu or selector is present
+- `v0.5.5` records real autonomous branch lineage, preserves common commuting laws across every maximal frontier, evaluates World Will separately on each branch, and unfolds boundary-, identity-, and memory-bearing persistence on both formation paths
 
 Remaining gap:
 
-- bounded teleonomic capacity does not derive life, deliberative choice between simultaneous alternatives, agency, relationships, or narrative coherence
+- bounded causal branching shows simultaneous world alternatives but does not derive an internal being that represents, prefers, or selects among them; life, deliberative agency, relationships, and narrative coherence remain open
 - recurrence is certified only by finite exact closure lassos; general coinductive, spatial, evolutionary, concurrent, and open-ended dynamics remain open
 - the causal boundary is derived around existing exact fields; no law yet forms a new field schema, population, or relationship network dynamically
 - multi-world sea transport, anchor transfer, and full identity remain absent
 
 Next check:
 
-The goal-and-affordance prerequisite is now the active Q-025 candidate. Harden it against structurally different cycles and hidden causal support before requiring a relation-mediated or counterfactual-choice case that distinguishes enacted internal response from deliberative agency. Do not force an agent label into worlds whose laws do not generate one.
+The next stronger agency case must add an internally generated relation, preference, or selection mechanism over lawful alternatives and distinguish that causal selection from mere world branching. Do not force an agent label into worlds whose laws generate plurality but no chooser.
 
 ### Q-024: When is a recurrent causal structure genuinely persistent?
 
@@ -611,6 +616,7 @@ Current implementation:
 - outward causal influence requires a realized outgoing-cut law and an externally changed field in every memory-erasure continuation
 - non-recurrence under the closure bound and path-capacity exhaustion remain `undetermined`; contradiction remains contradiction
 - run, inspection, stored record, and deterministic re-execution preserve cycles and all persistence evidence
+- the v0.5.5 regression supplies two incompatible autonomous formation branches, and both retain the complete boundary, identity, memory, restoration, and outward-influence contract
 
 Remaining gap:
 
@@ -646,9 +652,10 @@ Remaining gap:
 
 - the finite set is an invariant subset certified by one exact lasso, not a greatest viability kernel or an unbounded-history theorem
 - responses occur in different internally generated states; the runtime does not yet prove deliberation or selection among simultaneously available counterfactual alternatives
+- v0.5.5 can now realize simultaneous alternatives as plural worlds, but the teleonomic component still does not represent those alternatives or causally select one
 - no preference learning, norm transformation, relationship-mediated action, population, reproduction, evolution, protagonist identity, or narrative projection is derived
 - dynamic fields, multi-world sea transport, cross-world anchors, and full identity remain open
 
 Next check:
 
-A later version may add the smallest organically generated relation or simultaneous counterfactual-alternative case whose causal evidence can distinguish teleonomic response from agency. Keep `agent`, `protagonist`, and `story` as stronger conclusions rather than schema names, and do not fold endogenous branching backward into the completed bounded `v0.5.4` contract.
+A later version may add the smallest organically generated relation or preference-bearing selector whose causal evidence can distinguish teleonomic response and world branching from agency. Keep `agent`, `protagonist`, and `story` as stronger conclusions rather than schema names. `v0.5.5` extends the causal kernel forward without changing the completed bounded `v0.5.4` teleonomic contract.
