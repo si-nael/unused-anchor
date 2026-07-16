@@ -30,6 +30,7 @@ export function parseCausalExecutionArgs(argv: string[]): {
 } {
     const positional: string[] = [];
     const cutAnchorIds: string[] = [];
+    const counterfactualInternalEventAblationLawIds: string[] = [];
     let worldWillEnabled = true;
     let evaluationBudgetPerQuery: number | undefined;
     let maxInterventionCombinations: number | undefined;
@@ -40,6 +41,8 @@ export function parseCausalExecutionArgs(argv: string[]): {
             worldWillEnabled = false;
         } else if (argument === "--cut-anchor") {
             cutAnchorIds.push(requiredValue(argv, ++index, argument));
+        } else if (argument === "--counterfactual-ablate-internal-event") {
+            counterfactualInternalEventAblationLawIds.push(requiredValue(argv, ++index, argument));
         } else if (argument === "--evaluation-budget") {
             evaluationBudgetPerQuery = nonNegativeInteger(requiredValue(argv, ++index, argument), argument, false);
         } else if (argument === "--max-intervention-combinations") {
@@ -59,6 +62,9 @@ export function parseCausalExecutionArgs(argv: string[]): {
         options: {
             worldWillEnabled,
             cutAnchorIds,
+            ...(counterfactualInternalEventAblationLawIds.length > 0
+                ? { counterfactualInternalEventAblationLawIds }
+                : {}),
             evaluationBudgetPerQuery,
             maxInterventionCombinations,
             maxInternalFrontiers,

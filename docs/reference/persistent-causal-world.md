@@ -46,6 +46,8 @@ Each assessment separately reports:
 - realized outgoing laws and counterfactually changed external fields;
 - exact failure reasons.
 
+For a multi-state recurrence, boundary ablation ranges over every closure in the certified cycle. Every crossing law must be realized and semantically discriminated in at least one relevant closure; a law that appears only in a later phase cannot escape the proof.
+
 `persistent` requires all surfaces on every lawful path and every selected counterfactual continuation. Mixed or unresolved counterfactuals make the assessment `undetermined`. Missing evidence makes it `non-persistent`.
 
 ## Closure Paths And Order

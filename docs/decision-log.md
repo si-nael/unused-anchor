@@ -1017,3 +1017,65 @@ The first passing `v0.5.3` candidate hashed only causal field configurations whi
 Consequence:
 
 Treat the anchored state as a causal configuration paired with a monotone commit ledger. Certify lasso recurrence only in the configuration projection and report whether the full anchored state repeated. Preserve whole guard/effect tuples in a field/law factor graph; require every crossing law to bind boundary state and require pre-formation boundary-state ablation to change every crossing law's realization after unrelated recovery laws are suppressed. Require negative-sea-caused deviation from, and exact restoration to, the recurrent reference configuration. Quantify memory erasure, boundary ablation, and outward influence over every lawful continuation; mixed evidence is `undetermined`. Retain direct regression tests for all four false-positive classes before closing `v0.5.3`.
+
+### D-102: Derive bounded teleonomic capacity from invariant recurrence and universal action ablation
+
+Reason:
+
+A declared goal, a parallel list of actions, or a host-selected winner would reproduce the ontology and organic-world failures already corrected in v0.5.2. Persistence with one automatic repair also does not establish plural goal-directed capacity. Multi-state cycles create an additional proof risk: a boundary-crossing law realized only in a later phase can escape an ablation that inspects only one closure.
+
+Consequence:
+
+Make `v0.5.4` an evidence layer over the unchanged persistent program. Derive a finite invariant component-configuration set from the exact certified lasso, require at least two response laws realized under differing internal state, and remove each factual response law while disabling World Will and cutting all anchors; every lawful continuation must leave the set. Re-execute the full persistent world under the same autonomy cut and require the identical kernel. Record no authored goal and no host selector, preserve `undetermined` at every incomplete frontier, and call the result teleonomic capacity rather than agency. Generalize boundary ablation to cover every crossing law realized anywhere in the certified cycle.
+
+### D-103: Withhold v0.5.4 closure and replace law deletion with organic same-program event evidence
+
+Reason:
+
+The first `v0.5.4` candidate was called completed after one canonical period-two fixture and treated deletion of a whole response law as ablation of one action. That changes the world's program instead of asking what follows when an enabled event does not occur. Exact phase differentiation also remained compatible with a detached scheduler that advanced the cycle beside, rather than because of, the structure's response. These shortcuts could make a version advance look easier and more organic than the evidence justified.
+
+Consequence:
+
+Keep `0.5.4` as the working version but withdraw release confirmation. Supersede D-102's law-removal counterfactual with same-program internal-event nonrealization: preserve the program digest and law definition, record the would-have-occurred event, suppress only its effects, and require every selected continuation to carry that witness. Require discriminator value sets to be pairwise disjoint and causally regenerated from the response cycle; reject a detached phase scheduler even when persistence and plural necessary restoration survive. Add a period-three positive case and keep the candidate active until repeated adversarial review, documentation, generated evidence, and the full repository boundary agree.
+
+### D-104: Quantify autonomous kernel preservation over every lawful path
+
+Reason:
+
+The first autonomy certificate accepted the existence of one World-Will-disabled, all-anchors-cut recurrent path with the factual kernel. In a future plural autonomous execution, another lawful path could lose that component or preserve a different kernel while the existential match still passed. This would reintroduce a hidden path selector precisely where the report claimed there was none.
+
+Consequence:
+
+Record path-indexed autonomy evidence for every disabled-and-cut execution path. The same component must be persistently certified and preserve the identical kernel on every path; an empty set, a missing component, one different kernel, or any unresolved/non-cyclic path cannot satisfy autonomy. Keep the global persistent status check as an additional requirement rather than a substitute for this component-wise universal quantifier.
+
+## 2026-07-17
+
+### D-105: Do not invent endogenous branching to satisfy a test fixture
+
+Reason:
+
+The current anchored-causal kernel produces plural selected continuations only from equal World-Will interventions in plural decision mode. With World Will disabled, commuting internal laws close to one autonomous continuation and non-commuting laws remain `underdetermined`. Adding an authored branch menu solely to manufacture a multi-path autonomy test would violate the no-hidden-selector and organic-generation rules.
+
+Consequence:
+
+Keep universal autonomy quantification over every path the current kernel can lawfully represent, and retain path-indexed evidence for future branching semantics. Add a direct regression showing that a factual plural World-Will run becomes exactly one intervention-free autonomous continuation when World Will is disabled and all anchors are cut. Leave endogenous branch/spawn/collapse execution as a later explicit semantic seam rather than smuggling it into `v0.5.4`.
+
+### D-106: Require semantic memory dependence for every teleonomic response
+
+Reason:
+
+A response law could bind a memory-role field while using a tautology such as `memory = memory`. Persistence could still obtain memory evidence from another closure, allowing the decorative binding to cross into a claim that every affordance depends on retained memory.
+
+Consequence:
+
+For every factual response occurrence, reconstruct the same closure input, erase all bound memory-state fields to their pre-formation values, disable World Will, cut every anchor, and evaluate every selected continuation. The response is memory-dependent only when it disappears universally. Mixed or unresolved evidence remains unresolved; a response that survives erasure is not a teleonomic affordance. Preserve the full erasure values, continuation verdicts, and execution count in run and replay evidence.
+
+### D-107: Confirm bounded v0.5.4 after adversarial closure
+
+Reason:
+
+The initial completion claim was correctly withdrawn. Subsequent audits replaced law deletion with same-program event nonrealization, rejected detached schedulers, made discriminator provenance causal, quantified autonomy over every representable path, clarified that endogenous branching is not present in the current kernel, added period-three and independent distributed-channel positive worlds, and required semantic memory dependence for every response. All canonical, distributed, false-positive, boundedness, replay, and legacy repository paths pass together.
+
+Consequence:
+
+Confirm `v0.5.4` as the bounded teleonomic-capacity release dated 2026-07-17. Its closed claim is limited to finite lasso-derived invariant norms with plural organically regenerated, event-necessary, memory-dependent internal responses and World-Will/anchor-independent persistence under the current causal kernel. Do not infer life, deliberation, agency, endogenous branching, relations, narrative coherence, global sea transport, cross-world anchors, whole-universe completion, or recursive self-construction. Preserve D-103 through D-106 and B-020 through B-025 as part of the release evidence rather than erasing the failed candidates.

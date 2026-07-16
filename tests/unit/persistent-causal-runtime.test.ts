@@ -27,13 +27,13 @@ test("an unlabeled structure persists across exact causal closures without a uni
     assert.equal(run.order.universalClock, false);
     assert.equal(run.order.kind, "causal-closure-coalgebra");
     assert.equal(path?.status, "cycle");
-    assert.equal(path?.closures.length, 2);
+    assert.equal(path?.closures.length, 3);
     assert.equal(path?.cycle?.scope, "causal-configuration");
     assert.equal(path?.cycle?.startConfigurationIndex, 1);
-    assert.equal(path?.cycle?.periodClosures, 1);
-    assert.equal(path?.cycle?.anchoredHistory.extensionCount, 1);
+    assert.equal(path?.cycle?.periodClosures, 2);
+    assert.equal(path?.cycle?.anchoredHistory.extensionCount, 2);
     assert.equal(path?.cycle?.anchoredHistory.fullAnchoredStateRepeated, false);
-    assert.equal(path?.anchoredHistory.entries.length, 2);
+    assert.equal(path?.anchoredHistory.entries.length, 3);
     assert.equal(path?.closures[0]?.run.autonomousContinuation?.emergenceAssessments[0]?.status, "emerged");
     assert.equal(path?.closures[1]?.run.autonomousContinuation?.emergenceAssessments[0]?.status, "persistent");
     assert.equal(assessment?.status, "persistent");
@@ -47,7 +47,10 @@ test("boundary, identity, memory, maintenance, and outward influence have separa
     assert.equal(assessment.boundary.status, "causally-mediated");
     assert.ok(assessment.boundary.incomingEdges.some((edge) => edge.from.fieldId === "negative"));
     assert.ok(assessment.boundary.outgoingEdges.some((edge) => edge.to.fieldId === "signal"));
-    assert.deepEqual(assessment.boundary.mediatedIncomingLawIds, ["negative-sea-erosion"]);
+    assert.deepEqual(assessment.boundary.mediatedIncomingLawIds, [
+        "negative-sea-erosion",
+        "negative-sea-erosion-route-b",
+    ]);
     assert.ok(assessment.boundary.mediatedOutgoingLawIds.includes("restore-from-memory"));
     assert.equal(assessment.boundary.cutAblation.continuationEvidence[0]?.historyChanged, true);
     assert.equal(assessment.identity.recurrentState, true);
@@ -115,7 +118,12 @@ function replaceParameterEquality(termValue: IntensionalTerm, parameterName: str
 
 test("a syntactically bound but semantically redundant boundary cannot certify mediation", () => {
     const program = persistentProgram();
-    for (const familyId of ["stress-ready", "repair-ready"]) {
+    for (const familyId of [
+        "stress-route-a-ready",
+        "stress-route-b-ready",
+        "repair-route-a-ready",
+        "repair-route-b-ready",
+    ]) {
         const family = program.causalProgram.world.formal.families.find((candidate) => candidate.id === familyId)!;
         assert.equal(replaceParameterEquality(family.body, "boundary", term.parameter("boundary")), true);
     }
@@ -125,12 +133,22 @@ test("a syntactically bound but semantically redundant boundary cannot certify m
     assert.equal(run.status, "non-persistent");
     assert.equal(boundary?.status, "not-mediated");
     assert.equal(boundary?.cutAblation.continuationEvidence[0]?.effective, false);
-    assert.deepEqual(boundary?.cutAblation.testedCrossingLawIds, ["negative-sea-erosion", "restore-from-memory"]);
+    assert.deepEqual(boundary?.cutAblation.testedCrossingLawIds, [
+        "negative-sea-erosion",
+        "negative-sea-erosion-route-b",
+        "restore-from-memory",
+        "restore-from-memory-route-b",
+    ]);
 });
 
 test("restoration is rejected when the alleged disturbance did not begin at the recurrent reference", () => {
     const program = persistentProgram();
-    const stress = program.causalProgram.world.formal.families.find((family) => family.id === "stress-ready")!;
+    program.causalProgram.world.internalLaws = program.causalProgram.world.internalLaws.filter((law) => (
+        law.id !== "negative-sea-erosion-route-b" && law.id !== "restore-from-memory-route-b"
+    ));
+    const repair = program.causalProgram.world.internalLaws.find((law) => law.id === "restore-from-memory")!;
+    repair.effects.find((effect) => effect.fieldId === "phase")!.value = exact.integer(0);
+    const stress = program.causalProgram.world.formal.families.find((family) => family.id === "stress-route-a-ready")!;
     const preShift = structuredClone(stress);
     preShift.id = "pre-shift-ready";
     program.causalProgram.world.formal.families.push(preShift);
@@ -252,6 +270,16 @@ test("a contradicted causal closure remains contradicted at the persistence laye
     assert.equal(run.status, "contradicted");
     assert.equal(run.paths[0]?.status, "contradicted");
     assert.match(run.paths[0]?.reason ?? "", /unknown field override/);
+});
+
+test("factual persistence cannot be certified from a counterfactually ablated execution", () => {
+    const run = realizePersistentCausalWorld(persistentProgram(), {
+        causalOptions: { counterfactualInternalEventAblationLawIds: ["restore-from-memory"] },
+    });
+
+    assert.equal(run.status, "contradicted");
+    assert.match(run.reason, /factual execution cannot begin with counterfactual internal-event ablations/);
+    assert.deepEqual(run.paths, []);
 });
 
 test("inspection and replay preserve recurrence and counterfactual persistence evidence", () => {

@@ -84,6 +84,11 @@ export interface CounterfactualContinuationDifference {
     effective: boolean;
 }
 
+export interface BoundaryAblationContinuationEvidence extends CounterfactualContinuationDifference {
+    factualClosureId: string;
+    testedCrossingLawIds: string[];
+}
+
 export interface MemoryCounterfactualEvidence {
     fieldKey: string;
     status: "causally-effective" | "not-effective" | "mixed" | "undetermined";
@@ -128,8 +133,8 @@ export interface PersistentStructureAssessment {
             ablatedBoundaryFieldKeys: string[];
             testedCrossingLawIds: string[];
             suppressedRecoveryLawIds: string[];
-            continuationEvidence: CounterfactualContinuationDifference[];
-            counterfactualRunStatus: AnchoredCausalRun["status"] | "not-run";
+            continuationEvidence: BoundaryAblationContinuationEvidence[];
+            counterfactualRuns: Array<{ factualClosureId: string; status: AnchoredCausalRun["status"] }>;
         };
     };
     identity: {
@@ -346,6 +351,14 @@ function cycleStates(path: PersistentCausalPath): CausalWorldState[][] {
     if (!path.cycle || path.closures.length === 0) return [];
     const states = [path.closures[0]!.inputWorldStates, ...path.closures.map((closure) => closure.outputWorldStates)];
     return states.slice(path.cycle.startConfigurationIndex, states.length);
+}
+
+function cycleClosures(path: PersistentCausalPath): PersistentCausalClosure[] {
+    if (!path.cycle) return [];
+    return path.closures.slice(
+        path.cycle.startConfigurationIndex,
+        path.cycle.startConfigurationIndex + path.cycle.periodClosures,
+    );
 }
 
 function identityEvidence(path: PersistentCausalPath, component: DerivedCausalComponent): PersistentStructureAssessment["identity"] {
@@ -579,14 +592,13 @@ function boundaryEvidence(
                 testedCrossingLawIds,
                 suppressedRecoveryLawIds: [],
                 continuationEvidence: [],
-                counterfactualRunStatus: "not-run",
+                counterfactualRuns: [],
             },
         };
     }
     const first = path.closures[0];
-    const last = path.closures.at(-1);
-    const factual = last?.run.continuations.find((continuation) => continuation.id === last.selectedContinuationId);
-    if (!first || !last || !factual) {
+    const recurrentClosures = cycleClosures(path);
+    if (!first || recurrentClosures.length === 0) {
         return {
             ...base,
             derivedFromCausalCut: false,
@@ -596,7 +608,7 @@ function boundaryEvidence(
                 testedCrossingLawIds,
                 suppressedRecoveryLawIds: [],
                 continuationEvidence: [],
-                counterfactualRunStatus: "not-run",
+                counterfactualRuns: [],
             },
         };
     }
@@ -604,8 +616,10 @@ function boundaryEvidence(
         .filter((entry): entry is readonly [string, ExactValue] => entry[1] !== undefined));
     const boundaryChanged = boundaryFieldKeys.some((key) => {
         const beforeFormation = boundaryOverrides[key];
-        const retained = stateField(last.inputWorldStates, key);
-        return Boolean(beforeFormation && retained && !exactValuesEqual(beforeFormation, retained));
+        return Boolean(beforeFormation && recurrentClosures.some((closure) => {
+            const retained = stateField(closure.inputWorldStates, key);
+            return Boolean(retained && !exactValuesEqual(beforeFormation, retained));
+        }));
     });
     if (!boundaryChanged) {
         return {
@@ -617,7 +631,7 @@ function boundaryEvidence(
                 testedCrossingLawIds,
                 suppressedRecoveryLawIds: [],
                 continuationEvidence: [],
-                counterfactualRunStatus: "not-run",
+                counterfactualRuns: [],
             },
         };
     }
@@ -628,15 +642,44 @@ function boundaryEvidence(
     const ablatedProgram = cloneValue(program);
     ablatedProgram.causalProgram.world.internalLaws = ablatedProgram.causalProgram.world.internalLaws
         .filter((law) => !suppressedRecoveryLawIds.includes(law.id));
-    const counterfactual = realizeAnchoredCausalWorld(ablatedProgram.causalProgram, {
-        ...options.causalOptions,
-        fieldOverrides: {
-            ...statesToOverrides(program, last.inputWorldStates),
-            ...cloneValue(boundaryOverrides),
-        },
-    });
-    const continuations = selectedContinuations(counterfactual);
-    if (continuations.length === 0 || ["underdetermined", "contradicted"].includes(counterfactual.status)) {
+    const memberSet = new Set(component.memberFieldKeys);
+    const witnessedCrossingLawIds = new Set<string>();
+    const continuationEvidence: BoundaryAblationContinuationEvidence[] = [];
+    const counterfactualRuns: Array<{ factualClosureId: string; status: AnchoredCausalRun["status"] }> = [];
+    let unresolved = false;
+    for (const closure of recurrentClosures) {
+        const factual = closure.run.continuations.find((continuation) => continuation.id === closure.selectedContinuationId);
+        if (!factual) {
+            unresolved = true;
+            continue;
+        }
+        const realized = traceLawIds(factual).filter((lawId) => testedCrossingLawIds.includes(lawId));
+        if (realized.length === 0) continue;
+        realized.forEach((lawId) => witnessedCrossingLawIds.add(lawId));
+        const counterfactual = realizeAnchoredCausalWorld(ablatedProgram.causalProgram, {
+            ...options.causalOptions,
+            fieldOverrides: {
+                ...statesToOverrides(program, closure.inputWorldStates),
+                ...cloneValue(boundaryOverrides),
+            },
+        });
+        counterfactualRuns.push({ factualClosureId: closure.id, status: counterfactual.status });
+        const continuations = selectedContinuations(counterfactual);
+        if (continuations.length === 0 || ["underdetermined", "contradicted"].includes(counterfactual.status)) {
+            unresolved = true;
+            continue;
+        }
+        continuationEvidence.push(...continuations.map((continuation) => {
+            const evidence = continuationDifference(factual, continuation, memberSet);
+            return {
+                ...evidence,
+                factualClosureId: closure.id,
+                testedCrossingLawIds: realized,
+                effective: realized.every((lawId) => evidence.changedTraceLawIds.includes(lawId)),
+            };
+        }));
+    }
+    if (unresolved) {
         return {
             ...base,
             derivedFromCausalCut: false,
@@ -645,23 +688,16 @@ function boundaryEvidence(
                 ablatedBoundaryFieldKeys: boundaryFieldKeys,
                 testedCrossingLawIds,
                 suppressedRecoveryLawIds,
-                continuationEvidence: [],
-                counterfactualRunStatus: counterfactual.status,
+                continuationEvidence,
+                counterfactualRuns,
             },
         };
     }
-    const memberSet = new Set(component.memberFieldKeys);
-    const continuationEvidence = continuations.map((continuation) => {
-        const evidence = continuationDifference(factual, continuation, memberSet);
-        return {
-            ...evidence,
-            effective: testedCrossingLawIds.every((lawId) => evidence.changedTraceLawIds.includes(lawId)),
-        };
-    });
+    const allCrossingLawsWitnessed = testedCrossingLawIds.every((lawId) => witnessedCrossingLawIds.has(lawId));
     const quantified = quantifyCounterfactualContinuations(continuationEvidence);
-    const status = quantified === "causally-effective"
+    const status = allCrossingLawsWitnessed && quantified === "causally-effective"
         ? "causally-mediated" as const
-        : quantified === "not-effective" ? "not-mediated" as const : "mixed" as const;
+        : !allCrossingLawsWitnessed || quantified === "not-effective" ? "not-mediated" as const : "mixed" as const;
     return {
         ...base,
         derivedFromCausalCut: status === "causally-mediated",
@@ -671,7 +707,7 @@ function boundaryEvidence(
             testedCrossingLawIds,
             suppressedRecoveryLawIds,
             continuationEvidence,
-            counterfactualRunStatus: counterfactual.status,
+            counterfactualRuns,
         },
     };
 }
@@ -763,6 +799,16 @@ export function realizePersistentCausalWorld(
             ...base,
             status: "contradicted",
             reason: "persistent causal program validation failed",
+            paths: [],
+            assessments: [],
+            resourceUse: { closureExecutions: 0, pathCount: 0, closureLimit: options.maxClosures, pathLimit: options.maxPaths, exhaustive: true },
+        };
+    }
+    if ((options.causalOptions.counterfactualInternalEventAblationLawIds?.length ?? 0) > 0) {
+        return {
+            ...base,
+            status: "contradicted",
+            reason: "persistent factual execution cannot begin with counterfactual internal-event ablations",
             paths: [],
             assessments: [],
             resourceUse: { closureExecutions: 0, pathCount: 0, closureLimit: options.maxClosures, pathLimit: options.maxPaths, exhaustive: true },

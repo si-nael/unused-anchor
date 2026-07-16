@@ -65,9 +65,26 @@ export interface CausalExecutionOptions {
     worldWillEnabled?: boolean;
     cutAnchorIds?: string[];
     fieldOverrides?: Record<string, ExactValue>;
+    counterfactualInternalEventAblationLawIds?: string[];
     evaluationBudgetPerQuery?: number;
     maxInterventionCombinations?: number;
     maxInternalFrontiers?: number;
+}
+
+export type ResolvedCausalExecutionOptions = Omit<Required<CausalExecutionOptions>, "counterfactualInternalEventAblationLawIds">
+    & Pick<CausalExecutionOptions, "counterfactualInternalEventAblationLawIds">;
+
+export interface CausalInternalEventAblation {
+    id: string;
+    kind: "internal-event-nonrealization";
+    lawId: string;
+    worldId: string;
+    wouldHaveEventId: string;
+    guardEvidenceSubjectId: string;
+    frontierIndex: number;
+    causes: string[];
+    lawRetainedInProgram: true;
+    effectsSuppressed: true;
 }
 
 export interface CausalWorldState {
@@ -160,6 +177,7 @@ export interface CausalContinuation {
     realizedEventIds: string[];
     trace: CausalTraceEntry[];
     historyCommits: CausalHistoryCommit[];
+    internalEventAblations?: CausalInternalEventAblation[];
     emergenceAssessments: CausalEmergenceAssessment[];
     order: {
         kind: "causal-partial-order";
@@ -178,7 +196,7 @@ export interface AnchoredCausalRun {
     programDigest: string;
     status: "realized" | "stable" | "plural" | "underdetermined" | "blocked" | "contradicted";
     reason?: string;
-    options: Required<CausalExecutionOptions>;
+    options: ResolvedCausalExecutionOptions;
     diagnostics: CausalDiagnostic[];
     formalEvidence: CausalFormalEvidence[];
     initialWorldStates: CausalWorldState[];
@@ -259,6 +277,7 @@ interface MutableRealization {
     appliedLawIds: Set<string>;
     trace: CausalTraceEntry[];
     historyCommits: CausalHistoryCommit[];
+    internalEventAblations: CausalInternalEventAblation[];
     events: EventRecord[];
     evaluationOrder: string[];
     evaluationFrontiers: string[][];
@@ -450,10 +469,18 @@ function normalizedOptions(options: CausalExecutionOptions): Required<CausalExec
         worldWillEnabled: options.worldWillEnabled ?? true,
         cutAnchorIds: [...new Set(options.cutAnchorIds ?? [])].sort(),
         fieldOverrides: Object.fromEntries(Object.entries(options.fieldOverrides ?? {}).sort(([left], [right]) => left.localeCompare(right))),
+        counterfactualInternalEventAblationLawIds: [...new Set(options.counterfactualInternalEventAblationLawIds ?? [])].sort(),
         evaluationBudgetPerQuery: options.evaluationBudgetPerQuery ?? 10_000,
         maxInterventionCombinations: options.maxInterventionCombinations ?? 1_024,
         maxInternalFrontiers: options.maxInternalFrontiers ?? 1_024,
     };
+}
+
+function recordedOptions(options: Required<CausalExecutionOptions>): ResolvedCausalExecutionOptions {
+    const { counterfactualInternalEventAblationLawIds, ...ordinary } = cloneValue(options);
+    return counterfactualInternalEventAblationLawIds.length > 0
+        ? { ...ordinary, counterfactualInternalEventAblationLawIds }
+        : ordinary;
 }
 
 function evaluateQuery(
@@ -551,6 +578,7 @@ function cloneRealization(source: MutableRealization): MutableRealization {
         appliedLawIds: new Set(source.appliedLawIds),
         trace: cloneValue(source.trace),
         historyCommits: cloneValue(source.historyCommits),
+        internalEventAblations: cloneValue(source.internalEventAblations),
         events: cloneValue(source.events),
         evaluationOrder: [...source.evaluationOrder],
         evaluationFrontiers: cloneValue(source.evaluationFrontiers),
@@ -771,7 +799,8 @@ function closeInternalLaws(
             return {
                 status: "undetermined",
                 reason: "internal causal-closure frontier budget exhausted",
-                unresolvedLawIds: program.world.internalLaws.filter((law) => !mutable.appliedLawIds.has(law.id)).map((law) => law.id).sort(),
+                unresolvedLawIds: program.world.internalLaws.filter((law) => !mutable.appliedLawIds.has(law.id)
+                    && !options.counterfactualInternalEventAblationLawIds.includes(law.id)).map((law) => law.id).sort(),
                 formalEvidence,
                 formalSteps,
                 frontierCount,
@@ -803,7 +832,23 @@ function closeInternalLaws(
                     frontierCount,
                 };
             } else if (evaluated.evidence.value.value) {
-                enabled.push(law);
+                if (options.counterfactualInternalEventAblationLawIds.includes(law.id)) {
+                    mutable.appliedLawIds.add(law.id);
+                    mutable.internalEventAblations.push({
+                        id: `ablation:law:${law.id}`,
+                        kind: "internal-event-nonrealization",
+                        lawId: law.id,
+                        worldId: law.worldId,
+                        wouldHaveEventId: `law:${law.id}`,
+                        guardEvidenceSubjectId: evaluated.evidence.subjectId,
+                        frontierIndex: frontierCount,
+                        causes: predicateCauses(law.guard, mutable),
+                        lawRetainedInProgram: true,
+                        effectsSuppressed: true,
+                    });
+                } else {
+                    enabled.push(law);
+                }
             }
         }
         if (unresolved.length > 0) {
@@ -1060,6 +1105,9 @@ function continuationFromRealization(
             realizedEventIds: mutable.events.map((event) => event.id),
             trace: cloneValue(mutable.trace),
             historyCommits: cloneValue(mutable.historyCommits),
+            ...(mutable.internalEventAblations.length > 0
+                ? { internalEventAblations: cloneValue(mutable.internalEventAblations) }
+                : {}),
             emergenceAssessments: emergence.assessments,
             order: {
                 kind: "causal-partial-order",
@@ -1112,6 +1160,7 @@ function initializeRealization(
         appliedLawIds: new Set(),
         trace: [],
         historyCommits: [],
+        internalEventAblations: [],
         events: [],
         evaluationOrder: [],
         evaluationFrontiers: [],
@@ -1191,6 +1240,7 @@ export function realizeAnchoredCausalWorld(
     requestedOptions: CausalExecutionOptions = {},
 ): AnchoredCausalRun {
     const options = normalizedOptions(requestedOptions);
+    const runOptions = recordedOptions(options);
     const diagnostics = validateExecutableCausalProgram(program);
     const formalEvidence: CausalFormalEvidence[] = [];
     let formalSteps = 0;
@@ -1206,7 +1256,7 @@ export function realizeAnchoredCausalWorld(
         programDigest: digest(program),
         status,
         reason,
-        options,
+        options: runOptions,
         diagnostics,
         formalEvidence,
         initialWorldStates: [],
@@ -1237,6 +1287,12 @@ export function realizeAnchoredCausalWorld(
     const unknownOverrideKeys = Object.keys(options.fieldOverrides).filter((key) => !knownFieldKeys.has(key));
     if (unknownOverrideKeys.length > 0) {
         return emptyRun("contradicted", `unknown field override key(s): ${unknownOverrideKeys.join(", ")}`);
+    }
+    const knownInternalLawIds = new Set(program.world.internalLaws.map((law) => law.id));
+    const unknownAblationLawIds = options.counterfactualInternalEventAblationLawIds
+        .filter((lawId) => !knownInternalLawIds.has(lawId));
+    if (unknownAblationLawIds.length > 0) {
+        return emptyRun("contradicted", `unknown counterfactual internal-event ablation law id(s): ${unknownAblationLawIds.join(", ")}`);
     }
     if (!Number.isSafeInteger(options.evaluationBudgetPerQuery)
         || !Number.isSafeInteger(options.maxInterventionCombinations)

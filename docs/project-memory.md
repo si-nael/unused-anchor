@@ -1,6 +1,6 @@
 # Project Memory
 
-Last updated: 2026-07-15
+Last updated: 2026-07-17
 
 ## Purpose
 
@@ -26,6 +26,7 @@ The target is not decorative cosmological vocabulary. The runtime should eventua
 - **Time/order:** Bubble assumes no universal clock. A world may be invariant, reversible, cyclic, causally or partially ordered, branching, terminal, or history-directed; the durable history arrow begins only from an irreversible commitment.
 - **Observation:** bounded causal contact, not automatically a passive complete read. A bubble may persist as compressed lawful existence before contact.
 - **Persistent causal structure:** a recurrent component derived from conjunctive law dependencies whose boundary-mediated hypercuts, invariant identity, universally effective retained-memory counterfactual, recurrent-reference restoration, and outward influence all have exact evidence. Configuration recurrence is kept separate from monotone committed anchor history. It is not automatically alive, agentic, conscious, a protagonist, or a story.
+- **Teleonomic capacity:** a persistent component whose exact recurrent configurations yield a bounded invariant viability kernel and at least two causally regenerated, internally state-differentiated response laws, each necessary under universal same-program response-event nonrealization and each semantically dependent on retained memory under universal erasure, while the same component and kernel persist on every lawful path with World Will disabled and every anchor cut. It is not yet deliberative choice, agency, life, protagonist identity, or story.
 
 The canonical ontology is [architecture/sea-anchor-model.md](architecture/sea-anchor-model.md). These definitions remain a working ontology and must not be claimed as a perfect substitute for unrecorded user intent.
 
@@ -52,7 +53,9 @@ Completed bounded `v0.5.2` corrects the universal interpretation of that seam. I
 
 Completed bounded `v0.5.3` adds an exact persistence layer without changing the `v0.5.2` kernel. It derives recurrent field components from a field/law factor graph, retains conjunctive dependencies for two-sided boundary-mediated hypercuts, unfolds all lawful closure continuations, and certifies finite causal-configuration lassos without a universal clock while preserving committed anchor history as a separate monotone ledger. Identity invariance, memory erasure, boundary cut ablation, negative-sea-caused deviation and recurrent-reference restoration, and outward influence are universally checked across lawful counterfactual continuations. The canonical component remains unlabeled; persistence is not yet agency or life.
 
-The repository still does not constitute the complete Bubble universe. The bounded executor derives one persistent causal structure but not life, internally maintained goals, choice among affordances, agency, relationships, populations, or narrative projection; nor does it provide general coinductive/open-ended dynamics, concrete self-realized branch/spawn/collapse artifacts, a global multi-world sea field, cross-world transfer, a full anchor identity or time-order calculus, multi-region collapse, probabilistic-fractal worldhood, or a first-class external observer-agent model. Deterministic re-execution proves continuity only for the exact recorded program and runtime semantics, not a universal philosophical same-world theorem.
+Completed bounded `v0.5.4` adds an evidence-only teleonomic layer over the same persistent program. It projects certified multi-state recurrence into a finite invariant component-configuration set, derives response affordances only from internal negative-sea deviation/restoration chains, suppresses every realized response event while retaining its program and law and universally checks that witnessed continuations leave that set, erases retained memory per response and requires that response to disappear universally, and requires distinct responses to be differentiated by causally regenerated component state. A second full run disables World Will and cuts every anchor; path-indexed evidence requires every lawful continuation path to preserve the same component and kernel. The canonical phase world is accompanied by an independent distributed-channel world with no scalar phase coordinate. No goal, action menu, agent, protagonist, or selector is authored; the result remains below agency.
+
+The repository still does not constitute the complete Bubble universe. The bounded executor derives teleonomic persistent causal structures in canonical scalar and distributed-channel state forms but not life, deliberative counterfactual choice, agency, relationships, populations, or narrative projection; nor does it provide general coinductive/open-ended dynamics, concrete self-realized branch/spawn/collapse artifacts, a global multi-world sea field, cross-world transfer, a full anchor identity or time-order calculus, multi-region collapse, probabilistic-fractal worldhood, or a first-class external observer-agent model. Deterministic re-execution proves continuity only for the exact recorded program and runtime semantics, not a universal philosophical same-world theorem.
 
 ## Release Discipline
 
@@ -60,9 +63,9 @@ Progress remains closure-first through the `v0.5.x` line. `v0.5.0` opens Phase 1
 
 The `v0.4.9` convergence plan is complete. Its single semantic closure is evidence-bounded source attribution for Q-014: internal world event, negative-sea pressure, anchor drift, positive-sea shift, or unresolved source. The completed boundary is recorded in [architecture/v0.4.9-closure-plan.md](architecture/v0.4.9-closure-plan.md).
 
-The release after `v0.4.9` is `v0.5.0`; its completed successors are `v0.5.1`, the forward corrective `v0.5.2`, and the bounded persistence release `v0.5.3`. `v0.5.3` certifies one unlabeled self-maintaining causal component and does not certify life, agency, or OB-001 whole-universe completion. No next release identifier is chosen by this record. Phase 2 observer, agent, and comparative benchmark work must wait until the bubble universe itself is sufficiently complete.
+The release after `v0.4.9` is `v0.5.0`; its completed successors are `v0.5.1`, the forward corrective `v0.5.2`, the bounded persistence release `v0.5.3`, and the bounded teleonomic-capacity release `v0.5.4`. `v0.5.4` closes the internally maintained norm plus plural organically regenerated, event-necessary, memory-dependent response prerequisite and does not certify life, agency, endogenous branching, or OB-001 whole-universe completion. No next release identifier is chosen by this record. Phase 2 observer, external-agent, and comparative benchmark work must wait until the bubble universe itself is sufficiently complete.
 
-Recursive self-construction is a later horizon, not a `v0.5.1`, `v0.5.2`, or `v0.5.3` gate. A future Bubble may generate modules, synthesize and execute verified code, and construct a successor form of itself, but this direction reopens only after every prior idea obligation is realized and the author accepts the current Bubble universe as complete.
+Recursive self-construction is a later horizon, not a `v0.5.1` through `v0.5.4` gate. A future Bubble may generate modules, synthesize and execute verified code, and construct a successor form of itself, but this direction reopens only after every prior idea obligation is realized and the author accepts the current Bubble universe as complete.
 
 ## Research Preservation
 

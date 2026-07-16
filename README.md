@@ -129,6 +129,7 @@ The repository now contains an executable Bubble Language stack rather than only
 - completed bounded `v0.5.1`: exact intensional families plus autonomous protagonist action, sea-coupled viability, post-state constrained World Will, identity-checked anchor intervention, causal story/history, inspection, and deterministic same-program replay
 - completed bounded `v0.5.2`: actor-neutral causal worlds whose exact state guards generate events and generic structure, protected internal fields, pre/post identity-checked anchored World-Will conditions, honest non-commuting and bounded-search underdetermination, exact layered traces, inspection, and integrity-checked emergence-preserving replay; `v0.5.1` remains a compatible agent-bearing specialization
 - completed bounded `v0.5.3`: unlabeled recurrent components derived from conjunctive law dependencies, boundary-mediated causal hypercuts, causal-configuration recurrence separated from monotone anchor history, universally quantified memory/cut counterfactuals, recurrent-reference restoration after negative-sea deviation, outward influence, and integrity-checked persistence replay
+- completed bounded `v0.5.4`: an authored-goal-free invariant viability kernel over recurrent components, causally regenerated plural response affordances, universal same-program response-event nonrealization, per-response semantic memory erasure, World-Will-disabled/all-anchors-cut autonomy evidence, canonical phase and independent distributed-channel worlds, no host affordance selector, and integrity-checked teleonomic replay
 
 Current stabilization commands:
 
@@ -143,11 +144,13 @@ Current stabilization commands:
 9. `npm run verify:causal-example`
 10. `npm run verify:persistence`
 11. `npm run verify:persistence-example`
-12. `npm run verify:examples`
-13. `npm run verify:collapse`
-14. `npm run verify:replay`
-15. `npm run verify:attribution`
-16. `npm run verify:self-realization`
+12. `npm run verify:teleonomy`
+13. `npm run verify:teleonomy-example`
+14. `npm run verify:examples`
+15. `npm run verify:collapse`
+16. `npm run verify:replay`
+17. `npm run verify:attribution`
+18. `npm run verify:self-realization`
 
 Representative source examples:
 
@@ -163,7 +166,7 @@ Representative source examples:
 - [examples/self-organizing-field.world.json](examples/self-organizing-field.world.json)
 - [examples/self-maintaining-field.world.json](examples/self-maintaining-field.world.json)
 
-`v0.5.0` supplies the first bounded vertical world flow. Completed `v0.5.1` proves one explicit agent-bearing narrative seam. Completed bounded `v0.5.2` generalizes the core so state-bound internal laws generate causal events and structure without requiring a protagonist or plot graph. Completed bounded `v0.5.3` derives one recurrent causal component and verifies boundary, identity, memory, repair, and influence across closures without naming it an agent or imposing universal time. None of these releases is the completed Bubble universe: goals, affordance choice, agency, relations, populations, open-ended dynamics, global multi-world seas, cross-world anchors, and the full identity calculus remain open before Phase 2.
+`v0.5.0` supplies the first bounded vertical world flow. Completed `v0.5.1` proves one explicit agent-bearing narrative seam. Completed bounded `v0.5.2` generalizes the core so state-bound internal laws generate causal events and structure without requiring a protagonist or plot graph. Completed bounded `v0.5.3` derives one recurrent causal component and verifies boundary, identity, memory, repair, and influence across closures. Completed bounded `v0.5.4` derives finite invariant viability kernels and causally regenerated plural memory-dependent response events without authoring a goal or using a host selector. This is teleonomic capacity, not yet life or agency. None of these versions is the completed Bubble universe: endogenous branching, deliberative choice, agency, relations, narrative projection, populations, open-ended dynamics, global multi-world seas, cross-world anchors, and the full identity calculus remain open before Phase 2.
 
 ## Repository Notes
 
@@ -180,5 +183,7 @@ Representative source examples:
 - [docs/reference/anchored-causal-world.md](docs/reference/anchored-causal-world.md): causal IR, law closure, World-Will constraints, CLI, inspection, and replay contract
 - [docs/architecture/v0.5.3-persistent-causal-structure.md](docs/architecture/v0.5.3-persistent-causal-structure.md): closure coalgebra, derived causal boundary, memory and maintenance counterfactuals, and non-closure boundary
 - [docs/reference/persistent-causal-world.md](docs/reference/persistent-causal-world.md): persistence program, execution, inspection, CLI, and replay contract
+- [docs/architecture/v0.5.4-endogenous-teleonomy.md](docs/architecture/v0.5.4-endogenous-teleonomy.md): invariant viability, organically differentiated necessary responses, autonomy counterfactual, and non-agency boundary
+- [docs/reference/teleonomic-causal-world.md](docs/reference/teleonomic-causal-world.md): teleonomic execution, same-program response-event nonrealization, organic discriminator provenance, inspection, CLI, and replay contract
 - [docs/architecture/v0.4.9-closure-plan.md](docs/architecture/v0.4.9-closure-plan.md): completed bounded convergence gate before `v0.5`
 - [docs/architecture/v0.5-self-realization-plan.md](docs/architecture/v0.5-self-realization-plan.md): implemented `v0.5` Phase 1 vertical world-flow boundary and `v0.5.1` continuation queue

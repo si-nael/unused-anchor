@@ -85,7 +85,7 @@
             }
           },
           {
-            "id": "stress-ready",
+            "id": "stress-route-a-ready",
             "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
             "valueKind": "boolean",
             "parameters": [
@@ -143,7 +143,65 @@
             }
           },
           {
-            "id": "repair-ready",
+            "id": "stress-route-b-ready",
+            "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+            "valueKind": "boolean",
+            "parameters": [
+              { "name": "negative", "valueKind": "rational" },
+              { "name": "boundary", "valueKind": "rational" },
+              { "name": "phase", "valueKind": "rational" },
+              { "name": "identity", "valueKind": "rational" },
+              { "name": "integrity", "valueKind": "rational" }
+            ],
+            "body": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "binary",
+                "operator": "and",
+                "left": {
+                  "kind": "binary",
+                  "operator": "and",
+                  "left": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": { "kind": "parameter", "name": "negative" },
+                    "right": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+                  },
+                  "right": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": { "kind": "parameter", "name": "boundary" },
+                    "right": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+                  }
+                },
+                "right": {
+                  "kind": "binary",
+                  "operator": "equal",
+                  "left": { "kind": "parameter", "name": "phase" },
+                  "right": { "kind": "value", "value": { "kind": "rational", "numerator": "2", "denominator": "1" } }
+                }
+              },
+              "right": {
+                "kind": "binary",
+                "operator": "and",
+                "left": {
+                  "kind": "binary",
+                  "operator": "equal",
+                  "left": { "kind": "parameter", "name": "identity" },
+                  "right": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+                },
+                "right": {
+                  "kind": "binary",
+                  "operator": "equal",
+                  "left": { "kind": "parameter", "name": "integrity" },
+                  "right": { "kind": "value", "value": { "kind": "rational", "numerator": "2", "denominator": "1" } }
+                }
+              }
+            }
+          },
+          {
+            "id": "repair-route-a-ready",
             "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
             "valueKind": "boolean",
             "parameters": [
@@ -167,6 +225,64 @@
                     "operator": "equal",
                     "left": { "kind": "parameter", "name": "phase" },
                     "right": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+                  },
+                  "right": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": { "kind": "parameter", "name": "boundary" },
+                    "right": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+                  }
+                },
+                "right": {
+                  "kind": "binary",
+                  "operator": "equal",
+                  "left": { "kind": "parameter", "name": "memory" },
+                  "right": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+                }
+              },
+              "right": {
+                "kind": "binary",
+                "operator": "and",
+                "left": {
+                  "kind": "binary",
+                  "operator": "equal",
+                  "left": { "kind": "parameter", "name": "identity" },
+                  "right": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+                },
+                "right": {
+                  "kind": "binary",
+                  "operator": "equal",
+                  "left": { "kind": "parameter", "name": "integrity" },
+                  "right": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+                }
+              }
+            }
+          },
+          {
+            "id": "repair-route-b-ready",
+            "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+            "valueKind": "boolean",
+            "parameters": [
+              { "name": "phase", "valueKind": "rational" },
+              { "name": "boundary", "valueKind": "rational" },
+              { "name": "memory", "valueKind": "rational" },
+              { "name": "identity", "valueKind": "rational" },
+              { "name": "integrity", "valueKind": "rational" }
+            ],
+            "body": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "binary",
+                "operator": "and",
+                "left": {
+                  "kind": "binary",
+                  "operator": "and",
+                  "left": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": { "kind": "parameter", "name": "phase" },
+                    "right": { "kind": "value", "value": { "kind": "rational", "numerator": "3", "denominator": "1" } }
                   },
                   "right": {
                     "kind": "binary",
@@ -345,7 +461,7 @@
           "worldId": "maintenance-world",
           "guard": {
             "id": "negative-sea-crosses-formed-boundary",
-            "query": { "familyId": "stress-ready", "at": { "coordinate": "0" }, "parameters": {} },
+            "query": { "familyId": "stress-route-a-ready", "at": { "coordinate": "0" }, "parameters": {} },
             "fieldParameters": [
               { "parameterName": "negative", "worldId": "maintenance-world", "fieldId": "negative" },
               { "parameterName": "boundary", "worldId": "maintenance-world", "fieldId": "boundary" },
@@ -357,6 +473,28 @@
           "effects": [
             { "fieldId": "integrity", "operation": "subtract", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
             { "fieldId": "phase", "operation": "set", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
+            { "fieldId": "signal", "operation": "set", "value": { "kind": "rational", "numerator": "0", "denominator": "1" } }
+          ],
+          "application": "once-per-realization",
+          "reversibility": "irreversible"
+        },
+        {
+          "id": "negative-sea-erosion-route-b",
+          "worldId": "maintenance-world",
+          "guard": {
+            "id": "negative-sea-crosses-route-b-boundary",
+            "query": { "familyId": "stress-route-b-ready", "at": { "coordinate": "0" }, "parameters": {} },
+            "fieldParameters": [
+              { "parameterName": "negative", "worldId": "maintenance-world", "fieldId": "negative" },
+              { "parameterName": "boundary", "worldId": "maintenance-world", "fieldId": "boundary" },
+              { "parameterName": "phase", "worldId": "maintenance-world", "fieldId": "phase" },
+              { "parameterName": "identity", "worldId": "maintenance-world", "fieldId": "identity" },
+              { "parameterName": "integrity", "worldId": "maintenance-world", "fieldId": "integrity" }
+            ]
+          },
+          "effects": [
+            { "fieldId": "integrity", "operation": "subtract", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
+            { "fieldId": "phase", "operation": "set", "value": { "kind": "rational", "numerator": "3", "denominator": "1" } },
             { "fieldId": "signal", "operation": "set", "value": { "kind": "rational", "numerator": "0", "denominator": "1" } }
           ],
           "application": "once-per-realization",
@@ -383,7 +521,33 @@
           "worldId": "maintenance-world",
           "guard": {
             "id": "repair-through-retained-structure",
-            "query": { "familyId": "repair-ready", "at": { "coordinate": "0" }, "parameters": {} },
+            "query": { "familyId": "repair-route-a-ready", "at": { "coordinate": "0" }, "parameters": {} },
+            "fieldParameters": [
+              { "parameterName": "phase", "worldId": "maintenance-world", "fieldId": "phase" },
+              { "parameterName": "boundary", "worldId": "maintenance-world", "fieldId": "boundary" },
+              { "parameterName": "memory", "worldId": "maintenance-world", "fieldId": "memory" },
+              { "parameterName": "identity", "worldId": "maintenance-world", "fieldId": "identity" },
+              { "parameterName": "integrity", "worldId": "maintenance-world", "fieldId": "integrity" }
+            ]
+          },
+          "effects": [
+            { "fieldId": "integrity", "operation": "add", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
+            { "fieldId": "identity", "operation": "set", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
+            { "fieldId": "memory", "operation": "set", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
+            { "fieldId": "boundary", "operation": "set", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
+            { "fieldId": "phase", "operation": "set", "value": { "kind": "rational", "numerator": "2", "denominator": "1" } },
+            { "fieldId": "signal", "operation": "set", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+          ],
+          "application": "once-per-realization",
+          "reversibility": "irreversible",
+          "commitAffectedFieldIds": ["integrity", "identity", "memory", "boundary"]
+        },
+        {
+          "id": "restore-from-memory-route-b",
+          "worldId": "maintenance-world",
+          "guard": {
+            "id": "repair-route-b-through-retained-structure",
+            "query": { "familyId": "repair-route-b-ready", "at": { "coordinate": "0" }, "parameters": {} },
             "fieldParameters": [
               { "parameterName": "phase", "worldId": "maintenance-world", "fieldId": "phase" },
               { "parameterName": "boundary", "worldId": "maintenance-world", "fieldId": "boundary" },
@@ -398,7 +562,7 @@
             { "fieldId": "memory", "operation": "set", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
             { "fieldId": "boundary", "operation": "set", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
             { "fieldId": "phase", "operation": "set", "value": { "kind": "rational", "numerator": "0", "denominator": "1" } },
-            { "fieldId": "signal", "operation": "set", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+            { "fieldId": "signal", "operation": "set", "value": { "kind": "rational", "numerator": "2", "denominator": "1" } }
           ],
           "application": "once-per-realization",
           "reversibility": "irreversible",

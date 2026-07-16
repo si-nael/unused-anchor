@@ -25,7 +25,9 @@
       "memberLawIds": [
         "form-structure",
         "negative-sea-erosion",
-        "restore-from-memory"
+        "negative-sea-erosion-route-b",
+        "restore-from-memory",
+        "restore-from-memory-route-b"
       ],
       "fieldRoles": [
         {
@@ -68,7 +70,29 @@
           }
         },
         {
+          "lawId": "negative-sea-erosion-route-b",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "negative"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "integrity"
+          }
+        },
+        {
           "lawId": "negative-sea-erosion",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "negative"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "phase"
+          }
+        },
+        {
+          "lawId": "negative-sea-erosion-route-b",
           "from": {
             "worldId": "maintenance-world",
             "fieldId": "negative"
@@ -92,7 +116,29 @@
           }
         },
         {
+          "lawId": "negative-sea-erosion-route-b",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "boundary"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
           "lawId": "restore-from-memory",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "boundary"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
+          "lawId": "restore-from-memory-route-b",
           "from": {
             "worldId": "maintenance-world",
             "fieldId": "boundary"
@@ -114,7 +160,29 @@
           }
         },
         {
+          "lawId": "negative-sea-erosion-route-b",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "identity"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
           "lawId": "restore-from-memory",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "identity"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
+          "lawId": "restore-from-memory-route-b",
           "from": {
             "worldId": "maintenance-world",
             "fieldId": "identity"
@@ -136,7 +204,29 @@
           }
         },
         {
+          "lawId": "negative-sea-erosion-route-b",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "integrity"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
           "lawId": "restore-from-memory",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "integrity"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
+          "lawId": "restore-from-memory-route-b",
           "from": {
             "worldId": "maintenance-world",
             "fieldId": "integrity"
@@ -158,7 +248,29 @@
           }
         },
         {
+          "lawId": "restore-from-memory-route-b",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "memory"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
           "lawId": "negative-sea-erosion",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "phase"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
+          "lawId": "negative-sea-erosion-route-b",
           "from": {
             "worldId": "maintenance-world",
             "fieldId": "phase"
@@ -178,9 +290,36 @@
             "worldId": "maintenance-world",
             "fieldId": "signal"
           }
+        },
+        {
+          "lawId": "restore-from-memory-route-b",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "phase"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
         }
       ],
       "incomingDependencies": [
+        {
+          "lawId": "negative-sea-erosion-route-b",
+          "worldId": "maintenance-world",
+          "guardFieldKeys": [
+            "maintenance-world.boundary",
+            "maintenance-world.identity",
+            "maintenance-world.integrity",
+            "maintenance-world.negative",
+            "maintenance-world.phase"
+          ],
+          "effectFieldKeys": [
+            "maintenance-world.integrity",
+            "maintenance-world.phase",
+            "maintenance-world.signal"
+          ]
+        },
         {
           "lawId": "negative-sea-erosion",
           "worldId": "maintenance-world",
@@ -200,6 +339,22 @@
       ],
       "outgoingDependencies": [
         {
+          "lawId": "negative-sea-erosion-route-b",
+          "worldId": "maintenance-world",
+          "guardFieldKeys": [
+            "maintenance-world.boundary",
+            "maintenance-world.identity",
+            "maintenance-world.integrity",
+            "maintenance-world.negative",
+            "maintenance-world.phase"
+          ],
+          "effectFieldKeys": [
+            "maintenance-world.integrity",
+            "maintenance-world.phase",
+            "maintenance-world.signal"
+          ]
+        },
+        {
           "lawId": "negative-sea-erosion",
           "worldId": "maintenance-world",
           "guardFieldKeys": [
@@ -211,6 +366,25 @@
           ],
           "effectFieldKeys": [
             "maintenance-world.integrity",
+            "maintenance-world.phase",
+            "maintenance-world.signal"
+          ]
+        },
+        {
+          "lawId": "restore-from-memory-route-b",
+          "worldId": "maintenance-world",
+          "guardFieldKeys": [
+            "maintenance-world.boundary",
+            "maintenance-world.identity",
+            "maintenance-world.integrity",
+            "maintenance-world.memory",
+            "maintenance-world.phase"
+          ],
+          "effectFieldKeys": [
+            "maintenance-world.boundary",
+            "maintenance-world.identity",
+            "maintenance-world.integrity",
+            "maintenance-world.memory",
             "maintenance-world.phase",
             "maintenance-world.signal"
           ]
@@ -282,6 +456,17 @@
           }
         },
         {
+          "lawId": "negative-sea-erosion-route-b",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "negative"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "integrity"
+          }
+        },
+        {
           "lawId": "negative-sea-erosion",
           "from": {
             "worldId": "maintenance-world",
@@ -293,7 +478,29 @@
           }
         },
         {
+          "lawId": "negative-sea-erosion-route-b",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "negative"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "phase"
+          }
+        },
+        {
           "lawId": "negative-sea-erosion",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "negative"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
+          "lawId": "negative-sea-erosion-route-b",
           "from": {
             "worldId": "maintenance-world",
             "fieldId": "negative"
@@ -318,6 +525,22 @@
         }
       ],
       "outgoingDependencies": [
+        {
+          "lawId": "negative-sea-erosion-route-b",
+          "worldId": "maintenance-world",
+          "guardFieldKeys": [
+            "maintenance-world.boundary",
+            "maintenance-world.identity",
+            "maintenance-world.integrity",
+            "maintenance-world.negative",
+            "maintenance-world.phase"
+          ],
+          "effectFieldKeys": [
+            "maintenance-world.integrity",
+            "maintenance-world.phase",
+            "maintenance-world.signal"
+          ]
+        },
         {
           "lawId": "negative-sea-erosion",
           "worldId": "maintenance-world",
@@ -434,7 +657,29 @@
           }
         },
         {
+          "lawId": "negative-sea-erosion-route-b",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "boundary"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
           "lawId": "restore-from-memory",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "boundary"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
+          "lawId": "restore-from-memory-route-b",
           "from": {
             "worldId": "maintenance-world",
             "fieldId": "boundary"
@@ -456,7 +701,29 @@
           }
         },
         {
+          "lawId": "negative-sea-erosion-route-b",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "identity"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
           "lawId": "restore-from-memory",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "identity"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
+          "lawId": "restore-from-memory-route-b",
           "from": {
             "worldId": "maintenance-world",
             "fieldId": "identity"
@@ -478,7 +745,29 @@
           }
         },
         {
+          "lawId": "negative-sea-erosion-route-b",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "integrity"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
           "lawId": "restore-from-memory",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "integrity"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
+          "lawId": "restore-from-memory-route-b",
           "from": {
             "worldId": "maintenance-world",
             "fieldId": "integrity"
@@ -500,7 +789,29 @@
           }
         },
         {
+          "lawId": "restore-from-memory-route-b",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "memory"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
           "lawId": "negative-sea-erosion",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "negative"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
+          "lawId": "negative-sea-erosion-route-b",
           "from": {
             "worldId": "maintenance-world",
             "fieldId": "negative"
@@ -522,7 +833,29 @@
           }
         },
         {
+          "lawId": "negative-sea-erosion-route-b",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "phase"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
           "lawId": "restore-from-memory",
+          "from": {
+            "worldId": "maintenance-world",
+            "fieldId": "phase"
+          },
+          "to": {
+            "worldId": "maintenance-world",
+            "fieldId": "signal"
+          }
+        },
+        {
+          "lawId": "restore-from-memory-route-b",
           "from": {
             "worldId": "maintenance-world",
             "fieldId": "phase"
@@ -536,6 +869,22 @@
       "outgoingEdges": [],
       "incomingDependencies": [
         {
+          "lawId": "negative-sea-erosion-route-b",
+          "worldId": "maintenance-world",
+          "guardFieldKeys": [
+            "maintenance-world.boundary",
+            "maintenance-world.identity",
+            "maintenance-world.integrity",
+            "maintenance-world.negative",
+            "maintenance-world.phase"
+          ],
+          "effectFieldKeys": [
+            "maintenance-world.integrity",
+            "maintenance-world.phase",
+            "maintenance-world.signal"
+          ]
+        },
+        {
           "lawId": "negative-sea-erosion",
           "worldId": "maintenance-world",
           "guardFieldKeys": [
@@ -547,6 +896,25 @@
           ],
           "effectFieldKeys": [
             "maintenance-world.integrity",
+            "maintenance-world.phase",
+            "maintenance-world.signal"
+          ]
+        },
+        {
+          "lawId": "restore-from-memory-route-b",
+          "worldId": "maintenance-world",
+          "guardFieldKeys": [
+            "maintenance-world.boundary",
+            "maintenance-world.identity",
+            "maintenance-world.integrity",
+            "maintenance-world.memory",
+            "maintenance-world.phase"
+          ],
+          "effectFieldKeys": [
+            "maintenance-world.boundary",
+            "maintenance-world.identity",
+            "maintenance-world.integrity",
+            "maintenance-world.memory",
             "maintenance-world.phase",
             "maintenance-world.signal"
           ]
@@ -606,7 +974,7 @@
           "id": "path:root:closure:1:continuation:autonomous",
           "cause": "initial-configuration",
           "inputConfigurationDigest": "323b1fc36acc65d9fe8d438cca18ee8a28d9d7e2a58fc3746c7713e8670d759e",
-          "outputConfigurationDigest": "18d8a4685493691d8ece6d285d4fdc5326d5f581ffc6fcefdb80d5aa205cdc24",
+          "outputConfigurationDigest": "ae0f37bf8b6aa4aa78f54112c0dfe8af9b1aba9c8b3004644c680b6a6472306f",
           "inputWorldStates": [
             {
               "worldId": "maintenance-world",
@@ -705,7 +1073,7 @@
                 },
                 "phase": {
                   "kind": "rational",
-                  "numerator": "0",
+                  "numerator": "2",
                   "denominator": "1"
                 },
                 "positive": {
@@ -768,14 +1136,14 @@
                   "denominator": "1"
                 }
               },
-              "stateDigest": "786b048f7cb12b215bd0816346088bd731d767e8b120bb7acf3578d4601d12f1"
+              "stateDigest": "e7abc839b071ad1391fc34221083fbf9cbc2800732b7dada39f68c48ca35fe16"
             }
           ],
-          "historyExtensionDigest": "296395ac7a9fe93eae60409f104b26d3ba9b97ae2790860f0ba967a8b73788e8",
+          "historyExtensionDigest": "42a05947ebdf8c25d4bb552062500b50094aeaf30919f476511c34aa1ec7cd67",
           "selectedContinuationId": "continuation:autonomous",
           "run": {
             "mode": "bubble-anchored-causal-run.v2",
-            "programDigest": "fd3cacff367d94cb33820bfae1cd3eec5a4e9d835ad69044fa0c92986a9610dd",
+            "programDigest": "8e6cae3ffe169fdb7e9843ad43fe07d1a09221f582197fb7b7150cf59bbeea75",
             "status": "stable",
             "reason": "autonomous closure is not improved by any admissible intervention",
             "options": {
@@ -1090,7 +1458,55 @@
                 "proof": [
                   {
                     "id": "coordinate-proof:1",
-                    "familyId": "stress-ready",
+                    "familyId": "stress-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:0:negative-sea-erosion-route-b:negative-sea-crosses-route-b-boundary",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "stress-route-b-ready",
                     "coordinate": {
                       "coordinate": "0"
                     },
@@ -1166,7 +1582,55 @@
                 "proof": [
                   {
                     "id": "coordinate-proof:1",
-                    "familyId": "repair-ready",
+                    "familyId": "repair-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:0:restore-from-memory-route-b:repair-route-b-through-retained-structure",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "repair-route-b-ready",
                     "coordinate": {
                       "coordinate": "0"
                     },
@@ -1214,7 +1678,55 @@
                 "proof": [
                   {
                     "id": "coordinate-proof:1",
-                    "familyId": "stress-ready",
+                    "familyId": "stress-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:1:negative-sea-erosion-route-b:negative-sea-crosses-route-b-boundary",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "stress-route-b-ready",
                     "coordinate": {
                       "coordinate": "0"
                     },
@@ -1290,7 +1802,7 @@
                 "proof": [
                   {
                     "id": "coordinate-proof:1",
-                    "familyId": "repair-ready",
+                    "familyId": "repair-route-a-ready",
                     "coordinate": {
                       "coordinate": "0"
                     },
@@ -1328,6 +1840,102 @@
                 ]
               },
               {
+                "subjectId": "autonomous:frontier:1:restore-from-memory-route-b:repair-route-b-through-retained-structure",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "repair-route-b-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:2:negative-sea-erosion-route-b:negative-sea-crosses-route-b-boundary",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "stress-route-b-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
                 "subjectId": "autonomous:frontier:2:restore-from-memory:repair-through-retained-structure",
                 "purpose": "law-guard",
                 "status": "resolved",
@@ -1338,7 +1946,7 @@
                 "proof": [
                   {
                     "id": "coordinate-proof:1",
-                    "familyId": "repair-ready",
+                    "familyId": "repair-route-a-ready",
                     "coordinate": {
                       "coordinate": "0"
                     },
@@ -1366,6 +1974,150 @@
                       "phase": {
                         "kind": "rational",
                         "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:2:restore-from-memory-route-b:repair-route-b-through-retained-structure",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "repair-route-b-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:3:negative-sea-erosion-route-b:negative-sea-crosses-route-b-boundary",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "stress-route-b-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:3:restore-from-memory-route-b:repair-route-b-through-retained-structure",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "repair-route-b-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "2",
                         "denominator": "1"
                       }
                     },
@@ -1594,7 +2346,7 @@
                       },
                       "phase": {
                         "kind": "rational",
-                        "numerator": "0",
+                        "numerator": "2",
                         "denominator": "1"
                       },
                       "positive": {
@@ -2256,12 +3008,12 @@
                         },
                         "operand": {
                           "kind": "rational",
-                          "numerator": "0",
+                          "numerator": "2",
                           "denominator": "1"
                         },
                         "after": {
                           "kind": "rational",
-                          "numerator": "0",
+                          "numerator": "2",
                           "denominator": "1"
                         }
                       },
@@ -2397,7 +3149,7 @@
                         "denominator": "1"
                       }
                     },
-                    "stateDigest": "786b048f7cb12b215bd0816346088bd731d767e8b120bb7acf3578d4601d12f1"
+                    "stateDigest": "e7abc839b071ad1391fc34221083fbf9cbc2800732b7dada39f68c48ca35fe16"
                   }
                 ],
                 "emergenceAssessments": [
@@ -2588,8 +3340,8 @@
             ],
             "unresolvedAlternativeIds": [],
             "resourceUse": {
-              "formalQueryCount": 22,
-              "formalEvaluationSteps": 152,
+              "formalQueryCount": 30,
+              "formalEvaluationSteps": 304,
               "internalFrontierCount": 3,
               "interventionCombinationCount": 0,
               "combinationLimit": 1024,
@@ -2635,7 +3387,7 @@
                     },
                     "phase": {
                       "kind": "rational",
-                      "numerator": "0",
+                      "numerator": "2",
                       "denominator": "1"
                     },
                     "positive": {
@@ -3297,12 +4049,12 @@
                       },
                       "operand": {
                         "kind": "rational",
-                        "numerator": "0",
+                        "numerator": "2",
                         "denominator": "1"
                       },
                       "after": {
                         "kind": "rational",
-                        "numerator": "0",
+                        "numerator": "2",
                         "denominator": "1"
                       }
                     },
@@ -3438,7 +4190,7 @@
                       "denominator": "1"
                     }
                   },
-                  "stateDigest": "786b048f7cb12b215bd0816346088bd731d767e8b120bb7acf3578d4601d12f1"
+                  "stateDigest": "e7abc839b071ad1391fc34221083fbf9cbc2800732b7dada39f68c48ca35fe16"
                 }
               ],
               "emergenceAssessments": [
@@ -3634,8 +4386,8 @@
           "id": "path:root:closure:2:continuation:autonomous",
           "cause": "configuration-continuation",
           "causedByClosureId": "path:root:closure:1:continuation:autonomous",
-          "inputConfigurationDigest": "18d8a4685493691d8ece6d285d4fdc5326d5f581ffc6fcefdb80d5aa205cdc24",
-          "outputConfigurationDigest": "18d8a4685493691d8ece6d285d4fdc5326d5f581ffc6fcefdb80d5aa205cdc24",
+          "inputConfigurationDigest": "ae0f37bf8b6aa4aa78f54112c0dfe8af9b1aba9c8b3004644c680b6a6472306f",
+          "outputConfigurationDigest": "16e89905bdd5f482018762e34d65638bf6b361e89bdf06028772b4357ee8b40b",
           "inputWorldStates": [
             {
               "worldId": "maintenance-world",
@@ -3667,7 +4419,7 @@
                 },
                 "phase": {
                   "kind": "rational",
-                  "numerator": "0",
+                  "numerator": "2",
                   "denominator": "1"
                 },
                 "positive": {
@@ -3749,7 +4501,7 @@
                 },
                 "signal": {
                   "kind": "rational",
-                  "numerator": "1",
+                  "numerator": "2",
                   "denominator": "1"
                 },
                 "viability": {
@@ -3772,8 +4524,8 @@
           ],
           "historyExtension": [
             {
-              "eventId": "commit:law:restore-from-memory",
-              "causedByEventId": "law:restore-from-memory",
+              "eventId": "commit:law:restore-from-memory-route-b",
+              "causedByEventId": "law:restore-from-memory-route-b",
               "worldId": "maintenance-world",
               "affectedFields": {
                 "integrity": {
@@ -3797,14 +4549,14 @@
                   "denominator": "1"
                 }
               },
-              "stateDigest": "786b048f7cb12b215bd0816346088bd731d767e8b120bb7acf3578d4601d12f1"
+              "stateDigest": "ab5c9b2aebaa2c8843432508e5c6ac855038334eca3438b789e905e81a1516c5"
             }
           ],
-          "historyExtensionDigest": "296395ac7a9fe93eae60409f104b26d3ba9b97ae2790860f0ba967a8b73788e8",
+          "historyExtensionDigest": "50af5434b8a1aabc9dc9a30f6f9fd89eab8b2743faf2ddb9512a65712787629f",
           "selectedContinuationId": "continuation:autonomous",
           "run": {
             "mode": "bubble-anchored-causal-run.v2",
-            "programDigest": "fd3cacff367d94cb33820bfae1cd3eec5a4e9d835ad69044fa0c92986a9610dd",
+            "programDigest": "8e6cae3ffe169fdb7e9843ad43fe07d1a09221f582197fb7b7150cf59bbeea75",
             "status": "stable",
             "reason": "autonomous closure is not improved by any admissible intervention",
             "options": {
@@ -3838,7 +4590,7 @@
                 },
                 "maintenance-world.phase": {
                   "kind": "rational",
-                  "numerator": "0",
+                  "numerator": "2",
                   "denominator": "1"
                 },
                 "maintenance-world.positive": {
@@ -4170,7 +4922,3351 @@
                 "proof": [
                   {
                     "id": "coordinate-proof:1",
-                    "familyId": "stress-ready",
+                    "familyId": "stress-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:0:negative-sea-erosion-route-b:negative-sea-crosses-route-b-boundary",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "stress-route-b-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:0:release-negative-sea:release-admitted-negative-sea",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "negative-is-one",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:0:restore-from-memory:repair-through-retained-structure",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "repair-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:0:restore-from-memory-route-b:repair-route-b-through-retained-structure",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "repair-route-b-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:1:form-structure:form-while-unbounded",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "boundary-is-zero",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:1:negative-sea-erosion:negative-sea-crosses-formed-boundary",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "stress-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:1:negative-sea-erosion-route-b:negative-sea-crosses-route-b-boundary",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "stress-route-b-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:1:release-negative-sea:release-admitted-negative-sea",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "negative-is-one",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:1:restore-from-memory:repair-through-retained-structure",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "repair-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:1:restore-from-memory-route-b:repair-route-b-through-retained-structure",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "repair-route-b-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:2:form-structure:form-while-unbounded",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "boundary-is-zero",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:2:negative-sea-erosion:negative-sea-crosses-formed-boundary",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "stress-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "3",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:2:restore-from-memory:repair-through-retained-structure",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "repair-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "3",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:2:restore-from-memory-route-b:repair-route-b-through-retained-structure",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "repair-route-b-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "3",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:3:form-structure:form-while-unbounded",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "boundary-is-zero",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:3:negative-sea-erosion:negative-sea-crosses-formed-boundary",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "stress-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:3:restore-from-memory:repair-through-retained-structure",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "repair-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "continuation:autonomous:initial:self-maintaining-structure:structure-remains-present",
+                "purpose": "emergence-criterion",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "structure-present",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "continuation:autonomous:final:self-maintaining-structure:structure-remains-present",
+                "purpose": "emergence-criterion",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "structure-present",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "anchor:maintenance-anchor:maintenance-anchor-remains-itself",
+                "purpose": "anchor-identity",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "always-true",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {},
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              }
+            ],
+            "initialWorldStates": [
+              {
+                "worldId": "maintenance-world",
+                "fields": {
+                  "boundary": {
+                    "kind": "rational",
+                    "numerator": "1",
+                    "denominator": "1"
+                  },
+                  "identity": {
+                    "kind": "rational",
+                    "numerator": "1",
+                    "denominator": "1"
+                  },
+                  "integrity": {
+                    "kind": "rational",
+                    "numerator": "2",
+                    "denominator": "1"
+                  },
+                  "memory": {
+                    "kind": "rational",
+                    "numerator": "1",
+                    "denominator": "1"
+                  },
+                  "negative": {
+                    "kind": "rational",
+                    "numerator": "0",
+                    "denominator": "1"
+                  },
+                  "phase": {
+                    "kind": "rational",
+                    "numerator": "2",
+                    "denominator": "1"
+                  },
+                  "positive": {
+                    "kind": "rational",
+                    "numerator": "0",
+                    "denominator": "1"
+                  },
+                  "pressure": {
+                    "kind": "rational",
+                    "numerator": "1",
+                    "denominator": "1"
+                  },
+                  "signal": {
+                    "kind": "rational",
+                    "numerator": "1",
+                    "denominator": "1"
+                  },
+                  "viability": {
+                    "kind": "rational",
+                    "numerator": "5",
+                    "denominator": "1"
+                  }
+                },
+                "intrinsicViability": {
+                  "kind": "rational",
+                  "numerator": "5",
+                  "denominator": "1"
+                },
+                "seaContribution": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              }
+            ],
+            "interventionEligibility": [],
+            "candidateAssessments": [],
+            "continuations": [
+              {
+                "id": "continuation:autonomous",
+                "selection": "baseline",
+                "interventionIds": [],
+                "score": {
+                  "kind": "rational",
+                  "numerator": "5",
+                  "denominator": "1"
+                },
+                "worldStates": [
+                  {
+                    "worldId": "maintenance-world",
+                    "fields": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "positive": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "pressure": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "signal": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "viability": {
+                        "kind": "rational",
+                        "numerator": "5",
+                        "denominator": "1"
+                      }
+                    },
+                    "intrinsicViability": {
+                      "kind": "rational",
+                      "numerator": "5",
+                      "denominator": "1"
+                    },
+                    "seaContribution": {
+                      "kind": "rational",
+                      "numerator": "0",
+                      "denominator": "1"
+                    }
+                  }
+                ],
+                "realizedEventIds": [
+                  "law:admit-negative-sea",
+                  "law:negative-sea-erosion-route-b",
+                  "law:release-negative-sea",
+                  "law:restore-from-memory-route-b",
+                  "commit:law:restore-from-memory-route-b"
+                ],
+                "trace": [
+                  {
+                    "id": "trace:1:initial:maintenance-world.boundary",
+                    "kind": "initial-field",
+                    "worldId": "maintenance-world",
+                    "causes": [],
+                    "effects": [
+                      {
+                        "fieldId": "boundary",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:2:initial:maintenance-world.identity",
+                    "kind": "initial-field",
+                    "worldId": "maintenance-world",
+                    "causes": [],
+                    "effects": [
+                      {
+                        "fieldId": "identity",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:3:initial:maintenance-world.integrity",
+                    "kind": "initial-field",
+                    "worldId": "maintenance-world",
+                    "causes": [],
+                    "effects": [
+                      {
+                        "fieldId": "integrity",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "2",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:4:initial:maintenance-world.memory",
+                    "kind": "initial-field",
+                    "worldId": "maintenance-world",
+                    "causes": [],
+                    "effects": [
+                      {
+                        "fieldId": "memory",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:5:initial:maintenance-world.negative",
+                    "kind": "initial-field",
+                    "worldId": "maintenance-world",
+                    "causes": [],
+                    "effects": [
+                      {
+                        "fieldId": "negative",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "0",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:6:initial:maintenance-world.phase",
+                    "kind": "initial-field",
+                    "worldId": "maintenance-world",
+                    "causes": [],
+                    "effects": [
+                      {
+                        "fieldId": "phase",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "2",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:7:initial:maintenance-world.positive",
+                    "kind": "initial-field",
+                    "worldId": "maintenance-world",
+                    "causes": [],
+                    "effects": [
+                      {
+                        "fieldId": "positive",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "0",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:8:initial:maintenance-world.pressure",
+                    "kind": "initial-field",
+                    "worldId": "maintenance-world",
+                    "causes": [],
+                    "effects": [
+                      {
+                        "fieldId": "pressure",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:9:initial:maintenance-world.signal",
+                    "kind": "initial-field",
+                    "worldId": "maintenance-world",
+                    "causes": [],
+                    "effects": [
+                      {
+                        "fieldId": "signal",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:10:initial:maintenance-world.viability",
+                    "kind": "initial-field",
+                    "worldId": "maintenance-world",
+                    "causes": [],
+                    "effects": [
+                      {
+                        "fieldId": "viability",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "5",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:11:sea:maintenance-world",
+                    "kind": "sea-coupling",
+                    "worldId": "maintenance-world",
+                    "causes": [],
+                    "effects": [
+                      {
+                        "fieldId": "viability",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "before": {
+                          "kind": "rational",
+                          "numerator": "5",
+                          "denominator": "1"
+                        },
+                        "operand": {
+                          "kind": "rational",
+                          "numerator": "0",
+                          "denominator": "1"
+                        },
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "5",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:12:law:admit-negative-sea",
+                    "kind": "internal-law",
+                    "worldId": "maintenance-world",
+                    "eventId": "law:admit-negative-sea",
+                    "lawId": "admit-negative-sea",
+                    "causes": [],
+                    "effects": [
+                      {
+                        "fieldId": "negative",
+                        "layer": "world-field",
+                        "operation": "add",
+                        "before": {
+                          "kind": "rational",
+                          "numerator": "0",
+                          "denominator": "1"
+                        },
+                        "operand": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        },
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:13:sea:maintenance-world",
+                    "kind": "sea-coupling",
+                    "worldId": "maintenance-world",
+                    "causes": [
+                      "law:admit-negative-sea"
+                    ],
+                    "effects": [
+                      {
+                        "fieldId": "viability",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "before": {
+                          "kind": "rational",
+                          "numerator": "5",
+                          "denominator": "1"
+                        },
+                        "operand": {
+                          "kind": "rational",
+                          "numerator": "-1",
+                          "denominator": "1"
+                        },
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "4",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:14:law:negative-sea-erosion-route-b",
+                    "kind": "internal-law",
+                    "worldId": "maintenance-world",
+                    "eventId": "law:negative-sea-erosion-route-b",
+                    "lawId": "negative-sea-erosion-route-b",
+                    "causes": [
+                      "law:admit-negative-sea"
+                    ],
+                    "effects": [
+                      {
+                        "fieldId": "integrity",
+                        "layer": "world-field",
+                        "operation": "subtract",
+                        "before": {
+                          "kind": "rational",
+                          "numerator": "2",
+                          "denominator": "1"
+                        },
+                        "operand": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        },
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      },
+                      {
+                        "fieldId": "phase",
+                        "layer": "world-field",
+                        "operation": "set",
+                        "before": {
+                          "kind": "rational",
+                          "numerator": "2",
+                          "denominator": "1"
+                        },
+                        "operand": {
+                          "kind": "rational",
+                          "numerator": "3",
+                          "denominator": "1"
+                        },
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "3",
+                          "denominator": "1"
+                        }
+                      },
+                      {
+                        "fieldId": "signal",
+                        "layer": "world-field",
+                        "operation": "set",
+                        "before": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        },
+                        "operand": {
+                          "kind": "rational",
+                          "numerator": "0",
+                          "denominator": "1"
+                        },
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "0",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:15:law:release-negative-sea",
+                    "kind": "internal-law",
+                    "worldId": "maintenance-world",
+                    "eventId": "law:release-negative-sea",
+                    "lawId": "release-negative-sea",
+                    "causes": [
+                      "law:admit-negative-sea"
+                    ],
+                    "effects": [
+                      {
+                        "fieldId": "negative",
+                        "layer": "world-field",
+                        "operation": "subtract",
+                        "before": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        },
+                        "operand": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        },
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "0",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:16:sea:maintenance-world",
+                    "kind": "sea-coupling",
+                    "worldId": "maintenance-world",
+                    "causes": [
+                      "law:negative-sea-erosion-route-b",
+                      "law:release-negative-sea"
+                    ],
+                    "effects": [
+                      {
+                        "fieldId": "viability",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "before": {
+                          "kind": "rational",
+                          "numerator": "4",
+                          "denominator": "1"
+                        },
+                        "operand": {
+                          "kind": "rational",
+                          "numerator": "0",
+                          "denominator": "1"
+                        },
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "5",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:17:law:restore-from-memory-route-b",
+                    "kind": "internal-law",
+                    "worldId": "maintenance-world",
+                    "eventId": "law:restore-from-memory-route-b",
+                    "lawId": "restore-from-memory-route-b",
+                    "causes": [
+                      "law:negative-sea-erosion-route-b"
+                    ],
+                    "effects": [
+                      {
+                        "fieldId": "integrity",
+                        "layer": "world-field",
+                        "operation": "add",
+                        "before": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        },
+                        "operand": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        },
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "2",
+                          "denominator": "1"
+                        }
+                      },
+                      {
+                        "fieldId": "identity",
+                        "layer": "world-field",
+                        "operation": "set",
+                        "before": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        },
+                        "operand": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        },
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      },
+                      {
+                        "fieldId": "memory",
+                        "layer": "world-field",
+                        "operation": "set",
+                        "before": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        },
+                        "operand": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        },
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      },
+                      {
+                        "fieldId": "boundary",
+                        "layer": "world-field",
+                        "operation": "set",
+                        "before": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        },
+                        "operand": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        },
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      },
+                      {
+                        "fieldId": "phase",
+                        "layer": "world-field",
+                        "operation": "set",
+                        "before": {
+                          "kind": "rational",
+                          "numerator": "3",
+                          "denominator": "1"
+                        },
+                        "operand": {
+                          "kind": "rational",
+                          "numerator": "0",
+                          "denominator": "1"
+                        },
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "0",
+                          "denominator": "1"
+                        }
+                      },
+                      {
+                        "fieldId": "signal",
+                        "layer": "world-field",
+                        "operation": "set",
+                        "before": {
+                          "kind": "rational",
+                          "numerator": "0",
+                          "denominator": "1"
+                        },
+                        "operand": {
+                          "kind": "rational",
+                          "numerator": "2",
+                          "denominator": "1"
+                        },
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "2",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:18:sea:maintenance-world",
+                    "kind": "sea-coupling",
+                    "worldId": "maintenance-world",
+                    "causes": [
+                      "law:restore-from-memory-route-b"
+                    ],
+                    "effects": [
+                      {
+                        "fieldId": "viability",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "before": {
+                          "kind": "rational",
+                          "numerator": "5",
+                          "denominator": "1"
+                        },
+                        "operand": {
+                          "kind": "rational",
+                          "numerator": "0",
+                          "denominator": "1"
+                        },
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "5",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "trace:19:commit:law:restore-from-memory-route-b",
+                    "kind": "history-commit",
+                    "worldId": "maintenance-world",
+                    "eventId": "commit:law:restore-from-memory-route-b",
+                    "lawId": "restore-from-memory-route-b",
+                    "causes": [
+                      "law:restore-from-memory-route-b"
+                    ],
+                    "effects": [
+                      {
+                        "fieldId": "integrity",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "2",
+                          "denominator": "1"
+                        }
+                      },
+                      {
+                        "fieldId": "identity",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      },
+                      {
+                        "fieldId": "memory",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      },
+                      {
+                        "fieldId": "boundary",
+                        "layer": "world-field",
+                        "operation": "derive",
+                        "after": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "historyCommits": [
+                  {
+                    "eventId": "commit:law:restore-from-memory-route-b",
+                    "causedByEventId": "law:restore-from-memory-route-b",
+                    "worldId": "maintenance-world",
+                    "affectedFields": {
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "stateDigest": "ab5c9b2aebaa2c8843432508e5c6ac855038334eca3438b789e905e81a1516c5"
+                  }
+                ],
+                "emergenceAssessments": [
+                  {
+                    "criterionId": "self-maintaining-structure",
+                    "worldId": "maintenance-world",
+                    "status": "persistent",
+                    "witnessFields": {
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "causedByEventIds": [
+                      "law:negative-sea-erosion-route-b",
+                      "law:restore-from-memory-route-b"
+                    ],
+                    "initialEvidence": {
+                      "subjectId": "continuation:autonomous:initial:self-maintaining-structure:structure-remains-present",
+                      "purpose": "emergence-criterion",
+                      "status": "resolved",
+                      "value": {
+                        "kind": "boolean",
+                        "value": true
+                      },
+                      "proof": [
+                        {
+                          "id": "coordinate-proof:1",
+                          "familyId": "structure-present",
+                          "coordinate": {
+                            "coordinate": "0"
+                          },
+                          "parameters": {
+                            "boundary": {
+                              "kind": "rational",
+                              "numerator": "1",
+                              "denominator": "1"
+                            },
+                            "identity": {
+                              "kind": "rational",
+                              "numerator": "1",
+                              "denominator": "1"
+                            },
+                            "integrity": {
+                              "kind": "rational",
+                              "numerator": "2",
+                              "denominator": "1"
+                            },
+                            "memory": {
+                              "kind": "rational",
+                              "numerator": "1",
+                              "denominator": "1"
+                            }
+                          },
+                          "rule": "intensional-definition",
+                          "status": "resolved",
+                          "dependencies": []
+                        }
+                      ]
+                    },
+                    "finalEvidence": {
+                      "subjectId": "continuation:autonomous:final:self-maintaining-structure:structure-remains-present",
+                      "purpose": "emergence-criterion",
+                      "status": "resolved",
+                      "value": {
+                        "kind": "boolean",
+                        "value": true
+                      },
+                      "proof": [
+                        {
+                          "id": "coordinate-proof:1",
+                          "familyId": "structure-present",
+                          "coordinate": {
+                            "coordinate": "0"
+                          },
+                          "parameters": {
+                            "boundary": {
+                              "kind": "rational",
+                              "numerator": "1",
+                              "denominator": "1"
+                            },
+                            "identity": {
+                              "kind": "rational",
+                              "numerator": "1",
+                              "denominator": "1"
+                            },
+                            "integrity": {
+                              "kind": "rational",
+                              "numerator": "2",
+                              "denominator": "1"
+                            },
+                            "memory": {
+                              "kind": "rational",
+                              "numerator": "1",
+                              "denominator": "1"
+                            }
+                          },
+                          "rule": "intensional-definition",
+                          "status": "resolved",
+                          "dependencies": []
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "order": {
+                  "kind": "causal-partial-order",
+                  "universalClock": false,
+                  "causalEdges": [
+                    {
+                      "cause": "law:admit-negative-sea",
+                      "effect": "law:negative-sea-erosion-route-b"
+                    },
+                    {
+                      "cause": "law:admit-negative-sea",
+                      "effect": "law:release-negative-sea"
+                    },
+                    {
+                      "cause": "law:negative-sea-erosion-route-b",
+                      "effect": "law:restore-from-memory-route-b"
+                    },
+                    {
+                      "cause": "law:restore-from-memory-route-b",
+                      "effect": "commit:law:restore-from-memory-route-b"
+                    }
+                  ],
+                  "evaluationOrder": [
+                    "law:admit-negative-sea",
+                    "law:negative-sea-erosion-route-b",
+                    "law:release-negative-sea",
+                    "law:restore-from-memory-route-b",
+                    "commit:law:restore-from-memory-route-b"
+                  ],
+                  "evaluationFrontiers": [
+                    [
+                      "law:admit-negative-sea"
+                    ],
+                    [
+                      "law:negative-sea-erosion-route-b",
+                      "law:release-negative-sea"
+                    ],
+                    [
+                      "law:restore-from-memory-route-b"
+                    ]
+                  ],
+                  "reversibleEventIds": [],
+                  "irreversibleEventIds": [
+                    "commit:law:restore-from-memory-route-b",
+                    "law:admit-negative-sea",
+                    "law:negative-sea-erosion-route-b",
+                    "law:release-negative-sea",
+                    "law:restore-from-memory-route-b"
+                  ],
+                  "createsHistoryArrow": true
+                }
+              }
+            ],
+            "selectedContinuationIds": [
+              "continuation:autonomous"
+            ],
+            "unresolvedAlternativeIds": [],
+            "resourceUse": {
+              "formalQueryCount": 33,
+              "formalEvaluationSteps": 313,
+              "internalFrontierCount": 3,
+              "interventionCombinationCount": 0,
+              "combinationLimit": 1024,
+              "exhaustiveInterventionSearch": true
+            },
+            "autonomousContinuation": {
+              "id": "continuation:autonomous",
+              "selection": "baseline",
+              "interventionIds": [],
+              "score": {
+                "kind": "rational",
+                "numerator": "5",
+                "denominator": "1"
+              },
+              "worldStates": [
+                {
+                  "worldId": "maintenance-world",
+                  "fields": {
+                    "boundary": {
+                      "kind": "rational",
+                      "numerator": "1",
+                      "denominator": "1"
+                    },
+                    "identity": {
+                      "kind": "rational",
+                      "numerator": "1",
+                      "denominator": "1"
+                    },
+                    "integrity": {
+                      "kind": "rational",
+                      "numerator": "2",
+                      "denominator": "1"
+                    },
+                    "memory": {
+                      "kind": "rational",
+                      "numerator": "1",
+                      "denominator": "1"
+                    },
+                    "negative": {
+                      "kind": "rational",
+                      "numerator": "0",
+                      "denominator": "1"
+                    },
+                    "phase": {
+                      "kind": "rational",
+                      "numerator": "0",
+                      "denominator": "1"
+                    },
+                    "positive": {
+                      "kind": "rational",
+                      "numerator": "0",
+                      "denominator": "1"
+                    },
+                    "pressure": {
+                      "kind": "rational",
+                      "numerator": "1",
+                      "denominator": "1"
+                    },
+                    "signal": {
+                      "kind": "rational",
+                      "numerator": "2",
+                      "denominator": "1"
+                    },
+                    "viability": {
+                      "kind": "rational",
+                      "numerator": "5",
+                      "denominator": "1"
+                    }
+                  },
+                  "intrinsicViability": {
+                    "kind": "rational",
+                    "numerator": "5",
+                    "denominator": "1"
+                  },
+                  "seaContribution": {
+                    "kind": "rational",
+                    "numerator": "0",
+                    "denominator": "1"
+                  }
+                }
+              ],
+              "realizedEventIds": [
+                "law:admit-negative-sea",
+                "law:negative-sea-erosion-route-b",
+                "law:release-negative-sea",
+                "law:restore-from-memory-route-b",
+                "commit:law:restore-from-memory-route-b"
+              ],
+              "trace": [
+                {
+                  "id": "trace:1:initial:maintenance-world.boundary",
+                  "kind": "initial-field",
+                  "worldId": "maintenance-world",
+                  "causes": [],
+                  "effects": [
+                    {
+                      "fieldId": "boundary",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:2:initial:maintenance-world.identity",
+                  "kind": "initial-field",
+                  "worldId": "maintenance-world",
+                  "causes": [],
+                  "effects": [
+                    {
+                      "fieldId": "identity",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:3:initial:maintenance-world.integrity",
+                  "kind": "initial-field",
+                  "worldId": "maintenance-world",
+                  "causes": [],
+                  "effects": [
+                    {
+                      "fieldId": "integrity",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:4:initial:maintenance-world.memory",
+                  "kind": "initial-field",
+                  "worldId": "maintenance-world",
+                  "causes": [],
+                  "effects": [
+                    {
+                      "fieldId": "memory",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:5:initial:maintenance-world.negative",
+                  "kind": "initial-field",
+                  "worldId": "maintenance-world",
+                  "causes": [],
+                  "effects": [
+                    {
+                      "fieldId": "negative",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:6:initial:maintenance-world.phase",
+                  "kind": "initial-field",
+                  "worldId": "maintenance-world",
+                  "causes": [],
+                  "effects": [
+                    {
+                      "fieldId": "phase",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:7:initial:maintenance-world.positive",
+                  "kind": "initial-field",
+                  "worldId": "maintenance-world",
+                  "causes": [],
+                  "effects": [
+                    {
+                      "fieldId": "positive",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:8:initial:maintenance-world.pressure",
+                  "kind": "initial-field",
+                  "worldId": "maintenance-world",
+                  "causes": [],
+                  "effects": [
+                    {
+                      "fieldId": "pressure",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:9:initial:maintenance-world.signal",
+                  "kind": "initial-field",
+                  "worldId": "maintenance-world",
+                  "causes": [],
+                  "effects": [
+                    {
+                      "fieldId": "signal",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:10:initial:maintenance-world.viability",
+                  "kind": "initial-field",
+                  "worldId": "maintenance-world",
+                  "causes": [],
+                  "effects": [
+                    {
+                      "fieldId": "viability",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "5",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:11:sea:maintenance-world",
+                  "kind": "sea-coupling",
+                  "worldId": "maintenance-world",
+                  "causes": [],
+                  "effects": [
+                    {
+                      "fieldId": "viability",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "5",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "5",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:12:law:admit-negative-sea",
+                  "kind": "internal-law",
+                  "worldId": "maintenance-world",
+                  "eventId": "law:admit-negative-sea",
+                  "lawId": "admit-negative-sea",
+                  "causes": [],
+                  "effects": [
+                    {
+                      "fieldId": "negative",
+                      "layer": "world-field",
+                      "operation": "add",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:13:sea:maintenance-world",
+                  "kind": "sea-coupling",
+                  "worldId": "maintenance-world",
+                  "causes": [
+                    "law:admit-negative-sea"
+                  ],
+                  "effects": [
+                    {
+                      "fieldId": "viability",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "5",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "-1",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "4",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:14:law:negative-sea-erosion-route-b",
+                  "kind": "internal-law",
+                  "worldId": "maintenance-world",
+                  "eventId": "law:negative-sea-erosion-route-b",
+                  "lawId": "negative-sea-erosion-route-b",
+                  "causes": [
+                    "law:admit-negative-sea"
+                  ],
+                  "effects": [
+                    {
+                      "fieldId": "integrity",
+                      "layer": "world-field",
+                      "operation": "subtract",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "phase",
+                      "layer": "world-field",
+                      "operation": "set",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "3",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "3",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "signal",
+                      "layer": "world-field",
+                      "operation": "set",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:15:law:release-negative-sea",
+                  "kind": "internal-law",
+                  "worldId": "maintenance-world",
+                  "eventId": "law:release-negative-sea",
+                  "lawId": "release-negative-sea",
+                  "causes": [
+                    "law:admit-negative-sea"
+                  ],
+                  "effects": [
+                    {
+                      "fieldId": "negative",
+                      "layer": "world-field",
+                      "operation": "subtract",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:16:sea:maintenance-world",
+                  "kind": "sea-coupling",
+                  "worldId": "maintenance-world",
+                  "causes": [
+                    "law:negative-sea-erosion-route-b",
+                    "law:release-negative-sea"
+                  ],
+                  "effects": [
+                    {
+                      "fieldId": "viability",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "4",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "5",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:17:law:restore-from-memory-route-b",
+                  "kind": "internal-law",
+                  "worldId": "maintenance-world",
+                  "eventId": "law:restore-from-memory-route-b",
+                  "lawId": "restore-from-memory-route-b",
+                  "causes": [
+                    "law:negative-sea-erosion-route-b"
+                  ],
+                  "effects": [
+                    {
+                      "fieldId": "integrity",
+                      "layer": "world-field",
+                      "operation": "add",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "identity",
+                      "layer": "world-field",
+                      "operation": "set",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "memory",
+                      "layer": "world-field",
+                      "operation": "set",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "boundary",
+                      "layer": "world-field",
+                      "operation": "set",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "phase",
+                      "layer": "world-field",
+                      "operation": "set",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "3",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "signal",
+                      "layer": "world-field",
+                      "operation": "set",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:18:sea:maintenance-world",
+                  "kind": "sea-coupling",
+                  "worldId": "maintenance-world",
+                  "causes": [
+                    "law:restore-from-memory-route-b"
+                  ],
+                  "effects": [
+                    {
+                      "fieldId": "viability",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "5",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "5",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "trace:19:commit:law:restore-from-memory-route-b",
+                  "kind": "history-commit",
+                  "worldId": "maintenance-world",
+                  "eventId": "commit:law:restore-from-memory-route-b",
+                  "lawId": "restore-from-memory-route-b",
+                  "causes": [
+                    "law:restore-from-memory-route-b"
+                  ],
+                  "effects": [
+                    {
+                      "fieldId": "integrity",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "identity",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "memory",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "boundary",
+                      "layer": "world-field",
+                      "operation": "derive",
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "historyCommits": [
+                {
+                  "eventId": "commit:law:restore-from-memory-route-b",
+                  "causedByEventId": "law:restore-from-memory-route-b",
+                  "worldId": "maintenance-world",
+                  "affectedFields": {
+                    "integrity": {
+                      "kind": "rational",
+                      "numerator": "2",
+                      "denominator": "1"
+                    },
+                    "identity": {
+                      "kind": "rational",
+                      "numerator": "1",
+                      "denominator": "1"
+                    },
+                    "memory": {
+                      "kind": "rational",
+                      "numerator": "1",
+                      "denominator": "1"
+                    },
+                    "boundary": {
+                      "kind": "rational",
+                      "numerator": "1",
+                      "denominator": "1"
+                    }
+                  },
+                  "stateDigest": "ab5c9b2aebaa2c8843432508e5c6ac855038334eca3438b789e905e81a1516c5"
+                }
+              ],
+              "emergenceAssessments": [
+                {
+                  "criterionId": "self-maintaining-structure",
+                  "worldId": "maintenance-world",
+                  "status": "persistent",
+                  "witnessFields": {
+                    "integrity": {
+                      "kind": "rational",
+                      "numerator": "2",
+                      "denominator": "1"
+                    },
+                    "identity": {
+                      "kind": "rational",
+                      "numerator": "1",
+                      "denominator": "1"
+                    },
+                    "memory": {
+                      "kind": "rational",
+                      "numerator": "1",
+                      "denominator": "1"
+                    },
+                    "boundary": {
+                      "kind": "rational",
+                      "numerator": "1",
+                      "denominator": "1"
+                    }
+                  },
+                  "causedByEventIds": [
+                    "law:negative-sea-erosion-route-b",
+                    "law:restore-from-memory-route-b"
+                  ],
+                  "initialEvidence": {
+                    "subjectId": "continuation:autonomous:initial:self-maintaining-structure:structure-remains-present",
+                    "purpose": "emergence-criterion",
+                    "status": "resolved",
+                    "value": {
+                      "kind": "boolean",
+                      "value": true
+                    },
+                    "proof": [
+                      {
+                        "id": "coordinate-proof:1",
+                        "familyId": "structure-present",
+                        "coordinate": {
+                          "coordinate": "0"
+                        },
+                        "parameters": {
+                          "boundary": {
+                            "kind": "rational",
+                            "numerator": "1",
+                            "denominator": "1"
+                          },
+                          "identity": {
+                            "kind": "rational",
+                            "numerator": "1",
+                            "denominator": "1"
+                          },
+                          "integrity": {
+                            "kind": "rational",
+                            "numerator": "2",
+                            "denominator": "1"
+                          },
+                          "memory": {
+                            "kind": "rational",
+                            "numerator": "1",
+                            "denominator": "1"
+                          }
+                        },
+                        "rule": "intensional-definition",
+                        "status": "resolved",
+                        "dependencies": []
+                      }
+                    ]
+                  },
+                  "finalEvidence": {
+                    "subjectId": "continuation:autonomous:final:self-maintaining-structure:structure-remains-present",
+                    "purpose": "emergence-criterion",
+                    "status": "resolved",
+                    "value": {
+                      "kind": "boolean",
+                      "value": true
+                    },
+                    "proof": [
+                      {
+                        "id": "coordinate-proof:1",
+                        "familyId": "structure-present",
+                        "coordinate": {
+                          "coordinate": "0"
+                        },
+                        "parameters": {
+                          "boundary": {
+                            "kind": "rational",
+                            "numerator": "1",
+                            "denominator": "1"
+                          },
+                          "identity": {
+                            "kind": "rational",
+                            "numerator": "1",
+                            "denominator": "1"
+                          },
+                          "integrity": {
+                            "kind": "rational",
+                            "numerator": "2",
+                            "denominator": "1"
+                          },
+                          "memory": {
+                            "kind": "rational",
+                            "numerator": "1",
+                            "denominator": "1"
+                          }
+                        },
+                        "rule": "intensional-definition",
+                        "status": "resolved",
+                        "dependencies": []
+                      }
+                    ]
+                  }
+                }
+              ],
+              "order": {
+                "kind": "causal-partial-order",
+                "universalClock": false,
+                "causalEdges": [
+                  {
+                    "cause": "law:admit-negative-sea",
+                    "effect": "law:negative-sea-erosion-route-b"
+                  },
+                  {
+                    "cause": "law:admit-negative-sea",
+                    "effect": "law:release-negative-sea"
+                  },
+                  {
+                    "cause": "law:negative-sea-erosion-route-b",
+                    "effect": "law:restore-from-memory-route-b"
+                  },
+                  {
+                    "cause": "law:restore-from-memory-route-b",
+                    "effect": "commit:law:restore-from-memory-route-b"
+                  }
+                ],
+                "evaluationOrder": [
+                  "law:admit-negative-sea",
+                  "law:negative-sea-erosion-route-b",
+                  "law:release-negative-sea",
+                  "law:restore-from-memory-route-b",
+                  "commit:law:restore-from-memory-route-b"
+                ],
+                "evaluationFrontiers": [
+                  [
+                    "law:admit-negative-sea"
+                  ],
+                  [
+                    "law:negative-sea-erosion-route-b",
+                    "law:release-negative-sea"
+                  ],
+                  [
+                    "law:restore-from-memory-route-b"
+                  ]
+                ],
+                "reversibleEventIds": [],
+                "irreversibleEventIds": [
+                  "commit:law:restore-from-memory-route-b",
+                  "law:admit-negative-sea",
+                  "law:negative-sea-erosion-route-b",
+                  "law:release-negative-sea",
+                  "law:restore-from-memory-route-b"
+                ],
+                "createsHistoryArrow": true
+              }
+            },
+            "baselineScore": {
+              "kind": "rational",
+              "numerator": "5",
+              "denominator": "1"
+            }
+          }
+        },
+        {
+          "id": "path:root:closure:3:continuation:autonomous",
+          "cause": "configuration-continuation",
+          "causedByClosureId": "path:root:closure:2:continuation:autonomous",
+          "inputConfigurationDigest": "16e89905bdd5f482018762e34d65638bf6b361e89bdf06028772b4357ee8b40b",
+          "outputConfigurationDigest": "ae0f37bf8b6aa4aa78f54112c0dfe8af9b1aba9c8b3004644c680b6a6472306f",
+          "inputWorldStates": [
+            {
+              "worldId": "maintenance-world",
+              "fields": {
+                "boundary": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "identity": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "integrity": {
+                  "kind": "rational",
+                  "numerator": "2",
+                  "denominator": "1"
+                },
+                "memory": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "negative": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "phase": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "positive": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "pressure": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "signal": {
+                  "kind": "rational",
+                  "numerator": "2",
+                  "denominator": "1"
+                },
+                "viability": {
+                  "kind": "rational",
+                  "numerator": "5",
+                  "denominator": "1"
+                }
+              },
+              "intrinsicViability": {
+                "kind": "rational",
+                "numerator": "5",
+                "denominator": "1"
+              },
+              "seaContribution": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ],
+          "outputWorldStates": [
+            {
+              "worldId": "maintenance-world",
+              "fields": {
+                "boundary": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "identity": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "integrity": {
+                  "kind": "rational",
+                  "numerator": "2",
+                  "denominator": "1"
+                },
+                "memory": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "negative": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "phase": {
+                  "kind": "rational",
+                  "numerator": "2",
+                  "denominator": "1"
+                },
+                "positive": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "pressure": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "signal": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "viability": {
+                  "kind": "rational",
+                  "numerator": "5",
+                  "denominator": "1"
+                }
+              },
+              "intrinsicViability": {
+                "kind": "rational",
+                "numerator": "5",
+                "denominator": "1"
+              },
+              "seaContribution": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ],
+          "historyExtension": [
+            {
+              "eventId": "commit:law:restore-from-memory",
+              "causedByEventId": "law:restore-from-memory",
+              "worldId": "maintenance-world",
+              "affectedFields": {
+                "integrity": {
+                  "kind": "rational",
+                  "numerator": "2",
+                  "denominator": "1"
+                },
+                "identity": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "memory": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "boundary": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              "stateDigest": "e7abc839b071ad1391fc34221083fbf9cbc2800732b7dada39f68c48ca35fe16"
+            }
+          ],
+          "historyExtensionDigest": "42a05947ebdf8c25d4bb552062500b50094aeaf30919f476511c34aa1ec7cd67",
+          "selectedContinuationId": "continuation:autonomous",
+          "run": {
+            "mode": "bubble-anchored-causal-run.v2",
+            "programDigest": "8e6cae3ffe169fdb7e9843ad43fe07d1a09221f582197fb7b7150cf59bbeea75",
+            "status": "stable",
+            "reason": "autonomous closure is not improved by any admissible intervention",
+            "options": {
+              "worldWillEnabled": true,
+              "cutAnchorIds": [],
+              "fieldOverrides": {
+                "maintenance-world.boundary": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "maintenance-world.identity": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "maintenance-world.integrity": {
+                  "kind": "rational",
+                  "numerator": "2",
+                  "denominator": "1"
+                },
+                "maintenance-world.memory": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "maintenance-world.negative": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "maintenance-world.phase": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "maintenance-world.positive": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "maintenance-world.pressure": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "maintenance-world.signal": {
+                  "kind": "rational",
+                  "numerator": "2",
+                  "denominator": "1"
+                },
+                "maintenance-world.viability": {
+                  "kind": "rational",
+                  "numerator": "5",
+                  "denominator": "1"
+                }
+              },
+              "evaluationBudgetPerQuery": 10000,
+              "maxInterventionCombinations": 1024,
+              "maxInternalFrontiers": 1024
+            },
+            "diagnostics": [],
+            "formalEvidence": [
+              {
+                "subjectId": "maintenance-world.boundary",
+                "purpose": "initial-field",
+                "status": "resolved",
+                "value": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "zero",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {},
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "maintenance-world.identity",
+                "purpose": "initial-field",
+                "status": "resolved",
+                "value": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "zero",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {},
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "maintenance-world.integrity",
+                "purpose": "initial-field",
+                "status": "resolved",
+                "value": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "zero",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {},
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "maintenance-world.memory",
+                "purpose": "initial-field",
+                "status": "resolved",
+                "value": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "zero",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {},
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "maintenance-world.negative",
+                "purpose": "initial-field",
+                "status": "resolved",
+                "value": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "zero",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {},
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "maintenance-world.phase",
+                "purpose": "initial-field",
+                "status": "resolved",
+                "value": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "zero",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {},
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "maintenance-world.positive",
+                "purpose": "initial-field",
+                "status": "resolved",
+                "value": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "zero",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {},
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "maintenance-world.pressure",
+                "purpose": "initial-field",
+                "status": "resolved",
+                "value": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "one",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {},
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "maintenance-world.signal",
+                "purpose": "initial-field",
+                "status": "resolved",
+                "value": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "zero",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {},
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "maintenance-world.viability",
+                "purpose": "initial-field",
+                "status": "resolved",
+                "value": {
+                  "kind": "rational",
+                  "numerator": "5",
+                  "denominator": "1"
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "five",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {},
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:0:admit-negative-sea:pressure-admits-negative-sea",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "admission-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "pressure": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:0:form-structure:form-while-unbounded",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "boundary-is-zero",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:0:negative-sea-erosion:negative-sea-crosses-formed-boundary",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "stress-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:0:negative-sea-erosion-route-b:negative-sea-crosses-route-b-boundary",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "stress-route-b-ready",
                     "coordinate": {
                       "coordinate": "0"
                     },
@@ -4246,7 +8342,55 @@
                 "proof": [
                   {
                     "id": "coordinate-proof:1",
-                    "familyId": "repair-ready",
+                    "familyId": "repair-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:0:restore-from-memory-route-b:repair-route-b-through-retained-structure",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "repair-route-b-ready",
                     "coordinate": {
                       "coordinate": "0"
                     },
@@ -4322,7 +8466,55 @@
                 "proof": [
                   {
                     "id": "coordinate-proof:1",
-                    "familyId": "stress-ready",
+                    "familyId": "stress-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:1:negative-sea-erosion-route-b:negative-sea-crosses-route-b-boundary",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "stress-route-b-ready",
                     "coordinate": {
                       "coordinate": "0"
                     },
@@ -4398,7 +8590,55 @@
                 "proof": [
                   {
                     "id": "coordinate-proof:1",
-                    "familyId": "repair-ready",
+                    "familyId": "repair-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:1:restore-from-memory-route-b:repair-route-b-through-retained-structure",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "repair-route-b-ready",
                     "coordinate": {
                       "coordinate": "0"
                     },
@@ -4464,6 +8704,54 @@
                 ]
               },
               {
+                "subjectId": "autonomous:frontier:2:negative-sea-erosion-route-b:negative-sea-crosses-route-b-boundary",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "stress-route-b-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
                 "subjectId": "autonomous:frontier:2:restore-from-memory:repair-through-retained-structure",
                 "purpose": "law-guard",
                 "status": "resolved",
@@ -4474,7 +8762,55 @@
                 "proof": [
                   {
                     "id": "coordinate-proof:1",
-                    "familyId": "repair-ready",
+                    "familyId": "repair-route-a-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:2:restore-from-memory-route-b:repair-route-b-through-retained-structure",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "repair-route-b-ready",
                     "coordinate": {
                       "coordinate": "0"
                     },
@@ -4530,6 +8866,102 @@
                       "boundary": {
                         "kind": "rational",
                         "numerator": "1",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:3:negative-sea-erosion-route-b:negative-sea-crosses-route-b-boundary",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "stress-route-b-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "negative": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    },
+                    "rule": "intensional-definition",
+                    "status": "resolved",
+                    "dependencies": []
+                  }
+                ]
+              },
+              {
+                "subjectId": "autonomous:frontier:3:restore-from-memory-route-b:repair-route-b-through-retained-structure",
+                "purpose": "law-guard",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": false
+                },
+                "proof": [
+                  {
+                    "id": "coordinate-proof:1",
+                    "familyId": "repair-route-b-ready",
+                    "coordinate": {
+                      "coordinate": "0"
+                    },
+                    "parameters": {
+                      "boundary": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "identity": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "integrity": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "memory": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "phase": {
+                        "kind": "rational",
+                        "numerator": "2",
                         "denominator": "1"
                       }
                     },
@@ -4694,7 +9126,7 @@
                   },
                   "signal": {
                     "kind": "rational",
-                    "numerator": "1",
+                    "numerator": "2",
                     "denominator": "1"
                   },
                   "viability": {
@@ -4758,7 +9190,7 @@
                       },
                       "phase": {
                         "kind": "rational",
-                        "numerator": "0",
+                        "numerator": "2",
                         "denominator": "1"
                       },
                       "positive": {
@@ -4958,7 +9390,7 @@
                         "operation": "derive",
                         "after": {
                           "kind": "rational",
-                          "numerator": "1",
+                          "numerator": "2",
                           "denominator": "1"
                         }
                       }
@@ -5126,7 +9558,7 @@
                         "operation": "set",
                         "before": {
                           "kind": "rational",
-                          "numerator": "1",
+                          "numerator": "2",
                           "denominator": "1"
                         },
                         "operand": {
@@ -5306,12 +9738,12 @@
                         },
                         "operand": {
                           "kind": "rational",
-                          "numerator": "0",
+                          "numerator": "2",
                           "denominator": "1"
                         },
                         "after": {
                           "kind": "rational",
-                          "numerator": "0",
+                          "numerator": "2",
                           "denominator": "1"
                         }
                       },
@@ -5447,7 +9879,7 @@
                         "denominator": "1"
                       }
                     },
-                    "stateDigest": "786b048f7cb12b215bd0816346088bd731d767e8b120bb7acf3578d4601d12f1"
+                    "stateDigest": "e7abc839b071ad1391fc34221083fbf9cbc2800732b7dada39f68c48ca35fe16"
                   }
                 ],
                 "emergenceAssessments": [
@@ -5626,8 +10058,8 @@
             ],
             "unresolvedAlternativeIds": [],
             "resourceUse": {
-              "formalQueryCount": 25,
-              "formalEvaluationSteps": 161,
+              "formalQueryCount": 33,
+              "formalEvaluationSteps": 313,
               "internalFrontierCount": 3,
               "interventionCombinationCount": 0,
               "combinationLimit": 1024,
@@ -5673,7 +10105,7 @@
                     },
                     "phase": {
                       "kind": "rational",
-                      "numerator": "0",
+                      "numerator": "2",
                       "denominator": "1"
                     },
                     "positive": {
@@ -5873,7 +10305,7 @@
                       "operation": "derive",
                       "after": {
                         "kind": "rational",
-                        "numerator": "1",
+                        "numerator": "2",
                         "denominator": "1"
                       }
                     }
@@ -6041,7 +10473,7 @@
                       "operation": "set",
                       "before": {
                         "kind": "rational",
-                        "numerator": "1",
+                        "numerator": "2",
                         "denominator": "1"
                       },
                       "operand": {
@@ -6221,12 +10653,12 @@
                       },
                       "operand": {
                         "kind": "rational",
-                        "numerator": "0",
+                        "numerator": "2",
                         "denominator": "1"
                       },
                       "after": {
                         "kind": "rational",
-                        "numerator": "0",
+                        "numerator": "2",
                         "denominator": "1"
                       }
                     },
@@ -6362,7 +10794,7 @@
                       "denominator": "1"
                     }
                   },
-                  "stateDigest": "786b048f7cb12b215bd0816346088bd731d767e8b120bb7acf3578d4601d12f1"
+                  "stateDigest": "e7abc839b071ad1391fc34221083fbf9cbc2800732b7dada39f68c48ca35fe16"
                 }
               ],
               "emergenceAssessments": [
@@ -6545,8 +10977,9 @@
       ],
       "configurationDigests": [
         "323b1fc36acc65d9fe8d438cca18ee8a28d9d7e2a58fc3746c7713e8670d759e",
-        "18d8a4685493691d8ece6d285d4fdc5326d5f581ffc6fcefdb80d5aa205cdc24",
-        "18d8a4685493691d8ece6d285d4fdc5326d5f581ffc6fcefdb80d5aa205cdc24"
+        "ae0f37bf8b6aa4aa78f54112c0dfe8af9b1aba9c8b3004644c680b6a6472306f",
+        "16e89905bdd5f482018762e34d65638bf6b361e89bdf06028772b4357ee8b40b",
+        "ae0f37bf8b6aa4aa78f54112c0dfe8af9b1aba9c8b3004644c680b6a6472306f"
       ],
       "anchoredHistory": {
         "mode": "monotone-causal-commit-ledger",
@@ -6577,8 +11010,38 @@
                 "denominator": "1"
               }
             },
-            "stateDigest": "786b048f7cb12b215bd0816346088bd731d767e8b120bb7acf3578d4601d12f1",
+            "stateDigest": "e7abc839b071ad1391fc34221083fbf9cbc2800732b7dada39f68c48ca35fe16",
             "closureId": "path:root:closure:1:continuation:autonomous",
+            "ordinalWithinClosure": 1
+          },
+          {
+            "eventId": "commit:law:restore-from-memory-route-b",
+            "causedByEventId": "law:restore-from-memory-route-b",
+            "worldId": "maintenance-world",
+            "affectedFields": {
+              "integrity": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "identity": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "memory": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "boundary": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            "stateDigest": "ab5c9b2aebaa2c8843432508e5c6ac855038334eca3438b789e905e81a1516c5",
+            "closureId": "path:root:closure:2:continuation:autonomous",
             "ordinalWithinClosure": 1
           },
           {
@@ -6607,23 +11070,23 @@
                 "denominator": "1"
               }
             },
-            "stateDigest": "786b048f7cb12b215bd0816346088bd731d767e8b120bb7acf3578d4601d12f1",
-            "closureId": "path:root:closure:2:continuation:autonomous",
+            "stateDigest": "e7abc839b071ad1391fc34221083fbf9cbc2800732b7dada39f68c48ca35fe16",
+            "closureId": "path:root:closure:3:continuation:autonomous",
             "ordinalWithinClosure": 1
           }
         ],
-        "digest": "b099aac9524d1a580d19884a5dd0b91754434923973a12fa805bb16e9edd726e"
+        "digest": "707ba85a0485d0d2c3bf2e0e3dfaa1bf057fecfc9744857f00ce59363785c9f3"
       },
       "cycle": {
         "scope": "causal-configuration",
         "startConfigurationIndex": 1,
-        "periodClosures": 1,
-        "repeatedConfigurationDigest": "18d8a4685493691d8ece6d285d4fdc5326d5f581ffc6fcefdb80d5aa205cdc24",
+        "periodClosures": 2,
+        "repeatedConfigurationDigest": "ae0f37bf8b6aa4aa78f54112c0dfe8af9b1aba9c8b3004644c680b6a6472306f",
         "anchoredHistory": {
           "mode": "monotone-extension",
           "entryCountAtCycleStart": 1,
-          "entryCountAtRecurrence": 2,
-          "extensionCount": 1,
+          "entryCountAtRecurrence": 3,
+          "extensionCount": 2,
           "fullAnchoredStateRepeated": false
         }
       }
@@ -6659,7 +11122,29 @@
             }
           },
           {
+            "lawId": "negative-sea-erosion-route-b",
+            "from": {
+              "worldId": "maintenance-world",
+              "fieldId": "negative"
+            },
+            "to": {
+              "worldId": "maintenance-world",
+              "fieldId": "integrity"
+            }
+          },
+          {
             "lawId": "negative-sea-erosion",
+            "from": {
+              "worldId": "maintenance-world",
+              "fieldId": "negative"
+            },
+            "to": {
+              "worldId": "maintenance-world",
+              "fieldId": "phase"
+            }
+          },
+          {
+            "lawId": "negative-sea-erosion-route-b",
             "from": {
               "worldId": "maintenance-world",
               "fieldId": "negative"
@@ -6683,7 +11168,29 @@
             }
           },
           {
+            "lawId": "negative-sea-erosion-route-b",
+            "from": {
+              "worldId": "maintenance-world",
+              "fieldId": "boundary"
+            },
+            "to": {
+              "worldId": "maintenance-world",
+              "fieldId": "signal"
+            }
+          },
+          {
             "lawId": "restore-from-memory",
+            "from": {
+              "worldId": "maintenance-world",
+              "fieldId": "boundary"
+            },
+            "to": {
+              "worldId": "maintenance-world",
+              "fieldId": "signal"
+            }
+          },
+          {
+            "lawId": "restore-from-memory-route-b",
             "from": {
               "worldId": "maintenance-world",
               "fieldId": "boundary"
@@ -6705,7 +11212,29 @@
             }
           },
           {
+            "lawId": "negative-sea-erosion-route-b",
+            "from": {
+              "worldId": "maintenance-world",
+              "fieldId": "identity"
+            },
+            "to": {
+              "worldId": "maintenance-world",
+              "fieldId": "signal"
+            }
+          },
+          {
             "lawId": "restore-from-memory",
+            "from": {
+              "worldId": "maintenance-world",
+              "fieldId": "identity"
+            },
+            "to": {
+              "worldId": "maintenance-world",
+              "fieldId": "signal"
+            }
+          },
+          {
+            "lawId": "restore-from-memory-route-b",
             "from": {
               "worldId": "maintenance-world",
               "fieldId": "identity"
@@ -6727,7 +11256,29 @@
             }
           },
           {
+            "lawId": "negative-sea-erosion-route-b",
+            "from": {
+              "worldId": "maintenance-world",
+              "fieldId": "integrity"
+            },
+            "to": {
+              "worldId": "maintenance-world",
+              "fieldId": "signal"
+            }
+          },
+          {
             "lawId": "restore-from-memory",
+            "from": {
+              "worldId": "maintenance-world",
+              "fieldId": "integrity"
+            },
+            "to": {
+              "worldId": "maintenance-world",
+              "fieldId": "signal"
+            }
+          },
+          {
+            "lawId": "restore-from-memory-route-b",
             "from": {
               "worldId": "maintenance-world",
               "fieldId": "integrity"
@@ -6749,7 +11300,29 @@
             }
           },
           {
+            "lawId": "restore-from-memory-route-b",
+            "from": {
+              "worldId": "maintenance-world",
+              "fieldId": "memory"
+            },
+            "to": {
+              "worldId": "maintenance-world",
+              "fieldId": "signal"
+            }
+          },
+          {
             "lawId": "negative-sea-erosion",
+            "from": {
+              "worldId": "maintenance-world",
+              "fieldId": "phase"
+            },
+            "to": {
+              "worldId": "maintenance-world",
+              "fieldId": "signal"
+            }
+          },
+          {
+            "lawId": "negative-sea-erosion-route-b",
             "from": {
               "worldId": "maintenance-world",
               "fieldId": "phase"
@@ -6769,9 +11342,36 @@
               "worldId": "maintenance-world",
               "fieldId": "signal"
             }
+          },
+          {
+            "lawId": "restore-from-memory-route-b",
+            "from": {
+              "worldId": "maintenance-world",
+              "fieldId": "phase"
+            },
+            "to": {
+              "worldId": "maintenance-world",
+              "fieldId": "signal"
+            }
           }
         ],
         "incomingDependencies": [
+          {
+            "lawId": "negative-sea-erosion-route-b",
+            "worldId": "maintenance-world",
+            "guardFieldKeys": [
+              "maintenance-world.boundary",
+              "maintenance-world.identity",
+              "maintenance-world.integrity",
+              "maintenance-world.negative",
+              "maintenance-world.phase"
+            ],
+            "effectFieldKeys": [
+              "maintenance-world.integrity",
+              "maintenance-world.phase",
+              "maintenance-world.signal"
+            ]
+          },
           {
             "lawId": "negative-sea-erosion",
             "worldId": "maintenance-world",
@@ -6791,6 +11391,22 @@
         ],
         "outgoingDependencies": [
           {
+            "lawId": "negative-sea-erosion-route-b",
+            "worldId": "maintenance-world",
+            "guardFieldKeys": [
+              "maintenance-world.boundary",
+              "maintenance-world.identity",
+              "maintenance-world.integrity",
+              "maintenance-world.negative",
+              "maintenance-world.phase"
+            ],
+            "effectFieldKeys": [
+              "maintenance-world.integrity",
+              "maintenance-world.phase",
+              "maintenance-world.signal"
+            ]
+          },
+          {
             "lawId": "negative-sea-erosion",
             "worldId": "maintenance-world",
             "guardFieldKeys": [
@@ -6802,6 +11418,25 @@
             ],
             "effectFieldKeys": [
               "maintenance-world.integrity",
+              "maintenance-world.phase",
+              "maintenance-world.signal"
+            ]
+          },
+          {
+            "lawId": "restore-from-memory-route-b",
+            "worldId": "maintenance-world",
+            "guardFieldKeys": [
+              "maintenance-world.boundary",
+              "maintenance-world.identity",
+              "maintenance-world.integrity",
+              "maintenance-world.memory",
+              "maintenance-world.phase"
+            ],
+            "effectFieldKeys": [
+              "maintenance-world.boundary",
+              "maintenance-world.identity",
+              "maintenance-world.integrity",
+              "maintenance-world.memory",
               "maintenance-world.phase",
               "maintenance-world.signal"
             ]
@@ -6827,11 +11462,14 @@
           }
         ],
         "mediatedIncomingLawIds": [
-          "negative-sea-erosion"
+          "negative-sea-erosion",
+          "negative-sea-erosion-route-b"
         ],
         "mediatedOutgoingLawIds": [
           "negative-sea-erosion",
-          "restore-from-memory"
+          "negative-sea-erosion-route-b",
+          "restore-from-memory",
+          "restore-from-memory-route-b"
         ],
         "derivedFromCausalCut": true,
         "status": "causally-mediated",
@@ -6841,7 +11479,9 @@
           ],
           "testedCrossingLawIds": [
             "negative-sea-erosion",
-            "restore-from-memory"
+            "negative-sea-erosion-route-b",
+            "restore-from-memory",
+            "restore-from-memory-route-b"
           ],
           "suppressedRecoveryLawIds": [
             "form-structure"
@@ -6850,18 +11490,58 @@
             {
               "continuationId": "continuation:autonomous",
               "changedFieldKeys": [
-                "maintenance-world.boundary"
+                "maintenance-world.boundary",
+                "maintenance-world.phase",
+                "maintenance-world.signal"
               ],
-              "externallyChangedFieldKeys": [],
+              "externallyChangedFieldKeys": [
+                "maintenance-world.signal"
+              ],
+              "changedTraceLawIds": [
+                "negative-sea-erosion-route-b",
+                "restore-from-memory-route-b"
+              ],
+              "historyChanged": true,
+              "effective": true,
+              "factualClosureId": "path:root:closure:2:continuation:autonomous",
+              "testedCrossingLawIds": [
+                "negative-sea-erosion-route-b",
+                "restore-from-memory-route-b"
+              ]
+            },
+            {
+              "continuationId": "continuation:autonomous",
+              "changedFieldKeys": [
+                "maintenance-world.boundary",
+                "maintenance-world.phase",
+                "maintenance-world.signal"
+              ],
+              "externallyChangedFieldKeys": [
+                "maintenance-world.signal"
+              ],
               "changedTraceLawIds": [
                 "negative-sea-erosion",
                 "restore-from-memory"
               ],
               "historyChanged": true,
-              "effective": true
+              "effective": true,
+              "factualClosureId": "path:root:closure:3:continuation:autonomous",
+              "testedCrossingLawIds": [
+                "negative-sea-erosion",
+                "restore-from-memory"
+              ]
             }
           ],
-          "counterfactualRunStatus": "stable"
+          "counterfactualRuns": [
+            {
+              "factualClosureId": "path:root:closure:2:continuation:autonomous",
+              "status": "stable"
+            },
+            {
+              "factualClosureId": "path:root:closure:3:continuation:autonomous",
+              "status": "stable"
+            }
+          ]
         }
       },
       "identity": {
@@ -6943,7 +11623,9 @@
       "causalInfluence": {
         "realizedOutgoingLawIds": [
           "negative-sea-erosion",
-          "restore-from-memory"
+          "negative-sea-erosion-route-b",
+          "restore-from-memory",
+          "restore-from-memory-route-b"
         ],
         "externallyChangedFieldKeys": [
           "maintenance-world.signal"

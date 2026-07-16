@@ -246,7 +246,7 @@ Extend the same law to one bounded multi-step or concrete branching transition w
 
 ### H-011: Bubble order can emerge without imposing a universal clock
 
-Status: partially validated through v0.5.3
+Status: partially validated through v0.5.4
 
 Claim:
 
@@ -259,6 +259,7 @@ Validation evidence:
 - selected commit transform has `ordering: committed-history`, creates one root commit, and records the history arrow
 - all self-realization records state `no-universal-clock`
 - v0.5.3 unfolds exact causal closures, records configuration-continuation edges, certifies finite causal-configuration lassos, and preserves monotone committed anchor history separately while explicitly keeping closure indices separate from world duration
+- v0.5.4 derives a period-two invariant viability set in the same closure coordinates while keeping both `universalClock: false` and the separately growing anchor-history ledger
 
 Would be weakened by:
 
@@ -368,7 +369,7 @@ Validation evidence:
 
 - a field/law factor graph retains complete conjunctive dependencies and derives one strongly connected field projection containing boundary, identity, integrity, memory, and repair phase without declaring an entity
 - negative sea remains outside that component and crosses its incoming law hypercut; every incoming/outgoing crossing law binds boundary state, and pre-formation boundary-state ablation changes every crossing law's realization on every continuation after unrelated recovery is suppressed
-- the formed causal configuration recurs after two exact closures with a one-closure cycle and `universalClock: false`; two distinct restoration commits remain in the monotone anchor ledger, so the full anchored state is not misreported as repeating
+- the v0.5.4-compatible canonical fixture enters a two-configuration cycle after formation and repeats after three executed closures with a two-closure period and `universalClock: false`; three restoration commits remain in the monotone anchor ledger, so the full anchored state is not misreported as repeating
 - an authored plural World-Will tie produces two lawful persistence paths and the persistence layer unfolds and verifies both rather than selecting one
 - identity remains exact at every certified recurrence cut
 - erasing retained memory to its pre-formation value prevents repair and changes the external signal on every lawful counterfactual continuation; a synthetic mixed-branch regression remains unresolved
@@ -385,8 +386,43 @@ Would be weakened by:
 - a restoration event with no causal negative-sea predecessor or no exact recurrent-reference deviation and return
 - host selection of one recurrent branch while another lawful branch dissolves
 - treating state repetition, a field role name, or a stable report score alone as persistence
-- calling the certified component an agent without goal, affordance, and action-ablation evidence
+- calling the certified component an agent without goal, affordance, and same-program response-event evidence
 
 Next check:
 
-Model one internally maintained objective with at least two lawful affordances and counterfactual action ablation on a certified persistent component. Keep agency, protagonist identity, relationships, and story projection as separate later claims.
+Model one internally maintained objective with at least two lawful affordances and universal same-program response-event nonrealization on a certified persistent component. Keep agency, protagonist identity, relationships, and story projection as separate later claims.
+
+### H-016: An authored-goal-free invariant norm can support bounded teleonomic capacity
+
+Status: validated for the completed bounded v0.5.4 causal worlds
+
+Claim:
+
+A certified persistent component has bounded teleonomic capacity when its recurrent configurations form a finite invariant viability set, at least two internal response laws are realized under causally regenerated pairwise-disjoint component states, every factual response occurrence is necessary under universal same-program event-nonrealization and disappears universally when its retained memory is erased, and the same kernel persists with World Will disabled and every anchor cut, without an authored goal or host affordance selector.
+
+Validation evidence:
+
+- the canonical program contains no goal, agent, protagonist, action menu, or story declaration
+- the exact recurrent component projection contains two configurations and closes across a period-two causal cycle while committed anchor history continues to grow
+- route A and route B restoration laws occur under different exact phase values and both require the derived boundary and retained memory
+- suppressing either enabled response event while retaining the same program and response law makes every witnessed selected continuation from its factual closure input leave the two-configuration kernel
+- disabling World Will and cutting `maintenance-anchor` preserves persistence and the identical kernel on every lawful path; empty or mixed path evidence cannot certify autonomy
+- collapsing the fixture to one response preserves persistence but yields `non-teleonomic`
+- a detached phase scheduler preserves persistence and plural necessary restoration but is rejected because it does not causally regenerate the next discriminator input
+- a three-state, three-response cycle satisfies the same contract, so the positive result is not restricted to the canonical period-two shape
+- an independent two-channel world contains no scalar `phase` field or parameter; both channel coordinates are organically recurrent and both responses satisfy event necessity, memory dependence, autonomy, and replay
+- making one response's memory predicate tautological preserves persistence but makes that affordance non-necessary and the complete run `non-teleonomic`
+- a two-closure proof bound cannot discover the period-two lasso and remains `undetermined`
+- inspection and exact replay preserve response-event nonrealization and autonomy evidence; stored-kernel tampering is rejected
+
+Would be weakened by:
+
+- accepting a field or prose declaration named goal without an invariant and response-event nonrealization witness
+- presenting parallel response candidates to a host selector instead of deriving events from internal state guards
+- accepting one successful branch when another lawful response-event counterfactual continuation remains inside the kernel
+- preserving the capacity only while World Will or an anchor intervention supplies it
+- calling a finite certified invariant subset the maximal viability kernel or calling teleonomic capacity agency
+
+Next check:
+
+Only a later version should test the first organically generated relational or simultaneous-alternative structure that could support a stronger agency claim. Require a new counterfactual contract rather than renaming the completed `v0.5.4` evidence.

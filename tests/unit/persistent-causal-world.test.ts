@@ -32,7 +32,10 @@ test("causal recurrence derives a boundary-bearing component instead of declarin
     ]);
     assert.ok(component.incomingEdges.some((edge) => edge.from.fieldId === "negative"));
     assert.ok(component.outgoingEdges.some((edge) => edge.to.fieldId === "signal"));
-    assert.deepEqual(component.incomingDependencies.map((dependency) => dependency.lawId), ["negative-sea-erosion"]);
+    assert.deepEqual(component.incomingDependencies.map((dependency) => dependency.lawId).sort(), [
+        "negative-sea-erosion",
+        "negative-sea-erosion-route-b",
+    ]);
     assert.ok(component.outgoingDependencies.some((dependency) => dependency.lawId === "restore-from-memory"));
     assert.equal(component.memberFieldKeys.includes("maintenance-world.negative"), false);
     assert.equal(component.memberFieldKeys.includes("maintenance-world.signal"), false);

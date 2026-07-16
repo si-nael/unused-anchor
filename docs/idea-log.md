@@ -1,5 +1,14 @@
 # Idea Log
 
+## 2026-07-17
+
+### Distributed state is not a hidden universal phase
+
+- Any finite recurrence can be encoded by a scalar index from outside, but Bubble semantics must not require or privilege that encoding inside the world.
+- A world may carry its continuation through several coupled local state coordinates whose changes are caused by its own disturbances and responses.
+- The `distributed-channel-field` case therefore removes the scalar `phase` field entirely. Its two channel coordinates both change during every disturbance and restoration and jointly regenerate the next lawful response condition.
+- This does not claim infinite-dimensional dynamics or general endogenous branching. It shows that bounded teleonomic evidence is attached to causal organization rather than to one field name or one host-style scheduler.
+
 ## 2026-07-15
 
 ### A universe from which agents and stories may arise
@@ -10,6 +19,7 @@
 - World Will is an internal objective-and-constraint orientation, not a narrator. It may alter lawful conditions through anchors but may not directly manufacture protected internal structure and call it emergence.
 - `v0.5.2` preserves the pushed `v0.5.1` narrative kernel as a compatible agent-bearing specialization and adds a separate actor-neutral generative causal kernel.
 - `v0.5.3` derives one recurrent causal component from conjunctive law dependencies and requires a fully boundary-mediated hypercut, invariant identity, universally effective memory erasure, negative-sea-caused deviation and exact recurrent-reference restoration, and outward influence before calling it persistent. It records causal-configuration recurrence separately from append-only anchor history. This is still not a primitive or derived claim of life, agency, protagonist identity, or story.
+- `v0.5.4` derives a bounded invariant norm and two internally phase-differentiated necessary responses from that same unlabeled component. This is recorded as teleonomic capacity, not as a goal field, choice menu, agent, protagonist, or story; those stronger possibilities remain live obligations.
 
 ### Formal language for infinity without natural-language execution
 

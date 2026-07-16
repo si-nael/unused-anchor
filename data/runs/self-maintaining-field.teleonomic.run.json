@@ -1,15 +1,20 @@
 {
-  "mode": "bubble-persistent-causal-replay-result.v1",
-  "status": "same-world-reexecution",
-  "recordedDigest": "e4d1f74b2ad0f2d62c5659a39081db6f2b4eeb024a68c33a31cebe46b4b7be9e",
-  "recordedRunDigest": "e4d1f74b2ad0f2d62c5659a39081db6f2b4eeb024a68c33a31cebe46b4b7be9e",
-  "replayedDigest": "e4d1f74b2ad0f2d62c5659a39081db6f2b4eeb024a68c33a31cebe46b4b7be9e",
-  "recordIntegrityValid": true,
-  "recordedProgramDigestValid": true,
-  "fullRunPreserved": true,
-  "pathCyclesPreserved": true,
-  "persistenceEvidencePreserved": true,
-  "replayedRun": {
+  "mode": "bubble-teleonomic-causal-run.v1",
+  "programDigest": "915ad831c65b6ccb4f0a0d2a1aba5922c070150308cd5ce3d9e6cc006bc99716",
+  "status": "teleonomic-capacity",
+  "reason": "every lawful recurrent path contains an autonomous invariant viability kernel with plural organically regenerated, response-event-necessary, memory-dependent affordances",
+  "options": {
+    "causalOptions": {
+      "worldWillEnabled": true,
+      "cutAnchorIds": []
+    }
+  },
+  "order": {
+    "kind": "causal-closure-viability-analysis",
+    "universalClock": false,
+    "hostAffordanceSelector": false
+  },
+  "persistentRun": {
     "mode": "bubble-persistent-causal-run.v1",
     "programDigest": "915ad831c65b6ccb4f0a0d2a1aba5922c070150308cd5ce3d9e6cc006bc99716",
     "options": {
@@ -11676,5 +11681,363 @@
       "pathLimit": 32,
       "exhaustive": true
     }
+  },
+  "assessments": [
+    {
+      "pathId": "path:root",
+      "componentId": "component:maintenance-world.boundary+maintenance-world.identity+maintenance-world.integrity+maintenance-world.memory+maintenance-world.phase",
+      "worldId": "maintenance-world",
+      "status": "teleonomic-capacity",
+      "endogenousNorm": {
+        "kind": "bounded-invariant-viability-kernel",
+        "authoredGoalDeclaration": false,
+        "componentConfigurationDigests": [
+          "5e09a674debfa1f95d0b972b519674690cd9af52bafdcbfd719ec90ddb3f08c2",
+          "ae13d1219e9dbbed75eb40b632cddb4b40dc25cfb7a6a45362ab47fe5c48897c"
+        ],
+        "cardinality": 2,
+        "closedAcrossRealizedCycle": true,
+        "maintainedByInternalLawIds": [
+          "restore-from-memory",
+          "restore-from-memory-route-b"
+        ]
+      },
+      "affordances": [
+        {
+          "lawId": "restore-from-memory",
+          "status": "necessary",
+          "factualClosureIds": [
+            "path:root:closure:3:continuation:autonomous"
+          ],
+          "negativeSeaEventIds": [
+            "law:admit-negative-sea"
+          ],
+          "disturbanceEventIds": [
+            "law:negative-sea-erosion"
+          ],
+          "responseEventIds": [
+            "law:restore-from-memory"
+          ],
+          "inputKernelDigests": [
+            "ae13d1219e9dbbed75eb40b632cddb4b40dc25cfb7a6a45362ab47fe5c48897c"
+          ],
+          "outputKernelDigests": [
+            "5e09a674debfa1f95d0b972b519674690cd9af52bafdcbfd719ec90ddb3f08c2"
+          ],
+          "discriminatorValues": {
+            "maintenance-world.phase": [
+              {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            ],
+            "maintenance-world.boundary": [
+              {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            ],
+            "maintenance-world.memory": [
+              {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            ],
+            "maintenance-world.identity": [
+              {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            ],
+            "maintenance-world.integrity": [
+              {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            ]
+          },
+          "responseEventAblations": [
+            {
+              "factualClosureId": "path:root:closure:3:continuation:autonomous",
+              "status": "necessary",
+              "counterfactualKind": "same-law-internal-event-nonrealization",
+              "counterfactualRunStatus": "stable",
+              "factualProgramDigest": "8e6cae3ffe169fdb7e9843ad43fe07d1a09221f582197fb7b7150cf59bbeea75",
+              "counterfactualProgramDigest": "8e6cae3ffe169fdb7e9843ad43fe07d1a09221f582197fb7b7150cf59bbeea75",
+              "sameProgramDigest": true,
+              "lawDefinitionRetained": true,
+              "eventAblationWitnesses": [
+                {
+                  "id": "ablation:law:restore-from-memory",
+                  "kind": "internal-event-nonrealization",
+                  "lawId": "restore-from-memory",
+                  "worldId": "maintenance-world",
+                  "wouldHaveEventId": "law:restore-from-memory",
+                  "guardEvidenceSubjectId": "autonomous:frontier:2:restore-from-memory:repair-through-retained-structure",
+                  "frontierIndex": 2,
+                  "causes": [
+                    "law:negative-sea-erosion"
+                  ],
+                  "lawRetainedInProgram": true,
+                  "effectsSuppressed": true
+                }
+              ],
+              "continuations": [
+                {
+                  "continuationId": "continuation:autonomous",
+                  "componentConfigurationDigest": "c71bbc3e4ca9d98b62a12541583d8d3e7d86cfa7f330633d796f1dbfa8b37ac9",
+                  "remainsInsideKernel": false,
+                  "changedTraceLawIds": [
+                    "restore-from-memory"
+                  ],
+                  "internalEventAblationIds": [
+                    "ablation:law:restore-from-memory"
+                  ],
+                  "responseEventNonrealizationWitnessed": true
+                }
+              ]
+            }
+          ],
+          "memoryDependence": [
+            {
+              "factualClosureId": "path:root:closure:3:continuation:autonomous",
+              "status": "necessary",
+              "counterfactualKind": "same-program-memory-erasure",
+              "counterfactualRunStatus": "stable",
+              "memoryFieldKeys": [
+                "maintenance-world.memory"
+              ],
+              "rememberedValues": {
+                "maintenance-world.memory": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              "erasedToValues": {
+                "maintenance-world.memory": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              },
+              "continuations": [
+                {
+                  "continuationId": "continuation:autonomous",
+                  "responseEventRealized": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "lawId": "restore-from-memory-route-b",
+          "status": "necessary",
+          "factualClosureIds": [
+            "path:root:closure:2:continuation:autonomous"
+          ],
+          "negativeSeaEventIds": [
+            "law:admit-negative-sea"
+          ],
+          "disturbanceEventIds": [
+            "law:negative-sea-erosion-route-b"
+          ],
+          "responseEventIds": [
+            "law:restore-from-memory-route-b"
+          ],
+          "inputKernelDigests": [
+            "5e09a674debfa1f95d0b972b519674690cd9af52bafdcbfd719ec90ddb3f08c2"
+          ],
+          "outputKernelDigests": [
+            "ae13d1219e9dbbed75eb40b632cddb4b40dc25cfb7a6a45362ab47fe5c48897c"
+          ],
+          "discriminatorValues": {
+            "maintenance-world.phase": [
+              {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              }
+            ],
+            "maintenance-world.boundary": [
+              {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            ],
+            "maintenance-world.memory": [
+              {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            ],
+            "maintenance-world.identity": [
+              {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            ],
+            "maintenance-world.integrity": [
+              {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            ]
+          },
+          "responseEventAblations": [
+            {
+              "factualClosureId": "path:root:closure:2:continuation:autonomous",
+              "status": "necessary",
+              "counterfactualKind": "same-law-internal-event-nonrealization",
+              "counterfactualRunStatus": "stable",
+              "factualProgramDigest": "8e6cae3ffe169fdb7e9843ad43fe07d1a09221f582197fb7b7150cf59bbeea75",
+              "counterfactualProgramDigest": "8e6cae3ffe169fdb7e9843ad43fe07d1a09221f582197fb7b7150cf59bbeea75",
+              "sameProgramDigest": true,
+              "lawDefinitionRetained": true,
+              "eventAblationWitnesses": [
+                {
+                  "id": "ablation:law:restore-from-memory-route-b",
+                  "kind": "internal-event-nonrealization",
+                  "lawId": "restore-from-memory-route-b",
+                  "worldId": "maintenance-world",
+                  "wouldHaveEventId": "law:restore-from-memory-route-b",
+                  "guardEvidenceSubjectId": "autonomous:frontier:2:restore-from-memory-route-b:repair-route-b-through-retained-structure",
+                  "frontierIndex": 2,
+                  "causes": [
+                    "law:negative-sea-erosion-route-b"
+                  ],
+                  "lawRetainedInProgram": true,
+                  "effectsSuppressed": true
+                }
+              ],
+              "continuations": [
+                {
+                  "continuationId": "continuation:autonomous",
+                  "componentConfigurationDigest": "f6113cd9a4faf4204f6fc9c2a6f608e2a7ca854df256edf92aa4505a82466f36",
+                  "remainsInsideKernel": false,
+                  "changedTraceLawIds": [
+                    "restore-from-memory-route-b"
+                  ],
+                  "internalEventAblationIds": [
+                    "ablation:law:restore-from-memory-route-b"
+                  ],
+                  "responseEventNonrealizationWitnessed": true
+                }
+              ]
+            }
+          ],
+          "memoryDependence": [
+            {
+              "factualClosureId": "path:root:closure:2:continuation:autonomous",
+              "status": "necessary",
+              "counterfactualKind": "same-program-memory-erasure",
+              "counterfactualRunStatus": "stable",
+              "memoryFieldKeys": [
+                "maintenance-world.memory"
+              ],
+              "rememberedValues": {
+                "maintenance-world.memory": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              "erasedToValues": {
+                "maintenance-world.memory": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              },
+              "continuations": [
+                {
+                  "continuationId": "continuation:autonomous",
+                  "responseEventRealized": false
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "plurality": {
+        "distinctAffordanceLawIds": [
+          "restore-from-memory",
+          "restore-from-memory-route-b"
+        ],
+        "internalDiscriminatorFieldKeys": [
+          "maintenance-world.phase"
+        ],
+        "internalDiscriminatorEvidence": [
+          {
+            "fieldKey": "maintenance-world.phase",
+            "status": "organically-recurrent",
+            "distinctAcrossAffordances": true,
+            "everyResponseValueProducedWithinEpisode": true,
+            "everyCycleInputProducedByPrecedingResponse": true,
+            "witnesses": [
+              {
+                "lawId": "restore-from-memory-route-b",
+                "factualClosureId": "path:root:closure:2:continuation:autonomous",
+                "withinEpisodeWriterEventId": "law:negative-sea-erosion-route-b",
+                "withinEpisodeCausallyProduced": true,
+                "precedingClosureId": "path:root:closure:3:continuation:autonomous",
+                "precedingInputWriterEventId": "law:restore-from-memory",
+                "precedingResponseEventIds": [
+                  "law:restore-from-memory"
+                ],
+                "precedingResponseCausallyProducedInput": true
+              },
+              {
+                "lawId": "restore-from-memory",
+                "factualClosureId": "path:root:closure:3:continuation:autonomous",
+                "withinEpisodeWriterEventId": "law:negative-sea-erosion",
+                "withinEpisodeCausallyProduced": true,
+                "precedingClosureId": "path:root:closure:2:continuation:autonomous",
+                "precedingInputWriterEventId": "law:restore-from-memory-route-b",
+                "precedingResponseEventIds": [
+                  "law:restore-from-memory-route-b"
+                ],
+                "precedingResponseCausallyProducedInput": true
+              }
+            ]
+          }
+        ],
+        "organicallyDifferentiated": true,
+        "hostSelection": false
+      },
+      "autonomy": {
+        "realizedWithoutWorldWillIntervention": true,
+        "disabledWorldWillAndCutAnchorIds": [
+          "maintenance-anchor"
+        ],
+        "persistentCounterfactualStatus": "persistent",
+        "pathEvidence": [
+          {
+            "pathId": "path:root",
+            "pathStatus": "cycle",
+            "componentPersistent": true,
+            "kernelPreserved": true
+          }
+        ],
+        "viabilityKernelPreserved": true,
+        "effective": true
+      },
+      "reasons": []
+    }
+  ],
+  "resourceUse": {
+    "persistentExecutions": 2,
+    "responseEventAblationExecutions": 2,
+    "memoryErasureExecutions": 2,
+    "exhaustive": true
   }
 }

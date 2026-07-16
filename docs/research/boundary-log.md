@@ -8,7 +8,207 @@ The point is not to treat every compiler error as deep theory.
 
 The point is to keep visible the classes of failure that show where Bubble's own membranes, compatibility rules, or self-descriptive limits need to harden.
 
+## 2026-07-17
+
+### B-025: Syntactic memory binding crossed into semantic dependence
+
+Observed surface:
+
+A response guard could include a memory field through a tautology and still be described as boundary-and-memory-dependent.
+
+Boundary meaning:
+
+Field-role presence crossed into causal necessity. Another closure could carry the repository's general memory evidence while one alleged affordance ignored memory entirely.
+
+Current handling:
+
+Every factual response now receives its own same-program memory-erasure counterfactual. All bound memory fields are reset to their pre-formation values with World Will disabled and every anchor cut. The response must disappear on every selected continuation; decorative memory keeps persistence but makes the teleonomic assessment fail.
+
+Next check:
+
+Use the same per-occurrence semantic-dependence rule when relations, preferences, learning state, or narrative memory become affordance prerequisites.
+
+### B-024: An unrepresentable plural future crossed into a forced current fixture
+
+Observed surface:
+
+The candidate appeared to require a real plural autonomous-path example even though the current causal kernel has no endogenous branching transition: plural selected continuations come only from World-Will intervention ties.
+
+Boundary meaning:
+
+A future semantic capability crossed backward into the current release and tempted the implementation to add an ad hoc branch menu merely to satisfy a test.
+
+Current handling:
+
+The runtime keeps universal path-indexed autonomy evidence, while a direct regression proves that disabling World Will removes its plural intervention continuations and leaves one autonomous closure. Non-commuting internal laws remain `underdetermined`. Endogenous branching stays an explicit later obligation.
+
+Next check:
+
+When branch/spawn/collapse becomes executable, reuse the existing universal path contract and add real plural autonomous worlds without changing the meaning of `v0.5.4`.
+
 ## 2026-07-15
+
+### B-023: One autonomous path crossed into path-universal autonomy
+
+Observed surface:
+
+The World-Will-disabled, all-anchors-cut re-execution searched for any persistent path whose component kernel matched the factual kernel.
+
+Boundary meaning:
+
+Existence of one matching continuation crossed into autonomy over the complete lawful future. In a plural run, the host could silently ignore a path where the component disappears or changes its invariant set.
+
+Current handling:
+
+Autonomy now records every disabled-and-cut path with its status, component-persistence verdict, and kernel-preservation verdict. Certification requires the same component and kernel on every path; empty or mixed evidence fails.
+
+Next check:
+
+Keep every future autonomy, agency, relation, and narrative counterfactual path-indexed and universally quantified unless the world itself supplies a lawful internal selection mechanism.
+
+### B-022: One passing release slice crossed into version completion
+
+Observed surface:
+
+The first period-two teleonomic fixture, focused tests, generated records, and a full green repository run were immediately described as a completed `v0.5.4` release.
+
+Boundary meaning:
+
+Implementation success crossed into release closure. A version boundary is a durable philosophical and semantic claim, not a counter increment after one happy-path slice.
+
+Current handling:
+
+`0.5.4` remains the working package version, but every completion claim is withdrawn. Its status is an active hardening candidate, and the new tests are evidence inside that candidate rather than permission to advance.
+
+Next check:
+
+Require repeated adversarial generalization, record consistency, and an explicit closure judgment before calling any future `v0.5.x` complete.
+
+### B-021: Alternating phase crossed into organic causal differentiation
+
+Observed surface:
+
+Two restoration laws could receive different phase values from a separate law that merely scheduled the next route. The resulting cycle remained persistent and each restoration remained necessary, yet the phase change was not caused by the restoration response itself.
+
+Boundary meaning:
+
+A correlated internal label crossed into organic recurrence. Removing a host selector is insufficient when a hidden scheduler inside the program still supplies the differentiation.
+
+Current handling:
+
+Discriminator value sets must be nonempty and pairwise disjoint across affordances. Each response value must be produced downstream of its structural disturbance, and each next-cycle input must be written by an event causally downstream of the preceding response. The detached-scheduler regression remains persistent but is `non-teleonomic`.
+
+Next check:
+
+Apply the same causal-provenance demand to future relations, preferences, learning, and simultaneous-alternative structures.
+
+### B-020: Law deletion crossed into same-world response nonrealization
+
+Observed surface:
+
+Deleting a response law from the program made its transition disappear and was reported as action ablation.
+
+Boundary meaning:
+
+A different law system crossed into a counterfactual about one event in the same world. The result could show dependence on program structure without showing necessity of the factual response occurrence.
+
+Current handling:
+
+The causal runtime now retains the exact program and law definition, evaluates the same guard, records a typed `internal-event-nonrealization` witness, and suppresses only that event's effects. Teleonomic necessity requires equal program digests and witnessed suppression in every selected continuation. Factual persistence refuses to begin from this diagnostic mode.
+
+Next check:
+
+Do not call a counterfactual same-world evidence unless the retained laws, state reconstruction, suppressed event, and quantifier are all explicit.
+
+### B-019: World-Will-supported persistence crossed into autonomous capacity
+
+Observed surface:
+
+A response repertoire can appear internally effective while an enabled World-Will intervention or anchor route supplies the condition that keeps its recurrent kernel intact.
+
+Boundary meaning:
+
+External governing support crossed into the structure's own capacity. Disabling intervention only on the factual trace is insufficient if the complete recurrent world cannot sustain the same invariant set after every anchor route is cut.
+
+Current handling:
+
+The teleonomic runtime re-executes the full persistent world with World Will disabled and every declared anchor cut. Certification requires a persistent path with the identical component-configuration kernel, in addition to factual response events carrying no intervention identifiers.
+
+Next check:
+
+Repeat this autonomy counterfactual for every future relation, agency, learning, and narrative-capacity claim.
+
+### B-018: A finite invariant subset crossed into a maximal viability kernel
+
+Observed surface:
+
+The recurrent lasso supplies an exact finite set of component configurations, which makes the mathematical phrase `viability kernel` tempting even though the runtime does not search every admissible configuration or compute a greatest fixed point.
+
+Boundary meaning:
+
+A bounded certificate crossed into a global maximality theorem. This would hide both the finite proof frontier and lawful viable configurations outside the witnessed cycle.
+
+Current handling:
+
+Reports and architecture call the result a `bounded-invariant-viability-kernel` and define it explicitly as the invariant subset witnessed by the certified lasso. They deny greatest, maximal, and unbounded-history interpretations.
+
+Next check:
+
+Reserve maximal-kernel or greatest-fixed-point language for an implementation that actually quantifies the full declared state space and transition relation.
+
+### B-017: Parallel response names crossed into organic affordances
+
+Observed surface:
+
+Two response laws can be listed in a program or report without showing that the world's own state makes each response occur. A host could then select between them and still advertise plurality.
+
+Boundary meaning:
+
+An authored option menu crossed into organic causal differentiation, repeating the rejected regime-selection architecture at a smaller scale.
+
+Current handling:
+
+Affordances are discovered only from response events actually present in one recurrent causal path. Distinct laws must have different exact values on at least one internal component-state field. The canonical phase guards generate each route in succession; there is no candidate list or selector, and both host-selection flags are false.
+
+Next check:
+
+Do not call simultaneous alternatives choice until the world supplies an internal discrimination or deliberation mechanism with its own counterfactual evidence.
+
+### B-016: Passive recurrence crossed into an endogenous goal
+
+Observed surface:
+
+A stable or repairing loop can preserve itself indefinitely under the bounded executor while containing only one automatic response and no evidence that more than one internal possibility is structured by the recurrent state.
+
+Boundary meaning:
+
+Persistence crossed into goal-directed capacity. A name such as `goal` or `health` would not repair the missing causal evidence.
+
+Current handling:
+
+The teleonomic layer authors no goal surface. It derives the norm from exact recurrent component configurations and requires at least two internally differentiated response laws. A one-response version of the canonical world remains persistent but is explicitly `non-teleonomic`.
+
+Next check:
+
+Keep persistence, teleonomic capacity, deliberative agency, and life as separate promotion boundaries.
+
+### B-015: One successful action ablation crossed into universal necessity
+
+Observed surface:
+
+Removing a response can produce several lawful counterfactual continuations. Accepting one continuation that leaves the invariant set would treat an existential failure as proof that the response was necessary.
+
+Boundary meaning:
+
+Branch aggregation crossed into universal causal necessity, the same quantifier error previously found in memory evidence.
+
+Current handling:
+
+Each selected same-program event-nonrealization continuation retains its own witness, component digest, and inside/outside verdict. A response occurrence is necessary only when every continuation leaves the factual kernel; mixed evidence remains unresolved.
+
+Next check:
+
+Preserve explicit universal quantification for future simultaneous action, relation, preference, and agency counterfactuals.
 
 ### B-014: Pairwise dependency projection crossed into a causal-membrane claim
 
@@ -62,7 +262,7 @@ Every counterfactual continuation now carries separate difference evidence. All 
 
 Next check:
 
-Apply the same explicit quantifier discipline to future goal, affordance, action-ablation, and relationship evidence.
+Apply the same explicit quantifier discipline to future goal, affordance, event-nonrealization, and relationship evidence.
 
 ### B-011: Configuration recurrence crossed into full anchored-world recurrence
 

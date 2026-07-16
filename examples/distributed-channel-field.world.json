@@ -1,0 +1,1843 @@
+{
+  "mode": "bubble-persistent-causal-program.v1",
+  "causalProgram": {
+    "mode": "bubble-anchored-causal-program.v2",
+    "world": {
+      "mode": "bubble-anchored-causal-world.v2",
+      "formal": {
+        "mode": "bubble-intensional-system.v1",
+        "families": [
+          {
+            "id": "zero",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "rational",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          },
+          {
+            "id": "one",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "rational",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          },
+          {
+            "id": "five",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "rational",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "rational",
+                "numerator": "5",
+                "denominator": "1"
+              }
+            }
+          },
+          {
+            "id": "always-true",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "boolean",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "boolean",
+                "value": true
+              }
+            }
+          },
+          {
+            "id": "boundary-is-zero",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "boolean",
+            "parameters": [
+              {
+                "name": "boundary",
+                "valueKind": "rational"
+              }
+            ],
+            "body": {
+              "kind": "binary",
+              "operator": "equal",
+              "left": {
+                "kind": "parameter",
+                "name": "boundary"
+              },
+              "right": {
+                "kind": "value",
+                "value": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              }
+            }
+          },
+          {
+            "id": "admission-ready",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "boolean",
+            "parameters": [
+              {
+                "name": "pressure",
+                "valueKind": "rational"
+              },
+              {
+                "name": "negative",
+                "valueKind": "rational"
+              }
+            ],
+            "body": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "binary",
+                "operator": "equal",
+                "left": {
+                  "kind": "parameter",
+                  "name": "pressure"
+                },
+                "right": {
+                  "kind": "value",
+                  "value": {
+                    "kind": "rational",
+                    "numerator": "1",
+                    "denominator": "1"
+                  }
+                }
+              },
+              "right": {
+                "kind": "binary",
+                "operator": "equal",
+                "left": {
+                  "kind": "parameter",
+                  "name": "negative"
+                },
+                "right": {
+                  "kind": "value",
+                  "value": {
+                    "kind": "rational",
+                    "numerator": "0",
+                    "denominator": "1"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "negative-is-one",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "boolean",
+            "parameters": [
+              {
+                "name": "negative",
+                "valueKind": "rational"
+              }
+            ],
+            "body": {
+              "kind": "binary",
+              "operator": "equal",
+              "left": {
+                "kind": "parameter",
+                "name": "negative"
+              },
+              "right": {
+                "kind": "value",
+                "value": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            }
+          },
+          {
+            "id": "stress-route-a-ready",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "boolean",
+            "parameters": [
+              {
+                "name": "negative",
+                "valueKind": "rational"
+              },
+              {
+                "name": "boundary",
+                "valueKind": "rational"
+              },
+              {
+                "name": "channelA",
+                "valueKind": "rational"
+              },
+              {
+                "name": "identity",
+                "valueKind": "rational"
+              },
+              {
+                "name": "integrity",
+                "valueKind": "rational"
+              },
+              {
+                "name": "channelB",
+                "valueKind": "rational"
+              }
+            ],
+            "body": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "binary",
+                "operator": "and",
+                "left": {
+                  "kind": "binary",
+                  "operator": "and",
+                  "left": {
+                    "kind": "binary",
+                    "operator": "and",
+                    "left": {
+                      "kind": "binary",
+                      "operator": "equal",
+                      "left": {
+                        "kind": "parameter",
+                        "name": "negative"
+                      },
+                      "right": {
+                        "kind": "value",
+                        "value": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      }
+                    },
+                    "right": {
+                      "kind": "binary",
+                      "operator": "equal",
+                      "left": {
+                        "kind": "parameter",
+                        "name": "boundary"
+                      },
+                      "right": {
+                        "kind": "value",
+                        "value": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": {
+                      "kind": "parameter",
+                      "name": "channelA"
+                    },
+                    "right": {
+                      "kind": "value",
+                      "value": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "binary",
+                  "operator": "and",
+                  "left": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": {
+                      "kind": "parameter",
+                      "name": "identity"
+                    },
+                    "right": {
+                      "kind": "value",
+                      "value": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": {
+                      "kind": "parameter",
+                      "name": "integrity"
+                    },
+                    "right": {
+                      "kind": "value",
+                      "value": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              "right": {
+                "kind": "binary",
+                "operator": "equal",
+                "left": {
+                  "kind": "parameter",
+                  "name": "channelB"
+                },
+                "right": {
+                  "kind": "value",
+                  "value": {
+                    "kind": "rational",
+                    "numerator": "2",
+                    "denominator": "1"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "stress-route-b-ready",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "boolean",
+            "parameters": [
+              {
+                "name": "negative",
+                "valueKind": "rational"
+              },
+              {
+                "name": "boundary",
+                "valueKind": "rational"
+              },
+              {
+                "name": "channelA",
+                "valueKind": "rational"
+              },
+              {
+                "name": "identity",
+                "valueKind": "rational"
+              },
+              {
+                "name": "integrity",
+                "valueKind": "rational"
+              },
+              {
+                "name": "channelB",
+                "valueKind": "rational"
+              }
+            ],
+            "body": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "binary",
+                "operator": "and",
+                "left": {
+                  "kind": "binary",
+                  "operator": "and",
+                  "left": {
+                    "kind": "binary",
+                    "operator": "and",
+                    "left": {
+                      "kind": "binary",
+                      "operator": "equal",
+                      "left": {
+                        "kind": "parameter",
+                        "name": "negative"
+                      },
+                      "right": {
+                        "kind": "value",
+                        "value": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      }
+                    },
+                    "right": {
+                      "kind": "binary",
+                      "operator": "equal",
+                      "left": {
+                        "kind": "parameter",
+                        "name": "boundary"
+                      },
+                      "right": {
+                        "kind": "value",
+                        "value": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": {
+                      "kind": "parameter",
+                      "name": "channelA"
+                    },
+                    "right": {
+                      "kind": "value",
+                      "value": {
+                        "kind": "rational",
+                        "numerator": "3",
+                        "denominator": "1"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "binary",
+                  "operator": "and",
+                  "left": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": {
+                      "kind": "parameter",
+                      "name": "identity"
+                    },
+                    "right": {
+                      "kind": "value",
+                      "value": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": {
+                      "kind": "parameter",
+                      "name": "integrity"
+                    },
+                    "right": {
+                      "kind": "value",
+                      "value": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              "right": {
+                "kind": "binary",
+                "operator": "equal",
+                "left": {
+                  "kind": "parameter",
+                  "name": "channelB"
+                },
+                "right": {
+                  "kind": "value",
+                  "value": {
+                    "kind": "rational",
+                    "numerator": "1",
+                    "denominator": "1"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "repair-route-a-ready",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "boolean",
+            "parameters": [
+              {
+                "name": "channelA",
+                "valueKind": "rational"
+              },
+              {
+                "name": "boundary",
+                "valueKind": "rational"
+              },
+              {
+                "name": "memory",
+                "valueKind": "rational"
+              },
+              {
+                "name": "identity",
+                "valueKind": "rational"
+              },
+              {
+                "name": "integrity",
+                "valueKind": "rational"
+              },
+              {
+                "name": "channelB",
+                "valueKind": "rational"
+              }
+            ],
+            "body": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "binary",
+                "operator": "and",
+                "left": {
+                  "kind": "binary",
+                  "operator": "and",
+                  "left": {
+                    "kind": "binary",
+                    "operator": "and",
+                    "left": {
+                      "kind": "binary",
+                      "operator": "equal",
+                      "left": {
+                        "kind": "parameter",
+                        "name": "channelA"
+                      },
+                      "right": {
+                        "kind": "value",
+                        "value": {
+                          "kind": "rational",
+                          "numerator": "-1",
+                          "denominator": "1"
+                        }
+                      }
+                    },
+                    "right": {
+                      "kind": "binary",
+                      "operator": "equal",
+                      "left": {
+                        "kind": "parameter",
+                        "name": "boundary"
+                      },
+                      "right": {
+                        "kind": "value",
+                        "value": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": {
+                      "kind": "parameter",
+                      "name": "memory"
+                    },
+                    "right": {
+                      "kind": "value",
+                      "value": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "binary",
+                  "operator": "and",
+                  "left": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": {
+                      "kind": "parameter",
+                      "name": "identity"
+                    },
+                    "right": {
+                      "kind": "value",
+                      "value": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": {
+                      "kind": "parameter",
+                      "name": "integrity"
+                    },
+                    "right": {
+                      "kind": "value",
+                      "value": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              "right": {
+                "kind": "binary",
+                "operator": "equal",
+                "left": {
+                  "kind": "parameter",
+                  "name": "channelB"
+                },
+                "right": {
+                  "kind": "value",
+                  "value": {
+                    "kind": "rational",
+                    "numerator": "4",
+                    "denominator": "1"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "repair-route-b-ready",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "boolean",
+            "parameters": [
+              {
+                "name": "channelA",
+                "valueKind": "rational"
+              },
+              {
+                "name": "boundary",
+                "valueKind": "rational"
+              },
+              {
+                "name": "memory",
+                "valueKind": "rational"
+              },
+              {
+                "name": "identity",
+                "valueKind": "rational"
+              },
+              {
+                "name": "integrity",
+                "valueKind": "rational"
+              },
+              {
+                "name": "channelB",
+                "valueKind": "rational"
+              }
+            ],
+            "body": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "binary",
+                "operator": "and",
+                "left": {
+                  "kind": "binary",
+                  "operator": "and",
+                  "left": {
+                    "kind": "binary",
+                    "operator": "and",
+                    "left": {
+                      "kind": "binary",
+                      "operator": "equal",
+                      "left": {
+                        "kind": "parameter",
+                        "name": "channelA"
+                      },
+                      "right": {
+                        "kind": "value",
+                        "value": {
+                          "kind": "rational",
+                          "numerator": "5",
+                          "denominator": "1"
+                        }
+                      }
+                    },
+                    "right": {
+                      "kind": "binary",
+                      "operator": "equal",
+                      "left": {
+                        "kind": "parameter",
+                        "name": "boundary"
+                      },
+                      "right": {
+                        "kind": "value",
+                        "value": {
+                          "kind": "rational",
+                          "numerator": "1",
+                          "denominator": "1"
+                        }
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": {
+                      "kind": "parameter",
+                      "name": "memory"
+                    },
+                    "right": {
+                      "kind": "value",
+                      "value": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "binary",
+                  "operator": "and",
+                  "left": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": {
+                      "kind": "parameter",
+                      "name": "identity"
+                    },
+                    "right": {
+                      "kind": "value",
+                      "value": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  },
+                  "right": {
+                    "kind": "binary",
+                    "operator": "equal",
+                    "left": {
+                      "kind": "parameter",
+                      "name": "integrity"
+                    },
+                    "right": {
+                      "kind": "value",
+                      "value": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              "right": {
+                "kind": "binary",
+                "operator": "equal",
+                "left": {
+                  "kind": "parameter",
+                  "name": "channelB"
+                },
+                "right": {
+                  "kind": "value",
+                  "value": {
+                    "kind": "rational",
+                    "numerator": "-2",
+                    "denominator": "1"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "id": "structure-present",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "boolean",
+            "parameters": [
+              {
+                "name": "boundary",
+                "valueKind": "rational"
+              },
+              {
+                "name": "memory",
+                "valueKind": "rational"
+              },
+              {
+                "name": "identity",
+                "valueKind": "rational"
+              },
+              {
+                "name": "integrity",
+                "valueKind": "rational"
+              }
+            ],
+            "body": {
+              "kind": "binary",
+              "operator": "and",
+              "left": {
+                "kind": "binary",
+                "operator": "and",
+                "left": {
+                  "kind": "binary",
+                  "operator": "equal",
+                  "left": {
+                    "kind": "parameter",
+                    "name": "boundary"
+                  },
+                  "right": {
+                    "kind": "value",
+                    "value": {
+                      "kind": "rational",
+                      "numerator": "1",
+                      "denominator": "1"
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "binary",
+                  "operator": "equal",
+                  "left": {
+                    "kind": "parameter",
+                    "name": "memory"
+                  },
+                  "right": {
+                    "kind": "value",
+                    "value": {
+                      "kind": "rational",
+                      "numerator": "1",
+                      "denominator": "1"
+                    }
+                  }
+                }
+              },
+              "right": {
+                "kind": "binary",
+                "operator": "and",
+                "left": {
+                  "kind": "binary",
+                  "operator": "equal",
+                  "left": {
+                    "kind": "parameter",
+                    "name": "identity"
+                  },
+                  "right": {
+                    "kind": "value",
+                    "value": {
+                      "kind": "rational",
+                      "numerator": "1",
+                      "denominator": "1"
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "binary",
+                  "operator": "equal",
+                  "left": {
+                    "kind": "parameter",
+                    "name": "integrity"
+                  },
+                  "right": {
+                    "kind": "value",
+                    "value": {
+                      "kind": "rational",
+                      "numerator": "2",
+                      "denominator": "1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "worlds": [
+        {
+          "id": "distributed-maintenance-world",
+          "fields": [
+            {
+              "id": "positive",
+              "familyId": "zero",
+              "role": "positive-sea"
+            },
+            {
+              "id": "negative",
+              "familyId": "zero",
+              "role": "negative-sea"
+            },
+            {
+              "id": "viability",
+              "familyId": "five",
+              "role": "viability"
+            },
+            {
+              "id": "pressure",
+              "familyId": "one",
+              "role": "world-condition"
+            },
+            {
+              "id": "integrity",
+              "familyId": "zero",
+              "role": "structural-state"
+            },
+            {
+              "id": "identity",
+              "familyId": "zero",
+              "role": "identity-state"
+            },
+            {
+              "id": "memory",
+              "familyId": "zero",
+              "role": "memory-state"
+            },
+            {
+              "id": "boundary",
+              "familyId": "zero",
+              "role": "boundary-state"
+            },
+            {
+              "id": "channel-a",
+              "familyId": "zero",
+              "role": "world-state"
+            },
+            {
+              "id": "signal",
+              "familyId": "zero",
+              "role": "world-state"
+            },
+            {
+              "id": "channel-b",
+              "familyId": "zero",
+              "role": "world-state"
+            }
+          ],
+          "protectedFieldIds": [
+            "integrity",
+            "identity",
+            "memory",
+            "boundary"
+          ],
+          "seaCoupling": {
+            "positiveFieldId": "positive",
+            "negativeFieldId": "negative",
+            "viabilityFieldId": "viability"
+          }
+        }
+      ],
+      "anchors": [
+        {
+          "id": "distributed-maintenance-anchor",
+          "endpoints": [
+            {
+              "kind": "world",
+              "worldId": "distributed-maintenance-world",
+              "portId": "maintenance-boundary"
+            },
+            {
+              "kind": "unresolved-world-relation",
+              "relationId": "unique-world-topology",
+              "portId": "unresolved-origin",
+              "questionId": "Q-021"
+            }
+          ],
+          "identityPredicateFamilyIds": [
+            "always-true"
+          ],
+          "permittedInterventionKinds": [
+            "condition"
+          ]
+        }
+      ],
+      "worldWill": {
+        "id": "distributed-maintenance-will",
+        "objectives": [
+          {
+            "id": "preserve-viability",
+            "targetWorldId": "distributed-maintenance-world",
+            "fieldId": "viability",
+            "direction": "maximize",
+            "weight": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          }
+        ],
+        "hardConstraintFamilyIds": [
+          "always-true"
+        ],
+        "interventions": []
+      },
+      "internalLaws": [
+        {
+          "id": "form-structure",
+          "worldId": "distributed-maintenance-world",
+          "guard": {
+            "id": "form-while-unbounded",
+            "query": {
+              "familyId": "boundary-is-zero",
+              "at": {
+                "coordinate": "0"
+              },
+              "parameters": {}
+            },
+            "fieldParameters": [
+              {
+                "parameterName": "boundary",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "boundary"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "fieldId": "integrity",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "identity",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "memory",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "boundary",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "channel-a",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "channel-b",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ],
+          "application": "once-per-realization",
+          "reversibility": "irreversible"
+        },
+        {
+          "id": "admit-negative-sea",
+          "worldId": "distributed-maintenance-world",
+          "guard": {
+            "id": "pressure-admits-negative-sea",
+            "query": {
+              "familyId": "admission-ready",
+              "at": {
+                "coordinate": "0"
+              },
+              "parameters": {}
+            },
+            "fieldParameters": [
+              {
+                "parameterName": "pressure",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "pressure"
+              },
+              {
+                "parameterName": "negative",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "negative"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "fieldId": "negative",
+              "operation": "add",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ],
+          "application": "once-per-realization",
+          "reversibility": "irreversible"
+        },
+        {
+          "id": "negative-sea-erosion",
+          "worldId": "distributed-maintenance-world",
+          "guard": {
+            "id": "negative-sea-crosses-formed-boundary",
+            "query": {
+              "familyId": "stress-route-a-ready",
+              "at": {
+                "coordinate": "0"
+              },
+              "parameters": {}
+            },
+            "fieldParameters": [
+              {
+                "parameterName": "negative",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "negative"
+              },
+              {
+                "parameterName": "boundary",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "boundary"
+              },
+              {
+                "parameterName": "channelA",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "channel-a"
+              },
+              {
+                "parameterName": "identity",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "identity"
+              },
+              {
+                "parameterName": "integrity",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "integrity"
+              },
+              {
+                "parameterName": "channelB",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "channel-b"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "fieldId": "integrity",
+              "operation": "subtract",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "channel-a",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "-1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "signal",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "channel-b",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "4",
+                "denominator": "1"
+              }
+            }
+          ],
+          "application": "once-per-realization",
+          "reversibility": "irreversible"
+        },
+        {
+          "id": "negative-sea-erosion-route-b",
+          "worldId": "distributed-maintenance-world",
+          "guard": {
+            "id": "negative-sea-crosses-route-b-boundary",
+            "query": {
+              "familyId": "stress-route-b-ready",
+              "at": {
+                "coordinate": "0"
+              },
+              "parameters": {}
+            },
+            "fieldParameters": [
+              {
+                "parameterName": "negative",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "negative"
+              },
+              {
+                "parameterName": "boundary",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "boundary"
+              },
+              {
+                "parameterName": "channelA",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "channel-a"
+              },
+              {
+                "parameterName": "identity",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "identity"
+              },
+              {
+                "parameterName": "integrity",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "integrity"
+              },
+              {
+                "parameterName": "channelB",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "channel-b"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "fieldId": "integrity",
+              "operation": "subtract",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "channel-a",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "5",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "signal",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "channel-b",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "-2",
+                "denominator": "1"
+              }
+            }
+          ],
+          "application": "once-per-realization",
+          "reversibility": "irreversible"
+        },
+        {
+          "id": "release-negative-sea",
+          "worldId": "distributed-maintenance-world",
+          "guard": {
+            "id": "release-admitted-negative-sea",
+            "query": {
+              "familyId": "negative-is-one",
+              "at": {
+                "coordinate": "0"
+              },
+              "parameters": {}
+            },
+            "fieldParameters": [
+              {
+                "parameterName": "negative",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "negative"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "fieldId": "negative",
+              "operation": "subtract",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ],
+          "application": "once-per-realization",
+          "reversibility": "irreversible"
+        },
+        {
+          "id": "restore-from-memory",
+          "worldId": "distributed-maintenance-world",
+          "guard": {
+            "id": "repair-through-retained-structure",
+            "query": {
+              "familyId": "repair-route-a-ready",
+              "at": {
+                "coordinate": "0"
+              },
+              "parameters": {}
+            },
+            "fieldParameters": [
+              {
+                "parameterName": "channelA",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "channel-a"
+              },
+              {
+                "parameterName": "boundary",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "boundary"
+              },
+              {
+                "parameterName": "memory",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "memory"
+              },
+              {
+                "parameterName": "identity",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "identity"
+              },
+              {
+                "parameterName": "integrity",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "integrity"
+              },
+              {
+                "parameterName": "channelB",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "channel-b"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "fieldId": "integrity",
+              "operation": "add",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "identity",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "memory",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "boundary",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "channel-a",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "signal",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "channel-b",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ],
+          "application": "once-per-realization",
+          "reversibility": "irreversible",
+          "commitAffectedFieldIds": [
+            "integrity",
+            "identity",
+            "memory",
+            "boundary"
+          ]
+        },
+        {
+          "id": "restore-from-memory-route-b",
+          "worldId": "distributed-maintenance-world",
+          "guard": {
+            "id": "repair-route-b-through-retained-structure",
+            "query": {
+              "familyId": "repair-route-b-ready",
+              "at": {
+                "coordinate": "0"
+              },
+              "parameters": {}
+            },
+            "fieldParameters": [
+              {
+                "parameterName": "channelA",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "channel-a"
+              },
+              {
+                "parameterName": "boundary",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "boundary"
+              },
+              {
+                "parameterName": "memory",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "memory"
+              },
+              {
+                "parameterName": "identity",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "identity"
+              },
+              {
+                "parameterName": "integrity",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "integrity"
+              },
+              {
+                "parameterName": "channelB",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "channel-b"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "fieldId": "integrity",
+              "operation": "add",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "identity",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "memory",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "boundary",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "channel-a",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "signal",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "channel-b",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ],
+          "application": "once-per-realization",
+          "reversibility": "irreversible",
+          "commitAffectedFieldIds": [
+            "integrity",
+            "identity",
+            "memory",
+            "boundary"
+          ]
+        }
+      ],
+      "emergenceCriteria": [
+        {
+          "id": "self-maintaining-structure",
+          "worldId": "distributed-maintenance-world",
+          "predicate": {
+            "id": "structure-remains-present",
+            "query": {
+              "familyId": "structure-present",
+              "at": {
+                "coordinate": "0"
+              },
+              "parameters": {}
+            },
+            "fieldParameters": [
+              {
+                "parameterName": "boundary",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "boundary"
+              },
+              {
+                "parameterName": "memory",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "memory"
+              },
+              {
+                "parameterName": "identity",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "identity"
+              },
+              {
+                "parameterName": "integrity",
+                "worldId": "distributed-maintenance-world",
+                "fieldId": "integrity"
+              }
+            ]
+          },
+          "witnessFieldIds": [
+            "integrity",
+            "identity",
+            "memory",
+            "boundary"
+          ]
+        }
+      ],
+      "order": {
+        "kind": "causal-partial-order",
+        "universalClock": false
+      }
+    },
+    "fieldInitializers": [
+      {
+        "worldId": "distributed-maintenance-world",
+        "fieldId": "positive",
+        "query": {
+          "familyId": "zero",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "distributed-maintenance-world",
+        "fieldId": "negative",
+        "query": {
+          "familyId": "zero",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "distributed-maintenance-world",
+        "fieldId": "viability",
+        "query": {
+          "familyId": "five",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "distributed-maintenance-world",
+        "fieldId": "pressure",
+        "query": {
+          "familyId": "one",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "distributed-maintenance-world",
+        "fieldId": "integrity",
+        "query": {
+          "familyId": "zero",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "distributed-maintenance-world",
+        "fieldId": "identity",
+        "query": {
+          "familyId": "zero",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "distributed-maintenance-world",
+        "fieldId": "memory",
+        "query": {
+          "familyId": "zero",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "distributed-maintenance-world",
+        "fieldId": "boundary",
+        "query": {
+          "familyId": "zero",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "distributed-maintenance-world",
+        "fieldId": "channel-a",
+        "query": {
+          "familyId": "zero",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "distributed-maintenance-world",
+        "fieldId": "signal",
+        "query": {
+          "familyId": "zero",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "distributed-maintenance-world",
+        "fieldId": "channel-b",
+        "query": {
+          "familyId": "zero",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      }
+    ],
+    "seaLaws": [
+      {
+        "worldId": "distributed-maintenance-world",
+        "positiveWeight": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "negativeWeight": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        }
+      }
+    ],
+    "execution": {
+      "decisionMode": "deterministic",
+      "hardConstraints": [
+        {
+          "id": "maintenance-world-remains-admissible",
+          "query": {
+            "familyId": "always-true",
+            "at": {
+              "coordinate": "0"
+            },
+            "parameters": {}
+          },
+          "fieldParameters": []
+        }
+      ],
+      "anchorIdentity": [
+        {
+          "id": "distributed-maintenance-anchor-remains-itself",
+          "anchorId": "distributed-maintenance-anchor",
+          "query": {
+            "familyId": "always-true",
+            "at": {
+              "coordinate": "0"
+            },
+            "parameters": {}
+          },
+          "fieldParameters": []
+        }
+      ],
+      "interventionCosts": []
+    }
+  }
+}

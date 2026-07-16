@@ -38,6 +38,41 @@ test("internal laws generate causal events and coherent structure without a desi
     assert.equal(run.autonomousContinuation?.order.createsHistoryArrow, true);
 });
 
+test("a counterfactual can suppress one enabled event while retaining the same law program", () => {
+    const program = fieldProgram();
+    const factual = realizeAnchoredCausalWorld(program, { worldWillEnabled: false });
+    const counterfactual = realizeAnchoredCausalWorld(program, {
+        worldWillEnabled: false,
+        counterfactualInternalEventAblationLawIds: ["self-organize"],
+    });
+    const continuation = counterfactual.autonomousContinuation!;
+
+    assert.equal(counterfactual.status, "stable");
+    assert.equal(counterfactual.programDigest, factual.programDigest);
+    assert.equal("internalEventAblations" in factual.autonomousContinuation!, false);
+    assert.ok(program.world.internalLaws.some((law) => law.id === "self-organize"));
+    assert.equal(continuation.realizedEventIds.includes("law:self-organize"), false);
+    assert.equal(continuation.historyCommits.length, 0);
+    assert.deepEqual(continuation.internalEventAblations, [{
+        id: "ablation:law:self-organize",
+        kind: "internal-event-nonrealization",
+        lawId: "self-organize",
+        worldId: "field-world",
+        wouldHaveEventId: "law:self-organize",
+        guardEvidenceSubjectId: "autonomous:frontier:1:self-organize:organize-when-condensed",
+        frontierIndex: 1,
+        causes: ["law:condense"],
+        lawRetainedInProgram: true,
+        effectsSuppressed: true,
+    }]);
+
+    const unknown = realizeAnchoredCausalWorld(program, {
+        counterfactualInternalEventAblationLawIds: ["self-organzie"],
+    });
+    assert.equal(unknown.status, "contradicted");
+    assert.match(unknown.reason ?? "", /unknown counterfactual internal-event ablation law/);
+});
+
 test("World Will changes a condition through an anchor and the world responds by its own law", () => {
     const run = realizeAnchoredCausalWorld(fieldProgram());
     const world = selectedWorld(run);
@@ -180,6 +215,55 @@ test("simultaneously enabled non-commuting laws remain underdetermined instead o
     assert.equal(run.status, "underdetermined");
     assert.match(run.reason ?? "", /non-commuting set effects/);
     assert.deepEqual(run.unresolvedAlternativeIds, ["law:competing-condensation", "law:condense"]);
+});
+
+test("World-Will-disabled closure cannot inherit plural intervention paths", () => {
+    const program = fieldProgram();
+    program.world.formal.families.push({
+        id: "viability-at-most-five",
+        domain: { axes: [{ name: "coordinate", kind: "natural" }] },
+        valueKind: "boolean",
+        parameters: [{ name: "viability", valueKind: "rational" }],
+        body: term.binary(
+            "less-than-or-equal",
+            term.parameter("viability"),
+            term.value(exact.integer(5)),
+        ),
+    });
+    program.execution.hardConstraints = [{
+        id: "bounded-intervention-viability",
+        query: { familyId: "viability-at-most-five", at: { coordinate: "0" }, parameters: {} },
+        fieldParameters: [{ parameterName: "viability", worldId: "field-world", fieldId: "viability" }],
+    }];
+    program.world.worldWill.hardConstraintFamilyIds = ["viability-at-most-five"];
+    program.world.worldWill.interventions = ["left", "right"].map((suffix) => ({
+        id: `alter-boundary-condition-${suffix}`,
+        targetWorldId: "field-world",
+        anchorId: "field-anchor",
+        kind: "condition" as const,
+        effects: [{ fieldId: "viability", operation: "add" as const, value: exact.integer(3) }],
+    }));
+    program.execution.interventionCosts = program.world.worldWill.interventions.map((candidate) => ({
+        interventionId: candidate.id,
+        cost: exact.integer(1),
+    }));
+    program.execution.decisionMode = "plural";
+
+    const factual = realizeAnchoredCausalWorld(program);
+    assert.equal(factual.status, "plural", JSON.stringify({
+        baselineScore: factual.baselineScore,
+        candidates: factual.candidateAssessments,
+    }, null, 2));
+    assert.equal(factual.selectedContinuationIds.length, 2);
+
+    const autonomous = realizeAnchoredCausalWorld(program, {
+        worldWillEnabled: false,
+        cutAnchorIds: ["field-anchor"],
+    });
+    assert.equal(autonomous.status, "stable");
+    assert.deepEqual(autonomous.selectedContinuationIds, ["continuation:autonomous"]);
+    assert.equal(autonomous.continuations.length, 1);
+    assert.deepEqual(autonomous.autonomousContinuation?.interventionIds, []);
 });
 
 test("a bounded formal query reports unresolved closure rather than inventing a transition", () => {

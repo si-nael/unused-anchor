@@ -1,6 +1,6 @@
 # Question Log
 
-Last reconciled: 2026-07-15
+Last reconciled: 2026-07-17
 
 ## Open Questions
 
@@ -30,7 +30,7 @@ Use the current minimum schema as the `v0.4` baseline and revise it only when a 
 
 ### Q-002: How should the negative sea be represented operationally?
 
-Status: partially answered through v0.5.3
+Status: partially answered through v0.5.4
 
 Question:
 
@@ -108,7 +108,7 @@ Extend identity only from a concrete same-world counterexample, semantic migrati
 
 ### Q-005: When does replay return to the same world?
 
-Status: partially answered through v0.5.3
+Status: partially answered through v0.5.4
 
 Question:
 
@@ -122,6 +122,7 @@ Current implementation:
 - observed history shapes preserved through materialization, inspection, and replay
 - anchored narrative records store the exact formal program and options, re-execute them, compare the complete run digest, and preserve selected and unresolved continuation identities
 - persistent causal records additionally preserve exact closure cycles, derived-component assessments, memory counterfactuals, maintenance evidence, and stored-run integrity across re-execution
+- teleonomic records preserve the exact invariant component kernel, every same-program response-event nonrealization witness, every per-response memory-erasure verdict, path-universal World-Will-disabled/all-anchors-cut autonomy evidence, and stored-run integrity across re-execution
 
 Remaining gap:
 
@@ -406,7 +407,7 @@ Preserve the current bounded semantics through `v0.4.9`. Reopen the proof shape 
 
 ### Q-018: How can a bubble realize itself through world will rather than an external chooser?
 
-Status: implemented bounded baseline through v0.5.3
+Status: implemented bounded baseline through v0.5.4
 
 Question:
 
@@ -422,10 +423,11 @@ Current implementation:
 - actual history commit only for an admitted `commit` transformation
 - the v0.5.1 anchored narrative runtime closes a finite causal story, evaluates exact World-Will objectives/costs and post-state constraints, preserves equal alternatives, and reports resource exhaustion without a host selection
 - the v0.5.3 persistence layer unfolds every selected causal continuation, preserves contradiction and unresolved frontiers, and certifies exact recurrence without choosing a branch
+- the v0.5.4 teleonomic layer derives responses from causally regenerated internal state and causal law rather than an action menu, universally checks same-program response-event nonrealization and per-response memory erasure, and disables World Will and all anchors without adding a host selector
 
 Remaining gap:
 
-- the original `.bubble` self-realization path still evaluates one scalar frontier; the v0.5.3 recurrence proof is bounded to an exact actor-neutral field structure rather than a persistent story or general open-ended process
+- the original `.bubble` self-realization path still evaluates one scalar frontier; the v0.5.4 recurrence and teleonomic proof is bounded to one exact actor-neutral field structure rather than a persistent story or general open-ended process
 - branch, spawn, and collapse are typed continuation consequences but not all yet execute concrete world artifacts or retirement records from self-realization
 - transformations currently change one scalar coordinate at a time
 - narrative consequences feed exact local sea-coupled viability but not a global multi-world sea/anchor dynamics calculus
@@ -436,7 +438,7 @@ Reopen from a concrete persistent-story, branch/spawn/collapse artifact, relatio
 
 ### Q-019: What does time mean inside a bubble universe?
 
-Status: partially implemented through v0.5.3
+Status: partially implemented through v0.5.4
 
 Question:
 
@@ -452,6 +454,7 @@ Current implementation:
 - branch and terminal consequences have distinct topology
 - the anchored narrative runtime records an explicit causal DAG, host evaluation order, reversible/irreversible event sets, and commit-created history arrows separately
 - the persistent causal runtime records an exact closure coalgebra and finite lasso recurrence certificate while keeping `universalClock: false`; closure numbers are proof coordinates rather than duration
+- the teleonomic runtime analyzes a period-two invariant set in causal-closure coordinates without turning phase, closure count, or host evaluation order into universal or metric time
 
 Remaining gap:
 
@@ -553,7 +556,7 @@ Reopen only after all earlier idea obligations are realized, the current Bubble 
 
 ### Q-023: How can protagonists, agency, and stories arise without being forced into every world?
 
-Status: implemented actor-neutral generative and bounded persistent baseline through v0.5.3; agency remains open
+Status: implemented actor-neutral generative, persistent, and bounded teleonomic-capacity baseline through v0.5.4; agency remains open
 
 Question:
 
@@ -574,17 +577,19 @@ Current implementation:
 - every lawful selected closure path is unfolded; exact causal-configuration recurrence yields a finite lasso without a universal clock or host-selected branch, while irreversible commits extend a separate monotone anchor-history ledger
 - a stronger persistence assessment separately requires a fully boundary-mediated causal hypercut with effective cut ablation, invariant identity, memory effective on every counterfactual continuation, negative-sea-caused deviation followed by exact recurrent-reference restoration, and universally counterfactually discriminated outward influence
 - memory erasure, excessive erosion, proof-budget exhaustion, contradiction, stored-record tampering, and disabled World Will have explicit regression evidence
+- `v0.5.4` derives finite bounded invariant viability kernels without an authored goal, recognizes response laws only under pairwise-disjoint states causally regenerated by the response cycle, and universally verifies through same-program event nonrealization and memory erasure that each factual response occurrence is necessary and semantically memory-dependent
+- disabling World Will and cutting every anchor preserves the same persistent viability kernel; no host-side affordance menu or selector is present
 
 Remaining gap:
 
-- the bounded persistence detector does not derive life, goals, counterfactual choice among affordances, relationships, or narrative coherence
+- bounded teleonomic capacity does not derive life, deliberative choice between simultaneous alternatives, agency, relationships, or narrative coherence
 - recurrence is certified only by finite exact closure lassos; general coinductive, spatial, evolutionary, concurrent, and open-ended dynamics remain open
 - the causal boundary is derived around existing exact fields; no law yet forms a new field schema, population, or relationship network dynamically
 - multi-world sea transport, anchor transfer, and full identity remain absent
 
 Next check:
 
-Add the smallest goal-and-affordance case in which a certified persistent structure changes a lawful outcome under an internally maintained objective and action ablation. Do not call it an agent until counterfactual choice and autonomy are executable, and do not force that structure into worlds whose laws do not generate it.
+The goal-and-affordance prerequisite is now the active Q-025 candidate. Harden it against structurally different cycles and hidden causal support before requiring a relation-mediated or counterfactual-choice case that distinguishes enacted internal response from deliberative agency. Do not force an agent label into worlds whose laws do not generate one.
 
 ### Q-024: When is a recurrent causal structure genuinely persistent?
 
@@ -616,4 +621,34 @@ Remaining gap:
 
 Next check:
 
-Reopen from the first certified persistent structure that needs an internal objective, more than one lawful affordance, and action-ablation evidence. Preserve the distinction between persistence, agency, protagonist identity, and narrative projection.
+The first bounded invariant-norm and plural response-event nonrealization candidate is now Q-025. Reopen Q-024 for a richer individuality topology, continuous maintenance, learning, reproduction, evolution, or a persistence failure that the present exact component projection cannot classify.
+
+### Q-025: When does persistence become endogenous goal-directed capacity without declaring an agent?
+
+Status: implemented bounded teleonomic-capacity baseline in v0.5.4; agency remains open
+
+Question:
+
+What exact evidence shows that a persistent structure maintains an internally arising norm through more than one lawfully realized response, without declaring a goal, presenting a host-selected action menu, depending on World Will, or prematurely calling the structure an agent?
+
+Current implementation:
+
+- the persistent component's exact recurrent configurations define a finite invariant viability set; no goal field or teleonomic program declaration exists
+- response episodes must lie on a directed negative-sea increase, structural-deviation, boundary-and-memory-dependent restoration chain whose input and output component configurations remain in the invariant set
+- at least two distinct response laws must actually occur across one recurrent path; their internal discriminator value sets must be pairwise disjoint and each recurrent value must be causally regenerated by the response cycle rather than a detached scheduler
+- every factual response event is suppressed in turn while its program and law definition remain intact, with World Will disabled and all anchors cut; every selected continuation must carry the typed nonrealization witness and leave the factual invariant set
+- every factual response separately receives same-program memory erasure to pre-formation values; the response must disappear on every selected continuation, so a decorative memory binding cannot qualify
+- the full persistent world is separately re-executed with World Will disabled and all anchors cut; path-indexed evidence requires the same component-configuration kernel to survive on every lawful path
+- reports state `authoredGoalDeclaration: false`, `hostSelection: false`, `hostAffordanceSelector: false`, and `universalClock: false`
+- bounded recurrence exhaustion remains `undetermined`; one-response, detached-scheduler, and decorative-memory persistence remain `non-teleonomic`; a period-three cycle and an independent distributed-channel world with no `phase` coordinate satisfy the same contract; replay rejects evidence tampering
+
+Remaining gap:
+
+- the finite set is an invariant subset certified by one exact lasso, not a greatest viability kernel or an unbounded-history theorem
+- responses occur in different internally generated states; the runtime does not yet prove deliberation or selection among simultaneously available counterfactual alternatives
+- no preference learning, norm transformation, relationship-mediated action, population, reproduction, evolution, protagonist identity, or narrative projection is derived
+- dynamic fields, multi-world sea transport, cross-world anchors, and full identity remain open
+
+Next check:
+
+A later version may add the smallest organically generated relation or simultaneous counterfactual-alternative case whose causal evidence can distinguish teleonomic response from agency. Keep `agent`, `protagonist`, and `story` as stronger conclusions rather than schema names, and do not fold endogenous branching backward into the completed bounded `v0.5.4` contract.
