@@ -1,0 +1,1828 @@
+{
+  "mode": "bubble-anchored-causal-run.v2",
+  "programDigest": "d7bcefca27fb0ab23c96aaf6bc9bfd01cbe8de282373f097799f6fe3765a1f78",
+  "status": "stable",
+  "reason": "autonomous closure is not improved by any admissible intervention",
+  "options": {
+    "worldWillEnabled": false,
+    "cutAnchorIds": [],
+    "fieldOverrides": {},
+    "evaluationBudgetPerQuery": 10000,
+    "maxInterventionCombinations": 1024,
+    "maxInternalFrontiers": 1024,
+    "maxInternalBranches": 1024
+  },
+  "diagnostics": [],
+  "formalEvidence": [
+    {
+      "subjectId": "receiver-field.condition",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "0",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-receiver-field-condition",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "receiver-field.negative",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-receiver-field-negative",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "receiver-field.positive",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "2",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-receiver-field-positive",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "receiver-field.structure",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "0",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-receiver-field-structure",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "receiver-field.viability",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-receiver-field-viability",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "source-field.negative",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-source-field-negative",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "source-field.positive",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "2",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-source-field-positive",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "source-field.signal",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-source-field-signal",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "source-field.viability",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-source-field-viability",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:0:emit-signal:predicate-emit-signal",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "guard-emit-signal",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:0:emit-signal:transfer:signal-current:pre:identity-field-current",
+      "purpose": "anchor-identity",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "causal-language-anchor-identity-true",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:0:emit-signal:transfer:signal-current:post:identity-field-current",
+      "purpose": "anchor-identity",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "causal-language-anchor-identity-true",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:0:receive-signal:predicate-receive-signal",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "guard-receive-signal",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:1:receive-signal:predicate-receive-signal",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "guard-receive-signal",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "anchor:continuation:autonomous:field-current:identity-field-current",
+      "purpose": "anchor-identity",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "causal-language-anchor-identity-true",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    }
+  ],
+  "initialWorldStates": [
+    {
+      "worldId": "receiver-field",
+      "fields": {
+        "condition": {
+          "kind": "rational",
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "negative": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "positive": {
+          "kind": "rational",
+          "numerator": "2",
+          "denominator": "1"
+        },
+        "structure": {
+          "kind": "rational",
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "viability": {
+          "kind": "rational",
+          "numerator": "2",
+          "denominator": "1"
+        }
+      },
+      "intrinsicViability": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "seaContribution": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      }
+    },
+    {
+      "worldId": "source-field",
+      "fields": {
+        "negative": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "positive": {
+          "kind": "rational",
+          "numerator": "2",
+          "denominator": "1"
+        },
+        "signal": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "viability": {
+          "kind": "rational",
+          "numerator": "2",
+          "denominator": "1"
+        }
+      },
+      "intrinsicViability": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "seaContribution": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      }
+    }
+  ],
+  "interventionEligibility": [],
+  "candidateAssessments": [],
+  "continuations": [
+    {
+      "id": "continuation:autonomous",
+      "selection": "baseline",
+      "interventionIds": [],
+      "score": {
+        "kind": "rational",
+        "numerator": "4",
+        "denominator": "1"
+      },
+      "worldStates": [
+        {
+          "worldId": "receiver-field",
+          "fields": {
+            "condition": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "negative": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "positive": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            },
+            "structure": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "viability": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            }
+          },
+          "intrinsicViability": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "seaContribution": {
+            "kind": "rational",
+            "numerator": "2",
+            "denominator": "1"
+          }
+        },
+        {
+          "worldId": "source-field",
+          "fields": {
+            "negative": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "positive": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "signal": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "viability": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "intrinsicViability": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "seaContribution": {
+            "kind": "rational",
+            "numerator": "0",
+            "denominator": "1"
+          }
+        }
+      ],
+      "realizedEventIds": [
+        "law:emit-signal",
+        "transfer:signal-current:by:emit-signal",
+        "law:receive-signal"
+      ],
+      "trace": [
+        {
+          "id": "trace:1:initial:receiver-field.condition",
+          "kind": "initial-field",
+          "worldId": "receiver-field",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "condition",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:2:initial:receiver-field.negative",
+          "kind": "initial-field",
+          "worldId": "receiver-field",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "negative",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:3:initial:receiver-field.positive",
+          "kind": "initial-field",
+          "worldId": "receiver-field",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "positive",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:4:initial:receiver-field.structure",
+          "kind": "initial-field",
+          "worldId": "receiver-field",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "structure",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:5:initial:receiver-field.viability",
+          "kind": "initial-field",
+          "worldId": "receiver-field",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:6:initial:source-field.negative",
+          "kind": "initial-field",
+          "worldId": "source-field",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "negative",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:7:initial:source-field.positive",
+          "kind": "initial-field",
+          "worldId": "source-field",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "positive",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:8:initial:source-field.signal",
+          "kind": "initial-field",
+          "worldId": "source-field",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "signal",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:9:initial:source-field.viability",
+          "kind": "initial-field",
+          "worldId": "source-field",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:10:sea:source-field",
+          "kind": "sea-coupling",
+          "worldId": "source-field",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:11:sea:receiver-field",
+          "kind": "sea-coupling",
+          "worldId": "receiver-field",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:12:law:emit-signal",
+          "kind": "internal-law",
+          "worldId": "source-field",
+          "eventId": "law:emit-signal",
+          "lawId": "emit-signal",
+          "causes": [],
+          "effects": []
+        },
+        {
+          "id": "trace:13:sea:source-field",
+          "kind": "sea-coupling",
+          "worldId": "source-field",
+          "causes": [
+            "law:emit-signal"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:14:transfer:signal-current:by:emit-signal",
+          "kind": "anchor-transfer",
+          "worldId": "receiver-field",
+          "eventId": "transfer:signal-current:by:emit-signal",
+          "lawId": "emit-signal",
+          "anchorId": "field-current",
+          "transferId": "signal-current",
+          "causes": [
+            "law:emit-signal"
+          ],
+          "effects": [
+            {
+              "worldId": "receiver-field",
+              "fieldId": "condition",
+              "layer": "world-field",
+              "operation": "set",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "worldId": "source-field",
+              "fieldId": "negative",
+              "layer": "world-field",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            },
+            {
+              "worldId": "receiver-field",
+              "fieldId": "positive",
+              "layer": "world-field",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:15:sea:source-field",
+          "kind": "sea-coupling",
+          "worldId": "source-field",
+          "causes": [
+            "transfer:signal-current:by:emit-signal"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:16:sea:receiver-field",
+          "kind": "sea-coupling",
+          "worldId": "receiver-field",
+          "causes": [
+            "transfer:signal-current:by:emit-signal"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:17:law:receive-signal",
+          "kind": "internal-law",
+          "worldId": "receiver-field",
+          "eventId": "law:receive-signal",
+          "lawId": "receive-signal",
+          "causes": [
+            "transfer:signal-current:by:emit-signal"
+          ],
+          "effects": [
+            {
+              "fieldId": "structure",
+              "layer": "world-field",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:18:sea:receiver-field",
+          "kind": "sea-coupling",
+          "worldId": "receiver-field",
+          "causes": [
+            "law:receive-signal"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              }
+            }
+          ]
+        }
+      ],
+      "historyCommits": [],
+      "anchorTransferEvents": [
+        {
+          "id": "transfer:signal-current:by:emit-signal",
+          "transferId": "signal-current",
+          "lawId": "emit-signal",
+          "lawEventId": "law:emit-signal",
+          "anchorId": "field-current",
+          "source": {
+            "worldId": "source-field",
+            "portId": "emission",
+            "fieldId": "signal",
+            "value": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "target": {
+            "worldId": "receiver-field",
+            "portId": "reception",
+            "fieldId": "condition",
+            "before": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "sourceNegativeSea": {
+            "fieldId": "negative",
+            "before": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "residue": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          },
+          "targetPositiveSea": {
+            "fieldId": "positive",
+            "before": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "placement": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            }
+          },
+          "hostSelection": false
+        }
+      ],
+      "anchorTransferAssessments": [
+        {
+          "id": "transfer-assessment:emit-signal:signal-current",
+          "transferId": "signal-current",
+          "lawId": "emit-signal",
+          "anchorId": "field-current",
+          "sourceWorldId": "source-field",
+          "targetWorldId": "receiver-field",
+          "status": "admitted",
+          "reasons": [],
+          "identityEvidenceSubjectIds": [
+            "autonomous:frontier:0:emit-signal:transfer:signal-current:pre:identity-field-current",
+            "autonomous:frontier:0:emit-signal:transfer:signal-current:post:identity-field-current"
+          ]
+        }
+      ],
+      "emergenceAssessments": [],
+      "order": {
+        "kind": "causal-partial-order",
+        "universalClock": false,
+        "causalEdges": [
+          {
+            "cause": "law:emit-signal",
+            "effect": "transfer:signal-current:by:emit-signal"
+          },
+          {
+            "cause": "transfer:signal-current:by:emit-signal",
+            "effect": "law:receive-signal"
+          }
+        ],
+        "evaluationOrder": [
+          "law:emit-signal",
+          "transfer:signal-current:by:emit-signal",
+          "law:receive-signal"
+        ],
+        "evaluationFrontiers": [
+          [
+            "law:emit-signal"
+          ],
+          [
+            "transfer:signal-current:by:emit-signal"
+          ],
+          [
+            "law:receive-signal"
+          ]
+        ],
+        "reversibleEventIds": [],
+        "irreversibleEventIds": [
+          "law:emit-signal",
+          "law:receive-signal",
+          "transfer:signal-current:by:emit-signal"
+        ],
+        "createsHistoryArrow": false
+      }
+    }
+  ],
+  "selectedContinuationIds": [
+    "continuation:autonomous"
+  ],
+  "unresolvedAlternativeIds": [],
+  "resourceUse": {
+    "formalQueryCount": 15,
+    "formalEvaluationSteps": 21,
+    "internalFrontierCount": 2,
+    "internalBranchCount": 0,
+    "interventionCombinationCount": 0,
+    "combinationLimit": 1024,
+    "branchLimit": 1024,
+    "exhaustiveInterventionSearch": true,
+    "exhaustiveInternalBranching": true
+  },
+  "autonomousContinuation": {
+    "id": "continuation:autonomous",
+    "selection": "baseline",
+    "interventionIds": [],
+    "score": {
+      "kind": "rational",
+      "numerator": "4",
+      "denominator": "1"
+    },
+    "worldStates": [
+      {
+        "worldId": "receiver-field",
+        "fields": {
+          "condition": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "negative": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "positive": {
+            "kind": "rational",
+            "numerator": "3",
+            "denominator": "1"
+          },
+          "structure": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "viability": {
+            "kind": "rational",
+            "numerator": "3",
+            "denominator": "1"
+          }
+        },
+        "intrinsicViability": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "seaContribution": {
+          "kind": "rational",
+          "numerator": "2",
+          "denominator": "1"
+        }
+      },
+      {
+        "worldId": "source-field",
+        "fields": {
+          "negative": {
+            "kind": "rational",
+            "numerator": "2",
+            "denominator": "1"
+          },
+          "positive": {
+            "kind": "rational",
+            "numerator": "2",
+            "denominator": "1"
+          },
+          "signal": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "viability": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          }
+        },
+        "intrinsicViability": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "seaContribution": {
+          "kind": "rational",
+          "numerator": "0",
+          "denominator": "1"
+        }
+      }
+    ],
+    "realizedEventIds": [
+      "law:emit-signal",
+      "transfer:signal-current:by:emit-signal",
+      "law:receive-signal"
+    ],
+    "trace": [
+      {
+        "id": "trace:1:initial:receiver-field.condition",
+        "kind": "initial-field",
+        "worldId": "receiver-field",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "condition",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:2:initial:receiver-field.negative",
+        "kind": "initial-field",
+        "worldId": "receiver-field",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "negative",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:3:initial:receiver-field.positive",
+        "kind": "initial-field",
+        "worldId": "receiver-field",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "positive",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:4:initial:receiver-field.structure",
+        "kind": "initial-field",
+        "worldId": "receiver-field",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "structure",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:5:initial:receiver-field.viability",
+        "kind": "initial-field",
+        "worldId": "receiver-field",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "viability",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:6:initial:source-field.negative",
+        "kind": "initial-field",
+        "worldId": "source-field",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "negative",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:7:initial:source-field.positive",
+        "kind": "initial-field",
+        "worldId": "source-field",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "positive",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:8:initial:source-field.signal",
+        "kind": "initial-field",
+        "worldId": "source-field",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "signal",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:9:initial:source-field.viability",
+        "kind": "initial-field",
+        "worldId": "source-field",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "viability",
+            "layer": "world-field",
+            "operation": "derive",
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:10:sea:source-field",
+        "kind": "sea-coupling",
+        "worldId": "source-field",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "viability",
+            "layer": "world-field",
+            "operation": "derive",
+            "before": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:11:sea:receiver-field",
+        "kind": "sea-coupling",
+        "worldId": "receiver-field",
+        "causes": [],
+        "effects": [
+          {
+            "fieldId": "viability",
+            "layer": "world-field",
+            "operation": "derive",
+            "before": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:12:law:emit-signal",
+        "kind": "internal-law",
+        "worldId": "source-field",
+        "eventId": "law:emit-signal",
+        "lawId": "emit-signal",
+        "causes": [],
+        "effects": []
+      },
+      {
+        "id": "trace:13:sea:source-field",
+        "kind": "sea-coupling",
+        "worldId": "source-field",
+        "causes": [
+          "law:emit-signal"
+        ],
+        "effects": [
+          {
+            "fieldId": "viability",
+            "layer": "world-field",
+            "operation": "derive",
+            "before": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:14:transfer:signal-current:by:emit-signal",
+        "kind": "anchor-transfer",
+        "worldId": "receiver-field",
+        "eventId": "transfer:signal-current:by:emit-signal",
+        "lawId": "emit-signal",
+        "anchorId": "field-current",
+        "transferId": "signal-current",
+        "causes": [
+          "law:emit-signal"
+        ],
+        "effects": [
+          {
+            "worldId": "receiver-field",
+            "fieldId": "condition",
+            "layer": "world-field",
+            "operation": "set",
+            "before": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          {
+            "worldId": "source-field",
+            "fieldId": "negative",
+            "layer": "world-field",
+            "operation": "add",
+            "before": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          },
+          {
+            "worldId": "receiver-field",
+            "fieldId": "positive",
+            "layer": "world-field",
+            "operation": "add",
+            "before": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:15:sea:source-field",
+        "kind": "sea-coupling",
+        "worldId": "source-field",
+        "causes": [
+          "transfer:signal-current:by:emit-signal"
+        ],
+        "effects": [
+          {
+            "fieldId": "viability",
+            "layer": "world-field",
+            "operation": "derive",
+            "before": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:16:sea:receiver-field",
+        "kind": "sea-coupling",
+        "worldId": "receiver-field",
+        "causes": [
+          "transfer:signal-current:by:emit-signal"
+        ],
+        "effects": [
+          {
+            "fieldId": "viability",
+            "layer": "world-field",
+            "operation": "derive",
+            "before": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:17:law:receive-signal",
+        "kind": "internal-law",
+        "worldId": "receiver-field",
+        "eventId": "law:receive-signal",
+        "lawId": "receive-signal",
+        "causes": [
+          "transfer:signal-current:by:emit-signal"
+        ],
+        "effects": [
+          {
+            "fieldId": "structure",
+            "layer": "world-field",
+            "operation": "add",
+            "before": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "trace:18:sea:receiver-field",
+        "kind": "sea-coupling",
+        "worldId": "receiver-field",
+        "causes": [
+          "law:receive-signal"
+        ],
+        "effects": [
+          {
+            "fieldId": "viability",
+            "layer": "world-field",
+            "operation": "derive",
+            "before": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            },
+            "operand": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            }
+          }
+        ]
+      }
+    ],
+    "historyCommits": [],
+    "anchorTransferEvents": [
+      {
+        "id": "transfer:signal-current:by:emit-signal",
+        "transferId": "signal-current",
+        "lawId": "emit-signal",
+        "lawEventId": "law:emit-signal",
+        "anchorId": "field-current",
+        "source": {
+          "worldId": "source-field",
+          "portId": "emission",
+          "fieldId": "signal",
+          "value": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          }
+        },
+        "target": {
+          "worldId": "receiver-field",
+          "portId": "reception",
+          "fieldId": "condition",
+          "before": {
+            "kind": "rational",
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "after": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          }
+        },
+        "sourceNegativeSea": {
+          "fieldId": "negative",
+          "before": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "residue": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "after": {
+            "kind": "rational",
+            "numerator": "2",
+            "denominator": "1"
+          }
+        },
+        "targetPositiveSea": {
+          "fieldId": "positive",
+          "before": {
+            "kind": "rational",
+            "numerator": "2",
+            "denominator": "1"
+          },
+          "placement": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "after": {
+            "kind": "rational",
+            "numerator": "3",
+            "denominator": "1"
+          }
+        },
+        "hostSelection": false
+      }
+    ],
+    "anchorTransferAssessments": [
+      {
+        "id": "transfer-assessment:emit-signal:signal-current",
+        "transferId": "signal-current",
+        "lawId": "emit-signal",
+        "anchorId": "field-current",
+        "sourceWorldId": "source-field",
+        "targetWorldId": "receiver-field",
+        "status": "admitted",
+        "reasons": [],
+        "identityEvidenceSubjectIds": [
+          "autonomous:frontier:0:emit-signal:transfer:signal-current:pre:identity-field-current",
+          "autonomous:frontier:0:emit-signal:transfer:signal-current:post:identity-field-current"
+        ]
+      }
+    ],
+    "emergenceAssessments": [],
+    "order": {
+      "kind": "causal-partial-order",
+      "universalClock": false,
+      "causalEdges": [
+        {
+          "cause": "law:emit-signal",
+          "effect": "transfer:signal-current:by:emit-signal"
+        },
+        {
+          "cause": "transfer:signal-current:by:emit-signal",
+          "effect": "law:receive-signal"
+        }
+      ],
+      "evaluationOrder": [
+        "law:emit-signal",
+        "transfer:signal-current:by:emit-signal",
+        "law:receive-signal"
+      ],
+      "evaluationFrontiers": [
+        [
+          "law:emit-signal"
+        ],
+        [
+          "transfer:signal-current:by:emit-signal"
+        ],
+        [
+          "law:receive-signal"
+        ]
+      ],
+      "reversibleEventIds": [],
+      "irreversibleEventIds": [
+        "law:emit-signal",
+        "law:receive-signal",
+        "transfer:signal-current:by:emit-signal"
+      ],
+      "createsHistoryArrow": false
+    }
+  },
+  "baselineScore": {
+    "kind": "rational",
+    "numerator": "4",
+    "denominator": "1"
+  }
+}

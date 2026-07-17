@@ -79,7 +79,7 @@ test("every decision and research question remains inside the tracked record str
 
     const questionLog = readRepositoryFile("docs/research/question-log.md");
     const questionIds = [...questionLog.matchAll(/^### (Q-\d+):/gm)].map((match) => match[1]);
-    assert.deepEqual(questionIds, Array.from({ length: 28 }, (_, index) => `Q-${String(index + 1).padStart(3, "0")}`));
+    assert.deepEqual(questionIds, Array.from({ length: 29 }, (_, index) => `Q-${String(index + 1).padStart(3, "0")}`));
 
     for (const questionId of questionIds) {
         const sectionStart = questionLog.indexOf(`### ${questionId}:`);
@@ -108,6 +108,7 @@ test("completed bounded v0.5.6 preserves prior kernels, the original philosophy,
     const branchingArchitecture = readRepositoryFile("docs/architecture/v0.5.5-endogenous-causal-branching.md");
     const lifecycleArchitecture = readRepositoryFile("docs/architecture/endogenous-world-lifecycle-candidate.md");
     const lifecycleRelease = readRepositoryFile("docs/architecture/v0.5.6-endogenous-world-lifecycle.md");
+    const membraneCandidate = readRepositoryFile("docs/architecture/typed-cross-world-membrane-candidate.md");
     const manifest = JSON.parse(readRepositoryFile("package.json")) as { scripts: Record<string, string> };
 
     assert.equal(packageManifest.version, "0.5.6");
@@ -145,11 +146,15 @@ test("completed bounded v0.5.6 preserves prior kernels, the original philosophy,
     assert.ok(lifecycleRelease.includes("This is causal lifecycle"));
     assert.ok(lifecycleRelease.includes("without the host or World Will selecting either lifecycle transition"));
     assert.ok(lifecycleRelease.includes("runtime generation of new field schemas, laws, or open-ended populations"));
+    assert.ok(membraneCandidate.includes("Status: active unversioned Gate B candidate after bounded `v0.5.6`; no release selected"));
+    assert.ok(membraneCandidate.includes("source law -> anchor transfer -> receiving-world law"));
+    assert.ok(membraneCandidate.includes("This candidate is not yet:"));
     assert.ok(manifest.scripts["verify"].includes("verify:narrative-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:causal-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:branching-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:lifecycle-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:lifecycle-language-example"));
+    assert.ok(manifest.scripts["verify"].includes("verify:membrane-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:persistence-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:teleonomy-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:teleonomy-distributed-example"));
@@ -166,6 +171,8 @@ test("completed bounded v0.5.6 preserves prior kernels, the original philosophy,
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/distributed-channel-field.teleonomic.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/endogenous-branching-field.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/generational-grove.replay.json")));
+    assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/connected-fields.replay.json")));
+    assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/connected-fields.replayed.json")));
     assert.ok(closurePlan.includes("Status: completed on 2026-07-15"));
     assert.ok(operations.includes("## Preservation Discipline"));
 
@@ -202,6 +209,7 @@ test("completed bounded v0.5.6 preserves prior kernels, the original philosophy,
     assert.match(questionLog, /### Q-026:[\s\S]*?Status: open independent foundational question; no release selected and no current hypercomputation claim/);
     assert.match(questionLog, /### Q-027:[\s\S]*?Status: open; selected as a remaining 5\.x semantic-core question before Rust 6\.x/);
     assert.match(questionLog, /### Q-028:[\s\S]*?Status: open; selected as a cross-substrate performance contract spanning late 5\.x and Rust 6\.x/);
+    assert.match(questionLog, /### Q-029:[\s\S]*?Status: active unversioned bounded candidate after v0\.5\.6; one exact relation implemented, general membrane calculus open/);
     assert.ok(implementationMap.includes("`v0.5.0` implements the first organic self-realization vertical flow"));
     assert.ok(implementationMap.includes("Completed `v0.5.1` satisfies its bounded connected gate"));
     assert.ok(implementationMap.includes("Completed bounded `v0.5.2` adds the forward corrective gate"));
@@ -257,5 +265,7 @@ test("author ideas remain immutable source obligations rather than prose-only me
     assert.ok(corpus.includes("### AI-20260717-003: Do not leave the Bubble execution authority trapped in TypeScript"));
     assert.ok(corpus.includes("### AI-20260717-004: Efficient execution must remain portable across computational substrates"));
     assert.ok(corpus.includes("### AI-20260717-005: Close the 5.x semantic core before beginning the Rust 6.x substrate"));
+    assert.ok(corpus.includes("### AI-20260717-006: Continue only inside the author's philosophy"));
     assert.ok(ledger.sessionConstraints.some((entry) => entry.id === "SC-002" && entry.status === "in-force"));
+    assert.ok(ledger.sessionConstraints.some((entry) => entry.id === "SC-003" && entry.status === "in-force"));
 });

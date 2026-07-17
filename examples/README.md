@@ -17,6 +17,7 @@ For the consolidated language reference, see `docs/reference/bubble-language-ref
 - `endogenous-branching-field.world.json`: `v0.5.5` actor-neutral world whose internal conflict graph yields two maximal commuting autonomous formation frontiers, preserves one common positive-sea law in both, evaluates World Will separately in each branch, and replays the full plural lineage
 - `generational-grove.world.json`: bounded `v0.5.6` world in which one active world law actualizes a latent descendant, the origin retires with residue instead of being deleted, the descendant forms its own boundary, and only the newly active descendant anchor can carry a World-Will condition that its internal law answers
 - `generational-seed.causal.bubble`: bounded `v0.5.6` strict causal `.bubble` lowering fixture for the same lifecycle kernel; it explicitly declares exact fields, sea coupling, protected structure, anchors, objectives, local guards, causal birth, retirement, and commits without treating the older descriptive `spawn`/`collapse` IR as executed history
+- `connected-fields.causal.bubble`: active unversioned post-`v0.5.6` membrane candidate; one source-world internal law crosses a typed two-world anchor, leaves exact negative-sea residue and positive-sea placement, and only then enables the receiving world's own structural law with World Will disabled
 
 Run the examples through the existing CLI scripts:
 

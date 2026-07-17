@@ -203,6 +203,16 @@ Engineering interpretation:
 - Begin Rust implementation only in `v0.6.x`. Rust is the first native physical backend, not the definition or philosophical boundary of Bubble.
 - This sequencing does not close the wider universe, discard TypeScript, begin Phase 2 observation, or reopen recursive self-construction.
 
+### AI-20260717-006: Continue only inside the author's philosophy
+
+> 다음 진행해. 항상 명심해. 너만의 이상한거 하지 말고 내 철학을 지켜.
+
+Engineering interpretation:
+
+- New executable concepts must be derived from the author's Bubble, sea, anchor, World Will, world-autonomy, and organic-self-realization ontology rather than introduced for implementation convenience or novelty.
+- A technical candidate must retain explicit limits and author judgment; a passing example cannot close an idea, select a release, or replace an unresolved philosophical relation.
+- When a concrete seam requires an engineering interpretation, keep the original quotation immutable, state the interpretation and non-claims, and prefer the smallest falsifiable contract that can later be generalized without erasing the idea.
+
 ## Non-Closure Rule
 
 An implementation may change an obligation from `open` to `in-development`, `partial`, or `realized`. It may not alter or delete the source quotation. `Realized` requires code evidence, acceptance tests, stated limits, and a reopen condition. A release scope decision never changes a philosophical idea into a rejection.

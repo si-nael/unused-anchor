@@ -113,3 +113,57 @@ test("causal Bubble source rejects semantic type shortcuts before runtime", () =
         (error: unknown) => error instanceof BubbleCompilerError && error.diagnostics.some((entry) => entry.code === "CBL002"),
     );
 });
+
+const connectedSource = `causal bubble ConnectedFields {
+  decision deterministic
+  world-will connected-will
+  world source-field active
+  field source-field.positive role positive-sea = 2
+  field source-field.negative role negative-sea = 1
+  field source-field.viability role viability = 1
+  field source-field.signal role world-state = 1
+  sea source-field positive positive negative negative viability viability weights 1 1
+  objective preserve-source world source-field field viability direction maximize weight 1
+  world receiver-field active
+  field receiver-field.positive role positive-sea = 2
+  field receiver-field.negative role negative-sea = 1
+  field receiver-field.viability role viability = 1
+  field receiver-field.condition role world-condition = 0
+  field receiver-field.structure role structural-state = 0
+  protect receiver-field.structure
+  sea receiver-field positive positive negative negative viability viability weights 1 1
+  objective preserve-receiver world receiver-field field viability direction maximize weight 1
+  anchor field-current between source-field.emission and receiver-field.reception identity true permit signal
+  transfer signal-current anchor field-current from source-field.emission field signal to receiver-field.reception field condition negative-residue 1 positive-placement 1
+  law emit-signal world source-field when signal = 1 irreversible
+  law-transfer emit-signal signal-current
+  law receive-signal world receiver-field when condition = 1 irreversible
+  law-effect receive-signal add structure 1
+}`;
+
+test("causal Bubble source lowers one linked anchor transfer into the same receiving-world response", () => {
+    const compilation = compileCausalBubbleSource(connectedSource, { sourcePath: "connected-fields.causal.bubble" });
+    const run = realizeAnchoredCausalWorld(compilation.program, { worldWillEnabled: false });
+    const continuation = run.autonomousContinuation!;
+    const transfer = continuation.anchorTransferEvents?.[0]!;
+    const receiver = continuation.worldStates.find((state) => state.worldId === "receiver-field")!;
+
+    assert.equal(compilation.diagnostics.length, 0);
+    assert.equal(run.status, "stable", run.reason);
+    assert.equal(transfer.anchorId, "field-current");
+    assert.equal(transfer.hostSelection, false);
+    assert.deepEqual(receiver.fields.condition, { kind: "rational", numerator: "1", denominator: "1" });
+    assert.deepEqual(receiver.fields.structure, { kind: "rational", numerator: "1", denominator: "1" });
+    assert.ok(continuation.order.causalEdges.some((edge) => edge.cause === transfer.id && edge.effect === "law:receive-signal"));
+});
+
+test("causal Bubble source refuses a transfer whose target port is not part of the anchor", () => {
+    const unlinked = connectedSource.replace(
+        "anchor field-current between source-field.emission and receiver-field.reception identity true permit signal",
+        "anchor field-current world source-field port emission identity true permit signal",
+    );
+    assert.throws(
+        () => compileCausalBubbleSource(unlinked, { sourcePath: "unlinked-transfer.causal.bubble" }),
+        (error: unknown) => error instanceof BubbleCompilerError && error.diagnostics.some((entry) => entry.code === "CKW089"),
+    );
+});

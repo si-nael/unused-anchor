@@ -1,0 +1,31 @@
+causal bubble ConnectedFields {
+  decision deterministic
+  world-will connected-fields-will
+
+  world source-field active
+  field source-field.positive role positive-sea = 2
+  field source-field.negative role negative-sea = 1
+  field source-field.viability role viability = 1
+  field source-field.signal role world-state = 1
+  sea source-field positive positive negative negative viability viability weights 1 1
+  objective preserve-source world source-field field viability direction maximize weight 1
+
+  world receiver-field active
+  field receiver-field.positive role positive-sea = 2
+  field receiver-field.negative role negative-sea = 1
+  field receiver-field.viability role viability = 1
+  field receiver-field.condition role world-condition = 0
+  field receiver-field.structure role structural-state = 0
+  protect receiver-field.structure
+  sea receiver-field positive positive negative negative viability viability weights 1 1
+  objective preserve-receiver world receiver-field field viability direction maximize weight 1
+
+  anchor field-current between source-field.emission and receiver-field.reception identity true permit signal
+  transfer signal-current anchor field-current from source-field.emission field signal to receiver-field.reception field condition negative-residue 1 positive-placement 1
+
+  law emit-signal world source-field when signal = 1 irreversible
+  law-transfer emit-signal signal-current
+
+  law receive-signal world receiver-field when condition = 1 irreversible
+  law-effect receive-signal add structure 1
+}

@@ -132,6 +132,7 @@ The repository now contains an executable Bubble Language stack rather than only
 - completed bounded `v0.5.4`: an authored-goal-free invariant viability kernel over recurrent components, causally regenerated plural response affordances, universal same-program response-event nonrealization, per-response semantic memory erasure, World-Will-disabled/all-anchors-cut autonomy evidence, canonical phase and independent distributed-channel worlds, no host affordance selector, and integrity-checked teleonomic replay
 - completed bounded `v0.5.5`: opt-in endogenous causal branching derived from every maximal commuting frontier of simultaneously enabled laws, typed nonrealized alternatives and branch lineage, exhaustive branch budgets, branch-local anchor and World-Will evaluation, guaranteed-improvement comparison over set-valued outcomes, persistent-memory evidence across real autonomous branches, and integrity-checked plural replay
 - completed bounded `v0.5.6`: internal-law birth of finitely declared latent worlds, self-retirement with retained residue, monotone lifecycle lineage and no-host-selection evidence, inactive anchor/objective gating, persistent phase continuation, strict `causal bubble` lowering with exact reversible inverses, canonical inspection, and lifecycle-aware replay; this is not dynamic schema or population generation
+- active unversioned Gate B candidate after `v0.5.6`: one identity-checked typed two-world anchor crossing caused by a source internal law, with exact negative-sea residue, positive-sea placement, receiving-world self-response, birth-aware causality, inspection, and replay; this is not general transport composition, a global sea, or a selected release
 
 Current stabilization commands:
 
@@ -148,16 +149,18 @@ Current stabilization commands:
 11. `npm run verify:lifecycle`
 12. `npm run verify:lifecycle-example`
 13. `npm run verify:lifecycle-language-example`
-14. `npm run verify:persistence`
-15. `npm run verify:persistence-example`
-16. `npm run verify:teleonomy`
-17. `npm run verify:teleonomy-example`
-18. `npm run verify:teleonomy-distributed-example`
-19. `npm run verify:examples`
-20. `npm run verify:collapse`
-21. `npm run verify:replay`
-22. `npm run verify:attribution`
-23. `npm run verify:self-realization`
+14. `npm run verify:membrane`
+15. `npm run verify:membrane-example`
+16. `npm run verify:persistence`
+17. `npm run verify:persistence-example`
+18. `npm run verify:teleonomy`
+19. `npm run verify:teleonomy-example`
+20. `npm run verify:teleonomy-distributed-example`
+21. `npm run verify:examples`
+22. `npm run verify:collapse`
+23. `npm run verify:replay`
+24. `npm run verify:attribution`
+25. `npm run verify:self-realization`
 
 Representative source examples:
 
@@ -175,8 +178,10 @@ Representative source examples:
 - [examples/distributed-channel-field.world.json](examples/distributed-channel-field.world.json)
 - [examples/endogenous-branching-field.world.json](examples/endogenous-branching-field.world.json)
 - [examples/generational-grove.world.json](examples/generational-grove.world.json)
+- [examples/generational-seed.causal.bubble](examples/generational-seed.causal.bubble)
+- [examples/connected-fields.causal.bubble](examples/connected-fields.causal.bubble)
 
-`v0.5.0` supplies the first bounded vertical world flow. Completed `v0.5.1` proves one explicit agent-bearing narrative seam. Completed bounded `v0.5.2` generalizes the core so state-bound internal laws generate causal events and structure without requiring a protagonist or plot graph. Completed bounded `v0.5.3` derives one recurrent causal component and verifies boundary, identity, memory, repair, and influence across closures. Completed bounded `v0.5.4` derives finite invariant viability kernels and causally regenerated plural memory-dependent response events without authoring a goal or using a host selector. Completed bounded `v0.5.5` lets non-commuting internal law structure generate every maximal commuting autonomous world and carries those branches through anchors, World Will, persistence, inspection, and replay. Completed bounded `v0.5.6` adds finite causally endogenous birth and retirement and lowers the same lifecycle contract from strict `.bubble` source. None of these versions is the completed Bubble universe: deliberative choice, agency, relations, narrative projection, populations, dynamic law/schema generation, open-ended dynamics, global multi-world seas, cross-world anchors, and the full identity calculus remain open before Phase 2.
+`v0.5.0` supplies the first bounded vertical world flow. Completed `v0.5.1` proves one explicit agent-bearing narrative seam. Completed bounded `v0.5.2` generalizes the core so state-bound internal laws generate causal events and structure without requiring a protagonist or plot graph. Completed bounded `v0.5.3` derives one recurrent causal component and verifies boundary, identity, memory, repair, and influence across closures. Completed bounded `v0.5.4` derives finite invariant viability kernels and causally regenerated plural memory-dependent response events without authoring a goal or using a host selector. Completed bounded `v0.5.5` lets non-commuting internal law structure generate every maximal commuting autonomous world and carries those branches through anchors, World Will, persistence, inspection, and replay. Completed bounded `v0.5.6` adds finite causally endogenous birth and retirement and lowers the same lifecycle contract from strict `.bubble` source. The active work after it is still unversioned and proves only one exact cross-world membrane relation. None of these versions or candidates is the completed Bubble universe: deliberative choice, agency, relations, narrative projection, populations, dynamic law/schema generation, open-ended dynamics, global multi-world seas, general cross-world composition, and the full identity calculus remain open before Phase 2.
 
 ## Repository Notes
 

@@ -552,3 +552,35 @@ Would be weakened or falsified by:
 First check:
 
 Complete the 5.x portable-core inventory and encode one narrow stable vertical slice as a semantic conformance fixture without implementing Rust. The fixture must expose exact values, an internal causal frontier, lifecycle or commit provenance, and one honest resource boundary. Rust implementation starts only after that contract survives adversarial review.
+
+### H-021: A typed anchor span with material sea effects can connect autonomous worlds
+
+Status: supported for one exact unversioned relation; general composition untested
+
+Claim:
+
+Two actor-neutral Bubble worlds can exchange exact content without an external router or World-Will puppetry when a source-world internal law causes an identity-preserving anchor crossing, the crossing materially changes the source negative sea and target positive sea, and the receiving world converts only the admitted boundary condition into internal structure through its own law.
+
+Current supporting evidence:
+
+- the transfer is declared as explicit source and target world/port/field endpoints on one two-world anchor
+- its source and target exact value kinds must agree, both endpoints must be active, and a cut anchor blocks it
+- pre- and post-transfer identity are evaluated before mutation; false or unresolved identity leaves target and both seas unchanged
+- the transfer writes only an unprotected `world-condition`, while a causally later receiving-world law writes protected structure
+- exact source negative-sea residue and target positive-sea placement change both states and local viability coupling
+- `source internal law -> anchor transfer -> target internal law` is preserved in the causal partial order with `hostSelection: false`
+- an internally caused birth must precede transfer into a formerly latent endpoint and remains a direct transfer cause
+- strict source lowering, inspection, stored records, deterministic replay, and negative validator cases all cover the same typed runtime relation
+
+Would be weakened or falsified by:
+
+- any transfer occurring while its anchor is cut or either endpoint is inactive
+- a foreign guard, host callback, declaration order, or World Will fabricating the crossing
+- transfer directly mutating protected receiving structure or omitting either declared sea effect from evidence
+- pre/post identity failure mutating any portion of the proposed atomic crossing
+- replay preserving final fields while losing the transfer event, ports, identity evidence, sea accounting, or causal edges
+- treating one snapshot relation as proof of general routing, global sea conservation, concurrent composition, agency, or whole-universe completion
+
+Next check:
+
+Derive the smallest two-transfer case from an author-justified world relation and test all commute/conflict combinations, cut and lifecycle interactions, identity preservation, sea accounting, branch completeness, and replay. Keep the one-transfer restriction until that model exists.

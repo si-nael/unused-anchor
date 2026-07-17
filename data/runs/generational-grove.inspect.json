@@ -8,6 +8,8 @@
     "retiredWorldCount": 1,
     "spawnedWorldCount": 1,
     "retirementCount": 1,
+    "admittedAnchorTransferCount": 0,
+    "blockedAnchorTransferCount": 0,
     "continuationCount": 2,
     "selectedContinuationCount": 1,
     "unresolvedAlternativeCount": 0,

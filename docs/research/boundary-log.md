@@ -10,6 +10,24 @@ The point is to keep visible the classes of failure that show where Bubble's own
 
 ## 2026-07-17
 
+### B-035: Cross-world connection crossed into a host router or protected-state shortcut
+
+Observed surface:
+
+Once a two-world anchor had explicit ports, the easiest implementation shapes were to let the host copy arbitrary fields, let World Will deliver the value, or let a transfer write the receiver's protected structure directly. A first general transport array would also imply that simultaneous crossings already had defined composition and commutativity.
+
+Boundary meaning:
+
+Connection crossed the world-autonomy and anchor/sea membrane. An anchor is not a message broker, sea changes are not decorative annotations, and receiving a condition is not the same event as the receiving world reorganizing itself.
+
+Current handling:
+
+The active unversioned candidate admits one exact transfer definition caused by an irreversible source-world internal law. It verifies typed ports, active endpoints, an uncut anchor, equal exact value kinds, and identity before and after a cloned atomic transition. It writes only an unprotected receiving `world-condition`, records source negative-sea residue and target positive-sea placement, and leaves all protected response to a later receiving-world law. The source snapshot, target, and sea-accounting fields reject competing local writers so host application order cannot select the payload. Mixed local/lifecycle/commit effects, multiple transfer definitions, protected targets, foreign guards, and failed identity are rejected. Cut and latent endpoints block; internal birth can activate an endpoint and becomes a transfer cause.
+
+Next check:
+
+Do not widen the one-relation restriction from convenience. First produce a concrete organic requirement for two interacting transfers and prove whether their endpoints, sea effects, identity predicates, branch alternatives, and lifecycle transitions commute, conflict, or require a new causal frontier. Preserve blocked and underdetermined outcomes without host selection.
+
 ### B-034: Parseable reversibility crossed into an unauthorable inverse contract
 
 Observed surface:

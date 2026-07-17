@@ -1,6 +1,6 @@
 # Anchored Causal World Reference
 
-Applies to: `bubble-anchored-causal-world.v2`, `bubble-anchored-causal-program.v2`, and `v0.5.2` through `v0.5.6`
+Applies to: `bubble-anchored-causal-world.v2`, `bubble-anchored-causal-program.v2`, `v0.5.2` through `v0.5.6`, and the active unversioned membrane candidate
 
 Compatibility note: `v0.5.3` unfolds this once-per-realization contract through the separate [Persistent Causal World](persistent-causal-world.md) layer. `v0.5.5` adds opt-in endogenous internal branching while preserving the previous default. `v0.5.6` adds finite declared-world lifecycle and strict source lowering.
 
@@ -41,6 +41,12 @@ Each law has:
 The runtime repeatedly evaluates all unresolved guards. All true commuting laws form one causal frontier. An unresolved guard or exhausted frontier budget returns `underdetermined`.
 
 Internal-law guard bindings are local to the law's own world. A cross-world binding is rejected until Bubble has a typed anchor-transfer contract; an ordinary predicate parameter cannot bypass the anchor membrane.
+
+The active unversioned membrane candidate adds `anchorTransferIds` to an irreversible transfer-only source law. One typed transfer connects exact source and target fields through explicit ports on one two-world anchor. It copies the source snapshot only into an unprotected receiving `world-condition`, leaves exact negative-sea residue in the source world and positive-sea placement in the target world, and then allows a later receiving-world law to respond. It cannot directly manufacture protected receiving structure.
+
+Transfer admission requires both endpoint worlds and ports to be active, the anchor not to be cut, exact source/target value kinds to agree, and anchor identity to hold both before and after a cloned proposed crossing. Failure or underdetermination prevents every target and sea mutation. If a latent endpoint is internally born first, the birth event is a direct transfer cause.
+
+The first contract deliberately permits one transfer definition per program and reserves its source snapshot, target, and sea-accounting fields from competing local writers. General multi-transfer commutativity, streaming, transformations, conservation, global seas, and concurrent membrane composition remain open.
 
 `execution.internalConflictMode` has two meanings:
 
@@ -118,8 +124,10 @@ npm run verify:branching-example
 npm run verify:lifecycle
 npm run verify:lifecycle-example
 npm run verify:lifecycle-language-example
+npm run verify:membrane
+npm run verify:membrane-example
 ```
 
 Common direct options are `--disable-world-will`, repeated `--cut-anchor <id>`, `--evaluation-budget <n>`, `--max-intervention-combinations <n>`, `--max-internal-frontiers <n>`, and `--max-internal-branches <n>`.
 
-Replay stores the complete typed program and options, verifies that the stored run still hashes to `recordedDigest`, verifies that its program digest matches the stored program, re-executes, and compares the complete run plus selected continuation identities, unresolved alternatives, emergence assessments, and lifecycle state/events when present. A modified stored run is `reexecution-drift`, even if its selection labels remain unchanged. This is deterministic same-program continuity, not a universal cross-version same-world theorem.
+Replay stores the complete typed program and options, verifies that the stored run still hashes to `recordedDigest`, verifies that its program digest matches the stored program, re-executes, and compares the complete run plus selected continuation identities, unresolved alternatives, emergence assessments, lifecycle state/events, and anchor-transfer events when present. A modified stored run is `reexecution-drift`, even if its selection labels remain unchanged. This is deterministic same-program continuity, not a universal cross-version same-world theorem.

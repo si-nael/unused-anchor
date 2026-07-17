@@ -17,6 +17,7 @@ import {
 import {
     validateAnchoredCausalWorld,
     type AnchoredCausalWorldSystem,
+    type CausalAnchorTransferDefinition,
     type CausalDiagnostic,
     type CausalEmergenceCriterion,
     type CausalFieldBinding,
@@ -128,6 +129,31 @@ export interface CausalWorldLifecycleEvent {
     residue?: CausalWorldRetirementResidue;
 }
 
+export interface CausalAnchorTransferEvent {
+    id: string;
+    transferId: string;
+    lawId: string;
+    lawEventId: string;
+    anchorId: string;
+    source: CausalAnchorTransferDefinition["source"] & { value: ExactValue };
+    target: CausalAnchorTransferDefinition["target"] & { before: ExactValue; after: ExactValue };
+    sourceNegativeSea: { fieldId: string; before: ExactValue; residue: ExactValue; after: ExactValue };
+    targetPositiveSea: { fieldId: string; before: ExactValue; placement: ExactValue; after: ExactValue };
+    hostSelection: false;
+}
+
+export interface CausalAnchorTransferAssessment {
+    id: string;
+    transferId: string;
+    lawId: string;
+    anchorId: string;
+    sourceWorldId: string;
+    targetWorldId: string;
+    status: "admitted" | "blocked" | "undetermined";
+    reasons: string[];
+    identityEvidenceSubjectIds: string[];
+}
+
 export interface CausalFormalEvidence {
     subjectId: string;
     purpose: "initial-field" | "law-guard" | "hard-constraint" | "anchor-identity" | "emergence-criterion";
@@ -138,6 +164,7 @@ export interface CausalFormalEvidence {
 }
 
 export interface CausalTraceEffect {
+    worldId?: string;
     fieldId: string;
     layer: "world-field" | "intrinsic-viability";
     operation: "add" | "subtract" | "set" | "derive";
@@ -149,13 +176,14 @@ export interface CausalTraceEffect {
 export interface CausalTraceEntry {
     id: string;
     kind: "initial-field" | "internal-law" | "sea-coupling" | "world-will-intervention" | "history-commit"
-        | "world-spawn" | "world-retirement";
+        | "world-spawn" | "world-retirement" | "anchor-transfer";
     worldId: string;
     eventId?: string;
     lawId?: string;
     interventionId?: string;
     anchorId?: string;
     lifecycleEventId?: string;
+    transferId?: string;
     causes: string[];
     effects: CausalTraceEffect[];
 }
@@ -234,6 +262,8 @@ export interface CausalContinuation {
     trace: CausalTraceEntry[];
     historyCommits: CausalHistoryCommit[];
     lifecycleEvents?: CausalWorldLifecycleEvent[];
+    anchorTransferEvents?: CausalAnchorTransferEvent[];
+    anchorTransferAssessments?: CausalAnchorTransferAssessment[];
     internalEventAblations?: CausalInternalEventAblation[];
     emergenceAssessments: CausalEmergenceAssessment[];
     order: {
@@ -291,6 +321,8 @@ export interface AnchoredCausalInspection {
         retiredWorldCount?: number;
         spawnedWorldCount?: number;
         retirementCount?: number;
+        admittedAnchorTransferCount?: number;
+        blockedAnchorTransferCount?: number;
         continuationCount: number;
         selectedContinuationCount: number;
         unresolvedAlternativeCount: number;
@@ -331,6 +363,7 @@ export interface AnchoredCausalReplayResult {
     unresolvedAlternativesPreserved: boolean;
     emergencePreserved: boolean;
     lifecyclePreserved?: boolean;
+    anchorTransfersPreserved?: boolean;
     replayedRun: AnchoredCausalRun;
 }
 
@@ -350,6 +383,8 @@ interface MutableRealization {
     trace: CausalTraceEntry[];
     historyCommits: CausalHistoryCommit[];
     lifecycleEvents: CausalWorldLifecycleEvent[];
+    anchorTransferEvents: CausalAnchorTransferEvent[];
+    anchorTransferAssessments: CausalAnchorTransferAssessment[];
     internalEventAblations: CausalInternalEventAblation[];
     branchedAwayLawIds: Set<string>;
     branchLineage: CausalInternalBranchStep[];
@@ -567,6 +602,21 @@ export function validateExecutableCausalProgram(program: ExecutableAnchoredCausa
     for (const interventionId of interventions) {
         if (!costIds.has(interventionId)) diagnostics.push(runtimeIssue("CKR024", "execution.interventionCosts", `missing cost for '${interventionId}'`));
     }
+    for (const transfer of program.world.anchorTransfers ?? []) {
+        const identityFields = new Set(program.execution.anchorIdentity
+            .filter((predicate) => predicate.anchorId === transfer.anchorId)
+            .flatMap((predicate) => predicate.fieldParameters.map((binding) => fieldKey(binding.worldId, binding.fieldId))));
+        const competingIdentityWriters = program.world.internalLaws.flatMap((law) => law.effects
+            .filter((effect) => identityFields.has(fieldKey(law.worldId, effect.fieldId)))
+            .map((effect) => `${law.id}:${fieldKey(law.worldId, effect.fieldId)}`));
+        if (competingIdentityWriters.length > 0) {
+            diagnostics.push(runtimeIssue(
+                "CKR026",
+                "execution.anchorIdentity",
+                `transfer '${transfer.id}' identity fields cannot change in the same closure under the first membrane contract: ${competingIdentityWriters.sort().join(", ")}`,
+            ));
+        }
+    }
     return diagnostics;
 }
 
@@ -698,6 +748,8 @@ function cloneRealization(source: MutableRealization): MutableRealization {
         trace: cloneValue(source.trace),
         historyCommits: cloneValue(source.historyCommits),
         lifecycleEvents: cloneValue(source.lifecycleEvents),
+        anchorTransferEvents: cloneValue(source.anchorTransferEvents),
+        anchorTransferAssessments: cloneValue(source.anchorTransferAssessments),
         internalEventAblations: cloneValue(source.internalEventAblations),
         branchedAwayLawIds: new Set(source.branchedAwayLawIds),
         branchLineage: cloneValue(source.branchLineage),
@@ -784,11 +836,226 @@ function applyEffect(
     return { before, after, layer };
 }
 
+interface AppliedAnchorTransferFields {
+    payload: ExactValue;
+    targetBefore: ExactValue;
+    targetAfter: ExactValue;
+    sourceNegativeFieldId: string;
+    sourceNegativeBefore: ExactValue;
+    sourceNegativeAfter: ExactValue;
+    targetPositiveFieldId: string;
+    targetPositiveBefore: ExactValue;
+    targetPositiveAfter: ExactValue;
+    traceEffects: CausalTraceEffect[];
+}
+
+function mutateAnchorTransferFields(
+    program: ExecutableAnchoredCausalProgram,
+    mutable: MutableRealization,
+    transfer: CausalAnchorTransferDefinition,
+): { applied?: AppliedAnchorTransferFields; reason?: string } {
+    const sourceWorld = program.world.worlds.find((world) => world.id === transfer.source.worldId);
+    const targetWorld = program.world.worlds.find((world) => world.id === transfer.target.worldId);
+    const sourceState = mutable.states.get(transfer.source.worldId);
+    const targetState = mutable.states.get(transfer.target.worldId);
+    const payload = sourceState?.fields[transfer.source.fieldId];
+    if (!sourceWorld || !targetWorld || !sourceState || !targetState || !payload) {
+        return { reason: `transfer '${transfer.id}' has an unavailable endpoint or payload` };
+    }
+    const sourceNext = cloneValue(sourceState);
+    const targetNext = cloneValue(targetState);
+    const sourceNegativeFieldId = sourceWorld.seaCoupling.negativeFieldId;
+    const targetPositiveFieldId = targetWorld.seaCoupling.positiveFieldId;
+    const targetApplied = applyEffect(program, targetNext, {
+        fieldId: transfer.target.fieldId,
+        operation: "set",
+        value: cloneValue(payload),
+    });
+    const sourceNegativeApplied = applyEffect(program, sourceNext, {
+        fieldId: sourceNegativeFieldId,
+        operation: "add",
+        value: transfer.sourceNegativeSeaResidue,
+    });
+    const targetPositiveApplied = applyEffect(program, targetNext, {
+        fieldId: targetPositiveFieldId,
+        operation: "add",
+        value: transfer.targetPositiveSeaPlacement,
+    });
+    for (const applied of [targetApplied, sourceNegativeApplied, targetPositiveApplied]) {
+        if (applied.reason || !applied.before || !applied.after) {
+            return { reason: applied.reason ?? `transfer '${transfer.id}' could not update its typed membrane fields` };
+        }
+    }
+    mutable.states.set(transfer.source.worldId, sourceNext);
+    mutable.states.set(transfer.target.worldId, targetNext);
+    return {
+        applied: {
+            payload: cloneValue(payload),
+            targetBefore: targetApplied.before!,
+            targetAfter: targetApplied.after!,
+            sourceNegativeFieldId,
+            sourceNegativeBefore: sourceNegativeApplied.before!,
+            sourceNegativeAfter: sourceNegativeApplied.after!,
+            targetPositiveFieldId,
+            targetPositiveBefore: targetPositiveApplied.before!,
+            targetPositiveAfter: targetPositiveApplied.after!,
+            traceEffects: [
+                {
+                    worldId: transfer.target.worldId,
+                    fieldId: transfer.target.fieldId,
+                    layer: targetApplied.layer!,
+                    operation: "set",
+                    before: targetApplied.before!,
+                    operand: cloneValue(payload),
+                    after: targetApplied.after!,
+                },
+                {
+                    worldId: transfer.source.worldId,
+                    fieldId: sourceNegativeFieldId,
+                    layer: sourceNegativeApplied.layer!,
+                    operation: "add",
+                    before: sourceNegativeApplied.before!,
+                    operand: transfer.sourceNegativeSeaResidue,
+                    after: sourceNegativeApplied.after!,
+                },
+                {
+                    worldId: transfer.target.worldId,
+                    fieldId: targetPositiveFieldId,
+                    layer: targetPositiveApplied.layer!,
+                    operation: "add",
+                    before: targetPositiveApplied.before!,
+                    operand: transfer.targetPositiveSeaPlacement,
+                    after: targetPositiveApplied.after!,
+                },
+            ],
+        },
+    };
+}
+
+function upsertAnchorTransferAssessment(
+    mutable: MutableRealization,
+    assessment: CausalAnchorTransferAssessment,
+): void {
+    const index = mutable.anchorTransferAssessments.findIndex((entry) => entry.lawId === assessment.lawId);
+    if (index >= 0) mutable.anchorTransferAssessments[index] = assessment;
+    else mutable.anchorTransferAssessments.push(assessment);
+}
+
+function assessAnchorTransferLaw(
+    program: ExecutableAnchoredCausalProgram,
+    mutable: MutableRealization,
+    law: CausalInternalLaw,
+    options: Required<CausalExecutionOptions>,
+    subjectPrefix: string,
+): {
+    status: CausalAnchorTransferAssessment["status"];
+    assessment: CausalAnchorTransferAssessment;
+    evidence: CausalFormalEvidence[];
+    formalSteps: number;
+} {
+    const transfer = program.world.anchorTransfers!.find((candidate) => candidate.id === law.anchorTransferIds![0])!;
+    const identityEvidence: CausalFormalEvidence[] = [];
+    let formalSteps = 0;
+    const reasons: string[] = [];
+    const baseAssessment = {
+        id: `transfer-assessment:${law.id}:${transfer.id}`,
+        transferId: transfer.id,
+        lawId: law.id,
+        anchorId: transfer.anchorId,
+        sourceWorldId: transfer.source.worldId,
+        targetWorldId: transfer.target.worldId,
+    };
+    if (options.cutAnchorIds.includes(transfer.anchorId)) reasons.push(`anchor '${transfer.anchorId}' is cut`);
+    for (const endpoint of [transfer.source, transfer.target]) {
+        const phase = worldPhase(mutable.states.get(endpoint.worldId));
+        if (phase !== "active") reasons.push(`transfer endpoint world '${endpoint.worldId}' is ${phase}`);
+    }
+    const identityPredicates = program.execution.anchorIdentity
+        .filter((predicate) => predicate.anchorId === transfer.anchorId);
+    if (reasons.length === 0) {
+        const preIdentity = evaluateConstraintSet(
+            program,
+            identityPredicates,
+            "anchor-identity",
+            mutable.states,
+            options,
+            `${subjectPrefix}transfer:${transfer.id}:pre:`,
+        );
+        identityEvidence.push(...preIdentity.evidence);
+        formalSteps += preIdentity.formalSteps;
+        if (preIdentity.admissible === undefined) {
+            reasons.push(...preIdentity.reasons);
+            return {
+                status: "undetermined",
+                assessment: {
+                    ...baseAssessment,
+                    status: "undetermined",
+                    reasons,
+                    identityEvidenceSubjectIds: identityEvidence.map((entry) => entry.subjectId),
+                },
+                evidence: identityEvidence,
+                formalSteps,
+            };
+        }
+        if (!preIdentity.admissible) reasons.push(...preIdentity.reasons);
+    }
+    if (reasons.length === 0) {
+        const preview = cloneRealization(mutable);
+        const mutated = mutateAnchorTransferFields(program, preview, transfer);
+        if (mutated.reason) reasons.push(mutated.reason);
+        else {
+            const sourceSeaError = recomputeSea(program, preview, transfer.source.worldId, [], false);
+            const targetSeaError = recomputeSea(program, preview, transfer.target.worldId, [], false);
+            if (sourceSeaError || targetSeaError) reasons.push(sourceSeaError ?? targetSeaError!);
+        }
+        if (reasons.length === 0) {
+            const postIdentity = evaluateConstraintSet(
+                program,
+                identityPredicates,
+                "anchor-identity",
+                preview.states,
+                options,
+                `${subjectPrefix}transfer:${transfer.id}:post:`,
+            );
+            identityEvidence.push(...postIdentity.evidence);
+            formalSteps += postIdentity.formalSteps;
+            if (postIdentity.admissible === undefined) {
+                reasons.push(...postIdentity.reasons);
+                return {
+                    status: "undetermined",
+                    assessment: {
+                        ...baseAssessment,
+                        status: "undetermined",
+                        reasons,
+                        identityEvidenceSubjectIds: identityEvidence.map((entry) => entry.subjectId),
+                    },
+                    evidence: identityEvidence,
+                    formalSteps,
+                };
+            }
+            if (!postIdentity.admissible) reasons.push(...postIdentity.reasons.map((reason) => `post-transfer ${reason}`));
+        }
+    }
+    const status = reasons.length === 0 ? "admitted" : "blocked";
+    return {
+        status,
+        assessment: {
+            ...baseAssessment,
+            status,
+            reasons,
+            identityEvidenceSubjectIds: identityEvidence.map((entry) => entry.subjectId),
+        },
+        evidence: identityEvidence,
+        formalSteps,
+    };
+}
+
 function effectSetsConflict(
     entries: Array<{
         worldId: string;
         effects: CausalFieldEffect[];
         lifecycleEffects?: CausalWorldLifecycleEffect[];
+        transferWorldIds?: string[];
     }>,
 ): boolean {
     const byField = new Map<string, CausalFieldEffect[]>();
@@ -816,7 +1083,23 @@ function effectSetsConflict(
             byWorld.set(targetWorldId, new Set([...(byWorld.get(targetWorldId) ?? []), effect.kind]));
         }
     }
-    return [...byWorld.values()].some((kinds) => kinds.size > 1);
+    if ([...byWorld.values()].some((kinds) => kinds.size > 1)) return true;
+    const lifecycleWorldIds = new Set(byWorld.keys());
+    const transferWorldIds = new Set(entries.flatMap((entry) => entry.transferWorldIds ?? []));
+    return [...transferWorldIds].some((worldId) => lifecycleWorldIds.has(worldId));
+}
+
+function lawConflictEntry(program: ExecutableAnchoredCausalProgram, law: CausalInternalLaw) {
+    const transferWorldIds = (law.anchorTransferIds ?? []).flatMap((transferId) => {
+        const transfer = program.world.anchorTransfers?.find((candidate) => candidate.id === transferId);
+        return transfer ? [transfer.source.worldId, transfer.target.worldId] : [];
+    });
+    return {
+        worldId: law.worldId,
+        effects: law.effects,
+        lifecycleEffects: law.lifecycleEffects,
+        transferWorldIds,
+    };
 }
 
 function lifecycleEffectsApplicable(law: CausalInternalLaw, states: Map<string, MutableState>): boolean {
@@ -827,6 +1110,7 @@ function lifecycleEffectsApplicable(law: CausalInternalLaw, states: Map<string, 
 }
 
 function maximalCommutingLawFrontiers(
+    program: ExecutableAnchoredCausalProgram,
     laws: CausalInternalLaw[],
     limit: number,
 ): { frontiers: CausalInternalLaw[][]; exhaustive: boolean } {
@@ -836,8 +1120,8 @@ function maximalCommutingLawFrontiers(
         law.id,
         new Set(ordered
             .filter((candidate) => candidate.id !== law.id && !effectSetsConflict([
-                { worldId: law.worldId, effects: law.effects, lifecycleEffects: law.lifecycleEffects },
-                { worldId: candidate.worldId, effects: candidate.effects, lifecycleEffects: candidate.lifecycleEffects },
+                lawConflictEntry(program, law),
+                lawConflictEntry(program, candidate),
             ]))
             .map((candidate) => candidate.id)),
     ]));
@@ -923,6 +1207,85 @@ function recordCommit(
             after: state.fields[fieldId]!,
         })),
     });
+    return undefined;
+}
+
+function applyAnchorTransferFrontier(
+    program: ExecutableAnchoredCausalProgram,
+    mutable: MutableRealization,
+    lawEvents: Array<{ law: CausalInternalLaw; eventId: string }>,
+): string | undefined {
+    const transferEventIds: string[] = [];
+    for (const { law, eventId: lawEventId } of [...lawEvents].sort((left, right) => left.law.id.localeCompare(right.law.id))) {
+        const transferId = law.anchorTransferIds?.[0];
+        if (!transferId) continue;
+        const transfer = program.world.anchorTransfers?.find((candidate) => candidate.id === transferId);
+        if (!transfer) return `law '${law.id}' names missing anchor transfer '${transferId}'`;
+        const mutated = mutateAnchorTransferFields(program, mutable, transfer);
+        if (!mutated.applied) return mutated.reason ?? `transfer '${transfer.id}' failed`;
+        const applied = mutated.applied;
+        const transferEventId = `transfer:${transfer.id}:by:${law.id}`;
+        const transferCauses = [...new Set([
+            lawEventId,
+            ...[transfer.source.worldId, transfer.target.worldId].flatMap((worldId) => {
+                const spawnedByEventId = mutable.states.get(worldId)?.lifecycle?.spawnedByEventId;
+                return spawnedByEventId ? [spawnedByEventId] : [];
+            }),
+        ])].sort();
+        const transferEvent: CausalAnchorTransferEvent = {
+            id: transferEventId,
+            transferId: transfer.id,
+            lawId: law.id,
+            lawEventId,
+            anchorId: transfer.anchorId,
+            source: { ...cloneValue(transfer.source), value: cloneValue(applied.payload) },
+            target: {
+                ...cloneValue(transfer.target),
+                before: cloneValue(applied.targetBefore),
+                after: cloneValue(applied.targetAfter),
+            },
+            sourceNegativeSea: {
+                fieldId: applied.sourceNegativeFieldId,
+                before: cloneValue(applied.sourceNegativeBefore),
+                residue: cloneValue(transfer.sourceNegativeSeaResidue),
+                after: cloneValue(applied.sourceNegativeAfter),
+            },
+            targetPositiveSea: {
+                fieldId: applied.targetPositiveFieldId,
+                before: cloneValue(applied.targetPositiveBefore),
+                placement: cloneValue(transfer.targetPositiveSeaPlacement),
+                after: cloneValue(applied.targetPositiveAfter),
+            },
+            hostSelection: false,
+        };
+        mutable.anchorTransferEvents.push(transferEvent);
+        mutable.events.push({ id: transferEventId, causes: transferCauses, reversibility: "irreversible" });
+        mutable.evaluationOrder.push(transferEventId);
+        mutable.trace.push({
+            id: `trace:${mutable.trace.length + 1}:${transferEventId}`,
+            kind: "anchor-transfer",
+            worldId: transfer.target.worldId,
+            eventId: transferEventId,
+            lawId: law.id,
+            anchorId: transfer.anchorId,
+            transferId: transfer.id,
+            causes: transferCauses,
+            effects: cloneValue(applied.traceEffects),
+        });
+        for (const [key, before, after] of [
+            [fieldKey(transfer.target.worldId, transfer.target.fieldId), applied.targetBefore, applied.targetAfter],
+            [fieldKey(transfer.source.worldId, applied.sourceNegativeFieldId), applied.sourceNegativeBefore, applied.sourceNegativeAfter],
+            [fieldKey(transfer.target.worldId, applied.targetPositiveFieldId), applied.targetPositiveBefore, applied.targetPositiveAfter],
+        ] as const) {
+            if (!exactValuesEqual(before, after)) mutable.fieldCauses.set(key, [transferEventId]);
+        }
+        const sourceSeaError = recomputeSea(program, mutable, transfer.source.worldId, [transferEventId]);
+        if (sourceSeaError) return sourceSeaError;
+        const targetSeaError = recomputeSea(program, mutable, transfer.target.worldId, [transferEventId]);
+        if (targetSeaError) return targetSeaError;
+        transferEventIds.push(transferEventId);
+    }
+    if (transferEventIds.length > 0) mutable.evaluationFrontiers.push(transferEventIds);
     return undefined;
 }
 
@@ -1127,6 +1490,8 @@ function applyLawFrontier(
         const commitError = recordCommit(mutable, law, eventId);
         if (commitError) return commitError;
     }
+    const transferError = applyAnchorTransferFrontier(program, mutable, lawEvents);
+    if (transferError) return transferError;
     const lifecycleError = applyLifecycleFrontier(program, mutable, lawEvents);
     if (lifecycleError) return lifecycleError;
     return undefined;
@@ -1205,6 +1570,19 @@ function closeInternalLaws(
                             lawRetainedInProgram: true,
                             effectsSuppressed: true,
                         });
+                    } else if ((law.anchorTransferIds?.length ?? 0) > 0) {
+                        const transferAssessment = assessAnchorTransferLaw(
+                            program,
+                            mutable,
+                            law,
+                            options,
+                            `${subjectPrefix}${branchSubject}frontier:${node.localFrontierCount}:${law.id}:`,
+                        );
+                        formalEvidence.push(...transferAssessment.evidence);
+                        formalSteps += transferAssessment.formalSteps;
+                        upsertAnchorTransferAssessment(mutable, transferAssessment.assessment);
+                        if (transferAssessment.status === "undetermined") unresolved.push(law.id);
+                        else if (transferAssessment.status === "admitted") enabled.push(law);
                     } else {
                         enabled.push(law);
                     }
@@ -1228,9 +1606,7 @@ function closeInternalLaws(
                 break;
             }
             const conflict = effectSetsConflict(enabled.map((law) => ({
-                worldId: law.worldId,
-                effects: law.effects,
-                lifecycleEffects: law.lifecycleEffects,
+                ...lawConflictEntry(program, law),
             })));
             if (conflict && program.execution.internalConflictMode !== "maximal-commuting-branches") {
                 return {
@@ -1247,7 +1623,7 @@ function closeInternalLaws(
             }
             if (conflict) {
                 const remainingBranchBudget = options.maxInternalBranches - branchCount;
-                const alternatives = maximalCommutingLawFrontiers(enabled, Math.max(remainingBranchBudget, 0));
+                const alternatives = maximalCommutingLawFrontiers(program, enabled, Math.max(remainingBranchBudget, 0));
                 if (!alternatives.exhaustive || alternatives.frontiers.length === 0
                     || branchCount + alternatives.frontiers.length > options.maxInternalBranches) {
                     return {
@@ -1599,6 +1975,12 @@ function continuationFromRealization(
             trace: cloneValue(mutable.trace),
             historyCommits: cloneValue(mutable.historyCommits),
             ...(mutable.lifecycleEvents.length > 0 ? { lifecycleEvents: cloneValue(mutable.lifecycleEvents) } : {}),
+            ...(mutable.anchorTransferEvents.length > 0
+                ? { anchorTransferEvents: cloneValue(mutable.anchorTransferEvents) }
+                : {}),
+            ...(mutable.anchorTransferAssessments.length > 0
+                ? { anchorTransferAssessments: cloneValue(mutable.anchorTransferAssessments) }
+                : {}),
             ...(mutable.internalEventAblations.length > 0
                 ? { internalEventAblations: cloneValue(mutable.internalEventAblations) }
                 : {}),
@@ -1659,6 +2041,8 @@ function initializeRealization(
         trace: [],
         historyCommits: [],
         lifecycleEvents: [],
+        anchorTransferEvents: [],
+        anchorTransferAssessments: [],
         internalEventAblations: [],
         branchedAwayLawIds: new Set(),
         branchLineage: [],
@@ -2277,6 +2661,12 @@ export function inspectAnchoredCausalRun(run: AnchoredCausalRun): AnchoredCausal
                 retirementCount: relevantContinuations[0]!.lifecycleEvents
                     ?.filter((event) => event.kind === "world-retirement").length ?? 0,
             } : {}),
+            ...(relevantContinuations.length === 1 ? {
+                admittedAnchorTransferCount: relevantContinuations[0]!.anchorTransferAssessments
+                    ?.filter((assessment) => assessment.status === "admitted").length ?? 0,
+                blockedAnchorTransferCount: relevantContinuations[0]!.anchorTransferAssessments
+                    ?.filter((assessment) => assessment.status === "blocked").length ?? 0,
+            } : {}),
             continuationCount: run.continuations.length,
             selectedContinuationCount: run.selectedContinuationIds.length,
             unresolvedAlternativeCount: run.unresolvedAlternativeIds.length,
@@ -2340,6 +2730,20 @@ export function replayAnchoredCausalRecord(record: AnchoredCausalReplayRecord): 
         states: continuation.worldStates.map((state) => ({ worldId: state.worldId, lifecycle: state.lifecycle })),
         events: continuation.lifecycleEvents ?? [],
     }));
+    const transferAware = record.recordedRun.continuations.some((continuation) => (
+        (continuation.anchorTransferEvents?.length ?? 0) > 0
+        || (continuation.anchorTransferAssessments?.length ?? 0) > 0
+    ));
+    const recordedTransfers = record.recordedRun.continuations.map((continuation) => ({
+        id: continuation.id,
+        events: continuation.anchorTransferEvents ?? [],
+        assessments: continuation.anchorTransferAssessments ?? [],
+    }));
+    const replayedTransfers = replayedRun.continuations.map((continuation) => ({
+        id: continuation.id,
+        events: continuation.anchorTransferEvents ?? [],
+        assessments: continuation.anchorTransferAssessments ?? [],
+    }));
     return {
         mode: "bubble-anchored-causal-replay-result.v2",
         status: recordIntegrityValid && recordedProgramDigestValid && replayedDigest === record.recordedDigest && fullRunPreserved
@@ -2355,6 +2759,7 @@ export function replayAnchoredCausalRecord(record: AnchoredCausalReplayRecord): 
         unresolvedAlternativesPreserved: stableStringify(record.recordedRun.unresolvedAlternativeIds) === stableStringify(replayedRun.unresolvedAlternativeIds),
         emergencePreserved: stableStringify(recordedEmergence) === stableStringify(replayedEmergence),
         ...(lifecycleAware ? { lifecyclePreserved: stableStringify(recordedLifecycle) === stableStringify(replayedLifecycle) } : {}),
+        ...(transferAware ? { anchorTransfersPreserved: stableStringify(recordedTransfers) === stableStringify(replayedTransfers) } : {}),
         replayedRun,
     };
 }

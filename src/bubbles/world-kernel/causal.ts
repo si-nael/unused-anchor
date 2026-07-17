@@ -66,6 +66,21 @@ export type CausalWorldLifecycleEffect =
     | { kind: "spawn-world"; targetWorldId: string }
     | { kind: "retire-self" };
 
+export interface CausalAnchorTransferEndpoint {
+    worldId: string;
+    portId: string;
+    fieldId: string;
+}
+
+export interface CausalAnchorTransferDefinition {
+    id: string;
+    anchorId: string;
+    source: CausalAnchorTransferEndpoint;
+    target: CausalAnchorTransferEndpoint;
+    sourceNegativeSeaResidue: ExactValue;
+    targetPositiveSeaPlacement: ExactValue;
+}
+
 export interface CausalAnchorDefinition {
     id: string;
     endpoints: CausalAnchorEndpoint[];
@@ -115,6 +130,7 @@ export interface CausalInternalLaw {
     guard: CausalStatePredicate;
     effects: CausalFieldEffect[];
     lifecycleEffects?: CausalWorldLifecycleEffect[];
+    anchorTransferIds?: string[];
     application: "once-per-realization";
     reversibility: "reversible" | "irreversible";
     inverseEffects?: CausalFieldEffect[];
@@ -133,6 +149,7 @@ export interface AnchoredCausalWorldSystem {
     formal: IntensionalSystem;
     worlds: CausalWorldDefinition[];
     anchors: CausalAnchorDefinition[];
+    anchorTransfers?: CausalAnchorTransferDefinition[];
     worldWill: CausalWorldWill;
     internalLaws: CausalInternalLaw[];
     emergenceCriteria: CausalEmergenceCriterion[];
@@ -176,6 +193,12 @@ function positiveRational(value: ExactValue): boolean {
     const normalized = normalizeExactValue(value);
     return normalized?.kind === "rational"
         && compareExactRationals(normalized, exact.integer(0)) === 1;
+}
+
+function nonNegativeRational(value: ExactValue): boolean {
+    const normalized = normalizeExactValue(value);
+    return normalized?.kind === "rational"
+        && (compareExactRationals(normalized, exact.integer(0)) ?? -1) >= 0;
 }
 
 function inverseEffectMatches(effect: CausalFieldEffect, inverse: CausalFieldEffect): boolean {
@@ -362,10 +385,21 @@ export function validateAnchoredCausalWorld(system: AnchoredCausalWorldSystem): 
         if (anchor.endpoints.length === 0 || !anchor.endpoints.some((endpoint) => endpoint.kind === "world")) {
             diagnostics.push(issue("CKW026", `${path}.endpoints`, "an anchor needs at least one world endpoint"));
         }
+        const endpointKeys = new Set<string>();
         for (const endpoint of anchor.endpoints) {
+            if (!IDENTIFIER.test(endpoint.portId)) {
+                diagnostics.push(issue("CKW082", `${path}.endpoints`, `anchor port '${endpoint.portId}' must be stable`));
+            }
             if (endpoint.kind === "world" && !worlds.has(endpoint.worldId)) {
                 diagnostics.push(issue("CKW027", `${path}.endpoints`, `unknown anchor world '${endpoint.worldId}'`));
             }
+            const endpointKey = endpoint.kind === "world"
+                ? `world:${endpoint.worldId}:${endpoint.portId}`
+                : `relation:${endpoint.relationId}:${endpoint.portId}`;
+            if (endpointKeys.has(endpointKey)) {
+                diagnostics.push(issue("CKW083", `${path}.endpoints`, `duplicate anchor endpoint '${endpointKey}'`));
+            }
+            endpointKeys.add(endpointKey);
         }
         if (anchor.identityPredicateFamilyIds.length === 0) {
             diagnostics.push(issue("CKW057", `${path}.identityPredicateFamilyIds`, "anchor identity needs at least one exact predicate"));
@@ -383,6 +417,91 @@ export function validateAnchoredCausalWorld(system: AnchoredCausalWorldSystem): 
             if (families.get(familyId)?.valueKind !== "boolean") {
                 diagnostics.push(issue("CKW028", `${path}.identityPredicateFamilyIds`, `identity family '${familyId}' must be boolean`));
             }
+        }
+    }
+
+    const anchorTransfers = system.anchorTransfers ?? [];
+    if (anchorTransfers.length > 1) {
+        diagnostics.push(issue(
+            "CKW104",
+            "anchorTransfers",
+            "the first membrane contract establishes one exact nonlocal relation before general transport composition",
+        ));
+    }
+    duplicates(anchorTransfers.map((transfer) => transfer.id)).forEach((id) => diagnostics.push(
+        issue("CKW084", "anchorTransfers", `duplicate anchor transfer id '${id}'`),
+    ));
+    const transfers = new Map(anchorTransfers.map((transfer) => [transfer.id, transfer]));
+    for (const [transferIndex, transfer] of anchorTransfers.entries()) {
+        const path = `anchorTransfers[${transferIndex}]`;
+        if (!IDENTIFIER.test(transfer.id)) {
+            diagnostics.push(issue("CKW085", `${path}.id`, "anchor transfer id must be stable"));
+        }
+        const anchor = anchors.get(transfer.anchorId);
+        if (!anchor) {
+            diagnostics.push(issue("CKW086", `${path}.anchorId`, `unknown transfer anchor '${transfer.anchorId}'`));
+        }
+        const sourceWorld = worlds.get(transfer.source.worldId);
+        const targetWorld = worlds.get(transfer.target.worldId);
+        if (!sourceWorld || !targetWorld) {
+            diagnostics.push(issue("CKW087", path, "anchor transfer endpoints must name declared worlds"));
+        }
+        if (transfer.source.worldId === transfer.target.worldId) {
+            diagnostics.push(issue("CKW088", path, "anchor transfer must cross between distinct worlds"));
+        }
+        for (const [endpointName, endpoint] of [
+            ["source", transfer.source],
+            ["target", transfer.target],
+        ] as const) {
+            if (!IDENTIFIER.test(endpoint.portId)) {
+                diagnostics.push(issue("CKW082", `${path}.${endpointName}.portId`, "transfer port must be stable"));
+            }
+            if (anchor && !anchor.endpoints.some((candidate) => (
+                candidate.kind === "world"
+                && candidate.worldId === endpoint.worldId
+                && candidate.portId === endpoint.portId
+            ))) {
+                diagnostics.push(issue(
+                    "CKW089",
+                    `${path}.${endpointName}`,
+                    `anchor '${anchor.id}' has no '${endpoint.worldId}.${endpoint.portId}' endpoint`,
+                ));
+            }
+        }
+        const sourceField = sourceWorld?.fields.find((field) => field.id === transfer.source.fieldId);
+        const targetField = targetWorld?.fields.find((field) => field.id === transfer.target.fieldId);
+        if (!sourceField || !targetField) {
+            diagnostics.push(issue("CKW090", path, "anchor transfer fields must exist at both endpoints"));
+        } else {
+            const sourceKind = families.get(sourceField.familyId)?.valueKind;
+            const targetKind = families.get(targetField.familyId)?.valueKind;
+            if (!sourceKind || sourceKind !== targetKind) {
+                diagnostics.push(issue("CKW091", path, "anchor transfer source and target fields must have the same exact value kind"));
+            }
+            if (["positive-sea", "negative-sea", "viability"].includes(sourceField.role)) {
+                diagnostics.push(issue(
+                    "CKW103",
+                    `${path}.source.fieldId`,
+                    "sea coordinates are coupled by transfer accounting and cannot masquerade as payload fields",
+                ));
+            }
+            if (targetField.role !== "world-condition" || targetWorld?.protectedFieldIds.includes(targetField.id)) {
+                diagnostics.push(issue(
+                    "CKW092",
+                    `${path}.target.fieldId`,
+                    "the first cross-world membrane may write only an unprotected world-condition port",
+                ));
+            }
+        }
+        if (!nonNegativeRational(transfer.sourceNegativeSeaResidue)
+            || !nonNegativeRational(transfer.targetPositiveSeaPlacement)
+            || (exactValuesEqual(transfer.sourceNegativeSeaResidue, exact.integer(0))
+                && exactValuesEqual(transfer.targetPositiveSeaPlacement, exact.integer(0)))) {
+            diagnostics.push(issue(
+                "CKW093",
+                path,
+                "anchor transfer sea coupling needs non-negative exact rational residue/placement with at least one material effect",
+            ));
         }
     }
 
@@ -459,6 +578,7 @@ export function validateAnchoredCausalWorld(system: AnchoredCausalWorldSystem): 
     duplicates(system.internalLaws.map((law) => law.id)).forEach((id) => diagnostics.push(
         issue("CKW041", "internalLaws", `duplicate internal law id '${id}'`),
     ));
+    const transferReferenceCounts = new Map<string, number>();
     for (const [index, law] of system.internalLaws.entries()) {
         const path = `internalLaws[${index}]`;
         const world = worlds.get(law.worldId);
@@ -479,8 +599,9 @@ export function validateAnchoredCausalWorld(system: AnchoredCausalWorldSystem): 
             }
         }
         const lifecycleEffects = law.lifecycleEffects ?? [];
-        if (law.effects.length === 0 && lifecycleEffects.length === 0) {
-            diagnostics.push(issue("CKW074", path, "an internal law needs at least one field or lifecycle effect"));
+        const transferIds = law.anchorTransferIds ?? [];
+        if (law.effects.length === 0 && lifecycleEffects.length === 0 && transferIds.length === 0) {
+            diagnostics.push(issue("CKW074", path, "an internal law needs at least one field, lifecycle, or anchor-transfer effect"));
         }
         validateEffects(law.effects, `${path}.effects`, world, diagnostics, false);
         validateEffectKinds(law.effects, `${path}.effects`, world, families, diagnostics);
@@ -508,6 +629,36 @@ export function validateAnchoredCausalWorld(system: AnchoredCausalWorldSystem): 
         if (lifecycleEffects.length > 0 && law.reversibility !== "irreversible") {
             diagnostics.push(issue("CKW080", path, "world birth and retirement are irreversible causal transitions"));
         }
+        duplicates(transferIds).forEach((transferId) => diagnostics.push(
+            issue("CKW094", `${path}.anchorTransferIds`, `duplicate anchor transfer '${transferId}'`),
+        ));
+        if (transferIds.length > 1) {
+            diagnostics.push(issue("CKW097", `${path}.anchorTransferIds`, "the first membrane contract permits one exact crossing per internal law"));
+        }
+        for (const transferId of transferIds) {
+            const transfer = transfers.get(transferId);
+            transferReferenceCounts.set(transferId, (transferReferenceCounts.get(transferId) ?? 0) + 1);
+            if (!transfer) {
+                diagnostics.push(issue("CKW095", `${path}.anchorTransferIds`, `unknown anchor transfer '${transferId}'`));
+            } else if (transfer.source.worldId !== law.worldId) {
+                diagnostics.push(issue(
+                    "CKW096",
+                    `${path}.anchorTransferIds`,
+                    `transfer '${transferId}' must be caused by an internal law of its source world`,
+                ));
+            }
+        }
+        if (transferIds.length > 0
+            && (law.effects.length > 0 || lifecycleEffects.length > 0 || (law.commitAffectedFieldIds?.length ?? 0) > 0)) {
+            diagnostics.push(issue(
+                "CKW098",
+                path,
+                "the first membrane contract keeps a transfer law atomic: it cannot mix local, lifecycle, or commit effects",
+            ));
+        }
+        if (transferIds.length > 0 && law.reversibility !== "irreversible") {
+            diagnostics.push(issue("CKW099", path, "anchor crossing with sea residue/placement is irreversible in the first membrane contract"));
+        }
         if (law.reversibility === "reversible") {
             if (!law.inverseEffects || law.inverseEffects.length !== law.effects.length) {
                 diagnostics.push(issue("CKW043", `${path}.inverseEffects`, "reversible law needs one exact additive inverse per effect"));
@@ -531,6 +682,47 @@ export function validateAnchoredCausalWorld(system: AnchoredCausalWorldSystem): 
         }
         if ((law.commitAffectedFieldIds?.length ?? 0) > 0 && law.reversibility !== "irreversible") {
             diagnostics.push(issue("CKW047", path, "a history-committing law must be irreversible"));
+        }
+    }
+    for (const transfer of anchorTransfers) {
+        const count = transferReferenceCounts.get(transfer.id) ?? 0;
+        if (count !== 1) {
+            diagnostics.push(issue(
+                "CKW100",
+                "anchorTransfers",
+                `anchor transfer '${transfer.id}' must be caused by exactly one internal law; found ${count}`,
+            ));
+        }
+    }
+    const transferTargetKeys = new Set<string>();
+    for (const transfer of anchorTransfers) {
+        const sourceWorld = worlds.get(transfer.source.worldId);
+        const targetWorld = worlds.get(transfer.target.worldId);
+        if (!sourceWorld || !targetWorld) continue;
+        const targetKey = `${transfer.target.worldId}.${transfer.target.fieldId}`;
+        if (transferTargetKeys.has(targetKey)) {
+            diagnostics.push(issue(
+                "CKW101",
+                "anchorTransfers",
+                `the first membrane contract reserves one incoming transfer for target port field '${targetKey}'`,
+            ));
+        }
+        transferTargetKeys.add(targetKey);
+        const reservedKeys = new Set([
+            `${transfer.source.worldId}.${transfer.source.fieldId}`,
+            targetKey,
+            `${transfer.source.worldId}.${sourceWorld.seaCoupling.negativeFieldId}`,
+            `${transfer.target.worldId}.${targetWorld.seaCoupling.positiveFieldId}`,
+        ]);
+        const competingWriters = system.internalLaws.flatMap((law) => law.effects
+            .filter((effect) => reservedKeys.has(`${law.worldId}.${effect.fieldId}`))
+            .map((effect) => `${law.id}:${law.worldId}.${effect.fieldId}`));
+        if (competingWriters.length > 0) {
+            diagnostics.push(issue(
+                "CKW102",
+                "anchorTransfers",
+                `transfer '${transfer.id}' snapshot, target, and sea-accounting fields cannot have local writers in the first membrane contract: ${competingWriters.sort().join(", ")}`,
+            ));
         }
     }
 

@@ -1179,3 +1179,13 @@ After D-116 withheld automatic versioning, the author explicitly selected `v0.5.
 Consequence:
 
 Confirm `v0.5.6` as the bounded endogenous-world-lifecycle and causal-language-lowering release dated 2026-07-17. Its closed claim is finite declared-world birth and retirement caused only by internal irreversible law, with monotone lifecycle provenance, retained retirement residue, inactive-world exclusion, persistence, local-law membranes, strict authored lowering, inspection, and exact replay. Preserve observation collapse and branch nonrealization as different transitions. Do not infer dynamic schema or population generation, global seas, cross-world anchor transfer, agency, portable BIR, Rust, Phase 2, hypercomputation, or whole-universe completion. No commit is authorized by this release confirmation.
+
+### D-118: Start Gate B with one identity-checked material relation and no release identifier
+
+Reason:
+
+The foreign-world guard prohibition in bounded `v0.5.6` leaves connected worlds unable to exchange content at all. Replacing it with a generic message bus, a list of host-routed alternatives, direct World-Will writes, or direct writes into receiving structure would violate the author's anchor, sea, and autonomous-world philosophy. Conversely, claiming arbitrary transport composition from one happy path would close unsettled concurrency, conservation, identity, and global-sea questions prematurely.
+
+Consequence:
+
+Begin an unversioned Gate B candidate with exactly one directed typed anchor span. One irreversible source-world internal law may atomically copy an exact source snapshot into an unprotected target condition only when both endpoints are active, the anchor is uncut, its declared ports and exact kinds agree, and identity holds before and after the proposed crossing. The crossing must leave explicit source negative-sea residue and target positive-sea placement; the target's protected structure may change only through a later target-world law. Preserve transfer, identity assessment, sea effects, lifecycle causes, inspection, and replay evidence with `hostSelection: false`. Reject mixed effects and multiple transfer definitions until a concrete composition law proves how they commute. Keep package version `0.5.6`, make no release claim, add no Rust or Phase 2 work, and require author judgment after adversarial closure.

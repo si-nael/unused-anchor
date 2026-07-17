@@ -3,6 +3,8 @@
   "summary": {
     "status": "realized",
     "worldCount": 1,
+    "admittedAnchorTransferCount": 0,
+    "blockedAnchorTransferCount": 0,
     "continuationCount": 2,
     "selectedContinuationCount": 1,
     "unresolvedAlternativeCount": 0,

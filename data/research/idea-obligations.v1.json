@@ -3,6 +3,7 @@
   "recordedDate": "2026-07-15",
   "lastReconciledDate": "2026-07-17",
   "workingRelease": "0.5.6",
+  "activeCandidate": "typed-cross-world-anchor-sea-membrane",
   "sourceDocument": "docs/research/author-idea-corpus.md",
   "nonClosureRule": "A bounded implementation may advance status but must not delete source text, erase remaining obligations, or claim the whole idea from a proxy.",
   "obligations": [
@@ -37,9 +38,9 @@
       "invariant": "World continuation follows from one coupled lawful structure and never from a hidden host selector or an unrelated menu of regimes.",
       "dependencies": ["OB-004", "OB-005", "OB-006", "OB-007"],
       "status": "partial",
-      "implementationEvidence": ["src/bubbles/runtime/self-realization.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "src/bubbles/world-kernel/teleonomic-runtime.ts", "examples/endogenous-branching-field.world.json", "examples/generational-grove.world.json", "docs/architecture/v0.5.5-endogenous-causal-branching.md", "docs/architecture/v0.5.6-endogenous-world-lifecycle.md", "docs/research/question-log.md#q-018", "docs/research/question-log.md#q-023", "docs/research/question-log.md#q-024", "docs/research/question-log.md#q-025"],
-      "acceptanceTests": ["tests/unit/self-realization.test.ts", "tests/unit/anchored-narrative-runtime.test.ts", "tests/unit/anchored-causal-runtime.test.ts", "tests/unit/causal-world-lifecycle.test.ts", "tests/unit/persistent-causal-world.test.ts", "tests/unit/persistent-causal-runtime.test.ts", "tests/unit/teleonomic-causal-runtime.test.ts"],
-      "remainingLimits": ["Actor-neutral structures persist, have bounded teleonomic evidence, form finite endogenous branches, and have a completed bounded finite causal birth/retirement seam with no host selection, but deliberative agency, relationships, dynamic schemas and populations, cross-world transfer, and complete universe generation remain open."],
+      "implementationEvidence": ["src/bubbles/runtime/self-realization.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "src/bubbles/world-kernel/teleonomic-runtime.ts", "examples/endogenous-branching-field.world.json", "examples/generational-grove.world.json", "examples/connected-fields.causal.bubble", "docs/architecture/v0.5.5-endogenous-causal-branching.md", "docs/architecture/v0.5.6-endogenous-world-lifecycle.md", "docs/architecture/typed-cross-world-membrane-candidate.md", "docs/research/question-log.md#q-018", "docs/research/question-log.md#q-023", "docs/research/question-log.md#q-024", "docs/research/question-log.md#q-025", "docs/research/question-log.md#q-029"],
+      "acceptanceTests": ["tests/unit/self-realization.test.ts", "tests/unit/anchored-narrative-runtime.test.ts", "tests/unit/anchored-causal-runtime.test.ts", "tests/unit/causal-world-lifecycle.test.ts", "tests/unit/causal-anchor-transfer.test.ts", "tests/unit/persistent-causal-world.test.ts", "tests/unit/persistent-causal-runtime.test.ts", "tests/unit/teleonomic-causal-runtime.test.ts"],
+      "remainingLimits": ["Actor-neutral structures persist, have bounded teleonomic evidence, form finite endogenous branches, complete bounded lifecycle, and have one unversioned exact cross-world relation with no host selection, but deliberative agency, relationships, dynamic schemas and populations, general transport composition, and complete universe generation remain open."],
       "reopenCondition": "Remains open through every stronger self-generated continuation seam until the whole connected universe is realized."
     },
     {
@@ -73,9 +74,9 @@
       "invariant": "World Will acts under explicit objective and constraint structure, and any cross-world intervention is carried by an anchor with identity and causal provenance.",
       "dependencies": ["OB-005", "OB-007"],
       "status": "partial",
-      "implementationEvidence": ["src/bubbles/runtime/ontology.ts", "src/bubbles/runtime/self-realization.ts", "src/bubbles/world-kernel/narrative.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "src/bubbles/world-kernel/causal.ts", "src/bubbles/world-kernel/causal-runtime.ts", "examples/generational-grove.world.json", "docs/architecture/v0.5.6-endogenous-world-lifecycle.md"],
-      "acceptanceTests": ["tests/unit/anchored-narrative-world.test.ts", "tests/unit/anchored-narrative-runtime.test.ts", "tests/unit/anchored-causal-world.test.ts", "tests/unit/anchored-causal-runtime.test.ts", "tests/unit/causal-world-lifecycle.test.ts"],
-      "remainingLimits": ["World Will executes exact bounded optimization through active local anchors, cannot write protected structure or invoke lifecycle directly, and respects inactive lifecycle endpoints in bounded v0.5.6, but cross-world transfer and a full identity calculus remain open."],
+      "implementationEvidence": ["src/bubbles/runtime/ontology.ts", "src/bubbles/runtime/self-realization.ts", "src/bubbles/world-kernel/narrative.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "src/bubbles/world-kernel/causal.ts", "src/bubbles/world-kernel/causal-runtime.ts", "examples/generational-grove.world.json", "examples/connected-fields.causal.bubble", "docs/architecture/v0.5.6-endogenous-world-lifecycle.md", "docs/architecture/typed-cross-world-membrane-candidate.md"],
+      "acceptanceTests": ["tests/unit/anchored-narrative-world.test.ts", "tests/unit/anchored-narrative-runtime.test.ts", "tests/unit/anchored-causal-world.test.ts", "tests/unit/anchored-causal-runtime.test.ts", "tests/unit/causal-world-lifecycle.test.ts", "tests/unit/causal-anchor-transfer.test.ts"],
+      "remainingLimits": ["World Will executes exact bounded optimization through active local anchors and cannot write protected structure or invoke lifecycle. A separate unversioned source-law transfer candidate now preserves ports, identity, sea effects, target autonomy, and lifecycle provenance with World Will disabled, but general cross-world composition and a full identity calculus remain open."],
       "reopenCondition": "Remains open until anchor-cut and World-Will-disabled counterfactuals discriminate the mechanisms."
     },
     {
@@ -85,9 +86,9 @@
       "invariant": "Positive and negative seas materially alter world viability, continuity, and intervention conditions without becoming moral labels or decorative scores.",
       "dependencies": ["OB-006"],
       "status": "partial",
-      "implementationEvidence": ["src/bubbles/runtime/ontology.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "docs/architecture/sea-anchor-model.md", "docs/architecture/v0.5.3-persistent-causal-structure.md", "docs/architecture/v0.5.6-endogenous-world-lifecycle.md"],
-      "acceptanceTests": ["tests/unit/materialize-bubble.test.ts", "tests/unit/anchored-narrative-runtime.test.ts", "tests/unit/anchored-causal-runtime.test.ts", "tests/unit/causal-world-lifecycle.test.ts", "tests/unit/persistent-causal-runtime.test.ts"],
-      "remainingLimits": ["Exact local negative-sea admission causes erosion and restoration, and retirement now retains a local negative-sea residue without claiming transport, but global multi-world sea movement, continuous membrane dynamics, and positive-sea placement/growth remain open."],
+      "implementationEvidence": ["src/bubbles/runtime/ontology.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "examples/connected-fields.causal.bubble", "docs/architecture/sea-anchor-model.md", "docs/architecture/v0.5.3-persistent-causal-structure.md", "docs/architecture/v0.5.6-endogenous-world-lifecycle.md", "docs/architecture/typed-cross-world-membrane-candidate.md"],
+      "acceptanceTests": ["tests/unit/materialize-bubble.test.ts", "tests/unit/anchored-narrative-runtime.test.ts", "tests/unit/anchored-causal-runtime.test.ts", "tests/unit/causal-world-lifecycle.test.ts", "tests/unit/causal-anchor-transfer.test.ts", "tests/unit/persistent-causal-runtime.test.ts"],
+      "remainingLimits": ["Exact local negative-sea admission causes erosion and restoration, retirement retains residue, and one unversioned cross-world snapshot relation adds exact source negative-sea residue and target positive-sea placement. This is local material accounting, not global multi-world sea movement, conservation, continuous membrane dynamics, or general placement/growth."],
       "reopenCondition": "Reopen from the first concrete global transport, cross-world membrane, or positive-sea placement law."
     },
     {
@@ -97,9 +98,9 @@
       "invariant": "Natural language preserves intent but executable truth is a typed formal object able to denote unbounded and infinite-dimensional structures without eager enumeration.",
       "dependencies": [],
       "status": "partial",
-      "implementationEvidence": ["src/bubbles/world-kernel/intensional.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/language/causal-compile.ts", "examples/generational-seed.causal.bubble", "docs/architecture/v0.5.1-anchored-narrative-world.md", "docs/architecture/v0.5.2-generative-causal-universe.md", "docs/reference/causal-bubble-language.md"],
-      "acceptanceTests": ["tests/unit/intensional-world-kernel.test.ts", "tests/unit/anchored-narrative-runtime.test.ts", "tests/unit/anchored-causal-runtime.test.ts", "tests/unit/causal-bubble-language.test.ts"],
-      "remainingLimits": ["The kernel covers exact countable index products, guarded natural recursion, state-bound narrative queries, and one strict authored causal-lifecycle lowering profile, not uncountable domains, coinductive streams, symbolic limits, integration, general authored intensional families, typed cross-world transfer, or a portable BIR."],
+      "implementationEvidence": ["src/bubbles/world-kernel/intensional.ts", "src/bubbles/world-kernel/narrative-runtime.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/language/causal-compile.ts", "examples/generational-seed.causal.bubble", "examples/connected-fields.causal.bubble", "docs/architecture/v0.5.1-anchored-narrative-world.md", "docs/architecture/v0.5.2-generative-causal-universe.md", "docs/architecture/typed-cross-world-membrane-candidate.md", "docs/reference/causal-bubble-language.md"],
+      "acceptanceTests": ["tests/unit/intensional-world-kernel.test.ts", "tests/unit/anchored-narrative-runtime.test.ts", "tests/unit/anchored-causal-runtime.test.ts", "tests/unit/causal-bubble-language.test.ts", "tests/unit/causal-anchor-transfer.test.ts"],
+      "remainingLimits": ["The kernel covers exact countable index products, guarded natural recursion, state-bound queries, strict authored lifecycle lowering, and one exact typed cross-world snapshot relation, not uncountable domains, coinductive streams, symbolic limits, integration, general authored intensional families, transport composition, or a portable BIR."],
       "reopenCondition": "Reopen whenever a required Bubble object cannot be denoted or queried without opaque host behavior."
     },
     {
@@ -133,9 +134,9 @@
       "invariant": "The universal Bubble core is causal world structure rather than a mandatory plot schema, while agent and narrative structures remain lawfully realizable rather than forbidden.",
       "dependencies": ["OB-002", "OB-003", "OB-004", "OB-006", "OB-007", "OB-008"],
       "status": "partial",
-      "implementationEvidence": ["src/bubbles/world-kernel/causal.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "src/bubbles/world-kernel/teleonomic-runtime.ts", "examples/self-organizing-field.world.json", "examples/self-maintaining-field.world.json", "examples/distributed-channel-field.world.json", "examples/endogenous-branching-field.world.json", "examples/generational-grove.world.json", "examples/generational-seed.causal.bubble", "docs/architecture/v0.5.2-generative-causal-universe.md", "docs/architecture/v0.5.3-persistent-causal-structure.md", "docs/architecture/v0.5.4-endogenous-teleonomy.md", "docs/architecture/v0.5.5-endogenous-causal-branching.md", "docs/architecture/v0.5.6-endogenous-world-lifecycle.md"],
-      "acceptanceTests": ["tests/unit/anchored-causal-world.test.ts", "tests/unit/anchored-causal-runtime.test.ts", "tests/unit/causal-world-lifecycle.test.ts", "tests/unit/persistent-causal-world.test.ts", "tests/unit/persistent-causal-runtime.test.ts", "tests/unit/teleonomic-causal-runtime.test.ts"],
-      "remainingLimits": ["The actor-neutral substrate generates bounded persistent teleonomic structures, finite endogenous branch worlds, and a completed bounded finite lifecycle with one strict causal `.bubble` lowering path, but deliberative agency, relationships, narrative projection, dynamic schemas and populations, typed cross-world transfer, general coinduction, and whole-universe generation are not yet derived."],
+      "implementationEvidence": ["src/bubbles/world-kernel/causal.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "src/bubbles/world-kernel/teleonomic-runtime.ts", "examples/self-organizing-field.world.json", "examples/self-maintaining-field.world.json", "examples/distributed-channel-field.world.json", "examples/endogenous-branching-field.world.json", "examples/generational-grove.world.json", "examples/generational-seed.causal.bubble", "examples/connected-fields.causal.bubble", "docs/architecture/v0.5.2-generative-causal-universe.md", "docs/architecture/v0.5.3-persistent-causal-structure.md", "docs/architecture/v0.5.4-endogenous-teleonomy.md", "docs/architecture/v0.5.5-endogenous-causal-branching.md", "docs/architecture/v0.5.6-endogenous-world-lifecycle.md", "docs/architecture/typed-cross-world-membrane-candidate.md"],
+      "acceptanceTests": ["tests/unit/anchored-causal-world.test.ts", "tests/unit/anchored-causal-runtime.test.ts", "tests/unit/causal-world-lifecycle.test.ts", "tests/unit/causal-anchor-transfer.test.ts", "tests/unit/persistent-causal-world.test.ts", "tests/unit/persistent-causal-runtime.test.ts", "tests/unit/teleonomic-causal-runtime.test.ts"],
+      "remainingLimits": ["The actor-neutral substrate generates bounded persistent teleonomic structures, finite endogenous branch worlds, completed bounded lifecycle, and one exact unversioned cross-world membrane relation, but deliberative agency, relationships, narrative projection, dynamic schemas and populations, general transport composition, general coinduction, and whole-universe generation are not yet derived."],
       "reopenCondition": "Reopen after v0.5.6 at the smallest organically generated relation, internal selector, dynamic world structure, or wider connected-world structure beyond its accepted evidence contract."
     },
     {
@@ -157,7 +158,7 @@
       "invariant": "Bubble semantics remain independent of TypeScript, Rust, storage encoding, host scheduling, and one physical machine while every optimized backend preserves exact lawful outcomes, provenance, resource-boundary honesty, and replay identity.",
       "dependencies": ["OB-002", "OB-003", "OB-006", "OB-007", "OB-008"],
       "status": "open",
-      "implementationEvidence": ["src/bubbles/world-kernel/intensional.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "src/bubbles/language/causal-compile.ts", "examples/generational-seed.causal.bubble", "docs/architecture/v0.5.6-endogenous-world-lifecycle.md", "docs/research/question-log.md#q-027", "docs/research/question-log.md#q-028"],
+      "implementationEvidence": ["src/bubbles/world-kernel/intensional.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "src/bubbles/language/causal-compile.ts", "examples/generational-seed.causal.bubble", "examples/connected-fields.causal.bubble", "docs/architecture/v0.5.6-endogenous-world-lifecycle.md", "docs/architecture/typed-cross-world-membrane-candidate.md", "docs/research/question-log.md#q-027", "docs/research/question-log.md#q-028", "docs/research/question-log.md#q-029"],
       "acceptanceTests": [],
       "remainingLimits": ["The strict causal source profile now separates authored syntax from the typed runtime object, but TypeScript remains the only executable kernel and digests still depend on JavaScript stable serialization; no machine-independent BIR, canonical binary contract, engine ABI, compiled law form, differential backend suite, deterministic parallel contract, or Rust implementation exists."],
       "reopenCondition": "Remain open through late 5.x semantic-contract closure and the 6.x Rust transition; reopen for every backend, accelerator, distributed executor, nonstandard substrate, or optimization that could change world meaning or resource-boundary evidence."
@@ -174,6 +175,12 @@
       "id": "SC-002",
       "sourceIds": ["AI-20260715-015"],
       "rule": "v0.5.2 must preserve the pre-implementation philosophy and correct v0.5.1 by forward generalization rather than rewriting the pushed release.",
+      "status": "in-force"
+    },
+    {
+      "id": "SC-003",
+      "sourceIds": ["AI-20260717-006"],
+      "rule": "All post-v0.5.6 work must derive from the author's recorded Bubble philosophy; an assistant-invented convenience, passing slice, or unselected candidate cannot replace open intent or select a release.",
       "status": "in-force"
     }
   ]

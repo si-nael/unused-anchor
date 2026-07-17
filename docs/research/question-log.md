@@ -764,3 +764,35 @@ Required contract:
 First check:
 
 Profile one branch-heavy, one exact-arithmetic, one intensional, and one persistent-lifecycle fixture under a semantics-preserving cost model. Use those results to choose representations and compilation boundaries; do not choose a binary layout solely from intuition.
+
+### Q-029: How can Bubble worlds exchange content without becoming host-routed components?
+
+Status: active unversioned bounded candidate after v0.5.6; one exact relation implemented, general membrane calculus open
+
+Question:
+
+How can one Bubble world's own law materially affect another world through an anchor and the positive/negative seas while preserving both worlds' identity, autonomy, causal provenance, lifecycle, replay, and lack of a universal clock—without turning the system into a host message router, World-Will puppetry, or a menu of unrelated transport modes?
+
+Current candidate:
+
+- a transfer is one directed typed span between explicit ports on one anchor and two different active worlds
+- one irreversible source-world internal law causes the crossing; the host and World Will do not select or deliver it
+- the first exact relation copies a source field snapshot into an unprotected target `world-condition`
+- the crossing atomically adds exact negative-sea residue to the source and exact positive-sea placement to the target, then both local sea laws recompute viability
+- anchor identity must hold before and after the cloned proposed transition; a cut, inactive, identity-breaking, contradicted, or underdetermined route cannot mutate any field
+- protected target structure can change only through a later target-world internal law, producing `source law -> transfer -> target law`
+- latent initialized state cannot receive; an internal birth may activate its port and contributes direct transfer provenance
+- strict causal Bubble source, inspection, record, and same-program replay preserve the relation and `hostSelection: false`
+
+Why it remains open:
+
+- only one transfer definition is allowed, so simultaneous and repeated crossing composition is intentionally undefined
+- snapshot copy has no transform, conservation theorem, bidirectionality, stream, relation-valued payload, or general quantity algebra
+- source residue and target placement are exact local sea changes, not a global sea field or a proven cosmological conservation law
+- source snapshot, transfer target, and sea fields are reserved from competing local writers instead of letting host application order choose a payload or pretending to have a proven commutativity calculus
+- the current identity predicate is checked exactly but is not a full anchor identity theory
+- no dynamic ports, schemas, world populations, open-ended graph generation, agency, relationship, narrative projection, BIR, Rust backend, Phase 2 observer, or trans-Turing capability follows
+
+Next check:
+
+Construct the smallest author-justified case that genuinely requires two related crossings. Derive their causal and sea composition law before lifting the one-transfer restriction. The result must classify commute, conflict, block, and underdetermination without declaration-order or host selection, and it must retain birth/retirement, endogenous branch, identity, inspection, and replay evidence. Do not select a release from the present single-relation success.

@@ -2,6 +2,13 @@
 
 ## 2026-07-17
 
+### Continue from the author's Bubble philosophy, not an assistant-invented system
+
+- Every new executable seam must be traceable to the author's recorded Bubble, sea, anchor, World Will, world-autonomy, and organic-self-realization ideas.
+- Engineering form is necessary, but it remains an interpretation with falsifiable limits. It may not silently become a new ontology merely because it is easy to type, test, or explain.
+- The first cross-world membrane therefore begins with one exact relation: a source world's own law causes an identity-checked anchor crossing with material sea effects; the receiving world then responds by its own law. There is no external router, host-selected message delivery, World-Will teleportation, or direct protected-state write.
+- A passing slice remains an unversioned candidate until its adversarial and compositional boundaries are understood and the author judges the release.
+
 ### The executable Bubble is not identical to TypeScript or one machine binary
 
 - The current TypeScript runtime is an executable semantic reference and conformance oracle, not the permanent definition of Bubble or its only execution authority.

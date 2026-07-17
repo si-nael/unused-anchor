@@ -2,6 +2,7 @@ import {
     exact,
     normalizeExactValue,
     validateExecutableCausalProgram,
+    type CausalAnchorTransferDefinition,
     type CausalFieldEffect,
     type CausalFieldRole,
     type CausalInterventionKind,
@@ -54,9 +55,12 @@ interface SeaDeclaration {
 
 interface AnchorDeclaration {
     id: string;
-    worldId: string;
-    portId: string;
+    endpoints: Array<{ worldId: string; portId: string }>;
     permittedKinds: CausalInterventionKind[];
+    line: number;
+}
+
+interface TransferDeclaration extends CausalAnchorTransferDefinition {
     line: number;
 }
 
@@ -104,6 +108,12 @@ interface LawCommitDeclaration {
     line: number;
 }
 
+interface LawTransferDeclaration {
+    lawId: string;
+    transferId: string;
+    line: number;
+}
+
 const IDENTIFIER = "[A-Za-z_][A-Za-z0-9_.-]*";
 const EXACT_TOKEN = '(?:"(?:[^"\\\\]|\\\\.)*"|[^\\s]+)';
 const HEADER = new RegExp(`^causal\\s+bubble\\s+(${IDENTIFIER})\\s*\\{$`);
@@ -112,6 +122,19 @@ const FIELD = new RegExp(`^field\\s+(${IDENTIFIER})\\.(${IDENTIFIER})\\s+role\\s
 const PROTECT = new RegExp(`^protect\\s+(${IDENTIFIER})\\.(${IDENTIFIER})$`);
 const SEA = new RegExp(`^sea\\s+(${IDENTIFIER})\\s+positive\\s+(${IDENTIFIER})\\s+negative\\s+(${IDENTIFIER})\\s+viability\\s+(${IDENTIFIER})\\s+weights\\s+(${EXACT_TOKEN})\\s+(${EXACT_TOKEN})$`);
 const ANCHOR = new RegExp(`^anchor\\s+(${IDENTIFIER})\\s+world\\s+(${IDENTIFIER})\\s+port\\s+(${IDENTIFIER})\\s+identity\\s+true\\s+permit\\s+(.+)$`);
+const SOURCE_SPACE = "[ \\t]+";
+const LINKED_ANCHOR = new RegExp("^anchor" + SOURCE_SPACE + "(" + IDENTIFIER + ")" + SOURCE_SPACE
+    + "between" + SOURCE_SPACE + "(" + IDENTIFIER + ")[.](" + IDENTIFIER + ")" + SOURCE_SPACE
+    + "and" + SOURCE_SPACE + "(" + IDENTIFIER + ")[.](" + IDENTIFIER + ")" + SOURCE_SPACE
+    + "identity" + SOURCE_SPACE + "true" + SOURCE_SPACE + "permit" + SOURCE_SPACE + "(.+)$");
+const TRANSFER = new RegExp("^transfer" + SOURCE_SPACE + "(" + IDENTIFIER + ")" + SOURCE_SPACE
+    + "anchor" + SOURCE_SPACE + "(" + IDENTIFIER + ")" + SOURCE_SPACE
+    + "from" + SOURCE_SPACE + "(" + IDENTIFIER + ")[.](" + IDENTIFIER + ")" + SOURCE_SPACE
+    + "field" + SOURCE_SPACE + "(" + IDENTIFIER + ")" + SOURCE_SPACE
+    + "to" + SOURCE_SPACE + "(" + IDENTIFIER + ")[.](" + IDENTIFIER + ")" + SOURCE_SPACE
+    + "field" + SOURCE_SPACE + "(" + IDENTIFIER + ")" + SOURCE_SPACE
+    + "negative-residue" + SOURCE_SPACE + "(" + EXACT_TOKEN + ")" + SOURCE_SPACE
+    + "positive-placement" + SOURCE_SPACE + "(" + EXACT_TOKEN + ")$");
 const WORLD_WILL = new RegExp(`^world-will\\s+(${IDENTIFIER})$`);
 const OBJECTIVE = new RegExp(`^objective\\s+(${IDENTIFIER})\\s+world\\s+(${IDENTIFIER})\\s+field\\s+(${IDENTIFIER})\\s+direction\\s+(maximize|minimize|stabilize)\\s+weight\\s+(${EXACT_TOKEN})(?:\\s+target\\s+(${EXACT_TOKEN}))?$`);
 const DECISION = /^decision\s+(deterministic|plural)(?:\s+conflicts\s+(underdetermined|maximal-commuting-branches))?$/;
@@ -120,6 +143,8 @@ const LAW_EFFECT = new RegExp(`^law-effect\\s+(${IDENTIFIER})\\s+(set|add|subtra
 const LAW_INVERSE = new RegExp(`^law-inverse\\s+(${IDENTIFIER})\\s+(add|subtract)\\s+(${IDENTIFIER})\\s+(${EXACT_TOKEN})$`);
 const LAW_LIFECYCLE = new RegExp(`^law-lifecycle\\s+(${IDENTIFIER})\\s+(?:spawn\\s+(${IDENTIFIER})|(retire-self))$`);
 const LAW_COMMIT = new RegExp(`^law-commit\\s+(${IDENTIFIER})\\s+(.+)$`);
+const LAW_TRANSFER = new RegExp("^law-transfer" + SOURCE_SPACE + "(" + IDENTIFIER + ")"
+    + SOURCE_SPACE + "(" + IDENTIFIER + ")$");
 const FIELD_ROLES = new Set<CausalFieldRole>([
     "world-state", "world-condition", "structural-state", "identity-state", "memory-state",
     "boundary-state", "positive-sea", "negative-sea", "viability",
@@ -148,12 +173,14 @@ export function compileCausalBubbleSource(
     const protectedFields: Array<{ worldId: string; fieldId: string; line: number }> = [];
     const seas: SeaDeclaration[] = [];
     const anchors: AnchorDeclaration[] = [];
+    const transfers: TransferDeclaration[] = [];
     const objectives: ObjectiveDeclaration[] = [];
     const laws: LawDeclaration[] = [];
     const lawEffects: LawEffectDeclaration[] = [];
     const lawInverses: LawInverseDeclaration[] = [];
     const lawLifecycles: LawLifecycleDeclaration[] = [];
     const lawCommits: LawCommitDeclaration[] = [];
+    const lawTransfers: LawTransferDeclaration[] = [];
     let worldWillId: string | undefined;
     let decisionMode: "deterministic" | "plural" | undefined;
     let internalConflictMode: "underdetermined" | "maximal-commuting-branches" | undefined;
@@ -195,6 +222,25 @@ export function compileCausalBubbleSource(
             });
             continue;
         }
+        match = line.text.match(LINKED_ANCHOR);
+        if (match) {
+            const permittedKinds = commaList(match[6]!, sourcePath, line.number).map((kind) => {
+                if (!INTERVENTION_KINDS.has(kind as CausalInterventionKind)) {
+                    fail("CBL005", `Unknown anchor intervention kind '${kind}'.`, sourcePath, line.number);
+                }
+                return kind as CausalInterventionKind;
+            });
+            anchors.push({
+                id: match[1]!,
+                endpoints: [
+                    { worldId: match[2]!, portId: match[3]! },
+                    { worldId: match[4]!, portId: match[5]! },
+                ],
+                permittedKinds,
+                line: line.number,
+            });
+            continue;
+        }
         match = line.text.match(ANCHOR);
         if (match) {
             const permittedKinds = commaList(match[4]!, sourcePath, line.number).map((kind) => {
@@ -203,7 +249,25 @@ export function compileCausalBubbleSource(
                 }
                 return kind as CausalInterventionKind;
             });
-            anchors.push({ id: match[1]!, worldId: match[2]!, portId: match[3]!, permittedKinds, line: line.number });
+            anchors.push({
+                id: match[1]!,
+                endpoints: [{ worldId: match[2]!, portId: match[3]! }],
+                permittedKinds,
+                line: line.number,
+            });
+            continue;
+        }
+        match = line.text.match(TRANSFER);
+        if (match) {
+            transfers.push({
+                id: match[1]!,
+                anchorId: match[2]!,
+                source: { worldId: match[3]!, portId: match[4]!, fieldId: match[5]! },
+                target: { worldId: match[6]!, portId: match[7]!, fieldId: match[8]! },
+                sourceNegativeSeaResidue: parseExact(match[9]!, sourcePath, line.number, true),
+                targetPositiveSeaPlacement: parseExact(match[10]!, sourcePath, line.number, true),
+                line: line.number,
+            });
             continue;
         }
         match = line.text.match(WORLD_WILL);
@@ -275,6 +339,11 @@ export function compileCausalBubbleSource(
             lawCommits.push({ lawId: match[1]!, fieldIds: commaList(match[2]!, sourcePath, line.number), line: line.number });
             continue;
         }
+        match = line.text.match(LAW_TRANSFER);
+        if (match) {
+            lawTransfers.push({ lawId: match[1]!, transferId: match[2]!, line: line.number });
+            continue;
+        }
         fail("CBL008", `Could not parse causal declaration '${line.text}'.`, sourcePath, line.number);
     }
 
@@ -286,6 +355,7 @@ export function compileCausalBubbleSource(
     requireUnique(fields, "field", sourcePath, (entry) => `${entry.worldId}.${entry.id}`);
     requireUnique(seas, "sea declaration", sourcePath, (entry) => entry.worldId);
     requireUnique(anchors, "anchor", sourcePath);
+    requireUnique(transfers, "anchor transfer", sourcePath);
     requireUnique(objectives, "objective", sourcePath);
     requireUnique(laws, "law", sourcePath);
 
@@ -304,11 +374,27 @@ export function compileCausalBubbleSource(
         requireField(fieldByKey, entry.worldId, entry.negativeFieldId, sourcePath, entry.line);
         requireField(fieldByKey, entry.worldId, entry.viabilityFieldId, sourcePath, entry.line);
     }
-    for (const entry of anchors) requireWorld(worldIds, entry.worldId, sourcePath, entry.line);
+    for (const entry of anchors) {
+        for (const endpoint of entry.endpoints) requireWorld(worldIds, endpoint.worldId, sourcePath, entry.line);
+    }
+    const anchorById = new Map(anchors.map((entry) => [entry.id, entry]));
+    const transferById = new Map(transfers.map((entry) => [entry.id, entry]));
+    for (const transfer of transfers) {
+        if (!anchorById.has(transfer.anchorId)) {
+            fail("CBL022", `Unknown transfer anchor '${transfer.anchorId}'.`, sourcePath, transfer.line);
+        }
+        requireField(fieldByKey, transfer.source.worldId, transfer.source.fieldId, sourcePath, transfer.line);
+        requireField(fieldByKey, transfer.target.worldId, transfer.target.fieldId, sourcePath, transfer.line);
+    }
     for (const entry of objectives) requireField(fieldByKey, entry.worldId, entry.fieldId, sourcePath, entry.line);
     for (const law of laws) requireField(fieldByKey, law.worldId, law.guardFieldId, sourcePath, law.line);
-    for (const entry of [...lawEffects, ...lawInverses, ...lawLifecycles, ...lawCommits]) {
+    for (const entry of [...lawEffects, ...lawInverses, ...lawLifecycles, ...lawCommits, ...lawTransfers]) {
         if (!lawById.has(entry.lawId)) fail("CBL014", `Unknown law '${entry.lawId}'.`, sourcePath, entry.line);
+    }
+    for (const entry of lawTransfers) {
+        if (!transferById.has(entry.transferId)) {
+            fail("CBL023", `Unknown anchor transfer '${entry.transferId}'.`, sourcePath, entry.line);
+        }
     }
     for (const entry of lawEffects) {
         const law = lawById.get(entry.lawId)!;
@@ -373,10 +459,13 @@ export function compileCausalBubbleSource(
             }),
             anchors: anchors.map((anchor) => ({
                 id: anchor.id,
-                endpoints: [{ kind: "world", worldId: anchor.worldId, portId: anchor.portId }],
+                endpoints: anchor.endpoints.map((endpoint) => ({ kind: "world" as const, ...endpoint })),
                 identityPredicateFamilyIds: [identityFamilyId],
                 permittedInterventionKinds: anchor.permittedKinds,
             })),
+            ...(transfers.length > 0 ? {
+                anchorTransfers: transfers.map(({ line: _line, ...transfer }) => transfer),
+            } : {}),
             worldWill: {
                 id: worldWillId,
                 objectives: objectives.map((objective) => ({
@@ -404,6 +493,9 @@ export function compileCausalBubbleSource(
                     : {}),
                 ...(lawLifecycles.some((entry) => entry.lawId === law.id)
                     ? { lifecycleEffects: lawLifecycles.filter((entry) => entry.lawId === law.id).map((entry) => entry.effect) }
+                    : {}),
+                ...(lawTransfers.some((entry) => entry.lawId === law.id)
+                    ? { anchorTransferIds: lawTransfers.filter((entry) => entry.lawId === law.id).map((entry) => entry.transferId) }
                     : {}),
                 application: "once-per-realization",
                 reversibility: law.reversibility,
