@@ -1,0 +1,43 @@
+causal bubble GenerationalSeed {
+  decision deterministic
+  world-will generational-seed-will
+
+  world origin-seed active
+  field origin-seed.positive role positive-sea = 1
+  field origin-seed.negative role negative-sea = 1
+  field origin-seed.viability role viability = 1
+  field origin-seed.structure role structural-state = 0
+  field origin-seed.boundary role boundary-state = 0
+  field origin-seed.condition role world-condition = 0
+  protect origin-seed.structure
+  protect origin-seed.boundary
+  sea origin-seed positive positive negative negative viability viability weights 1 1
+  anchor origin-seed-anchor world origin-seed port origin-boundary identity true permit condition
+  objective preserve-origin-seed world origin-seed field viability direction maximize weight 1
+
+  world descendant-seed latent
+  field descendant-seed.positive role positive-sea = 1
+  field descendant-seed.negative role negative-sea = 1
+  field descendant-seed.viability role viability = 1
+  field descendant-seed.structure role structural-state = 0
+  field descendant-seed.boundary role boundary-state = 0
+  field descendant-seed.condition role world-condition = 0
+  protect descendant-seed.structure
+  protect descendant-seed.boundary
+  sea descendant-seed positive positive negative negative viability viability weights 1 1
+  anchor descendant-seed-anchor world descendant-seed port descendant-boundary identity true permit condition
+  objective preserve-descendant-seed world descendant-seed field viability direction maximize weight 1
+
+  law germinate-descendant-seed world origin-seed when condition = 0 irreversible
+  law-effect germinate-descendant-seed set condition 1
+  law-lifecycle germinate-descendant-seed spawn descendant-seed
+  law-commit germinate-descendant-seed condition
+
+  law retire-origin-seed world origin-seed when condition = 1 irreversible
+  law-lifecycle retire-origin-seed retire-self
+
+  law form-descendant-seed world descendant-seed when structure = 0 irreversible
+  law-effect form-descendant-seed set structure 1
+  law-effect form-descendant-seed set boundary 1
+  law-commit form-descendant-seed structure,boundary
+}

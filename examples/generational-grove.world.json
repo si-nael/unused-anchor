@@ -1,0 +1,349 @@
+{
+  "mode": "bubble-anchored-causal-program.v2",
+  "world": {
+    "mode": "bubble-anchored-causal-world.v2",
+    "formal": {
+      "mode": "bubble-intensional-system.v1",
+      "families": [
+        {
+          "id": "zero",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "rational",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "rational", "numerator": "0", "denominator": "1" } }
+        },
+        {
+          "id": "one",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "rational",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+        },
+        {
+          "id": "always-true",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "boolean",
+          "parameters": [],
+          "body": { "kind": "value", "value": { "kind": "boolean", "value": true } }
+        },
+        {
+          "id": "value-is-zero",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "boolean",
+          "parameters": [{ "name": "value", "valueKind": "rational" }],
+          "body": {
+            "kind": "binary",
+            "operator": "equal",
+            "left": { "kind": "parameter", "name": "value" },
+            "right": { "kind": "value", "value": { "kind": "rational", "numerator": "0", "denominator": "1" } }
+          }
+        },
+        {
+          "id": "value-is-one",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "boolean",
+          "parameters": [{ "name": "value", "valueKind": "rational" }],
+          "body": {
+            "kind": "binary",
+            "operator": "equal",
+            "left": { "kind": "parameter", "name": "value" },
+            "right": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+          }
+        },
+        {
+          "id": "value-is-positive",
+          "domain": { "axes": [{ "name": "coordinate", "kind": "natural" }] },
+          "valueKind": "boolean",
+          "parameters": [{ "name": "value", "valueKind": "rational" }],
+          "body": {
+            "kind": "binary",
+            "operator": "greater-than-or-equal",
+            "left": { "kind": "parameter", "name": "value" },
+            "right": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+          }
+        }
+      ]
+    },
+    "worlds": [
+      {
+        "id": "origin-grove",
+        "fields": [
+          { "id": "positive", "familyId": "one", "role": "positive-sea" },
+          { "id": "negative", "familyId": "one", "role": "negative-sea" },
+          { "id": "viability", "familyId": "one", "role": "viability" },
+          { "id": "structure", "familyId": "zero", "role": "structural-state" },
+          { "id": "boundary", "familyId": "zero", "role": "boundary-state" },
+          { "id": "condition", "familyId": "zero", "role": "world-condition" }
+        ],
+        "protectedFieldIds": ["structure", "boundary"],
+        "seaCoupling": {
+          "positiveFieldId": "positive",
+          "negativeFieldId": "negative",
+          "viabilityFieldId": "viability"
+        }
+      },
+      {
+        "id": "descendant-grove",
+        "initialExistence": "latent",
+        "fields": [
+          { "id": "positive", "familyId": "one", "role": "positive-sea" },
+          { "id": "negative", "familyId": "one", "role": "negative-sea" },
+          { "id": "viability", "familyId": "one", "role": "viability" },
+          { "id": "structure", "familyId": "zero", "role": "structural-state" },
+          { "id": "boundary", "familyId": "zero", "role": "boundary-state" },
+          { "id": "condition", "familyId": "zero", "role": "world-condition" }
+        ],
+        "protectedFieldIds": ["structure", "boundary"],
+        "seaCoupling": {
+          "positiveFieldId": "positive",
+          "negativeFieldId": "negative",
+          "viabilityFieldId": "viability"
+        }
+      }
+    ],
+    "anchors": [
+      {
+        "id": "origin-anchor",
+        "endpoints": [
+          { "kind": "world", "worldId": "origin-grove", "portId": "origin-boundary" },
+          {
+            "kind": "unresolved-world-relation",
+            "relationId": "unique-world-topology",
+            "portId": "unresolved-origin",
+            "questionId": "Q-021"
+          }
+        ],
+        "identityPredicateFamilyIds": ["always-true"],
+        "permittedInterventionKinds": ["condition"]
+      },
+      {
+        "id": "descendant-anchor",
+        "endpoints": [
+          { "kind": "world", "worldId": "descendant-grove", "portId": "descendant-boundary" },
+          {
+            "kind": "unresolved-world-relation",
+            "relationId": "unique-world-topology",
+            "portId": "unresolved-origin",
+            "questionId": "Q-021"
+          }
+        ],
+        "identityPredicateFamilyIds": ["always-true"],
+        "permittedInterventionKinds": ["condition"]
+      }
+    ],
+    "worldWill": {
+      "id": "generational-grove-will",
+      "objectives": [
+        {
+          "id": "preserve-origin-viability",
+          "targetWorldId": "origin-grove",
+          "fieldId": "viability",
+          "direction": "maximize",
+          "weight": { "kind": "rational", "numerator": "1", "denominator": "1" }
+        },
+        {
+          "id": "preserve-descendant-viability",
+          "targetWorldId": "descendant-grove",
+          "fieldId": "viability",
+          "direction": "maximize",
+          "weight": { "kind": "rational", "numerator": "1", "denominator": "1" }
+        }
+      ],
+      "hardConstraintFamilyIds": ["always-true"],
+      "interventions": [
+        {
+          "id": "prolong-retired-origin",
+          "targetWorldId": "origin-grove",
+          "anchorId": "origin-anchor",
+          "kind": "condition",
+          "effects": [
+            {
+              "fieldId": "viability",
+              "operation": "add",
+              "value": { "kind": "rational", "numerator": "10", "denominator": "1" }
+            }
+          ]
+        },
+        {
+          "id": "nurture-descendant",
+          "targetWorldId": "descendant-grove",
+          "anchorId": "descendant-anchor",
+          "kind": "condition",
+          "effects": [
+            {
+              "fieldId": "condition",
+              "operation": "set",
+              "value": { "kind": "rational", "numerator": "1", "denominator": "1" }
+            },
+            {
+              "fieldId": "viability",
+              "operation": "add",
+              "value": { "kind": "rational", "numerator": "2", "denominator": "1" }
+            }
+          ]
+        }
+      ]
+    },
+    "internalLaws": [
+      {
+        "id": "germinate-descendant",
+        "worldId": "origin-grove",
+        "guard": {
+          "id": "germinate-while-origin-open",
+          "query": { "familyId": "value-is-zero", "at": { "coordinate": "0" }, "parameters": {} },
+          "fieldParameters": [
+            { "parameterName": "value", "worldId": "origin-grove", "fieldId": "condition" }
+          ]
+        },
+        "effects": [
+          {
+            "fieldId": "condition",
+            "operation": "set",
+            "value": { "kind": "rational", "numerator": "1", "denominator": "1" }
+          }
+        ],
+        "lifecycleEffects": [{ "kind": "spawn-world", "targetWorldId": "descendant-grove" }],
+        "application": "once-per-realization",
+        "reversibility": "irreversible",
+        "commitAffectedFieldIds": ["condition"]
+      },
+      {
+        "id": "retire-origin-after-germination",
+        "worldId": "origin-grove",
+        "guard": {
+          "id": "origin-has-germinated",
+          "query": { "familyId": "value-is-one", "at": { "coordinate": "0" }, "parameters": {} },
+          "fieldParameters": [
+            { "parameterName": "value", "worldId": "origin-grove", "fieldId": "condition" }
+          ]
+        },
+        "effects": [],
+        "lifecycleEffects": [{ "kind": "retire-self" }],
+        "application": "once-per-realization",
+        "reversibility": "irreversible"
+      },
+      {
+        "id": "form-descendant-boundary",
+        "worldId": "descendant-grove",
+        "guard": {
+          "id": "descendant-structure-is-latent",
+          "query": { "familyId": "value-is-zero", "at": { "coordinate": "0" }, "parameters": {} },
+          "fieldParameters": [
+            { "parameterName": "value", "worldId": "descendant-grove", "fieldId": "structure" }
+          ]
+        },
+        "effects": [
+          {
+            "fieldId": "structure",
+            "operation": "set",
+            "value": { "kind": "rational", "numerator": "1", "denominator": "1" }
+          },
+          {
+            "fieldId": "boundary",
+            "operation": "set",
+            "value": { "kind": "rational", "numerator": "1", "denominator": "1" }
+          }
+        ],
+        "application": "once-per-realization",
+        "reversibility": "irreversible",
+        "commitAffectedFieldIds": ["structure", "boundary"]
+      },
+      {
+        "id": "respond-to-nurture",
+        "worldId": "descendant-grove",
+        "guard": {
+          "id": "descendant-receives-nurture",
+          "query": { "familyId": "value-is-one", "at": { "coordinate": "0" }, "parameters": {} },
+          "fieldParameters": [
+            { "parameterName": "value", "worldId": "descendant-grove", "fieldId": "condition" }
+          ]
+        },
+        "effects": [
+          {
+            "fieldId": "structure",
+            "operation": "add",
+            "value": { "kind": "rational", "numerator": "1", "denominator": "1" }
+          }
+        ],
+        "application": "once-per-realization",
+        "reversibility": "irreversible",
+        "commitAffectedFieldIds": ["structure"]
+      }
+    ],
+    "emergenceCriteria": [
+      {
+        "id": "descendant-structure-emerges",
+        "worldId": "descendant-grove",
+        "predicate": {
+          "id": "descendant-structure-is-positive",
+          "query": { "familyId": "value-is-positive", "at": { "coordinate": "0" }, "parameters": {} },
+          "fieldParameters": [
+            { "parameterName": "value", "worldId": "descendant-grove", "fieldId": "structure" }
+          ]
+        },
+        "witnessFieldIds": ["structure", "boundary", "condition"]
+      }
+    ],
+    "order": { "kind": "causal-partial-order", "universalClock": false }
+  },
+  "fieldInitializers": [
+    { "worldId": "origin-grove", "fieldId": "positive", "query": { "familyId": "one", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "origin-grove", "fieldId": "negative", "query": { "familyId": "one", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "origin-grove", "fieldId": "viability", "query": { "familyId": "one", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "origin-grove", "fieldId": "structure", "query": { "familyId": "zero", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "origin-grove", "fieldId": "boundary", "query": { "familyId": "zero", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "origin-grove", "fieldId": "condition", "query": { "familyId": "zero", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "descendant-grove", "fieldId": "positive", "query": { "familyId": "one", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "descendant-grove", "fieldId": "negative", "query": { "familyId": "one", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "descendant-grove", "fieldId": "viability", "query": { "familyId": "one", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "descendant-grove", "fieldId": "structure", "query": { "familyId": "zero", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "descendant-grove", "fieldId": "boundary", "query": { "familyId": "zero", "at": { "coordinate": "0" }, "parameters": {} } },
+    { "worldId": "descendant-grove", "fieldId": "condition", "query": { "familyId": "zero", "at": { "coordinate": "0" }, "parameters": {} } }
+  ],
+  "seaLaws": [
+    {
+      "worldId": "origin-grove",
+      "positiveWeight": { "kind": "rational", "numerator": "1", "denominator": "1" },
+      "negativeWeight": { "kind": "rational", "numerator": "1", "denominator": "1" }
+    },
+    {
+      "worldId": "descendant-grove",
+      "positiveWeight": { "kind": "rational", "numerator": "1", "denominator": "1" },
+      "negativeWeight": { "kind": "rational", "numerator": "1", "denominator": "1" }
+    }
+  ],
+  "execution": {
+    "decisionMode": "deterministic",
+    "hardConstraints": [
+      {
+        "id": "generational-grove-remains-admissible",
+        "query": { "familyId": "always-true", "at": { "coordinate": "0" }, "parameters": {} },
+        "fieldParameters": []
+      }
+    ],
+    "anchorIdentity": [
+      {
+        "id": "origin-anchor-identity",
+        "anchorId": "origin-anchor",
+        "query": { "familyId": "always-true", "at": { "coordinate": "0" }, "parameters": {} },
+        "fieldParameters": []
+      },
+      {
+        "id": "descendant-anchor-identity",
+        "anchorId": "descendant-anchor",
+        "query": { "familyId": "always-true", "at": { "coordinate": "0" }, "parameters": {} },
+        "fieldParameters": []
+      }
+    ],
+    "interventionCosts": [
+      {
+        "interventionId": "prolong-retired-origin",
+        "cost": { "kind": "rational", "numerator": "0", "denominator": "1" }
+      },
+      {
+        "interventionId": "nurture-descendant",
+        "cost": { "kind": "rational", "numerator": "1", "denominator": "1" }
+      }
+    ]
+  }
+}

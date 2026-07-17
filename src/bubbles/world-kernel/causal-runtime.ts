@@ -24,6 +24,7 @@ import {
     type CausalInternalLaw,
     type CausalStatePredicate,
     type CausalWorldDefinition,
+    type CausalWorldLifecycleEffect,
     type CausalWorldWillIntervention,
 } from "./causal";
 
@@ -66,6 +67,7 @@ export interface CausalExecutionOptions {
     worldWillEnabled?: boolean;
     cutAnchorIds?: string[];
     fieldOverrides?: Record<string, ExactValue>;
+    worldLifecycleOverrides?: Record<string, CausalWorldLifecycleState>;
     counterfactualInternalEventAblationLawIds?: string[];
     evaluationBudgetPerQuery?: number;
     maxInterventionCombinations?: number;
@@ -73,8 +75,10 @@ export interface CausalExecutionOptions {
     maxInternalBranches?: number;
 }
 
-export type ResolvedCausalExecutionOptions = Omit<Required<CausalExecutionOptions>, "counterfactualInternalEventAblationLawIds">
-    & Pick<CausalExecutionOptions, "counterfactualInternalEventAblationLawIds">;
+export type ResolvedCausalExecutionOptions = Omit<
+    Required<CausalExecutionOptions>,
+    "counterfactualInternalEventAblationLawIds" | "worldLifecycleOverrides"
+> & Pick<CausalExecutionOptions, "counterfactualInternalEventAblationLawIds" | "worldLifecycleOverrides">;
 
 export interface CausalInternalEventAblation {
     id: string;
@@ -94,6 +98,34 @@ export interface CausalWorldState {
     fields: Record<string, ExactValue>;
     intrinsicViability: ExactValue;
     seaContribution: ExactValue;
+    lifecycle?: CausalWorldLifecycleState;
+}
+
+export interface CausalWorldLifecycleState {
+    phase: "latent" | "active" | "retired";
+    lineageId?: string;
+    parentWorldIds?: string[];
+    spawnedByEventId?: string;
+    retiredByEventId?: string;
+}
+
+export interface CausalWorldRetirementResidue {
+    finalStateDigest: string;
+    localNegativeSea: ExactValue;
+    retainedHistoryCommitIds: string[];
+}
+
+export interface CausalWorldLifecycleEvent {
+    id: string;
+    kind: "world-spawn" | "world-retirement";
+    sourceWorldIds: string[];
+    targetWorldId: string;
+    causedByLawEventIds: string[];
+    beforePhase: "latent" | "active";
+    afterPhase: "active" | "retired";
+    hostSelection: false;
+    lineageId?: string;
+    residue?: CausalWorldRetirementResidue;
 }
 
 export interface CausalFormalEvidence {
@@ -116,12 +148,14 @@ export interface CausalTraceEffect {
 
 export interface CausalTraceEntry {
     id: string;
-    kind: "initial-field" | "internal-law" | "sea-coupling" | "world-will-intervention" | "history-commit";
+    kind: "initial-field" | "internal-law" | "sea-coupling" | "world-will-intervention" | "history-commit"
+        | "world-spawn" | "world-retirement";
     worldId: string;
     eventId?: string;
     lawId?: string;
     interventionId?: string;
     anchorId?: string;
+    lifecycleEventId?: string;
     causes: string[];
     effects: CausalTraceEffect[];
 }
@@ -199,6 +233,7 @@ export interface CausalContinuation {
     realizedEventIds: string[];
     trace: CausalTraceEntry[];
     historyCommits: CausalHistoryCommit[];
+    lifecycleEvents?: CausalWorldLifecycleEvent[];
     internalEventAblations?: CausalInternalEventAblation[];
     emergenceAssessments: CausalEmergenceAssessment[];
     order: {
@@ -210,6 +245,7 @@ export interface CausalContinuation {
         reversibleEventIds: string[];
         irreversibleEventIds: string[];
         createsHistoryArrow: boolean;
+        historyArrowSources?: Array<"history-commit" | "world-lifecycle">;
     };
 }
 
@@ -239,6 +275,7 @@ export interface AnchoredCausalRun {
         interventionCombinationCount: number;
         combinationLimit: number;
         branchLimit: number;
+        lifecycleTransitionBound?: number;
         exhaustiveInterventionSearch: boolean;
         exhaustiveInternalBranching: boolean;
     };
@@ -249,6 +286,11 @@ export interface AnchoredCausalInspection {
     summary: {
         status: AnchoredCausalRun["status"];
         worldCount: number;
+        activeWorldCount?: number;
+        latentWorldCount?: number;
+        retiredWorldCount?: number;
+        spawnedWorldCount?: number;
+        retirementCount?: number;
         continuationCount: number;
         selectedContinuationCount: number;
         unresolvedAlternativeCount: number;
@@ -288,6 +330,7 @@ export interface AnchoredCausalReplayResult {
     selectedContinuationsPreserved: boolean;
     unresolvedAlternativesPreserved: boolean;
     emergencePreserved: boolean;
+    lifecyclePreserved?: boolean;
     replayedRun: AnchoredCausalRun;
 }
 
@@ -306,6 +349,7 @@ interface MutableRealization {
     appliedLawIds: Set<string>;
     trace: CausalTraceEntry[];
     historyCommits: CausalHistoryCommit[];
+    lifecycleEvents: CausalWorldLifecycleEvent[];
     internalEventAblations: CausalInternalEventAblation[];
     branchedAwayLawIds: Set<string>;
     branchLineage: CausalInternalBranchStep[];
@@ -368,6 +412,25 @@ function runtimeIssue(code: string, path: string, message: string): CausalDiagno
 
 function fieldKey(worldId: string, fieldId: string): string {
     return `${worldId}.${fieldId}`;
+}
+
+function worldPhase(state: CausalWorldState | undefined): CausalWorldLifecycleState["phase"] {
+    return state?.lifecycle?.phase ?? "active";
+}
+
+function predicateWorldsAreActive(predicate: CausalStatePredicate, states: Map<string, MutableState>): boolean {
+    return predicate.fieldParameters.every((binding) => worldPhase(states.get(binding.worldId)) === "active");
+}
+
+function anchorWorldsAreActive(
+    program: ExecutableAnchoredCausalProgram,
+    anchorId: string,
+    states: Map<string, MutableState>,
+): boolean {
+    const anchor = program.world.anchors.find((candidate) => candidate.id === anchorId);
+    return !!anchor && anchor.endpoints
+        .filter((endpoint): endpoint is Extract<typeof endpoint, { kind: "world" }> => endpoint.kind === "world")
+        .every((endpoint) => worldPhase(states.get(endpoint.worldId)) === "active");
 }
 
 function nonNegativeRational(value: ExactValue): boolean {
@@ -512,6 +575,14 @@ function normalizedOptions(options: CausalExecutionOptions): Required<CausalExec
         worldWillEnabled: options.worldWillEnabled ?? true,
         cutAnchorIds: [...new Set(options.cutAnchorIds ?? [])].sort(),
         fieldOverrides: Object.fromEntries(Object.entries(options.fieldOverrides ?? {}).sort(([left], [right]) => left.localeCompare(right))),
+        worldLifecycleOverrides: Object.fromEntries(Object.entries(options.worldLifecycleOverrides ?? {})
+            .sort(([left], [right]) => left.localeCompare(right))
+            .map(([worldId, lifecycle]) => [worldId, {
+                ...cloneValue(lifecycle),
+                ...(lifecycle.parentWorldIds
+                    ? { parentWorldIds: [...new Set(lifecycle.parentWorldIds)].sort() }
+                    : {}),
+            }])),
         counterfactualInternalEventAblationLawIds: [...new Set(options.counterfactualInternalEventAblationLawIds ?? [])].sort(),
         evaluationBudgetPerQuery: options.evaluationBudgetPerQuery ?? 10_000,
         maxInterventionCombinations: options.maxInterventionCombinations ?? 1_024,
@@ -521,10 +592,12 @@ function normalizedOptions(options: CausalExecutionOptions): Required<CausalExec
 }
 
 function recordedOptions(options: Required<CausalExecutionOptions>): ResolvedCausalExecutionOptions {
-    const { counterfactualInternalEventAblationLawIds, ...ordinary } = cloneValue(options);
-    return counterfactualInternalEventAblationLawIds.length > 0
-        ? { ...ordinary, counterfactualInternalEventAblationLawIds }
-        : ordinary;
+    const { counterfactualInternalEventAblationLawIds, worldLifecycleOverrides, ...ordinary } = cloneValue(options);
+    return {
+        ...ordinary,
+        ...(counterfactualInternalEventAblationLawIds.length > 0 ? { counterfactualInternalEventAblationLawIds } : {}),
+        ...(Object.keys(worldLifecycleOverrides).length > 0 ? { worldLifecycleOverrides } : {}),
+    };
 }
 
 function evaluateQuery(
@@ -588,6 +661,7 @@ function serializeStates(states: Map<string, MutableState>): CausalWorldState[] 
         fields: Object.fromEntries(Object.entries(state.fields).sort(([left], [right]) => left.localeCompare(right))),
         intrinsicViability: state.intrinsicViability,
         seaContribution: state.seaContribution,
+        ...(state.lifecycle ? { lifecycle: cloneValue(state.lifecycle) } : {}),
     }));
 }
 
@@ -614,6 +688,7 @@ function cloneRealization(source: MutableRealization): MutableRealization {
             fields: cloneValue(state.fields),
             intrinsicViability: cloneValue(state.intrinsicViability),
             seaContribution: cloneValue(state.seaContribution),
+            ...(state.lifecycle ? { lifecycle: cloneValue(state.lifecycle) } : {}),
             bindings: state.bindings,
         });
     }
@@ -622,6 +697,7 @@ function cloneRealization(source: MutableRealization): MutableRealization {
         appliedLawIds: new Set(source.appliedLawIds),
         trace: cloneValue(source.trace),
         historyCommits: cloneValue(source.historyCommits),
+        lifecycleEvents: cloneValue(source.lifecycleEvents),
         internalEventAblations: cloneValue(source.internalEventAblations),
         branchedAwayLawIds: new Set(source.branchedAwayLawIds),
         branchLineage: cloneValue(source.branchLineage),
@@ -637,6 +713,7 @@ function recomputeSea(
     mutable: MutableRealization,
     worldId: string,
     causes: string[],
+    recordTrace = true,
 ): string | undefined {
     const world = program.world.worlds.find((candidate) => candidate.id === worldId);
     const law = program.seaLaws.find((candidate) => candidate.worldId === worldId);
@@ -659,20 +736,22 @@ function recomputeSea(
     if (!before || !exactValuesEqual(before, viability)) {
         mutable.fieldCauses.set(fieldKey(worldId, fieldId), [...new Set(causes)].sort());
     }
-    mutable.trace.push({
-        id: `trace:${mutable.trace.length + 1}:sea:${worldId}`,
-        kind: "sea-coupling",
-        worldId,
-        causes: [...new Set(causes)].sort(),
-        effects: [{
-            fieldId,
-            layer: "world-field",
-            operation: "derive",
-            ...(before ? { before } : {}),
-            operand: seaContribution,
-            after: viability,
-        }],
-    });
+    if (recordTrace) {
+        mutable.trace.push({
+            id: `trace:${mutable.trace.length + 1}:sea:${worldId}`,
+            kind: "sea-coupling",
+            worldId,
+            causes: [...new Set(causes)].sort(),
+            effects: [{
+                fieldId,
+                layer: "world-field",
+                operation: "derive",
+                ...(before ? { before } : {}),
+                operand: seaContribution,
+                after: viability,
+            }],
+        });
+    }
     return undefined;
 }
 
@@ -706,7 +785,11 @@ function applyEffect(
 }
 
 function effectSetsConflict(
-    entries: Array<{ worldId: string; effects: CausalFieldEffect[] }>,
+    entries: Array<{
+        worldId: string;
+        effects: CausalFieldEffect[];
+        lifecycleEffects?: CausalWorldLifecycleEffect[];
+    }>,
 ): boolean {
     const byField = new Map<string, CausalFieldEffect[]>();
     for (const entry of entries) {
@@ -715,7 +798,7 @@ function effectSetsConflict(
             byField.set(key, [...byField.get(key) ?? [], effect]);
         }
     }
-    return [...byField.values()].some((effects) => {
+    const fieldConflict = [...byField.values()].some((effects) => {
         const meaningful = effects.filter((effect) => (
             effect.operation === "set" || !exactValuesEqual(effect.value, exact.integer(0))
         ));
@@ -725,6 +808,22 @@ function effectSetsConflict(
         return setters.length !== meaningful.length
             || setters.some((effect) => !exactValuesEqual(effect.value, setters[0]!.value));
     });
+    if (fieldConflict) return true;
+    const byWorld = new Map<string, Set<CausalWorldLifecycleEffect["kind"]>>();
+    for (const entry of entries) {
+        for (const effect of entry.lifecycleEffects ?? []) {
+            const targetWorldId = effect.kind === "retire-self" ? entry.worldId : effect.targetWorldId;
+            byWorld.set(targetWorldId, new Set([...(byWorld.get(targetWorldId) ?? []), effect.kind]));
+        }
+    }
+    return [...byWorld.values()].some((kinds) => kinds.size > 1);
+}
+
+function lifecycleEffectsApplicable(law: CausalInternalLaw, states: Map<string, MutableState>): boolean {
+    if (worldPhase(states.get(law.worldId)) !== "active") return false;
+    return (law.lifecycleEffects ?? []).every((effect) => (
+        effect.kind === "retire-self" || worldPhase(states.get(effect.targetWorldId)) === "latent"
+    ));
 }
 
 function maximalCommutingLawFrontiers(
@@ -737,8 +836,8 @@ function maximalCommutingLawFrontiers(
         law.id,
         new Set(ordered
             .filter((candidate) => candidate.id !== law.id && !effectSetsConflict([
-                { worldId: law.worldId, effects: law.effects },
-                { worldId: candidate.worldId, effects: candidate.effects },
+                { worldId: law.worldId, effects: law.effects, lifecycleEffects: law.lifecycleEffects },
+                { worldId: candidate.worldId, effects: candidate.effects, lifecycleEffects: candidate.lifecycleEffects },
             ]))
             .map((candidate) => candidate.id)),
     ]));
@@ -827,6 +926,141 @@ function recordCommit(
     return undefined;
 }
 
+function applyLifecycleFrontier(
+    program: ExecutableAnchoredCausalProgram,
+    mutable: MutableRealization,
+    lawEvents: Array<{ law: CausalInternalLaw; eventId: string }>,
+): string | undefined {
+    const transitions = new Map<string, {
+        kind: CausalWorldLifecycleEffect["kind"];
+        sourceWorldIds: Set<string>;
+        causedByLawEventIds: Set<string>;
+    }>();
+    for (const { law, eventId } of lawEvents) {
+        for (const effect of law.lifecycleEffects ?? []) {
+            const targetWorldId = effect.kind === "retire-self" ? law.worldId : effect.targetWorldId;
+            const existing = transitions.get(targetWorldId);
+            if (existing && existing.kind !== effect.kind) {
+                return `world '${targetWorldId}' cannot be spawned and retired in one causal frontier`;
+            }
+            const transition = existing ?? {
+                kind: effect.kind,
+                sourceWorldIds: new Set<string>(),
+                causedByLawEventIds: new Set<string>(),
+            };
+            transition.sourceWorldIds.add(law.worldId);
+            transition.causedByLawEventIds.add(eventId);
+            transitions.set(targetWorldId, transition);
+        }
+    }
+    const lifecycleEventIds: string[] = [];
+    for (const [targetWorldId, transition] of [...transitions].sort(([left], [right]) => left.localeCompare(right))) {
+        const state = mutable.states.get(targetWorldId);
+        const world = program.world.worlds.find((candidate) => candidate.id === targetWorldId);
+        if (!state || !world) return `lifecycle transition names missing world '${targetWorldId}'`;
+        const sourceWorldIds = [...transition.sourceWorldIds].sort();
+        const causedByLawEventIds = [...transition.causedByLawEventIds].sort();
+        const causeLabel = causedByLawEventIds.map((id) => id.slice("law:".length)).join("+");
+        if (transition.kind === "spawn-world") {
+            if (worldPhase(state) !== "latent") return `spawn target '${targetWorldId}' is not latent`;
+            const eventId = `spawn:${targetWorldId}:by:${causeLabel}`;
+            const lineageId = `lineage:${digest({
+                targetWorldId,
+                sourceWorldIds,
+                causedByLawEventIds,
+                parentLineages: sourceWorldIds.map((worldId) => (
+                    mutable.states.get(worldId)?.lifecycle?.lineageId ?? `initial:${worldId}`
+                )),
+                branchLineage: mutable.branchLineage.map((step) => step.id),
+            }).slice(0, 20)}`;
+            state.lifecycle = {
+                phase: "active",
+                lineageId,
+                parentWorldIds: sourceWorldIds,
+                spawnedByEventId: eventId,
+            };
+            for (const fieldId of state.bindings.keys()) {
+                mutable.fieldCauses.set(fieldKey(targetWorldId, fieldId), [eventId]);
+            }
+            const lifecycleEvent: CausalWorldLifecycleEvent = {
+                id: eventId,
+                kind: "world-spawn",
+                sourceWorldIds,
+                targetWorldId,
+                causedByLawEventIds,
+                beforePhase: "latent",
+                afterPhase: "active",
+                hostSelection: false,
+                lineageId,
+            };
+            mutable.lifecycleEvents.push(lifecycleEvent);
+            mutable.events.push({ id: eventId, causes: causedByLawEventIds, reversibility: "irreversible" });
+            mutable.evaluationOrder.push(eventId);
+            mutable.trace.push({
+                id: `trace:${mutable.trace.length + 1}:${eventId}`,
+                kind: "world-spawn",
+                worldId: targetWorldId,
+                eventId,
+                lifecycleEventId: eventId,
+                causes: causedByLawEventIds,
+                effects: [],
+            });
+            const seaError = recomputeSea(program, mutable, targetWorldId, [eventId]);
+            if (seaError) return seaError;
+            lifecycleEventIds.push(eventId);
+            continue;
+        }
+        if (worldPhase(state) !== "active") return `retirement target '${targetWorldId}' is not active`;
+        const eventId = `retire:${targetWorldId}:by:${causeLabel}`;
+        const negativeFieldId = world.seaCoupling.negativeFieldId;
+        const localNegativeSea = state.fields[negativeFieldId];
+        if (!localNegativeSea) return `retirement target '${targetWorldId}' has no negative-sea state`;
+        const residue: CausalWorldRetirementResidue = {
+            finalStateDigest: digest({
+                fields: state.fields,
+                intrinsicViability: state.intrinsicViability,
+                seaContribution: state.seaContribution,
+            }),
+            localNegativeSea: cloneValue(localNegativeSea),
+            retainedHistoryCommitIds: mutable.historyCommits
+                .filter((commit) => commit.worldId === targetWorldId)
+                .map((commit) => commit.eventId),
+        };
+        state.lifecycle = {
+            ...(state.lifecycle ?? { phase: "active" as const }),
+            phase: "retired",
+            retiredByEventId: eventId,
+        };
+        const lifecycleEvent: CausalWorldLifecycleEvent = {
+            id: eventId,
+            kind: "world-retirement",
+            sourceWorldIds,
+            targetWorldId,
+            causedByLawEventIds,
+            beforePhase: "active",
+            afterPhase: "retired",
+            hostSelection: false,
+            ...(state.lifecycle.lineageId ? { lineageId: state.lifecycle.lineageId } : {}),
+            residue,
+        };
+        mutable.lifecycleEvents.push(lifecycleEvent);
+        mutable.events.push({ id: eventId, causes: causedByLawEventIds, reversibility: "irreversible" });
+        mutable.evaluationOrder.push(eventId);
+        mutable.trace.push({
+            id: `trace:${mutable.trace.length + 1}:${eventId}`,
+            kind: "world-retirement",
+            worldId: targetWorldId,
+            eventId,
+            lifecycleEventId: eventId,
+            causes: causedByLawEventIds,
+            effects: [],
+        });
+        lifecycleEventIds.push(eventId);
+    }
+    if (lifecycleEventIds.length > 0) mutable.evaluationFrontiers.push(lifecycleEventIds);
+    return undefined;
+}
+
 function applyLawFrontier(
     program: ExecutableAnchoredCausalProgram,
     mutable: MutableRealization,
@@ -893,6 +1127,8 @@ function applyLawFrontier(
         const commitError = recordCommit(mutable, law, eventId);
         if (commitError) return commitError;
     }
+    const lifecycleError = applyLifecycleFrontier(program, mutable, lawEvents);
+    if (lifecycleError) return lifecycleError;
     return undefined;
 }
 
@@ -927,6 +1163,9 @@ function closeInternalLaws(
                 : "";
             for (const law of [...program.world.internalLaws].sort((left, right) => left.id.localeCompare(right.id))) {
                 if (mutable.appliedLawIds.has(law.id) || mutable.branchedAwayLawIds.has(law.id)) continue;
+                if (!lifecycleEffectsApplicable(law, mutable.states) || !predicateWorldsAreActive(law.guard, mutable.states)) {
+                    continue;
+                }
                 const evaluated = evaluatePredicate(
                     program,
                     law.guard,
@@ -988,7 +1227,11 @@ function closeInternalLaws(
                 completed.push(mutable);
                 break;
             }
-            const conflict = effectSetsConflict(enabled.map((law) => ({ worldId: law.worldId, effects: law.effects })));
+            const conflict = effectSetsConflict(enabled.map((law) => ({
+                worldId: law.worldId,
+                effects: law.effects,
+                lifecycleEffects: law.lifecycleEffects,
+            })));
             if (conflict && program.execution.internalConflictMode !== "maximal-commuting-branches") {
                 return {
                     status: "undetermined",
@@ -1132,6 +1375,7 @@ function scoreObjectives(
     let score = exact.integer(0);
     const contributions: CausalObjectiveContribution[] = [];
     for (const objective of program.world.worldWill.objectives) {
+        if (worldPhase(states.get(objective.targetWorldId)) !== "active") continue;
         const value = states.get(objective.targetWorldId)?.fields[objective.fieldId];
         const centered = objective.direction === "stabilize" && value && objective.targetValue
             ? subtractExactRationals(value, objective.targetValue)
@@ -1182,6 +1426,9 @@ function applyInterventions(
     for (const { intervention, eventId, causes } of interventionEvents) {
         const state = mutable.states.get(intervention.targetWorldId);
         if (!state) return `intervention '${intervention.id}' names missing world '${intervention.targetWorldId}'`;
+        if (worldPhase(state) !== "active") {
+            return `intervention '${intervention.id}' targets inactive world '${intervention.targetWorldId}'`;
+        }
         const traceEffects: CausalTraceEffect[] = [];
         for (const effect of intervention.effects) {
             const applied = applyEffect(program, state, effect);
@@ -1273,10 +1520,13 @@ function assessEmergence(
         );
         evidence.push(initialResult.evidence, finalResult.evidence);
         formalSteps += initialResult.steps + finalResult.steps;
-        const before = booleanEvidenceValue(initialResult.evidence);
-        const after = booleanEvidenceValue(finalResult.evidence);
-        const status: CausalEmergenceAssessment["status"] = initialResult.evidence.status === "contradicted"
-            || finalResult.evidence.status === "contradicted"
+        const initialActive = worldPhase(initial.get(criterion.worldId)) === "active";
+        const finalActive = worldPhase(mutable.states.get(criterion.worldId)) === "active";
+        const before = initialActive ? booleanEvidenceValue(initialResult.evidence) : false;
+        const after = finalActive ? booleanEvidenceValue(finalResult.evidence) : false;
+        const relevantContradiction = (initialActive && initialResult.evidence.status === "contradicted")
+            || (finalActive && finalResult.evidence.status === "contradicted");
+        const status: CausalEmergenceAssessment["status"] = relevantContradiction
             ? "contradicted"
             : before === undefined || after === undefined
                 ? "undetermined"
@@ -1299,8 +1549,9 @@ function assessEmergence(
         ]);
         const causedByEventIds = [...new Set(mutable.trace
             .filter((entry) => entry.worldId === criterion.worldId && entry.eventId && entry.kind !== "history-commit"
-                && entry.effects.some((effect) => relevantFields.has(effect.fieldId)
-                    && (!effect.before || !exactValuesEqual(effect.before, effect.after))))
+                && ((entry.kind === "world-spawn" || entry.kind === "world-retirement")
+                    || entry.effects.some((effect) => relevantFields.has(effect.fieldId)
+                        && (!effect.before || !exactValuesEqual(effect.before, effect.after)))))
             .map((entry) => entry.eventId!))].sort();
         assessments.push({
             criterionId: criterion.id,
@@ -1332,6 +1583,10 @@ function continuationFromRealization(
     ]))).values()].sort((left, right) => left.cause.localeCompare(right.cause) || left.effect.localeCompare(right.effect));
     const reversibleEventIds = mutable.events.filter((event) => event.reversibility === "reversible").map((event) => event.id).sort();
     const irreversibleEventIds = mutable.events.filter((event) => event.reversibility === "irreversible").map((event) => event.id).sort();
+    const historyArrowSources: Array<"history-commit" | "world-lifecycle"> = [
+        ...(mutable.historyCommits.length > 0 ? ["history-commit" as const] : []),
+        ...(mutable.lifecycleEvents.length > 0 ? ["world-lifecycle" as const] : []),
+    ];
     return {
         continuation: {
             id,
@@ -1343,6 +1598,7 @@ function continuationFromRealization(
             realizedEventIds: mutable.events.map((event) => event.id),
             trace: cloneValue(mutable.trace),
             historyCommits: cloneValue(mutable.historyCommits),
+            ...(mutable.lifecycleEvents.length > 0 ? { lifecycleEvents: cloneValue(mutable.lifecycleEvents) } : {}),
             ...(mutable.internalEventAblations.length > 0
                 ? { internalEventAblations: cloneValue(mutable.internalEventAblations) }
                 : {}),
@@ -1355,7 +1611,8 @@ function continuationFromRealization(
                 evaluationFrontiers: cloneValue(mutable.evaluationFrontiers),
                 reversibleEventIds,
                 irreversibleEventIds,
-                createsHistoryArrow: mutable.historyCommits.length > 0,
+                createsHistoryArrow: historyArrowSources.length > 0,
+                ...(mutable.lifecycleEvents.length > 0 ? { historyArrowSources } : {}),
             },
         },
         emergence,
@@ -1385,11 +1642,14 @@ function initializeRealization(
 } {
     const states = new Map<string, MutableState>();
     for (const world of program.world.worlds) {
+        const lifecycle = options.worldLifecycleOverrides[world.id]
+            ?? (world.initialExistence === "latent" ? { phase: "latent" as const } : undefined);
         states.set(world.id, {
             worldId: world.id,
             fields: {},
             intrinsicViability: exact.integer(0),
             seaContribution: exact.integer(0),
+            ...(lifecycle ? { lifecycle: cloneValue(lifecycle) } : {}),
             bindings: new Map(world.fields.map((field) => [field.id, field])),
         });
     }
@@ -1398,6 +1658,7 @@ function initializeRealization(
         appliedLawIds: new Set(),
         trace: [],
         historyCommits: [],
+        lifecycleEvents: [],
         internalEventAblations: [],
         branchedAwayLawIds: new Set(),
         branchLineage: [],
@@ -1441,7 +1702,7 @@ function initializeRealization(
     for (const world of program.world.worlds) {
         const state = states.get(world.id)!;
         state.intrinsicViability = state.fields[world.seaCoupling.viabilityFieldId]!;
-        const error = recomputeSea(program, mutable, world.id, []);
+        const error = recomputeSea(program, mutable, world.id, [], worldPhase(state) === "active");
         if (error) return { evidence, formalSteps, status: "contradicted", reason: error };
     }
     return { mutable, evidence, formalSteps };
@@ -1460,6 +1721,7 @@ function evaluateConstraintSet(
     let formalSteps = 0;
     let admissible: boolean | undefined = true;
     for (const predicate of predicates) {
+        if (!predicateWorldsAreActive(predicate, states)) continue;
         const evaluated = evaluatePredicate(program, predicate, purpose, states, options.evaluationBudgetPerQuery, prefix);
         evidence.push(evaluated.evidence);
         formalSteps += evaluated.steps;
@@ -1506,6 +1768,11 @@ export function realizeAnchoredCausalWorld(
     let interventionCombinationCount = 0;
     let exhaustiveInterventionSearch = true;
     let exhaustiveInternalBranching = true;
+    const lifecycleAwareProgram = program.world.worlds.some((world) => world.initialExistence === "latent")
+        || program.world.internalLaws.some((law) => (law.lifecycleEffects?.length ?? 0) > 0);
+    const lifecycleTransitionBound = program.world.worlds.reduce((total, world) => (
+        total + (world.initialExistence === "latent" ? 2 : 1)
+    ), 0);
     const emptyRun = (
         status: AnchoredCausalRun["status"],
         reason: string,
@@ -1532,6 +1799,7 @@ export function realizeAnchoredCausalWorld(
             interventionCombinationCount,
             combinationLimit: options.maxInterventionCombinations,
             branchLimit: options.maxInternalBranches,
+            ...(lifecycleAwareProgram ? { lifecycleTransitionBound } : {}),
             exhaustiveInterventionSearch,
             exhaustiveInternalBranching,
         },
@@ -1549,6 +1817,45 @@ export function realizeAnchoredCausalWorld(
     const unknownOverrideKeys = Object.keys(options.fieldOverrides).filter((key) => !knownFieldKeys.has(key));
     if (unknownOverrideKeys.length > 0) {
         return emptyRun("contradicted", `unknown field override key(s): ${unknownOverrideKeys.join(", ")}`);
+    }
+    const knownWorldIds = new Set(program.world.worlds.map((world) => world.id));
+    const unknownLifecycleWorldIds = Object.keys(options.worldLifecycleOverrides)
+        .filter((worldId) => !knownWorldIds.has(worldId));
+    if (unknownLifecycleWorldIds.length > 0) {
+        return emptyRun("contradicted", `unknown lifecycle override world id(s): ${unknownLifecycleWorldIds.join(", ")}`);
+    }
+    for (const [worldId, lifecycle] of Object.entries(options.worldLifecycleOverrides)) {
+        if (!["latent", "active", "retired"].includes(lifecycle.phase)) {
+            return emptyRun("contradicted", `lifecycle override for '${worldId}' has an invalid phase`);
+        }
+        const parents = lifecycle.parentWorldIds ?? [];
+        if (parents.some((parentWorldId) => !knownWorldIds.has(parentWorldId) || parentWorldId === worldId)) {
+            return emptyRun("contradicted", `lifecycle override for '${worldId}' has an invalid parent world`);
+        }
+        const hasSpawnProvenance = !!lifecycle.lineageId && parents.length > 0 && !!lifecycle.spawnedByEventId;
+        const hasAnySpawnProvenance = !!lifecycle.lineageId || parents.length > 0 || !!lifecycle.spawnedByEventId;
+        const declaredLatent = program.world.worlds.find((world) => world.id === worldId)?.initialExistence === "latent";
+        if (!declaredLatent && lifecycle.phase === "latent") {
+            return emptyRun("contradicted", `initially active world '${worldId}' cannot regress to latent existence`);
+        }
+        if (!declaredLatent && hasAnySpawnProvenance) {
+            return emptyRun("contradicted", `initially active world '${worldId}' cannot claim spawn provenance`);
+        }
+        if (hasAnySpawnProvenance && !hasSpawnProvenance) {
+            return emptyRun("contradicted", `lifecycle override for '${worldId}' has incomplete spawn provenance`);
+        }
+        if (lifecycle.phase === "latent" && (hasAnySpawnProvenance || lifecycle.retiredByEventId)) {
+            return emptyRun("contradicted", `latent lifecycle override for '${worldId}' cannot claim realized history`);
+        }
+        if (declaredLatent && lifecycle.phase !== "latent" && !hasSpawnProvenance) {
+            return emptyRun("contradicted", `realized latent world '${worldId}' requires lineage and spawn provenance`);
+        }
+        if (lifecycle.phase === "retired" && !lifecycle.retiredByEventId) {
+            return emptyRun("contradicted", `retired lifecycle override for '${worldId}' requires retirement provenance`);
+        }
+        if (lifecycle.phase !== "retired" && lifecycle.retiredByEventId) {
+            return emptyRun("contradicted", `non-retired lifecycle override for '${worldId}' cannot claim retirement provenance`);
+        }
     }
     const knownInternalLawIds = new Set(program.world.internalLaws.map((law) => law.id));
     const unknownAblationLawIds = options.counterfactualInternalEventAblationLawIds
@@ -1629,14 +1936,21 @@ export function realizeAnchoredCausalWorld(
         const identityByAnchor = new Map<string, ReturnType<typeof evaluateConstraintSet>>();
         for (const anchor of program.world.anchors) {
             const predicates = program.execution.anchorIdentity.filter((predicate) => predicate.anchorId === anchor.id);
-            const result = evaluateConstraintSet(
-                program,
-                predicates,
-                "anchor-identity",
-                base.mutable.states,
-                options,
-                `anchor:${base.continuation.id}:${anchor.id}:`,
-            );
+            const result = anchorWorldsAreActive(program, anchor.id, base.mutable.states)
+                ? evaluateConstraintSet(
+                    program,
+                    predicates,
+                    "anchor-identity",
+                    base.mutable.states,
+                    options,
+                    `anchor:${base.continuation.id}:${anchor.id}:`,
+                )
+                : {
+                    admissible: false,
+                    evidence: [],
+                    formalSteps: 0,
+                    reasons: [`anchor '${anchor.id}' has an inactive world endpoint`],
+                };
             identityByAnchor.set(anchor.id, result);
             formalEvidence.push(...result.evidence);
             formalSteps += result.formalSteps;
@@ -1646,6 +1960,9 @@ export function realizeAnchoredCausalWorld(
                 const reasons: string[] = [];
                 if (!options.worldWillEnabled) reasons.push("World Will execution is disabled");
                 if (options.cutAnchorIds.includes(intervention.anchorId)) reasons.push(`anchor '${intervention.anchorId}' is cut`);
+                if (worldPhase(base.mutable.states.get(intervention.targetWorldId)) !== "active") {
+                    reasons.push(`target world '${intervention.targetWorldId}' is inactive`);
+                }
                 const identity = identityByAnchor.get(intervention.anchorId);
                 if (identity?.admissible !== true) reasons.push(...(identity?.reasons ?? ["anchor identity is unavailable"]));
                 return {
@@ -1738,14 +2055,16 @@ export function realizeAnchoredCausalWorld(
             for (const [outcomeIndex, outcome] of candidateClosure.realizations.entries()) {
                 for (const anchor of program.world.anchors) {
                     const predicates = program.execution.anchorIdentity.filter((predicate) => predicate.anchorId === anchor.id);
-                    const postIdentity = evaluateConstraintSet(
-                        program,
-                        predicates,
-                        "anchor-identity",
-                        outcome.states,
-                        options,
-                        `${id}:outcome:${outcomeIndex}:post-anchor:${anchor.id}:`,
-                    );
+                    const postIdentity = anchorWorldsAreActive(program, anchor.id, outcome.states)
+                        ? evaluateConstraintSet(
+                            program,
+                            predicates,
+                            "anchor-identity",
+                            outcome.states,
+                            options,
+                            `${id}:outcome:${outcomeIndex}:post-anchor:${anchor.id}:`,
+                        )
+                        : { admissible: true, evidence: [], formalSteps: 0, reasons: [] };
                     formalEvidence.push(...postIdentity.evidence);
                     formalSteps += postIdentity.formalSteps;
                     if (postIdentity.admissible === undefined) groupStatus = "undetermined";
@@ -1939,11 +2258,25 @@ export function inspectAnchoredCausalRun(run: AnchoredCausalRun): AnchoredCausal
     const selected = new Set(run.selectedContinuationIds);
     const selectedContinuations = run.continuations.filter((continuation) => selected.has(continuation.id));
     const relevantContinuations = selectedContinuations.length > 0 ? selectedContinuations : run.continuations;
+    const lifecycleAware = run.initialWorldStates.some((state) => state.lifecycle)
+        || relevantContinuations.some((continuation) => (continuation.lifecycleEvents?.length ?? 0) > 0);
+    const singularLifecycleStates = lifecycleAware && relevantContinuations.length === 1
+        ? relevantContinuations[0]!.worldStates
+        : undefined;
     return {
         mode: "bubble-anchored-causal-inspection.v2",
         summary: {
             status: run.status,
             worldCount: run.initialWorldStates.length,
+            ...(singularLifecycleStates ? {
+                activeWorldCount: singularLifecycleStates.filter((state) => worldPhase(state) === "active").length,
+                latentWorldCount: singularLifecycleStates.filter((state) => worldPhase(state) === "latent").length,
+                retiredWorldCount: singularLifecycleStates.filter((state) => worldPhase(state) === "retired").length,
+                spawnedWorldCount: relevantContinuations[0]!.lifecycleEvents
+                    ?.filter((event) => event.kind === "world-spawn").length ?? 0,
+                retirementCount: relevantContinuations[0]!.lifecycleEvents
+                    ?.filter((event) => event.kind === "world-retirement").length ?? 0,
+            } : {}),
             continuationCount: run.continuations.length,
             selectedContinuationCount: run.selectedContinuationIds.length,
             unresolvedAlternativeCount: run.unresolvedAlternativeIds.length,
@@ -1995,6 +2328,18 @@ export function replayAnchoredCausalRecord(record: AnchoredCausalReplayRecord): 
         id: continuation.id,
         emergence: continuation.emergenceAssessments,
     }));
+    const lifecycleAware = record.recordedRun.initialWorldStates.some((state) => state.lifecycle)
+        || record.recordedRun.continuations.some((continuation) => (continuation.lifecycleEvents?.length ?? 0) > 0);
+    const recordedLifecycle = record.recordedRun.continuations.map((continuation) => ({
+        id: continuation.id,
+        states: continuation.worldStates.map((state) => ({ worldId: state.worldId, lifecycle: state.lifecycle })),
+        events: continuation.lifecycleEvents ?? [],
+    }));
+    const replayedLifecycle = replayedRun.continuations.map((continuation) => ({
+        id: continuation.id,
+        states: continuation.worldStates.map((state) => ({ worldId: state.worldId, lifecycle: state.lifecycle })),
+        events: continuation.lifecycleEvents ?? [],
+    }));
     return {
         mode: "bubble-anchored-causal-replay-result.v2",
         status: recordIntegrityValid && recordedProgramDigestValid && replayedDigest === record.recordedDigest && fullRunPreserved
@@ -2009,6 +2354,7 @@ export function replayAnchoredCausalRecord(record: AnchoredCausalReplayRecord): 
         selectedContinuationsPreserved: stableStringify(record.recordedRun.selectedContinuationIds) === stableStringify(replayedRun.selectedContinuationIds),
         unresolvedAlternativesPreserved: stableStringify(record.recordedRun.unresolvedAlternativeIds) === stableStringify(replayedRun.unresolvedAlternativeIds),
         emergencePreserved: stableStringify(recordedEmergence) === stableStringify(replayedEmergence),
+        ...(lifecycleAware ? { lifecyclePreserved: stableStringify(recordedLifecycle) === stableStringify(replayedLifecycle) } : {}),
         replayedRun,
     };
 }

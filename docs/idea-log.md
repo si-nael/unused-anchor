@@ -2,6 +2,50 @@
 
 ## 2026-07-17
 
+### The executable Bubble is not identical to TypeScript or one machine binary
+
+- The current TypeScript runtime is an executable semantic reference and conformance oracle, not the permanent definition of Bubble or its only execution authority.
+- Bubble needs a typed machine-independent semantic graph whose meaning is fixed before any compact byte encoding or native backend is declared authoritative.
+- Text and `.bubble` syntax may remain authoring and inspection projections. The canonical execution form may be a structured BIR, but its bytes cannot close concepts that the semantic contract still leaves open.
+- A native backend must reproduce exact values, causal frontiers, lifecycle, seas, anchors, World Will constraints, commits, provenance, and replay outcomes rather than merely produce similar-looking reports.
+
+### Fast realization without inventing internal time
+
+- Binary parsing may reduce startup and storage cost, but the main execution burden lies in branch growth, exact arithmetic, repeated dependency evaluation, state copying, hashing, and materializing intensional structure.
+- Infinite or infinite-dimensional structure should remain generative, sparse, symbolic, and demand-driven. It must not be approximated by an eagerly allocated finite array and then mislabeled infinite.
+- Immutable structural sharing, content-addressed state, incremental causal recomputation, semantically justified branch equivalence, and deterministic parallelism are candidate implementation techniques. Optimization may never discard a lawful branch merely because it is expensive.
+- CPU work, memory, reductions, and physical duration belong to the host realization record. They are not a universal clock inside the Bubble.
+
+### Finish the 5.x semantic bridge before Rust 6.x
+
+- The remaining `v0.5.x` line must close the portable semantic seam needed by another implementation: lifecycle lowering, cross-world membrane semantics, canonical execution meaning, and conformance fixtures are reviewed before a native rewrite begins.
+- `v0.6.x` begins the Rust physical substrate. Rust is chosen for the first safe native kernel and portable backend boundary, not as the ontology or final language of Bubble.
+- TypeScript remains the reference implementation, authoring and inspection layer, and differential oracle until Rust earns execution authority by exact cross-runtime evidence.
+- This transition is separate from Phase 2 observers, recursive self-construction, and any trans-Turing claim.
+
+### A world that was not born is not a world that died
+
+- Observation-induced materialization, endogenous branch nonrealization, and world retirement are different causal events and must never share one ambiguous collapse flag.
+- A latent Bubble may have an exact intensional definition without already participating in laws, anchors, seas, objectives, or interventions. Definition is potential, not existence.
+- Birth must be caused by the active world's own law. If several commuting laws are jointly necessary, one birth should preserve every parent and law cause instead of duplicating the child.
+- Retirement is not deletion. Final state, lineage, negative-sea residue, and committed memory remain part of the world graph and replay identity.
+- A retired world cannot be reconstructed as latent on the next persistent closure and born again merely because the host reapplied initializers.
+- World Will can act only through an active anchor and can change a lawful condition, but cannot call spawn or retirement directly. The born world still responds by its own internal law.
+- Lifecycle events create irreversible history direction without imposing duration or a universal clock. Lifecycle history and explicit anchor commits remain distinguishable.
+- The first candidate is deliberately finite: it actualizes predeclared latent worlds and does not pretend to have solved dynamic schema creation, populations, or an open-ended multiverse.
+- Architecture record: [Endogenous World Lifecycle Candidate](architecture/endogenous-world-lifecycle-candidate.md).
+
+### Beyond Turing without pretending the finite host is a hypercomputer
+
+- Bubble should ask whether a universe can exceed Turing-machine limits explicitly or implicitly, but it must distinguish effective host computation, infinite or non-computable denotation, oracle-relative computation, transfinite causal semantics, and speculative physical hypercomputation.
+- The current exact intensional families raise the representability frontier: a finite definition may denote countably infinite or infinite-dimensional structure while only demanded coordinates are materialized. This is not yet computation of a non-recursive function.
+- A world may contain truths or completed mathematical structure that neither an internal being nor the host can effectively decide. World truth, internal causal accessibility, and host evaluability should become separate semantic questions.
+- A future anchor could carry a typed oracle-relative computational relation between worlds, but only with explicit source, degree, causal route, trust, and replay provenance. The word `anchor` alone must not grant magic computational power.
+- A future no-universal-clock world may admit successor and limit positions in a causal order. Symbolic fixed-point or limit evidence must remain distinct from an assertion that the finite host completed an actual infinite supertask.
+- Exact reals, randomness, World Will, seas, branching, self-modification, and recursive self-construction must not hide an unexplained oracle. Every increase in computational power needs an inspectable source and a different replay contract.
+- Preserve this as independent research question Q-026 and obligation OB-012. It is not selected as the next release and does not claim that v0.5.5 or the present TypeScript runtime exceeds Turing computability.
+- Research note: [Trans-Turing Bubble Semantics](research/trans-turing-bubble-semantics.md).
+
 ### A world may branch without anyone choosing a branch
 
 - Simultaneously available internal laws must not become a host-facing menu. If their effects cannot all coexist, the Bubble's own causal structure should determine the complete lawful plurality.

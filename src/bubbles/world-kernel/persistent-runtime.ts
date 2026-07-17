@@ -12,6 +12,7 @@ import {
     type CausalExecutionOptions,
     type CausalHistoryCommit,
     type CausalTraceEntry,
+    type CausalWorldLifecycleState,
     type CausalWorldState,
 } from "./causal-runtime";
 import {
@@ -78,6 +79,7 @@ export interface PersistentCausalPath {
 export interface CounterfactualContinuationDifference {
     continuationId: string;
     changedFieldKeys: string[];
+    changedLifecycleWorldIds?: string[];
     externallyChangedFieldKeys: string[];
     changedTraceLawIds: string[];
     historyChanged: boolean;
@@ -227,6 +229,7 @@ interface MutablePath {
     historyEntries: PersistentHistoryLedgerEntry[];
     historyEntryCounts: number[];
     nextOverrides?: Record<string, ExactValue>;
+    nextLifecycleOverrides?: Record<string, CausalWorldLifecycleState>;
 }
 
 const REQUIRED_ROLES: CausalFieldRole[] = ["structural-state", "identity-state", "memory-state", "boundary-state"];
@@ -285,6 +288,21 @@ function statesToOverrides(program: PersistentCausalProgram, states: CausalWorld
     return overrides;
 }
 
+function statesToLifecycleOverrides(states: CausalWorldState[]): Record<string, CausalWorldLifecycleState> {
+    return Object.fromEntries(states
+        .filter((state): state is CausalWorldState & { lifecycle: CausalWorldLifecycleState } => !!state.lifecycle)
+        .map((state) => [state.worldId, cloneValue(state.lifecycle)]));
+}
+
+function changedLifecycleWorldIds(left: CausalWorldState[], right: CausalWorldState[]): string[] {
+    const worldIds = new Set([...left, ...right].map((state) => state.worldId));
+    return [...worldIds].filter((worldId) => {
+        const leftLifecycle = left.find((state) => state.worldId === worldId)?.lifecycle;
+        const rightLifecycle = right.find((state) => state.worldId === worldId)?.lifecycle;
+        return stableStringify(leftLifecycle) !== stableStringify(rightLifecycle);
+    }).sort();
+}
+
 function selectedContinuations(run: AnchoredCausalRun): CausalContinuation[] {
     const selected = new Set(run.selectedContinuationIds);
     return run.continuations.filter((continuation) => selected.has(continuation.id));
@@ -320,15 +338,17 @@ function continuationDifference(
     memberSet: Set<string>,
 ): CounterfactualContinuationDifference {
     const changed = changedFieldKeys(baseline.worldStates, counterfactual.worldStates);
+    const changedLifecycle = changedLifecycleWorldIds(baseline.worldStates, counterfactual.worldStates);
     const changedTraceLawIds = symmetricDifference(traceLawIds(baseline), traceLawIds(counterfactual));
     const historyChanged = stableStringify(baseline.historyCommits) !== stableStringify(counterfactual.historyCommits);
     return {
         continuationId: counterfactual.id,
         changedFieldKeys: changed,
+        ...(changedLifecycle.length > 0 ? { changedLifecycleWorldIds: changedLifecycle } : {}),
         externallyChangedFieldKeys: changed.filter((key) => !memberSet.has(key)),
         changedTraceLawIds,
         historyChanged,
-        effective: changed.length > 0 || changedTraceLawIds.length > 0 || historyChanged,
+        effective: changed.length > 0 || changedLifecycle.length > 0 || changedTraceLawIds.length > 0 || historyChanged,
     };
 }
 
@@ -407,6 +427,7 @@ function memoryEvidence(
         }
         const counterfactual = realizeAnchoredCausalWorld(program.causalProgram, {
             ...options.causalOptions,
+            worldLifecycleOverrides: statesToLifecycleOverrides(last.inputWorldStates),
             fieldOverrides: {
                 ...statesToOverrides(program, last.inputWorldStates),
                 [key]: cloneValue(erasedToValue),
@@ -658,6 +679,7 @@ function boundaryEvidence(
         realized.forEach((lawId) => witnessedCrossingLawIds.add(lawId));
         const counterfactual = realizeAnchoredCausalWorld(ablatedProgram.causalProgram, {
             ...options.causalOptions,
+            worldLifecycleOverrides: statesToLifecycleOverrides(closure.inputWorldStates),
             fieldOverrides: {
                 ...statesToOverrides(program, closure.inputWorldStates),
                 ...cloneValue(boundaryOverrides),
@@ -842,6 +864,9 @@ export function realizePersistentCausalWorld(
         const run = realizeAnchoredCausalWorld(program.causalProgram, {
             ...options.causalOptions,
             ...(current.nextOverrides ? { fieldOverrides: current.nextOverrides } : {}),
+            ...(current.nextLifecycleOverrides
+                ? { worldLifecycleOverrides: current.nextLifecycleOverrides }
+                : {}),
         });
         closureExecutions += 1;
         const selected = selectedContinuations(run);
@@ -954,6 +979,7 @@ export function realizePersistentCausalWorld(
                 historyEntries,
                 historyEntryCounts,
                 nextOverrides: statesToOverrides(program, continuation.worldStates),
+                nextLifecycleOverrides: statesToLifecycleOverrides(continuation.worldStates),
             });
         }
     }

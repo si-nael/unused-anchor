@@ -3,7 +3,7 @@ import { emitCausalJson, parseCausalExecutionArgs, readCausalProgram } from "./c
 
 async function main(): Promise<void> {
     const { inputPath, outputPath, options } = parseCausalExecutionArgs(process.argv.slice(2));
-    if (!inputPath) throw new Error("Usage: tsx apps/hatchery/run-world.ts <program.json> [output.json] [causal options]");
+    if (!inputPath) throw new Error("Usage: tsx apps/hatchery/run-world.ts <program.json|causal.bubble> [output.json] [causal options]");
     const program = await readCausalProgram(inputPath);
     await emitCausalJson(realizeAnchoredCausalWorld(program, options), outputPath);
     if (outputPath) process.stdout.write(`Realized anchored causal world ${inputPath} -> ${outputPath}\n`);

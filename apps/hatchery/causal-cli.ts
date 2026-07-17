@@ -1,12 +1,17 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { compileCausalBubbleSource } from "../../src/bubbles/language";
 import type {
     CausalExecutionOptions,
     ExecutableAnchoredCausalProgram,
 } from "../../src/bubbles/world-kernel";
 
 export async function readCausalProgram(inputPath: string): Promise<ExecutableAnchoredCausalProgram> {
-    return JSON.parse(await readFile(inputPath, "utf8")) as ExecutableAnchoredCausalProgram;
+    const source = await readFile(inputPath, "utf8");
+    if (source.trimStart().startsWith("causal bubble ")) {
+        return compileCausalBubbleSource(source, { sourcePath: inputPath }).program;
+    }
+    return JSON.parse(source) as ExecutableAnchoredCausalProgram;
 }
 
 export async function readCausalJson<T>(inputPath: string): Promise<T> {

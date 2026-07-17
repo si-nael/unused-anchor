@@ -1,6 +1,6 @@
 # Persistent Causal World Reference
 
-Applies to: `bubble-persistent-causal-program.v1`, `v0.5.3`, and the `v0.5.5` endogenous-branch extension
+Applies to: `bubble-persistent-causal-program.v1`, `v0.5.3`, the `v0.5.5` endogenous-branch extension, and the bounded `v0.5.6` lifecycle extension
 
 ## Program
 
@@ -54,9 +54,9 @@ With `internalConflictMode: maximal-commuting-branches`, the underlying causal r
 
 ## Closure Paths And Order
 
-The runtime records every selected continuation. A closure output configuration is carried to the next run by exact field overrides; intrinsic viability, not already sea-coupled visible viability, is carried into the viability initializer. History commits are not folded back into the field digest: they are appended to a separate `monotone-causal-commit-ledger` with closure identity and ordinal.
+The runtime records every selected continuation. A closure output configuration is carried to the next run by exact field overrides; intrinsic viability, not already sea-coupled visible viability, is carried into the viability initializer. When lifecycle state exists, phase and birth/retirement provenance are carried beside the fields. A retired world therefore resumes as retired rather than falling back to its declared latent initializer. History commits are not folded back into the field digest: they are appended to a separate `monotone-causal-commit-ledger` with closure identity and ordinal.
 
-Causal-configuration repetition yields a lasso certificate with `startConfigurationIndex`, `periodClosures`, and `repeatedConfigurationDigest`. Its nested `anchoredHistory` evidence records ledger counts at both cuts, extension count, and whether the full anchored state repeated. A configuration lasso therefore never silently erases committed history. Closure identifiers and evaluation order are proof coordinates only. Reports always state:
+Causal-configuration repetition yields a lasso certificate with `startConfigurationIndex`, `periodClosures`, and `repeatedConfigurationDigest`. Lifecycle-aware configuration digests distinguish latent, active, and retired states even when exact field coordinates match. Its nested `anchoredHistory` evidence records ledger counts at both cuts, extension count, and whether the full anchored state repeated. A configuration lasso therefore never silently erases committed history or lifecycle identity. Closure identifiers and evaluation order are proof coordinates only. Reports always state:
 
 ```json
 {
@@ -67,7 +67,7 @@ Causal-configuration repetition yields a lasso certificate with `startConfigurat
 
 ## Inspection And Replay
 
-Replay verifies stored-run integrity, recorded program identity, full-run equality, path-cycle preservation, and persistence-evidence preservation. A changed stored assessment or closure record yields `reexecution-drift`.
+Replay verifies stored-run integrity, recorded program identity, full-run equality, path-cycle preservation, and persistence-evidence preservation. Lifecycle differences also make counterfactual continuations effective even when their final field coordinates happen to agree. A changed stored assessment, lifecycle phase, or closure record yields `reexecution-drift`.
 
 Commands:
 

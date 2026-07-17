@@ -459,3 +459,96 @@ Would be weakened by:
 Next check:
 
 Use the first internally generated relation or preference-bearing selector to distinguish world branching from agency. Require causal evidence for option representation, norm or preference, and internal selection before using the words deliberation or choice. Concrete causal `spawn` and `collapse` execution also remain separate open seams.
+
+### H-018: Computability provenance can separate trans-Turing world semantics from false host hypercomputation
+
+Status: open and untested
+
+Claim:
+
+A Bubble can coherently contain denotations or causal relations wider than its finite evaluator can decide if every result records the computational layer that justifies it, internal accessibility remains distinct from world truth, and no oracle, limit completion, exact continuum value, or physical assumption is silently relabeled as effective execution.
+
+Would be supported by:
+
+- one formal world model in which the same query is unresolved in a purely effective Bubble and resolved only after crossing a typed oracle-bearing anchor
+- proof that the oracle result records source identity, relative degree or capability, query and answer provenance, causal access, and a replay contract different from host re-execution
+- one limit-stage world whose semantics distinguish finite successor evaluation, symbolic fixed-point evidence, and any assumed actual completion rule
+- one model-theoretic case where a proposition is meaningful or true in the world while remaining inaccessible to an internal being and `undetermined` to the host
+- inspection and replay that preserve `effective`, `relative-oracle`, `limit-derived`, `axiomatic`, `undetermined`, and `contradicted` without flattening them
+
+Would be weakened or falsified by:
+
+- reporting an intensional infinite family, a long-running process, finite branching, randomness, or self-modifying code as non-Turing computation by itself
+- allowing World Will, an anchor, a sea, or an exact real constant to return a non-computable answer without a typed source
+- claiming that a conventional host completed a transfinite execution because it simulated a finite prefix or manipulated a symbolic limit expression
+- replay silently regenerating an oracle or physical answer from effective code and calling it the same evidence
+- a computational layer that cannot state which facts are world truths, internally accessible observations, host-computed results, or unresolved claims
+
+First check:
+
+Specify the four-case comparison in Q-026 and prove a conservation result for the effective case: when every initial value, transition, branch rule, anchor response, and World-Will evaluation is computable, Bubble does not gain non-recursive computational power from composition, plurality, or self-reference alone. Only then test a typed relative-oracle extension.
+
+### H-019: Internal lifecycle law can actualize a bounded dynamic world graph without a host world selector
+
+Status: validated for the bounded `v0.5.6` lifecycle-and-language release
+
+Claim:
+
+A finite declared Bubble graph becomes meaningfully dynamic when active-world internal laws, rather than the host or World Will, causally actualize latent worlds and retire their own source worlds; birth lineage, inactive-world exclusion, retirement residue, persistent continuation, and replay must all remain part of the same evidence contract.
+
+Current supporting evidence:
+
+- latent worlds retain exact intensional definitions but cannot execute laws, contribute objectives, receive interventions, activate anchors, or emit active sea traces before birth
+- one or several commuting internal law events produce one typed spawn event with every cause, parent lineage, and `hostSelection: false`
+- the child's first state-bound law occurs on a later frontier and cites the spawn event as a direct cause
+- a branch that excludes the birth law leaves the target latent and records no false retirement
+- `retire-self` preserves fields, final state digest, local negative sea, committed-memory ids, lineage, and causal provenance rather than deleting the world
+- persistent closure resumes a retired world as retired and cannot silently birth it again
+- lifecycle rank is acyclic with static per-continuation bound `A + 2L`, and resume input cannot regress an initially active world to latent
+- internal law cannot use an ordinary predicate binding as an unanchored cross-world information channel
+- the canonical generational grove births a descendant, retires its origin, blocks the retired origin anchor, activates the descendant anchor, and lets the descendant answer an anchor-mediated condition through its own internal law
+- World-Will-disabled and all-anchors-cut execution preserves canonical birth, formation, and retirement
+- inspection and exact replay preserve lifecycle counts, states, events, lineage, and history direction; stored phase tampering is rejected
+- a strict `causal bubble` source profile lowers exact world declarations, local guards, sea coupling, anchors, objectives, birth, retirement, and commits into the same causal validator and run/inspection/record/replay path without changing the legacy descriptive language
+
+Would be weakened by:
+
+- treating initialized latent coordinates as already active state
+- allowing World Will, declaration order, or a host callback to invoke birth or retirement directly
+- deleting retired state or confusing retirement with branch nonrealization or observation-induced local materialization
+- restoring only field values across persistent closure while losing lifecycle phase and provenance
+- allowing phase-rank regression or untyped cross-world guard reads
+- calling a finitely predeclared latent graph dynamic schema generation, population evolution, or an open-ended multiverse
+- claiming release completion before canonical artifacts, full verification, record reconciliation, and evidence-density audit pass
+
+Next check:
+
+Run the complete repository and evidence-density boundary with the added causal-language fixture. Then make the author-facing release judgment without inferring typed cross-world transfer, portable BIR, wider dynamic generation, or a version identifier from technical success alone.
+
+### H-020: A machine-independent semantic graph can preserve Bubble identity across optimized backends
+
+Status: open and untested; semantic contract belongs to late 5.x and Rust execution begins only in 6.x
+
+Claim:
+
+If Bubble's exact values, causal relations, effects, lifecycle, boundary transfers, provenance, and commit rules are specified independently from their storage bytes and host evaluation schedule, then a TypeScript reference runtime and an optimized Rust kernel can realize the same bounded world while using different internal data layouts and execution strategies.
+
+Would be supported by:
+
+- a typed BIR whose canonical semantic graph is independent of TypeScript and Rust object layout
+- canonical fixtures whose decoded meaning, event ledger, selected continuation set, lifecycle lineage, commits, and final digest agree exactly across two implementations
+- deterministic parallel or incremental evaluation producing the same semantic evidence as serial reference execution
+- versioned extensions that round-trip without deletion and cannot execute until their semantics are supported
+- a cost report that shows lower host work or memory without converting exhaustion into a partial selected world
+
+Would be weakened or falsified by:
+
+- defining identity as equality of TypeScript JSON or Rust memory bytes
+- a backend-dependent iteration or thread order changing branch identity, World-Will choice, commit order, or replay result
+- faster execution obtained by pruning expensive lawful branches without an in-world equivalence or collapse law
+- a supposedly portable BIR that embeds Node callbacks, Rust-specific types, one CPU instruction set, or an implicit scalar time
+- canonical encoding that cannot preserve unknown future semantic sections without pretending to understand them
+
+First check:
+
+Complete the 5.x portable-core inventory and encode one narrow stable vertical slice as a semantic conformance fixture without implementing Rust. The fixture must expose exact values, an internal causal frontier, lifecycle or commit provenance, and one honest resource boundary. Rust implementation starts only after that contract survives adversarial review.

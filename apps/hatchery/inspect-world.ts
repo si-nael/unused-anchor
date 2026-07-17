@@ -10,7 +10,7 @@ type InspectionSection = "summary" | "decision" | "continuations" | "formal-evid
 async function main(): Promise<void> {
     const { executionArgs, section } = parseArgs(process.argv.slice(2));
     const { inputPath, outputPath, options } = parseCausalExecutionArgs(executionArgs);
-    if (!inputPath) throw new Error("Usage: tsx apps/hatchery/inspect-world.ts <program.json> [output.json] [--section <section>] [causal options]");
+    if (!inputPath) throw new Error("Usage: tsx apps/hatchery/inspect-world.ts <program.json|causal.bubble> [output.json] [--section <section>] [causal options]");
     const program = await readCausalProgram(inputPath);
     const inspection = inspectAnchoredCausalRun(realizeAnchoredCausalWorld(program, options));
     await emitCausalJson(selectSection(inspection, section), outputPath);

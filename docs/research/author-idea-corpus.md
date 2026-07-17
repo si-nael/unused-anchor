@@ -1,6 +1,6 @@
 # Author Idea Corpus
 
-Last reconciled: 2026-07-15
+Last reconciled: 2026-07-17
 
 ## Purpose
 
@@ -148,6 +148,60 @@ Engineering interpretation:
 
 - Later implementation convenience may not silently replace the earlier sea-anchor and independent-world ontology.
 - Correct mistaken narrowing by forward generalization, preserve immutable prior releases and idea records, and keep remaining consequences open.
+
+## 2026-07-17 Conversation Corpus
+
+### AI-20260717-001: Can Bubble exceed the Turing-machine boundary?
+
+> 근데 이 버블 우주가 명시적 또는 암시적으로 튜링 기계의 한계를 넘어설 수는 없나?
+
+Engineering interpretation:
+
+- The question is not satisfied by Turing completeness, large computation, parallel branches, unbounded generative descriptions, or self-modifying code.
+- Research must distinguish finite effective execution, intensional or axiomatic denotation, oracle-relative computation, transfinite causal rules, exact-continuum assumptions, and physical hypercomputation.
+- A Bubble may be ontologically richer than either an internal being or the host can decide, but inaccessible world truth must not be reported as a computed answer.
+- Any non-Turing capability requires typed provenance for the extra resource. World Will, anchors, seas, randomness, exact values, and self-reference may not become unexplained oracle names.
+
+### AI-20260717-002: Preserve it as an independent research question
+
+> 응. 독립 연구 질문이 엄청 많아. 하지만 이것도 잘 정리해서 넣을 필요가 있네
+
+Engineering interpretation:
+
+- Preserve the question as its own research frontier rather than compressing it into Q-020's finite representation of infinity.
+- Record its distinctions, non-claims, falsification cases, implementation obligation, and first research gate without selecting a release or claiming present support.
+
+### AI-20260717-003: Do not leave the Bubble execution authority trapped in TypeScript
+
+> 좋아. 근데 바이너리부터 구동 엔진을 쌓아나가야 하는거 아니야? 음... ts로만 계속 뭔가 돼?
+
+Engineering interpretation:
+
+- The present TypeScript runtime remains valuable as an executable semantic reference, test oracle, authoring surface, and inspection tool, but it must not silently become the only physical realization of Bubble.
+- A native execution authority needs an explicit, machine-independent semantic contract rather than a rewrite that guesses at behavior from TypeScript implementation details.
+- Binary storage is not itself the semantics. Freeze typed values, causal transitions, effects, identity, provenance, and replay meaning before freezing their byte layout.
+
+### AI-20260717-004: Efficient execution must remain portable across computational substrates
+
+> 그리고 점점 실행이 무거워질텐데, 적어도 앞으로 버블이 이식될 컴퓨팅 체계나, 또는 컴퓨팅 체계를 넘어선 무언가가 될진 모르겠지만 지금 컴퓨팅 체게 안에서 구동될때는 빠르게 구동되어야하잖아. 언어를 바이너리부터 짜는건 효율이 안좋으려나?
+
+Engineering interpretation:
+
+- Performance is part of realizability on present computers, but Bubble semantics must not be identified with one CPU instruction set, runtime, accelerator, or host scheduling order.
+- The dominant risks are combinatorial branching, state copying, exact arithmetic, dependency recomputation, and eager materialization of intensional structure; a binary parser alone does not solve them.
+- A typed semantic graph or Bubble intermediate representation should permit deterministic interpretation, native compilation, incremental execution, structural sharing, symbolic or lazy evaluation, and later CPU, accelerator, distributed, or other substrate backends without changing world meaning.
+- Host work, memory, and evaluation cost are external realization measurements. They must not be smuggled into a Bubble as a universal internal clock.
+
+### AI-20260717-005: Close the 5.x semantic core before beginning the Rust 6.x substrate
+
+> 지금 나온 아이디어랑 질문들 빠짐없이 정리부터 하고, 5.x버전에서 핵심 부분중에 안한거 잘 해서 적당히 완결한다음에, 6.x버전부터 rust 로 넣어보자.
+
+Engineering interpretation:
+
+- Preserve the execution, binary-representation, portability, and performance questions before implementation.
+- Use the remaining `v0.5.x` line to complete a bounded, portable semantic core and its conformance evidence rather than mixing an unfinished ontology with a simultaneous implementation-language rewrite.
+- Begin Rust implementation only in `v0.6.x`. Rust is the first native physical backend, not the definition or philosophical boundary of Bubble.
+- This sequencing does not close the wider universe, discard TypeScript, begin Phase 2 observation, or reopen recursive self-construction.
 
 ## Non-Closure Rule
 

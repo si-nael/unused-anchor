@@ -10,6 +10,96 @@ The point is to keep visible the classes of failure that show where Bubble's own
 
 ## 2026-07-17
 
+### B-034: Parseable reversibility crossed into an unauthorable inverse contract
+
+Observed surface:
+
+The strict `causal bubble` profile accepted the `reversible` law marker but exposed no source form for inverse effects. Every reversible law could therefore be parsed while necessarily failing the shared causal validator, creating a language surface that could be named but never honestly executed.
+
+Boundary meaning:
+
+Syntactic availability crossed the executable-semantics membrane. The same audit also found that symbol and boolean order comparisons could reach runtime even though their order has no declared Bubble meaning.
+
+Current handling:
+
+`law-inverse` now authors exact opposite additive effects for reversible laws, and the existing causal validator checks the complete reciprocal contract. The compiler rejects ordered comparison over symbols or booleans and permits only equality or inequality for those values. Focused positive and negative regressions cover both boundaries.
+
+Next check:
+
+Require every future causal-language form to have one complete lowering and validation path before documenting it as executable. Do not infer an ordering on a value domain unless that order is explicitly part of the semantic graph.
+
+### B-033: Descriptive spawn and collapse crossed into executable lifecycle
+
+Observed surface:
+
+The earlier `.bubble` IR already contained `spawn` and `collapse` effect roles, while the newer causal kernel had real birth and retirement events. Reusing the old words as if they already had the new runtime contract would fabricate causal history from capability metadata and would also confuse observation collapse with world retirement.
+
+Boundary meaning:
+
+Similar vocabulary crossed a semantic-version membrane. A declared possibility, an observation-induced local materialization, a branch-nonrealized event, a causal birth, and a retirement residue are different objects even when prose uses `spawn` or `collapse` for several of them.
+
+Current handling:
+
+The old profiles remain unchanged. A separate strict `causal bubble` profile explicitly declares worlds, exact fields, sea coupling, anchors, objectives, local laws, lifecycle effects, and commits, then lowers into the existing causal program validator and runtime. No legacy effect role is promoted into executed history.
+
+Next check:
+
+Extend the causal language only through typed cross-world anchor/sea transfer and the portable semantic graph. Do not merge the two language surfaces until a compatibility proof can preserve every older meaning.
+
+### B-032: A second active world exposed an unanchored guard channel
+
+Observed surface:
+
+State-bound predicate bindings were originally generic enough that an internal law could name a field in another world. With only one canonical causal world this did not execute a hidden transfer, but causal birth makes the shortcut immediately usable.
+
+Boundary meaning:
+
+Convenient predicate reuse crossed the anchor membrane. Information could move between active worlds without an anchor identity, transfer kind, or causal provenance.
+
+Current handling:
+
+Internal-law guards may bind only fields in their own world. Cross-world guard bindings are rejected until a typed anchor-transfer contract exists. World-Will global constraints remain separate from internal local law.
+
+Next check:
+
+Design cross-world transfer only together with anchor identity, source and target ports, transferred value or relation, sea interaction, and replay evidence.
+
+### B-031: A retired world crossed back into latent initialization during persistent continuation
+
+Observed surface:
+
+The persistence coalgebra previously resumed only exact field coordinates. If lifecycle were added only to one causal run, the next closure would reconstruct a declared latent world from its initial definition and could execute its birth again.
+
+Boundary meaning:
+
+Configuration recurrence crossed into identity erasure. Equal field coordinates do not imply equal world existence: latent, active, and retired phases carry different causal histories.
+
+Current handling:
+
+Persistent closure forwards typed lifecycle state and provenance beside field overrides. Configuration digests include lifecycle, retired sources cannot run laws, and a retired spawn target is not latent and cannot be born again.
+
+Next check:
+
+Require persistent stored replay and tamper regressions to preserve lifecycle phase, lineage, and residue across every selected path.
+
+### B-030: Latent initialized coordinates crossed into active-world behavior
+
+Observed surface:
+
+A latent world still needs intensional field definitions so that its eventual birth is exact. Treating those initialized potential coordinates like ordinary active state would let its laws, objectives, constraints, anchors, and sea traces act before the birth event.
+
+Boundary meaning:
+
+Representability crossed into existence. A finite definition of a possible world was being mistaken for a realized world.
+
+Current handling:
+
+Lifecycle phase gates internal laws, predicate applicability, World-Will objectives and interventions, and anchor activity. Initial latent sea values are computed without active coupling trace; causal birth activates the world, emits the coupling trace, and becomes the direct cause of the child's fields.
+
+Next check:
+
+Test newly activated and retired anchors in the canonical world, and keep observation-materialized regions separate from causal-world birth.
+
 ### B-029: A plural run surface crossed into duplicate single-world evidence
 
 Observed surface:

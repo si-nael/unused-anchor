@@ -30,7 +30,7 @@ Use the current minimum schema as the `v0.4` baseline and revise it only when a 
 
 ### Q-002: How should the negative sea be represented operationally?
 
-Status: partially answered through v0.5.5
+Status: partially answered through v0.5.6
 
 Question:
 
@@ -108,7 +108,7 @@ Extend identity only from a concrete same-world counterexample, semantic migrati
 
 ### Q-005: When does replay return to the same world?
 
-Status: partially answered through v0.5.5
+Status: partially answered through v0.5.6
 
 Question:
 
@@ -124,6 +124,7 @@ Current implementation:
 - persistent causal records additionally preserve exact closure cycles, derived-component assessments, memory counterfactuals, maintenance evidence, and stored-run integrity across re-execution
 - teleonomic records preserve the exact invariant component kernel, every same-program response-event nonrealization witness, every per-response memory-erasure verdict, path-universal World-Will-disabled/all-anchors-cut autonomy evidence, and stored-run integrity across re-execution
 - v0.5.5 causal records preserve every endogenous maximal-frontier branch, its realized/nonrealized law lineage, exhaustive branch verdict, branch-local World-Will candidates, and exact selected plural continuations
+- v0.5.6 records preserve finite world birth/retirement phase, lineage, residue, dormant surfaces, persistent continuation, source-lowered program identity, and exact replay
 
 Remaining gap:
 
@@ -160,7 +161,7 @@ Measure one expanding lineage using bounded materialization and replay storage b
 
 ### Q-007: When does a latent world become committed history?
 
-Status: partially answered through v0.4.9
+Status: branch execution completed in v0.5.5; bounded causal birth and retirement completed in v0.5.6
 
 Question:
 
@@ -199,7 +200,7 @@ Reopen this decision only if representative bubble-native tasks repeatedly requi
 
 ### Q-009: How can the language raise the representability frontier without becoming opaque?
 
-Status: partially answered through v0.4.9
+Status: partially answered through v0.5.6
 
 Question:
 
@@ -232,15 +233,17 @@ Current implementation:
 
 - all eight candidate effects are parsed, validated, lowered, typed by requirement and scope, and projected into separate declaration, obligation, permission, pressure, event, and trace roles
 - concrete runtime effects emit provenance-bearing evidence and `v0.4.8` causal links without inventing executed targets for potential capabilities
+- `branch` has a concrete v0.5.5 maximal-commuting-frontier transition and nonrealization record
+- bounded `v0.5.6` distinguishes `spawn-world`, branch nonrealization, observation materialization, and `retire-self`; it records lifecycle phase, lineage, causes, residue, persistence, inspection, strict source lowering, and replay
 
 Remaining gap:
 
-- `branch` and retirement `collapse` still lack concrete executed transition record types
-- primitive completeness has not been tested against a demanding multi-world experiment
+- the earlier descriptive `.bubble` effect surface intentionally remains distinct from executable causal lifecycle; the strict `causal bubble` profile supplies the explicit lowering instead
+- broader multi-world primitive completeness, typed cross-world transfer, dynamic schema generation, and population semantics remain open
 
 Next check:
 
-Do not add another primitive until a concrete transition cannot be represented by the current eight. Add branch or retirement records only when the runtime actually executes those transitions.
+Do not add another primitive until a concrete transition cannot be represented by the current typed effects. Next specify cross-world anchor/sea transfer from a concrete membrane requirement without merging observation collapse, branch nonrealization, birth, and retirement.
 
 ### Q-011: What work can only Bubble do cleanly?
 
@@ -408,7 +411,7 @@ Preserve the current bounded semantics through `v0.4.9`. Reopen the proof shape 
 
 ### Q-018: How can a bubble realize itself through world will rather than an external chooser?
 
-Status: implemented bounded baseline through v0.5.5
+Status: implemented bounded baseline through v0.5.6, including finite endogenous world lifecycle
 
 Question:
 
@@ -427,21 +430,22 @@ Current implementation:
 - the v0.5.4 teleonomic layer derives responses from causally regenerated internal state and causal law rather than an action menu, universally checks same-program response-event nonrealization and per-response memory erasure, and disables World Will and all anchors without adding a host selector
 - the v0.5.5 causal kernel optionally derives every maximal commuting frontier of simultaneously enabled laws as a real autonomous continuation, records excluded alternatives as nonrealized, and refuses partial branch selection under exhausted bounds
 - every autonomous branch receives separate anchor identity and World-Will evaluation; branching intervention consequences remain set-valued and are compared by guaranteed minimum exact improvement without selecting one internal outcome
+- bounded `v0.5.6` lets internal irreversible law events actualize a declared latent world or retire their own source world, preserves lineage and residue, keeps inactive anchors dormant, carries phase through persistence and replay, and lowers the same contract from strict causal source
 
 Remaining gap:
 
 - the original `.bubble` self-realization path still evaluates one scalar frontier; the v0.5.4 recurrence and teleonomic proof is bounded to one exact actor-neutral field structure rather than a persistent story or general open-ended process
-- causal branch actualization is now concrete in the anchored-causal kernel, but `spawn` and `collapse` still do not execute concrete causal-world artifacts or retirement records from self-realization
+- causal birth and retirement execute in bounded `v0.5.6`, and a separate strict `causal bubble` profile lowers explicit lifecycle source into that same contract without reinterpreting the original descriptive `.bubble` self-realization path
 - transformations currently change one scalar coordinate at a time
 - narrative consequences feed exact local sea-coupled viability but not a global multi-world sea/anchor dynamics calculus
 
 Next check:
 
-Reopen from a concrete persistent-story, causal spawn/collapse artifact, relationship-affordance, or cross-world sea/anchor requirement. Preserve explicit termination, provenance, exhaustive plurality, and no hidden scheduler.
+Proceed to typed cross-world anchor/sea transfer without weakening the completed lifecycle boundary. Preserve explicit termination, provenance, exhaustive plurality, and no hidden scheduler; do not rename predeclared latent actualization as dynamic schema or population generation.
 
 ### Q-019: What does time mean inside a bubble universe?
 
-Status: partially implemented through v0.5.5
+Status: partially implemented through v0.5.6 with bounded lifecycle-history evidence
 
 Question:
 
@@ -459,6 +463,7 @@ Current implementation:
 - the persistent causal runtime records an exact closure coalgebra and finite lasso recurrence certificate while keeping `universalClock: false`; closure numbers are proof coordinates rather than duration
 - the teleonomic runtime analyzes a period-two invariant set in causal-closure coordinates without turning phase, closure count, or host evaluation order into universal or metric time
 - endogenous branches share a causal prefix and then carry separate partial orders and histories; branch ids and enumeration order are proof coordinates, not a universal time axis
+- causal birth and retirement remain non-metric partial-order events; because their lineage and phase survive continuation, bounded `v0.5.6` records `world-lifecycle` as a history-arrow source separately from explicit `history-commit`
 
 Remaining gap:
 
@@ -560,7 +565,7 @@ Reopen only after all earlier idea obligations are realized, the current Bubble 
 
 ### Q-023: How can protagonists, agency, and stories arise without being forced into every world?
 
-Status: implemented actor-neutral generative, persistent, teleonomic-capacity, and endogenous-branching baselines through v0.5.5; agency remains open
+Status: implemented actor-neutral generative, persistent, teleonomic-capacity, endogenous-branching, and finite-lifecycle baselines through v0.5.6; agency remains open
 
 Question:
 
@@ -584,6 +589,7 @@ Current implementation:
 - `v0.5.4` derives finite bounded invariant viability kernels without an authored goal, recognizes response laws only under pairwise-disjoint states causally regenerated by the response cycle, and universally verifies through same-program event nonrealization and memory erasure that each factual response occurrence is necessary and semantically memory-dependent
 - disabling World Will and cutting every anchor preserves the same persistent viability kernel; no host-side affordance menu or selector is present
 - `v0.5.5` records real autonomous branch lineage, preserves common commuting laws across every maximal frontier, evaluates World Will separately on each branch, and unfolds boundary-, identity-, and memory-bearing persistence on both formation paths
+- `v0.5.6` adds internal-law birth and self-retirement over a finite declared-world graph, with dormant prebirth surfaces, lineage, retained residue, strict source lowering, persistence, and replay, without requiring an agent or story
 
 Remaining gap:
 
@@ -659,3 +665,102 @@ Remaining gap:
 Next check:
 
 A later version may add the smallest organically generated relation or preference-bearing selector whose causal evidence can distinguish teleonomic response and world branching from agency. Keep `agent`, `protagonist`, and `story` as stronger conclusions rather than schema names. `v0.5.5` extends the causal kernel forward without changing the completed bounded `v0.5.4` teleonomic contract.
+
+### Q-026: Can a Bubble universe explicitly or implicitly exceed the limits of a Turing machine?
+
+Status: open independent foundational question; no release selected and no current hypercomputation claim
+
+Question:
+
+Can Bubble support a world whose existence, causal structure, or accessible computation is genuinely wider than ordinary Turing computability, while distinguishing that claim from merely denoting infinity, running an unbounded computable process, preserving nondeterministic branches, or hiding non-computable information in an unexplained primitive?
+
+Distinctions in force:
+
+- the present TypeScript host and every current finite exact runtime transition remain effectively computable
+- a finite intensional definition may denote an infinite-dimensional or even non-computably characterized mathematical object without enabling the host to calculate every fact about it
+- truth or existence in a Bubble, causal accessibility to an internal being, and effective evaluability by the host are three different relations
+- an oracle-bearing anchor could support relative computation only if its source, degree, query, answer, causal route, trust, and replay provenance are explicit
+- successor and limit positions in a no-universal-clock causal order could define transfinite semantics, but symbolic limit reasoning is not proof that a finite host completed infinitely many steps
+- exact arbitrary reals or physical measurements may contain non-computable information and therefore require provenance rather than being treated as free numeric primitives
+- a physical hypercomputation claim depends on the actual substrate; simulating an ideal infinite-time, exact-analog, or Malament-Hogarth model on a conventional host does not transfer the idealized power to that host
+
+Current precursors:
+
+- Q-020 and `src/bubbles/world-kernel/intensional.ts` provide finite typed definitions of countably infinite families, demand-driven coordinates, guarded natural recursion, proof traces, and honest `undetermined` budget exhaustion
+- Q-019 separates causal order, reversibility, recurrence, branching, and committed history from one universal scalar clock
+- anchors already carry identity, route, permission, and causal provenance in bounded local executions, but they do not carry oracle degrees or non-computable answers
+- inspection, stored evidence, replay integrity, and immutable author obligations provide the record surfaces needed to distinguish effective results from external or axiomatic dependencies
+- v0.5.5 preserves every finite maximal commuting branch but does not perform an infinite branch completion or decide an undecidable predicate
+
+Required semantic boundary before implementation:
+
+- classify results at least as `effective`, `relative-oracle`, `limit-derived`, `axiomatic`, `undetermined`, or `contradicted`
+- specify which capabilities belong to the world, an internal being, an anchor relation, the host evaluator, or a physical substrate
+- prohibit World Will, positive or negative seas, random choice, branching, self-modification, recursive self-construction, and exact constants from acting as untyped oracle shortcuts
+- give each non-effective result a replay contract that preserves the external answer, limit rule, or axiom dependency without relabeling it as deterministic host re-execution
+- retain `undetermined` whenever the available computational relation cannot decide the query
+
+First research gate:
+
+Compare one purely effective Bubble, the same Bubble with a typed oracle-bearing anchor, one symbolic limit-stage Bubble, and one invalid world that hides oracle information in an unexplained exact constant. Prove where the additional computational strength enters, what an internal being can access, what the host actually evaluates, and what replay can reproduce. Do not schedule implementation until this model is coherent with anchor identity, no-universal-clock order, and the wider Bubble completion obligations.
+
+Research note:
+
+- [Trans-Turing Bubble Semantics](trans-turing-bubble-semantics.md)
+
+### Q-027: What representation is the portable execution authority of Bubble?
+
+Status: open; selected as a remaining 5.x semantic-core question before Rust 6.x
+
+Question:
+
+How can Bubble have one exact executable meaning that is independent of TypeScript, JSON, Rust, a particular CPU instruction set, or a future physical substrate, while still admitting compact binary storage and optimized execution?
+
+Current evidence:
+
+- the TypeScript runtimes already provide typed world definitions, exact rational and integer values, causal frontiers, lifecycle evidence, persistence, inspection, stored records, and deterministic same-program re-execution
+- `.bubble` already lowers into a typed AST and JSON-like IR for earlier language surfaces, while the causal-world kernels currently accept separate typed program objects
+- current digests depend on a stable JavaScript serialization convention and Node SHA-256 rather than a separately specified canonical byte contract
+- no BIR opcode/value algebra, engine ABI, canonical binary encoding, unknown-extension preservation rule, or cross-runtime conformance suite exists
+- bounded `v0.5.6` proves that strict causal `.bubble` source for exact worlds, local laws, sea coupling, anchors, objectives, birth, retirement, inverses, and commits can lower into the existing typed program and replay path; it is a source-to-kernel bridge, not yet a machine-independent BIR
+
+Required 5.x boundary:
+
+- specify a typed semantic graph and exact value algebra for the stable core without freezing unsettled research concepts as closed enums
+- distinguish semantic identity, canonical encoding, storage framing, and backend instruction selection
+- preserve unknown versioned extensions without silently executing or deleting them
+- define deterministic event, branch, lifecycle, anchor, sea, commit, and provenance ordering wherever order is semantic, and canonicalize only where it is not
+- produce implementation-independent conformance fixtures from the existing TypeScript oracle before Rust implementation begins
+
+Non-claims:
+
+- a binary encoding is not more ontologically real than a typed graph
+- emitting JavaScript, native code, or WebAssembly does not by itself prove same-world identity
+- the 5.x contract does not make Rust, TypeScript, or one machine architecture part of Bubble semantics
+
+### Q-028: How can Bubble execute efficiently without changing its worlds?
+
+Status: open; selected as a cross-substrate performance contract spanning late 5.x and Rust 6.x
+
+Question:
+
+How should an increasingly heavy Bubble execute quickly on present computers and remain portable to later computational or nonstandard physical substrates, without host heuristics deleting lawful branches, approximating exact world truth, imposing a universal clock, or changing causal results?
+
+Current cost boundary:
+
+- maximal-frontier and intervention search can grow combinatorially, so faster parsing cannot remove the dominant semantic cost
+- current runtimes clone structured state, repeatedly hash JSON-like evidence, and evaluate exact closures in TypeScript under Node
+- exact intensional families already avoid eager enumeration for one class of infinite-dimensional structures, but causal state and branch execution do not yet have a general sparse, incremental, or compiled representation
+- proof and branch budgets honestly return `undetermined`; optimization must preserve this honesty instead of selecting a convenient partial answer
+
+Required contract:
+
+- measure host work, memory, and materialization independently from internal Bubble time or causal order
+- allow structural sharing, dependency-indexed incremental evaluation, symbolic and lazy values, compiled laws, deterministic parallelism, and backend-specific acceleration only when observational and replay equivalence are proved
+- preserve every lawful branch unless a Bubble law supplies a typed equivalence, dominance, quotient, or collapse relation
+- record precision, external resources, nondeterministic hardware effects, and non-effective inputs as provenance rather than silently widening computational power
+- compare TypeScript reference execution and later Rust execution on exact output, event ledger, digest, resource exhaustion, and adversarial boundary cases
+
+First check:
+
+Profile one branch-heavy, one exact-arithmetic, one intensional, and one persistent-lifecycle fixture under a semantics-preserving cost model. Use those results to choose representations and compilation boundaries; do not choose a binary layout solely from intuition.

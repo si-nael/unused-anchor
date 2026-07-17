@@ -1,8 +1,8 @@
 # Anchored Causal World Reference
 
-Applies to: `bubble-anchored-causal-world.v2`, `bubble-anchored-causal-program.v2`, and `v0.5.2` through `v0.5.5`
+Applies to: `bubble-anchored-causal-world.v2`, `bubble-anchored-causal-program.v2`, and `v0.5.2` through `v0.5.6`
 
-Compatibility note: `v0.5.3` unfolds this once-per-realization contract through the separate [Persistent Causal World](persistent-causal-world.md) layer. `v0.5.5` adds opt-in endogenous internal branching while preserving the previous default.
+Compatibility note: `v0.5.3` unfolds this once-per-realization contract through the separate [Persistent Causal World](persistent-causal-world.md) layer. `v0.5.5` adds opt-in endogenous internal branching while preserving the previous default. `v0.5.6` adds finite declared-world lifecycle and strict source lowering.
 
 ## Program Shape
 
@@ -36,8 +36,11 @@ Each law has:
 - `application: once-per-realization`;
 - `reversible` with exact additive `inverseEffects`, or `irreversible`;
 - optional `commitAffectedFieldIds` for an explicit irreversible history record.
+- optional irreversible `lifecycleEffects` containing `spawn-world(targetWorldId)` or `retire-self`.
 
 The runtime repeatedly evaluates all unresolved guards. All true commuting laws form one causal frontier. An unresolved guard or exhausted frontier budget returns `underdetermined`.
+
+Internal-law guard bindings are local to the law's own world. A cross-world binding is rejected until Bubble has a typed anchor-transfer contract; an ordinary predicate parameter cannot bypass the anchor membrane.
 
 `execution.internalConflictMode` has two meanings:
 
@@ -50,6 +53,16 @@ Two same-field effect sets commute when their order cannot change the result. Ad
 
 `maxInternalBranches` bounds generated branch states. If either the branch or frontier bound prevents exhaustive preservation, execution is `underdetermined`; the runtime never selects a prefix of enumerated branches.
 
+## Active Lifecycle Candidate
+
+A world may declare `initialExistence: latent`; omitted existence remains active for compatibility. A latent world's exact initial coordinates describe potential state, but its laws, objectives, constraints, interventions, active sea trace, and anchors remain dormant.
+
+`spawn-world` may target only another declared latent world. All commuting same-target birth effects in one frontier become one `world-spawn` event with every source and causing law, derived lineage, and `hostSelection: false`. The spawn event causes the child's fields, so child laws cannot run before birth and cite birth when their guards first consume those fields.
+
+`retire-self` may end only the law's own active world. Retirement preserves the exact final fields, state digest, local negative-sea coordinate, retained commit ids, lineage, and causal source. It stops later activity without deleting the world. Branch nonrealization and observation-induced local materialization are separate event classes.
+
+Bounded `v0.5.6` actualizes a finite declared latent graph. A separate strict `causal bubble` source profile lowers explicit exact lifecycle declarations into this contract while leaving the original descriptive `.bubble` effect syntax unchanged. It does not generate new field schemas, law schemas, populations, typed cross-world transfer, or an open-ended multiverse.
+
 ## Anchors And World Will
 
 An anchor has world or unresolved-relation endpoints, exact identity predicate families, and permitted intervention kinds. An intervention names one reached world, one anchor, one permitted kind, and exact field effects.
@@ -59,6 +72,8 @@ World Will may directly affect only `world-condition`, `boundary-state`, the two
 `maximize` and `minimize` score the exact weighted field. `stabilize` must declare an exact rational `targetValue` and scores the negative exact distance from that target. There is no implicit zero equilibrium.
 
 Anchor identity is checked both before intervention eligibility and after the intervention plus internal causal closure. A candidate that destroys any declared anchor identity is inadmissible; an unresolved post-state identity makes the candidate `undetermined`.
+
+An anchor with a latent or retired world endpoint is dormant, and an intervention targeting an inactive world is blocked. Objectives and hard constraints apply to active worlds. World Will has no lifecycle opcode: it may change an admitted condition through an active anchor, after which the world may respond through its own law.
 
 The power-set cardinality is computed exactly with `bigint`, while candidate subsets are generated lazily only up to the configured bound. The runtime never allocates the full intervention power set before applying the bound.
 
@@ -88,7 +103,7 @@ The criterion is generic. Domain-specific claims such as life, agency, protagoni
 
 ## Causal Order
 
-Runs always report `kind: causal-partial-order` and `universalClock: false`. `evaluationOrder` and `evaluationFrontiers` make host execution reproducible but do not assign physical time. `causalEdges` carry semantic dependence. `createsHistoryArrow` becomes true only when an explicit history commit exists.
+Runs always report `kind: causal-partial-order` and `universalClock: false`. `evaluationOrder` and `evaluationFrontiers` make host execution reproducible but do not assign physical time. `causalEdges` carry semantic dependence. Explicit commits create committed history. In lifecycle-aware runs, durably retained birth or retirement provenance also creates a separate `world-lifecycle` history-arrow source.
 
 ## Commands
 
@@ -100,8 +115,11 @@ npm run replay:causal-example
 npm run verify:causal
 npm run verify:causal-example
 npm run verify:branching-example
+npm run verify:lifecycle
+npm run verify:lifecycle-example
+npm run verify:lifecycle-language-example
 ```
 
 Common direct options are `--disable-world-will`, repeated `--cut-anchor <id>`, `--evaluation-budget <n>`, `--max-intervention-combinations <n>`, `--max-internal-frontiers <n>`, and `--max-internal-branches <n>`.
 
-Replay stores the complete typed program and options, verifies that the stored run still hashes to `recordedDigest`, verifies that its program digest matches the stored program, re-executes, and compares the complete run plus selected continuation identities, unresolved alternatives, and emergence assessments. A modified stored run is `reexecution-drift`, even if its selection labels remain unchanged. This is deterministic same-program continuity, not a universal cross-version same-world theorem.
+Replay stores the complete typed program and options, verifies that the stored run still hashes to `recordedDigest`, verifies that its program digest matches the stored program, re-executes, and compares the complete run plus selected continuation identities, unresolved alternatives, emergence assessments, and lifecycle state/events when present. A modified stored run is `reexecution-drift`, even if its selection labels remain unchanged. This is deterministic same-program continuity, not a universal cross-version same-world theorem.

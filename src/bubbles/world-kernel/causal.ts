@@ -29,6 +29,7 @@ export interface CausalFieldBinding {
 
 export interface CausalWorldDefinition {
     id: string;
+    initialExistence?: "active" | "latent";
     fields: CausalFieldBinding[];
     protectedFieldIds: string[];
     seaCoupling: {
@@ -60,6 +61,10 @@ export interface CausalFieldEffect {
     operation: "add" | "subtract" | "set";
     value: ExactValue;
 }
+
+export type CausalWorldLifecycleEffect =
+    | { kind: "spawn-world"; targetWorldId: string }
+    | { kind: "retire-self" };
 
 export interface CausalAnchorDefinition {
     id: string;
@@ -109,6 +114,7 @@ export interface CausalInternalLaw {
     worldId: string;
     guard: CausalStatePredicate;
     effects: CausalFieldEffect[];
+    lifecycleEffects?: CausalWorldLifecycleEffect[];
     application: "once-per-realization";
     reversibility: "reversible" | "irreversible";
     inverseEffects?: CausalFieldEffect[];
@@ -238,8 +244,9 @@ function validateEffects(
     path: string,
     world: CausalWorldDefinition | undefined,
     diagnostics: CausalDiagnostic[],
+    requireNonEmpty = true,
 ): void {
-    if (effects.length === 0) {
+    if (requireNonEmpty && effects.length === 0) {
         diagnostics.push(issue("CKW010", path, "a transition needs at least one exact field effect"));
     }
     duplicates(effects.map((effect) => effect.fieldId)).forEach((fieldId) => diagnostics.push(
@@ -308,6 +315,9 @@ export function validateAnchoredCausalWorld(system: AnchoredCausalWorldSystem): 
     for (const [worldIndex, world] of system.worlds.entries()) {
         const worldPath = `worlds[${worldIndex}]`;
         if (!IDENTIFIER.test(world.id)) diagnostics.push(issue("CKW019", `${worldPath}.id`, "world id must be stable"));
+        if (world.initialExistence !== undefined && !["active", "latent"].includes(world.initialExistence)) {
+            diagnostics.push(issue("CKW073", `${worldPath}.initialExistence`, "initial existence must be active or latent"));
+        }
         if (world.fields.length === 0) diagnostics.push(issue("CKW053", `${worldPath}.fields`, "a world needs exact state fields"));
         duplicates(world.fields.map((field) => field.id)).forEach((id) => diagnostics.push(
             issue("CKW020", `${worldPath}.fields`, `duplicate field id '${id}'`),
@@ -459,8 +469,45 @@ export function validateAnchoredCausalWorld(system: AnchoredCausalWorldSystem): 
         }
         if (!world) diagnostics.push(issue("CKW042", `${path}.worldId`, `unknown law world '${law.worldId}'`));
         validatePredicate(law.guard, `${path}.guard`, system, worlds, fieldKinds, diagnostics);
-        validateEffects(law.effects, `${path}.effects`, world, diagnostics);
+        for (const [bindingIndex, binding] of law.guard.fieldParameters.entries()) {
+            if (binding.worldId !== law.worldId) {
+                diagnostics.push(issue(
+                    "CKW081",
+                    `${path}.guard.fieldParameters[${bindingIndex}]`,
+                    "an internal law cannot read another world without a typed anchor-transfer contract",
+                ));
+            }
+        }
+        const lifecycleEffects = law.lifecycleEffects ?? [];
+        if (law.effects.length === 0 && lifecycleEffects.length === 0) {
+            diagnostics.push(issue("CKW074", path, "an internal law needs at least one field or lifecycle effect"));
+        }
+        validateEffects(law.effects, `${path}.effects`, world, diagnostics, false);
         validateEffectKinds(law.effects, `${path}.effects`, world, families, diagnostics);
+        const lifecycleKeys = lifecycleEffects.map((effect) => (
+            effect.kind === "spawn-world" ? `spawn:${effect.targetWorldId}` : "retire:self"
+        ));
+        duplicates(lifecycleKeys).forEach((key) => diagnostics.push(
+            issue("CKW075", `${path}.lifecycleEffects`, `duplicate lifecycle transition '${key}'`),
+        ));
+        for (const [effectIndex, effect] of lifecycleEffects.entries()) {
+            const effectPath = `${path}.lifecycleEffects[${effectIndex}]`;
+            if (effect.kind === "spawn-world") {
+                const target = worlds.get(effect.targetWorldId);
+                if (!target) {
+                    diagnostics.push(issue("CKW076", `${effectPath}.targetWorldId`, `unknown spawned world '${effect.targetWorldId}'`));
+                } else if (effect.targetWorldId === law.worldId) {
+                    diagnostics.push(issue("CKW077", effectPath, "a world cannot spawn itself as a new world"));
+                } else if (target.initialExistence !== "latent") {
+                    diagnostics.push(issue("CKW078", effectPath, `spawn target '${effect.targetWorldId}' must be declared latent`));
+                }
+            } else if (effect.kind !== "retire-self") {
+                diagnostics.push(issue("CKW079", `${effectPath}.kind`, `unknown lifecycle effect '${String((effect as { kind?: unknown }).kind)}'`));
+            }
+        }
+        if (lifecycleEffects.length > 0 && law.reversibility !== "irreversible") {
+            diagnostics.push(issue("CKW080", path, "world birth and retirement are irreversible causal transitions"));
+        }
         if (law.reversibility === "reversible") {
             if (!law.inverseEffects || law.inverseEffects.length !== law.effects.length) {
                 diagnostics.push(issue("CKW043", `${path}.inverseEffects`, "reversible law needs one exact additive inverse per effect"));

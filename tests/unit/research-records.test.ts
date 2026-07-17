@@ -79,7 +79,7 @@ test("every decision and research question remains inside the tracked record str
 
     const questionLog = readRepositoryFile("docs/research/question-log.md");
     const questionIds = [...questionLog.matchAll(/^### (Q-\d+):/gm)].map((match) => match[1]);
-    assert.deepEqual(questionIds, Array.from({ length: 25 }, (_, index) => `Q-${String(index + 1).padStart(3, "0")}`));
+    assert.deepEqual(questionIds, Array.from({ length: 28 }, (_, index) => `Q-${String(index + 1).padStart(3, "0")}`));
 
     for (const questionId of questionIds) {
         const sectionStart = questionLog.indexOf(`### ${questionId}:`);
@@ -89,7 +89,7 @@ test("every decision and research question remains inside the tracked record str
     }
 });
 
-test("completed bounded v0.5.5 preserves prior kernels, the original philosophy, and every open research branch", () => {
+test("completed bounded v0.5.6 preserves prior kernels, the original philosophy, and every open research branch", () => {
     const packageManifest = JSON.parse(readRepositoryFile("package.json")) as { version: string };
     const packageLock = JSON.parse(readRepositoryFile("package-lock.json")) as {
         version: string;
@@ -106,14 +106,18 @@ test("completed bounded v0.5.5 preserves prior kernels, the original philosophy,
     const persistenceArchitecture = readRepositoryFile("docs/architecture/v0.5.3-persistent-causal-structure.md");
     const teleonomicArchitecture = readRepositoryFile("docs/architecture/v0.5.4-endogenous-teleonomy.md");
     const branchingArchitecture = readRepositoryFile("docs/architecture/v0.5.5-endogenous-causal-branching.md");
+    const lifecycleArchitecture = readRepositoryFile("docs/architecture/endogenous-world-lifecycle-candidate.md");
+    const lifecycleRelease = readRepositoryFile("docs/architecture/v0.5.6-endogenous-world-lifecycle.md");
     const manifest = JSON.parse(readRepositoryFile("package.json")) as { scripts: Record<string, string> };
 
-    assert.equal(packageManifest.version, "0.5.5");
-    assert.equal(packageLock.version, "0.5.5");
-    assert.equal(packageLock.packages[""]?.version, "0.5.5");
-    assert.ok(projectMemory.includes("the bounded endogenous-causal-branching release `v0.5.5`"));
-    assert.ok(projectMemory.includes("does not certify deliberation, agency, concrete spawn/collapse, or OB-001 whole-universe completion"));
+    assert.equal(packageManifest.version, "0.5.6");
+    assert.equal(packageLock.version, "0.5.6");
+    assert.equal(packageLock.packages[""]?.version, "0.5.6");
+    assert.ok(projectMemory.includes("bounded endogenous-world-lifecycle release `v0.5.6`"));
+    assert.ok(projectMemory.includes("does not certify deliberation, agency, dynamic schema/population generation, cross-world transport, or OB-001 whole-universe completion"));
     assert.ok(projectMemory.includes("Phase 2 observer, external-agent, and comparative benchmark work must wait"));
+    assert.ok(projectMemory.includes("Completed bounded `v0.5.6` closes the finite lifecycle-and-language gate"));
+    assert.ok(projectMemory.includes("The author explicitly selected `v0.5.6`"));
     assert.ok(architecture.includes("Status: completed bounded connected release on 2026-07-15"));
     assert.ok(architecture.includes("all thirteen gates have bounded executable evidence"));
     assert.ok(architecture.includes("not the complete Bubble universe promised by OB-001"));
@@ -132,9 +136,20 @@ test("completed bounded v0.5.5 preserves prior kernels, the original philosophy,
     assert.ok(branchingArchitecture.includes("every maximal clique of that compatibility graph"));
     assert.ok(branchingArchitecture.includes("hostSelection: false"));
     assert.ok(branchingArchitecture.includes("This is not deliberative agency"));
+    assert.ok(lifecycleArchitecture.includes("Status: completed technical precursor; released as bounded `v0.5.6`"));
+    assert.ok(lifecycleArchitecture.includes("Observation-induced materialization"));
+    assert.ok(lifecycleArchitecture.includes("Branch nonrealization"));
+    assert.ok(lifecycleArchitecture.includes("This is not schema generation"));
+    assert.ok(lifecycleRelease.includes("Status: completed bounded lifecycle-and-language release"));
+    assert.ok(lifecycleRelease.includes("latent < active < retired"));
+    assert.ok(lifecycleRelease.includes("This is causal lifecycle"));
+    assert.ok(lifecycleRelease.includes("without the host or World Will selecting either lifecycle transition"));
+    assert.ok(lifecycleRelease.includes("runtime generation of new field schemas, laws, or open-ended populations"));
     assert.ok(manifest.scripts["verify"].includes("verify:narrative-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:causal-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:branching-example"));
+    assert.ok(manifest.scripts["verify"].includes("verify:lifecycle-example"));
+    assert.ok(manifest.scripts["verify"].includes("verify:lifecycle-language-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:persistence-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:teleonomy-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:teleonomy-distributed-example"));
@@ -143,12 +158,14 @@ test("completed bounded v0.5.5 preserves prior kernels, the original philosophy,
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/self-maintaining-field.world.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/distributed-channel-field.world.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/endogenous-branching-field.world.json")));
+    assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/generational-grove.world.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/anchored-garden.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/self-organizing-field.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/self-maintaining-field.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/self-maintaining-field.teleonomic.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/distributed-channel-field.teleonomic.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/endogenous-branching-field.replay.json")));
+    assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/generational-grove.replay.json")));
     assert.ok(closurePlan.includes("Status: completed on 2026-07-15"));
     assert.ok(operations.includes("## Preservation Discipline"));
 
@@ -166,6 +183,7 @@ test("completed bounded v0.5.5 preserves prior kernels, the original philosophy,
         "Core project direction",
         "Language ambition",
         "Nondeterministic language direction",
+        "Beyond Turing without pretending the finite host is a hypercomputer",
     ]) {
         assert.ok(ideaLog.includes(`### ${heading}`), `original idea cluster '${heading}' must remain recorded`);
     }
@@ -173,20 +191,25 @@ test("completed bounded v0.5.5 preserves prior kernels, the original philosophy,
     assert.match(questionLog, /### Q-011:[\s\S]*?Status: open/);
     assert.match(questionLog, /### Q-014:[\s\S]*?Status: bounded runtime source-attribution slice completed in v0\.4\.9/);
     assert.match(questionLog, /### Q-015:[\s\S]*?Status: open and explicitly deferred beyond the v0\.5 entry gate/);
-    assert.match(questionLog, /### Q-018:[\s\S]*?Status: implemented bounded baseline through v0\.5\.5/);
-    assert.match(questionLog, /### Q-019:[\s\S]*?Status: partially implemented through v0\.5\.5/);
+    assert.match(questionLog, /### Q-018:[\s\S]*?Status: implemented bounded baseline through v0\.5\.6, including finite endogenous world lifecycle/);
+    assert.match(questionLog, /### Q-019:[\s\S]*?Status: partially implemented through v0\.5\.6 with bounded lifecycle-history evidence/);
     assert.match(questionLog, /### Q-020:[\s\S]*?Status: implemented bounded baseline in v0\.5\.1/);
     assert.match(questionLog, /### Q-021:[\s\S]*?Status: implemented bounded connected baseline in v0\.5\.1/);
     assert.match(questionLog, /### Q-022:[\s\S]*?Status: explicitly deferred until the current Bubble universe and prior idea obligations are complete/);
-    assert.match(questionLog, /### Q-023:[\s\S]*?Status: implemented actor-neutral generative, persistent, teleonomic-capacity, and endogenous-branching baselines through v0\.5\.5; agency remains open/);
+    assert.match(questionLog, /### Q-023:[\s\S]*?Status: implemented actor-neutral generative, persistent, teleonomic-capacity, endogenous-branching, and finite-lifecycle baselines through v0\.5\.6; agency remains open/);
     assert.match(questionLog, /### Q-024:[\s\S]*?Status: implemented bounded exact baseline in v0\.5\.3/);
     assert.match(questionLog, /### Q-025:[\s\S]*?Status: implemented bounded teleonomic-capacity baseline in v0\.5\.4; agency remains open/);
+    assert.match(questionLog, /### Q-026:[\s\S]*?Status: open independent foundational question; no release selected and no current hypercomputation claim/);
+    assert.match(questionLog, /### Q-027:[\s\S]*?Status: open; selected as a remaining 5\.x semantic-core question before Rust 6\.x/);
+    assert.match(questionLog, /### Q-028:[\s\S]*?Status: open; selected as a cross-substrate performance contract spanning late 5\.x and Rust 6\.x/);
     assert.ok(implementationMap.includes("`v0.5.0` implements the first organic self-realization vertical flow"));
     assert.ok(implementationMap.includes("Completed `v0.5.1` satisfies its bounded connected gate"));
     assert.ok(implementationMap.includes("Completed bounded `v0.5.2` adds the forward corrective gate"));
     assert.ok(implementationMap.includes("Completed bounded `v0.5.3` adds the first persistence-and-boundary gate"));
     assert.ok(implementationMap.includes("Completed bounded `v0.5.4` adds the teleonomic-capacity gate"));
     assert.ok(implementationMap.includes("Completed bounded `v0.5.5` adds the endogenous-causal-branching gate"));
+    assert.ok(implementationMap.includes("Completed bounded `v0.5.6` adds the endogenous-world-lifecycle and source-lowering gate"));
+    assert.ok(implementationMap.includes("This completed bounded release actualizes a finite declared latent graph"));
     assert.ok(implementationMap.includes("deliberative or simultaneous counterfactual choice, relation-mediated action"));
     assert.ok(implementationMap.toLowerCase().includes("this transition does not close or delete the partial, open, or deferred rows above"));
 });
@@ -224,5 +247,15 @@ test("author ideas remain immutable source obligations rather than prose-only me
             assert.ok(obligation.acceptanceTests.length > 0, `${obligation.id} realized status needs acceptance tests`);
         }
     }
+    const transTuring = ledger.obligations.find((entry) => entry.id === "OB-012");
+    assert.equal(transTuring?.status, "open");
+    assert.deepEqual(transTuring?.sourceIds, ["AI-20260717-001", "AI-20260717-002"]);
+    assert.ok(corpus.includes("### AI-20260717-001: Can Bubble exceed the Turing-machine boundary?"));
+    assert.ok(corpus.includes("### AI-20260717-002: Preserve it as an independent research question"));
+    const portableExecution = ledger.obligations.find((entry) => entry.id === "OB-013");
+    assert.deepEqual(portableExecution?.sourceIds, ["AI-20260717-003", "AI-20260717-004", "AI-20260717-005"]);
+    assert.ok(corpus.includes("### AI-20260717-003: Do not leave the Bubble execution authority trapped in TypeScript"));
+    assert.ok(corpus.includes("### AI-20260717-004: Efficient execution must remain portable across computational substrates"));
+    assert.ok(corpus.includes("### AI-20260717-005: Close the 5.x semantic core before beginning the Rust 6.x substrate"));
     assert.ok(ledger.sessionConstraints.some((entry) => entry.id === "SC-002" && entry.status === "in-force"));
 });

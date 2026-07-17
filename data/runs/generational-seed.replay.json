@@ -1,0 +1,3020 @@
+{
+  "mode": "bubble-anchored-causal-replay.v2",
+  "program": {
+    "mode": "bubble-anchored-causal-program.v2",
+    "world": {
+      "mode": "bubble-anchored-causal-world.v2",
+      "formal": {
+        "mode": "bubble-intensional-system.v1",
+        "families": [
+          {
+            "id": "causal-language-anchor-identity-true",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "boolean",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "boolean",
+                "value": true
+              }
+            }
+          },
+          {
+            "id": "initial-origin-seed-positive",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "rational",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          },
+          {
+            "id": "initial-origin-seed-negative",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "rational",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          },
+          {
+            "id": "initial-origin-seed-viability",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "rational",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          },
+          {
+            "id": "initial-origin-seed-structure",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "rational",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          },
+          {
+            "id": "initial-origin-seed-boundary",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "rational",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          },
+          {
+            "id": "initial-origin-seed-condition",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "rational",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          },
+          {
+            "id": "initial-descendant-seed-positive",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "rational",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          },
+          {
+            "id": "initial-descendant-seed-negative",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "rational",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          },
+          {
+            "id": "initial-descendant-seed-viability",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "rational",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          },
+          {
+            "id": "initial-descendant-seed-structure",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "rational",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          },
+          {
+            "id": "initial-descendant-seed-boundary",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "rational",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          },
+          {
+            "id": "initial-descendant-seed-condition",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "rational",
+            "parameters": [],
+            "body": {
+              "kind": "value",
+              "value": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          },
+          {
+            "id": "guard-germinate-descendant-seed",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "boolean",
+            "parameters": [
+              {
+                "name": "value",
+                "valueKind": "rational"
+              }
+            ],
+            "body": {
+              "kind": "binary",
+              "operator": "equal",
+              "left": {
+                "kind": "parameter",
+                "name": "value"
+              },
+              "right": {
+                "kind": "value",
+                "value": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              }
+            }
+          },
+          {
+            "id": "guard-retire-origin-seed",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "boolean",
+            "parameters": [
+              {
+                "name": "value",
+                "valueKind": "rational"
+              }
+            ],
+            "body": {
+              "kind": "binary",
+              "operator": "equal",
+              "left": {
+                "kind": "parameter",
+                "name": "value"
+              },
+              "right": {
+                "kind": "value",
+                "value": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            }
+          },
+          {
+            "id": "guard-form-descendant-seed",
+            "domain": {
+              "axes": [
+                {
+                  "name": "coordinate",
+                  "kind": "natural"
+                }
+              ]
+            },
+            "valueKind": "boolean",
+            "parameters": [
+              {
+                "name": "value",
+                "valueKind": "rational"
+              }
+            ],
+            "body": {
+              "kind": "binary",
+              "operator": "equal",
+              "left": {
+                "kind": "parameter",
+                "name": "value"
+              },
+              "right": {
+                "kind": "value",
+                "value": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "worlds": [
+        {
+          "id": "origin-seed",
+          "fields": [
+            {
+              "id": "positive",
+              "familyId": "initial-origin-seed-positive",
+              "role": "positive-sea"
+            },
+            {
+              "id": "negative",
+              "familyId": "initial-origin-seed-negative",
+              "role": "negative-sea"
+            },
+            {
+              "id": "viability",
+              "familyId": "initial-origin-seed-viability",
+              "role": "viability"
+            },
+            {
+              "id": "structure",
+              "familyId": "initial-origin-seed-structure",
+              "role": "structural-state"
+            },
+            {
+              "id": "boundary",
+              "familyId": "initial-origin-seed-boundary",
+              "role": "boundary-state"
+            },
+            {
+              "id": "condition",
+              "familyId": "initial-origin-seed-condition",
+              "role": "world-condition"
+            }
+          ],
+          "protectedFieldIds": [
+            "structure",
+            "boundary"
+          ],
+          "seaCoupling": {
+            "positiveFieldId": "positive",
+            "negativeFieldId": "negative",
+            "viabilityFieldId": "viability"
+          }
+        },
+        {
+          "id": "descendant-seed",
+          "initialExistence": "latent",
+          "fields": [
+            {
+              "id": "positive",
+              "familyId": "initial-descendant-seed-positive",
+              "role": "positive-sea"
+            },
+            {
+              "id": "negative",
+              "familyId": "initial-descendant-seed-negative",
+              "role": "negative-sea"
+            },
+            {
+              "id": "viability",
+              "familyId": "initial-descendant-seed-viability",
+              "role": "viability"
+            },
+            {
+              "id": "structure",
+              "familyId": "initial-descendant-seed-structure",
+              "role": "structural-state"
+            },
+            {
+              "id": "boundary",
+              "familyId": "initial-descendant-seed-boundary",
+              "role": "boundary-state"
+            },
+            {
+              "id": "condition",
+              "familyId": "initial-descendant-seed-condition",
+              "role": "world-condition"
+            }
+          ],
+          "protectedFieldIds": [
+            "structure",
+            "boundary"
+          ],
+          "seaCoupling": {
+            "positiveFieldId": "positive",
+            "negativeFieldId": "negative",
+            "viabilityFieldId": "viability"
+          }
+        }
+      ],
+      "anchors": [
+        {
+          "id": "origin-seed-anchor",
+          "endpoints": [
+            {
+              "kind": "world",
+              "worldId": "origin-seed",
+              "portId": "origin-boundary"
+            }
+          ],
+          "identityPredicateFamilyIds": [
+            "causal-language-anchor-identity-true"
+          ],
+          "permittedInterventionKinds": [
+            "condition"
+          ]
+        },
+        {
+          "id": "descendant-seed-anchor",
+          "endpoints": [
+            {
+              "kind": "world",
+              "worldId": "descendant-seed",
+              "portId": "descendant-boundary"
+            }
+          ],
+          "identityPredicateFamilyIds": [
+            "causal-language-anchor-identity-true"
+          ],
+          "permittedInterventionKinds": [
+            "condition"
+          ]
+        }
+      ],
+      "worldWill": {
+        "id": "generational-seed-will",
+        "objectives": [
+          {
+            "id": "preserve-origin-seed",
+            "targetWorldId": "origin-seed",
+            "fieldId": "viability",
+            "direction": "maximize",
+            "weight": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          {
+            "id": "preserve-descendant-seed",
+            "targetWorldId": "descendant-seed",
+            "fieldId": "viability",
+            "direction": "maximize",
+            "weight": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          }
+        ],
+        "hardConstraintFamilyIds": [],
+        "interventions": []
+      },
+      "internalLaws": [
+        {
+          "id": "germinate-descendant-seed",
+          "worldId": "origin-seed",
+          "guard": {
+            "id": "predicate-germinate-descendant-seed",
+            "query": {
+              "familyId": "guard-germinate-descendant-seed",
+              "at": {
+                "coordinate": "0"
+              },
+              "parameters": {}
+            },
+            "fieldParameters": [
+              {
+                "parameterName": "value",
+                "worldId": "origin-seed",
+                "fieldId": "condition"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "fieldId": "condition",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ],
+          "lifecycleEffects": [
+            {
+              "kind": "spawn-world",
+              "targetWorldId": "descendant-seed"
+            }
+          ],
+          "application": "once-per-realization",
+          "reversibility": "irreversible",
+          "commitAffectedFieldIds": [
+            "condition"
+          ]
+        },
+        {
+          "id": "retire-origin-seed",
+          "worldId": "origin-seed",
+          "guard": {
+            "id": "predicate-retire-origin-seed",
+            "query": {
+              "familyId": "guard-retire-origin-seed",
+              "at": {
+                "coordinate": "0"
+              },
+              "parameters": {}
+            },
+            "fieldParameters": [
+              {
+                "parameterName": "value",
+                "worldId": "origin-seed",
+                "fieldId": "condition"
+              }
+            ]
+          },
+          "effects": [],
+          "lifecycleEffects": [
+            {
+              "kind": "retire-self"
+            }
+          ],
+          "application": "once-per-realization",
+          "reversibility": "irreversible"
+        },
+        {
+          "id": "form-descendant-seed",
+          "worldId": "descendant-seed",
+          "guard": {
+            "id": "predicate-form-descendant-seed",
+            "query": {
+              "familyId": "guard-form-descendant-seed",
+              "at": {
+                "coordinate": "0"
+              },
+              "parameters": {}
+            },
+            "fieldParameters": [
+              {
+                "parameterName": "value",
+                "worldId": "descendant-seed",
+                "fieldId": "structure"
+              }
+            ]
+          },
+          "effects": [
+            {
+              "fieldId": "structure",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "boundary",
+              "operation": "set",
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ],
+          "application": "once-per-realization",
+          "reversibility": "irreversible",
+          "commitAffectedFieldIds": [
+            "structure",
+            "boundary"
+          ]
+        }
+      ],
+      "emergenceCriteria": [],
+      "order": {
+        "kind": "causal-partial-order",
+        "universalClock": false
+      }
+    },
+    "fieldInitializers": [
+      {
+        "worldId": "origin-seed",
+        "fieldId": "positive",
+        "query": {
+          "familyId": "initial-origin-seed-positive",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "origin-seed",
+        "fieldId": "negative",
+        "query": {
+          "familyId": "initial-origin-seed-negative",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "origin-seed",
+        "fieldId": "viability",
+        "query": {
+          "familyId": "initial-origin-seed-viability",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "origin-seed",
+        "fieldId": "structure",
+        "query": {
+          "familyId": "initial-origin-seed-structure",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "origin-seed",
+        "fieldId": "boundary",
+        "query": {
+          "familyId": "initial-origin-seed-boundary",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "origin-seed",
+        "fieldId": "condition",
+        "query": {
+          "familyId": "initial-origin-seed-condition",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "descendant-seed",
+        "fieldId": "positive",
+        "query": {
+          "familyId": "initial-descendant-seed-positive",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "descendant-seed",
+        "fieldId": "negative",
+        "query": {
+          "familyId": "initial-descendant-seed-negative",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "descendant-seed",
+        "fieldId": "viability",
+        "query": {
+          "familyId": "initial-descendant-seed-viability",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "descendant-seed",
+        "fieldId": "structure",
+        "query": {
+          "familyId": "initial-descendant-seed-structure",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "descendant-seed",
+        "fieldId": "boundary",
+        "query": {
+          "familyId": "initial-descendant-seed-boundary",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      },
+      {
+        "worldId": "descendant-seed",
+        "fieldId": "condition",
+        "query": {
+          "familyId": "initial-descendant-seed-condition",
+          "at": {
+            "coordinate": "0"
+          },
+          "parameters": {}
+        }
+      }
+    ],
+    "seaLaws": [
+      {
+        "worldId": "origin-seed",
+        "positiveWeight": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "negativeWeight": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        }
+      },
+      {
+        "worldId": "descendant-seed",
+        "positiveWeight": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "negativeWeight": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        }
+      }
+    ],
+    "execution": {
+      "decisionMode": "deterministic",
+      "hardConstraints": [],
+      "anchorIdentity": [
+        {
+          "id": "identity-origin-seed-anchor",
+          "anchorId": "origin-seed-anchor",
+          "query": {
+            "familyId": "causal-language-anchor-identity-true",
+            "at": {
+              "coordinate": "0"
+            },
+            "parameters": {}
+          },
+          "fieldParameters": []
+        },
+        {
+          "id": "identity-descendant-seed-anchor",
+          "anchorId": "descendant-seed-anchor",
+          "query": {
+            "familyId": "causal-language-anchor-identity-true",
+            "at": {
+              "coordinate": "0"
+            },
+            "parameters": {}
+          },
+          "fieldParameters": []
+        }
+      ],
+      "interventionCosts": []
+    }
+  },
+  "options": {
+    "worldWillEnabled": false,
+    "cutAnchorIds": []
+  },
+  "recordedRun": {
+    "mode": "bubble-anchored-causal-run.v2",
+    "programDigest": "59a11f1aa16ebfa38024715de50ed5203e3f16fa439f84ff6bdc22ab4e7d25e4",
+    "status": "stable",
+    "reason": "autonomous closure is not improved by any admissible intervention",
+    "options": {
+      "worldWillEnabled": false,
+      "cutAnchorIds": [],
+      "fieldOverrides": {},
+      "evaluationBudgetPerQuery": 10000,
+      "maxInterventionCombinations": 1024,
+      "maxInternalFrontiers": 1024,
+      "maxInternalBranches": 1024
+    },
+    "diagnostics": [],
+    "formalEvidence": [
+      {
+        "subjectId": "descendant-seed.boundary",
+        "purpose": "initial-field",
+        "status": "resolved",
+        "value": {
+          "kind": "rational",
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "initial-descendant-seed-boundary",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {},
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "descendant-seed.condition",
+        "purpose": "initial-field",
+        "status": "resolved",
+        "value": {
+          "kind": "rational",
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "initial-descendant-seed-condition",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {},
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "descendant-seed.negative",
+        "purpose": "initial-field",
+        "status": "resolved",
+        "value": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "initial-descendant-seed-negative",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {},
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "descendant-seed.positive",
+        "purpose": "initial-field",
+        "status": "resolved",
+        "value": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "initial-descendant-seed-positive",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {},
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "descendant-seed.structure",
+        "purpose": "initial-field",
+        "status": "resolved",
+        "value": {
+          "kind": "rational",
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "initial-descendant-seed-structure",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {},
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "descendant-seed.viability",
+        "purpose": "initial-field",
+        "status": "resolved",
+        "value": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "initial-descendant-seed-viability",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {},
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "origin-seed.boundary",
+        "purpose": "initial-field",
+        "status": "resolved",
+        "value": {
+          "kind": "rational",
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "initial-origin-seed-boundary",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {},
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "origin-seed.condition",
+        "purpose": "initial-field",
+        "status": "resolved",
+        "value": {
+          "kind": "rational",
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "initial-origin-seed-condition",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {},
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "origin-seed.negative",
+        "purpose": "initial-field",
+        "status": "resolved",
+        "value": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "initial-origin-seed-negative",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {},
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "origin-seed.positive",
+        "purpose": "initial-field",
+        "status": "resolved",
+        "value": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "initial-origin-seed-positive",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {},
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "origin-seed.structure",
+        "purpose": "initial-field",
+        "status": "resolved",
+        "value": {
+          "kind": "rational",
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "initial-origin-seed-structure",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {},
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "origin-seed.viability",
+        "purpose": "initial-field",
+        "status": "resolved",
+        "value": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "initial-origin-seed-viability",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {},
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "autonomous:frontier:0:germinate-descendant-seed:predicate-germinate-descendant-seed",
+        "purpose": "law-guard",
+        "status": "resolved",
+        "value": {
+          "kind": "boolean",
+          "value": true
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "guard-germinate-descendant-seed",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {
+              "value": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            },
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "autonomous:frontier:0:retire-origin-seed:predicate-retire-origin-seed",
+        "purpose": "law-guard",
+        "status": "resolved",
+        "value": {
+          "kind": "boolean",
+          "value": false
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "guard-retire-origin-seed",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {
+              "value": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            },
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "autonomous:frontier:1:form-descendant-seed:predicate-form-descendant-seed",
+        "purpose": "law-guard",
+        "status": "resolved",
+        "value": {
+          "kind": "boolean",
+          "value": true
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "guard-form-descendant-seed",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {
+              "value": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            },
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "autonomous:frontier:1:retire-origin-seed:predicate-retire-origin-seed",
+        "purpose": "law-guard",
+        "status": "resolved",
+        "value": {
+          "kind": "boolean",
+          "value": true
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "guard-retire-origin-seed",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {
+              "value": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      },
+      {
+        "subjectId": "anchor:continuation:autonomous:descendant-seed-anchor:identity-descendant-seed-anchor",
+        "purpose": "anchor-identity",
+        "status": "resolved",
+        "value": {
+          "kind": "boolean",
+          "value": true
+        },
+        "proof": [
+          {
+            "id": "coordinate-proof:1",
+            "familyId": "causal-language-anchor-identity-true",
+            "coordinate": {
+              "coordinate": "0"
+            },
+            "parameters": {},
+            "rule": "intensional-definition",
+            "status": "resolved",
+            "dependencies": []
+          }
+        ]
+      }
+    ],
+    "initialWorldStates": [
+      {
+        "worldId": "descendant-seed",
+        "fields": {
+          "boundary": {
+            "kind": "rational",
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "condition": {
+            "kind": "rational",
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "negative": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "positive": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "structure": {
+            "kind": "rational",
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "viability": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          }
+        },
+        "intrinsicViability": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "seaContribution": {
+          "kind": "rational",
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "lifecycle": {
+          "phase": "latent"
+        }
+      },
+      {
+        "worldId": "origin-seed",
+        "fields": {
+          "boundary": {
+            "kind": "rational",
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "condition": {
+            "kind": "rational",
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "negative": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "positive": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "structure": {
+            "kind": "rational",
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "viability": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          }
+        },
+        "intrinsicViability": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "seaContribution": {
+          "kind": "rational",
+          "numerator": "0",
+          "denominator": "1"
+        }
+      }
+    ],
+    "interventionEligibility": [],
+    "candidateAssessments": [],
+    "continuations": [
+      {
+        "id": "continuation:autonomous",
+        "selection": "baseline",
+        "interventionIds": [],
+        "score": {
+          "kind": "rational",
+          "numerator": "1",
+          "denominator": "1"
+        },
+        "worldStates": [
+          {
+            "worldId": "descendant-seed",
+            "fields": {
+              "boundary": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "condition": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "negative": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "positive": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "structure": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "viability": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            "intrinsicViability": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "seaContribution": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "lifecycle": {
+              "phase": "active",
+              "lineageId": "lineage:1e2fbd079549af416a69",
+              "parentWorldIds": [
+                "origin-seed"
+              ],
+              "spawnedByEventId": "spawn:descendant-seed:by:germinate-descendant-seed"
+            }
+          },
+          {
+            "worldId": "origin-seed",
+            "fields": {
+              "boundary": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "condition": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "negative": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "positive": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "structure": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "viability": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            "intrinsicViability": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "seaContribution": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "lifecycle": {
+              "phase": "retired",
+              "retiredByEventId": "retire:origin-seed:by:retire-origin-seed"
+            }
+          }
+        ],
+        "realizedEventIds": [
+          "law:germinate-descendant-seed",
+          "commit:law:germinate-descendant-seed",
+          "spawn:descendant-seed:by:germinate-descendant-seed",
+          "law:form-descendant-seed",
+          "law:retire-origin-seed",
+          "commit:law:form-descendant-seed",
+          "retire:origin-seed:by:retire-origin-seed"
+        ],
+        "trace": [
+          {
+            "id": "trace:1:initial:descendant-seed.boundary",
+            "kind": "initial-field",
+            "worldId": "descendant-seed",
+            "causes": [],
+            "effects": [
+              {
+                "fieldId": "boundary",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:2:initial:descendant-seed.condition",
+            "kind": "initial-field",
+            "worldId": "descendant-seed",
+            "causes": [],
+            "effects": [
+              {
+                "fieldId": "condition",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:3:initial:descendant-seed.negative",
+            "kind": "initial-field",
+            "worldId": "descendant-seed",
+            "causes": [],
+            "effects": [
+              {
+                "fieldId": "negative",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:4:initial:descendant-seed.positive",
+            "kind": "initial-field",
+            "worldId": "descendant-seed",
+            "causes": [],
+            "effects": [
+              {
+                "fieldId": "positive",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:5:initial:descendant-seed.structure",
+            "kind": "initial-field",
+            "worldId": "descendant-seed",
+            "causes": [],
+            "effects": [
+              {
+                "fieldId": "structure",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:6:initial:descendant-seed.viability",
+            "kind": "initial-field",
+            "worldId": "descendant-seed",
+            "causes": [],
+            "effects": [
+              {
+                "fieldId": "viability",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:7:initial:origin-seed.boundary",
+            "kind": "initial-field",
+            "worldId": "origin-seed",
+            "causes": [],
+            "effects": [
+              {
+                "fieldId": "boundary",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:8:initial:origin-seed.condition",
+            "kind": "initial-field",
+            "worldId": "origin-seed",
+            "causes": [],
+            "effects": [
+              {
+                "fieldId": "condition",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:9:initial:origin-seed.negative",
+            "kind": "initial-field",
+            "worldId": "origin-seed",
+            "causes": [],
+            "effects": [
+              {
+                "fieldId": "negative",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:10:initial:origin-seed.positive",
+            "kind": "initial-field",
+            "worldId": "origin-seed",
+            "causes": [],
+            "effects": [
+              {
+                "fieldId": "positive",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:11:initial:origin-seed.structure",
+            "kind": "initial-field",
+            "worldId": "origin-seed",
+            "causes": [],
+            "effects": [
+              {
+                "fieldId": "structure",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:12:initial:origin-seed.viability",
+            "kind": "initial-field",
+            "worldId": "origin-seed",
+            "causes": [],
+            "effects": [
+              {
+                "fieldId": "viability",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:13:sea:origin-seed",
+            "kind": "sea-coupling",
+            "worldId": "origin-seed",
+            "causes": [],
+            "effects": [
+              {
+                "fieldId": "viability",
+                "layer": "world-field",
+                "operation": "derive",
+                "before": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "operand": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:14:law:germinate-descendant-seed",
+            "kind": "internal-law",
+            "worldId": "origin-seed",
+            "eventId": "law:germinate-descendant-seed",
+            "lawId": "germinate-descendant-seed",
+            "causes": [],
+            "effects": [
+              {
+                "fieldId": "condition",
+                "layer": "world-field",
+                "operation": "set",
+                "before": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "operand": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:15:sea:origin-seed",
+            "kind": "sea-coupling",
+            "worldId": "origin-seed",
+            "causes": [
+              "law:germinate-descendant-seed"
+            ],
+            "effects": [
+              {
+                "fieldId": "viability",
+                "layer": "world-field",
+                "operation": "derive",
+                "before": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "operand": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:16:commit:law:germinate-descendant-seed",
+            "kind": "history-commit",
+            "worldId": "origin-seed",
+            "eventId": "commit:law:germinate-descendant-seed",
+            "lawId": "germinate-descendant-seed",
+            "causes": [
+              "law:germinate-descendant-seed"
+            ],
+            "effects": [
+              {
+                "fieldId": "condition",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:17:spawn:descendant-seed:by:germinate-descendant-seed",
+            "kind": "world-spawn",
+            "worldId": "descendant-seed",
+            "eventId": "spawn:descendant-seed:by:germinate-descendant-seed",
+            "lifecycleEventId": "spawn:descendant-seed:by:germinate-descendant-seed",
+            "causes": [
+              "law:germinate-descendant-seed"
+            ],
+            "effects": []
+          },
+          {
+            "id": "trace:18:sea:descendant-seed",
+            "kind": "sea-coupling",
+            "worldId": "descendant-seed",
+            "causes": [
+              "spawn:descendant-seed:by:germinate-descendant-seed"
+            ],
+            "effects": [
+              {
+                "fieldId": "viability",
+                "layer": "world-field",
+                "operation": "derive",
+                "before": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "operand": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:19:law:form-descendant-seed",
+            "kind": "internal-law",
+            "worldId": "descendant-seed",
+            "eventId": "law:form-descendant-seed",
+            "lawId": "form-descendant-seed",
+            "causes": [
+              "spawn:descendant-seed:by:germinate-descendant-seed"
+            ],
+            "effects": [
+              {
+                "fieldId": "structure",
+                "layer": "world-field",
+                "operation": "set",
+                "before": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "operand": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              {
+                "fieldId": "boundary",
+                "layer": "world-field",
+                "operation": "set",
+                "before": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "operand": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:20:law:retire-origin-seed",
+            "kind": "internal-law",
+            "worldId": "origin-seed",
+            "eventId": "law:retire-origin-seed",
+            "lawId": "retire-origin-seed",
+            "causes": [
+              "law:germinate-descendant-seed"
+            ],
+            "effects": []
+          },
+          {
+            "id": "trace:21:sea:descendant-seed",
+            "kind": "sea-coupling",
+            "worldId": "descendant-seed",
+            "causes": [
+              "law:form-descendant-seed"
+            ],
+            "effects": [
+              {
+                "fieldId": "viability",
+                "layer": "world-field",
+                "operation": "derive",
+                "before": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "operand": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:22:sea:origin-seed",
+            "kind": "sea-coupling",
+            "worldId": "origin-seed",
+            "causes": [
+              "law:retire-origin-seed"
+            ],
+            "effects": [
+              {
+                "fieldId": "viability",
+                "layer": "world-field",
+                "operation": "derive",
+                "before": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "operand": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:23:commit:law:form-descendant-seed",
+            "kind": "history-commit",
+            "worldId": "descendant-seed",
+            "eventId": "commit:law:form-descendant-seed",
+            "lawId": "form-descendant-seed",
+            "causes": [
+              "law:form-descendant-seed"
+            ],
+            "effects": [
+              {
+                "fieldId": "structure",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              {
+                "fieldId": "boundary",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:24:retire:origin-seed:by:retire-origin-seed",
+            "kind": "world-retirement",
+            "worldId": "origin-seed",
+            "eventId": "retire:origin-seed:by:retire-origin-seed",
+            "lifecycleEventId": "retire:origin-seed:by:retire-origin-seed",
+            "causes": [
+              "law:retire-origin-seed"
+            ],
+            "effects": []
+          }
+        ],
+        "historyCommits": [
+          {
+            "eventId": "commit:law:germinate-descendant-seed",
+            "causedByEventId": "law:germinate-descendant-seed",
+            "worldId": "origin-seed",
+            "affectedFields": {
+              "condition": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            "stateDigest": "05932a11869e15884dd32b616ff35e55824d9a36bddad47548031f38f57f0e5a"
+          },
+          {
+            "eventId": "commit:law:form-descendant-seed",
+            "causedByEventId": "law:form-descendant-seed",
+            "worldId": "descendant-seed",
+            "affectedFields": {
+              "structure": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "boundary": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            "stateDigest": "fa3a0320defd89f9ab8d7257b9b957f4f5a1cc8fb4cead9c4b4755f01950ed97"
+          }
+        ],
+        "lifecycleEvents": [
+          {
+            "id": "spawn:descendant-seed:by:germinate-descendant-seed",
+            "kind": "world-spawn",
+            "sourceWorldIds": [
+              "origin-seed"
+            ],
+            "targetWorldId": "descendant-seed",
+            "causedByLawEventIds": [
+              "law:germinate-descendant-seed"
+            ],
+            "beforePhase": "latent",
+            "afterPhase": "active",
+            "hostSelection": false,
+            "lineageId": "lineage:1e2fbd079549af416a69"
+          },
+          {
+            "id": "retire:origin-seed:by:retire-origin-seed",
+            "kind": "world-retirement",
+            "sourceWorldIds": [
+              "origin-seed"
+            ],
+            "targetWorldId": "origin-seed",
+            "causedByLawEventIds": [
+              "law:retire-origin-seed"
+            ],
+            "beforePhase": "active",
+            "afterPhase": "retired",
+            "hostSelection": false,
+            "residue": {
+              "finalStateDigest": "5bc284479cdbd2b61fe01c446060a2d8a2712dbe05bdb57ed77918b69138921b",
+              "localNegativeSea": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "retainedHistoryCommitIds": [
+                "commit:law:germinate-descendant-seed"
+              ]
+            }
+          }
+        ],
+        "emergenceAssessments": [],
+        "order": {
+          "kind": "causal-partial-order",
+          "universalClock": false,
+          "causalEdges": [
+            {
+              "cause": "law:form-descendant-seed",
+              "effect": "commit:law:form-descendant-seed"
+            },
+            {
+              "cause": "law:germinate-descendant-seed",
+              "effect": "commit:law:germinate-descendant-seed"
+            },
+            {
+              "cause": "law:germinate-descendant-seed",
+              "effect": "law:retire-origin-seed"
+            },
+            {
+              "cause": "law:germinate-descendant-seed",
+              "effect": "spawn:descendant-seed:by:germinate-descendant-seed"
+            },
+            {
+              "cause": "law:retire-origin-seed",
+              "effect": "retire:origin-seed:by:retire-origin-seed"
+            },
+            {
+              "cause": "spawn:descendant-seed:by:germinate-descendant-seed",
+              "effect": "law:form-descendant-seed"
+            }
+          ],
+          "evaluationOrder": [
+            "law:germinate-descendant-seed",
+            "commit:law:germinate-descendant-seed",
+            "spawn:descendant-seed:by:germinate-descendant-seed",
+            "law:form-descendant-seed",
+            "law:retire-origin-seed",
+            "commit:law:form-descendant-seed",
+            "retire:origin-seed:by:retire-origin-seed"
+          ],
+          "evaluationFrontiers": [
+            [
+              "law:germinate-descendant-seed"
+            ],
+            [
+              "spawn:descendant-seed:by:germinate-descendant-seed"
+            ],
+            [
+              "law:form-descendant-seed",
+              "law:retire-origin-seed"
+            ],
+            [
+              "retire:origin-seed:by:retire-origin-seed"
+            ]
+          ],
+          "reversibleEventIds": [],
+          "irreversibleEventIds": [
+            "commit:law:form-descendant-seed",
+            "commit:law:germinate-descendant-seed",
+            "law:form-descendant-seed",
+            "law:germinate-descendant-seed",
+            "law:retire-origin-seed",
+            "retire:origin-seed:by:retire-origin-seed",
+            "spawn:descendant-seed:by:germinate-descendant-seed"
+          ],
+          "createsHistoryArrow": true,
+          "historyArrowSources": [
+            "history-commit",
+            "world-lifecycle"
+          ]
+        }
+      }
+    ],
+    "selectedContinuationIds": [
+      "continuation:autonomous"
+    ],
+    "unresolvedAlternativeIds": [],
+    "resourceUse": {
+      "formalQueryCount": 17,
+      "formalEvaluationSteps": 25,
+      "internalFrontierCount": 2,
+      "internalBranchCount": 0,
+      "interventionCombinationCount": 0,
+      "combinationLimit": 1024,
+      "branchLimit": 1024,
+      "lifecycleTransitionBound": 3,
+      "exhaustiveInterventionSearch": true,
+      "exhaustiveInternalBranching": true
+    },
+    "autonomousContinuation": {
+      "id": "continuation:autonomous",
+      "selection": "baseline",
+      "interventionIds": [],
+      "score": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "worldStates": [
+        {
+          "worldId": "descendant-seed",
+          "fields": {
+            "boundary": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "condition": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "negative": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "positive": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "structure": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "viability": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "intrinsicViability": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "seaContribution": {
+            "kind": "rational",
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "lifecycle": {
+            "phase": "active",
+            "lineageId": "lineage:1e2fbd079549af416a69",
+            "parentWorldIds": [
+              "origin-seed"
+            ],
+            "spawnedByEventId": "spawn:descendant-seed:by:germinate-descendant-seed"
+          }
+        },
+        {
+          "worldId": "origin-seed",
+          "fields": {
+            "boundary": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "condition": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "negative": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "positive": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "structure": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "viability": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "intrinsicViability": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "seaContribution": {
+            "kind": "rational",
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "lifecycle": {
+            "phase": "retired",
+            "retiredByEventId": "retire:origin-seed:by:retire-origin-seed"
+          }
+        }
+      ],
+      "realizedEventIds": [
+        "law:germinate-descendant-seed",
+        "commit:law:germinate-descendant-seed",
+        "spawn:descendant-seed:by:germinate-descendant-seed",
+        "law:form-descendant-seed",
+        "law:retire-origin-seed",
+        "commit:law:form-descendant-seed",
+        "retire:origin-seed:by:retire-origin-seed"
+      ],
+      "trace": [
+        {
+          "id": "trace:1:initial:descendant-seed.boundary",
+          "kind": "initial-field",
+          "worldId": "descendant-seed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "boundary",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:2:initial:descendant-seed.condition",
+          "kind": "initial-field",
+          "worldId": "descendant-seed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "condition",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:3:initial:descendant-seed.negative",
+          "kind": "initial-field",
+          "worldId": "descendant-seed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "negative",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:4:initial:descendant-seed.positive",
+          "kind": "initial-field",
+          "worldId": "descendant-seed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "positive",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:5:initial:descendant-seed.structure",
+          "kind": "initial-field",
+          "worldId": "descendant-seed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "structure",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:6:initial:descendant-seed.viability",
+          "kind": "initial-field",
+          "worldId": "descendant-seed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:7:initial:origin-seed.boundary",
+          "kind": "initial-field",
+          "worldId": "origin-seed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "boundary",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:8:initial:origin-seed.condition",
+          "kind": "initial-field",
+          "worldId": "origin-seed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "condition",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:9:initial:origin-seed.negative",
+          "kind": "initial-field",
+          "worldId": "origin-seed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "negative",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:10:initial:origin-seed.positive",
+          "kind": "initial-field",
+          "worldId": "origin-seed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "positive",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:11:initial:origin-seed.structure",
+          "kind": "initial-field",
+          "worldId": "origin-seed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "structure",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:12:initial:origin-seed.viability",
+          "kind": "initial-field",
+          "worldId": "origin-seed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:13:sea:origin-seed",
+          "kind": "sea-coupling",
+          "worldId": "origin-seed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:14:law:germinate-descendant-seed",
+          "kind": "internal-law",
+          "worldId": "origin-seed",
+          "eventId": "law:germinate-descendant-seed",
+          "lawId": "germinate-descendant-seed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "condition",
+              "layer": "world-field",
+              "operation": "set",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:15:sea:origin-seed",
+          "kind": "sea-coupling",
+          "worldId": "origin-seed",
+          "causes": [
+            "law:germinate-descendant-seed"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:16:commit:law:germinate-descendant-seed",
+          "kind": "history-commit",
+          "worldId": "origin-seed",
+          "eventId": "commit:law:germinate-descendant-seed",
+          "lawId": "germinate-descendant-seed",
+          "causes": [
+            "law:germinate-descendant-seed"
+          ],
+          "effects": [
+            {
+              "fieldId": "condition",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:17:spawn:descendant-seed:by:germinate-descendant-seed",
+          "kind": "world-spawn",
+          "worldId": "descendant-seed",
+          "eventId": "spawn:descendant-seed:by:germinate-descendant-seed",
+          "lifecycleEventId": "spawn:descendant-seed:by:germinate-descendant-seed",
+          "causes": [
+            "law:germinate-descendant-seed"
+          ],
+          "effects": []
+        },
+        {
+          "id": "trace:18:sea:descendant-seed",
+          "kind": "sea-coupling",
+          "worldId": "descendant-seed",
+          "causes": [
+            "spawn:descendant-seed:by:germinate-descendant-seed"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:19:law:form-descendant-seed",
+          "kind": "internal-law",
+          "worldId": "descendant-seed",
+          "eventId": "law:form-descendant-seed",
+          "lawId": "form-descendant-seed",
+          "causes": [
+            "spawn:descendant-seed:by:germinate-descendant-seed"
+          ],
+          "effects": [
+            {
+              "fieldId": "structure",
+              "layer": "world-field",
+              "operation": "set",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "boundary",
+              "layer": "world-field",
+              "operation": "set",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:20:law:retire-origin-seed",
+          "kind": "internal-law",
+          "worldId": "origin-seed",
+          "eventId": "law:retire-origin-seed",
+          "lawId": "retire-origin-seed",
+          "causes": [
+            "law:germinate-descendant-seed"
+          ],
+          "effects": []
+        },
+        {
+          "id": "trace:21:sea:descendant-seed",
+          "kind": "sea-coupling",
+          "worldId": "descendant-seed",
+          "causes": [
+            "law:form-descendant-seed"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:22:sea:origin-seed",
+          "kind": "sea-coupling",
+          "worldId": "origin-seed",
+          "causes": [
+            "law:retire-origin-seed"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:23:commit:law:form-descendant-seed",
+          "kind": "history-commit",
+          "worldId": "descendant-seed",
+          "eventId": "commit:law:form-descendant-seed",
+          "lawId": "form-descendant-seed",
+          "causes": [
+            "law:form-descendant-seed"
+          ],
+          "effects": [
+            {
+              "fieldId": "structure",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "boundary",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:24:retire:origin-seed:by:retire-origin-seed",
+          "kind": "world-retirement",
+          "worldId": "origin-seed",
+          "eventId": "retire:origin-seed:by:retire-origin-seed",
+          "lifecycleEventId": "retire:origin-seed:by:retire-origin-seed",
+          "causes": [
+            "law:retire-origin-seed"
+          ],
+          "effects": []
+        }
+      ],
+      "historyCommits": [
+        {
+          "eventId": "commit:law:germinate-descendant-seed",
+          "causedByEventId": "law:germinate-descendant-seed",
+          "worldId": "origin-seed",
+          "affectedFields": {
+            "condition": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "stateDigest": "05932a11869e15884dd32b616ff35e55824d9a36bddad47548031f38f57f0e5a"
+        },
+        {
+          "eventId": "commit:law:form-descendant-seed",
+          "causedByEventId": "law:form-descendant-seed",
+          "worldId": "descendant-seed",
+          "affectedFields": {
+            "structure": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "boundary": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "stateDigest": "fa3a0320defd89f9ab8d7257b9b957f4f5a1cc8fb4cead9c4b4755f01950ed97"
+        }
+      ],
+      "lifecycleEvents": [
+        {
+          "id": "spawn:descendant-seed:by:germinate-descendant-seed",
+          "kind": "world-spawn",
+          "sourceWorldIds": [
+            "origin-seed"
+          ],
+          "targetWorldId": "descendant-seed",
+          "causedByLawEventIds": [
+            "law:germinate-descendant-seed"
+          ],
+          "beforePhase": "latent",
+          "afterPhase": "active",
+          "hostSelection": false,
+          "lineageId": "lineage:1e2fbd079549af416a69"
+        },
+        {
+          "id": "retire:origin-seed:by:retire-origin-seed",
+          "kind": "world-retirement",
+          "sourceWorldIds": [
+            "origin-seed"
+          ],
+          "targetWorldId": "origin-seed",
+          "causedByLawEventIds": [
+            "law:retire-origin-seed"
+          ],
+          "beforePhase": "active",
+          "afterPhase": "retired",
+          "hostSelection": false,
+          "residue": {
+            "finalStateDigest": "5bc284479cdbd2b61fe01c446060a2d8a2712dbe05bdb57ed77918b69138921b",
+            "localNegativeSea": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "retainedHistoryCommitIds": [
+              "commit:law:germinate-descendant-seed"
+            ]
+          }
+        }
+      ],
+      "emergenceAssessments": [],
+      "order": {
+        "kind": "causal-partial-order",
+        "universalClock": false,
+        "causalEdges": [
+          {
+            "cause": "law:form-descendant-seed",
+            "effect": "commit:law:form-descendant-seed"
+          },
+          {
+            "cause": "law:germinate-descendant-seed",
+            "effect": "commit:law:germinate-descendant-seed"
+          },
+          {
+            "cause": "law:germinate-descendant-seed",
+            "effect": "law:retire-origin-seed"
+          },
+          {
+            "cause": "law:germinate-descendant-seed",
+            "effect": "spawn:descendant-seed:by:germinate-descendant-seed"
+          },
+          {
+            "cause": "law:retire-origin-seed",
+            "effect": "retire:origin-seed:by:retire-origin-seed"
+          },
+          {
+            "cause": "spawn:descendant-seed:by:germinate-descendant-seed",
+            "effect": "law:form-descendant-seed"
+          }
+        ],
+        "evaluationOrder": [
+          "law:germinate-descendant-seed",
+          "commit:law:germinate-descendant-seed",
+          "spawn:descendant-seed:by:germinate-descendant-seed",
+          "law:form-descendant-seed",
+          "law:retire-origin-seed",
+          "commit:law:form-descendant-seed",
+          "retire:origin-seed:by:retire-origin-seed"
+        ],
+        "evaluationFrontiers": [
+          [
+            "law:germinate-descendant-seed"
+          ],
+          [
+            "spawn:descendant-seed:by:germinate-descendant-seed"
+          ],
+          [
+            "law:form-descendant-seed",
+            "law:retire-origin-seed"
+          ],
+          [
+            "retire:origin-seed:by:retire-origin-seed"
+          ]
+        ],
+        "reversibleEventIds": [],
+        "irreversibleEventIds": [
+          "commit:law:form-descendant-seed",
+          "commit:law:germinate-descendant-seed",
+          "law:form-descendant-seed",
+          "law:germinate-descendant-seed",
+          "law:retire-origin-seed",
+          "retire:origin-seed:by:retire-origin-seed",
+          "spawn:descendant-seed:by:germinate-descendant-seed"
+        ],
+        "createsHistoryArrow": true,
+        "historyArrowSources": [
+          "history-commit",
+          "world-lifecycle"
+        ]
+      }
+    },
+    "baselineScore": {
+      "kind": "rational",
+      "numerator": "1",
+      "denominator": "1"
+    }
+  },
+  "recordedDigest": "c4ebb1b3bc0c63e250177be1949992e052fe942a54d441a68417b10a7505457d"
+}

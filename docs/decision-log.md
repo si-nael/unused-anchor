@@ -1109,3 +1109,73 @@ The maximal-frontier kernel passed its focused cases, but release closure also r
 Consequence:
 
 Confirm `v0.5.5` as the bounded endogenous-causal-branching release dated 2026-07-17. Its closed claim is finite exhaustive realization of maximal commuting internal-law frontiers, branch-local anchor and World-Will evaluation, robust set-valued intervention outcomes, real plural persistence paths, and exact inspection/replay preservation without a host selector. The complete `npm.cmd run verify` boundary passes with TypeScript checking, all 179 tests, every canonical run/inspect/record/replay path, and compact singular evidence. Do not infer deliberation, agency, relations, narrative coherence, causal spawn/collapse, global sea transport, cross-world anchors, whole-universe completion, or recursive self-construction.
+
+### D-111: Start lifecycle closure from causal actualization, not dynamic schema pretense
+
+Reason:
+
+The remaining `spawn` and retirement `collapse` gap could be hidden by adding status labels to authored artifacts, but that would not let the causal world itself create or end a Bubble. Full runtime schema generation, populations, and open-ended world creation are also too broad to introduce safely in one step. Observation-induced local materialization and branch nonrealization already have narrower meanings that must not be overwritten by a generic collapse flag.
+
+Consequence:
+
+Begin an unversioned closure candidate in the anchored causal kernel. Allow internal irreversible law events to actualize finitely declared latent worlds and to retire their own active source world. Require lineage, causal provenance, no-host-selection evidence, inactive-world exclusion, retained retirement residue, persistent phase continuation, and replay. Keep world definitions finite and intensional; do not claim dynamic schema generation, cross-world transfer, global sea transport, populations, agency, or a completed release. A version may be selected only after canonical artifacts, adversarial closure, record reconciliation, and the complete repository gate pass.
+
+### D-112: Make lifecycle rank monotone and keep internal law local
+
+Reason:
+
+A lifecycle override that reset an initially active world to latent would make persistence capable of erasing history. A second active world also exposed a preexisting generic predicate channel through which one world's internal law could read another world's field without a typed anchor transfer. Both shortcuts would undermine the very identity and membrane semantics that lifecycle is intended to add.
+
+Consequence:
+
+Treat `latent < active < retired` as an acyclic phase order, never as metric time. Initially active worlds may only remain active or retire; initially latent worlds may activate and later retire. Record the finite per-continuation transition bound `A + 2L`, and reject lifecycle resume state that regresses rank or invents spawn provenance for an initially active world. Internal-law guards bind only local fields until a typed anchor-transfer contract carries cross-world identity, ports, content, causality, sea interaction, and replay evidence.
+
+### D-113: Separate portable Bubble semantics from source syntax, storage bytes, and execution backend
+
+Reason:
+
+The current TypeScript runtime is already substantial enough to serve as an executable semantic oracle, but continuing to make Node object behavior and JSON serialization the implicit authority would make later native execution a reverse-engineering exercise. Conversely, fixing a binary layout before the stable semantic core is identified would turn open philosophical and runtime questions into accidental compatibility constraints.
+
+Consequence:
+
+Use the remaining 5.x line to specify a machine-independent typed semantic graph, exact value/effect contract, canonical semantic ordering, extension-preservation rule, and conformance fixtures. Keep `.bubble` text, TypeScript objects, canonical storage bytes, and backend instructions as distinct projections. A backend earns authority only by exact semantic and replay conformance; similar reports or faster execution are insufficient.
+
+### D-114: Finish the bounded 5.x semantic core before Rust begins in 6.x
+
+Reason:
+
+Porting the current partial ontology directly would duplicate unsettled lifecycle, cross-world membrane, canonical encoding, and performance semantics in two implementations. The author instead requires idea preservation first, a meaningful 5.x core completion second, and Rust from 6.x onward.
+
+Consequence:
+
+Do not add Rust code or name a 6.x release during the 5.x closure work. First complete and reconcile the active lifecycle seam, lower the stable causal core through the Bubble language boundary, specify typed cross-world anchor/sea transfer rather than unanchored field reads, and establish implementation-independent conformance and cost contracts. This is a bounded engine-transition gate, not whole-universe completion: deliberative agency, Phase 2 observers, recursive self-construction, and trans-Turing execution retain their own prerequisites. Rust will be the first native physical backend, while TypeScript remains the reference oracle until differential evidence transfers execution authority.
+
+### D-115: Add a strict causal Bubble profile instead of reinterpreting legacy effect roles
+
+Reason:
+
+Legacy `.bubble` programs describe generative relations, observation collapse, and effect capabilities, but do not contain the exact multi-world fields, local predicates, lifecycle rank, residue, or causal provenance required by the anchored causal runtime. Treating their existing `spawn` and `collapse` words as executable birth and retirement would silently change already preserved language semantics.
+
+Consequence:
+
+Keep every legacy profile unchanged. Introduce `causal bubble` as an additive strict source profile that explicitly declares world existence, exact fields, protected structure, sea coupling, anchors, World-Will objectives, local law guards, field effects, lifecycle effects, and commits. Lower it into `bubble-anchored-causal-program.v2`, validate it with the same kernel validator, and route source through the existing run/inspect/record/replay tools. Keep interventions, general authored intensional families, emergence criteria, and cross-world transfer outside this first profile until their typed contracts are ready.
+
+### D-116: Close the bounded lifecycle-and-language technical gate without assigning a release
+
+Reason:
+
+The lifecycle kernel had already passed birth, retirement, lineage, inactive-world, persistence, replay, tamper, rank, and local-law membrane tests. The added causal source profile now reaches that exact kernel through ordinary run, inspection, record, and replay tooling, rejects semantic shortcuts, preserves legacy language meanings, and passes the full repository with 194 tests. Its generated evidence is smaller than the richer JSON lifecycle fixture and does not duplicate singular continuations.
+
+Consequence:
+
+Treat Gate A of the 5.x-to-6.x transition architecture as technically complete. Do not change `package.json`, call this `v0.5.6`, commit, or infer full lifecycle, dynamic schema, cross-world transport, portable BIR, or universe completion from this result. The next connected 5.x core seam is Gate B: typed cross-world anchor/sea transfer that replaces the currently rejected foreign-world guard shortcut.
+
+### D-117: Confirm bounded v0.5.6 after lifecycle, language, replay, and adversarial closure
+
+Reason:
+
+After D-116 withheld automatic versioning, the author explicitly selected `v0.5.6` and requested final release review. The audit found B-034, one causal-language false surface: `reversible` was parseable without an authored inverse form. The source profile now requires exact opposite additive `law-inverse` effects, rejects incomplete inverse contracts through the shared causal validator, and rejects non-rational order comparison at compile time. Focused lifecycle/language tests, complete JSON and source run/inspection/record/replay cycles, replay tamper boundaries, evidence density, research records, and the full repository pass together with TypeScript checking and all 196 tests.
+
+Consequence:
+
+Confirm `v0.5.6` as the bounded endogenous-world-lifecycle and causal-language-lowering release dated 2026-07-17. Its closed claim is finite declared-world birth and retirement caused only by internal irreversible law, with monotone lifecycle provenance, retained retirement residue, inactive-world exclusion, persistence, local-law membranes, strict authored lowering, inspection, and exact replay. Preserve observation collapse and branch nonrealization as different transitions. Do not infer dynamic schema or population generation, global seas, cross-world anchor transfer, agency, portable BIR, Rust, Phase 2, hypercomputation, or whole-universe completion. No commit is authorized by this release confirmation.
