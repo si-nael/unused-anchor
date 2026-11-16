@@ -213,6 +213,62 @@ Engineering interpretation:
 - A technical candidate must retain explicit limits and author judgment; a passing example cannot close an idea, select a release, or replace an unresolved philosophical relation.
 - When a concrete seam requires an engineering interpretation, keep the original quotation immutable, state the interpretation and non-claims, and prefer the smallest falsifiable contract that can later be generalized without erasing the idea.
 
+### AI-20260717-007: Implement the major ideas before continued tuning
+
+> 계속 뭐 튜닝하지 말고 내 주요 아이디어들 모두 구현할 필요부터 있음. v0.5.8에서는 좀 변화가 거대해야 한다고 생각해.
+
+Engineering interpretation:
+
+- Stop spending successive versions primarily on local hardening of already bounded seams while foundational author obligations remain absent.
+- `v0.5.8` must introduce a large connected capability that advances several original ideas together, not a collection of unrelated options or cosmetic generalizations.
+- The selected direction is endogenous connected-universe generation: Bubble law generates world instances, lineage, anchors, sea placement/residue, and lawful relations; generated worlds then continue through their own laws without a host world list or selector.
+- This remains Phase 1 universe construction. It must not be replaced by Phase 2 observers, Rust/BIR implementation, recursive self-construction, forced protagonists, or a false whole-universe completion claim.
+
+### AI-20260717-008: Human-scale names are not Bubble ontology
+
+> 맞아. 그리고 주인공 이나 이야기 생애 이런건 순전히 인간의 관점이고, 나는 그런 작은 관점에 이름붙이고 하는거 별로 안좋아해. 그런건 만들다보면 자연스럽게 생겨나겠지.
+
+Engineering interpretation:
+
+- `protagonist`, `story`, `life`, `being`, `relationship`, and similar human-scale categories must not become required world schema, privileged emergence labels, release goals, or universal success criteria.
+- Bubble should implement the deeper lawful structures—identity, persistence, relation, memory, boundary, causality, transformation, generation, seas, anchors, and world-scale organization—without assuming how a human observer would name a resulting configuration.
+- If a later observer projects a human-scale category onto a realized structure, that projection must remain perspective-relative evidence rather than changing the underlying world ontology.
+- v0.5.8 therefore targets endogenous connected-universe generation itself, not a substrate designed specifically to manufacture protagonists, stories, or life.
+
+### AI-20260717-009: Restore the clean pre-assistant philosophy and require necessary Bubble structure
+
+> 맞아. 내가 너한테 지시하기 전인 v0.4.7이었나? 그쯤을 보면 지금 너가 임의적으로 만든건 다 없고, 나의 깔끔한 철학이 있을거야. 너가 잘 만든것도 있지만, 내가 단순히 설명을 위해 너에게 임시적으로 도입한것도 너가 너무 과도하게 이름을 붙였어. 나는 필연적 버블을 원하는거지, 임의적 버블이나 인간중심론을 원하는게 아니야.
+
+Engineering interpretation:
+
+- Use the observer-free sea-anchor necessity argument and universal Bubble semantics preserved at `v0.4.7` as the philosophical reference point, while recognizing that even that revision contains separate agent/story research framing.
+- Preserve later mathematical mechanisms only where their executable content remains observer-independent and follows from Bubble law; do not promote their explanatory names into peer ontology.
+- Keep historical narrative and teleonomic experiments for compatibility, provenance, and failure learning, but quarantine them from the public core and from future release acceptance criteria.
+- Every new core primitive must pass an explicit necessity test tied to recorded author intent, worldhood, identity, situatedness, or lawful continuation. Implementation convenience and familiar human analogy are insufficient.
+
+### AI-20260717-010: Expect a large implementation surface without reducing it to feature bulk
+
+> 맞아. 거대하게 구현해야할게 많을거야
+
+Engineering interpretation:
+
+- The remaining Bubble universe is expected to require many substantial mechanisms; this is not evidence that a small patch or repeated version increment can close it.
+- Size must come from necessary connected semantics—generation, identity, anchors, seas, boundaries, transport, local continuation, persistence, language, replay, and honest resource frontiers—not from unrelated feature accumulation.
+- Every bounded vertical path must keep its unresolved consequences visible. A large code change, example count, or passing suite cannot by itself confirm `v0.5.8` or satisfy whole-universe completion.
+- Continue implementing the highest-leverage connected seams while preserving author review, no automatic release selection, and the later Rust-only-from-`v0.6.x` boundary.
+
+### AI-20260717-011: Infinite procedure closes on a finite observation while Bubble self-complements
+
+> 무한한 절차가 유한한 절차 안에 끝난다... 무한은 존재하지만 우리가 관측을 하는 순간 관측이란 유한한 부분을 보게 되는 것이기 때문에 그 유한한 공간이 결정론적이 된다, 버블 자체가 실행하면 할수록 자기 보완적이 된다 이런 혁신적인 아이디어는? 일단 추가해보고 고려해서 구현하고, v0.5.8은 언제 확정할까
+
+Engineering interpretation:
+
+- The infinite Bubble remains an intensional or coinductive denotation. A finite realization does not enumerate, exhaust, or ontologically replace that infinity.
+- Before Phase 2 observers exist, an observer-independent internal demand cut may request a finite closed substructure. Evaluating the same program and demand must deterministically return one exact result, the complete lawful branch family, an explicit open boundary, or a contradiction.
+- Determinacy may not mean that the host selects one member of a plural world family. The complete lawful plurality is itself one deterministic semantic result.
+- Repeated execution may be called self-complementing only where it monotonically accumulates causal-generation, closure, frontier, identity, anchor, and replay evidence and may reactivate previously dormant law. World fields need not be monotone, recurrence need not converge, and no finite certificate proves completion of the entire infinite universe.
+- External observation, perspective-relative collapse, and measurement deformation remain Phase 2. This Phase 1 mechanism is finite internal realization, not an observer smuggled into the core.
+
 ## Non-Closure Rule
 
 An implementation may change an obligation from `open` to `in-development`, `partial`, or `realized`. It may not alter or delete the source quotation. `Realized` requires code evidence, acceptance tests, stated limits, and a reopen condition. A release scope decision never changes a philosophical idea into a rejection.

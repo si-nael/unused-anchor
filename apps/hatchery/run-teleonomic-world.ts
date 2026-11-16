@@ -1,4 +1,4 @@
-import { realizeTeleonomicCausalWorld } from "../../src/bubbles/world-kernel";
+import { realizeTeleonomicCausalWorld } from "../../src/bubbles/world-kernel/interpretive";
 import { emitCausalJson } from "./causal-cli";
 import { parsePersistentExecutionArgs, readPersistentProgram } from "./persistent-cli";
 

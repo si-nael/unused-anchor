@@ -1,0 +1,63 @@
+endogenous bubble EndogenousConnectedUniverse {
+  # Intensional families denote values without exhaustively materializing their domains.
+  family zero axes unit:finite(1) parameters none returns rational = 0
+  family one axes unit:finite(1) parameters none returns rational = 1
+  family root-open axes unit:finite(1) parameters depth:rational returns rational = (if (= $depth 0) 1 0)
+  family lineage-value axes unit:finite(1) parameters depth:rational,coordinate:rational returns rational = (+ $depth $coordinate)
+  family admit-all axes unit:finite(1) parameters none returns boolean = true
+  family is-one axes unit:finite(1) parameters value:rational returns boolean = (= $value 1)
+  family identity-pair axes unit:finite(1) parameters parent:rational,child:rational returns boolean = (and (= $parent 1) (= $child 1))
+
+  # Query templates bind formal families to lineage-local sources; no global clock is introduced.
+  query zero-origin family zero at unit=0 parameters none
+  query one-origin family one at unit=0 parameters none
+  query root-open-local family root-open at unit=0 parameters depth=lineage-depth
+  query lineage-local family lineage-value at unit=0 parameters depth=lineage-depth,coordinate=local-coordinate
+  query admit-origin family admit-all at unit=0 parameters none
+  query is-one-origin family is-one at unit=0 parameters none
+  query identity-pair-origin family identity-pair at unit=0 parameters none
+
+  schema field-world
+  field field-world structure role structural-state family zero initialize zero-origin
+  field field-world identity role identity-state family one initialize one-origin
+  field field-world memory role memory-state family lineage-value initialize lineage-local
+  field field-world boundary role boundary-state family one initialize one-origin
+  field field-world signal role world-condition family one initialize one-origin
+  field field-world condition role world-condition family root-open initialize root-open-local
+  field field-world lineage-support role positive-sea family zero initialize zero-origin
+  field field-world lineage-residue role negative-sea family zero initialize zero-origin
+  field field-world boundary-support role positive-sea family zero initialize zero-origin
+  field field-world boundary-pressure role negative-sea family zero initialize zero-origin
+  protect field-world structure,identity,memory,boundary
+  ports field-world identity-port,lineage-port
+  sea field-world lineage positive lineage-support negative lineage-residue
+  sea field-world boundary positive boundary-support negative boundary-pressure
+  identity field-world identity-holds query is-one-origin bind value=identity
+  law field-world condense guard condition-open query is-one-origin bind value=condition application once-per-realization irreversible
+  effect field-world condense add structure 1
+  effect field-world condense set condition 0
+  commit field-world condense structure
+  emergence field-world structure-present predicate structure-is-one query is-one-origin bind value=structure witness structure,boundary,identity
+  projection field-world viability 0 objective maintain-structure field structure direction maximize weight 1
+  projection-channel field-world lineage weights 1 1
+  projection-channel field-world boundary weights 1/2 1/2
+
+  root origin schema field-world values none
+
+  constructor binary-continuation parent field-world child field-world coordinates finite 2
+  admission binary-continuation continuation-admitted query admit-origin bind none
+  constructor-ports binary-continuation parent lineage-port child lineage-port
+  relation binary-continuation lineage-identity query identity-pair-origin bind parent=parent.identity,child=child.identity
+  transport binary-continuation signal -> condition
+  sea-action binary-continuation parent lineage child lineage residue 1/4 placement 1
+  sea-action binary-continuation parent boundary child boundary residue 1/8 placement 1/2
+  transform binary-continuation lineage-law-set-morphism
+  transform-remove binary-continuation condense
+  transform-law binary-continuation lineage-condense guard condition-open query is-one-origin bind value=condition application once-per-realization irreversible
+  transform-effect binary-continuation lineage-condense add structure 1
+  transform-effect binary-continuation lineage-condense set condition 0
+  transform-commit binary-continuation lineage-condense structure
+  transform-effect-value binary-continuation law lineage-condense effect-index 0 query lineage-local
+
+  order causal-partial universal-clock false
+}

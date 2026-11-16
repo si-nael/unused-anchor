@@ -1,0 +1,311 @@
+{
+  "mode": "bubble-endogenous-connected-universe-program.v1",
+  "formal": {
+    "mode": "bubble-intensional-system.v1",
+    "families": [
+      {
+        "id": "zero",
+        "domain": { "axes": [{ "name": "unit", "kind": "finite", "size": "1" }] },
+        "valueKind": "rational",
+        "parameters": [],
+        "body": { "kind": "value", "value": { "kind": "rational", "numerator": "0", "denominator": "1" } }
+      },
+      {
+        "id": "one",
+        "domain": { "axes": [{ "name": "unit", "kind": "finite", "size": "1" }] },
+        "valueKind": "rational",
+        "parameters": [],
+        "body": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+      },
+      {
+        "id": "root-open",
+        "domain": { "axes": [{ "name": "unit", "kind": "finite", "size": "1" }] },
+        "valueKind": "rational",
+        "parameters": [{ "name": "depth", "valueKind": "rational" }],
+        "body": {
+          "kind": "if",
+          "condition": {
+            "kind": "binary",
+            "operator": "equal",
+            "left": { "kind": "parameter", "name": "depth" },
+            "right": { "kind": "value", "value": { "kind": "rational", "numerator": "0", "denominator": "1" } }
+          },
+          "then": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
+          "otherwise": { "kind": "value", "value": { "kind": "rational", "numerator": "0", "denominator": "1" } }
+        }
+      },
+      {
+        "id": "lineage-value",
+        "domain": { "axes": [{ "name": "unit", "kind": "finite", "size": "1" }] },
+        "valueKind": "rational",
+        "parameters": [
+          { "name": "depth", "valueKind": "rational" },
+          { "name": "coordinate", "valueKind": "rational" }
+        ],
+        "body": {
+          "kind": "binary",
+          "operator": "add",
+          "left": { "kind": "parameter", "name": "depth" },
+          "right": { "kind": "parameter", "name": "coordinate" }
+        }
+      },
+      {
+        "id": "admit-all",
+        "domain": { "axes": [{ "name": "unit", "kind": "finite", "size": "1" }] },
+        "valueKind": "boolean",
+        "parameters": [],
+        "body": { "kind": "value", "value": { "kind": "boolean", "value": true } }
+      },
+      {
+        "id": "is-one",
+        "domain": { "axes": [{ "name": "unit", "kind": "finite", "size": "1" }] },
+        "valueKind": "boolean",
+        "parameters": [{ "name": "value", "valueKind": "rational" }],
+        "body": {
+          "kind": "binary",
+          "operator": "equal",
+          "left": { "kind": "parameter", "name": "value" },
+          "right": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+        }
+      },
+      {
+        "id": "identity-pair",
+        "domain": { "axes": [{ "name": "unit", "kind": "finite", "size": "1" }] },
+        "valueKind": "boolean",
+        "parameters": [
+          { "name": "parent", "valueKind": "rational" },
+          { "name": "child", "valueKind": "rational" }
+        ],
+        "body": {
+          "kind": "binary",
+          "operator": "and",
+          "left": {
+            "kind": "binary",
+            "operator": "equal",
+            "left": { "kind": "parameter", "name": "parent" },
+            "right": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+          },
+          "right": {
+            "kind": "binary",
+            "operator": "equal",
+            "left": { "kind": "parameter", "name": "child" },
+            "right": { "kind": "value", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } }
+          }
+        }
+      }
+    ]
+  },
+  "schemas": [
+    {
+      "id": "field-world",
+      "fields": [
+        {
+          "id": "structure",
+          "familyId": "zero",
+          "role": "structural-state",
+          "initializer": { "familyId": "zero", "at": { "unit": { "kind": "literal", "value": "0" } }, "parameters": {} }
+        },
+        {
+          "id": "identity",
+          "familyId": "one",
+          "role": "identity-state",
+          "initializer": { "familyId": "one", "at": { "unit": { "kind": "literal", "value": "0" } }, "parameters": {} }
+        },
+        {
+          "id": "memory",
+          "familyId": "lineage-value",
+          "role": "memory-state",
+          "initializer": {
+            "familyId": "lineage-value",
+            "at": { "unit": { "kind": "literal", "value": "0" } },
+            "parameters": {
+              "depth": { "kind": "lineage-depth" },
+              "coordinate": { "kind": "local-coordinate" }
+            }
+          }
+        },
+        {
+          "id": "boundary",
+          "familyId": "one",
+          "role": "boundary-state",
+          "initializer": { "familyId": "one", "at": { "unit": { "kind": "literal", "value": "0" } }, "parameters": {} }
+        },
+        {
+          "id": "signal",
+          "familyId": "one",
+          "role": "world-condition",
+          "initializer": { "familyId": "one", "at": { "unit": { "kind": "literal", "value": "0" } }, "parameters": {} }
+        },
+        {
+          "id": "condition",
+          "familyId": "root-open",
+          "role": "world-condition",
+          "initializer": {
+            "familyId": "root-open",
+            "at": { "unit": { "kind": "literal", "value": "0" } },
+            "parameters": { "depth": { "kind": "lineage-depth" } }
+          }
+        },
+        {
+          "id": "lineage-support",
+          "familyId": "zero",
+          "role": "positive-sea",
+          "initializer": { "familyId": "zero", "at": { "unit": { "kind": "literal", "value": "0" } }, "parameters": {} }
+        },
+        {
+          "id": "lineage-residue",
+          "familyId": "zero",
+          "role": "negative-sea",
+          "initializer": { "familyId": "zero", "at": { "unit": { "kind": "literal", "value": "0" } }, "parameters": {} }
+        },
+        {
+          "id": "boundary-support",
+          "familyId": "zero",
+          "role": "positive-sea",
+          "initializer": { "familyId": "zero", "at": { "unit": { "kind": "literal", "value": "0" } }, "parameters": {} }
+        },
+        {
+          "id": "boundary-pressure",
+          "familyId": "zero",
+          "role": "negative-sea",
+          "initializer": { "familyId": "zero", "at": { "unit": { "kind": "literal", "value": "0" } }, "parameters": {} }
+        }
+      ],
+      "protectedFieldIds": ["structure", "identity", "memory", "boundary"],
+      "ports": ["identity-port", "lineage-port"],
+      "seaChannels": [
+        { "id": "lineage", "positiveFieldId": "lineage-support", "negativeFieldId": "lineage-residue" },
+        { "id": "boundary", "positiveFieldId": "boundary-support", "negativeFieldId": "boundary-pressure" }
+      ],
+      "selfIdentity": {
+        "id": "identity-holds",
+        "query": { "familyId": "is-one", "at": { "unit": { "kind": "literal", "value": "0" } }, "parameters": {} },
+        "fieldParameters": [{ "parameterName": "value", "fieldId": "identity" }]
+      },
+      "internalLaws": [
+        {
+          "id": "condense",
+          "guard": {
+            "id": "condition-open",
+            "query": { "familyId": "is-one", "at": { "unit": { "kind": "literal", "value": "0" } }, "parameters": {} },
+            "fieldParameters": [{ "parameterName": "value", "fieldId": "condition" }]
+          },
+          "effects": [
+            { "fieldId": "structure", "operation": "add", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
+            { "fieldId": "condition", "operation": "set", "value": { "kind": "rational", "numerator": "0", "denominator": "1" } }
+          ],
+          "application": "once-per-realization",
+          "reversibility": "irreversible",
+          "commitAffectedFieldIds": ["structure"]
+        }
+      ],
+      "emergenceCriteria": [
+        {
+          "id": "structure-present",
+          "predicate": {
+            "id": "structure-is-one",
+            "query": { "familyId": "is-one", "at": { "unit": { "kind": "literal", "value": "0" } }, "parameters": {} },
+            "fieldParameters": [{ "parameterName": "value", "fieldId": "structure" }]
+          },
+          "witnessFieldIds": ["structure", "boundary", "identity"]
+        }
+      ],
+      "causalProjection": {
+        "channels": [
+          {
+            "channelId": "lineage",
+            "positiveWeight": { "kind": "rational", "numerator": "1", "denominator": "1" },
+            "negativeWeight": { "kind": "rational", "numerator": "1", "denominator": "1" }
+          },
+          {
+            "channelId": "boundary",
+            "positiveWeight": { "kind": "rational", "numerator": "1", "denominator": "2" },
+            "negativeWeight": { "kind": "rational", "numerator": "1", "denominator": "2" }
+          }
+        ],
+        "intrinsicViability": { "kind": "rational", "numerator": "0", "denominator": "1" },
+        "objective": {
+          "id": "maintain-structure",
+          "fieldId": "structure",
+          "direction": "maximize",
+          "weight": { "kind": "rational", "numerator": "1", "denominator": "1" }
+        }
+      }
+    }
+  ],
+  "roots": [{ "id": "origin", "schemaId": "field-world", "values": {} }],
+  "constructors": [
+    {
+      "id": "binary-continuation",
+      "parentSchemaId": "field-world",
+      "childSchemaId": "field-world",
+      "coordinates": { "kind": "finite", "size": "2" },
+      "admission": {
+        "id": "continuation-admitted",
+        "query": { "familyId": "admit-all", "at": { "unit": { "kind": "literal", "value": "0" } }, "parameters": {} },
+        "fieldParameters": []
+      },
+      "parentPortId": "lineage-port",
+      "childPortId": "lineage-port",
+      "relationIdentity": {
+        "id": "lineage-identity",
+        "query": { "familyId": "identity-pair", "at": { "unit": { "kind": "literal", "value": "0" } }, "parameters": {} },
+        "fieldParameters": [
+          { "parameterName": "parent", "endpoint": "parent", "fieldId": "identity" },
+          { "parameterName": "child", "endpoint": "child", "fieldId": "identity" }
+        ]
+      },
+      "transports": [{ "sourceFieldId": "signal", "targetFieldId": "condition" }],
+      "schemaTransformation": {
+        "id": "lineage-law-set-morphism",
+        "removeLawIds": ["condense"],
+        "upsertLaws": [
+          {
+            "id": "lineage-condense",
+            "guard": {
+              "id": "condition-open",
+              "query": { "familyId": "is-one", "at": { "unit": { "kind": "literal", "value": "0" } }, "parameters": {} },
+              "fieldParameters": [{ "parameterName": "value", "fieldId": "condition" }]
+            },
+            "effects": [
+              { "fieldId": "structure", "operation": "add", "value": { "kind": "rational", "numerator": "1", "denominator": "1" } },
+              { "fieldId": "condition", "operation": "set", "value": { "kind": "rational", "numerator": "0", "denominator": "1" } }
+            ],
+            "application": "once-per-realization",
+            "reversibility": "irreversible",
+            "commitAffectedFieldIds": ["structure"]
+          }
+        ],
+        "effectValues": [
+          {
+            "lawId": "lineage-condense",
+            "effectIndex": 0,
+            "value": {
+              "familyId": "lineage-value",
+              "at": { "unit": { "kind": "literal", "value": "0" } },
+              "parameters": {
+                "depth": { "kind": "lineage-depth" },
+                "coordinate": { "kind": "local-coordinate" }
+              }
+            }
+          }
+        ]
+      },
+      "seaActions": [
+        {
+          "parentChannelId": "lineage",
+          "childChannelId": "lineage",
+          "parentNegativeResidue": { "kind": "rational", "numerator": "1", "denominator": "4" },
+          "childPositivePlacement": { "kind": "rational", "numerator": "1", "denominator": "1" }
+        },
+        {
+          "parentChannelId": "boundary",
+          "childChannelId": "boundary",
+          "parentNegativeResidue": { "kind": "rational", "numerator": "1", "denominator": "8" },
+          "childPositivePlacement": { "kind": "rational", "numerator": "1", "denominator": "2" }
+        }
+      ]
+    }
+  ],
+  "order": { "kind": "causal-partial-order", "universalClock": false }
+}

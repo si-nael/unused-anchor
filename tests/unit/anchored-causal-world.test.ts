@@ -5,11 +5,13 @@ import test from "node:test";
 import {
     exact,
     validateAnchoredCausalWorld,
-    validateAnchoredNarrativeWorld,
     validateExecutableCausalProgram,
     type ExecutableAnchoredCausalProgram,
-    type ExecutableAnchoredNarrativeProgram,
 } from "../../src/bubbles/world-kernel";
+import {
+    validateAnchoredNarrativeWorld,
+    type ExecutableAnchoredNarrativeProgram,
+} from "../../src/bubbles/world-kernel/interpretive";
 import selfOrganizingField from "../../examples/self-organizing-field.world.json";
 import anchoredGarden from "../../examples/anchored-garden.world.json";
 

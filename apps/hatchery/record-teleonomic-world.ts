@@ -1,4 +1,4 @@
-import { recordTeleonomicCausalReplay } from "../../src/bubbles/world-kernel";
+import { recordTeleonomicCausalReplay } from "../../src/bubbles/world-kernel/interpretive";
 import { emitCausalJson } from "./causal-cli";
 import { parsePersistentExecutionArgs, readPersistentProgram } from "./persistent-cli";
 

@@ -555,7 +555,7 @@ Complete the 5.x portable-core inventory and encode one narrow stable vertical s
 
 ### H-021: A typed anchor span with material sea effects can connect autonomous worlds
 
-Status: supported for one exact unversioned relation; general composition untested
+Status: supported as the bounded `v0.5.7` baseline with a bounded `v0.5.8` simultaneous/generated-relation extension; general recurrence remains untested
 
 Claim:
 
@@ -571,6 +571,10 @@ Current supporting evidence:
 - `source internal law -> anchor transfer -> target internal law` is preserved in the causal partial order with `hostSelection: false`
 - an internally caused birth must precede transfer into a formerly latent endpoint and remains a direct transfer cause
 - strict source lowering, inspection, stored records, deterministic replay, and negative validator cases all cover the same typed runtime relation
+- the active connected-universe constructor derives relation anchors, exact parent-to-child condition transport, and separate channel-valued sea actions for every admitted lineage edge
+- each generated transport ID becomes a direct cause of the receiving world's local law; removing transport leaves the world present but suppresses that response
+- two independent causal membrane crossings read one pre-frontier snapshot, commit atomically, accumulate exact shared sea changes, and occupy one frontier without a causal edge between siblings
+- same-frontier target-to-source chaining and identity dependence on another crossing's writes are rejected rather than serialized by host order
 
 Would be weakened or falsified by:
 
@@ -580,7 +584,227 @@ Would be weakened or falsified by:
 - pre/post identity failure mutating any portion of the proposed atomic crossing
 - replay preserving final fields while losing the transfer event, ports, identity evidence, sea accounting, or causal edges
 - treating one snapshot relation as proof of general routing, global sea conservation, concurrent composition, agency, or whole-universe completion
+- allowing a multi-transfer loop to derive payload order, overwrite shared provenance, or call sequential mutation a commuting proof
 
 Next check:
 
-Derive the smallest two-transfer case from an author-justified world relation and test all commute/conflict combinations, cut and lifecycle interactions, identity preservation, sea accounting, branch completeness, and replay. Keep the one-transfer restriction until that model exists.
+Test post-generation repeated crossing across successive causal closures, explicit dependency-ordered chains, combined identity predicates, and non-additive or conserved sea operators. Preserve the current simultaneous frontier as a bounded theorem rather than widening it by case count.
+
+### H-022: One finite constructor law can denote and causally realize a connected Bubble family without a host world catalog
+
+Status: supported for the bounded `v0.5.8` demanded slice; general closure remains unproven
+
+Claim:
+
+A finite typed system of roots, schemas, and recursive constructors can denote a potentially unbounded connected Bubble family while a finite evaluator materializes only a demanded complete local subcoalgebra, preserves every unresolved frontier, derives lineage-relative identity and anchors, and lets generated worlds continue through their own laws without host selection or universal time.
+
+Current supporting evidence:
+
+- a recursive binary constructor at demanded depth two derives 7 deterministic lineage-addressed worlds from one root without listing those instances in the source
+- all 6 generated edges create relation anchors, two exact channel sea actions, one exact payload transport, and `hostSelection: false`
+- every transported condition causes the corresponding child-local structural law; removing transport leaves both generated children present and locally dormant
+- world budget 2 cannot preserve one of two admitted root siblings, so neither is committed
+- an unresolved formal admission preserves both sibling coordinates as unresolved and commits neither
+- a natural constructor materializes the demanded prefix and retains an explicit `natural-open` frontier
+- removing the scalar legacy projection preserves worldhood and topology while withholding unsupported causal-adapter execution
+- inspection and same-program replay preserve topology, channels, transports, frontiers, local continuations, and tamper evidence
+- an exact-false root constructor remains dormant, activates only after root-local condensation, forms its child, and reaches a three-closure configuration fixpoint after that child executes and one unchanged confirming pass; a one-closure bound reports `undetermined`
+- the canonical all-admitted topology requires a second closure to prove that its changed post-condensation fields are a true configuration fixpoint rather than only stable topology
+- a recursive 3-world/5-anchor condition down/up fixture returns to its exact input configuration through 6 events and closes as `persistent-recurrence`, not a fixpoint, only after invariant lineage, anchor identity, identity-dependency nonmutation, and monotone evidence are certified
+- a plural causal closure derives every continuation as a lineage-bearing generated-universe branch; one root split followed by a child split yields three independently closed branches without host selection
+- a generation branch limit of one preserves the complete two-continuation frontier on its common input and continues neither member
+- malformed axes, incomplete parameter signatures, wrong exact kinds, and unavailable parent sources contradict the program before they can masquerade as false world law
+
+Would be weakened or falsified by:
+
+- traversal order changing world identity or constructor declaration order selecting a sibling
+- a finite resource bound being reported as the end of a recursive or natural family
+- generated anchors having no causal or material effect on receiving worlds
+- scalar viability becoming mandatory ontology for the channel-valued generator
+- host-created schema instances, partial sibling commitment, lost relation provenance, or replay that reconstructs only final fields
+- claiming dynamic law/schema invention, topology-changing or non-periodic persistence, component self-maintenance, general coinduction, or whole-universe completion from the finite supplied-schema fixture
+
+Next check:
+
+Separately define lawful branch equivalence/convergence and generated law/schema transformation. Extend recurrence only from a concrete topology-changing, quotient, non-periodic, or cross-membrane case; do not conflate instance generation with semantic self-invention.
+
+### H-023: A finite internal demand can deterministically close a view of an infinite Bubble while realization evidence self-complements
+
+Status: supported for finite v0.5.8 demanded cuts; universal convergence and external observation unproven
+
+Claim:
+
+For a typed intensional Bubble program `P` and finite demand `delta`, evaluation can terminate with one reproducible semantic result even when `P` denotes a potentially unbounded universe, provided plurality is returned as the complete lawful branch family and every unexecuted continuation remains an explicit frontier. Repeated causal-generation closure can monotonically extend an evidence ledger even when the world state itself is non-monotone.
+
+Current supporting evidence:
+
+- recursive constructor incidence and natural coordinates are distinguished from finite-by-current-graph denotation
+- canonical finite cuts close as one result while retaining depth frontiers and denying whole-universe completion
+- plural causal worlds close as one complete three-branch result with no host selection
+- insufficient closure or branch resources return an open boundary, not a fabricated finite ending or selected prefix
+- realized root state reactivates a dormant constructor and this transition appears in the evidence chain
+- every chain step commits its predecessor digest, so inspection/replay preserve monotone evidence provenance and reject mutation
+- exact active generated recurrence now preserves lineage and anchor identity, rejects identity-dependency mutation hidden between equal cuts, and separates replay evidence from committed world history
+
+Would be weakened or falsified by:
+
+- identical program and demand producing different branch families without declared non-effective input provenance
+- any resource bound silently dropping a sibling, continuation, or frontier
+- a closed demanded slice claiming the entire recursive denotation is materialized
+- evidence digest growth being used as proof that fields are monotone or every recurrent run converges
+- an external observer or host branch selector being required for the Phase 1 result
+
+Next check:
+
+Test source-lowered and generated-schema variants against the same result-form and recurrence-identity contracts, then study topology-changing or non-periodic persistence without assuming convergence.
+
+### H-024: Exact generated recurrence can preserve universe identity without becoming a fixpoint or fabricating history
+
+Status: supported for bounded exact v0.5.8 recurrence; topology-changing and non-periodic persistence unproven
+
+Claim:
+
+An active finite generated-universe cut can be certified as the same persistent recurrence when its complete causal-generation configuration repeats, lineage/world and anchor/generation structure are invariant, every world and relation identity predicate holds at both cuts, no causal event inside the cycle mutates an identity dependency, and causal occurrence evidence extends without host selection. This does not require zero activity and does not imply that internal committed history extended.
+
+Current supporting evidence:
+
+- one recursive constructor produces a 3-world, 2-generation-event, 5-anchor cut whose six local condition events return the exact configuration in one closure
+- the branch resolves as `persistent-recurrence` while `fixpointReached` remains false
+- all world IDs, schemas, lineage addresses, generation causes, anchors, and identity predicates remain exact across the cuts
+- changing and restoring an identity-bound condition within the same cycle yields `not-certified` despite equal endpoint digests
+- exhausting the formal identity budget yields `undetermined`, not persistence
+- uncommitted recurrence records six causal evidence entries, zero committed-history entries, `worldHistoryExtended: false`, and `fullAnchoredStateRepeated: true`
+- adding exact condition commits records causal and committed extensions separately and makes `fullAnchoredStateRepeated: false`
+- inspection and replay preserve the certificate, and stored-certificate mutation fails integrity
+
+Would be weakened or falsified by:
+
+- endpoint digest equality certifying a cycle that changes an identity dependency internally
+- a removed, rewritten, or host-selected anchor/generation event surviving certification
+- replay evidence alone being reported as internal world history
+- identity proof exhaustion becoming false, true, or a selected fallback
+- this finite-cut continuity certificate being used as proof of component self-maintenance, lawful branch quotient, general convergence, or whole-universe persistence
+
+Next check:
+
+Construct the smallest recurrence that lawfully changes topology or crosses a membrane over successive closures. Require an explicit identity morphism or history-preserving quotient before treating different configurations as one persistent universe.
+
+### H-025: Typed inherited law revisions can make generated worlds semantically differentiated without arbitrary self-modification
+
+Status: supported for bounded irreversible-law effects; complete law-set and world-local schema-graph morphisms are supported separately in H-026/H-027, while intensional generation remains unproven
+
+Claim:
+
+A constructor can organically differentiate descendant world law when the child inherits a concrete parent revision and a typed intensional morphism derives exact lineage-relative law operands. This can remain replayable, causal, and host-selection-free without accepting executable source text or an opaque host callback.
+
+Current supporting evidence:
+
+- roots carry one content-addressed base revision and untransformed same-schema descendants inherit it exactly
+- the canonical recursive constructor produces six child revisions from parent revision lineage, depth, and local coordinate
+- each transformation records the exact query, result, proof digest, source revision, target revision, constructor, child, and relation reference
+- the causal compiler executes `world.schemaRevision.internalLaws`; compiled effect values equal the realized revision rather than the static schema table
+- unknown law IDs, duplicate targets, out-of-range effects, reversible laws, and wrong exact kinds are rejected before materialization
+- formal proof exhaustion leaves the complete sibling family uncommitted and visible as a two-coordinate transformation frontier
+- recurrence structure includes the complete revision, and inspection/replay preserve provenance and reject mutation
+
+Would be weakened or falsified by:
+
+- a descendant revision depending on traversal order or undeclared host state
+- one unresolved sibling allowing another sibling revision to become real
+- a compiled law differing from the revision stored on its world
+- revision changes disappearing from recurrence identity, causal provenance, inspection, or replay
+- this bounded operand morphism being presented as arbitrary law invention or executable self-construction
+
+Next check:
+
+The complete child-local law-set morphism is tested separately in H-026, and H-027 now tests the complete world-local executable schema graph. Next test intensional graph/family generation or strict source lowering while preserving typed dependencies, identity, old-revision history, and atomic sibling closure before any code-generation surface is considered.
+
+### H-026: Idempotent remove/upsert forms a recursively closed internal-law-set morphism
+
+Status: supported for complete typed child-local internal laws; complete world-local graph replacement is tested separately in H-027
+
+Claim:
+
+A constructor can transform an inherited complete internal-law set at every recursive depth without depth-specific host logic when removal is idempotent and a complete typed upsert means add-if-absent or replace-if-inherited. The resulting revision remains executable and replay-identifiable when its full law contracts validate before materialization.
+
+Current supporting evidence:
+
+- one base root has `condense`; two first-generation children remove it and add `lineage-condense`
+- four second-generation children inherit `lineage-condense`, make the same requested removal a no-op, and replace the inherited law through the same morphism
+- exact effect specialization runs after upsert, so each generated law receives its own depth/coordinate value
+- compiled root and descendant law IDs and effects exactly match their stored revisions, and every descendant realizes only `lineage-condense`
+- event provenance distinguishes requested/effective removal, addition, replacement, source law set, and target law set
+- invalid inverse pairs, wrong effect kinds, duplicate effect writers, empty operations, duplicate/unknown removals, and duplicate/overlapping upserts contradict before generation
+- stored law-set provenance tampering fails replay integrity
+
+Would be weakened or falsified by:
+
+- the same morphism becoming invalid solely because its valid result was inherited at the next depth
+- declaration or traversal order changing the target law set
+- a law compiling with a guard, effect, commit, or inverse different from the stored revision
+- removal or upsert failure committing a partial sibling family
+- describing finite typed law templates as generated executable implementation code
+
+Next check:
+
+H-027 closes the next bounded whole-schema relation. Continue only from a concrete need for intensional graph/family generation, constructor/schema-incidence transformation, or source lowering without weakening prior revisions or importing host callbacks.
+
+### H-027: A complete pre-instantiation schema graph can differentiate generated worlds coherently
+
+Status: supported for finitely declared complete world-local graph replacement; intensional graph generation unproven
+
+Claim:
+
+A recursive constructor can give descendants a different executable field/protection/port/sea/identity/law/emergence/projection structure without host mutation order when it derives one complete typed target graph before child instantiation and every later operation consumes that realized revision.
+
+Current supporting evidence:
+
+- one base root retains its base graph while every generated descendant carries a content-addressed replacement graph
+- the replacement introduces a lineage-relative field and initializer, protects it, adds a port and sea channel, changes self-identity, replaces the internal law and emergence criterion, and changes the causal objective in one atomic target
+- child initialization evaluates the new field from depth and coordinate before relation transport or sea action
+- relation anchors bind the replacement port; sea refresh reads replacement channels; compilation emits replacement fields, protection, laws, emergence, and objectives
+- the same total replacement remains valid at the next recursive depth rather than colliding as a one-shot migration
+- source/target graph digests and changed component identities are recorded with `hostSelection: false`
+- missing protected fields, emergence witnesses, and projection channels contradict statically and materialize no world
+- all prior law-set, sibling atomicity, recurrence-identity, inspection, and replay tests remain valid
+
+Would be weakened or falsified by:
+
+- any generated field being initialized from the base graph and relabeled afterward
+- self-anchor, relation, sea, compiler, recurrence, or replay reloading a static component that differs from the stored revision
+- a graph with a dangling typed dependency reaching runtime mutation
+- recursive application depending on depth-specific host exceptions or declaration order
+- presenting a finite declared target graph as intensional invention of arbitrary schemas, formal families, or executable code
+
+Next check:
+
+Define whether the next necessary seam is intensional graph/family generation or strict `.bubble` lowering. Keep constructor/schema-incidence transformation, successor implementation generation, and code execution open until their own identity and replay contracts exist.
+
+### H-028: One strict source can preserve the complete endogenous program without a second runtime
+
+Status: supported for the current connected-universe contract; intensional definition generation remains open
+
+Claim:
+
+A constrained declarative Bubble source can express exact intensional families, complete world-local schema graphs, recursive constructors, relation anchors, sea actions, and typed schema morphisms without flattening them into the older causal profile or embedding executable host text, provided it lowers losslessly to the same typed program and validator.
+
+Current supporting evidence:
+
+- the canonical `.bubble` source deep-equals the retained `EndogenousUniverseProgram` JSON projection
+- the ordinary endogenous run, inspection, record, and replay CLIs consume that source without a separate execution path
+- a source-declared replacement graph contains all eight executable graph components and reaches the existing graph validator
+- source algebra covers exact values, axes, parameters, unary/binary terms, conditionals, family-coordinate references, and guarded natural recursion
+- shared formal validation rejects declared-result, operator, conditional, and coordinate-argument kind mismatches for both source and JSON programs
+- universal time, incomplete graph structure, dangling references, and replay drift remain rejected before or across execution
+
+Would be weakened or falsified by:
+
+- source and JSON lowering to different typed programs for the same declarations
+- a semantic feature available only through an untyped source escape hatch
+- declaration text or order selecting a generated branch or changing sibling materialization
+- a source-declared graph bypassing identity, inverse, sea, projection, or recursive endpoint validation
+- this finite authoring surface being presented as endogenous invention of new graph definitions or executable implementation code
+
+Next check:
+
+Derive the next source construct only from a required intensional graph/family-generation or constructor-incidence semantic contract. Do not widen syntax independently of executable meaning.

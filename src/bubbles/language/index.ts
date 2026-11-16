@@ -2,6 +2,7 @@ export * from "./ast";
 export * from "./causal-compile";
 export * from "./compile";
 export * from "./diagnostics";
+export * from "./endogenous-compile";
 export * from "./expressions";
 export * from "./grammars";
 export * from "./lower";

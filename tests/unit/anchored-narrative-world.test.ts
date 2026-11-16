@@ -1,13 +1,15 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
-    analyzeAnchoredNarrativeWorld,
     exact,
     term,
-    validateAnchoredNarrativeWorld,
-    type AnchoredNarrativeWorldSystem,
     type IntensionalFamilyDefinition,
 } from "../../src/bubbles/world-kernel";
+import {
+    analyzeAnchoredNarrativeWorld,
+    validateAnchoredNarrativeWorld,
+    type AnchoredNarrativeWorldSystem,
+} from "../../src/bubbles/world-kernel/interpretive";
 
 function constantFamily(
     id: string,

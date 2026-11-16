@@ -8,7 +8,333 @@ The point is not to treat every compiler error as deep theory.
 
 The point is to keep visible the classes of failure that show where Bubble's own membranes, compatibility rules, or self-descriptive limits need to harden.
 
+## 2026-11-16
+
+### B-053: Two identity semantics remained implicit at the confirmation boundary
+
+Observed surface:
+
+The v0.5.8 confirmation audit found two places where anchor identity is weaker than a reader of the recurrence certificate might assume. First, a `parent-field` source inside a relation-identity query is resolved from the parent snapshot at generation and baked into the stored predicate. The predicate therefore cannot see later parent state, and its field is not an identity dependency: a cycle that changes and restores `parent.condition` is not certified when the predicate binds that field live, but it is certified as `persistent-recurrence` when the same comparison reads `parent-field(condition)`. Second, a demanded fixpoint is certified by configuration equality, no new world, and zero realized events. It does not evaluate anchor identity at the final cut, unlike `persistent-recurrence`, so a run can report `fixpointReached: true` and `single-closed-result` while a generated relation anchor's identity predicate evaluates false.
+
+Boundary meaning:
+
+Neither behavior contradicts a written v0.5.8 claim: `parent-field` was deliberately admitted as a birth-snapshot source (D-125), and the fixpoint contract never mentioned identity. Both are semantic choices about what an anchor is, and the repository's discipline reserves those for the author rather than for a release-preparation patch.
+
+Current handling:
+
+Left unchanged and recorded as open in the v0.5.8 architecture record. Candidate resolutions: reject `parent-field` sources in identity predicates, or keep them but expose frozen inputs in the certificate; and require, or merely report, anchor identity at a fixpoint cut, with an explicit status for an identity-broken fixpoint.
+
+Next check:
+
+Decide both semantics before any later recurrence, convergence, or anchor-calculus work builds on them.
+
+### B-052: An admitted sibling vanished when another sibling's admission was unresolved
+
+Observed surface:
+
+When one coordinate of a constructor family was admitted and another coordinate's admission exhausted its proof budget, the whole family was correctly withheld, but only the unresolved coordinate was recorded. The admitted sibling was neither materialized nor present in any frontier.
+
+Boundary meaning:
+
+All-or-nothing sibling atomicity must not erase evidence. A withheld admitted world is still a demanded consequence of Bubble law, and dropping it from the frontier makes the open boundary smaller than it is.
+
+Current handling:
+
+Each admitted member of an unresolved family is recorded as a `sibling-admission-pending` frontier. A regression covers one admitted and one unresolved coordinate.
+
+Next check:
+
+Any future partial-evaluation path must record every withheld member of the family it withholds.
+
+### B-051: World budgets selected an order-dependent prefix and claimed exhaustiveness
+
+Observed surface:
+
+The root loop materialized roots in identifier order and stopped at the world budget without recording a frontier. With two roots and `maxWorlds: 1`, one root existed, no frontier remained, and the materialization, inspection, and finite-realization certificate all reported an exhaustive whole universe. Renaming a root changed which one survived. Separately, sibling atomicity held per parent only: under a tight budget, the first parent's children at a depth could be materialized while a cousin family was not, so coordinate order decided which cousins existed.
+
+Boundary meaning:
+
+A resource limit may stop realization, but it may not choose which part of the demanded slice exists, and an unresolved slice can never be the whole universe.
+
+Current handling:
+
+Roots are materialized all-or-nothing, and each withheld root becomes a `root-world-budget` frontier. Generation proceeds one lineage depth at a time: every admitted sibling family of a level is proposed before any is committed, and if the level does not fit, no member of it is materialized and every proposal becomes a `world-budget` frontier. `exhaustiveUniverse` now also requires a resolved, complete demanded slice, which corrects `finiteMaterializationIsWholeUniverse`. Regressions cover the root and cousin cases.
+
+Next check:
+
+Keep budget checks at the granularity of a complete demanded level whenever generation order is not itself a semantic order.
+
+### B-050: An inherited replacement graph exposed protected and missing transport endpoints
+
+Observed surface:
+
+Each constructor was validated against the base child schema plus only its own `replaceGraph`. At runtime, a same-schema child inherits whatever revision its parent realized, including a graph produced by a different constructor. A constructor whose own endpoints were valid could therefore transport into a field that another constructor's replacement graph had protected and given the `identity-state` role, with zero diagnostics and a resolved run. If that replacement graph lacked the transport source, validation still passed and the run contradicted only after four worlds existed. In endogenous programs, `protectedFieldIds` is enforced statically for transports and is not consulted by the causal kernel's internal laws, so the missed static check was the only guard.
+
+Boundary meaning:
+
+The schema-graph closure claim ("before any sibling exists") must hold for every revision a world can actually carry, not only for the revision its own constructor writes.
+
+Current handling:
+
+Validation derives, for each schema, its base graph plus every replacement graph any constructor produces for it. Every constructor's ports, admission, relation-identity bindings, transports (existence, kind, sea-role, world-condition role, protection), sea actions, and law morphisms are closed against every realizable parent and child revision. A runtime guard additionally refuses a transport into a protected or non-condition field of the realized child revision. A regression covers both the protected-target and missing-source variants and shows that no world is created.
+
+Next check:
+
+Any new way to derive a revision, such as intensional graph generation, must extend the realizable-revision set before it can be validated.
+
+### B-049: Source-level graph-replacement evidence was described as proof of executable change
+
+Observed surface:
+
+The v0.5.8 architecture record said the source test "separately proves complete graph replacement plus recursive family-coordinate syntax". The test's replacement graph is identical to the base schema, its recursive `countdown` family is never queried, and the test checks lowered keys and counts without running the program. At runtime, its only changed component is the law morphism.
+
+Boundary meaning:
+
+Lowering and validating a syntax form is evidence that the syntax is accepted with the right typed shape, not evidence that its executable consequence happens.
+
+Current handling:
+
+The architecture record now states that the source test is parse-and-validate evidence and that executable whole-graph change is evidenced by the JSON-level whole-schema fixture. Source-level executable evidence is recorded as open.
+
+Next check:
+
+Add a source fixture whose replacement graph actually differs from its base and whose recursive family is evaluated, then run it through the ordinary evidence cycle.
+
 ## 2026-07-17
+
+### B-048: JSON-only generation crossed away from Bubble's own language
+
+Observed surface:
+
+The connected-universe kernel could execute complete endogenous generation, but its canonical program was available only as TypeScript types and JSON. Reusing the flat causal profile would omit intensional family algebra and complete graph morphisms, while embedding arbitrary JSON or code text in `.bubble` would make the extension cosmetic. During source testing, the shared intensional validator also accepted a family declared `rational` whose body yielded `boolean`.
+
+Boundary meaning:
+
+An authoring language and its typed execution graph must be two projections of one semantic object. Source must neither lose connected-universe structure nor gain a host-code escape hatch. Type validity must belong to the shared formal kernel so JSON and source cannot disagree about executable truth.
+
+Current handling:
+
+The strict `endogenous bubble` compiler covers typed family axes, parameters, exact algebra and guarded recursion; total queries; complete schemas and replacement graphs; roots; constructors; relation identity; exact transport and sea actions; graph/law/effect morphisms; and mandatory causal-partial order without a universal clock. It lowers to the existing `EndogenousUniverseProgram`, invokes the ordinary validators, and is structurally identical to the retained canonical JSON. The shared intensional validator now checks family-coordinate arguments, unary/binary operators, conditionals, and declared result kinds. The existing CLI evidence cycle starts from `.bubble`; complete graph replacement, replay, missing graph structure, host-time, and type shortcuts are tested.
+
+Next check:
+
+Do not confuse authored finite graph declarations with intensional generation of new graph or family definitions. The next language widening must come from that semantic need or another concrete representation failure, preserve earlier revisions, and still reject executable host callbacks and hidden selection.
+
+### B-047: A revised schema label crossed over a base-schema world
+
+Observed surface:
+
+The first inherited revision stored and compiled transformed internal laws, but fields, protection, ports, sea channels, self-identity, emergence, and causal projection still came from the static base schema. Simply adding independent mutation arrays would allow a field to disappear after its law, identity binding, sea endpoint, emergence witness, or anchor port had already been accepted. Transforming after instantiation would create a base-schema child and attach different revision metadata to it.
+
+Boundary meaning:
+
+A world-local schema is one dependency graph, not a bag of independently optional categories. Its revision must exist before the world it defines, every consumer must share that revision, and a recursive constructor must remain valid when its target graph becomes the next parent graph.
+
+Current handling:
+
+`replaceGraph` supplies the complete typed field/protection/port/sea/identity/law/emergence/projection graph. It is normalized and content-addressed before child initializers run. Static closure rejects missing protected fields, sea endpoints, predicate bindings, law targets, commits, emergence witnesses, projection channels/objectives, and recursive endpoint dependencies. Runtime generation checks realized ports, relation fields, and sea channels; self-anchors, sea refresh, causal compilation, recurrence, inspection, and replay use the revision. Transformation events bind source/target graph digests and changed components. One focused recursive fixture changes all eight components together and compiles/executes the resulting worlds; malformed cross-references contradict before generation.
+
+Next check:
+
+Do not call a finitely declared total target graph self-generation. The remaining boundary is intensional derivation of new graph or family definitions, constructor/schema-incidence transformation, and source lowering, each with preserved prior revisions and no executable host callback.
+
+### B-046: One-shot law addition crossed into a recursively inherited revision
+
+Observed surface:
+
+After effect-value inheritance worked, the obvious structural extension was a list of `add`, `replace`, and `remove` operations. In a recursive constructor, however, the first child would add a law and its child would inherit that law, causing the same `add` to collide. A strict removal would likewise become invalid after its first success. Host application order or depth-specific exceptions would decide semantic structure.
+
+Boundary meaning:
+
+A recursive constructor needs an endomorphism on the space of valid revisions, not a one-use migration script. Law membership, full guard/effect definition, reversibility, and prior revision history must remain coherent under repeated application.
+
+Current handling:
+
+One typed morphism uses idempotent base-law removal plus complete-law upsert. Upsert adds when absent and replaces when inherited. The canonical first generation removes `condense` and adds `lineage-condense`; the next recursive generation removes nothing and replaces the inherited `lineage-condense`, then applies its lineage-relative exact effect specialization. Static validation rejects empty morphisms, unknown or duplicate removals, duplicate or removal-overlapping upserts, duplicate field effects, wrong exact kinds or operations, broken inverses, and invalid commits. Each event records actual add/replace/remove classifications and source/target law sets; replay binds them exactly.
+
+Next check:
+
+Do not generalize one-shot mutation syntax. The next structural morphism must be closed under recursive inheritance and must explain how fields, ports, identity, seas, emergence, constructors, or formal family definitions preserve worldhood. Executable implementation generation remains a later successor-Bubble problem.
+
+### B-045: Generated state crossed into static host-reloaded law identity
+
+Observed surface:
+
+The endogenous constructor generated lineage, fields, anchors, sea actions, and receiving-world continuation, but compilation still read `schema.internalLaws` from the static program. A descendant could therefore look internally generated while its actual law definition remained silently fixed by the host. The apparent remedy—accept arbitrary code or mutable schema callbacks—would merely move the host shortcut into an untyped self-modification channel.
+
+Boundary meaning:
+
+Generating a world instance, inheriting a semantic revision, transforming a typed law operand, inventing a new law, and generating executable implementation code are different claims. Law change also belongs to recurrence identity: equal fields do not establish the same universe if the active law revision differs.
+
+Current handling:
+
+Every world now carries a content-addressed schema revision consumed by the causal compiler. Same-schema descendants inherit the parent's realized revision, and a constructor may derive exact replacements for unique irreversible-law effect operands through total typed intensional queries. Each transformation has source and target revisions, exact query/value/proof provenance, constructor and child causes, relation references, inspection, replay, and `hostSelection: false`. Wrong-kind, missing, duplicate, reversible, and out-of-range targets are rejected statically. An unresolved sibling transformation commits no world or revision and records the whole sibling frontier. Recurrence structure digests include the complete revision.
+
+Next check:
+
+Design a necessity-derived contract for changing guards or complete law/schema topology without host callbacks, hidden code strings, broken inverse semantics, or erased prior revisions. Keep successor-Bubble code construction under Q-022 and do not call this bounded effect-value morphism general self-creation.
+
+### B-044: Equal recurrence cuts crossed over a broken identity interval
+
+Observed surface:
+
+The causal-generation runtime could see identical complete input and output digests after realized events. Declaring persistence from those two cuts alone would allow a law to mutate an anchor-identity dependency and another law to restore it before the output digest, making a temporarily broken world appear continuously identical. A growing replay log could also be mislabeled as growing internal world history.
+
+Boundary meaning:
+
+Configuration recurrence, identity continuity, replay evidence, and committed history are different claims. Endpoint equality does not erase a causally meaningful identity break inside the interval, and host-preserved evidence does not create an internal arrow of time.
+
+Current handling:
+
+Generated recurrence now checks stable lineage/world structure, exact anchor and generation-event sets, true identity predicates at both cuts, and the complete cycle's mutated field keys against every identity dependency. Any overlap prevents certification even if the field is restored. Identity proof exhaustion stays `undetermined`. The recurrence ledger separately counts causal evidence and explicit history commits; `worldHistoryExtended` is false and `fullAnchoredStateRepeated` true when only replay evidence grows.
+
+Next check:
+
+Extend only from a concrete topology-changing, quotient, non-periodic, or recurrent cross-membrane case. Do not relax exact recurrence into field-projection equality or call generated-universe identity a proof of component self-maintenance.
+
+### B-043: Finite determinacy crossed into host-selected observation collapse
+
+Observed surface:
+
+The statement that observing an infinite Bubble exposes a deterministic finite space could be implemented as a host function that chooses one continuation and reports it as the observed world. The same language could also let a closed finite slice claim that the infinite universe had ended, or let repeated execution claim universal convergence from a growing log.
+
+Boundary meaning:
+
+Finite demand, external observation, branch collapse, and complete denotation are different relations. Determinism concerns reproducibility and completeness of the finite semantic answer; it does not require singularity. Evidence may grow monotonically while world fields recur or reverse.
+
+Current handling:
+
+The Phase 1 runtime emits a finite internal realization certificate whose result is one closed run, the complete closed branch family, an open boundary, or contradiction. It marks `selectsBranch: false`, preserves intensional infinity and every remaining frontier, and carries a digest-linked self-complementation evidence chain. It explicitly disclaims world-state monotonicity, guaranteed convergence, whole-universe completion, and any external observer requirement.
+
+Next check:
+
+Integrate persistent recurrent causal-generation identity and committed anchor history, then keep later Phase 2 observation/collapse evidence separate from this internal demand certificate.
+
+### B-042: Malformed query structure crossed into a lawfully closed constructor
+
+Observed surface:
+
+Endogenous query templates were evaluated by the exact intensional kernel, but their axes, combined direct/bound parameter signature, source kinds, reachable seeds, and parent availability were not all checked before materialization. A malformed template could therefore return contradicted at runtime and resemble a genuinely false admission.
+
+Boundary meaning:
+
+Program ill-formedness crossed into world-law negation. A world that lawfully remains dormant is not equivalent to a host document whose query cannot denote the declared family coordinate.
+
+Current handling:
+
+Static validation now requires exact family-axis and parameter sets, exactly-once direct or field-bound supply, exact value-kind agreement, valid literal coordinates, reachable seed values, and necessary compatible parent snapshots. The contract covers initializers, identities, law guards, emergence criteria, admissions, and relation identities. Invalid templates contradict the program before any world exists; valid bounded proof exhaustion remains `undetermined`.
+
+Next check:
+
+Preserve the same total typed contract when connected-universe syntax lowering and generated law/schema definitions are introduced.
+
+### B-041: A finite branch budget crossed into host-selected universe survival
+
+Observed surface:
+
+Once causal continuations began feeding constructor reevaluation, iterating them until a branch budget filled would have made traversal order decide which generated universes continued. Refusing all plurality avoided the false selection but also prevented the universe from following its own internally derived branch structure.
+
+Boundary meaning:
+
+Resource-bounded traversal crossed into ontology. A bound may expose an open complete family, but it cannot convert a prefix chosen by host order into the worlds that exist.
+
+Current handling:
+
+Every causal continuation now derives a deterministic branch lineage with `hostSelection: false`, and each branch recursively carries its own materialization, anchors, seas, causal witnesses, and closure state. Before continuing a plural frontier, the runtime checks the cardinality of the complete prospective family together with already terminal branches. If it exceeds `maxGenerationBranches`, no member is continued; every continuation remains recorded as an open outcome on the common input. Equal projected configurations remain distinct histories unless a later identity proof permits convergence.
+
+Next check:
+
+Define branch equivalence, lawful convergence, and persistent recurrent branch identity without using field equality or digest equality as a substitute for anchor-history proof.
+
+### B-040: Topology stability crossed into causal-generation configuration closure
+
+Observed surface:
+
+The first successive-closure implementation declared a demanded fixpoint as soon as post-law constructor reevaluation generated no new world. In the canonical run, topology was already stable after the first causal closure, but protected structure and condition fields had changed from their input configuration. A law enabled again in a later realization could therefore continue changing the universe even though the world count stayed constant.
+
+Boundary meaning:
+
+No-new-world topology crossed into full world closure. Generation stability, causal-state stability, recurrent configuration, and monotone anchor history are distinct claims.
+
+Current handling:
+
+Every causal-generation closure records exact input and output configuration digests over worlds, anchors, generation events, and frontiers plus its realized-event count. A fixpoint requires no new generation event, identical input/output configuration, and no realized causal event. The canonical world therefore uses a second closure to prove stability; a delayed constructor path uses a third after its child responds. A two-event condition down/up fixture returns to the same fields but is classified as uncertified recurrence rather than a fixpoint. Budget exhaustion remains `undetermined`. A nontrivial repeated digest is recorded as recurrent configuration and withheld from persistence until identity and anchor-history certification exist.
+
+Next check:
+
+Integrate recurrent causal-generation configurations with the persistence evidence layer without equating configuration recurrence with full anchored-world recurrence or replay identity.
+
+### B-039: Multiple crossings crossed into an accidental sequential transport order
+
+Observed surface:
+
+The bounded `v0.5.7` runtime applied its sole anchor transfer by mutating the current realization. Removing only the validator's one-transfer limit would make several same-frontier laws execute transfers in sorted host order. A later transfer could then read a field written by an earlier transfer, shared sea-field causes would be overwritten, and a serialized implementation detail could masquerade as world causality.
+
+Boundary meaning:
+
+Cardinality crossed into composition without a law. Several individually valid relations do not automatically form one valid simultaneous relation, and a deterministic loop is not a causal proof of commutativity.
+
+Current handling:
+
+Multiple crossings are admitted only when target fields are unique, no target is another crossing's source in the same frontier, and no other crossing writes a field used by an anchor's identity assessment. All payloads are staged from the pre-frontier state, the state commit is atomic, sea changes are exact additions, shared field causes retain every transfer event, and all transfer events occupy one evaluation frontier without causal edges among them. Chained transfer receives `CKW104` and must wait for another causal frontier.
+
+Next check:
+
+Extend composition only from an explicit dependency graph and combined identity proof when transformations, conservation constraints, post-generation recurrence, or non-additive sea operators are introduced.
+
+### B-038: A bounded scalar sea proxy crossed into universal world ontology
+
+Observed surface:
+
+The actor-neutral causal kernel still requires every world to declare one rational `viabilityFieldId`. Runtime sea coupling adds weighted positive- and negative-sea values into that coordinate, and later persistence interpretation treats it as a distinguished layer.
+
+Boundary meaning:
+
+One executable benchmark coordinate crossed into the definition of every causal Bubble. The observer-free `v0.4.7` model derives exterior forcing, structural support, and identity control as distinct mathematical roles; it does not require their effects to collapse into one scalar named viability.
+
+Current handling:
+
+Keep the field for compatibility while classifying it as bounded proxy debt in the necessity-first architecture record. Do not copy it as a required coordinate of the `v0.5.8` generator. Removing or renaming it before a general structural sea relation exists would hide rather than solve the boundary.
+
+Next check:
+
+Define a typed sea action/support contract whose scalar viability is at most an optional derived functional, then prove that existing exact fixtures embed into that more general structure without becoming the ontology.
+
+### B-037: A release commit label crossed away from manifest and record identity
+
+Observed surface:
+
+HEAD commit `bd89f40` is named `v0.5.7`, while `package.json`, `package-lock.json`, the obligation ledger, project-memory release text, and record tests still identify `0.5.6` plus an unversioned membrane candidate.
+
+Boundary meaning:
+
+Git history and executable artifact identity disagree about which release exists. Beginning `v0.5.8` from only the commit subject would silently skip manifest and record reconciliation; trusting only the manifest would erase the author's apparent release selection.
+
+Current handling:
+
+The author-selected commit remains unchanged. D-121 reconciles manifest, lock, obligation ledger, project memory, release tests, references, and architecture status to bounded `v0.5.7` before any `v0.5.8` implementation claim. The semantic release boundary remains the one exact membrane relation; metadata repair does not widen it.
+
+Next check:
+
+Require future release selection, package identity, durable memory, and Git commit or tag to agree before the next version begins.
+
+### B-036: Human-scale projection modules crossed into the public core surface
+
+Observed surface:
+
+`src/bubbles/world-kernel/index.ts` exported narrative protagonist/story types and teleonomic/affordance evidence beside intensional, causal, and persistent semantics. Historical CLIs and tests consumed those names from the undifferentiated top-level path.
+
+Boundary meaning:
+
+Compatibility experiments appeared to be peer Bubble ontology even though the causal and persistent core did not depend on them. Public import convenience contradicted the author's distinction between necessary world structure and later human interpretation.
+
+Current handling:
+
+The top-level surface now exports only the observer-independent core directly and exposes preserved human-scale experiments through an explicit `interpretive` namespace. Historical direct module paths, execution, records, and replay remain intact. A regression rejects any core import from narrative or teleonomic modules.
+
+Next check:
+
+Apply the same dependency rule to every `v0.5.8` generator module and reject any acceptance criterion that requires a human-scale projected label.
 
 ### B-035: Cross-world connection crossed into a host router or protected-state shortcut
 
@@ -22,7 +348,7 @@ Connection crossed the world-autonomy and anchor/sea membrane. An anchor is not 
 
 Current handling:
 
-The active unversioned candidate admits one exact transfer definition caused by an irreversible source-world internal law. It verifies typed ports, active endpoints, an uncut anchor, equal exact value kinds, and identity before and after a cloned atomic transition. It writes only an unprotected receiving `world-condition`, records source negative-sea residue and target positive-sea placement, and leaves all protected response to a later receiving-world law. The source snapshot, target, and sea-accounting fields reject competing local writers so host application order cannot select the payload. Mixed local/lifecycle/commit effects, multiple transfer definitions, protected targets, foreign guards, and failed identity are rejected. Cut and latent endpoints block; internal birth can activate an endpoint and becomes a transfer cause.
+Bounded `v0.5.7` admits one exact transfer definition caused by an irreversible source-world internal law. It verifies typed ports, active endpoints, an uncut anchor, equal exact value kinds, and identity before and after a cloned atomic transition. It writes only an unprotected receiving `world-condition`, records source negative-sea residue and target positive-sea placement, and leaves all protected response to a later receiving-world law. The source snapshot, target, and sea-accounting fields reject competing local writers so host application order cannot select the payload. Mixed local/lifecycle/commit effects, multiple transfer definitions, protected targets, foreign guards, and failed identity are rejected. Cut and latent endpoints block; internal birth can activate an endpoint and becomes a transfer cause.
 
 Next check:
 

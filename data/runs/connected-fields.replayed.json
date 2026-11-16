@@ -1,9 +1,9 @@
 {
   "mode": "bubble-anchored-causal-replay-result.v2",
   "status": "same-world-reexecution",
-  "recordedDigest": "34b7393cd67ade39fed8e8a9d04b6d4ba2e2928eac6977e40cc32b86c44342fe",
-  "recordedRunDigest": "34b7393cd67ade39fed8e8a9d04b6d4ba2e2928eac6977e40cc32b86c44342fe",
-  "replayedDigest": "34b7393cd67ade39fed8e8a9d04b6d4ba2e2928eac6977e40cc32b86c44342fe",
+  "recordedDigest": "0b01702d090e775db7d8a09a42dcf120735fbe6808f498a34d3911b155263980",
+  "recordedRunDigest": "0b01702d090e775db7d8a09a42dcf120735fbe6808f498a34d3911b155263980",
+  "replayedDigest": "0b01702d090e775db7d8a09a42dcf120735fbe6808f498a34d3911b155263980",
   "recordIntegrityValid": true,
   "recordedProgramDigestValid": true,
   "fullRunPreserved": true,
@@ -892,37 +892,7 @@
             ]
           },
           {
-            "id": "trace:15:sea:source-field",
-            "kind": "sea-coupling",
-            "worldId": "source-field",
-            "causes": [
-              "transfer:signal-current:by:emit-signal"
-            ],
-            "effects": [
-              {
-                "fieldId": "viability",
-                "layer": "world-field",
-                "operation": "derive",
-                "before": {
-                  "kind": "rational",
-                  "numerator": "2",
-                  "denominator": "1"
-                },
-                "operand": {
-                  "kind": "rational",
-                  "numerator": "0",
-                  "denominator": "1"
-                },
-                "after": {
-                  "kind": "rational",
-                  "numerator": "1",
-                  "denominator": "1"
-                }
-              }
-            ]
-          },
-          {
-            "id": "trace:16:sea:receiver-field",
+            "id": "trace:15:sea:receiver-field",
             "kind": "sea-coupling",
             "worldId": "receiver-field",
             "causes": [
@@ -946,6 +916,36 @@
                 "after": {
                   "kind": "rational",
                   "numerator": "3",
+                  "denominator": "1"
+                }
+              }
+            ]
+          },
+          {
+            "id": "trace:16:sea:source-field",
+            "kind": "sea-coupling",
+            "worldId": "source-field",
+            "causes": [
+              "transfer:signal-current:by:emit-signal"
+            ],
+            "effects": [
+              {
+                "fieldId": "viability",
+                "layer": "world-field",
+                "operation": "derive",
+                "before": {
+                  "kind": "rational",
+                  "numerator": "2",
+                  "denominator": "1"
+                },
+                "operand": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
                   "denominator": "1"
                 }
               }
@@ -1018,6 +1018,8 @@
         "anchorTransferEvents": [
           {
             "id": "transfer:signal-current:by:emit-signal",
+            "frontierId": "transfer-frontier:a1bc20a5df5cadd5",
+            "composition": "simultaneous-exact-transfer-frontier",
             "transferId": "signal-current",
             "lawId": "emit-signal",
             "lawEventId": "law:emit-signal",
@@ -1063,6 +1065,11 @@
                 "kind": "rational",
                 "numerator": "2",
                 "denominator": "1"
+              },
+              "frontierAfter": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
               }
             },
             "targetPositiveSea": {
@@ -1078,6 +1085,11 @@
                 "denominator": "1"
               },
               "after": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              },
+              "frontierAfter": {
                 "kind": "rational",
                 "numerator": "3",
                 "denominator": "1"
@@ -1584,37 +1596,7 @@
           ]
         },
         {
-          "id": "trace:15:sea:source-field",
-          "kind": "sea-coupling",
-          "worldId": "source-field",
-          "causes": [
-            "transfer:signal-current:by:emit-signal"
-          ],
-          "effects": [
-            {
-              "fieldId": "viability",
-              "layer": "world-field",
-              "operation": "derive",
-              "before": {
-                "kind": "rational",
-                "numerator": "2",
-                "denominator": "1"
-              },
-              "operand": {
-                "kind": "rational",
-                "numerator": "0",
-                "denominator": "1"
-              },
-              "after": {
-                "kind": "rational",
-                "numerator": "1",
-                "denominator": "1"
-              }
-            }
-          ]
-        },
-        {
-          "id": "trace:16:sea:receiver-field",
+          "id": "trace:15:sea:receiver-field",
           "kind": "sea-coupling",
           "worldId": "receiver-field",
           "causes": [
@@ -1638,6 +1620,36 @@
               "after": {
                 "kind": "rational",
                 "numerator": "3",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:16:sea:source-field",
+          "kind": "sea-coupling",
+          "worldId": "source-field",
+          "causes": [
+            "transfer:signal-current:by:emit-signal"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
                 "denominator": "1"
               }
             }
@@ -1710,6 +1722,8 @@
       "anchorTransferEvents": [
         {
           "id": "transfer:signal-current:by:emit-signal",
+          "frontierId": "transfer-frontier:a1bc20a5df5cadd5",
+          "composition": "simultaneous-exact-transfer-frontier",
           "transferId": "signal-current",
           "lawId": "emit-signal",
           "lawEventId": "law:emit-signal",
@@ -1755,6 +1769,11 @@
               "kind": "rational",
               "numerator": "2",
               "denominator": "1"
+            },
+            "frontierAfter": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
             }
           },
           "targetPositiveSea": {
@@ -1770,6 +1789,11 @@
               "denominator": "1"
             },
             "after": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            },
+            "frontierAfter": {
               "kind": "rational",
               "numerator": "3",
               "denominator": "1"

@@ -1,6 +1,6 @@
 import {
     realizeAnchoredNarrativeWorld,
-} from "../../src/bubbles/world-kernel";
+} from "../../src/bubbles/world-kernel/interpretive";
 import {
     emitJson,
     parseNarrativeExecutionArgs,

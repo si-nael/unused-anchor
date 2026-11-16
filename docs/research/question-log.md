@@ -411,7 +411,7 @@ Preserve the current bounded semantics through `v0.4.9`. Reopen the proof shape 
 
 ### Q-018: How can a bubble realize itself through world will rather than an external chooser?
 
-Status: implemented bounded baseline through v0.5.6, including finite endogenous world lifecycle
+Status: implemented bounded baseline through v0.5.8 with connected branch-generation and exact recurrence evidence
 
 Question:
 
@@ -431,6 +431,8 @@ Current implementation:
 - the v0.5.5 causal kernel optionally derives every maximal commuting frontier of simultaneously enabled laws as a real autonomous continuation, records excluded alternatives as nonrealized, and refuses partial branch selection under exhausted bounds
 - every autonomous branch receives separate anchor identity and World-Will evaluation; branching intervention consequences remain set-valued and are compared by guaranteed minimum exact improvement without selecting one internal outcome
 - bounded `v0.5.6` lets internal irreversible law events actualize a declared latent world or retire their own source world, preserves lineage and residue, keeps inactive anchors dormant, carries phase through persistence and replay, and lowers the same contract from strict causal source
+- bounded `v0.5.8` alternates causal closure and constructor admission, lets realized state activate dormant world generation, and continues every plural causal result as its own branch-indexed generated universe without a host selector
+- an exact active generated recurrence closes only with invariant lineage/world structure, true anchor identities at both cuts, no mutation of any identity dependency within the cycle, preserved anchor/generation topology, and monotone causal evidence; internal commits remain a separate history claim
 
 Remaining gap:
 
@@ -441,7 +443,7 @@ Remaining gap:
 
 Next check:
 
-Proceed to typed cross-world anchor/sea transfer without weakening the completed lifecycle boundary. Preserve explicit termination, provenance, exhaustive plurality, and no hidden scheduler; do not rename predeclared latent actualization as dynamic schema or population generation.
+Extend generated recurrence only from a concrete topology-changing, non-periodic, quotient, or cross-membrane cycle. Preserve explicit termination, provenance, complete branch families, and no hidden scheduler; do not rename generated instances as dynamic schema or law invention.
 
 ### Q-019: What does time mean inside a bubble universe?
 
@@ -767,13 +769,13 @@ Profile one branch-heavy, one exact-arithmetic, one intensional, and one persist
 
 ### Q-029: How can Bubble worlds exchange content without becoming host-routed components?
 
-Status: active unversioned bounded candidate after v0.5.6; one exact relation implemented, general membrane calculus open
+Status: completed bounded baseline in v0.5.7; general membrane calculus remains open
 
 Question:
 
 How can one Bubble world's own law materially affect another world through an anchor and the positive/negative seas while preserving both worlds' identity, autonomy, causal provenance, lifecycle, replay, and lack of a universal clock—without turning the system into a host message router, World-Will puppetry, or a menu of unrelated transport modes?
 
-Current candidate:
+Bounded baseline:
 
 - a transfer is one directed typed span between explicit ports on one anchor and two different active worlds
 - one irreversible source-world internal law causes the crossing; the host and World Will do not select or deliver it
@@ -784,15 +786,91 @@ Current candidate:
 - latent initialized state cannot receive; an internal birth may activate its port and contributes direct transfer provenance
 - strict causal Bubble source, inspection, record, and same-program replay preserve the relation and `hostSelection: false`
 
-Why it remains open:
+Bounded `v0.5.8` extension:
 
-- only one transfer definition is allowed, so simultaneous and repeated crossing composition is intentionally undefined
+- recursive constructor law derives connected lineage-relative worlds, their relation anchors, and distinct positive/negative sea channels without a host world catalog
+- exact parent-payload transport into a generated child's open condition is recorded on the relation anchor and becomes the causal source of the child's own response law
+- multiple old-kernel transfers form one atomic frontier only when their targets are unique, no target becomes another same-frontier source, and another crossing cannot mutate an identity dependency
+- all payloads use the pre-frontier snapshot, shared sea actions add exactly, every transfer cause is retained, and sibling crossing events have no causal order among themselves
+- insufficient resource, unresolved admission, invalid transport types, protected targets, duplicate targets, same-frontier chaining, and replay tampering are explicit failures rather than host-selected fallbacks
+- a dormant constructor can reactivate from realized post-law state and generate a receiving world on the next bounded closure
+- every plural causal continuation now creates a lineage-bearing generated-universe branch that can generate and branch again; insufficient branch budget preserves the whole frontier and selects no subset
+- each generated relation may also carry a typed schema-revision morphism, so child-local irreversible-law effect values can depend on inherited parent revision and exact lineage without a host callback
+
+Why the wider question remains open:
+
+- bounded simultaneous non-chaining composition now exists, but repeated post-generation crossings and dependency-ordered chains across successive closures remain undefined
 - snapshot copy has no transform, conservation theorem, bidirectionality, stream, relation-valued payload, or general quantity algebra
 - source residue and target placement are exact local sea changes, not a global sea field or a proven cosmological conservation law
 - source snapshot, transfer target, and sea fields are reserved from competing local writers instead of letting host application order choose a payload or pretending to have a proven commutativity calculus
 - the current identity predicate is checked exactly but is not a full anchor identity theory
-- no dynamic ports, schemas, world populations, open-ended graph generation, agency, relationship, narrative projection, BIR, Rust backend, Phase 2 observer, or trans-Turing capability follows
+- the release generates open-frontier world instances, composes finite branch-indexed closure, certifies exact identity-preserving recurrence, and transforms bounded irreversible-law effect values, but it does not yet generate complete law/schema topology
+- no dynamic ports, general identity calculus, agency, relationship, narrative projection, BIR, Rust backend, Phase 2 observer, or trans-Turing capability follows
 
 Next check:
 
-Construct the smallest author-justified case that genuinely requires two related crossings. Derive their causal and sea composition law before lifting the one-transfer restriction. The result must classify commute, conflict, block, and underdetermination without declaration-order or host selection, and it must retain birth/retirement, endogenous branch, identity, inspection, and replay evidence. Do not select a release from the present single-relation success.
+After bounded `v0.5.8`, continue from the connected constructor/anchor/sea/transport path. The next membrane work must be driven by post-generation recurrence, explicit dependency order, combined identity, or a general quantity/sea law; do not add transport cases merely by relaxing validation.
+
+### Q-030: How can an infinite Bubble close a finite demand and become self-complementing?
+
+Status: bounded finite-demand certificate completed in v0.5.8; general convergence and observation remain open
+
+Question:
+
+How can a potentially infinite or infinite-dimensional Bubble remain genuinely unbounded while a finite internal demand finishes with deterministic meaning, and how can further execution complement what is known or realizable without installing an external observer, selecting one lawful branch, asserting monotone world state, or pretending that the finite host completed actual infinity?
+
+Implemented in bounded v0.5.8:
+
+- recursive and natural constructor structure is recorded as potentially unbounded intensional denotation
+- a finite demand is content-digested and returns one exact result form: a single closed result, the complete closed branch family, an open boundary, or contradiction
+- deterministic evaluation has `selectsBranch: false`; a complete plural family is one deterministic answer
+- each causal-generation closure extends a digest-linked evidence chain with generation, branch, dormant-admission reactivation, fixpoint, open outcome, and frontier evidence
+- inspection and replay preserve the certificate and reject tampering
+- the certificate explicitly denies world-state monotonicity, guaranteed convergence, whole-universe completion, and the need for an external observer
+- active exact recurrence can close the finite demand through invariant lineage and anchor identity plus a monotone causal-evidence ledger, while explicit world-history commits remain separate
+- generated worlds inherit content-addressed law revisions, and lineage-relative typed effect-value transformations become part of exact finite-cut and recurrence identity
+- one strict `.bubble` source now denotes the same intensional families, complete schema graph, recursive constructors, relations, sea actions, and transformations as the retained typed JSON projection
+
+Why it remains open:
+
+- topology-changing, quotient, non-periodic, and cross-membrane recurrence still lack a general persistence certificate
+- complete world-local schema graph replacement is present, but intensional generation of new graphs/families and transformation of constructors or schema incidence are not
+- no theorem proves convergence of every lawful execution or equivalence of distinct branch histories
+- external observation, local perspective, measurement deformation, and lawful collapse belong to Phase 2 and are not implemented here
+- a finite certificate cannot establish that the whole infinite denotation has been executed
+
+Next check:
+
+Specify the next necessity-derived intensional schema/family generation boundary, then define lawful branch equivalence or convergence without weakening the source, recurrence, and revision-identity contracts. The author confirmed bounded v0.5.8 on 2026-11-16 without these, so they are post-v0.5.8 work rather than release gates.
+
+### Q-031: How can Bubble transform complete law and schema structure without hiding host self-modification?
+
+Status: complete executable world-local schema-graph morphism completed in bounded v0.5.8; intensional schema/family generation remains open
+
+Question:
+
+How can a Bubble's own constructor relation inherit, specialize, add, remove, or reorganize law and schema structure so that each generated world is semantically its own, while preserving exact typing, inverse laws, identity, anchors, seas, causal history, failure frontiers, and replay—without treating source text, a TypeScript callback, or host code execution as world will?
+
+Implemented boundary:
+
+- every world carries a content-addressed realized schema graph containing fields/initializers, protected set, ports, sea channels, self-identity, internal laws, emergence criteria, and optional causal projection
+- same-schema descendants inherit the parent revision; cross-schema descendants begin from the child base revision
+- one complete `replaceGraph` target is normalized and validated before child initialization; generated fields, self-anchor, relation ports, sea actions, causal compilation, recurrence identity, inspection, and replay consume that same revision
+- the graph closure validates every field, protected reference, sea endpoint, predicate binding, law effect/inverse/commit, emergence witness, projection channel/objective, and recursively required constructor endpoint before any sibling exists, against every revision that any constructor can realize for the same schema
+- one morphism idempotently removes inherited base laws and upserts complete child-local law definitions, adding on the first applicable generation and replacing on recursive descendants
+- upserted laws may change guards, effects, reversibility, exact forward/inverse pairs, and commits only when their entire child-field and predicate contract validates
+- an exact intensional query may replace a unique effect value of an existing irreversible law using root, lineage, coordinate, or parent-state sources
+- source/target graph digests, changed components, requested/effective removals, actual additions/replacements, proof, value, target revision, generated relation, child world, inspection, recurrence identity, and replay are causally bound with `hostSelection: false`
+- empty, dangling, unknown, overlapping, duplicate, broken-inverse, out-of-range, and wrong-kind transformations are rejected statically; unresolved sibling revisions remain one complete uncommitted frontier
+- strict `endogenous bubble` source expresses the same complete graph and morphism contract, lowers to a structurally identical typed program, and drives ordinary execution/replay without executable host text
+
+Why it remains open:
+
+- the current complete target graph is still finitely declared semantic data; intensional generation of a graph or new family definition is not implemented
+- constructor definitions, schema incidence, and formal family definitions remain outside the world-local graph
+- old revisions and worlds must remain replayable even if later generations develop different structure
+- generating implementation code or a successor Bubble is the later Q-022 problem and must not be smuggled into this ontology seam
+
+Next check:
+
+Define the first necessity-derived intensional schema/family generation contract. It must preserve prior revisions and the strict source projection while rejecting host callbacks, execution order, undeclared code, or weakened inverse, identity, anchor, and sea contracts.

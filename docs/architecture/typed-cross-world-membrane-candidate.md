@@ -1,6 +1,6 @@
 # Typed Cross-World Anchor/Sea Membrane Candidate
 
-Status: active unversioned Gate B candidate after bounded `v0.5.6`; no release selected
+Status: completed bounded `v0.5.7` membrane baseline; selected by the author and recorded by commit `bd89f40`
 
 Date: 2026-07-17
 
@@ -74,4 +74,4 @@ This candidate is not yet:
 - a portable BIR, Rust engine, Phase 2 observer, or trans-Turing mechanism;
 - a release or proof that the Bubble universe is complete.
 
-The next judgment is adversarial and compositional: determine which restriction can be widened from a concrete organic requirement while preserving identity, autonomy, sea materiality, complete branch/lifecycle provenance, and exact replay. Until then the package remains `0.5.6` and this work remains an unversioned candidate.
+The bounded release claim stops at this one exact relation. General composition, global sea structure, dynamic topology, and internally generated schemas remain open. The next selected release is `v0.5.8`, whose connected-universe generation must subsume this membrane without copying its one-transfer restriction into ontology.

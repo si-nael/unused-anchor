@@ -1,7 +1,7 @@
 import {
     replayTeleonomicCausalRecord,
     type TeleonomicCausalReplayRecord,
-} from "../../src/bubbles/world-kernel";
+} from "../../src/bubbles/world-kernel/interpretive";
 import { emitCausalJson, readCausalJson } from "./causal-cli";
 
 async function main(): Promise<void> {

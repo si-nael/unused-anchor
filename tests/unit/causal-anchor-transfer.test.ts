@@ -77,6 +77,70 @@ function connectedWorldProgram(): ExecutableAnchoredCausalProgram {
     return program;
 }
 
+function siblingTransferProgram(): ExecutableAnchoredCausalProgram {
+    const program = connectedWorldProgram();
+    const firstReceiver = program.world.worlds.find((world) => world.id === "receiver-world")!;
+    const secondReceiver = structuredClone(firstReceiver);
+    secondReceiver.id = "receiver-world-b";
+    program.world.worlds.push(secondReceiver);
+    program.fieldInitializers.push(...program.fieldInitializers
+        .filter((initializer) => initializer.worldId === firstReceiver.id)
+        .map((initializer) => ({ ...structuredClone(initializer), worldId: secondReceiver.id })));
+    program.seaLaws.push({ ...structuredClone(program.seaLaws.find((law) => law.worldId === firstReceiver.id)!), worldId: secondReceiver.id });
+    program.world.worldWill.objectives.push({
+        id: "preserve-receiver-b-viability",
+        targetWorldId: secondReceiver.id,
+        fieldId: "viability",
+        direction: "maximize",
+        weight: exact.integer(1),
+    });
+
+    const secondAnchor = structuredClone(program.world.anchors[0]!);
+    secondAnchor.id = "field-anchor-b";
+    secondAnchor.endpoints = [
+        { kind: "world", worldId: "field-world", portId: "emission-port-b" },
+        { kind: "world", worldId: secondReceiver.id, portId: "reception-port-b" },
+    ];
+    program.world.anchors.push(secondAnchor);
+    const secondIdentity = structuredClone(program.execution.anchorIdentity[0]!);
+    secondIdentity.id = "field-anchor-b-remains-itself";
+    secondIdentity.anchorId = secondAnchor.id;
+    program.execution.anchorIdentity.push(secondIdentity);
+    program.world.anchorTransfers!.push({
+        id: "condition-current-b",
+        anchorId: secondAnchor.id,
+        source: { worldId: "field-world", portId: "emission-port-b", fieldId: "condition" },
+        target: { worldId: secondReceiver.id, portId: "reception-port-b", fieldId: "condition" },
+        sourceNegativeSeaResidue: exact.integer(1),
+        targetPositiveSeaPlacement: exact.integer(1),
+    });
+    program.world.internalLaws.push({
+        id: "emit-condition-current-b",
+        worldId: "field-world",
+        guard: {
+            id: "emit-b-when-source-condition-is-one",
+            query: { familyId: "coherence-is-one", at: { coordinate: "0" }, parameters: {} },
+            fieldParameters: [{ parameterName: "coherence", worldId: "field-world", fieldId: "condition" }],
+        },
+        effects: [],
+        anchorTransferIds: ["condition-current-b"],
+        application: "once-per-realization",
+        reversibility: "irreversible",
+    }, {
+        id: "receive-condition-current-b",
+        worldId: secondReceiver.id,
+        guard: {
+            id: "respond-b-when-received-condition-is-one",
+            query: { familyId: "coherence-is-one", at: { coordinate: "0" }, parameters: {} },
+            fieldParameters: [{ parameterName: "coherence", worldId: secondReceiver.id, fieldId: "condition" }],
+        },
+        effects: [{ fieldId: "coherence", operation: "add", value: exact.integer(1) }],
+        application: "once-per-realization",
+        reversibility: "irreversible",
+    });
+    return program;
+}
+
 test("an internal law crosses one typed anchor membrane and the receiving world responds by its own law", () => {
     const program = connectedWorldProgram();
     const run = realizeAnchoredCausalWorld(program, { worldWillEnabled: false });
@@ -114,6 +178,50 @@ test("an internal law crosses one typed anchor membrane and the receiving world 
     const replay = replayAnchoredCausalRecord(recordAnchoredCausalReplay(program, { worldWillEnabled: false }));
     assert.equal(replay.status, "same-world-reexecution");
     assert.equal(replay.anchorTransfersPreserved, true);
+});
+
+test("independent sibling crossings form one atomic frontier and both receiving worlds respond", () => {
+    const program = siblingTransferProgram();
+    assert.deepEqual(validateExecutableCausalProgram(program), []);
+    const run = realizeAnchoredCausalWorld(program, { worldWillEnabled: false });
+    const continuation = run.autonomousContinuation!;
+    const transfers = continuation.anchorTransferEvents!;
+    const source = continuation.worldStates.find((state) => state.worldId === "field-world")!;
+    const firstTarget = continuation.worldStates.find((state) => state.worldId === "receiver-world")!;
+    const secondTarget = continuation.worldStates.find((state) => state.worldId === "receiver-world-b")!;
+
+    assert.equal(run.status, "stable", run.reason);
+    assert.equal(transfers.length, 2);
+    assert.equal(new Set(transfers.map((transfer) => transfer.frontierId)).size, 1);
+    assert.ok(transfers.every((transfer) => transfer.composition === "simultaneous-exact-transfer-frontier"));
+    assert.ok(continuation.order.evaluationFrontiers.some((frontier) => (
+        frontier.length === 2 && transfers.every((transfer) => frontier.includes(transfer.id))
+    )));
+    assert.ok(transfers.every((transfer) => JSON.stringify(transfer.sourceNegativeSea.before) === JSON.stringify(exact.integer(1))));
+    assert.ok(transfers.every((transfer) => JSON.stringify(transfer.sourceNegativeSea.after) === JSON.stringify(exact.integer(2))));
+    assert.ok(transfers.every((transfer) => JSON.stringify(transfer.sourceNegativeSea.frontierAfter) === JSON.stringify(exact.integer(3))));
+    assert.deepEqual(source.fields.negative, exact.integer(3));
+    assert.deepEqual(firstTarget.fields.condition, exact.integer(1));
+    assert.deepEqual(secondTarget.fields.condition, exact.integer(1));
+    assert.deepEqual(firstTarget.fields.coherence, exact.integer(1));
+    assert.deepEqual(secondTarget.fields.coherence, exact.integer(1));
+    assert.ok(!continuation.order.causalEdges.some((edge) => (
+        transfers.some((transfer) => transfer.id === edge.cause)
+        && transfers.some((transfer) => transfer.id === edge.effect)
+    )));
+    const replay = replayAnchoredCausalRecord(recordAnchoredCausalReplay(program, { worldWillEnabled: false }));
+    assert.equal(replay.status, "same-world-reexecution");
+    assert.equal(replay.anchorTransfersPreserved, true);
+    assert.equal(new Set(replay.replayedRun.autonomousContinuation!.anchorTransferEvents?.map((event) => event.frontierId)).size, 1);
+});
+
+test("a transfer target cannot become another transfer source inside the same frontier", () => {
+    const program = siblingTransferProgram();
+    const chained = program.world.anchorTransfers!.find((transfer) => transfer.id === "condition-current-b")!;
+    chained.source.worldId = "receiver-world";
+    chained.source.fieldId = "condition";
+    program.world.internalLaws.find((law) => law.id === "emit-condition-current-b")!.worldId = "receiver-world";
+    assert.ok(validateExecutableCausalProgram(program).some((diagnostic) => diagnostic.code === "CKW104"));
 });
 
 test("a cut anchor blocks the crossing without fabricating target state or a host-selected event", () => {

@@ -1,6 +1,6 @@
 # Anchored Causal World Reference
 
-Applies to: `bubble-anchored-causal-world.v2`, `bubble-anchored-causal-program.v2`, `v0.5.2` through `v0.5.6`, and the active unversioned membrane candidate
+Applies to: `bubble-anchored-causal-world.v2`, `bubble-anchored-causal-program.v2`, and `v0.5.2` through bounded `v0.5.7`
 
 Compatibility note: `v0.5.3` unfolds this once-per-realization contract through the separate [Persistent Causal World](persistent-causal-world.md) layer. `v0.5.5` adds opt-in endogenous internal branching while preserving the previous default. `v0.5.6` adds finite declared-world lifecycle and strict source lowering.
 
@@ -42,7 +42,7 @@ The runtime repeatedly evaluates all unresolved guards. All true commuting laws 
 
 Internal-law guard bindings are local to the law's own world. A cross-world binding is rejected until Bubble has a typed anchor-transfer contract; an ordinary predicate parameter cannot bypass the anchor membrane.
 
-The active unversioned membrane candidate adds `anchorTransferIds` to an irreversible transfer-only source law. One typed transfer connects exact source and target fields through explicit ports on one two-world anchor. It copies the source snapshot only into an unprotected receiving `world-condition`, leaves exact negative-sea residue in the source world and positive-sea placement in the target world, and then allows a later receiving-world law to respond. It cannot directly manufacture protected receiving structure.
+Bounded `v0.5.7` adds `anchorTransferIds` to an irreversible transfer-only source law. One typed transfer connects exact source and target fields through explicit ports on one two-world anchor. It copies the source snapshot only into an unprotected receiving `world-condition`, leaves exact negative-sea residue in the source world and positive-sea placement in the target world, and then allows a later receiving-world law to respond. It cannot directly manufacture protected receiving structure.
 
 Transfer admission requires both endpoint worlds and ports to be active, the anchor not to be cut, exact source/target value kinds to agree, and anchor identity to hold both before and after a cloned proposed crossing. Failure or underdetermination prevents every target and sea mutation. If a latent endpoint is internally born first, the birth event is a direct transfer cause.
 

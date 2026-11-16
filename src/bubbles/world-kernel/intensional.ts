@@ -236,6 +236,76 @@ function walkTerms(term: IntensionalTerm, visit: (term: IntensionalTerm) => void
     }
 }
 
+function inferTermValueKind(
+    term: IntensionalTerm,
+    family: IntensionalFamilyDefinition,
+    families: Map<string, IntensionalFamilyDefinition>,
+    path: string,
+    diagnostics: IntensionalDiagnostic[],
+): IntensionalValueKind | undefined {
+    if (term.kind === "value") return term.value.kind;
+    if (term.kind === "index") return "rational";
+    if (term.kind === "parameter") {
+        return family.parameters.find((entry) => entry.name === term.name)?.valueKind;
+    }
+    if (term.kind === "family-coordinate") {
+        const target = families.get(term.familyId);
+        if (!target) return undefined;
+        for (const [axis, coordinate] of Object.entries(term.at)) {
+            const kind = inferTermValueKind(coordinate, family, families, `${path}.at.${axis}`, diagnostics);
+            if (kind && kind !== "rational") {
+                diagnostics.push(diagnostic("BIK020", `${path}.at.${axis}`, "family coordinates need rational terms; exact integer domain validity is checked during evaluation"));
+            }
+        }
+        for (const [name, parameter] of Object.entries(term.parameters)) {
+            const kind = inferTermValueKind(parameter, family, families, `${path}.parameters.${name}`, diagnostics);
+            const expected = target.parameters.find((entry) => entry.name === name)?.valueKind;
+            if (kind && expected && kind !== expected) {
+                diagnostics.push(diagnostic("BIK021", `${path}.parameters.${name}`, `parameter '${name}' needs ${expected}, received ${kind}`));
+            }
+        }
+        return target.valueKind;
+    }
+    if (term.kind === "unary") {
+        const operand = inferTermValueKind(term.operand, family, families, `${path}.operand`, diagnostics);
+        const expected: IntensionalValueKind = term.operator === "negate" ? "rational" : "boolean";
+        if (operand && operand !== expected) {
+            diagnostics.push(diagnostic("BIK022", `${path}.operand`, `unary '${term.operator}' needs ${expected}, received ${operand}`));
+        }
+        return expected;
+    }
+    if (term.kind === "if") {
+        const condition = inferTermValueKind(term.condition, family, families, `${path}.condition`, diagnostics);
+        const thenKind = inferTermValueKind(term.then, family, families, `${path}.then`, diagnostics);
+        const otherwiseKind = inferTermValueKind(term.otherwise, family, families, `${path}.otherwise`, diagnostics);
+        if (condition && condition !== "boolean") {
+            diagnostics.push(diagnostic("BIK025", `${path}.condition`, `if condition needs boolean, received ${condition}`));
+        }
+        if (thenKind && otherwiseKind && thenKind !== otherwiseKind) {
+            diagnostics.push(diagnostic("BIK026", path, `if branches disagree: ${thenKind} versus ${otherwiseKind}`));
+            return undefined;
+        }
+        return thenKind ?? otherwiseKind;
+    }
+
+    const left = inferTermValueKind(term.left, family, families, `${path}.left`, diagnostics);
+    const right = inferTermValueKind(term.right, family, families, `${path}.right`, diagnostics);
+    if (term.operator === "equal" || term.operator === "not-equal") {
+        if (left && right && left !== right) {
+            diagnostics.push(diagnostic("BIK024", path, `equality operands disagree: ${left} versus ${right}`));
+        }
+        return "boolean";
+    }
+    if (term.operator === "and" || term.operator === "or") {
+        if (left && left !== "boolean") diagnostics.push(diagnostic("BIK023", `${path}.left`, `binary '${term.operator}' needs boolean operands`));
+        if (right && right !== "boolean") diagnostics.push(diagnostic("BIK023", `${path}.right`, `binary '${term.operator}' needs boolean operands`));
+        return "boolean";
+    }
+    if (left && left !== "rational") diagnostics.push(diagnostic("BIK023", `${path}.left`, `binary '${term.operator}' needs rational operands`));
+    if (right && right !== "rational") diagnostics.push(diagnostic("BIK023", `${path}.right`, `binary '${term.operator}' needs rational operands`));
+    return ["add", "subtract", "multiply", "divide"].includes(term.operator) ? "rational" : "boolean";
+}
+
 function isPositiveIntegerLiteral(term: IntensionalTerm): boolean {
     if (term.kind !== "value" || term.value.kind !== "rational") {
         return false;
@@ -398,6 +468,14 @@ export function validateIntensionalSystem(system: IntensionalSystem): Intensiona
                 dependencies.add(target.id);
             }
         });
+        const bodyKind = inferTermValueKind(family.body, family, families, basePath, diagnostics);
+        if (bodyKind && bodyKind !== family.valueKind) {
+            diagnostics.push(diagnostic(
+                "BIK027",
+                basePath,
+                `family '${family.id}' declares ${family.valueKind} but its body yields ${bodyKind}`,
+            ));
+        }
     }
 
     const cycle = findDependencyCycle(graph);

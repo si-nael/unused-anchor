@@ -4,14 +4,16 @@ import { resolve } from "node:path";
 import test from "node:test";
 import {
     exact,
+    term,
+} from "../../src/bubbles/world-kernel";
+import {
     inspectAnchoredNarrativeRun,
     realizeAnchoredNarrativeWorld,
     recordAnchoredNarrativeWorld,
     replayAnchoredNarrativeWorld,
-    term,
     validateExecutableNarrativeProgram,
     type ExecutableAnchoredNarrativeProgram,
-} from "../../src/bubbles/world-kernel";
+} from "../../src/bubbles/world-kernel/interpretive";
 import anchoredGarden from "../../examples/anchored-garden.world.json";
 
 function executableGarden(): ExecutableAnchoredNarrativeProgram {

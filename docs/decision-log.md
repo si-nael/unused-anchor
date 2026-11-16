@@ -1189,3 +1189,155 @@ The foreign-world guard prohibition in bounded `v0.5.6` leaves connected worlds 
 Consequence:
 
 Begin an unversioned Gate B candidate with exactly one directed typed anchor span. One irreversible source-world internal law may atomically copy an exact source snapshot into an unprotected target condition only when both endpoints are active, the anchor is uncut, its declared ports and exact kinds agree, and identity holds before and after the proposed crossing. The crossing must leave explicit source negative-sea residue and target positive-sea placement; the target's protected structure may change only through a later target-world law. Preserve transfer, identity assessment, sea effects, lifecycle causes, inspection, and replay evidence with `hostSelection: false`. Reject mixed effects and multiple transfer definitions until a concrete composition law proves how they commute. Keep package version `0.5.6`, make no release claim, add no Rust or Phase 2 work, and require author judgment after adversarial closure.
+
+### D-119: Make v0.5.8 an endogenous connected-universe generation release
+
+Reason:
+
+The author requires the remaining major Bubble ideas to become executable before more local tuning. Extending the first membrane through successively smaller transport cases would improve one seam while internal whole generation, non-predeclared world populations, organic topology, and the union of lineage, anchors, seas, and autonomous world continuation remain absent.
+
+Consequence:
+
+Treat bounded `v0.5.7` as the first exact cross-world membrane baseline and stop widening it merely for completeness. Make `v0.5.8` a large Phase 1 vertical change: executable Bubble law derives typed world instances from intensional constructors, creates their lineage and active anchor/sea relations, and admits them into a connected world graph whose members continue by their own laws. Preserve endogenous branching, lifecycle rank, no universal clock, identity, material sea effects, no host selector, persistence, inspection, and replay. Do not make protagonist, story, life, being, relationship, or another human-scale observer projection into a primitive, target, privileged emergence label, or release criterion. Do not call a template instance dynamic invention of arbitrary semantics, and do not mix in Phase 2 observers, recursive code construction, portable BIR/Rust, or trans-Turing claims.
+
+### D-120: Restore the observer-free v0.4.7 necessity baseline as core authority
+
+Reason:
+
+The audit of commit `00bbdf7` found that its sea-anchor proof defines worldhood without an observer and derives negative sea, positive sea, and anchor from openness, situatedness, and replay identity. The same historical revision also contains agent and story research framing. Later work converted some of that explanatory language into named runtime layers, then partially corrected the universal mistake in `v0.5.2`, but the top-level kernel surface and repository narrative still presented interpretive modules beside the observer-independent core.
+
+Consequence:
+
+Adopt [architecture/necessity-first-bubble-core.md](architecture/necessity-first-bubble-core.md) as the binding baseline for post-`v0.5.7` work. Export intensional, causal, and persistent semantics as the public core. Preserve narrative and teleonomic implementations only through an explicit `interpretive` namespace and historical direct paths; core modules may never import them. Keep their releases and evidence immutable rather than pretending they never occurred. Require every new core concept to trace to recorded author intent or a stated worldhood necessity, remain expressible without a human-scale observer analogy, expose failure and replay boundaries, and avoid host selection. `v0.5.8` may use neutral mathematics later described by an observer, but it may not depend on protagonist, story, life, agency, teleonomy, affordance, or another privileged human projection.
+
+### D-121: Reconcile the author-selected v0.5.7 boundary before v0.5.8
+
+Reason:
+
+The author selected `v0.5.7`, committed and pushed the membrane implementation as `bd89f40`, and then identified `v0.5.8` as the sole next version. The commit retained the earlier candidate-era `0.5.6` manifest and record labels, leaving Git history, package identity, and durable memory in conflict.
+
+Consequence:
+
+Treat `bd89f40` as the selected bounded `v0.5.7` release without widening its semantic claim. Align package, lock, obligation ledger, architecture status, Q-029/H-021, implementation map, references, README, project memory, and record verification to `0.5.7`. Preserve the one-transfer limitations and all failed-boundary evidence. Set the next active candidate to necessity-first endogenous connected-universe generation for `v0.5.8`; do not reuse `v0.5.7` or call the metadata reconciliation a new semantic release.
+
+### D-122: Make generated relation transport and multi-transfer composition causal rather than decorative
+
+Reason:
+
+An internally generated topology whose anchors only name endpoints would still be a host-materialized graph, not one organic world process. Reusing the legacy scalar viability adapter for generated transport would collapse distinct sea channels back into B-038. Simply deleting the `v0.5.7` one-transfer check would also be unsound because the old runtime serialized transfers and could let an earlier write become a later payload without a declared causal frontier.
+
+Consequence:
+
+Let an endogenous constructor copy an exact non-sea parent snapshot field into an unprotected child condition of the same exact kind. Record that transport on the generated relation anchor, retain separate channel-valued residue and placement actions, propagate the transport ID as the cause of any receiving law that reads the field, and prove the dependency by removing transport in an adversarial fixture. Generalize the causal membrane only to mechanically composable simultaneous frontiers: unique target fields, no target-to-source chain in one frontier, no cross-transfer mutation of identity dependencies, pre-frontier payload snapshots, atomic state commit, and exact additive sea effects. Require chained crossings to occur in later causal frontiers. Keep scalar projection at the legacy execution boundary, preserve `hostSelection: false`, keep package version `0.5.7`, and do not confirm or commit `v0.5.8` from this seam alone.
+
+### D-123: Require a full causal-generation configuration fixpoint, not only stable topology
+
+Reason:
+
+State-reactivated constructor admission couples world-local causal closure back into generation. Observing no new generation event proves only that topology did not expand on that pass. It does not prove that world fields are stable, that another once-per-realization law cannot fire, or that a repeated configuration preserves anchored history. Calling this a closure fixpoint would repeat the B-011 persistence error at the connected-universe layer.
+
+Consequence:
+
+Alternate exact causal closure and constructor admission under an explicit closure budget. Record input and output digests of the complete demanded configuration plus realized-event count. Confirm a finite fixpoint only when no new generation event occurs, the full configuration digest is unchanged, and no causal event was realized. Preserve a newly generated but not yet closed world as `undetermined` on budget exhaustion. If a prior configuration recurs with realized activity, report recurrent configuration without claiming persistence until invariant identity and monotone anchor-history evidence are integrated. Preserve plural causal continuations as an unresolved branch-indexed universe set rather than selecting one. Keep the active candidate at package `0.5.7`, uncommitted and unconfirmed.
+
+### D-124: Continue every lawful causal result as a branch-indexed generated universe
+
+Reason:
+
+Merely refusing post-closure generation when the causal kernel returns several lawful continuations preserves honesty but leaves the connected universe unable to continue precisely where its own internal law creates plurality. Selecting one continuation, processing only a resource-fitting prefix, or merging equal projected fields would install a host decision and erase distinct causal or anchor histories.
+
+Consequence:
+
+Let every causal continuation derive a deterministic generated-universe branch step with `hostSelection: false`. Carry branch-local materialization, configuration history, generated topology, closure lineage, anchors, seas, and continuation evidence forward, and allow each branch to branch again or reach its own fixpoint. A plural run is resolved only when every preserved terminal branch reaches closure. Check `maxGenerationBranches` against the complete prospective branch family before continuing any member; when insufficient, preserve the whole open frontier on its common input and select no subset. Keep equal configurations historically distinct until a later identity calculus proves lawful convergence. Store and replay the entire branch family. This closes only finite branch-indexed continuation, not branch equivalence, persistent recurrence, dynamic schema/law generation, or whole-universe completion. Keep package `0.5.7`; do not confirm or commit `v0.5.8` from this seam alone.
+
+### D-125: Treat endogenous query templates as total typed contracts
+
+Reason:
+
+The runtime evaluator can report a malformed or unavailable query as contradicted. Without static template validation, a misspelled axis, missing parameter, wrong exact kind, absent seed, or illegal parent-field source could therefore resemble a lawfully false admission and silently close a constructor frontier.
+
+Consequence:
+
+Before materialization, require referenced family existence, exact domain-axis equality, exactly-once parameter coverage across direct sources and field bindings, exact value-kind agreement, valid literal coordinates, stable reachable seed values, and a necessarily available compatible parent snapshot for every `parent-field`. Reject violations as program diagnostics rather than turning them into dormant world law. Apply the same contract to field initializers, self identity, local-law guards, emergence criteria, constructor admission, and relation identity. Preserve bounded runtime `undetermined` only for valid queries whose proof cannot be completed within resources.
+
+### D-126: Make finite internal realization deterministic without collapsing infinity or plurality
+
+Reason:
+
+The author's finite-observation idea requires a finite procedure to close a requested view of an infinite denotation, but treating “deterministic” as one host-selected branch would destroy the endogenous plurality already established by v0.5.5 and the v0.5.8 candidate. Calling repeated execution self-completing without qualification would also confuse accumulated proof with monotone world state, guaranteed convergence, or completion of actual infinity.
+
+Consequence:
+
+For each endogenous connected-universe run, derive a `finite-internal-demand-cut` certificate from the typed program and complete finite demand. Return exactly one deterministic result form: `single-closed-result`, `complete-closed-branch-family`, `open-boundary`, or `contradiction`; never select a branch. Classify potentially unbounded denotation from natural or recursive constructor structure while keeping `infinityRemainsIntensional` explicit. Chain every causal-generation closure into monotone realization evidence and record dormant-admission reactivation, generated events, branch derivation, fixed/open outcomes, and remaining frontier kinds. Explicitly deny world-state monotonicity, guaranteed convergence, and whole-universe completion. Store the certificate in inspection and replay. Keep external observation in Phase 2 and keep v0.5.8 unconfirmed.
+
+### D-127: Certify exact active generated recurrence by identity and anchor structure, not digest equality
+
+Reason:
+
+An active causal closure may return every field, world, anchor, generation event, and frontier to the same serialized configuration. Digest equality distinguishes that recurrence from a changed configuration but cannot prove that the same generated universe persisted: an identity dependency may have been broken and restored inside the cycle, identity proof may have exhausted its resources, or a replay ledger may be mistaken for committed world history.
+
+Consequence:
+
+When a complete generated-universe branch returns to an earlier exact configuration with realized activity, derive a separate recurrence certificate. Require stable world/schema/lineage/generation structure, exact preservation of all identity and relation anchors, every anchor predicate true at both recurrence cuts, no event effect on an identity-dependency field anywhere inside the cycle, complete topology/generation history preservation, a nonempty causal evidence extension, and `hostSelection: false`. Only a certified recurrence resolves the branch as `persistent-recurrence`; keep `fixpointReached: false`. Preserve identity proof exhaustion as `undetermined` and identity mutation as `not-certified`. Distinguish causal replay evidence from explicit internal commits: evidence can extend while the full anchored world state repeats, whereas commits or generation extend world history. Do not infer component-level self-maintenance, general convergence, topology-changing recurrence, or whole-universe persistence. Keep package `0.5.7` and v0.5.8 unconfirmed.
+
+### D-128: Let constructor lineage inherit and intensionally transform exact law revisions
+
+Reason:
+
+Generated worlds previously carried their own states and relations but the causal compiler reloaded every local law from the static host-supplied schema. That made descendant semantics invariant even when Bubble's constructor relation should lawfully differentiate them. Jumping directly to arbitrary source generation, callbacks, or mutable schema objects would instead hide host execution inside a self-creation claim and could invalidate reversibility, identity, field, anchor, and replay contracts at once.
+
+Consequence:
+
+Give every materialized world a content-addressed schema revision. Roots receive a base revision; same-schema descendants inherit the parent's realized revision; cross-schema descendants begin from the child base. Permit a constructor to transform only uniquely identified effect values of existing irreversible internal laws through total typed intensional queries over lineage, root seed, coordinate, and parent state. Record source revision, exact evaluation, proof digest, target revision, generated relation, and child compilation as one no-host-selection causal chain. Compile the realized revision and include it in recurrence identity. Reject unknown, duplicate, out-of-range, reversible, and wrong-kind targets. If one sibling transformation is unresolved, commit none of the sibling family and preserve every coordinate as an explicit frontier. Do not infer arbitrary law creation, new guards, fields, ports, identity or sea topology, executable code generation, successor-Bubble self-construction, or v0.5.8 completion. Keep package `0.5.7`, uncommitted and unconfirmed.
+
+### D-129: Make complete internal-law change one recursively closed remove/upsert morphism
+
+Reason:
+
+A conventional `add law` command succeeds once and then collides with its own inherited result at the next recursive generation; a strict `remove law` command similarly fails after the first removal. Treating add, replace, and remove as unrelated host operations would turn constructor depth into hidden mutation order. Restricting revision to effect operands would avoid that failure but leave guards, complete inverse contracts, law-set membership, and generated semantic differentiation outside the executable universe.
+
+Consequence:
+
+Extend the same constructor schema morphism with idempotent base-law removal and complete-law upsert. An upsert adds its typed law when absent and replaces the inherited definition when present, so one relation remains valid under recursive application. Validate the whole child-local Boolean guard, unique exact effects, field kinds, operations, reversibility, exact inverse pairing, and history commits before any world exists. Apply effect-value specialization only after the law-set rewrite and continue to prohibit forward-only mutation of reversible laws. Record requested and effective removals, upserts, actual additions and replacements, and exact source/target law sets in the revision event. Keep siblings atomic, compiler consumption and recurrence identity revision-aware, and replay tamper-sensitive. This closes complete internal-law-set transformation, not field, port, identity, sea, emergence, constructor, schema-incidence, formal-family, source-code, or successor-implementation generation. Keep package `0.5.7`; do not confirm or commit v0.5.8 from this seam alone.
+
+### D-130: Transform one complete executable schema graph before the generated world exists
+
+Reason:
+
+Adding separate field, protected-set, port, sea, identity, emergence, and projection mutation lists would make declaration order and missing cross-references decide whether a child was a coherent world. Applying transformation after field initialization would be worse: the child would be born from the base schema, then wear a different revision only in its metadata. The constructor relation needs one target object whose dependencies close together and whose result is the sole schema authority for that world.
+
+Consequence:
+
+Define the executable world-local schema graph as fields/initializers, protected set, ports, sea channels, self-identity, internal laws, emergence criteria, and optional causal projection. Permit `replaceGraph` only as a complete typed target graph, normalize and content-address it before child initialization, then apply the already closed law-set/effect morphism. Validate all local references and exact kinds plus the recursive constructor's required parent fields, ports, relation bindings, transports, and sea channels before materialization. Make generated fields, self-anchor, relation endpoints, sea actions, compilation, recurrence identity, inspection, and replay consume the realized revision rather than any static component. Record source/target graph digests and changed components. Preserve earlier worlds and revisions. This closes complete world-local graph replacement, not intensional graph generation, constructor/schema incidence, formal-family generation, source-code execution, or successor-Bubble construction. Keep package `0.5.7`, uncommitted, and v0.5.8 unconfirmed.
+
+### D-131: Scale verification by semantic boundary rather than test count
+
+Reason:
+
+The repository now has hundreds of tests, but the measured unit boundary remains short; repeated canonical run/inspect/record/replay process startup and artifact generation dominate the full verification cycle. Using total test count as a quality or speed target would encourage deleting adversarial evidence, while running every artifact path after each local edit would slow closure without adding new information.
+
+Consequence:
+
+Use focused contract suites during implementation, TypeScript plus the complete unit boundary after a coherent seam, the affected evidence cycle after integration, and full `npm run verify` at cross-cutting or release-confirmation boundaries. Add a test only for a distinct semantic contract, boundary failure, replay invariant, or regression; prefer a connected vertical or parameterized adversarial case over near-duplicate examples. Profile fixture construction, process startup, artifact writes, exact evaluation, and semantic search separately before optimizing. Never improve host test time by pruning lawful Bubble branches, hiding failure frontiers, or changing `undetermined` into a selected answer.
+
+### D-132: Make endogenous source a lossless projection of one typed program
+
+Reason:
+
+Leaving the connected-universe contract in JSON alone made the executed model inspectable but not truly authored in Bubble. Extending the older flat causal syntax would erase intensional families, complete schema graphs, relation identities, and recursive schema morphisms. Accepting embedded JSON or executable strings under a `.bubble` extension would only rename the host escape hatch. A source-only type check would also let JSON and source diverge.
+
+Consequence:
+
+Add a strict `endogenous bubble` profile whose algebraic family terms, total queries, complete schemas/replacement graphs, roots, constructors, relations, transports, sea actions, schema transformations, and explicit clockless order lower to the existing `EndogenousUniverseProgram`. Route both authoring projections through the same endogenous and intensional validators; strengthen the shared validator to reject operator, conditional, coordinate-argument, and declared-result kind mismatches. Require the canonical `.bubble` fixture to be structurally identical to the retained JSON projection and use it in the existing run/inspect/record/replay cycle. Keep host callbacks, executable strings, universal time, branch selection, intensional graph-definition generation, constructor/schema-incidence transformation, and successor-code generation outside this seam. Keep package `0.5.7`, make no commit, and do not confirm v0.5.8 from source lowering alone.
+
+## 2026-11-16
+
+### D-133: Confirm bounded v0.5.8 at its recorded connected-universe scope
+
+Reason:
+
+The v0.5.8 worktree had accumulated about ten closed seams (recursive constructor generation, causal transport, multi-transfer composition, causal-generation closure, branch-indexed universes, the finite internal-demand certificate, exact persistent recurrence, inherited law revisions, complete schema-graph replacement, and strict endogenous source lowering) and had remained uncommitted since 2026-07-17. Its own open list mixed research problems that the 5.x-to-6.x boundary already places outside the Rust transition gates (intensional schema/family generation, branch convergence, topology-changing persistence, a general self-complementation theorem) with record reconciliation. Continuing to widen one unconfirmed candidate would violate the closure-first rule that each `v0.5.x` release closes one connected seam before widening again. SC-007 requires author judgment before confirmation; on 2026-11-16 the author selected preparation of v0.5.8 confirmation at the current scope rather than further widening.
+
+Consequence:
+
+Before confirmation, an independent adversarial audit reproduced six gaps. Correct the three that contradicted written v0.5.8 claims inside this scope: cross-constructor revision closure (B-050), order-dependent root and cousin budget prefixes with a false exhaustive-universe claim (B-051), and an admitted sibling missing from the frontier (B-052); narrow the overstated source-level graph-replacement evidence (B-049). Do not resolve the two identity semantics that contradict no written claim (frozen `parent-field` sources in identity predicates and fixpoints certified without an anchor-identity cut, B-053); record them as open author decisions. Confirm `v0.5.8` as the bounded endogenous connected-universe generation release. Its closed claim is exactly the Current Closed Evidence section of the v0.5.8 architecture record: strict endogenous source lowering to one typed intensional/constructor/schema program, complete-sibling generation, inherited and wholly replaceable executable schema graphs, lineage-relative identity, identity and relation anchors, exact channel-valued sea action and parent-to-child transport, receiver-local law response, realized-state constructor reactivation, recursively branch-indexed generated universes, the finite internal-demand certificate, digest-linked self-complementation evidence, demanded fixpoint or exact persistent recurrence, and integrity-checked inspection and replay. Move the remaining v0.5.8 open list to post-release open work without narrowing or deleting any item; none becomes a closed claim. Align package and lock identity, the obligation ledger, architecture and reference status, Q-018/Q-029/Q-030/Q-031, H-021/H-022, the implementation map, README, examples guide, process summary, project memory, the 5.x-to-6.x boundary, and record verification to bounded `0.5.8`. Do not select the content of `v0.5.9`; Gates C (portable BIR) and D (conformance and host-cost evidence) remain the open 5.x transition gates. This decision does not complete OB-001, authorize Phase 2, or commit the tree; committing remains the author's act.

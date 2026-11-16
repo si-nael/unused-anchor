@@ -79,7 +79,7 @@ test("every decision and research question remains inside the tracked record str
 
     const questionLog = readRepositoryFile("docs/research/question-log.md");
     const questionIds = [...questionLog.matchAll(/^### (Q-\d+):/gm)].map((match) => match[1]);
-    assert.deepEqual(questionIds, Array.from({ length: 29 }, (_, index) => `Q-${String(index + 1).padStart(3, "0")}`));
+    assert.deepEqual(questionIds, Array.from({ length: 31 }, (_, index) => `Q-${String(index + 1).padStart(3, "0")}`));
 
     for (const questionId of questionIds) {
         const sectionStart = questionLog.indexOf(`### ${questionId}:`);
@@ -89,7 +89,7 @@ test("every decision and research question remains inside the tracked record str
     }
 });
 
-test("completed bounded v0.5.6 preserves prior kernels, the original philosophy, and every open research branch", () => {
+test("completed bounded v0.5.8 preserves prior kernels, the original philosophy, and every open research branch", () => {
     const packageManifest = JSON.parse(readRepositoryFile("package.json")) as { version: string };
     const packageLock = JSON.parse(readRepositoryFile("package-lock.json")) as {
         version: string;
@@ -109,16 +109,19 @@ test("completed bounded v0.5.6 preserves prior kernels, the original philosophy,
     const lifecycleArchitecture = readRepositoryFile("docs/architecture/endogenous-world-lifecycle-candidate.md");
     const lifecycleRelease = readRepositoryFile("docs/architecture/v0.5.6-endogenous-world-lifecycle.md");
     const membraneCandidate = readRepositoryFile("docs/architecture/typed-cross-world-membrane-candidate.md");
+    const endogenousCandidate = readRepositoryFile("docs/architecture/v0.5.8-endogenous-connected-universe.md");
     const manifest = JSON.parse(readRepositoryFile("package.json")) as { scripts: Record<string, string> };
 
-    assert.equal(packageManifest.version, "0.5.6");
-    assert.equal(packageLock.version, "0.5.6");
-    assert.equal(packageLock.packages[""]?.version, "0.5.6");
+    assert.equal(packageManifest.version, "0.5.8");
+    assert.equal(packageLock.version, "0.5.8");
+    assert.equal(packageLock.packages[""]?.version, "0.5.8");
+    assert.ok(projectMemory.includes("Completed bounded `v0.5.8` denotes a recursive connected world family"));
+    assert.ok(projectMemory.includes("then selected `v0.5.8` at its recorded scope"));
     assert.ok(projectMemory.includes("bounded endogenous-world-lifecycle release `v0.5.6`"));
-    assert.ok(projectMemory.includes("does not certify deliberation, agency, dynamic schema/population generation, cross-world transport, or OB-001 whole-universe completion"));
+    assert.ok(projectMemory.includes("Completed bounded `v0.5.7` adds one exact typed two-world anchor relation"));
     assert.ok(projectMemory.includes("Phase 2 observer, external-agent, and comparative benchmark work must wait"));
     assert.ok(projectMemory.includes("Completed bounded `v0.5.6` closes the finite lifecycle-and-language gate"));
-    assert.ok(projectMemory.includes("The author explicitly selected `v0.5.6`"));
+    assert.ok(projectMemory.includes("The author explicitly selected both `v0.5.6` and later `v0.5.7`"));
     assert.ok(architecture.includes("Status: completed bounded connected release on 2026-07-15"));
     assert.ok(architecture.includes("all thirteen gates have bounded executable evidence"));
     assert.ok(architecture.includes("not the complete Bubble universe promised by OB-001"));
@@ -146,15 +149,30 @@ test("completed bounded v0.5.6 preserves prior kernels, the original philosophy,
     assert.ok(lifecycleRelease.includes("This is causal lifecycle"));
     assert.ok(lifecycleRelease.includes("without the host or World Will selecting either lifecycle transition"));
     assert.ok(lifecycleRelease.includes("runtime generation of new field schemas, laws, or open-ended populations"));
-    assert.ok(membraneCandidate.includes("Status: active unversioned Gate B candidate after bounded `v0.5.6`; no release selected"));
+    assert.ok(membraneCandidate.includes("Status: completed bounded `v0.5.7` membrane baseline"));
     assert.ok(membraneCandidate.includes("source law -> anchor transfer -> receiving-world law"));
     assert.ok(membraneCandidate.includes("This candidate is not yet:"));
+    assert.ok(endogenousCandidate.includes("Status: completed bounded `v0.5.8` connected-universe generation release"));
+    assert.ok(endogenousCandidate.includes("## Remaining Open After Bounded v0.5.8"));
+    assert.ok(endogenousCandidate.includes("Confirmation narrows nothing below and promotes no item below into a closed claim"));
+    assert.ok(endogenousCandidate.includes("intensional generation of new schema graphs"));
+    assert.ok(endogenousCandidate.includes("branch equivalence, lawful convergence"));
+    assert.ok(endogenousCandidate.includes("simultaneous exact sibling frontier"));
+    assert.ok(endogenousCandidate.includes("6 exact parent-to-child transports"));
+    assert.ok(endogenousCandidate.includes("6 exact schema-transformation events"));
+    assert.ok(endogenousCandidate.includes("Inherited Executable Schema-Graph Revisions"));
+    assert.ok(endogenousCandidate.includes("removes inherited base-law identities idempotently"));
+    assert.ok(endogenousCandidate.includes("replaceGraph"));
+    assert.ok(endogenousCandidate.includes("all eight executable graph components together"));
+    assert.ok(endogenousCandidate.includes("input and output demanded configurations"));
     assert.ok(manifest.scripts["verify"].includes("verify:narrative-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:causal-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:branching-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:lifecycle-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:lifecycle-language-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:membrane-example"));
+    assert.ok(manifest.scripts["verify"].includes("verify:endogenous-example"));
+    assert.ok(manifest.scripts["run:endogenous-example"].includes("examples/endogenous-connected-universe.bubble"));
     assert.ok(manifest.scripts["verify"].includes("verify:persistence-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:teleonomy-example"));
     assert.ok(manifest.scripts["verify"].includes("verify:teleonomy-distributed-example"));
@@ -164,6 +182,8 @@ test("completed bounded v0.5.6 preserves prior kernels, the original philosophy,
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/distributed-channel-field.world.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/endogenous-branching-field.world.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/generational-grove.world.json")));
+    assert.doesNotThrow(() => JSON.parse(readRepositoryFile("examples/endogenous-connected-universe.world.json")));
+    assert.match(readRepositoryFile("examples/endogenous-connected-universe.bubble"), /^endogenous bubble EndogenousConnectedUniverse \{/);
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/anchored-garden.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/self-organizing-field.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/self-maintaining-field.replay.json")));
@@ -173,8 +193,11 @@ test("completed bounded v0.5.6 preserves prior kernels, the original philosophy,
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/generational-grove.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/connected-fields.replay.json")));
     assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/connected-fields.replayed.json")));
+    assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/endogenous-connected-universe.replay.json")));
+    assert.doesNotThrow(() => JSON.parse(readRepositoryFile("data/runs/endogenous-connected-universe.replayed.json")));
     assert.ok(closurePlan.includes("Status: completed on 2026-07-15"));
     assert.ok(operations.includes("## Preservation Discipline"));
+    assert.ok(operations.includes("## Verification Scale Discipline"));
 
     for (const heading of [
         "Future research: observation-induced materialization and perturbative collapse",
@@ -198,7 +221,7 @@ test("completed bounded v0.5.6 preserves prior kernels, the original philosophy,
     assert.match(questionLog, /### Q-011:[\s\S]*?Status: open/);
     assert.match(questionLog, /### Q-014:[\s\S]*?Status: bounded runtime source-attribution slice completed in v0\.4\.9/);
     assert.match(questionLog, /### Q-015:[\s\S]*?Status: open and explicitly deferred beyond the v0\.5 entry gate/);
-    assert.match(questionLog, /### Q-018:[\s\S]*?Status: implemented bounded baseline through v0\.5\.6, including finite endogenous world lifecycle/);
+    assert.match(questionLog, /### Q-018:[\s\S]*?Status: implemented bounded baseline through v0\.5\.8 with connected branch-generation and exact recurrence evidence/);
     assert.match(questionLog, /### Q-019:[\s\S]*?Status: partially implemented through v0\.5\.6 with bounded lifecycle-history evidence/);
     assert.match(questionLog, /### Q-020:[\s\S]*?Status: implemented bounded baseline in v0\.5\.1/);
     assert.match(questionLog, /### Q-021:[\s\S]*?Status: implemented bounded connected baseline in v0\.5\.1/);
@@ -209,7 +232,9 @@ test("completed bounded v0.5.6 preserves prior kernels, the original philosophy,
     assert.match(questionLog, /### Q-026:[\s\S]*?Status: open independent foundational question; no release selected and no current hypercomputation claim/);
     assert.match(questionLog, /### Q-027:[\s\S]*?Status: open; selected as a remaining 5\.x semantic-core question before Rust 6\.x/);
     assert.match(questionLog, /### Q-028:[\s\S]*?Status: open; selected as a cross-substrate performance contract spanning late 5\.x and Rust 6\.x/);
-    assert.match(questionLog, /### Q-029:[\s\S]*?Status: active unversioned bounded candidate after v0\.5\.6; one exact relation implemented, general membrane calculus open/);
+    assert.match(questionLog, /### Q-029:[\s\S]*?Status: completed bounded baseline in v0\.5\.7; general membrane calculus remains open/);
+    assert.match(questionLog, /### Q-030:[\s\S]*?Status: bounded finite-demand certificate completed in v0\.5\.8; general convergence and observation remain open/);
+    assert.match(questionLog, /### Q-031:[\s\S]*?Status: complete executable world-local schema-graph morphism completed in bounded v0\.5\.8; intensional schema\/family generation remains open/);
     assert.ok(implementationMap.includes("`v0.5.0` implements the first organic self-realization vertical flow"));
     assert.ok(implementationMap.includes("Completed `v0.5.1` satisfies its bounded connected gate"));
     assert.ok(implementationMap.includes("Completed bounded `v0.5.2` adds the forward corrective gate"));
@@ -217,6 +242,8 @@ test("completed bounded v0.5.6 preserves prior kernels, the original philosophy,
     assert.ok(implementationMap.includes("Completed bounded `v0.5.4` adds the teleonomic-capacity gate"));
     assert.ok(implementationMap.includes("Completed bounded `v0.5.5` adds the endogenous-causal-branching gate"));
     assert.ok(implementationMap.includes("Completed bounded `v0.5.6` adds the endogenous-world-lifecycle and source-lowering gate"));
+    assert.ok(implementationMap.includes("Completed bounded `v0.5.8` adds the endogenous connected-universe generation gate"));
+    assert.ok(implementationMap.includes("that selection closes no item in this paragraph"));
     assert.ok(implementationMap.includes("This completed bounded release actualizes a finite declared latent graph"));
     assert.ok(implementationMap.includes("deliberative or simultaneous counterfactual choice, relation-mediated action"));
     assert.ok(implementationMap.toLowerCase().includes("this transition does not close or delete the partial, open, or deferred rows above"));
@@ -266,6 +293,51 @@ test("author ideas remain immutable source obligations rather than prose-only me
     assert.ok(corpus.includes("### AI-20260717-004: Efficient execution must remain portable across computational substrates"));
     assert.ok(corpus.includes("### AI-20260717-005: Close the 5.x semantic core before beginning the Rust 6.x substrate"));
     assert.ok(corpus.includes("### AI-20260717-006: Continue only inside the author's philosophy"));
+    assert.ok(corpus.includes("### AI-20260717-008: Human-scale names are not Bubble ontology"));
+    assert.ok(corpus.includes("### AI-20260717-009: Restore the clean pre-assistant philosophy and require necessary Bubble structure"));
+    assert.ok(corpus.includes("### AI-20260717-010: Expect a large implementation surface without reducing it to feature bulk"));
+    assert.ok(corpus.includes("### AI-20260717-011: Infinite procedure closes on a finite observation while Bubble self-complements"));
+    const finiteRealization = ledger.obligations.find((entry) => entry.id === "OB-014");
+    assert.equal(finiteRealization?.status, "partial");
+    assert.deepEqual(finiteRealization?.sourceIds, ["AI-20260717-011"]);
+    assert.ok(finiteRealization?.implementationEvidence.includes("src/bubbles/world-kernel/endogenous-runtime.ts"));
+    const formalLanguage = ledger.obligations.find((entry) => entry.id === "OB-008");
+    assert.ok(formalLanguage?.implementationEvidence.includes("src/bubbles/language/endogenous-compile.ts"));
+    assert.ok(formalLanguage?.acceptanceTests.includes("tests/unit/endogenous-bubble-language.test.ts"));
     assert.ok(ledger.sessionConstraints.some((entry) => entry.id === "SC-002" && entry.status === "in-force"));
     assert.ok(ledger.sessionConstraints.some((entry) => entry.id === "SC-003" && entry.status === "in-force"));
+    assert.ok(ledger.sessionConstraints.some((entry) => entry.id === "SC-005" && entry.status === "in-force"));
+    assert.ok(ledger.sessionConstraints.some((entry) => entry.id === "SC-006" && entry.status === "in-force"));
+    assert.ok(ledger.sessionConstraints.some((entry) => entry.id === "SC-007" && entry.status === "in-force"));
+    const necessityBaseline = readRepositoryFile("docs/architecture/necessity-first-bubble-core.md");
+    assert.ok(necessityBaseline.includes("Commit `00bbdf7` (`v0.4.7`)"));
+    assert.ok(necessityBaseline.includes("No present or future core module may import them"));
+    assert.ok(necessityBaseline.includes("Every causal world currently requires one rational `viabilityFieldId`"));
+    const boundaryLog = readRepositoryFile("docs/research/boundary-log.md");
+    const hypothesisLog = readRepositoryFile("docs/research/hypothesis-log.md");
+    const decisionLog = readRepositoryFile("docs/decision-log.md");
+    assert.ok(boundaryLog.includes("### B-036: Human-scale projection modules crossed into the public core surface"));
+    assert.ok(boundaryLog.includes("### B-037: A release commit label crossed away from manifest and record identity"));
+    assert.ok(boundaryLog.includes("### B-038: A bounded scalar sea proxy crossed into universal world ontology"));
+    assert.ok(boundaryLog.includes("### B-039: Multiple crossings crossed into an accidental sequential transport order"));
+    assert.ok(boundaryLog.includes("### B-040: Topology stability crossed into causal-generation configuration closure"));
+    assert.ok(boundaryLog.includes("### B-041: A finite branch budget crossed into host-selected universe survival"));
+    assert.ok(boundaryLog.includes("### B-042: Malformed query structure crossed into a lawfully closed constructor"));
+    assert.ok(boundaryLog.includes("### B-043: Finite determinacy crossed into host-selected observation collapse"));
+    assert.ok(boundaryLog.includes("### B-044: Equal recurrence cuts crossed over a broken identity interval"));
+    assert.ok(boundaryLog.includes("### B-045: Generated state crossed into static host-reloaded law identity"));
+    assert.ok(boundaryLog.includes("### B-046: One-shot law addition crossed into a recursively inherited revision"));
+    assert.ok(boundaryLog.includes("### B-047: A revised schema label crossed over a base-schema world"));
+    assert.ok(boundaryLog.includes("### B-048: JSON-only generation crossed away from Bubble's own language"));
+    assert.ok(hypothesisLog.includes("### H-024: Exact generated recurrence can preserve universe identity without becoming a fixpoint or fabricating history"));
+    assert.ok(hypothesisLog.includes("### H-025: Typed inherited law revisions can make generated worlds semantically differentiated without arbitrary self-modification"));
+    assert.ok(hypothesisLog.includes("### H-026: Idempotent remove/upsert forms a recursively closed internal-law-set morphism"));
+    assert.ok(hypothesisLog.includes("### H-027: A complete pre-instantiation schema graph can differentiate generated worlds coherently"));
+    assert.ok(hypothesisLog.includes("### H-028: One strict source can preserve the complete endogenous program without a second runtime"));
+    assert.ok(decisionLog.includes("### D-127: Certify exact active generated recurrence by identity and anchor structure, not digest equality"));
+    assert.ok(decisionLog.includes("### D-128: Let constructor lineage inherit and intensionally transform exact law revisions"));
+    assert.ok(decisionLog.includes("### D-129: Make complete internal-law change one recursively closed remove/upsert morphism"));
+    assert.ok(decisionLog.includes("### D-130: Transform one complete executable schema graph before the generated world exists"));
+    assert.ok(decisionLog.includes("### D-131: Scale verification by semantic boundary rather than test count"));
+    assert.ok(decisionLog.includes("### D-132: Make endogenous source a lossless projection of one typed program"));
 });

@@ -421,13 +421,6 @@ export function validateAnchoredCausalWorld(system: AnchoredCausalWorldSystem): 
     }
 
     const anchorTransfers = system.anchorTransfers ?? [];
-    if (anchorTransfers.length > 1) {
-        diagnostics.push(issue(
-            "CKW104",
-            "anchorTransfers",
-            "the first membrane contract establishes one exact nonlocal relation before general transport composition",
-        ));
-    }
     duplicates(anchorTransfers.map((transfer) => transfer.id)).forEach((id) => diagnostics.push(
         issue("CKW084", "anchorTransfers", `duplicate anchor transfer id '${id}'`),
     ));
@@ -633,7 +626,7 @@ export function validateAnchoredCausalWorld(system: AnchoredCausalWorldSystem): 
             issue("CKW094", `${path}.anchorTransferIds`, `duplicate anchor transfer '${transferId}'`),
         ));
         if (transferIds.length > 1) {
-            diagnostics.push(issue("CKW097", `${path}.anchorTransferIds`, "the first membrane contract permits one exact crossing per internal law"));
+            diagnostics.push(issue("CKW097", `${path}.anchorTransferIds`, "one internal causal event may cause one exact crossing; simultaneous crossings compose as a frontier of distinct laws"));
         }
         for (const transferId of transferIds) {
             const transfer = transfers.get(transferId);
@@ -653,11 +646,11 @@ export function validateAnchoredCausalWorld(system: AnchoredCausalWorldSystem): 
             diagnostics.push(issue(
                 "CKW098",
                 path,
-                "the first membrane contract keeps a transfer law atomic: it cannot mix local, lifecycle, or commit effects",
+                "a transfer law is atomic and cannot mix local, lifecycle, or commit effects",
             ));
         }
         if (transferIds.length > 0 && law.reversibility !== "irreversible") {
-            diagnostics.push(issue("CKW099", path, "anchor crossing with sea residue/placement is irreversible in the first membrane contract"));
+            diagnostics.push(issue("CKW099", path, "anchor crossing with sea residue/placement is irreversible"));
         }
         if (law.reversibility === "reversible") {
             if (!law.inverseEffects || law.inverseEffects.length !== law.effects.length) {
@@ -704,7 +697,7 @@ export function validateAnchoredCausalWorld(system: AnchoredCausalWorldSystem): 
             diagnostics.push(issue(
                 "CKW101",
                 "anchorTransfers",
-                `the first membrane contract reserves one incoming transfer for target port field '${targetKey}'`,
+                `simultaneous exact transport reserves one incoming transfer for target port field '${targetKey}'`,
             ));
         }
         transferTargetKeys.add(targetKey);
@@ -721,8 +714,25 @@ export function validateAnchoredCausalWorld(system: AnchoredCausalWorldSystem): 
             diagnostics.push(issue(
                 "CKW102",
                 "anchorTransfers",
-                `transfer '${transfer.id}' snapshot, target, and sea-accounting fields cannot have local writers in the first membrane contract: ${competingWriters.sort().join(", ")}`,
+                `transfer '${transfer.id}' snapshot, target, and sea-accounting fields cannot have local writers in the same closure: ${competingWriters.sort().join(", ")}`,
             ));
+        }
+    }
+    for (let leftIndex = 0; leftIndex < anchorTransfers.length; leftIndex += 1) {
+        const left = anchorTransfers[leftIndex]!;
+        const leftTarget = `${left.target.worldId}.${left.target.fieldId}`;
+        for (let rightIndex = leftIndex + 1; rightIndex < anchorTransfers.length; rightIndex += 1) {
+            const right = anchorTransfers[rightIndex]!;
+            const rightTarget = `${right.target.worldId}.${right.target.fieldId}`;
+            const leftSource = `${left.source.worldId}.${left.source.fieldId}`;
+            const rightSource = `${right.source.worldId}.${right.source.fieldId}`;
+            if (leftTarget === rightSource || rightTarget === leftSource) {
+                diagnostics.push(issue(
+                    "CKW104",
+                    "anchorTransfers",
+                    `transfers '${left.id}' and '${right.id}' cannot derive one another inside a simultaneous frontier; chained transport needs a later causal frontier`,
+                ));
+            }
         }
     }
 

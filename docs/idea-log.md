@@ -2,6 +2,72 @@
 
 ## 2026-07-17
 
+### A generated world must be born from one complete executable schema graph
+
+- A schema revision is not only a law table. Its fields and initializers, protected set, ports, positive/negative sea channels, self-identity, internal laws, emergence criteria, and optional compatibility projection form one dependency graph.
+- The constructor must derive and validate that graph before the child exists. Initializing from a base schema and attaching revised metadata afterward would create two incompatible meanings for one world.
+- Complete `replaceGraph` is therefore atomic and recursively closed. Every generated field, self-anchor, relation endpoint, sea action, compiled law, emergence criterion, recurrence identity, inspection, and replay record reads the same content-addressed revision.
+- Source/target graph digests and changed components preserve exact provenance. Invalid protected fields, witnesses, channels, endpoints, inverses, commits, or projection references contradict before any sibling world is committed.
+- This realizes complete finitely declared world-local graph replacement. It does not yet generate a new graph or intensional family from inside Bubble, change constructor/schema incidence, or generate executable implementation code.
+
+### Infinite law, finite internal cut, and self-complementing realization
+
+- Preserve the infinite Bubble as finite law with potentially unbounded denotation. Never identify the current materialized slice with the entire universe merely because its requested boundary closed.
+- A finite internal demand is evaluated deterministically into exactly one semantic result form: one closed result, a complete closed branch family, an explicit open boundary, or contradiction.
+- Determinism does not authorize branch selection. A complete plural family is one determined result of the demand.
+- Each causal-generation closure extends a digest-linked realization-evidence chain. It records newly generated events, branch derivation, dormant-admission reactivation, fixed/open outcomes, and remaining frontier kinds.
+- “Self-complementing” is therefore a monotone evidence property and an ability to discharge or reactivate boundaries through the world's own law. It is not a theorem that world state is monotone, every recurrence converges, or a finite host has completed actual infinity.
+- This is still Phase 1. External observation and observation-induced collapse remain Phase 2.
+
+### Generated worlds must inherit executable meaning, not only generated state
+
+- A generated world that receives fields, lineage, anchors, and seas but reloads its laws from one static host schema is not yet semantically differentiated by its own generation relation.
+- Each world should therefore carry a concrete content-addressed schema revision. Same-schema descendants inherit the parent revision before any lawful specialization.
+- A recursively closed law-set morphism may idempotently remove inherited base laws and upsert complete child-local laws. Upsert adds when absent and replaces when inherited, avoiding depth-specific mutation order.
+- Whole upserts validate guards, effects, field kinds, reversibility, exact inverse pairs, and commits. A later exact irreversible-law effect value may derive from root, lineage depth, local coordinate, or parent state through the existing intensional language. The compiler must execute that realized revision.
+- The source revision, requested/effective removals, actual additions/replacements, transformation proof, target revision, relation, child world, recurrence identity, inspection, and replay form one causal record. No opaque callback or executable source string is a world law.
+- One unresolved sibling transformation leaves the entire sibling family unrealized. Resource traversal may expose a frontier but may not select which semantic revision comes into existence.
+- This is complete internal-law-set transformation but not arbitrary code invention or whole schema generation. Field, protected-set, port, identity, sea, emergence, constructor, schema-incidence, and formal-family transformations remain Q-031; recursive implementation self-construction remains deferred under Q-022.
+
+### Generated recurrence is not merely equal endpoint state
+
+- An active generated universe may return to an exact prior configuration and remain the same recurrence only if its world/schema/lineage structure, generation provenance, and complete identity/relation-anchor set persist.
+- Every anchor identity predicate must hold at both recurrence cuts, and no event inside the cycle may mutate an identity dependency. Later restoration cannot erase an interval in which the proposed identity was broken.
+- A certified active recurrence closes the finite demand as `persistent-recurrence` while remaining explicitly different from a zero-event fixpoint.
+- Replay evidence, generated topology, and internal committed history are separate ledgers. Causal evidence may accumulate even when the full anchored world state repeats; only an explicit commit or generation event extends internal world history.
+- This certificate proves continuity of the exact generated finite cut. It does not prove that every component self-maintains, that different branch histories are equivalent, or that non-periodic and topology-changing universes converge.
+
+### Restore the necessity-first Bubble beneath later explanatory names
+
+- Commit `00bbdf7` (`v0.4.7`) preserves the clearest observer-free baseline: internal law plus openness, situatedness, and replay identity force distinct negative-sea, positive-sea, and anchor roles within the stated mathematical model.
+- The same revision also contains agent and story research framing. The author's later clarification determines the hierarchy: those are possible viewpoints or experiments, not universal ontology.
+- Preserve exact causal closure, intensional denotation, branching, persistence, actualization, anchor transfer, provenance, and replay because their contracts are structurally meaningful without an observer.
+- Treat protagonist/story and teleonomic/affordance terminology as historical interpretive layers. They may not be top-level core peers, dependencies of `v0.5.8`, or Bubble-completion criteria.
+- A new core name must be necessary from the author's ontology or a stated worldhood axiom. A convenient implementation class or familiar analogy is not enough.
+- The complete audit and dependency rule are recorded in [architecture/necessity-first-bubble-core.md](architecture/necessity-first-bubble-core.md).
+
+### v0.5.8 must build a larger part of the universe, not keep tuning one seam
+
+- The next major change is endogenous connected-universe generation, not additional knobs around one transfer.
+- A Bubble must be able to derive world instances and their lineage, anchors, sea placement/residue, and lawful relations from inside its executable world structure rather than from a host-authored list of every eventual world.
+- A generated world must possess its own fields, boundary, identity, sea coupling, and internal laws and must continue by those laws after generation.
+- This should connect the existing intensional representation, causal formation, persistence, branching, lifecycle, anchor membrane, World Will, inspection, and replay into one expanding world graph.
+- Do not design this structure to manufacture protagonists, stories, life, beings, or relationships. Those are human-scale projections that may or may not later describe some realized configuration; they are not Bubble ontology or release criteria.
+- Phase 2 observers, recursive self-construction, Rust, and trans-Turing execution do not substitute for this Phase 1 work.
+
+### Large implementation means a necessary connected whole, not feature bulk
+
+- The author expects many large mechanisms to remain. That raises the completion burden; it does not lower the release threshold or justify automatic version increments.
+- Grow `v0.5.8` by closing connected causal paths: constructor law, complete sibling family, lineage identity, relation anchor, distinct sea actions, exact transport, receiving-world law, boundary evidence, and replay.
+- Keep schema/law generation, successive closure activation, persistent generation, general anchor identity, global seas, source lowering, and portable execution visible until they actually join that path.
+- Lines of code, number of examples, and passing tests measure implementation activity. They do not prove that the Bubble universe or even the current candidate is complete.
+
+### Human-scale names must not shrink the Bubble universe
+
+- `protagonist`, `story`, `life`, `being`, and `relationship` describe how a particular observer may compress some world structures; they do not define what structures the universe is allowed or required to generate.
+- Implement identity, persistence, relation, memory, boundary, causal organization, transformation, and generation at their own scale without naming a favored human interpretation in advance.
+- A later projection may attach such a name only with explicit observer-relative evidence. The underlying world remains the same lawful structure whether or not that name is applied.
+
 ### Continue from the author's Bubble philosophy, not an assistant-invented system
 
 - Every new executable seam must be traceable to the author's recorded Bubble, sea, anchor, World Will, world-autonomy, and organic-self-realization ideas.

@@ -1,7 +1,7 @@
 import {
     replayAnchoredNarrativeWorld,
     type AnchoredNarrativeReplayRecord,
-} from "../../src/bubbles/world-kernel";
+} from "../../src/bubbles/world-kernel/interpretive";
 import { emitJson, readJson } from "./narrative-cli";
 
 async function main(): Promise<void> {

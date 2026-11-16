@@ -1,6 +1,6 @@
 # Causal Bubble Language Profile
 
-Status: completed bounded `v0.5.6` lifecycle-lowering profile plus active unversioned membrane extension
+Status: completed bounded `v0.5.7` profile including the exact one-relation membrane baseline
 
 Date: 2026-07-17
 
@@ -52,7 +52,7 @@ Exact literals are normalized integers, rationals such as `3/5`, booleans, or JS
 - Anchors and objectives for latent worlds remain dormant until causal birth.
 - Host execution order is not a universal Bubble clock.
 - Compilation runs the same causal-program validator used by JSON programs.
-- The active unversioned membrane extension permits one exact transfer definition per program. Its source law is irreversible and transfer-only; it cannot hide local, lifecycle, or commit effects beside the crossing.
+- Bounded `v0.5.7` permits one exact transfer definition per program. Its source law is irreversible and transfer-only; it cannot hide local, lifecycle, or commit effects beside the crossing.
 - Transfer endpoints belong to one two-world anchor, carry the same exact value kind, and must both be active. The target is an unprotected `world-condition`, never protected structure, a sea coordinate, or viability.
 - A crossing copies one exact source snapshot, adds source negative-sea residue and target positive-sea placement, and passes pre/post anchor identity before any mutation becomes visible.
 - The receiving world responds only through a later local law. Cut or inactive anchors block the crossing; an internally born endpoint contributes birth provenance before transfer.
@@ -84,4 +84,4 @@ npm run verify:membrane-example
 
 ## Current boundary
 
-The released profile closes one authored lifecycle-lowering seam. The unversioned extension adds only one exact typed cross-world snapshot relation; it is not general transport composition, a global sea, the portable BIR, a binary encoding, a native engine, a general-purpose language, or dynamic schema generation. Those distinctions are preserved by Q-027/Q-028/Q-029 and the 5.x-to-6.x transition architecture.
+The released profile closes lifecycle lowering and one exact typed cross-world snapshot relation through bounded `v0.5.7`; it is not general transport composition, a global sea, the portable BIR, a binary encoding, a native engine, a general-purpose language, or dynamic schema generation. Those distinctions are preserved by Q-027/Q-028/Q-029 and the 5.x-to-6.x transition architecture.

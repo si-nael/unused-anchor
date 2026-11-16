@@ -3,7 +3,7 @@ import path from "node:path";
 import type {
     ExecutableAnchoredNarrativeProgram,
     NarrativeExecutionOptions,
-} from "../../src/bubbles/world-kernel";
+} from "../../src/bubbles/world-kernel/interpretive";
 
 export async function readNarrativeProgram(
     inputPath: string,

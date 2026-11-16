@@ -8,13 +8,13 @@ Can a compactly authored bubble universe become and remain a coherent world thro
 
 It also starts from a stronger motivating belief:
 
-Our world appears extraordinarily complex, yet it remains explainable without contradiction at least within the scope of our current best models. This motivates a sharper question for artificial worlds: must sufficiently rich virtual worlds eventually generate contradictions, or can a world be designed to remain globally coherent while still supporting complexity, history, and embedded intelligence?
+Our world appears extraordinarily complex, yet it remains explainable without contradiction at least within the scope of our current best models. This motivates a sharper question for artificial worlds: must sufficiently rich virtual worlds eventually generate contradictions, or can a world remain globally coherent while supporting complexity, identity, history, relation, and transformation through its own law?
 
 The project combines four directions, in a strict phase order:
 
 - Procedural world generation from compact rules instead of explicit full-state simulation.
 - Organic world self-realization through the bubble's own executable world will.
-- Later, only after the world core is complete, embedded intelligence and emergent interaction.
+- Later, only after the world core is complete, optional observer-relative studies of intelligence and interaction.
 - A small axiom-based world with a "world will," nondeterministic anomalies, and bubble universes.
 
 ## Working Thesis
@@ -29,13 +29,12 @@ The project should eventually support a multiverse of bubble universes, where ea
 
 - axiom set or local physics
 - "world will" as an invariant, optimization pressure, or governing objective
-- story logic, history, and social structure
-- agents with memory, belief, and communication
+- causal history, memory, relation, and internally generated organization
 - boundaries that can isolate or connect it to other worlds
 
 At large scale, bubble universes should be able to appear, evolve, merge, decay, and disappear without requiring the system to materialize the full multiverse at once. The world will does not need to appear as an explicit narrated object. It can act as a latent law that shapes world birth, persistence, transition, and collapse.
 
-The interesting part is not only to generate many worlds. It is to let embedded agents treat their world as real, then study whether they can infer laws, detect contradictions, and notice that they may live near a boundary, anomaly, or cross-world inconsistency.
+The primary problem is not only to generate many worlds. It is to make their connected existence, difference, continuation, and dissolution follow from Bubble law itself. A later observer may study or name structures that arise, but that projection does not define the universe.
 
 ## Why This Is Interesting
 
@@ -44,9 +43,9 @@ The interesting part is not only to generate many worlds. It is to let embedded 
 - It connects procedural generation, simulation, emergence, epistemology, and anomaly detection.
 - It creates a clear bridge to finite-observation judgment problems.
 
-## Foundational Research Program
+## Later Observer Research Program
 
-The deepest layer of the project is not only world generation. It is the study of consistency.
+After the observer-independent universe is sufficiently complete, it can support a separate study of finite knowledge and consistency.
 
 1. Define classes of artificial worlds that can remain contradiction-free.
 2. Characterize where contradictions arise: axioms, composition boundaries, resource limits, observation interfaces, or learned models.
@@ -76,13 +75,13 @@ Instead, the system should store:
 
 Worlds and subregions should be materialized only when queried, observed, or causally affected.
 
-## First Practical Scope
+## Current Practical Scope
 
-1. Define a tiny discrete world on a graph or grid.
-2. Express its laws as a compact axiom set.
-3. Give agents only local observations.
-4. Introduce bubble universes or local rule perturbations.
-5. Measure whether agents can recover laws and detect inconsistencies.
+1. Define compact world laws without explicitly storing the whole world.
+2. Derive world state, boundary, lineage, sea relations, and anchor identity from typed semantics.
+3. Preserve every lawful continuation without a hidden host selector.
+4. Let Bubble law generate and connect further worlds whose own laws govern their continuation.
+5. Inspect, record, and replay exact provenance while leaving Phase 2 observers optional and separate.
 
 ## Repository Direction
 
@@ -126,13 +125,14 @@ The repository now contains an executable Bubble Language stack rather than only
 - `v0.4.8` effect-trace causal links from authored effects to the concrete evidence records and descendant artifacts they explain
 - `v0.4.9` evidence-bounded event-source attribution for internal world events, negative-sea pressure, anchor drift, positive-sea shifts, and honestly unresolved sources
 - `v0.5.0` self-realization evidence, continuations, reciprocal reversibility, plural/underdetermined possibility preservation, and history arrows created only by selected commits
-- completed bounded `v0.5.1`: exact intensional families plus autonomous protagonist action, sea-coupled viability, post-state constrained World Will, identity-checked anchor intervention, causal story/history, inspection, and deterministic same-program replay
+- historical bounded `v0.5.1` projection experiment: exact intensional families plus an explicitly authored protagonist/story specialization, preserved for compatibility and evidence but not part of universal worldhood
 - completed bounded `v0.5.2`: actor-neutral causal worlds whose exact state guards generate events and generic structure, protected internal fields, pre/post identity-checked anchored World-Will conditions, honest non-commuting and bounded-search underdetermination, exact layered traces, inspection, and integrity-checked emergence-preserving replay; `v0.5.1` remains a compatible agent-bearing specialization
 - completed bounded `v0.5.3`: unlabeled recurrent components derived from conjunctive law dependencies, boundary-mediated causal hypercuts, causal-configuration recurrence separated from monotone anchor history, universally quantified memory/cut counterfactuals, recurrent-reference restoration after negative-sea deviation, outward influence, and integrity-checked persistence replay
-- completed bounded `v0.5.4`: an authored-goal-free invariant viability kernel over recurrent components, causally regenerated plural response affordances, universal same-program response-event nonrealization, per-response semantic memory erasure, World-Will-disabled/all-anchors-cut autonomy evidence, canonical phase and independent distributed-channel worlds, no host affordance selector, and integrity-checked teleonomic replay
+- completed bounded `v0.5.4`: neutral invariant-set, response-necessity, memory-dependence, and autonomy evidence preserved beneath a historical teleonomic interpretation layer; that label is not core ontology
 - completed bounded `v0.5.5`: opt-in endogenous causal branching derived from every maximal commuting frontier of simultaneously enabled laws, typed nonrealized alternatives and branch lineage, exhaustive branch budgets, branch-local anchor and World-Will evaluation, guaranteed-improvement comparison over set-valued outcomes, persistent-memory evidence across real autonomous branches, and integrity-checked plural replay
 - completed bounded `v0.5.6`: internal-law birth of finitely declared latent worlds, self-retirement with retained residue, monotone lifecycle lineage and no-host-selection evidence, inactive anchor/objective gating, persistent phase continuation, strict `causal bubble` lowering with exact reversible inverses, canonical inspection, and lifecycle-aware replay; this is not dynamic schema or population generation
-- active unversioned Gate B candidate after `v0.5.6`: one identity-checked typed two-world anchor crossing caused by a source internal law, with exact negative-sea residue, positive-sea placement, receiving-world self-response, birth-aware causality, inspection, and replay; this is not general transport composition, a global sea, or a selected release
+- completed bounded `v0.5.7`: one identity-checked typed two-world anchor crossing caused by a source internal law, with exact negative-sea residue, positive-sea placement, receiving-world self-response, birth-aware causality, inspection, and replay; this is not general transport composition or a global sea
+- completed bounded `v0.5.8`: recursive intensional constructors derive lineage-addressed connected world slices, identity and relation anchors, channel-valued seas, exact parent-to-child condition transport, autonomous local-law response, realized-state constructor reactivation, and recursively branch-indexed generated universes across bounded closures. Each world carries one executable content-addressed schema graph containing fields/initializers, protected set, ports, seas, self-identity, laws, emergence, and causal projection. A recursively closed constructor may replace that complete graph atomically, then remove or upsert complete typed laws and intensionally specialize exact irreversible-law effects; generation, anchors, sea actions, compilation, recurrence, inspection, and replay all consume the realized revision. A strict `endogenous bubble` source lowers exact intensional algebra, complete graphs, constructors, relation/sea structure, and morphisms to that same typed program. A deterministic finite internal-demand certificate closes one result or the complete lawful branch family, preserves open frontiers and intensional infinity, and chains self-complementing realization evidence. Exact active recurrence includes revision and lineage/anchor identity and keeps replay evidence distinct from internal commits, without claiming arbitrary code generation, intensional graph/family invention, a fixpoint, component self-maintenance, universal convergence, an external observer, a host selector, or a universal clock
 
 Current stabilization commands:
 
@@ -151,16 +151,18 @@ Current stabilization commands:
 13. `npm run verify:lifecycle-language-example`
 14. `npm run verify:membrane`
 15. `npm run verify:membrane-example`
-16. `npm run verify:persistence`
-17. `npm run verify:persistence-example`
-18. `npm run verify:teleonomy`
-19. `npm run verify:teleonomy-example`
-20. `npm run verify:teleonomy-distributed-example`
-21. `npm run verify:examples`
-22. `npm run verify:collapse`
-23. `npm run verify:replay`
-24. `npm run verify:attribution`
-25. `npm run verify:self-realization`
+16. `npm run verify:endogenous`
+17. `npm run verify:endogenous-example`
+18. `npm run verify:persistence`
+19. `npm run verify:persistence-example`
+20. `npm run verify:teleonomy`
+21. `npm run verify:teleonomy-example`
+22. `npm run verify:teleonomy-distributed-example`
+23. `npm run verify:examples`
+24. `npm run verify:collapse`
+25. `npm run verify:replay`
+26. `npm run verify:attribution`
+27. `npm run verify:self-realization`
 
 Representative source examples:
 
@@ -180,8 +182,9 @@ Representative source examples:
 - [examples/generational-grove.world.json](examples/generational-grove.world.json)
 - [examples/generational-seed.causal.bubble](examples/generational-seed.causal.bubble)
 - [examples/connected-fields.causal.bubble](examples/connected-fields.causal.bubble)
+- [examples/endogenous-connected-universe.bubble](examples/endogenous-connected-universe.bubble) (canonical strict source; the adjacent `.world.json` is its retained typed projection)
 
-`v0.5.0` supplies the first bounded vertical world flow. Completed `v0.5.1` proves one explicit agent-bearing narrative seam. Completed bounded `v0.5.2` generalizes the core so state-bound internal laws generate causal events and structure without requiring a protagonist or plot graph. Completed bounded `v0.5.3` derives one recurrent causal component and verifies boundary, identity, memory, repair, and influence across closures. Completed bounded `v0.5.4` derives finite invariant viability kernels and causally regenerated plural memory-dependent response events without authoring a goal or using a host selector. Completed bounded `v0.5.5` lets non-commuting internal law structure generate every maximal commuting autonomous world and carries those branches through anchors, World Will, persistence, inspection, and replay. Completed bounded `v0.5.6` adds finite causally endogenous birth and retirement and lowers the same lifecycle contract from strict `.bubble` source. The active work after it is still unversioned and proves only one exact cross-world membrane relation. None of these versions or candidates is the completed Bubble universe: deliberative choice, agency, relations, narrative projection, populations, dynamic law/schema generation, open-ended dynamics, global multi-world seas, general cross-world composition, and the full identity calculus remain open before Phase 2.
+`v0.5.0` supplies the first bounded vertical world flow. Historical `v0.5.1` proves one explicit narrative projection experiment; `v0.5.2` corrects it by restoring an observer-independent causal core. Completed bounded `v0.5.3` derives one recurrent causal component and verifies boundary, identity, memory, repair, and influence across closures. Completed bounded `v0.5.4` adds neutral invariant-set and response counterfactual evidence beneath its historical teleonomic name. Completed bounded `v0.5.5` lets non-commuting internal law structure generate every maximal commuting autonomous world. Completed bounded `v0.5.6` adds finite causally endogenous actualization and cessation. Completed bounded `v0.5.7` adds the first exact cross-world anchor/sea membrane. Completed bounded `v0.5.8` derives a recursive connected world family, carries relation state into world-local response, reactivates dormant constructors from realized state, continues every lawful causal result as its own generated-universe branch, inherits and recursively replaces complete executable world-local schema graphs, lowers that whole contract from strict `.bubble` source, deterministically certifies finite internal cuts, and closes bounded exact active recurrence through lineage/revision/anchor identity while retaining infinite denotation and monotone realization evidence. Intensional schema-graph generation, constructor/schema-incidence/formal-family transformation, topology-changing or non-periodic persistence, lawful branch convergence, general self-complementing convergence, global multi-world sea calculus, and the full identity and order calculus remain open. Agent, protagonist, story, life, and similar labels are optional interpretations, not missing core completion gates.
 
 ## Repository Notes
 
@@ -202,6 +205,9 @@ Representative source examples:
 - [docs/architecture/v0.5.4-endogenous-teleonomy.md](docs/architecture/v0.5.4-endogenous-teleonomy.md): invariant viability, organically differentiated necessary responses, autonomy counterfactual, and non-agency boundary
 - [docs/architecture/v0.5.5-endogenous-causal-branching.md](docs/architecture/v0.5.5-endogenous-causal-branching.md): maximal-commuting-frontier derivation, plural autonomous continuations, set-valued World Will, branch budgets, persistence, and replay
 - [docs/architecture/v0.5.6-endogenous-world-lifecycle.md](docs/architecture/v0.5.6-endogenous-world-lifecycle.md): completed bounded causal birth/retirement, strict source lowering, lineage, residue, inactive-world rules, persistence, and release limits
+- [docs/architecture/necessity-first-bubble-core.md](docs/architecture/necessity-first-bubble-core.md): observer-free `v0.4.7` philosophical baseline, retained neutral mechanisms, quarantined human-scale interpretations, and the core necessity gate
+- [docs/architecture/v0.5.8-endogenous-connected-universe.md](docs/architecture/v0.5.8-endogenous-connected-universe.md): completed bounded recursive connected-universe generation release, mathematical contract, evidence, and remaining open boundary
+- [docs/reference/endogenous-connected-universe.md](docs/reference/endogenous-connected-universe.md): strict source, typed program, constructor, exact transport, finite-demand, execution, inspection, replay, and CLI reference for bounded `v0.5.8`
 - [docs/architecture/endogenous-world-lifecycle-candidate.md](docs/architecture/endogenous-world-lifecycle-candidate.md): preserved technical precursor and closure-gate record for `v0.5.6`
 - [docs/architecture/v0.5-semantic-core-to-v0.6-rust.md](docs/architecture/v0.5-semantic-core-to-v0.6-rust.md): remaining 5.x lifecycle/membrane/BIR/conformance gates and the Rust-only-from-6.x execution-substrate boundary
 - [docs/reference/causal-bubble-language.md](docs/reference/causal-bubble-language.md): strict additive `.bubble` source profile that lowers exact causal worlds, seas, anchors, local laws, birth, retirement, and commits into the existing kernel

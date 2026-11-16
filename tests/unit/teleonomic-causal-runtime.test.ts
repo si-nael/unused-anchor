@@ -2,6 +2,10 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
     exact,
+    type IntensionalTerm,
+    type PersistentCausalProgram,
+} from "../../src/bubbles/world-kernel";
+import {
     everyAutonomousPathPreservesKernel,
     inspectTeleonomicCausalRun,
     quantifyResponseEventAblationContinuations,
@@ -9,9 +13,7 @@ import {
     realizeTeleonomicCausalWorld,
     recordTeleonomicCausalReplay,
     replayTeleonomicCausalRecord,
-    type IntensionalTerm,
-    type PersistentCausalProgram,
-} from "../../src/bubbles/world-kernel";
+} from "../../src/bubbles/world-kernel/interpretive";
 import distributedChannelField from "../../examples/distributed-channel-field.world.json";
 import selfMaintainingField from "../../examples/self-maintaining-field.world.json";
 
