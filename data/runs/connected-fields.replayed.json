@@ -1,9 +1,9 @@
 {
   "mode": "bubble-anchored-causal-replay-result.v2",
   "status": "same-world-reexecution",
-  "recordedDigest": "0b01702d090e775db7d8a09a42dcf120735fbe6808f498a34d3911b155263980",
-  "recordedRunDigest": "0b01702d090e775db7d8a09a42dcf120735fbe6808f498a34d3911b155263980",
-  "replayedDigest": "0b01702d090e775db7d8a09a42dcf120735fbe6808f498a34d3911b155263980",
+  "recordedDigest": "146e2af5185500792537bce4b45f115e812f9a56a383958af453de55d77285bc",
+  "recordedRunDigest": "146e2af5185500792537bce4b45f115e812f9a56a383958af453de55d77285bc",
+  "replayedDigest": "146e2af5185500792537bce4b45f115e812f9a56a383958af453de55d77285bc",
   "recordIntegrityValid": true,
   "recordedProgramDigestValid": true,
   "fullRunPreserved": true,
@@ -720,9 +720,9 @@
             ]
           },
           {
-            "id": "trace:10:sea:source-field",
+            "id": "trace:10:sea:receiver-field",
             "kind": "sea-coupling",
-            "worldId": "source-field",
+            "worldId": "receiver-field",
             "causes": [],
             "effects": [
               {
@@ -748,9 +748,9 @@
             ]
           },
           {
-            "id": "trace:11:sea:receiver-field",
+            "id": "trace:11:sea:source-field",
             "kind": "sea-coupling",
-            "worldId": "receiver-field",
+            "worldId": "source-field",
             "causes": [],
             "effects": [
               {
@@ -1151,7 +1151,18 @@
             "transfer:signal-current:by:emit-signal"
           ],
           "createsHistoryArrow": false
-        }
+        },
+        "anchorIdentity": [
+          {
+            "anchorId": "field-current",
+            "predicateId": "identity-field-current",
+            "status": "resolved",
+            "value": {
+              "kind": "boolean",
+              "value": true
+            }
+          }
+        ]
       }
     ],
     "selectedContinuationIds": [
@@ -1424,9 +1435,9 @@
           ]
         },
         {
-          "id": "trace:10:sea:source-field",
+          "id": "trace:10:sea:receiver-field",
           "kind": "sea-coupling",
-          "worldId": "source-field",
+          "worldId": "receiver-field",
           "causes": [],
           "effects": [
             {
@@ -1452,9 +1463,9 @@
           ]
         },
         {
-          "id": "trace:11:sea:receiver-field",
+          "id": "trace:11:sea:source-field",
           "kind": "sea-coupling",
-          "worldId": "receiver-field",
+          "worldId": "source-field",
           "causes": [],
           "effects": [
             {
@@ -1855,7 +1866,18 @@
           "transfer:signal-current:by:emit-signal"
         ],
         "createsHistoryArrow": false
-      }
+      },
+      "anchorIdentity": [
+        {
+          "anchorId": "field-current",
+          "predicateId": "identity-field-current",
+          "status": "resolved",
+          "value": {
+            "kind": "boolean",
+            "value": true
+          }
+        }
+      ]
     },
     "baselineScore": {
       "kind": "rational",

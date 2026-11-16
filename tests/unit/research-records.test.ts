@@ -89,7 +89,7 @@ test("every decision and research question remains inside the tracked record str
     }
 });
 
-test("completed bounded v0.5.8 preserves prior kernels, the original philosophy, and every open research branch", () => {
+test("completed bounded v0.5.9 preserves prior kernels, the original philosophy, and every open research branch", () => {
     const packageManifest = JSON.parse(readRepositoryFile("package.json")) as { version: string };
     const packageLock = JSON.parse(readRepositoryFile("package-lock.json")) as {
         version: string;
@@ -112,9 +112,10 @@ test("completed bounded v0.5.8 preserves prior kernels, the original philosophy,
     const endogenousCandidate = readRepositoryFile("docs/architecture/v0.5.8-endogenous-connected-universe.md");
     const manifest = JSON.parse(readRepositoryFile("package.json")) as { scripts: Record<string, string> };
 
-    assert.equal(packageManifest.version, "0.5.8");
-    assert.equal(packageLock.version, "0.5.8");
-    assert.equal(packageLock.packages[""]?.version, "0.5.8");
+    assert.equal(packageManifest.version, "0.5.9");
+    assert.equal(packageLock.version, "0.5.9");
+    assert.equal(packageLock.packages[""]?.version, "0.5.9");
+    assert.ok(projectMemory.includes("Completed bounded `v0.5.9` makes the executable causal kernel portable"));
     assert.ok(projectMemory.includes("Completed bounded `v0.5.8` denotes a recursive connected world family"));
     assert.ok(projectMemory.includes("then selected `v0.5.8` at its recorded scope"));
     assert.ok(projectMemory.includes("bounded endogenous-world-lifecycle release `v0.5.6`"));
@@ -157,6 +158,18 @@ test("completed bounded v0.5.8 preserves prior kernels, the original philosophy,
     assert.ok(endogenousCandidate.includes("Confirmation narrows nothing below and promotes no item below into a closed claim"));
     assert.ok(endogenousCandidate.includes("intensional generation of new schema graphs"));
     assert.ok(endogenousCandidate.includes("branch equivalence, lawful convergence"));
+    const birCandidate = readRepositoryFile("docs/architecture/v0.5.9-portable-bir.md");
+    const birReference = readRepositoryFile("docs/reference/bubble-ir.md");
+    assert.ok(birCandidate.includes("Status: completed bounded `v0.5.9` Gate C and Gate D release"));
+    assert.ok(readRepositoryFile("docs/reference/causal-conformance.md").includes("Status: completed bounded `v0.5.9` Gate D surface"));
+    assert.ok(manifest.scripts["verify"].includes("check:conformance"));
+    assert.ok(birCandidate.includes("## 5. Release Confirmation"));
+    assert.ok(birCandidate.includes("found six false surfaces inside the scope, all corrected before confirmation"));
+    assert.ok(projectMemory.includes("The confirmation audit found six false surfaces inside the scope (B-057 through B-062"));
+    assert.ok(birCandidate.includes("Bounded v0.5.9 does not complete OB-013, start Rust, decide whether the 6.x entry condition is met"));
+    assert.ok(birReference.includes("Status: completed bounded `v0.5.9` Gate C surface"));
+    assert.ok(birReference.includes("It is not host locale collation"));
+    assert.ok(manifest.scripts["verify"].includes("verify:bir-example"));
     assert.ok(endogenousCandidate.includes("simultaneous exact sibling frontier"));
     assert.ok(endogenousCandidate.includes("6 exact parent-to-child transports"));
     assert.ok(endogenousCandidate.includes("6 exact schema-transformation events"));
@@ -230,8 +243,8 @@ test("completed bounded v0.5.8 preserves prior kernels, the original philosophy,
     assert.match(questionLog, /### Q-024:[\s\S]*?Status: implemented bounded exact baseline in v0\.5\.3/);
     assert.match(questionLog, /### Q-025:[\s\S]*?Status: implemented bounded teleonomic-capacity baseline in v0\.5\.4; agency remains open/);
     assert.match(questionLog, /### Q-026:[\s\S]*?Status: open independent foundational question; no release selected and no current hypercomputation claim/);
-    assert.match(questionLog, /### Q-027:[\s\S]*?Status: open; selected as a remaining 5\.x semantic-core question before Rust 6\.x/);
-    assert.match(questionLog, /### Q-028:[\s\S]*?Status: open; selected as a cross-substrate performance contract spanning late 5\.x and Rust 6\.x/);
+    assert.match(questionLog, /### Q-027:[\s\S]*?Status: partial; BIR v1 and a frozen causal conformance corpus exist in bounded v0\.5\.9, while other program sections and an independent backend remain open/);
+    assert.match(questionLog, /### Q-028:[\s\S]*?Status: partial; deterministic host-cost profiles exist for the causal conformance corpus in bounded v0\.5\.9, while optimization and cross-backend cost contracts remain open/);
     assert.match(questionLog, /### Q-029:[\s\S]*?Status: completed bounded baseline in v0\.5\.7; general membrane calculus remains open/);
     assert.match(questionLog, /### Q-030:[\s\S]*?Status: bounded finite-demand certificate completed in v0\.5\.8; general convergence and observation remain open/);
     assert.match(questionLog, /### Q-031:[\s\S]*?Status: complete executable world-local schema-graph morphism completed in bounded v0\.5\.8; intensional schema\/family generation remains open/);
@@ -288,7 +301,7 @@ test("author ideas remain immutable source obligations rather than prose-only me
     assert.ok(corpus.includes("### AI-20260717-001: Can Bubble exceed the Turing-machine boundary?"));
     assert.ok(corpus.includes("### AI-20260717-002: Preserve it as an independent research question"));
     const portableExecution = ledger.obligations.find((entry) => entry.id === "OB-013");
-    assert.deepEqual(portableExecution?.sourceIds, ["AI-20260717-003", "AI-20260717-004", "AI-20260717-005"]);
+    assert.deepEqual(portableExecution?.sourceIds, ["AI-20260717-003", "AI-20260717-004", "AI-20260717-005", "AI-20261116-001"]);
     assert.ok(corpus.includes("### AI-20260717-003: Do not leave the Bubble execution authority trapped in TypeScript"));
     assert.ok(corpus.includes("### AI-20260717-004: Efficient execution must remain portable across computational substrates"));
     assert.ok(corpus.includes("### AI-20260717-005: Close the 5.x semantic core before beginning the Rust 6.x substrate"));

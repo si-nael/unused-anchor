@@ -1,13 +1,49 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { BIR_MAGIC, decodeBir, liftCausalProgramFromBir } from "../../src/bubbles/bir";
 import { compileCausalBubbleSource } from "../../src/bubbles/language";
 import type {
     CausalExecutionOptions,
     ExecutableAnchoredCausalProgram,
 } from "../../src/bubbles/world-kernel";
 
+export function isBirDocument(bytes: Uint8Array): boolean {
+    return bytes.length >= BIR_MAGIC.length && Buffer.from(bytes.subarray(0, BIR_MAGIC.length)).equals(Buffer.from(BIR_MAGIC));
+}
+
+/**
+ * Reads a program and the options it should run with. A BIR document that carries its own execution options
+ * runs with them, and explicit CLI execution flags are then refused rather than silently overriding them.
+ */
+export async function readCausalInput(
+    inputPath: string,
+    cliOptions: CausalExecutionOptions,
+    explicitOptionCount: number,
+): Promise<{ program: ExecutableAnchoredCausalProgram; options: CausalExecutionOptions }> {
+    const bytes = new Uint8Array(await readFile(inputPath));
+    if (isBirDocument(bytes)) {
+        const lifted = liftCausalProgramFromBir(decodeBir(bytes));
+        if (!lifted.program) throw new Error(`BIR document ${inputPath} is ${lifted.status}: ${lifted.diagnostics.join("; ")}`);
+        if (lifted.options) {
+            if (explicitOptionCount > 0) {
+                throw new Error(`BIR document ${inputPath} carries its own execution options; remove the CLI execution flags`);
+            }
+            return { program: lifted.program, options: lifted.options };
+        }
+        return { program: lifted.program, options: cliOptions };
+    }
+    return { program: await readCausalProgram(inputPath), options: cliOptions };
+}
+
 export async function readCausalProgram(inputPath: string): Promise<ExecutableAnchoredCausalProgram> {
-    const source = await readFile(inputPath, "utf8");
+    const bytes = await readFile(inputPath);
+    if (isBirDocument(new Uint8Array(bytes))) {
+        const lifted = liftCausalProgramFromBir(decodeBir(new Uint8Array(bytes)));
+        if (!lifted.program) throw new Error(`BIR document ${inputPath} is ${lifted.status}: ${lifted.diagnostics.join("; ")}`);
+        if (lifted.options) throw new Error(`BIR document ${inputPath} carries execution options; read it with readCausalInput`);
+        return lifted.program;
+    }
+    const source = bytes.toString("utf8");
     if (source.trimStart().startsWith("causal bubble ")) {
         return compileCausalBubbleSource(source, { sourcePath: inputPath }).program;
     }
@@ -32,6 +68,7 @@ export function parseCausalExecutionArgs(argv: string[]): {
     inputPath: string | null;
     outputPath: string | null;
     options: CausalExecutionOptions;
+    explicitOptionCount: number;
 } {
     const positional: string[] = [];
     const cutAnchorIds: string[] = [];
@@ -41,8 +78,10 @@ export function parseCausalExecutionArgs(argv: string[]): {
     let maxInterventionCombinations: number | undefined;
     let maxInternalFrontiers: number | undefined;
     let maxInternalBranches: number | undefined;
+    let explicitOptionCount = 0;
     for (let index = 0; index < argv.length; index += 1) {
         const argument = argv[index]!;
+        if (argument.startsWith("--")) explicitOptionCount += 1;
         if (argument === "--disable-world-will") {
             worldWillEnabled = false;
         } else if (argument === "--cut-anchor") {
@@ -67,6 +106,7 @@ export function parseCausalExecutionArgs(argv: string[]): {
     return {
         inputPath: positional[0] ?? null,
         outputPath: positional[1] ?? null,
+        explicitOptionCount,
         options: {
             worldWillEnabled,
             cutAnchorIds,

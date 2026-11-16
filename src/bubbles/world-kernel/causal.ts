@@ -668,6 +668,9 @@ export function validateAnchoredCausalWorld(system: AnchoredCausalWorldSystem): 
         } else if (law.inverseEffects?.length) {
             diagnostics.push(issue("CKW045", `${path}.inverseEffects`, "irreversible law must not claim an inverse"));
         }
+        duplicates(law.commitAffectedFieldIds ?? []).forEach((fieldId) => diagnostics.push(
+            issue("CKW105", `${path}.commitAffectedFieldIds`, `duplicate committed field '${fieldId}'`),
+        ));
         for (const fieldId of law.commitAffectedFieldIds ?? []) {
             if (!world?.fields.some((field) => field.id === fieldId)) {
                 diagnostics.push(issue("CKW046", `${path}.commitAffectedFieldIds`, `unknown committed field '${fieldId}'`));

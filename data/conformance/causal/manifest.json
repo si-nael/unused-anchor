@@ -1,0 +1,443 @@
+{
+  "mode": "bubble-causal-conformance-manifest.v1",
+  "oracle": "typescript-reference",
+  "outcomeMode": "bubble-causal-outcome.v1",
+  "note": "Expected outcomes are normative; host costs are informational and may differ for any conforming backend.",
+  "fixtures": [
+    {
+      "name": "self-organizing-field",
+      "description": "World-Will intervention over exact sea-coupled structure emergence",
+      "file": "self-organizing-field.bir",
+      "byteLength": 17069,
+      "inputSemanticDigest": "d5d0272cf22fc94ccf91d6bbcd58398872a247c4fb3261072aa39c446b488db4",
+      "storageDigest": "2eda677383381c14aee46970a68e939c9843e4f59354eb6917897a082eb01595",
+      "outcomeDigest": "7f461b1554dbf1c321892db5a2a766e5fcf9dab2b258bfb7e9b0c9313f51b5d3",
+      "status": "realized",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 413,
+        "maxRationalBits": 3,
+        "intensionalQueries": 20,
+        "materializedIntensionalCoordinates": 20,
+        "predicateEvaluations": 14,
+        "lawApplications": 3,
+        "branchFrontierCandidates": 0,
+        "realizationCopies": 1,
+        "valueCopies": 21,
+        "digestsComputed": 3,
+        "bytesHashed": 14353,
+        "birNodesDecoded": 427,
+        "birBytesRead": 6038
+      }
+    },
+    {
+      "name": "endogenous-branching-field",
+      "description": "every maximal commuting frontier becomes an autonomous branch with robust World Will",
+      "file": "endogenous-branching-field.bir",
+      "byteLength": 32414,
+      "inputSemanticDigest": "5f9e3354052e6f8e611c03554e63cee4fa0a613da780d6b00335f9e0672696d6",
+      "storageDigest": "d36e7338d4af9ee55097219689d13df0df87c94e1adbe4aa1aef3cd1618f9b45",
+      "outcomeDigest": "aac7b65afefcb5d9367fe1588e0085984322eddb967519d8ce3ba73daec672ea",
+      "status": "plural",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 380,
+        "maxRationalBits": 3,
+        "intensionalQueries": 24,
+        "materializedIntensionalCoordinates": 24,
+        "predicateEvaluations": 17,
+        "lawApplications": 4,
+        "branchFrontierCandidates": 2,
+        "realizationCopies": 4,
+        "valueCopies": 69,
+        "digestsComputed": 6,
+        "bytesHashed": 13615,
+        "birNodesDecoded": 376,
+        "birBytesRead": 5419
+      }
+    },
+    {
+      "name": "generational-grove",
+      "description": "internal-law birth of a latent world and self-retirement with residue",
+      "file": "generational-grove.bir",
+      "byteLength": 33850,
+      "inputSemanticDigest": "cf02ad61cc0e483f13c51bd2b9634ca63fe1a704d617da2773bb684d4f2a9d37",
+      "storageDigest": "607df66f6949639ed8743781439605bf21ae9f21e3bbef5ff7b5b0454fb1cef4",
+      "outcomeDigest": "2f80226b3929d6d0a60b2287caa9349a18def8a823b4acd6bd00a8afda5f5271",
+      "status": "realized",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 392,
+        "maxRationalBits": 4,
+        "intensionalQueries": 26,
+        "materializedIntensionalCoordinates": 26,
+        "predicateEvaluations": 14,
+        "lawApplications": 4,
+        "branchFrontierCandidates": 0,
+        "realizationCopies": 1,
+        "valueCopies": 37,
+        "digestsComputed": 7,
+        "bytesHashed": 19106,
+        "birNodesDecoded": 521,
+        "birBytesRead": 7546
+      }
+    },
+    {
+      "name": "self-maintaining-field",
+      "description": "persistent recurrent component under negative-sea erosion and restoration",
+      "file": "self-maintaining-field.bir",
+      "byteLength": 27760,
+      "inputSemanticDigest": "7a6df18a923d68a0c716da98eb26b580dd018295c087bf6b813a08e5c66d5e75",
+      "storageDigest": "23ec1169f8e823a940632d7c61af5160a6b920f91a7c31628302aede99e1d1d9",
+      "outcomeDigest": "b8abfcdc1a589b76ca46eb2227892562a2e5490600c1f34975db93263f4347f6",
+      "status": "stable",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 1336,
+        "maxRationalBits": 3,
+        "intensionalQueries": 30,
+        "materializedIntensionalCoordinates": 30,
+        "predicateEvaluations": 20,
+        "lawApplications": 5,
+        "branchFrontierCandidates": 0,
+        "realizationCopies": 0,
+        "valueCopies": 5,
+        "digestsComputed": 3,
+        "bytesHashed": 34297,
+        "birNodesDecoded": 1055,
+        "birBytesRead": 14155
+      }
+    },
+    {
+      "name": "distributed-channel-field",
+      "description": "distributed two-channel persistence without a scalar phase coordinate",
+      "file": "distributed-channel-field.bir",
+      "byteLength": 31668,
+      "inputSemanticDigest": "9aecd1f655ecf42e09ef027ad9158551a1d277a289c5aef327f34c24ecfcbf1a",
+      "storageDigest": "dc26b56de4a8c80ceb7e740a1726e19efaab29dfb2a968a88b53aaf7e98c8fa8",
+      "outcomeDigest": "a68fb710ec4c087a79db771fd25699a84b93e811a93a676b5fa4cc0e8cf43011",
+      "status": "stable",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 1542,
+        "maxRationalBits": 3,
+        "intensionalQueries": 31,
+        "materializedIntensionalCoordinates": 31,
+        "predicateEvaluations": 20,
+        "lawApplications": 5,
+        "branchFrontierCandidates": 0,
+        "realizationCopies": 0,
+        "valueCopies": 5,
+        "digestsComputed": 3,
+        "bytesHashed": 39387,
+        "birNodesDecoded": 1163,
+        "birBytesRead": 16307
+      }
+    },
+    {
+      "name": "generational-seed",
+      "description": "strict causal Bubble source lowering lifecycle with World Will disabled",
+      "file": "generational-seed.bir",
+      "byteLength": 24227,
+      "inputSemanticDigest": "1a025895bbfc6a63800ae2af5cd52e441b2d8609c230bce1924f610808e517ab",
+      "storageDigest": "59d31d8b4d28ef779f5041dfd2d6440aec8599d3e3f0d0f0036d51a198c45e0b",
+      "outcomeDigest": "042784c839e6b34bab3635b31bfa1f7ca4fba699570aa443cf57f41986af93d4",
+      "status": "stable",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 425,
+        "maxRationalBits": 1,
+        "intensionalQueries": 17,
+        "materializedIntensionalCoordinates": 17,
+        "predicateEvaluations": 5,
+        "lawApplications": 3,
+        "branchFrontierCandidates": 0,
+        "realizationCopies": 0,
+        "valueCopies": 12,
+        "digestsComputed": 6,
+        "bytesHashed": 20699,
+        "birNodesDecoded": 550,
+        "birBytesRead": 8415
+      }
+    },
+    {
+      "name": "connected-fields",
+      "description": "one identity-checked anchor crossing with sea residue and receiver-local response",
+      "file": "connected-fields.bir",
+      "byteLength": 15950,
+      "inputSemanticDigest": "9b5a33dc5c47a7922b93cba4b275fee169108485ec44726bcd020d7333ea6245",
+      "storageDigest": "e6a93e877502fc479cbe4db26548664123871d601d6013b2b775d79aadf3ac73",
+      "outcomeDigest": "bbcc1d7b2a78adc189e6fdfbe2079d17dd3f2057ab212632e9f6d72da1346092",
+      "status": "stable",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 421,
+        "maxRationalBits": 3,
+        "intensionalQueries": 15,
+        "materializedIntensionalCoordinates": 15,
+        "predicateEvaluations": 6,
+        "lawApplications": 2,
+        "branchFrontierCandidates": 0,
+        "realizationCopies": 4,
+        "valueCopies": 97,
+        "digestsComputed": 3,
+        "bytesHashed": 14488,
+        "birNodesDecoded": 415,
+        "birBytesRead": 6293
+      }
+    },
+    {
+      "name": "endogenous-connected-universe",
+      "description": "the compiled 7-world generated universe with transported conditions as field overrides",
+      "file": "endogenous-connected-universe.bir",
+      "byteLength": 112618,
+      "inputSemanticDigest": "36ebe23d08cbdc2ed424eae59b500c8586fde03bd93129a35b9d81ec1326d216",
+      "storageDigest": "df445301319695b2fc92b0d2b9e03c2e5cd7737b7f45d0fafdd0d07cb221c638",
+      "outcomeDigest": "c5da79198bec0ba4b3586cb8a2b55b9ed5a3ec3a1df6ff8b2f7a64b7b9bb7ec6",
+      "status": "stable",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 1844,
+        "maxRationalBits": 4,
+        "intensionalQueries": 125,
+        "materializedIntensionalCoordinates": 125,
+        "predicateEvaluations": 34,
+        "lawApplications": 7,
+        "branchFrontierCandidates": 0,
+        "realizationCopies": 0,
+        "valueCopies": 11,
+        "digestsComputed": 9,
+        "bytesHashed": 88211,
+        "birNodesDecoded": 2250,
+        "birBytesRead": 39140
+      }
+    },
+    {
+      "name": "branch-budget-exhausted",
+      "description": "a branch budget below the maximal frontier family returns an honest boundary, not a chosen branch",
+      "file": "branch-budget-exhausted.bir",
+      "byteLength": 10041,
+      "inputSemanticDigest": "37d54a113aaee9db0f6040919a522002319cc3f43e715e348978eaaa4cc598b7",
+      "storageDigest": "e68f913bbbbb491f54bab068992001f07b23484c0cd848294160b9c2dc9f004c",
+      "outcomeDigest": "7f3b7696df399c4286a3f022259b4fea2de488058a99ca3476d83f0accead88c",
+      "status": "underdetermined",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": false
+      },
+      "hostCost": {
+        "exactRationalConstructions": 160,
+        "maxRationalBits": 2,
+        "intensionalQueries": 12,
+        "materializedIntensionalCoordinates": 12,
+        "predicateEvaluations": 5,
+        "lawApplications": 0,
+        "branchFrontierCandidates": 2,
+        "realizationCopies": 0,
+        "valueCopies": 5,
+        "digestsComputed": 2,
+        "bytesHashed": 12517,
+        "birNodesDecoded": 377,
+        "birBytesRead": 5441
+      }
+    },
+    {
+      "name": "intervention-budget-exhausted",
+      "description": "an intervention search budget below the combination space returns an honest boundary",
+      "file": "intervention-budget-exhausted.bir",
+      "byteLength": 23014,
+      "inputSemanticDigest": "b1e85f92e2e59b80b22c37f0cffa2d828c762aa4840c936ddda351921c5df8a8",
+      "storageDigest": "f70a4c42b6ad48e6b907720b64976609e8e47912199b51a9d7809b94f3bd21d9",
+      "outcomeDigest": "212c5bcc550378f8958169bae1ea68f70ed2ff8a5c4b73f2cd0805fdd68f60de",
+      "status": "underdetermined",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": false,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 301,
+        "maxRationalBits": 3,
+        "intensionalQueries": 18,
+        "materializedIntensionalCoordinates": 18,
+        "predicateEvaluations": 11,
+        "lawApplications": 4,
+        "branchFrontierCandidates": 2,
+        "realizationCopies": 3,
+        "valueCopies": 47,
+        "digestsComputed": 6,
+        "bytesHashed": 13645,
+        "birNodesDecoded": 377,
+        "birBytesRead": 5449
+      }
+    },
+    {
+      "name": "proof-budget-exhausted",
+      "description": "a per-query proof budget too small for the formal families leaves the world unresolved",
+      "file": "proof-budget-exhausted.bir",
+      "byteLength": 10117,
+      "inputSemanticDigest": "5a4095e42a2d1de0a2d32f820211ecb46418a6f0db0555fa934cc6a7ec18f823",
+      "storageDigest": "b93a72431cb39718cb85a91ed1ab55991518db548e41cf7228dbdaf5923a3d3f",
+      "outcomeDigest": "74240d362c58322d77ec64dcf67077cace91cb020559f41a2ff7362144877ebe",
+      "status": "underdetermined",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 172,
+        "maxRationalBits": 2,
+        "intensionalQueries": 11,
+        "materializedIntensionalCoordinates": 11,
+        "predicateEvaluations": 5,
+        "lawApplications": 0,
+        "branchFrontierCandidates": 0,
+        "realizationCopies": 0,
+        "valueCopies": 5,
+        "digestsComputed": 2,
+        "bytesHashed": 13987,
+        "birNodesDecoded": 428,
+        "birBytesRead": 6065
+      }
+    },
+    {
+      "name": "autonomy-all-anchors-cut",
+      "description": "World Will disabled and every anchor cut leaves one intervention-free autonomous continuation",
+      "file": "autonomy-all-anchors-cut.bir",
+      "byteLength": 24472,
+      "inputSemanticDigest": "1f4fbe2d62632b53c07e1fa367ee2319ad396e81c8d5271f8c94ca3af659ab7d",
+      "storageDigest": "09b920e6a869d5f4eb361ca99d8772b9449ab49d73e740e01f51faa24a7dde7e",
+      "outcomeDigest": "e74b393fce392d0fc569c1c7fa1e46414fbcd92e2872c2a50ced423da124b3cc",
+      "status": "stable",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 289,
+        "maxRationalBits": 4,
+        "intensionalQueries": 21,
+        "materializedIntensionalCoordinates": 21,
+        "predicateEvaluations": 9,
+        "lawApplications": 3,
+        "branchFrontierCandidates": 0,
+        "realizationCopies": 0,
+        "valueCopies": 12,
+        "digestsComputed": 6,
+        "bytesHashed": 18779,
+        "birNodesDecoded": 525,
+        "birBytesRead": 7613
+      }
+    },
+    {
+      "name": "internal-event-nonrealization",
+      "description": "a same-program counterfactual suppresses one enabled law occurrence without deleting the law",
+      "file": "internal-event-nonrealization.bir",
+      "byteLength": 22077,
+      "inputSemanticDigest": "70a86ceb1e528bec7236c4e6eb8a40401e72774a00bc19593cf828398700b376",
+      "storageDigest": "48e8e36e791faf5860754e6be62344c8e7665335738a0d83d4f150b2a47538a1",
+      "outcomeDigest": "bd9324b120d4162a23e4dce9740e95e796e2abd36ceeb5aa213dbd35a3466450",
+      "status": "stable",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 1219,
+        "maxRationalBits": 3,
+        "intensionalQueries": 29,
+        "materializedIntensionalCoordinates": 29,
+        "predicateEvaluations": 19,
+        "lawApplications": 2,
+        "branchFrontierCandidates": 0,
+        "realizationCopies": 0,
+        "valueCopies": 6,
+        "digestsComputed": 2,
+        "bytesHashed": 33729,
+        "birNodesDecoded": 1058,
+        "birBytesRead": 14233
+      }
+    },
+    {
+      "name": "membrane-anchor-cut",
+      "description": "cutting the transfer anchor blocks the crossing and the receiver cannot respond",
+      "file": "membrane-anchor-cut.bir",
+      "byteLength": 12098,
+      "inputSemanticDigest": "fd1283c7d24feb02484d7012c1626026ba9cb7cb76758dff3a7f34e434cee70a",
+      "storageDigest": "2927f0e6048d01bdca3ecac5f87058db4b8cd97cefccd8212b2089873c72f9af",
+      "outcomeDigest": "a20dcd34117ef2b2460905a3b276b241ded1d79aef428ff34c5eb1b51ae10750",
+      "status": "stable",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 233,
+        "maxRationalBits": 3,
+        "intensionalQueries": 12,
+        "materializedIntensionalCoordinates": 12,
+        "predicateEvaluations": 3,
+        "lawApplications": 0,
+        "branchFrontierCandidates": 0,
+        "realizationCopies": 0,
+        "valueCopies": 7,
+        "digestsComputed": 2,
+        "bytesHashed": 14463,
+        "birNodesDecoded": 417,
+        "birBytesRead": 6323
+      }
+    },
+    {
+      "name": "unknown-option-target",
+      "description": "an execution option naming no anchor contradicts execution instead of being ignored",
+      "file": "unknown-option-target.bir",
+      "byteLength": 6863,
+      "inputSemanticDigest": "4e9b7bb17283e29aa3d92f59490b1856d1b13b839989ee7891a44401c7eba032",
+      "storageDigest": "a9f9056afbceb5dc035a7d8e12bbecbc4bba6b8a27ae7a15a9fb3ffdf6108d20",
+      "outcomeDigest": "ecf4d1103eee9981de11a74e221861d398ef6eefb3cee63b82d728aa76088fcd",
+      "status": "contradicted",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 35,
+        "maxRationalBits": 2,
+        "intensionalQueries": 0,
+        "materializedIntensionalCoordinates": 0,
+        "predicateEvaluations": 0,
+        "lawApplications": 0,
+        "branchFrontierCandidates": 0,
+        "realizationCopies": 0,
+        "valueCopies": 1,
+        "digestsComputed": 2,
+        "bytesHashed": 13991,
+        "birNodesDecoded": 429,
+        "birBytesRead": 6069
+      }
+    }
+  ]
+}

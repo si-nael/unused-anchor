@@ -10,6 +10,168 @@ The point is to keep visible the classes of failure that show where Bubble's own
 
 ## 2026-11-16
 
+### B-062: Anchor identity verdicts were invisible to conformance
+
+Observed surface:
+
+The first portable outcome recorded every World-Will consequence of anchor identity but not the identity verdicts themselves, which existed only inside dropped proof evidence. An executor that turned every anchor-identity predicate false still conformed on the all-anchors-cut autonomy fixture, where no intervention depends on identity.
+
+Boundary meaning:
+
+The anchor is the identity fixpoint of a Bubble. Whether a world still satisfies its own identity is part of what the world is, not oracle computation detail, and it must not depend on whether some other mechanism happens to consult it.
+
+Current handling:
+
+The oracle records each autonomous continuation's identity verdict for every declared anchor-identity predicate as a first-class `anchorIdentity` field (`resolved` with value, `undetermined`, `contradicted`, or `not-evaluated` for an inactive endpoint), and the outcome includes it. An executor that flips the verdicts now drifts at `anchorIdentity`. Reading verdicts from evidence subject ids was tried and rejected, because it made the oracle's evidence naming part of the portable contract.
+
+Next check:
+
+B-053 still decides whether a fixpoint or recurrence certificate must require these verdicts; the outcome records them without deciding that.
+
+### B-061: The conformance checker could throw instead of reporting, and the nesting bound exceeded the host stack
+
+Observed surface:
+
+`checkCausalConformance` threw on a malformed or wrong-schema label, an undecodable expected outcome, an executor that throws, and an executor whose run carried any extra host field on a trace, lifecycle, or transfer entry, because the projection copied remaining fields through. The decoder accepted nesting up to 4096, but lifting and validation exhausted the reference oracle's stack near 2300, so a canonical document could crash the pipeline with a host-dependent `RangeError`. Two host-cost counters were documented inaccurately: `predicateEvaluations` claimed to include field initializers, and the envelope integrity hash was not counted.
+
+Boundary meaning:
+
+A conformance verdict is evidence about a backend; it cannot itself depend on the reference implementation crashing. A format bound that the format's own reference cannot process is not a bound.
+
+Current handling:
+
+The checker returns `invalid-fixture`, `not-executable`, `executor-failed`, or `drift` for every failure and never throws. The projection keeps only schema-declared fields, so host-only fields are ignored, and an empty optional collection is identified with an absent one. The normative nesting bound is 1024 for both encoding and decoding, and a term nested to the bound lifts, validates, and executes. The cost documentation now matches the counters, and the integrity hash is counted.
+
+Next check:
+
+Any new section kind must extend the checker's total classification rather than add a throwing path.
+
+### B-060: Evidence-id records did not specify array order
+
+Observed surface:
+
+The conformance reference listed the records behind branch, lineage, and transfer-frontier ids but not the order of their arrays. The oracle hashes `realizedLawIds`, `sourceWorldIds`, and `causedByLawEventIds` in sorted order and the transfer frontier in law-id order, while the outcome stores those arrays as BIR sets ordered by member encoding, which puts shorter strings first. Renaming one co-realized law to `z` made every branch id in that program unreproducible from the outcome. The RFC 8785 test had passed only because it reused the oracle's own arrays.
+
+Boundary meaning:
+
+An id is portable only if its complete derivation, including order, is recoverable from the portable outcome and the specification.
+
+Current handling:
+
+The reference now states that `parent` keeps lineage order, the transfer frontier is ordered by law id, and every other array is in canonical string order, and that BIR set order must be re-sorted before hashing. The oracle uses the canonical comparator at those sites. The test rebuilds every record from the decoded outcome alone, including a renamed-law program whose set order differs from canonical order.
+
+Next check:
+
+Every future evidence id must state the order of each array in its record.
+
+### B-059: Execution options were declared critical but could be ignored or demoted
+
+Observed surface:
+
+`core.causal-execution-options` was listed as an understood critical section, yet `realizeAnchoredCausalWorldFromBir`, `run-world`, and `record-world` executed a document with the caller's options instead of its own, so four of four tested fixtures failed to reproduce their outcome through those paths. `encode-bir` re-encoding a `.bir` kept only the program, silently dropping options and extensions and changing the semantic identity. The fixture checker located input sections by name only: demoting the options section to non-critical made two different fixtures share one input identity while both reported `conformant`.
+
+Boundary meaning:
+
+A critical section is part of what a document means. A path that understands it must honor it, and a flag that defines identity must be enforced rather than advisory.
+
+Current handling:
+
+A section named `core.*` must be critical; encoders and decoders reject a non-critical one (`BIR029`). A document that carries execution options runs with them, and supplying caller options as well is refused (`BIRL22` in the library, an error in the causal CLIs). `encode-bir` re-encodes an existing document canonically with every section preserved.
+
+Next check:
+
+Any new critical section must be honored by every path that executes or re-encodes a document, with a test per path.
+
+### B-058: Set-classified positions still had order-dependent evaluation and listing
+
+Observed surface:
+
+Family-coordinate parameter terms were evaluated in the target family's declared parameter order and stopped at the first failure, although the schema classifies family parameters as a set. With one parameter needing more budget and another dividing by zero, the two declaration orders produced the same BIR bytes but `underdetermined` versus `contradicted`, changing the portable outcome. Two hard constraints, two identity predicates on one anchor, or two objectives also changed the order of run evidence and candidate contributions, which no canonical fixture exercised because each had at most one member there.
+
+Boundary meaning:
+
+Permutation evidence from fixtures covers only the positions those fixtures populate. A set classification is a claim about every program, so positions with at most one member in the corpus were unverified.
+
+Current handling:
+
+Parameters are evaluated in canonical name order, and hard constraints, anchor-identity predicates, and objectives are iterated in canonical id order. Regressions construct programs with two or more members at these positions and require identical whole runs. The audit also checked anchor endpoints, identity family ids, cut anchors, override causes, intervention costs, lifecycle effects, transfer ids, and inverse effects without finding order dependence.
+
+Next check:
+
+When a set position gains a new member kind, add a two-member permutation regression rather than relying on fixtures.
+
+### B-057: The BIR envelope ordered sections differently from its normative specification
+
+Observed surface:
+
+The reference required sections in strictly increasing bytewise order of their names, and semantic identity in name order, but the implementation compared length-prefixed name encodings, which orders shorter names first. An envelope written by following the specification was rejected (`BIR026`), and a semantic identity computed from the specification differed from every two-section fixture's recorded identity.
+
+Boundary meaning:
+
+A normative byte format is the portable meaning only if an independent implementation of the text agrees with the reference implementation. Here the reference contradicted its own specification.
+
+Current handling:
+
+Sections are ordered and checked by raw UTF-8 name bytes, and semantic identity uses the same order. The reference states the semantic-identity encoding byte for byte, and a test computes it independently from the text and decodes a specification-ordered envelope while rejecting the old order. Fixture identities changed accordingly, and the corpus was regenerated under D-140.
+
+Next check:
+
+Every normative byte rule needs a test that derives the expected bytes from the specification text rather than from the implementation.
+
+### B-056: World-identity evidence ids depended on an undocumented host serialization
+
+Observed surface:
+
+Defining the Gate D portable outcome showed that branch continuation ids, branch-step ids, world lineage ids, transfer frontier ids, commit state digests, and retirement-residue digests are truncated SHA-256 values over the oracle's own `stableStringify`. Nothing outside the TypeScript source described that serialization, so a second backend could reproduce continuation and lineage identity only by reading and imitating the oracle's code.
+
+Boundary meaning:
+
+Lineage and branch identity are world identity. A world whose identity can be recomputed only by one host implementation is not portable, even when every value it denotes is exact.
+
+Current handling:
+
+For the records these ids hash (strings, safe integers, booleans, arrays, objects; no floats, nulls, or undefined members), the oracle serialization coincides with the RFC 8785 JSON Canonicalization Scheme. The conformance reference now specifies each record, the RFC 8785 serialization, and each truncation, and the conformance tests recompute branch, transfer-frontier, lineage, and retirement-residue ids with an independent RFC 8785 implementation (D-139). The ids themselves are unchanged.
+
+Next check:
+
+Any new evidence id must declare its canonical record and serialization when introduced. Whole-run and replay-record digests remain backend evidence identities.
+
+### B-055: Authored declaration order leaked into causal evidence
+
+Observed surface:
+
+A Gate C permutation experiment reversed every collection of every canonical causal fixture, one at a time, and compared the resulting runs. Most collections were invariant because the oracle already sorted them internally. Four were not. Initial sea coupling of distinct worlds emitted sequential trace ids (`trace:N:sea:<world>`) in world declaration order. The trace listed each law's and intervention's field effects, and each commit's fields, in authored order. Anchor-identity evidence for every continuation and intervention outcome followed anchor declaration order; this appeared only in the 7-world compiled connected universe. A law could also list one committed field twice, so a set reading of that list could have changed its meaning.
+
+Boundary meaning:
+
+There is no universal clock. Causally concurrent or keyed structure has no authored order, so a run that depends on declaration order is presenting a host linearization as world evidence. A portable semantic graph cannot treat such a collection as a set while the oracle still reads its order.
+
+Current handling:
+
+The oracle iterates initial sea coupling in canonical world order, applies and lists transition effects and committed fields in canonical field order (they commute because a transition affects each field at most once), and evaluates anchor identity in canonical anchor order. The validator rejects duplicate committed fields (`CKW105`). The BIR test suite reverses every set position of every canonical fixture, including the compiled connected universe, and requires identical execution apart from the host object digest.
+
+Next check:
+
+Every new kernel collection must be classified as ordered or unordered when it is added, with a permutation regression for unordered ones. Validator diagnostics still follow traversal order and are recorded as host error reports, not world evidence.
+
+### B-054: Host locale collation determined Bubble evidence order
+
+Observed surface:
+
+The world kernels sorted strings with `String.prototype.localeCompare` at 58 call sites and with the default UTF-16 `Array.prototype.sort` elsewhere. ICU collation orders punctuation as `_` < `-` < `.`, places `:` before digits, and groups letters case-insensitively first. So `trace:1:x` sorted before `trace:10:x`, and `a_b` before `a-b`, under collation but not under code-point order. The order of generated worlds, anchors, frontiers, evidence, and digests therefore depended on the ICU tables of one host.
+
+Boundary meaning:
+
+An executed universe cannot have a meaning that only one host's collation library can reproduce. A second backend would have had to emulate ICU, and a future ICU change could have silently altered world evidence.
+
+Current handling:
+
+Canonical string order is Unicode code-point order, equal to bytewise UTF-8 order, implemented once in `canonical-order.ts` and used at every former collation site through a syntax-tree rewrite. All 240 repository tests passed unchanged after the switch, which shows the change reorders evidence listings without altering any tested world outcome. BIR uses the same order for sets, keys, and section names.
+
+Next check:
+
+Default UTF-16 sorting remains only over ASCII identifiers and hex digests, where it coincides with code-point order. Any sort over arbitrary text, such as exact symbols, must use the canonical comparator.
+
 ### B-053: Two identity semantics remained implicit at the confirmation boundary
 
 Observed surface:

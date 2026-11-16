@@ -1888,7 +1888,7 @@
             ],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "set",
                 "before": {
@@ -1908,7 +1908,7 @@
                 }
               },
               {
-                "fieldId": "boundary",
+                "fieldId": "structure",
                 "layer": "world-field",
                 "operation": "set",
                 "before": {
@@ -2011,7 +2011,7 @@
             ],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
@@ -2021,7 +2021,7 @@
                 }
               },
               {
-                "fieldId": "boundary",
+                "fieldId": "structure",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
@@ -2188,7 +2188,23 @@
             "history-commit",
             "world-lifecycle"
           ]
-        }
+        },
+        "anchorIdentity": [
+          {
+            "anchorId": "descendant-seed-anchor",
+            "predicateId": "identity-descendant-seed-anchor",
+            "status": "resolved",
+            "value": {
+              "kind": "boolean",
+              "value": true
+            }
+          },
+          {
+            "anchorId": "origin-seed-anchor",
+            "predicateId": "identity-origin-seed-anchor",
+            "status": "not-evaluated"
+          }
+        ]
       }
     ],
     "selectedContinuationIds": [
@@ -2708,7 +2724,7 @@
           ],
           "effects": [
             {
-              "fieldId": "structure",
+              "fieldId": "boundary",
               "layer": "world-field",
               "operation": "set",
               "before": {
@@ -2728,7 +2744,7 @@
               }
             },
             {
-              "fieldId": "boundary",
+              "fieldId": "structure",
               "layer": "world-field",
               "operation": "set",
               "before": {
@@ -2831,7 +2847,7 @@
           ],
           "effects": [
             {
-              "fieldId": "structure",
+              "fieldId": "boundary",
               "layer": "world-field",
               "operation": "derive",
               "after": {
@@ -2841,7 +2857,7 @@
               }
             },
             {
-              "fieldId": "boundary",
+              "fieldId": "structure",
               "layer": "world-field",
               "operation": "derive",
               "after": {
@@ -3008,7 +3024,23 @@
           "history-commit",
           "world-lifecycle"
         ]
-      }
+      },
+      "anchorIdentity": [
+        {
+          "anchorId": "descendant-seed-anchor",
+          "predicateId": "identity-descendant-seed-anchor",
+          "status": "resolved",
+          "value": {
+            "kind": "boolean",
+            "value": true
+          }
+        },
+        {
+          "anchorId": "origin-seed-anchor",
+          "predicateId": "identity-origin-seed-anchor",
+          "status": "not-evaluated"
+        }
+      ]
     },
     "baselineScore": {
       "kind": "rational",
@@ -3016,5 +3048,5 @@
       "denominator": "1"
     }
   },
-  "recordedDigest": "c4ebb1b3bc0c63e250177be1949992e052fe942a54d441a68417b10a7505457d"
+  "recordedDigest": "9c2c4c89e4613cb8dedaa6b607ad90cdd9bb1d46e1b3b6d2e9f615d3477068e1"
 }

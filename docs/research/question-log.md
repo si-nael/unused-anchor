@@ -712,7 +712,7 @@ Research note:
 
 ### Q-027: What representation is the portable execution authority of Bubble?
 
-Status: open; selected as a remaining 5.x semantic-core question before Rust 6.x
+Status: partial; BIR v1 and a frozen causal conformance corpus exist in bounded v0.5.9, while other program sections and an independent backend remain open
 
 Question:
 
@@ -734,6 +734,18 @@ Required 5.x boundary:
 - define deterministic event, branch, lifecycle, anchor, sea, commit, and provenance ordering wherever order is semantic, and canonicalize only where it is not
 - produce implementation-independent conformance fixtures from the existing TypeScript oracle before Rust implementation begins
 
+Bounded v0.5.9 evidence (2026-11-16):
+
+- canonical string order is now Unicode code-point order in every kernel; ICU collation no longer decides evidence order (B-054, D-135)
+- the causal oracle no longer lets world, effect, committed-field, or anchor declaration order enter causal evidence, and it rejects duplicate committed fields (B-055)
+- BIR v1 encodes `bubble-anchored-causal-program.v2` as one canonical node graph inside a versioned, sectioned, integrity-checked envelope, with semantic, storage, and backend identities kept separate (D-136, [../reference/bubble-ir.md](../reference/bubble-ir.md))
+- all eight canonical causal programs, including the 7-world compiled connected universe, round-trip byte for byte, lift canonically, and execute to runs identical to their sources apart from the host object digest; every set permutation leaves bytes, identity, and execution unchanged
+- unknown non-critical sections are preserved and never executed; an unknown critical section makes a document non-executable; non-canonical bytes and lossy lowering are rejected
+
+Gate D evidence (2026-11-16): a portable causal outcome projection, a frozen 15-fixture conformance corpus checked inside `npm run verify`, RFC 8785 derivations for world-identity evidence ids (B-056, D-139), and adversarial executors that show semantic changes drift while host-only differences conform ([../reference/causal-conformance.md](../reference/causal-conformance.md)).
+
+Still open within this question: an independent backend that reproduces the corpus from the specifications alone, BIR sections and outcome schemas for endogenous, persistent, and narrative programs, portable replay records, optional-default equivalence, and canonical diagnostic order.
+
 Non-claims:
 
 - a binary encoding is not more ontologically real than a typed graph
@@ -742,7 +754,7 @@ Non-claims:
 
 ### Q-028: How can Bubble execute efficiently without changing its worlds?
 
-Status: open; selected as a cross-substrate performance contract spanning late 5.x and Rust 6.x
+Status: partial; deterministic host-cost profiles exist for the causal conformance corpus in bounded v0.5.9, while optimization and cross-backend cost contracts remain open
 
 Question:
 
@@ -766,6 +778,8 @@ Required contract:
 First check:
 
 Profile one branch-heavy, one exact-arithmetic, one intensional, and one persistent-lifecycle fixture under a semantics-preserving cost model. Use those results to choose representations and compilation boundaries; do not choose a binary layout solely from intuition.
+
+Bounded v0.5.9 evidence (2026-11-16): every causal conformance fixture carries a deterministic count profile over decoding, lifting, and execution (D-138), covering the four selected workload classes. The profiles are informational and excluded from conformance. The BIR v1 layout was chosen for canonicality and portability before these profiles existed, not for speed, so no representation or compilation choice has yet been justified by cost; that remains the next use of the profiles.
 
 ### Q-029: How can Bubble worlds exchange content without becoming host-routed components?
 

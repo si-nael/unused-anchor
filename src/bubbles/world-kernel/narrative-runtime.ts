@@ -21,6 +21,7 @@ import {
     type NarrativeDiagnostic,
     type NarrativeFieldBinding,
 } from "./narrative";
+import { compareCanonicalStrings } from "./canonical-order";
 
 export interface NarrativeFieldInitializer {
     worldId: string;
@@ -274,7 +275,7 @@ function stableValue(value: unknown): unknown {
     if (value && typeof value === "object") {
         return Object.fromEntries(
             Object.entries(value as Record<string, unknown>)
-                .sort(([left], [right]) => left.localeCompare(right))
+                .sort(([left], [right]) => compareCanonicalStrings(left, right))
                 .map(([key, entry]) => [key, stableValue(entry)]),
         );
     }
@@ -602,9 +603,9 @@ function evaluateStatePredicate(
 }
 
 function serializeStates(states: Map<string, MutableWorldState>): NarrativeWorldState[] {
-    return [...states.values()].sort((left, right) => left.worldId.localeCompare(right.worldId)).map((state) => ({
+    return [...states.values()].sort((left, right) => compareCanonicalStrings(left.worldId, right.worldId)).map((state) => ({
         worldId: state.worldId,
-        fields: Object.fromEntries(Object.entries(state.fields).sort(([left], [right]) => left.localeCompare(right))),
+        fields: Object.fromEntries(Object.entries(state.fields).sort(([left], [right]) => compareCanonicalStrings(left, right))),
         seaContribution: state.seaContribution,
         intrinsicViability: state.intrinsicViability,
     }));
@@ -932,7 +933,7 @@ function normalizedOptions(options: NarrativeExecutionOptions): AnchoredNarrativ
     return {
         worldWillEnabled: options.worldWillEnabled ?? true,
         cutAnchorIds: [...new Set(options.cutAnchorIds ?? [])].sort(),
-        fieldOverrides: Object.fromEntries(Object.entries(options.fieldOverrides ?? {}).sort(([left], [right]) => left.localeCompare(right))),
+        fieldOverrides: Object.fromEntries(Object.entries(options.fieldOverrides ?? {}).sort(([left], [right]) => compareCanonicalStrings(left, right))),
         evaluationBudgetPerQuery: options.evaluationBudgetPerQuery ?? 10_000,
         maxInterventionCombinations: options.maxInterventionCombinations ?? 1_024,
     };
@@ -1106,7 +1107,7 @@ export function realizeAnchoredNarrativeWorld(
     });
     const eligibleEvents = eligibility.filter((entry) => entry.status === "eligible")
         .map((entry) => interventionEventById.get(entry.interventionId)!)
-        .sort((left, right) => left.id.localeCompare(right.id));
+        .sort((left, right) => compareCanonicalStrings(left.id, right.id));
     const combinationCountBig = (1n << BigInt(eligibleEvents.length)) - 1n;
     if (combinationCountBig > BigInt(options.maxInterventionCombinations) || eligibleEvents.length >= 31) {
         return {

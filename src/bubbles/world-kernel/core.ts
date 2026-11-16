@@ -1,3 +1,5 @@
+export * from "./canonical-order";
+export * from "./host-cost";
 export * from "./intensional";
 export * from "./causal";
 export * from "./causal-runtime";

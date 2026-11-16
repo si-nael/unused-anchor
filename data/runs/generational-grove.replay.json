@@ -2122,7 +2122,7 @@
             ],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "set",
                 "before": {
@@ -2142,7 +2142,7 @@
                 }
               },
               {
-                "fieldId": "boundary",
+                "fieldId": "structure",
                 "layer": "world-field",
                 "operation": "set",
                 "before": {
@@ -2245,7 +2245,7 @@
             ],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
@@ -2255,7 +2255,7 @@
                 }
               },
               {
-                "fieldId": "boundary",
+                "fieldId": "structure",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
@@ -2505,7 +2505,23 @@
             "history-commit",
             "world-lifecycle"
           ]
-        }
+        },
+        "anchorIdentity": [
+          {
+            "anchorId": "descendant-anchor",
+            "predicateId": "descendant-anchor-identity",
+            "status": "resolved",
+            "value": {
+              "kind": "boolean",
+              "value": true
+            }
+          },
+          {
+            "anchorId": "origin-anchor",
+            "predicateId": "origin-anchor-identity",
+            "status": "not-evaluated"
+          }
+        ]
       },
       {
         "id": "continuation:nurture-descendant",
@@ -3013,7 +3029,7 @@
             ],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "set",
                 "before": {
@@ -3033,7 +3049,7 @@
                 }
               },
               {
-                "fieldId": "boundary",
+                "fieldId": "structure",
                 "layer": "world-field",
                 "operation": "set",
                 "before": {
@@ -3136,7 +3152,7 @@
             ],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
@@ -3146,7 +3162,7 @@
                 }
               },
               {
-                "fieldId": "boundary",
+                "fieldId": "structure",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
@@ -4127,7 +4143,7 @@
           ],
           "effects": [
             {
-              "fieldId": "structure",
+              "fieldId": "boundary",
               "layer": "world-field",
               "operation": "set",
               "before": {
@@ -4147,7 +4163,7 @@
               }
             },
             {
-              "fieldId": "boundary",
+              "fieldId": "structure",
               "layer": "world-field",
               "operation": "set",
               "before": {
@@ -4250,7 +4266,7 @@
           ],
           "effects": [
             {
-              "fieldId": "structure",
+              "fieldId": "boundary",
               "layer": "world-field",
               "operation": "derive",
               "after": {
@@ -4260,7 +4276,7 @@
               }
             },
             {
-              "fieldId": "boundary",
+              "fieldId": "structure",
               "layer": "world-field",
               "operation": "derive",
               "after": {
@@ -4510,7 +4526,23 @@
           "history-commit",
           "world-lifecycle"
         ]
-      }
+      },
+      "anchorIdentity": [
+        {
+          "anchorId": "descendant-anchor",
+          "predicateId": "descendant-anchor-identity",
+          "status": "resolved",
+          "value": {
+            "kind": "boolean",
+            "value": true
+          }
+        },
+        {
+          "anchorId": "origin-anchor",
+          "predicateId": "origin-anchor-identity",
+          "status": "not-evaluated"
+        }
+      ]
     },
     "baselineScore": {
       "kind": "rational",
@@ -4518,5 +4550,5 @@
       "denominator": "1"
     }
   },
-  "recordedDigest": "fa405924986a158e7bbc542fcf0892e7d0586be95e5bd0d29478d682534c53ee"
+  "recordedDigest": "8edccc2119f42ceb374388f02f052e4c8b3e983b32e0f075f0ff8481ad9b6d66"
 }

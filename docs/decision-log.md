@@ -1341,3 +1341,73 @@ The v0.5.8 worktree had accumulated about ten closed seams (recursive constructo
 Consequence:
 
 Before confirmation, an independent adversarial audit reproduced six gaps. Correct the three that contradicted written v0.5.8 claims inside this scope: cross-constructor revision closure (B-050), order-dependent root and cousin budget prefixes with a false exhaustive-universe claim (B-051), and an admitted sibling missing from the frontier (B-052); narrow the overstated source-level graph-replacement evidence (B-049). Do not resolve the two identity semantics that contradict no written claim (frozen `parent-field` sources in identity predicates and fixpoints certified without an anchor-identity cut, B-053); record them as open author decisions. Confirm `v0.5.8` as the bounded endogenous connected-universe generation release. Its closed claim is exactly the Current Closed Evidence section of the v0.5.8 architecture record: strict endogenous source lowering to one typed intensional/constructor/schema program, complete-sibling generation, inherited and wholly replaceable executable schema graphs, lineage-relative identity, identity and relation anchors, exact channel-valued sea action and parent-to-child transport, receiver-local law response, realized-state constructor reactivation, recursively branch-indexed generated universes, the finite internal-demand certificate, digest-linked self-complementation evidence, demanded fixpoint or exact persistent recurrence, and integrity-checked inspection and replay. Move the remaining v0.5.8 open list to post-release open work without narrowing or deleting any item; none becomes a closed claim. Align package and lock identity, the obligation ledger, architecture and reference status, Q-018/Q-029/Q-030/Q-031, H-021/H-022, the implementation map, README, examples guide, process summary, project memory, the 5.x-to-6.x boundary, and record verification to bounded `0.5.8`. Do not select the content of `v0.5.9`; Gates C (portable BIR) and D (conformance and host-cost evidence) remain the open 5.x transition gates. This decision does not complete OB-001, authorize Phase 2, or commit the tree; committing remains the author's act.
+
+### D-134: Select Gate C portable BIR as the active v0.5.9 candidate
+
+Reason:
+
+After bounded v0.5.8, the author stated that unused-anchor actually constructs and executes one universe and delegated finding and driving the next work (AI-20261116-001). The recorded work order already fixes the remaining 5.x line: close the bounded portable semantic core, Gates C (machine-independent semantic graph) and D (conformance and host-cost evidence), before Rust begins in 6.x (AI-20260717-005, D-113, D-114). Gates A and B are closed. An executed universe whose meaning exists only as TypeScript objects and JSON serialization is not yet portable execution.
+
+Consequence:
+
+Open an unversioned v0.5.9 candidate for Gate C, starting with the executable causal kernel through which every bounded world path runs. The delegation selects work order only; it does not settle author-reserved semantics such as B-053, select a release, or change the package version. Gate D, other program sections, and Rust remain outside this slice.
+
+### D-135: Make portable code-point order the canonical string order of every kernel
+
+Reason:
+
+The kernels ordered evidence with ICU locale collation at 58 sites and UTF-16 code-unit order elsewhere (B-054). Collation is host data: it orders punctuation, digits, and case differently from code points, and a second backend could reproduce it only by emulating one ICU version.
+
+Consequence:
+
+Define canonical string order as Unicode code-point order (bytewise UTF-8 order), implement it once in `canonical-order.ts`, and rewrite every collation call site to use it. Default UTF-16 sorting may remain only where every sorted string is an ASCII identifier or hex digest, where both orders coincide. Regenerated evidence may change listing order but not world outcomes; the confirmation compared every regenerated artifact against the previous commit modulo array order, trace sequence numbers, and digests and found no content difference.
+
+### D-136: Encode the causal kernel as a canonical, schema-directed BIR v1 with separated identities
+
+Reason:
+
+Gate C requires a typed machine-independent graph with canonical semantic ordering, extension preservation without silent execution or deletion, and distinct semantic, storage, and backend identities (Q-027). Fixing bytes before deciding which collections are ordered would have frozen accidental host order; treating everything as ordered would have made identity depend on authoring order; treating everything as unordered would have claimed a freedom the oracle did not have (B-055).
+
+Consequence:
+
+BIR v1 uses a small node algebra with exactly one encoding per node, a schema that classifies every causal-program collection as set or sequence on the basis of permutation evidence, open vocabularies as text, strict lowering that refuses unknown fields and non-canonical values, and a versioned envelope with critical and non-critical sections and a SHA-256 trailer. Semantic identity covers critical sections only, storage identity covers every byte, and backend identity remains the oracle's host-object digest. Correct the oracle's remaining declaration-order leaks and reject duplicate committed fields (`CKW105`) so that every set-classified collection is genuinely unordered. Keep domain axes ordered until evidence shows otherwise, preserve optional-field presence exactly, and leave Gate D, run-evidence identity, and other program sections open. TypeScript remains the oracle, and no byte format becomes Bubble ontology.
+
+### D-137: Define causal conformance as exact equality of a portable outcome, checked against a frozen corpus
+
+Reason:
+
+Gate D requires an implementation-independent expected output before Rust. Requiring a second backend to reproduce the whole oracle run would make the TypeScript evaluation strategy part of Bubble meaning: proof traces, evaluation subject ids, one evaluation linearization, sequential trace numbering, and host digests record how the oracle computed a world, not what the world did. Regenerating expectations on every verification would also hide oracle drift.
+
+Consequence:
+
+A conformance fixture is one BIR envelope with the program and execution options as critical input sections and the expected outcome, a host-cost profile, and a label as non-critical sections. The portable outcome (`bubble-causal-outcome.v1`) keeps statuses, continuation sets, initial and final states, the event ledger, the causal partial order with its synchronous frontier layering, commits, lifecycle and transfer provenance, nonrealization, emergence, World-Will decision evidence, the resource-boundary verdict, and diagnostic codes, and drops oracle-plan artifacts and the host program digest. A backend conforms when its projected outcome encodes to exactly the expected bytes. The committed corpus `data/conformance/causal/` is the expectation; `npm run verify` checks the oracle against it, and `npm run build:conformance` may be run only for a semantic change recorded here.
+
+### D-138: Measure host cost as a deterministic count profile that conformance never compares
+
+Reason:
+
+Q-028 and Gate D require a cost model that records external realization work rather than Bubble time, and optimization must be free to change cost without changing worlds. Wall-clock timing is nondeterministic and would make fixtures unreproducible.
+
+Consequence:
+
+A process-local meter counts exact rational constructions and their largest bit length, intensional queries and materialized coordinates, predicate evaluations, law applications, branch-frontier candidates, realization and value copies, digests and hashed bytes, and BIR nodes and bytes decoded, over the whole portable path. The profile is stored in each fixture as informational data, is identical across runs, and is excluded from conformance. Hooks cost one property check when no meter is active. No structural sharing, incremental evaluation, or compilation is claimed.
+
+### D-139: Specify world-identity evidence ids as SHA-256 over RFC 8785 canonical JSON
+
+Reason:
+
+Branch-step, lineage, transfer-frontier, commit-state, and retirement-residue ids are part of world evidence, but they were derived from the oracle's undocumented stable serialization (B-056). Changing them would rewrite lineage identity across every artifact; leaving them unspecified would force a backend to reverse-engineer the oracle.
+
+Consequence:
+
+Keep the ids and specify their records and truncation in the conformance reference. For these records, which contain only strings, safe integers, booleans, arrays, and objects, the oracle serialization coincides with the RFC 8785 JSON Canonicalization Scheme, and tests reproduce the ids with an independent RFC 8785 implementation. Any future id derivation must name its canonical record and serialization when it is introduced.
+
+### D-140: Confirm bounded v0.5.9 at its Gate C and Gate D causal-kernel scope
+
+Reason:
+
+On 2026-11-16 the author selected preparation of v0.5.9 confirmation at the scope already implemented: portable ordering, BIR v1 for the executable causal kernel, and the first causal conformance slice. SC-007 and the earlier releases require an independent adversarial audit before confirmation. The audit reproduced nine gaps, six of them false surfaces inside this scope: the envelope contradicted its own section-order specification (B-057); a set-classified position changed the outcome and several others changed run listing (B-058); the critical options section was ignored or droppable and criticality was not enforced (B-059); evidence-id records did not specify array order (B-060); the checker could throw and the nesting bound exceeded the host stack (B-061); and anchor identity verdicts were invisible to conformance (B-062).
+
+Consequence:
+
+Correct all of them before confirmation: raw-name section order with a specification-derived identity test, canonical evaluation and iteration at the affected set positions, mandatory criticality for `core.*` sections, document-owned execution options on every execution and re-encoding path, specified array order for every evidence-id record with outcome-only reconstruction tests, a total checker, a normative nesting bound of 1024, corrected cost documentation, and first-class anchor identity verdicts in the oracle and the outcome. These change the format and the outcome schema, so the frozen corpus was regenerated once under this decision, as D-137 requires; every regenerated release artifact differs from the previous commit only in listing order, trace numbering, digests, and the new `anchorIdentity` field. Confirm `v0.5.9` as the bounded portable-execution-authority release with package identity `0.5.9`. Its claim is the closed evidence of the v0.5.9 architecture record. It does not decide whether the 6.x Rust entry condition is met, select the next version, resolve B-053, or complete OB-013; committing remains the author's act.

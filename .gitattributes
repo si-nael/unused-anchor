@@ -1,0 +1,2 @@
+# BIR documents are canonical binary; line-ending conversion would corrupt their bytes and digests.
+*.bir binary

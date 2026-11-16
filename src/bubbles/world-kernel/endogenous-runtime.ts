@@ -16,6 +16,7 @@ import {
     type EndogenousUniverseProgram,
 } from "./endogenous";
 import { evaluateIntensionalCoordinate } from "./intensional";
+import { compareCanonicalStrings } from "./canonical-order";
 
 export interface EndogenousConnectedUniverseExecutionOptions {
     generation?: EndogenousUniverseOptions;
@@ -364,9 +365,9 @@ function generationEdges(materialization: EndogenousUniverseMaterialization): En
         }
     }
     return edges.sort((left, right) => (
-        left.from.localeCompare(right.from)
-        || left.to.localeCompare(right.to)
-        || left.kind.localeCompare(right.kind)
+        compareCanonicalStrings(left.from, right.from)
+        || compareCanonicalStrings(left.to, right.to)
+        || compareCanonicalStrings(left.kind, right.kind)
     ));
 }
 
@@ -405,7 +406,7 @@ function continuationEvidence(
                 .sort(),
             hostSelection: false as const,
         };
-    }).sort((left, right) => left.worldId.localeCompare(right.worldId));
+    }).sort((left, right) => compareCanonicalStrings(left.worldId, right.worldId));
 }
 
 function generationConfigurationDigest(materialization: EndogenousUniverseMaterialization): string {
@@ -517,7 +518,7 @@ function assessIdentityAtCut(
             ...(!result.value.value ? { reason: "identity predicate is false at this recurrence cut" } : {}),
         };
     })).sort((left, right) => (
-        left.anchorId.localeCompare(right.anchorId) || left.predicateId.localeCompare(right.predicateId)
+        compareCanonicalStrings(left.anchorId, right.anchorId) || compareCanonicalStrings(left.predicateId, right.predicateId)
     ));
     return {
         evidence,
@@ -581,7 +582,7 @@ function causalGenerationHistoryExtension(
             hostSelection: false as const,
         };
     });
-    return [...causalEntries, ...commitEntries, ...generationEntries].sort((left, right) => left.id.localeCompare(right.id));
+    return [...causalEntries, ...commitEntries, ...generationEntries].sort((left, right) => compareCanonicalStrings(left.id, right.id));
 }
 
 function certifyGeneratedRecurrence(
@@ -958,7 +959,7 @@ export function realizeEndogenousConnectedUniverse(
         const singular = terminalBranches.length === 1 ? terminalBranches[0] : undefined;
         const branchUniverses = terminalBranches
             .map((branch) => publicBranch(branch, singular ? "top-level" : "branch-local"))
-            .sort((left, right) => left.id.localeCompare(right.id));
+            .sort((left, right) => compareCanonicalStrings(left.id, right.id));
         const materialization = singular?.materialization ?? commonMaterialization;
         const causalRun = singular?.witnesses.at(-1)?.causalRun;
         const representativeCausalClosureId = singular?.closureIds.at(-1);

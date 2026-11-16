@@ -133,6 +133,7 @@ The repository now contains an executable Bubble Language stack rather than only
 - completed bounded `v0.5.6`: internal-law birth of finitely declared latent worlds, self-retirement with retained residue, monotone lifecycle lineage and no-host-selection evidence, inactive anchor/objective gating, persistent phase continuation, strict `causal bubble` lowering with exact reversible inverses, canonical inspection, and lifecycle-aware replay; this is not dynamic schema or population generation
 - completed bounded `v0.5.7`: one identity-checked typed two-world anchor crossing caused by a source internal law, with exact negative-sea residue, positive-sea placement, receiving-world self-response, birth-aware causality, inspection, and replay; this is not general transport composition or a global sea
 - completed bounded `v0.5.8`: recursive intensional constructors derive lineage-addressed connected world slices, identity and relation anchors, channel-valued seas, exact parent-to-child condition transport, autonomous local-law response, realized-state constructor reactivation, and recursively branch-indexed generated universes across bounded closures. Each world carries one executable content-addressed schema graph containing fields/initializers, protected set, ports, seas, self-identity, laws, emergence, and causal projection. A recursively closed constructor may replace that complete graph atomically, then remove or upsert complete typed laws and intensionally specialize exact irreversible-law effects; generation, anchors, sea actions, compilation, recurrence, inspection, and replay all consume the realized revision. A strict `endogenous bubble` source lowers exact intensional algebra, complete graphs, constructors, relation/sea structure, and morphisms to that same typed program. A deterministic finite internal-demand certificate closes one result or the complete lawful branch family, preserves open frontiers and intensional infinity, and chains self-complementing realization evidence. Exact active recurrence includes revision and lineage/anchor identity and keeps replay evidence distinct from internal commits, without claiming arbitrary code generation, intensional graph/family invention, a fixpoint, component self-maintenance, universal convergence, an external observer, a host selector, or a universal clock
+- completed bounded `v0.5.9`: portable Unicode code-point ordering in every kernel instead of host collation, removal of declaration-order leaks from causal evidence, and BIR v1, a canonical machine-independent binary semantic graph for the executable causal kernel with strict schema-directed lowering, preserved non-executed extensions, and separated semantic, storage, and backend identities; every canonical causal program round-trips and executes identically, and a strict `.bubble` source runs through BIR inside `npm run verify`. It also opens Gate D: a portable causal outcome projection, RFC 8785 world-identity id derivations, deterministic host-cost profiles, and a frozen 15-fixture conformance corpus checked inside `npm run verify`. An independent backend and Rust remain open
 
 Current stabilization commands:
 
@@ -151,18 +152,21 @@ Current stabilization commands:
 13. `npm run verify:lifecycle-language-example`
 14. `npm run verify:membrane`
 15. `npm run verify:membrane-example`
-16. `npm run verify:endogenous`
-17. `npm run verify:endogenous-example`
-18. `npm run verify:persistence`
-19. `npm run verify:persistence-example`
-20. `npm run verify:teleonomy`
-21. `npm run verify:teleonomy-example`
-22. `npm run verify:teleonomy-distributed-example`
-23. `npm run verify:examples`
-24. `npm run verify:collapse`
-25. `npm run verify:replay`
-26. `npm run verify:attribution`
-27. `npm run verify:self-realization`
+16. `npm run verify:bir`
+17. `npm run verify:bir-example`
+18. `npm run verify:conformance`
+18. `npm run verify:endogenous`
+19. `npm run verify:endogenous-example`
+20. `npm run verify:persistence`
+21. `npm run verify:persistence-example`
+22. `npm run verify:teleonomy`
+23. `npm run verify:teleonomy-example`
+24. `npm run verify:teleonomy-distributed-example`
+25. `npm run verify:examples`
+26. `npm run verify:collapse`
+27. `npm run verify:replay`
+28. `npm run verify:attribution`
+29. `npm run verify:self-realization`
 
 Representative source examples:
 
@@ -184,7 +188,7 @@ Representative source examples:
 - [examples/connected-fields.causal.bubble](examples/connected-fields.causal.bubble)
 - [examples/endogenous-connected-universe.bubble](examples/endogenous-connected-universe.bubble) (canonical strict source; the adjacent `.world.json` is its retained typed projection)
 
-`v0.5.0` supplies the first bounded vertical world flow. Historical `v0.5.1` proves one explicit narrative projection experiment; `v0.5.2` corrects it by restoring an observer-independent causal core. Completed bounded `v0.5.3` derives one recurrent causal component and verifies boundary, identity, memory, repair, and influence across closures. Completed bounded `v0.5.4` adds neutral invariant-set and response counterfactual evidence beneath its historical teleonomic name. Completed bounded `v0.5.5` lets non-commuting internal law structure generate every maximal commuting autonomous world. Completed bounded `v0.5.6` adds finite causally endogenous actualization and cessation. Completed bounded `v0.5.7` adds the first exact cross-world anchor/sea membrane. Completed bounded `v0.5.8` derives a recursive connected world family, carries relation state into world-local response, reactivates dormant constructors from realized state, continues every lawful causal result as its own generated-universe branch, inherits and recursively replaces complete executable world-local schema graphs, lowers that whole contract from strict `.bubble` source, deterministically certifies finite internal cuts, and closes bounded exact active recurrence through lineage/revision/anchor identity while retaining infinite denotation and monotone realization evidence. Intensional schema-graph generation, constructor/schema-incidence/formal-family transformation, topology-changing or non-periodic persistence, lawful branch convergence, general self-complementing convergence, global multi-world sea calculus, and the full identity and order calculus remain open. Agent, protagonist, story, life, and similar labels are optional interpretations, not missing core completion gates.
+`v0.5.0` supplies the first bounded vertical world flow. Historical `v0.5.1` proves one explicit narrative projection experiment; `v0.5.2` corrects it by restoring an observer-independent causal core. Completed bounded `v0.5.3` derives one recurrent causal component and verifies boundary, identity, memory, repair, and influence across closures. Completed bounded `v0.5.4` adds neutral invariant-set and response counterfactual evidence beneath its historical teleonomic name. Completed bounded `v0.5.5` lets non-commuting internal law structure generate every maximal commuting autonomous world. Completed bounded `v0.5.6` adds finite causally endogenous actualization and cessation. Completed bounded `v0.5.7` adds the first exact cross-world anchor/sea membrane. Completed bounded `v0.5.8` derives a recursive connected world family, carries relation state into world-local response, reactivates dormant constructors from realized state, continues every lawful causal result as its own generated-universe branch, inherits and recursively replaces complete executable world-local schema graphs, lowers that whole contract from strict `.bubble` source, deterministically certifies finite internal cuts, and closes bounded exact active recurrence through lineage/revision/anchor identity while retaining infinite denotation and monotone realization evidence. Intensional schema-graph generation, constructor/schema-incidence/formal-family transformation, topology-changing or non-periodic persistence, lawful branch convergence, general self-complementing convergence, global multi-world sea calculus, and the full identity and order calculus remain open. Completed bounded `v0.5.9` makes that causal execution meaning portable: canonical BIR bytes replace host collation, declaration order, and object layout as the execution input, and a frozen conformance corpus fixes the portable outcome any second backend must reproduce. Agent, protagonist, story, life, and similar labels are optional interpretations, not missing core completion gates.
 
 ## Repository Notes
 
@@ -209,6 +213,9 @@ Representative source examples:
 - [docs/architecture/v0.5.8-endogenous-connected-universe.md](docs/architecture/v0.5.8-endogenous-connected-universe.md): completed bounded recursive connected-universe generation release, mathematical contract, evidence, and remaining open boundary
 - [docs/reference/endogenous-connected-universe.md](docs/reference/endogenous-connected-universe.md): strict source, typed program, constructor, exact transport, finite-demand, execution, inspection, replay, and CLI reference for bounded `v0.5.8`
 - [docs/architecture/endogenous-world-lifecycle-candidate.md](docs/architecture/endogenous-world-lifecycle-candidate.md): preserved technical precursor and closure-gate record for `v0.5.6`
+- [docs/architecture/v0.5.9-portable-bir.md](docs/architecture/v0.5.9-portable-bir.md): completed bounded Gate C and Gate D slices: portable ordering corrections, BIR v1 and conformance design, evidence, and open boundary
+- [docs/reference/bubble-ir.md](docs/reference/bubble-ir.md): normative BIR v1 byte-level contract, identity layers, causal-program schema, API, and CLI
+- [docs/reference/causal-conformance.md](docs/reference/causal-conformance.md): normative Gate D fixture format, portable causal outcome, evidence-id derivations, host-cost profile, and corpus discipline
 - [docs/architecture/v0.5-semantic-core-to-v0.6-rust.md](docs/architecture/v0.5-semantic-core-to-v0.6-rust.md): remaining 5.x lifecycle/membrane/BIR/conformance gates and the Rust-only-from-6.x execution-substrate boundary
 - [docs/reference/causal-bubble-language.md](docs/reference/causal-bubble-language.md): strict additive `.bubble` source profile that lowers exact causal worlds, seas, anchors, local laws, birth, retirement, and commits into the existing kernel
 - [docs/reference/teleonomic-causal-world.md](docs/reference/teleonomic-causal-world.md): teleonomic execution, same-program response-event nonrealization, organic discriminator provenance, inspection, CLI, and replay contract

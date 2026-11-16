@@ -32,6 +32,7 @@ import type {
     CausalSeaLaw,
     ExecutableAnchoredCausalProgram,
 } from "./causal-runtime";
+import { compareCanonicalStrings } from "./canonical-order";
 
 const IDENTIFIER = /^[A-Za-z_][A-Za-z0-9_.-]*$/;
 
@@ -1202,13 +1203,13 @@ function relationAnchorId(eventId: string): string {
 
 function normalizeSchemaGraph(schema: EndogenousSchemaGraph): EndogenousSchemaGraph {
     return {
-        fields: structuredClone(schema.fields).sort((left, right) => left.id.localeCompare(right.id)),
+        fields: structuredClone(schema.fields).sort((left, right) => compareCanonicalStrings(left.id, right.id)),
         protectedFieldIds: [...schema.protectedFieldIds].sort(),
         ports: [...schema.ports].sort(),
-        seaChannels: structuredClone(schema.seaChannels).sort((left, right) => left.id.localeCompare(right.id)),
+        seaChannels: structuredClone(schema.seaChannels).sort((left, right) => compareCanonicalStrings(left.id, right.id)),
         selfIdentity: structuredClone(schema.selfIdentity),
-        internalLaws: structuredClone(schema.internalLaws).sort((left, right) => left.id.localeCompare(right.id)),
-        emergenceCriteria: structuredClone(schema.emergenceCriteria).sort((left, right) => left.id.localeCompare(right.id)),
+        internalLaws: structuredClone(schema.internalLaws).sort((left, right) => compareCanonicalStrings(left.id, right.id)),
+        emergenceCriteria: structuredClone(schema.emergenceCriteria).sort((left, right) => compareCanonicalStrings(left.id, right.id)),
         ...(schema.causalProjection ? { causalProjection: structuredClone(schema.causalProjection) } : {}),
     };
 }
@@ -1336,7 +1337,7 @@ function realizeSchemaRevision(
     const addedLawIds: string[] = [];
     const replacedLawIds: string[] = [];
     const upsertLaws = [...(transformation.upsertLaws ?? [])]
-        .sort((left, right) => left.id.localeCompare(right.id));
+        .sort((left, right) => compareCanonicalStrings(left.id, right.id));
     for (const law of upsertLaws) {
         const lawIndex = internalLaws.findIndex((candidate) => candidate.id === law.id);
         if (lawIndex < 0) {
@@ -1347,7 +1348,7 @@ function realizeSchemaRevision(
             replacedLawIds.push(law.id);
         }
     }
-    internalLaws.sort((left, right) => left.id.localeCompare(right.id));
+    internalLaws.sort((left, right) => compareCanonicalStrings(left.id, right.id));
     const lawSetChange: EndogenousLawSetChange = {
         requestedRemovalIds,
         removedLawIds,
@@ -1525,11 +1526,11 @@ function deriveEndogenousUniverse(
         reason,
         options,
         diagnostics,
-        worlds: [...worlds].sort((left, right) => left.id.localeCompare(right.id)),
-        anchors: [...anchors].sort((left, right) => left.id.localeCompare(right.id)),
-        generationEvents: [...generationEvents].sort((left, right) => left.id.localeCompare(right.id)),
-        schemaTransformationEvents: [...schemaTransformationEvents].sort((left, right) => left.id.localeCompare(right.id)),
-        frontiers: [...frontiers].sort((left, right) => stableStringify(left).localeCompare(stableStringify(right))),
+        worlds: [...worlds].sort((left, right) => compareCanonicalStrings(left.id, right.id)),
+        anchors: [...anchors].sort((left, right) => compareCanonicalStrings(left.id, right.id)),
+        generationEvents: [...generationEvents].sort((left, right) => compareCanonicalStrings(left.id, right.id)),
+        schemaTransformationEvents: [...schemaTransformationEvents].sort((left, right) => compareCanonicalStrings(left.id, right.id)),
+        frontiers: [...frontiers].sort((left, right) => compareCanonicalStrings(stableStringify(left), stableStringify(right))),
         formalProof,
         coverage: {
             demandedSliceComplete,
@@ -1582,10 +1583,10 @@ function deriveEndogenousUniverse(
             refreshSeaChannels(world);
         }
         queue.push(...[...worlds].sort((left, right) => (
-            left.address.lineage.length - right.address.lineage.length || left.id.localeCompare(right.id)
+            left.address.lineage.length - right.address.lineage.length || compareCanonicalStrings(left.id, right.id)
         )));
     } else {
-        const orderedRoots = [...program.roots].sort((left, right) => left.id.localeCompare(right.id));
+        const orderedRoots = [...program.roots].sort((left, right) => compareCanonicalStrings(left.id, right.id));
         if (orderedRoots.length > options.maxWorlds) {
             status = "undetermined";
             demandedSliceComplete = false;
@@ -1638,7 +1639,7 @@ function deriveEndogenousUniverse(
         const root = roots.get(parent.address.rootId)!;
         const constructors = program.constructors
             .filter((constructor) => constructor.parentSchemaId === parent.schemaId)
-            .sort((left, right) => left.id.localeCompare(right.id));
+            .sort((left, right) => compareCanonicalStrings(left.id, right.id));
         if (constructors.length === 0) return undefined;
         if (parent.address.lineage.length >= options.maxDepth) {
             for (const constructor of constructors) {
@@ -1723,7 +1724,7 @@ function deriveEndogenousUniverse(
         }
         if (status === "contradicted") return undefined;
         proposals.sort((left, right) => {
-            const constructorOrder = left.constructor.id.localeCompare(right.constructor.id);
+            const constructorOrder = compareCanonicalStrings(left.constructor.id, right.constructor.id);
             if (constructorOrder !== 0) return constructorOrder;
             const leftCoordinate = BigInt(left.coordinate);
             const rightCoordinate = BigInt(right.coordinate);
@@ -1965,7 +1966,7 @@ function deriveEndogenousUniverse(
     let worldBudgetExhausted = false;
     while (queue.length > 0 && !contradicted()) {
         queue.sort((left, right) => (
-            left.address.lineage.length - right.address.lineage.length || left.id.localeCompare(right.id)
+            left.address.lineage.length - right.address.lineage.length || compareCanonicalStrings(left.id, right.id)
         ));
         const depth = queue[0]!.address.lineage.length;
         const level: EndogenousGeneratedWorld[] = [];
@@ -2092,7 +2093,7 @@ export function compileEndogenousUniverse(
     for (const transport of materialization.anchors.flatMap((anchor) => anchor.transports)) {
         const key = `${transport.target.worldId}.${transport.target.fieldId}`;
         transportedFieldCauses.set(key, [...transportedFieldCauses.get(key) ?? [], transport]
-            .sort((left, right) => left.id.localeCompare(right.id)));
+            .sort((left, right) => compareCanonicalStrings(left.id, right.id)));
     }
     const roots = new Map(source.roots.map((root) => [root.id, root]));
     for (const world of materialization.worlds) {

@@ -28,6 +28,8 @@ import {
     type CausalWorldLifecycleEffect,
     type CausalWorldWillIntervention,
 } from "./causal";
+import { compareCanonicalStrings } from "./canonical-order";
+import { countHostCost } from "./host-cost";
 
 export interface CausalFieldInitializer {
     worldId: string;
@@ -254,6 +256,14 @@ export interface CausalInternalBranchStep {
     hostSelection: false;
 }
 
+/** The identity verdict of one declared anchor-identity predicate for one autonomous continuation. */
+export interface CausalAnchorIdentityVerdict {
+    anchorId: string;
+    predicateId: string;
+    status: "resolved" | "undetermined" | "contradicted" | "not-evaluated";
+    value?: ExactValue;
+}
+
 export interface CausalContinuation {
     id: string;
     selection: "baseline" | "autonomous-plural" | "selected" | "selected-plural" | "alternative";
@@ -268,6 +278,8 @@ export interface CausalContinuation {
     anchorTransferEvents?: CausalAnchorTransferEvent[];
     anchorTransferAssessments?: CausalAnchorTransferAssessment[];
     internalEventAblations?: CausalInternalEventAblation[];
+    /** Present for autonomous continuations whose program declares anchor-identity predicates. */
+    anchorIdentity?: CausalAnchorIdentityVerdict[];
     emergenceAssessments: CausalEmergenceAssessment[];
     order: {
         kind: "causal-partial-order";
@@ -428,6 +440,7 @@ interface EmergenceResult {
 const IDENTIFIER = /^[A-Za-z_][A-Za-z0-9_.-]*$/;
 
 function cloneValue<T>(value: T): T {
+    countHostCost("valueCopies");
     return structuredClone(value);
 }
 
@@ -441,7 +454,29 @@ function stableStringify(value: unknown): string {
 }
 
 function digest(value: unknown): string {
-    return createHash("sha256").update(stableStringify(value)).digest("hex");
+    const serialized = stableStringify(value);
+    countHostCost("digestsComputed");
+    countHostCost("bytesHashed", Buffer.byteLength(serialized, "utf8"));
+    return createHash("sha256").update(serialized).digest("hex");
+}
+
+/**
+ * Identity of this TypeScript object as consumed by the reference oracle (`run.programDigest`). It is a
+ * backend program identity: it depends on host object layout and array order, unlike the BIR semantic digest.
+ */
+export function digestExecutableCausalProgram(program: ExecutableAnchoredCausalProgram): string {
+    return digest(program);
+}
+
+// Identity evaluation of distinct anchors is causally concurrent; its evidence follows portable anchor order.
+function canonicalAnchors(program: ExecutableAnchoredCausalProgram): ExecutableAnchoredCausalProgram["world"]["anchors"] {
+    return [...program.world.anchors].sort((left, right) => compareCanonicalStrings(left.id, right.id));
+}
+
+// One transition affects each field at most once (CKW011), so its effects commute. They are applied and
+// listed in portable field order so authored declaration order cannot enter causal evidence.
+function canonicalFieldEffects(effects: CausalFieldEffect[]): CausalFieldEffect[] {
+    return [...effects].sort((left, right) => compareCanonicalStrings(left.fieldId, right.fieldId));
 }
 
 function runtimeIssue(code: string, path: string, message: string): CausalDiagnostic {
@@ -649,12 +684,12 @@ function normalizedOptions(options: CausalExecutionOptions): Required<CausalExec
     return {
         worldWillEnabled: options.worldWillEnabled ?? true,
         cutAnchorIds: [...new Set(options.cutAnchorIds ?? [])].sort(),
-        fieldOverrides: Object.fromEntries(Object.entries(options.fieldOverrides ?? {}).sort(([left], [right]) => left.localeCompare(right))),
+        fieldOverrides: Object.fromEntries(Object.entries(options.fieldOverrides ?? {}).sort(([left], [right]) => compareCanonicalStrings(left, right))),
         fieldOverrideCauses: Object.fromEntries(Object.entries(options.fieldOverrideCauses ?? {})
-            .sort(([left], [right]) => left.localeCompare(right))
+            .sort(([left], [right]) => compareCanonicalStrings(left, right))
             .map(([key, causes]) => [key, [...new Set(causes)].sort()])),
         worldLifecycleOverrides: Object.fromEntries(Object.entries(options.worldLifecycleOverrides ?? {})
-            .sort(([left], [right]) => left.localeCompare(right))
+            .sort(([left], [right]) => compareCanonicalStrings(left, right))
             .map(([worldId, lifecycle]) => [worldId, {
                 ...cloneValue(lifecycle),
                 ...(lifecycle.parentWorldIds
@@ -713,6 +748,7 @@ function evaluatePredicate(
     budget: number,
     subjectPrefix = "",
 ): QueryEvaluation {
+    countHostCost("predicateEvaluations");
     const parameters = { ...predicate.query.parameters };
     for (const binding of predicate.fieldParameters) {
         const value = states.get(binding.worldId)?.fields[binding.fieldId];
@@ -740,9 +776,9 @@ function evaluatePredicate(
 }
 
 function serializeStates(states: Map<string, MutableState>): CausalWorldState[] {
-    return [...states.values()].sort((left, right) => left.worldId.localeCompare(right.worldId)).map((state) => ({
+    return [...states.values()].sort((left, right) => compareCanonicalStrings(left.worldId, right.worldId)).map((state) => ({
         worldId: state.worldId,
-        fields: Object.fromEntries(Object.entries(state.fields).sort(([left], [right]) => left.localeCompare(right))),
+        fields: Object.fromEntries(Object.entries(state.fields).sort(([left], [right]) => compareCanonicalStrings(left, right))),
         intrinsicViability: state.intrinsicViability,
         seaContribution: state.seaContribution,
         ...(state.lifecycle ? { lifecycle: cloneValue(state.lifecycle) } : {}),
@@ -765,6 +801,7 @@ function statesFromSerialized(
 }
 
 function cloneRealization(source: MutableRealization): MutableRealization {
+    countHostCost("realizationCopies");
     const states = new Map<string, MutableState>();
     for (const [worldId, state] of source.states) {
         states.set(worldId, {
@@ -1148,7 +1185,7 @@ function maximalCommutingLawFrontiers(
     laws: CausalInternalLaw[],
     limit: number,
 ): { frontiers: CausalInternalLaw[][]; exhaustive: boolean } {
-    const ordered = [...laws].sort((left, right) => left.id.localeCompare(right.id));
+    const ordered = [...laws].sort((left, right) => compareCanonicalStrings(left.id, right.id));
     const byId = new Map(ordered.map((law) => [law.id, law]));
     const compatible = new Map(ordered.map((law) => [
         law.id,
@@ -1174,7 +1211,7 @@ function maximalCommutingLawFrontiers(
             .sort((left, right) => {
                 const leftDegree = possible.filter((id) => compatible.get(left)?.has(id)).length;
                 const rightDegree = possible.filter((id) => compatible.get(right)?.has(id)).length;
-                return rightDegree - leftDegree || left.localeCompare(right);
+                return rightDegree - leftDegree || compareCanonicalStrings(left, right);
             })[0];
         const candidates = possible.filter((id) => !pivot || !compatible.get(pivot)?.has(id));
         for (const candidate of candidates) {
@@ -1191,10 +1228,11 @@ function maximalCommutingLawFrontiers(
         }
     };
     search([], ordered.map((law) => law.id), []);
+    countHostCost("branchFrontierCandidates", results.length);
     return {
         frontiers: results
             .slice(0, limit)
-            .sort((left, right) => left.join("+").localeCompare(right.join("+")))
+            .sort((left, right) => compareCanonicalStrings(left.join("+"), right.join("+")))
             .map((ids) => ids.map((id) => byId.get(id)!)),
         exhaustive,
     };
@@ -1234,7 +1272,7 @@ function recordCommit(
         eventId,
         lawId: law.id,
         causes: [causedByEventId],
-        effects: law.commitAffectedFieldIds.map((fieldId) => ({
+        effects: [...law.commitAffectedFieldIds].sort(compareCanonicalStrings).map((fieldId) => ({
             fieldId,
             layer: "world-field",
             operation: "derive",
@@ -1251,7 +1289,7 @@ function applyAnchorTransferFrontier(
 ): string | undefined {
     const ordered = [...lawEvents]
         .filter(({ law }) => (law.anchorTransferIds?.length ?? 0) > 0)
-        .sort((left, right) => left.law.id.localeCompare(right.law.id));
+        .sort((left, right) => compareCanonicalStrings(left.law.id, right.law.id));
     if (ordered.length === 0) return undefined;
     const preview = cloneRealization(mutable);
     const staged: Array<{
@@ -1396,12 +1434,12 @@ function applyLifecycleFrontier(
         }
     }
     const lifecycleEventIds: string[] = [];
-    for (const [targetWorldId, transition] of [...transitions].sort(([left], [right]) => left.localeCompare(right))) {
+    for (const [targetWorldId, transition] of [...transitions].sort(([left], [right]) => compareCanonicalStrings(left, right))) {
         const state = mutable.states.get(targetWorldId);
         const world = program.world.worlds.find((candidate) => candidate.id === targetWorldId);
         if (!state || !world) return `lifecycle transition names missing world '${targetWorldId}'`;
-        const sourceWorldIds = [...transition.sourceWorldIds].sort();
-        const causedByLawEventIds = [...transition.causedByLawEventIds].sort();
+        const sourceWorldIds = [...transition.sourceWorldIds].sort(compareCanonicalStrings);
+        const causedByLawEventIds = [...transition.causedByLawEventIds].sort(compareCanonicalStrings);
         const causeLabel = causedByLawEventIds.map((id) => id.slice("law:".length)).join("+");
         if (transition.kind === "spawn-world") {
             if (worldPhase(state) !== "latent") return `spawn target '${targetWorldId}' is not latent`;
@@ -1508,9 +1546,10 @@ function applyLawFrontier(
     mutable: MutableRealization,
     laws: CausalInternalLaw[],
 ): string | undefined {
+    countHostCost("lawApplications", laws.length);
     const eventIds: string[] = [];
     const priorFieldCauses = new Map([...mutable.fieldCauses].map(([key, causes]) => [key, [...causes]]));
-    const lawEvents = [...laws].sort((left, right) => left.id.localeCompare(right.id)).map((law) => ({
+    const lawEvents = [...laws].sort((left, right) => compareCanonicalStrings(left.id, right.id)).map((law) => ({
         law,
         eventId: `law:${law.id}`,
         causes: [...new Set([
@@ -1526,7 +1565,7 @@ function applyLawFrontier(
         const state = mutable.states.get(law.worldId);
         if (!state) return `law '${law.id}' names missing world '${law.worldId}'`;
         const traceEffects: CausalTraceEffect[] = [];
-        for (const effect of law.effects) {
+        for (const effect of canonicalFieldEffects(law.effects)) {
             const applied = applyEffect(program, state, effect);
             if (applied.reason || !applied.after) return applied.reason ?? `law '${law.id}' failed`;
             traceEffects.push({
@@ -1605,7 +1644,7 @@ function closeInternalLaws(
             const branchSubject = mutable.branchLineage.length > 0
                 ? `branch:${mutable.branchLineage.map((step) => step.id).join("/")}:`
                 : "";
-            for (const law of [...program.world.internalLaws].sort((left, right) => left.id.localeCompare(right.id))) {
+            for (const law of [...program.world.internalLaws].sort((left, right) => compareCanonicalStrings(left.id, right.id))) {
                 if (mutable.appliedLawIds.has(law.id) || mutable.branchedAwayLawIds.has(law.id)) continue;
                 if (!lifecycleEffectsApplicable(law, mutable.states) || !predicateWorldsAreActive(law.guard, mutable.states)) {
                     continue;
@@ -1730,10 +1769,10 @@ function closeInternalLaws(
                         exhaustiveBranching: true,
                     };
                 }
-                const enabledLawIds = enabled.map((law) => law.id).sort();
+                const enabledLawIds = enabled.map((law) => law.id).sort(compareCanonicalStrings);
                 for (const frontier of alternatives.frontiers) {
                     const child = cloneRealization(mutable);
-                    const realizedLawIds = frontier.map((law) => law.id).sort();
+                    const realizedLawIds = frontier.map((law) => law.id).sort(compareCanonicalStrings);
                     const nonrealizedLawIds = enabledLawIds.filter((lawId) => !realizedLawIds.includes(lawId));
                     nonrealizedLawIds.forEach((lawId) => child.branchedAwayLawIds.add(lawId));
                     const step: CausalInternalBranchStep = {
@@ -1805,9 +1844,7 @@ function closeInternalLaws(
         status: "closed",
         unresolvedLawIds: [],
         realizations: completed.sort((left, right) => (
-            left.branchLineage.map((step) => step.realizedLawIds.join("+")).join("/").localeCompare(
-                right.branchLineage.map((step) => step.realizedLawIds.join("+")).join("/"),
-            )
+            compareCanonicalStrings(left.branchLineage.map((step) => step.realizedLawIds.join("+")).join("/"), right.branchLineage.map((step) => step.realizedLawIds.join("+")).join("/"))
         )),
         formalEvidence,
         formalSteps,
@@ -1829,7 +1866,8 @@ function scoreObjectives(
 ): ObjectiveScore | undefined {
     let score = exact.integer(0);
     const contributions: CausalObjectiveContribution[] = [];
-    for (const objective of program.world.worldWill.objectives) {
+    const objectives = [...program.world.worldWill.objectives].sort((left, right) => compareCanonicalStrings(left.id, right.id));
+    for (const objective of objectives) {
         if (worldPhase(states.get(objective.targetWorldId)) !== "active") continue;
         const value = states.get(objective.targetWorldId)?.fields[objective.fieldId];
         const centered = objective.direction === "stabilize" && value && objective.targetValue
@@ -1865,7 +1903,7 @@ function applyInterventions(
     const changedWorlds = new Map<string, string[]>();
     const frontier: string[] = [];
     const priorFieldCauses = new Map([...mutable.fieldCauses].map(([key, causes]) => [key, [...causes]]));
-    const interventionEvents = [...interventions].sort((left, right) => left.id.localeCompare(right.id)).map((intervention) => ({
+    const interventionEvents = [...interventions].sort((left, right) => compareCanonicalStrings(left.id, right.id)).map((intervention) => ({
         intervention,
         eventId: `will:${intervention.id}`,
         causes: [...new Set([
@@ -1885,7 +1923,7 @@ function applyInterventions(
             return `intervention '${intervention.id}' targets inactive world '${intervention.targetWorldId}'`;
         }
         const traceEffects: CausalTraceEffect[] = [];
-        for (const effect of intervention.effects) {
+        for (const effect of canonicalFieldEffects(intervention.effects)) {
             const applied = applyEffect(program, state, effect);
             if (applied.reason || !applied.after) return applied.reason ?? `intervention '${intervention.id}' failed`;
             traceEffects.push({
@@ -1956,7 +1994,7 @@ function assessEmergence(
     const assessments: CausalEmergenceAssessment[] = [];
     const evidence: CausalFormalEvidence[] = [];
     let formalSteps = 0;
-    for (const criterion of [...program.world.emergenceCriteria].sort((left, right) => left.id.localeCompare(right.id))) {
+    for (const criterion of [...program.world.emergenceCriteria].sort((left, right) => compareCanonicalStrings(left.id, right.id))) {
         const initialResult = evaluatePredicate(
             program,
             criterion.predicate,
@@ -2035,7 +2073,7 @@ function continuationFromRealization(
     const causalEdges = [...new Map(mutable.events.flatMap((event) => event.causes.map((cause) => [
         `${cause}->${event.id}`,
         { cause, effect: event.id },
-    ]))).values()].sort((left, right) => left.cause.localeCompare(right.cause) || left.effect.localeCompare(right.effect));
+    ]))).values()].sort((left, right) => compareCanonicalStrings(left.cause, right.cause) || compareCanonicalStrings(left.effect, right.effect));
     const reversibleEventIds = mutable.events.filter((event) => event.reversibility === "reversible").map((event) => event.id).sort();
     const irreversibleEventIds = mutable.events.filter((event) => event.reversibility === "irreversible").map((event) => event.id).sort();
     const historyArrowSources: Array<"history-commit" | "world-lifecycle"> = [
@@ -2133,7 +2171,7 @@ function initializeRealization(
     const evidence: CausalFormalEvidence[] = [];
     let formalSteps = 0;
     for (const initializer of [...program.fieldInitializers]
-        .sort((left, right) => fieldKey(left.worldId, left.fieldId).localeCompare(fieldKey(right.worldId, right.fieldId)))) {
+        .sort((left, right) => compareCanonicalStrings(fieldKey(left.worldId, left.fieldId), fieldKey(right.worldId, right.fieldId)))) {
         const key = fieldKey(initializer.worldId, initializer.fieldId);
         const evaluated = evaluateQuery(program, key, "initial-field", initializer.query, options.evaluationBudgetPerQuery);
         evidence.push(evaluated.evidence);
@@ -2164,7 +2202,8 @@ function initializeRealization(
             effects: [{ fieldId: initializer.fieldId, layer: "world-field", operation: "derive", after: value }],
         });
     }
-    for (const world of program.world.worlds) {
+    // Initial sea coupling of distinct worlds is causally concurrent; its trace follows portable world order.
+    for (const world of [...program.world.worlds].sort((left, right) => compareCanonicalStrings(left.id, right.id))) {
         const state = states.get(world.id)!;
         state.intrinsicViability = state.fields[world.seaCoupling.viabilityFieldId]!;
         const error = recomputeSea(program, mutable, world.id, [], worldPhase(state) === "active");
@@ -2185,7 +2224,7 @@ function evaluateConstraintSet(
     const reasons: string[] = [];
     let formalSteps = 0;
     let admissible: boolean | undefined = true;
-    for (const predicate of predicates) {
+    for (const predicate of [...predicates].sort((left, right) => compareCanonicalStrings(left.id, right.id))) {
         if (!predicateWorldsAreActive(predicate, states)) continue;
         const evaluated = evaluatePredicate(program, predicate, purpose, states, options.evaluationBudgetPerQuery, prefix);
         evidence.push(evaluated.evidence);
@@ -2408,7 +2447,7 @@ export function realizeAnchoredCausalWorld(
     const eligibleByBaseline = new Map<string, CausalWorldWillIntervention[]>();
     for (const base of autonomousBases) {
         const identityByAnchor = new Map<string, ReturnType<typeof evaluateConstraintSet>>();
-        for (const anchor of program.world.anchors) {
+        for (const anchor of canonicalAnchors(program)) {
             const predicates = program.execution.anchorIdentity.filter((predicate) => predicate.anchorId === anchor.id);
             const result = anchorWorldsAreActive(program, anchor.id, base.mutable.states)
                 ? evaluateConstraintSet(
@@ -2426,6 +2465,16 @@ export function realizeAnchoredCausalWorld(
                     reasons: [`anchor '${anchor.id}' has an inactive world endpoint`],
                 };
             identityByAnchor.set(anchor.id, result);
+            // Anchor identity is world identity, so each verdict is recorded on the continuation itself.
+            for (const predicate of [...predicates].sort((left, right) => compareCanonicalStrings(left.id, right.id))) {
+                const evidence = result.evidence.find((entry) => entry.subjectId === `anchor:${base.continuation.id}:${anchor.id}:${predicate.id}`);
+                (base.continuation.anchorIdentity ??= []).push({
+                    anchorId: anchor.id,
+                    predicateId: predicate.id,
+                    status: evidence?.status ?? "not-evaluated",
+                    ...(evidence?.value ? { value: evidence.value } : {}),
+                });
+            }
             formalEvidence.push(...result.evidence);
             formalSteps += result.formalSteps;
         }
@@ -2447,7 +2496,7 @@ export function realizeAnchoredCausalWorld(
                     reasons,
                 };
             })
-            .sort((left, right) => left.interventionId.localeCompare(right.interventionId));
+            .sort((left, right) => compareCanonicalStrings(left.interventionId, right.interventionId));
         eligibility.push(...baseEligibility);
         eligibleByBaseline.set(
             base.continuation.id,
@@ -2455,7 +2504,7 @@ export function realizeAnchoredCausalWorld(
                 .filter((intervention) => baseEligibility.some((entry) => (
                     entry.interventionId === intervention.id && entry.status === "eligible"
                 )))
-                .sort((left, right) => left.id.localeCompare(right.id)),
+                .sort((left, right) => compareCanonicalStrings(left.id, right.id)),
         );
     }
     const totalCombinations = autonomousBases.reduce(
@@ -2527,7 +2576,7 @@ export function realizeAnchoredCausalWorld(
             const groupReasons: string[] = [];
             const cost = totalCost(program, interventionIds);
             for (const [outcomeIndex, outcome] of candidateClosure.realizations.entries()) {
-                for (const anchor of program.world.anchors) {
+                for (const anchor of canonicalAnchors(program)) {
                     const predicates = program.execution.anchorIdentity.filter((predicate) => predicate.anchorId === anchor.id);
                     const postIdentity = anchorWorldsAreActive(program, anchor.id, outcome.states)
                         ? evaluateConstraintSet(

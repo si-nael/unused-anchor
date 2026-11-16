@@ -1,9 +1,9 @@
 {
   "mode": "bubble-anchored-causal-replay-result.v2",
   "status": "same-world-reexecution",
-  "recordedDigest": "a977ab270323e35000edc612bc5aa671a8a748f46c03319e6ca711e72349efb8",
-  "recordedRunDigest": "a977ab270323e35000edc612bc5aa671a8a748f46c03319e6ca711e72349efb8",
-  "replayedDigest": "a977ab270323e35000edc612bc5aa671a8a748f46c03319e6ca711e72349efb8",
+  "recordedDigest": "003aa6eff4640b236aab6b7fa3a82f186bd676c31ad13245845079d2ffbd943d",
+  "recordedRunDigest": "003aa6eff4640b236aab6b7fa3a82f186bd676c31ad13245845079d2ffbd943d",
+  "replayedDigest": "003aa6eff4640b236aab6b7fa3a82f186bd676c31ad13245845079d2ffbd943d",
   "recordIntegrityValid": true,
   "recordedProgramDigestValid": true,
   "fullRunPreserved": true,
@@ -1023,7 +1023,7 @@
             "causes": [],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "set",
                 "before": {
@@ -1063,26 +1063,6 @@
                 }
               },
               {
-                "fieldId": "boundary",
-                "layer": "world-field",
-                "operation": "set",
-                "before": {
-                  "kind": "rational",
-                  "numerator": "0",
-                  "denominator": "1"
-                },
-                "operand": {
-                  "kind": "rational",
-                  "numerator": "1",
-                  "denominator": "1"
-                },
-                "after": {
-                  "kind": "rational",
-                  "numerator": "1",
-                  "denominator": "1"
-                }
-              },
-              {
                 "fieldId": "signal",
                 "layer": "world-field",
                 "operation": "set",
@@ -1099,6 +1079,26 @@
                 "after": {
                   "kind": "rational",
                   "numerator": "-1",
+                  "denominator": "1"
+                }
+              },
+              {
+                "fieldId": "structure",
+                "layer": "world-field",
+                "operation": "set",
+                "before": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "operand": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
                   "denominator": "1"
                 }
               }
@@ -1176,7 +1176,7 @@
             ],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
@@ -1196,7 +1196,7 @@
                 }
               },
               {
-                "fieldId": "boundary",
+                "fieldId": "structure",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
@@ -1348,7 +1348,18 @@
             "law:raise-common-positive-gradient"
           ],
           "createsHistoryArrow": true
-        }
+        },
+        "anchorIdentity": [
+          {
+            "anchorId": "branching-anchor",
+            "predicateId": "branching-anchor-remains-itself",
+            "status": "resolved",
+            "value": {
+              "kind": "boolean",
+              "value": true
+            }
+          }
+        ]
       },
       {
         "id": "continuation:autonomous:branch:7fc15cb9a4a9fd2e",
@@ -1600,7 +1611,7 @@
             "causes": [],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "set",
                 "before": {
@@ -1610,37 +1621,17 @@
                 },
                 "operand": {
                   "kind": "rational",
-                  "numerator": "2",
+                  "numerator": "1",
                   "denominator": "1"
                 },
                 "after": {
                   "kind": "rational",
-                  "numerator": "2",
+                  "numerator": "1",
                   "denominator": "1"
                 }
               },
               {
                 "fieldId": "memory",
-                "layer": "world-field",
-                "operation": "set",
-                "before": {
-                  "kind": "rational",
-                  "numerator": "0",
-                  "denominator": "1"
-                },
-                "operand": {
-                  "kind": "rational",
-                  "numerator": "1",
-                  "denominator": "1"
-                },
-                "after": {
-                  "kind": "rational",
-                  "numerator": "1",
-                  "denominator": "1"
-                }
-              },
-              {
-                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "set",
                 "before": {
@@ -1676,6 +1667,26 @@
                 "after": {
                   "kind": "rational",
                   "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              {
+                "fieldId": "structure",
+                "layer": "world-field",
+                "operation": "set",
+                "before": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "operand": {
+                  "kind": "rational",
+                  "numerator": "2",
+                  "denominator": "1"
+                },
+                "after": {
+                  "kind": "rational",
+                  "numerator": "2",
                   "denominator": "1"
                 }
               }
@@ -1753,12 +1764,12 @@
             ],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
                   "kind": "rational",
-                  "numerator": "2",
+                  "numerator": "1",
                   "denominator": "1"
                 }
               },
@@ -1773,12 +1784,12 @@
                 }
               },
               {
-                "fieldId": "boundary",
+                "fieldId": "structure",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
                   "kind": "rational",
-                  "numerator": "1",
+                  "numerator": "2",
                   "denominator": "1"
                 }
               }
@@ -1925,7 +1936,18 @@
             "law:raise-common-positive-gradient"
           ],
           "createsHistoryArrow": true
-        }
+        },
+        "anchorIdentity": [
+          {
+            "anchorId": "branching-anchor",
+            "predicateId": "branching-anchor-remains-itself",
+            "status": "resolved",
+            "value": {
+              "kind": "boolean",
+              "value": true
+            }
+          }
+        ]
       },
       {
         "id": "continuation:support-every-realized-branch:branch:e91e275c7db762fa",
@@ -2180,7 +2202,7 @@
             "causes": [],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "set",
                 "before": {
@@ -2220,26 +2242,6 @@
                 }
               },
               {
-                "fieldId": "boundary",
-                "layer": "world-field",
-                "operation": "set",
-                "before": {
-                  "kind": "rational",
-                  "numerator": "0",
-                  "denominator": "1"
-                },
-                "operand": {
-                  "kind": "rational",
-                  "numerator": "1",
-                  "denominator": "1"
-                },
-                "after": {
-                  "kind": "rational",
-                  "numerator": "1",
-                  "denominator": "1"
-                }
-              },
-              {
                 "fieldId": "signal",
                 "layer": "world-field",
                 "operation": "set",
@@ -2256,6 +2258,26 @@
                 "after": {
                   "kind": "rational",
                   "numerator": "-1",
+                  "denominator": "1"
+                }
+              },
+              {
+                "fieldId": "structure",
+                "layer": "world-field",
+                "operation": "set",
+                "before": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "operand": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
                   "denominator": "1"
                 }
               }
@@ -2333,7 +2355,7 @@
             ],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
@@ -2353,7 +2375,7 @@
                 }
               },
               {
-                "fieldId": "boundary",
+                "fieldId": "structure",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
@@ -2837,7 +2859,7 @@
             "causes": [],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "set",
                 "before": {
@@ -2847,37 +2869,17 @@
                 },
                 "operand": {
                   "kind": "rational",
-                  "numerator": "2",
+                  "numerator": "1",
                   "denominator": "1"
                 },
                 "after": {
                   "kind": "rational",
-                  "numerator": "2",
+                  "numerator": "1",
                   "denominator": "1"
                 }
               },
               {
                 "fieldId": "memory",
-                "layer": "world-field",
-                "operation": "set",
-                "before": {
-                  "kind": "rational",
-                  "numerator": "0",
-                  "denominator": "1"
-                },
-                "operand": {
-                  "kind": "rational",
-                  "numerator": "1",
-                  "denominator": "1"
-                },
-                "after": {
-                  "kind": "rational",
-                  "numerator": "1",
-                  "denominator": "1"
-                }
-              },
-              {
-                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "set",
                 "before": {
@@ -2913,6 +2915,26 @@
                 "after": {
                   "kind": "rational",
                   "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              {
+                "fieldId": "structure",
+                "layer": "world-field",
+                "operation": "set",
+                "before": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "operand": {
+                  "kind": "rational",
+                  "numerator": "2",
+                  "denominator": "1"
+                },
+                "after": {
+                  "kind": "rational",
+                  "numerator": "2",
                   "denominator": "1"
                 }
               }
@@ -2990,12 +3012,12 @@
             ],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
                   "kind": "rational",
-                  "numerator": "2",
+                  "numerator": "1",
                   "denominator": "1"
                 }
               },
@@ -3010,12 +3032,12 @@
                 }
               },
               {
-                "fieldId": "boundary",
+                "fieldId": "structure",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
                   "kind": "rational",
-                  "numerator": "1",
+                  "numerator": "2",
                   "denominator": "1"
                 }
               }
@@ -3509,7 +3531,7 @@
             "causes": [],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "set",
                 "before": {
@@ -3549,26 +3571,6 @@
                 }
               },
               {
-                "fieldId": "boundary",
-                "layer": "world-field",
-                "operation": "set",
-                "before": {
-                  "kind": "rational",
-                  "numerator": "0",
-                  "denominator": "1"
-                },
-                "operand": {
-                  "kind": "rational",
-                  "numerator": "1",
-                  "denominator": "1"
-                },
-                "after": {
-                  "kind": "rational",
-                  "numerator": "1",
-                  "denominator": "1"
-                }
-              },
-              {
                 "fieldId": "signal",
                 "layer": "world-field",
                 "operation": "set",
@@ -3585,6 +3587,26 @@
                 "after": {
                   "kind": "rational",
                   "numerator": "-1",
+                  "denominator": "1"
+                }
+              },
+              {
+                "fieldId": "structure",
+                "layer": "world-field",
+                "operation": "set",
+                "before": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "operand": {
+                  "kind": "rational",
+                  "numerator": "1",
+                  "denominator": "1"
+                },
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
                   "denominator": "1"
                 }
               }
@@ -3662,7 +3684,7 @@
             ],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
@@ -3682,7 +3704,7 @@
                 }
               },
               {
-                "fieldId": "boundary",
+                "fieldId": "structure",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
@@ -3834,7 +3856,18 @@
             "law:raise-common-positive-gradient"
           ],
           "createsHistoryArrow": true
-        }
+        },
+        "anchorIdentity": [
+          {
+            "anchorId": "branching-anchor",
+            "predicateId": "branching-anchor-remains-itself",
+            "status": "resolved",
+            "value": {
+              "kind": "boolean",
+              "value": true
+            }
+          }
+        ]
       },
       {
         "id": "continuation:autonomous:branch:7fc15cb9a4a9fd2e",
@@ -4086,7 +4119,7 @@
             "causes": [],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "set",
                 "before": {
@@ -4096,37 +4129,17 @@
                 },
                 "operand": {
                   "kind": "rational",
-                  "numerator": "2",
+                  "numerator": "1",
                   "denominator": "1"
                 },
                 "after": {
                   "kind": "rational",
-                  "numerator": "2",
+                  "numerator": "1",
                   "denominator": "1"
                 }
               },
               {
                 "fieldId": "memory",
-                "layer": "world-field",
-                "operation": "set",
-                "before": {
-                  "kind": "rational",
-                  "numerator": "0",
-                  "denominator": "1"
-                },
-                "operand": {
-                  "kind": "rational",
-                  "numerator": "1",
-                  "denominator": "1"
-                },
-                "after": {
-                  "kind": "rational",
-                  "numerator": "1",
-                  "denominator": "1"
-                }
-              },
-              {
-                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "set",
                 "before": {
@@ -4162,6 +4175,26 @@
                 "after": {
                   "kind": "rational",
                   "numerator": "1",
+                  "denominator": "1"
+                }
+              },
+              {
+                "fieldId": "structure",
+                "layer": "world-field",
+                "operation": "set",
+                "before": {
+                  "kind": "rational",
+                  "numerator": "0",
+                  "denominator": "1"
+                },
+                "operand": {
+                  "kind": "rational",
+                  "numerator": "2",
+                  "denominator": "1"
+                },
+                "after": {
+                  "kind": "rational",
+                  "numerator": "2",
                   "denominator": "1"
                 }
               }
@@ -4239,12 +4272,12 @@
             ],
             "effects": [
               {
-                "fieldId": "structure",
+                "fieldId": "boundary",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
                   "kind": "rational",
-                  "numerator": "2",
+                  "numerator": "1",
                   "denominator": "1"
                 }
               },
@@ -4259,12 +4292,12 @@
                 }
               },
               {
-                "fieldId": "boundary",
+                "fieldId": "structure",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
                   "kind": "rational",
-                  "numerator": "1",
+                  "numerator": "2",
                   "denominator": "1"
                 }
               }
@@ -4411,7 +4444,18 @@
             "law:raise-common-positive-gradient"
           ],
           "createsHistoryArrow": true
-        }
+        },
+        "anchorIdentity": [
+          {
+            "anchorId": "branching-anchor",
+            "predicateId": "branching-anchor-remains-itself",
+            "status": "resolved",
+            "value": {
+              "kind": "boolean",
+              "value": true
+            }
+          }
+        ]
       }
     ],
     "baselineScores": [

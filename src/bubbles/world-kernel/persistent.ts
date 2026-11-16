@@ -3,6 +3,7 @@ import {
     type ExecutableAnchoredCausalProgram,
 } from "./causal-runtime";
 import type { CausalDiagnostic, CausalFieldRole } from "./causal";
+import { compareCanonicalStrings } from "./canonical-order";
 
 export interface PersistentCausalProgram {
     mode: "bubble-persistent-causal-program.v1";
@@ -82,7 +83,7 @@ export function deriveCausalInfluenceEdges(program: PersistentCausalProgram): Ca
             }
         }
     }
-    return [...edges.values()].sort((left, right) => edgeKey(left).localeCompare(edgeKey(right)));
+    return [...edges.values()].sort((left, right) => compareCanonicalStrings(edgeKey(left), edgeKey(right)));
 }
 
 export function deriveCausalLawDependencies(program: PersistentCausalProgram): CausalLawDependency[] {
@@ -93,7 +94,7 @@ export function deriveCausalLawDependencies(program: PersistentCausalProgram): C
             `${binding.worldId}.${binding.fieldId}`
         )))].sort(),
         effectFieldKeys: [...new Set(law.effects.map((effect) => `${law.worldId}.${effect.fieldId}`))].sort(),
-    })).sort((left, right) => dependencyKey(left).localeCompare(dependencyKey(right)));
+    })).sort((left, right) => compareCanonicalStrings(dependencyKey(left), dependencyKey(right)));
 }
 
 export function deriveCausalComponents(program: PersistentCausalProgram): DerivedCausalComponent[] {
@@ -184,5 +185,5 @@ export function deriveCausalComponents(program: PersistentCausalProgram): Derive
             outgoingDependencies,
         };
     }).filter((component) => component.memberFieldKeys.length > 0)
-        .sort((left, right) => left.id.localeCompare(right.id));
+        .sort((left, right) => compareCanonicalStrings(left.id, right.id));
 }

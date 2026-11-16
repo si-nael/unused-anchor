@@ -707,9 +707,9 @@
           ]
         },
         {
-          "id": "trace:10:sea:source-field",
+          "id": "trace:10:sea:receiver-field",
           "kind": "sea-coupling",
-          "worldId": "source-field",
+          "worldId": "receiver-field",
           "causes": [],
           "effects": [
             {
@@ -735,9 +735,9 @@
           ]
         },
         {
-          "id": "trace:11:sea:receiver-field",
+          "id": "trace:11:sea:source-field",
           "kind": "sea-coupling",
-          "worldId": "receiver-field",
+          "worldId": "source-field",
           "causes": [],
           "effects": [
             {
@@ -1138,7 +1138,18 @@
           "transfer:signal-current:by:emit-signal"
         ],
         "createsHistoryArrow": false
-      }
+      },
+      "anchorIdentity": [
+        {
+          "anchorId": "field-current",
+          "predicateId": "identity-field-current",
+          "status": "resolved",
+          "value": {
+            "kind": "boolean",
+            "value": true
+          }
+        }
+      ]
     }
   ],
   "selectedContinuationIds": [
@@ -1411,9 +1422,9 @@
         ]
       },
       {
-        "id": "trace:10:sea:source-field",
+        "id": "trace:10:sea:receiver-field",
         "kind": "sea-coupling",
-        "worldId": "source-field",
+        "worldId": "receiver-field",
         "causes": [],
         "effects": [
           {
@@ -1439,9 +1450,9 @@
         ]
       },
       {
-        "id": "trace:11:sea:receiver-field",
+        "id": "trace:11:sea:source-field",
         "kind": "sea-coupling",
-        "worldId": "receiver-field",
+        "worldId": "source-field",
         "causes": [],
         "effects": [
           {
@@ -1842,7 +1853,18 @@
         "transfer:signal-current:by:emit-signal"
       ],
       "createsHistoryArrow": false
-    }
+    },
+    "anchorIdentity": [
+      {
+        "anchorId": "field-current",
+        "predicateId": "identity-field-current",
+        "status": "resolved",
+        "value": {
+          "kind": "boolean",
+          "value": true
+        }
+      }
+    ]
   },
   "baselineScore": {
     "kind": "rational",

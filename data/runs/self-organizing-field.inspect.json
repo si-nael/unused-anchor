@@ -275,7 +275,7 @@
           "causes": [],
           "effects": [
             {
-              "fieldId": "density",
+              "fieldId": "coherence",
               "layer": "world-field",
               "operation": "add",
               "before": {
@@ -295,7 +295,7 @@
               }
             },
             {
-              "fieldId": "coherence",
+              "fieldId": "density",
               "layer": "world-field",
               "operation": "add",
               "before": {
@@ -419,22 +419,22 @@
           ],
           "effects": [
             {
-              "fieldId": "density",
-              "layer": "world-field",
-              "operation": "derive",
-              "after": {
-                "kind": "rational",
-                "numerator": "1",
-                "denominator": "1"
-              }
-            },
-            {
               "fieldId": "coherence",
               "layer": "world-field",
               "operation": "derive",
               "after": {
                 "kind": "rational",
                 "numerator": "2",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "density",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
                 "denominator": "1"
               }
             }
@@ -573,7 +573,18 @@
           "law:self-organize"
         ],
         "createsHistoryArrow": true
-      }
+      },
+      "anchorIdentity": [
+        {
+          "anchorId": "field-anchor",
+          "predicateId": "field-anchor-remains-itself",
+          "status": "resolved",
+          "value": {
+            "kind": "boolean",
+            "value": true
+          }
+        }
+      ]
     },
     {
       "id": "continuation:alter-boundary-condition",
@@ -786,7 +797,7 @@
           "causes": [],
           "effects": [
             {
-              "fieldId": "density",
+              "fieldId": "coherence",
               "layer": "world-field",
               "operation": "add",
               "before": {
@@ -806,7 +817,7 @@
               }
             },
             {
-              "fieldId": "coherence",
+              "fieldId": "density",
               "layer": "world-field",
               "operation": "add",
               "before": {
@@ -930,22 +941,22 @@
           ],
           "effects": [
             {
-              "fieldId": "density",
-              "layer": "world-field",
-              "operation": "derive",
-              "after": {
-                "kind": "rational",
-                "numerator": "1",
-                "denominator": "1"
-              }
-            },
-            {
               "fieldId": "coherence",
               "layer": "world-field",
               "operation": "derive",
               "after": {
                 "kind": "rational",
                 "numerator": "2",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "density",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
                 "denominator": "1"
               }
             }

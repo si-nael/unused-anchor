@@ -808,3 +808,55 @@ Would be weakened or falsified by:
 Next check:
 
 Derive the next source construct only from a required intensional graph/family-generation or constructor-incidence semantic contract. Do not widen syntax independently of executable meaning.
+
+### H-029: One canonical semantic graph can carry the executable causal kernel independently of its host
+
+Status: supported for the eight canonical causal programs in bounded v0.5.9; independent decoding untested
+
+Claim:
+
+The executable causal kernel can be represented by one canonical, schema-directed binary graph whose unordered collections are genuinely unordered and whose identity depends on neither host collation, authored declaration order, object layout, nor JSON serialization, such that a document decoded from those bytes executes the same world as its source.
+
+Current supporting evidence:
+
+- after replacing ICU collation with code-point order and removing four declaration-order leaks, every set-classified collection of every canonical causal fixture can be permuted without changing bytes, semantic identity, or execution
+- all eight canonical causal programs, including the 7-world compiled connected universe, re-encode byte for byte, lift to a canonical fixed point, and execute identically to their sources apart from the host object digest
+- the strict `connected-fields.causal.bubble` source runs through BIR inside the ordinary verification pipeline
+- regenerating every earlier release artifact under the portable order changed listing order only
+
+Would be weakened or falsified by:
+
+- any set-classified collection whose permutation changes execution for some valid program
+- two documents with equal semantic identity that execute to different worlds
+- a lifted program that is not a canonical fixed point, or a decoder that accepts two encodings of one node
+- an independent implementation that cannot reproduce the bytes from the reference specification alone
+
+Next check:
+
+Build the Gate D execution fixture corpus from the oracle, then test the specification against a second independent decoder before any Rust backend claims execution authority.
+
+### H-030: A portable outcome projection separates world semantics from oracle computation strategy
+
+Status: supported against the reference oracle and adversarial executors in bounded v0.5.9; untested against an independent backend
+
+Claim:
+
+There is a projection of a causal run that every conforming backend must reproduce exactly and that still leaves backends free to compute differently: a backend that changes what the world did is always detected, while one that changes only proof traces, evaluation subject ids, linearization, trace numbering, listing order, prose, counters, or host digests is never rejected.
+
+Current supporting evidence:
+
+- the reference oracle conforms to all 15 frozen fixtures, including three resource-budget exhaustions and a contradicted option target
+- changing one world value drifts with the exact path of the change, and keeping the first branch under an exhausted branch budget drifts
+- rewriting every host-only aspect of four multi-continuation runs stays conformant
+- permuting every set position of a case's input reproduces the committed input and outcome identities
+- world-identity ids are reproducible from the outcome with an independent RFC 8785 implementation
+
+Would be weakened or falsified by:
+
+- a semantically different world that projects to the same outcome bytes
+- a legitimate optimization that must change a projected field, such as the synchronous frontier layering
+- an evidence id that cannot be recomputed from its specified record
+
+Next check:
+
+Have a second implementation, ideally the first Rust slice, decode the corpus and reproduce every outcome from the two reference documents alone.

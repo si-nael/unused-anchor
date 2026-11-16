@@ -1,13 +1,13 @@
 {
   "mode": "bubble-anchored-narrative-replay-result.v1",
   "status": "same-world-reexecution",
-  "recordedDigest": "7b9489bd5bf2f241275941be3401130586a6da6df370176534644f178f7406c4",
-  "replayedDigest": "7b9489bd5bf2f241275941be3401130586a6da6df370176534644f178f7406c4",
+  "recordedDigest": "0d7b6b13dc69eeebfd1d3b6f3a9ba1160ad68d1a4cce894735d1ceffebfcb81b",
+  "replayedDigest": "0d7b6b13dc69eeebfd1d3b6f3a9ba1160ad68d1a4cce894735d1ceffebfcb81b",
   "selectedContinuationsPreserved": true,
   "unresolvedAlternativesPreserved": true,
   "replayedRun": {
     "mode": "bubble-anchored-narrative-run.v1",
-    "programDigest": "27dff7c1170f0a8a5c594e561864a0816bf920ac37acefbe4c8d14ab5f1027ec",
+    "programDigest": "a0ecbba35221d32a97401c0fce338baef915478953595e620f68c1f1ab406c52",
     "options": {
       "worldWillEnabled": true,
       "cutAnchorIds": [],

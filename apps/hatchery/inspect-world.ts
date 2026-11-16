@@ -3,15 +3,15 @@ import {
     realizeAnchoredCausalWorld,
     type AnchoredCausalInspection,
 } from "../../src/bubbles/world-kernel";
-import { emitCausalJson, parseCausalExecutionArgs, readCausalProgram } from "./causal-cli";
+import { emitCausalJson, parseCausalExecutionArgs, readCausalInput } from "./causal-cli";
 
 type InspectionSection = "summary" | "decision" | "continuations" | "formal-evidence" | "report";
 
 async function main(): Promise<void> {
     const { executionArgs, section } = parseArgs(process.argv.slice(2));
-    const { inputPath, outputPath, options } = parseCausalExecutionArgs(executionArgs);
+    const { inputPath, outputPath, options: cliOptions, explicitOptionCount } = parseCausalExecutionArgs(executionArgs);
     if (!inputPath) throw new Error("Usage: tsx apps/hatchery/inspect-world.ts <program.json|causal.bubble> [output.json] [--section <section>] [causal options]");
-    const program = await readCausalProgram(inputPath);
+    const { program, options } = await readCausalInput(inputPath, cliOptions, explicitOptionCount);
     const inspection = inspectAnchoredCausalRun(realizeAnchoredCausalWorld(program, options));
     await emitCausalJson(selectSection(inspection, section), outputPath);
     if (outputPath) process.stdout.write(`Inspected anchored causal world ${inputPath} -> ${outputPath}\n`);

@@ -2,14 +2,14 @@
   "mode": "bubble-author-idea-obligations.v1",
   "recordedDate": "2026-07-15",
   "lastReconciledDate": "2026-11-16",
-  "workingRelease": "0.5.8",
+  "workingRelease": "0.5.9",
   "activeCandidate": null,
   "sourceDocument": "docs/research/author-idea-corpus.md",
   "nonClosureRule": "A bounded implementation may advance status but must not delete source text, erase remaining obligations, or claim the whole idea from a proxy.",
   "obligations": [
     {
       "id": "OB-001",
-      "sourceIds": ["AI-20260715-001"],
+      "sourceIds": ["AI-20260715-001", "AI-20261116-001"],
       "concept": "whole-universe completion",
       "invariant": "No release or proxy may be called the complete Bubble universe while a recorded reasonable consequence remains unrealizable.",
       "dependencies": ["OB-003", "OB-004", "OB-005", "OB-006", "OB-007", "OB-008", "OB-011", "OB-012", "OB-013", "OB-014"],
@@ -153,14 +153,14 @@
     },
     {
       "id": "OB-013",
-      "sourceIds": ["AI-20260717-003", "AI-20260717-004", "AI-20260717-005"],
+      "sourceIds": ["AI-20260717-003", "AI-20260717-004", "AI-20260717-005", "AI-20261116-001"],
       "concept": "portable and efficient execution substrate",
       "invariant": "Bubble semantics remain independent of TypeScript, Rust, storage encoding, host scheduling, and one physical machine while every optimized backend preserves exact lawful outcomes, provenance, resource-boundary honesty, and replay identity.",
       "dependencies": ["OB-002", "OB-003", "OB-006", "OB-007", "OB-008"],
-      "status": "open",
-      "implementationEvidence": ["src/bubbles/world-kernel/intensional.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "src/bubbles/language/causal-compile.ts", "examples/generational-seed.causal.bubble", "examples/connected-fields.causal.bubble", "docs/architecture/v0.5.6-endogenous-world-lifecycle.md", "docs/architecture/typed-cross-world-membrane-candidate.md", "docs/research/question-log.md#q-027", "docs/research/question-log.md#q-028", "docs/research/question-log.md#q-029"],
-      "acceptanceTests": [],
-      "remainingLimits": ["The strict causal source profile now separates authored syntax from the typed runtime object, but TypeScript remains the only executable kernel and digests still depend on JavaScript stable serialization; no machine-independent BIR, canonical binary contract, engine ABI, compiled law form, differential backend suite, deterministic parallel contract, or Rust implementation exists."],
+      "status": "partial",
+      "implementationEvidence": ["src/bubbles/bir/causal-outcome.ts", "src/bubbles/bir/conformance.ts", "src/bubbles/world-kernel/host-cost.ts", "data/conformance/causal/manifest.json", "docs/reference/causal-conformance.md", "src/bubbles/bir/node.ts", "src/bubbles/bir/envelope.ts", "src/bubbles/bir/schema.ts", "src/bubbles/bir/causal-program.ts", "src/bubbles/world-kernel/canonical-order.ts", "docs/reference/bubble-ir.md", "docs/architecture/v0.5.9-portable-bir.md", "src/bubbles/world-kernel/intensional.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "src/bubbles/language/causal-compile.ts", "examples/generational-seed.causal.bubble", "examples/connected-fields.causal.bubble", "docs/architecture/v0.5.6-endogenous-world-lifecycle.md", "docs/architecture/typed-cross-world-membrane-candidate.md", "docs/research/question-log.md#q-027", "docs/research/question-log.md#q-028", "docs/research/question-log.md#q-029"],
+      "acceptanceTests": ["tests/unit/bir.test.ts", "tests/unit/causal-conformance.test.ts"],
+      "remainingLimits": ["Bounded v0.5.9 adds BIR v1: a canonical, schema-directed binary semantic graph for the executable causal kernel with separated semantic, storage, and backend identities, extension preservation, and portable code-point ordering in every kernel. TypeScript remains the only executable kernel; run and replay evidence digests still depend on JavaScript stable serialization; endogenous, persistent, and narrative programs reach BIR only after compilation; and a frozen 15-fixture causal conformance corpus with a portable outcome projection, RFC 8785 evidence-id derivations, and deterministic host-cost profiles now exists (Gate D), but only the reference oracle has been checked against it. No independent backend, outcome schema for other program forms, portable replay record, engine ABI, compiled law form, deterministic parallel contract, or Rust implementation exists."],
       "reopenCondition": "Remain open through late 5.x semantic-contract closure and the 6.x Rust transition; reopen for every backend, accelerator, distributed executor, nonstandard substrate, or optimization that could change world meaning or resource-boundary evidence."
     },
     {
@@ -217,6 +217,12 @@
       "id": "SC-007",
       "sourceIds": ["AI-20260717-010"],
       "rule": "Treat v0.5.8 as a large connected semantic implementation, not a feature-count or version-click exercise; preserve every remaining limit and require author judgment before release confirmation.",
+      "status": "in-force"
+    },
+    {
+      "id": "SC-008",
+      "sourceIds": ["AI-20261116-001"],
+      "rule": "Treat unused-anchor as one actually constructed and actually executed universe, not a toy or demonstration: a false surface, hidden selector, dropped consequence, or host-bound execution meaning is a defect in that world. Delegated work order does not settle author-reserved semantics.",
       "status": "in-force"
     }
   ]

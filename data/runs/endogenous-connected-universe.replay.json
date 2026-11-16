@@ -1,7 +1,7 @@
 {
   "mode": "bubble-endogenous-connected-universe-replay.v1",
   "programDigest": "6f18920b10205651e17685c123bfc8fd8e1a2846bfb027659ca6e17ae8dfbe77",
-  "runDigest": "80578bc9d7cf2680d850336dc95bed319986ad312589320ee67042a0f568d3a2",
+  "runDigest": "4237baa6e58598f707b823c1ca9487dc9a0c9aacec8ed520e83ea0d021c14492",
   "program": {
     "mode": "bubble-endogenous-connected-universe-program.v1",
     "formal": {
@@ -14051,26 +14051,6 @@
                   ],
                   "effects": [
                     {
-                      "fieldId": "structure",
-                      "layer": "world-field",
-                      "operation": "add",
-                      "before": {
-                        "kind": "rational",
-                        "numerator": "0",
-                        "denominator": "1"
-                      },
-                      "operand": {
-                        "kind": "rational",
-                        "numerator": "2",
-                        "denominator": "1"
-                      },
-                      "after": {
-                        "kind": "rational",
-                        "numerator": "2",
-                        "denominator": "1"
-                      }
-                    },
-                    {
                       "fieldId": "condition",
                       "layer": "world-field",
                       "operation": "set",
@@ -14087,6 +14067,26 @@
                       "after": {
                         "kind": "rational",
                         "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "structure",
+                      "layer": "world-field",
+                      "operation": "add",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "2",
                         "denominator": "1"
                       }
                     }
@@ -14103,26 +14103,6 @@
                   ],
                   "effects": [
                     {
-                      "fieldId": "structure",
-                      "layer": "world-field",
-                      "operation": "add",
-                      "before": {
-                        "kind": "rational",
-                        "numerator": "0",
-                        "denominator": "1"
-                      },
-                      "operand": {
-                        "kind": "rational",
-                        "numerator": "2",
-                        "denominator": "1"
-                      },
-                      "after": {
-                        "kind": "rational",
-                        "numerator": "2",
-                        "denominator": "1"
-                      }
-                    },
-                    {
                       "fieldId": "condition",
                       "layer": "world-field",
                       "operation": "set",
@@ -14139,6 +14119,26 @@
                       "after": {
                         "kind": "rational",
                         "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "structure",
+                      "layer": "world-field",
+                      "operation": "add",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "2",
                         "denominator": "1"
                       }
                     }
@@ -14155,26 +14155,6 @@
                   ],
                   "effects": [
                     {
-                      "fieldId": "structure",
-                      "layer": "world-field",
-                      "operation": "add",
-                      "before": {
-                        "kind": "rational",
-                        "numerator": "0",
-                        "denominator": "1"
-                      },
-                      "operand": {
-                        "kind": "rational",
-                        "numerator": "2",
-                        "denominator": "1"
-                      },
-                      "after": {
-                        "kind": "rational",
-                        "numerator": "2",
-                        "denominator": "1"
-                      }
-                    },
-                    {
                       "fieldId": "condition",
                       "layer": "world-field",
                       "operation": "set",
@@ -14191,6 +14171,26 @@
                       "after": {
                         "kind": "rational",
                         "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "structure",
+                      "layer": "world-field",
+                      "operation": "add",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "2",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "2",
                         "denominator": "1"
                       }
                     }
@@ -14207,26 +14207,6 @@
                   ],
                   "effects": [
                     {
-                      "fieldId": "structure",
-                      "layer": "world-field",
-                      "operation": "add",
-                      "before": {
-                        "kind": "rational",
-                        "numerator": "0",
-                        "denominator": "1"
-                      },
-                      "operand": {
-                        "kind": "rational",
-                        "numerator": "3",
-                        "denominator": "1"
-                      },
-                      "after": {
-                        "kind": "rational",
-                        "numerator": "3",
-                        "denominator": "1"
-                      }
-                    },
-                    {
                       "fieldId": "condition",
                       "layer": "world-field",
                       "operation": "set",
@@ -14243,6 +14223,26 @@
                       "after": {
                         "kind": "rational",
                         "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "structure",
+                      "layer": "world-field",
+                      "operation": "add",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "3",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "3",
                         "denominator": "1"
                       }
                     }
@@ -14259,26 +14259,6 @@
                   ],
                   "effects": [
                     {
-                      "fieldId": "structure",
-                      "layer": "world-field",
-                      "operation": "add",
-                      "before": {
-                        "kind": "rational",
-                        "numerator": "0",
-                        "denominator": "1"
-                      },
-                      "operand": {
-                        "kind": "rational",
-                        "numerator": "1",
-                        "denominator": "1"
-                      },
-                      "after": {
-                        "kind": "rational",
-                        "numerator": "1",
-                        "denominator": "1"
-                      }
-                    },
-                    {
                       "fieldId": "condition",
                       "layer": "world-field",
                       "operation": "set",
@@ -14295,6 +14275,26 @@
                       "after": {
                         "kind": "rational",
                         "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "structure",
+                      "layer": "world-field",
+                      "operation": "add",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "1",
                         "denominator": "1"
                       }
                     }
@@ -14311,26 +14311,6 @@
                   ],
                   "effects": [
                     {
-                      "fieldId": "structure",
-                      "layer": "world-field",
-                      "operation": "add",
-                      "before": {
-                        "kind": "rational",
-                        "numerator": "0",
-                        "denominator": "1"
-                      },
-                      "operand": {
-                        "kind": "rational",
-                        "numerator": "3",
-                        "denominator": "1"
-                      },
-                      "after": {
-                        "kind": "rational",
-                        "numerator": "3",
-                        "denominator": "1"
-                      }
-                    },
-                    {
                       "fieldId": "condition",
                       "layer": "world-field",
                       "operation": "set",
@@ -14347,6 +14327,26 @@
                       "after": {
                         "kind": "rational",
                         "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "structure",
+                      "layer": "world-field",
+                      "operation": "add",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "3",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "3",
                         "denominator": "1"
                       }
                     }
@@ -14361,26 +14361,6 @@
                   "causes": [],
                   "effects": [
                     {
-                      "fieldId": "structure",
-                      "layer": "world-field",
-                      "operation": "add",
-                      "before": {
-                        "kind": "rational",
-                        "numerator": "0",
-                        "denominator": "1"
-                      },
-                      "operand": {
-                        "kind": "rational",
-                        "numerator": "1",
-                        "denominator": "1"
-                      },
-                      "after": {
-                        "kind": "rational",
-                        "numerator": "1",
-                        "denominator": "1"
-                      }
-                    },
-                    {
                       "fieldId": "condition",
                       "layer": "world-field",
                       "operation": "set",
@@ -14397,6 +14377,26 @@
                       "after": {
                         "kind": "rational",
                         "numerator": "0",
+                        "denominator": "1"
+                      }
+                    },
+                    {
+                      "fieldId": "structure",
+                      "layer": "world-field",
+                      "operation": "add",
+                      "before": {
+                        "kind": "rational",
+                        "numerator": "0",
+                        "denominator": "1"
+                      },
+                      "operand": {
+                        "kind": "rational",
+                        "numerator": "1",
+                        "denominator": "1"
+                      },
+                      "after": {
+                        "kind": "rational",
+                        "numerator": "1",
                         "denominator": "1"
                       }
                     }
@@ -15531,7 +15531,126 @@
                   "law:world-78d0dac8cb35375342a6-condense"
                 ],
                 "createsHistoryArrow": true
-              }
+              },
+              "anchorIdentity": [
+                {
+                  "anchorId": "anchor-208e7368ac1b8e6be1bf",
+                  "predicateId": "generation-world-2113a5f3500cbda8a844-lineage-identity",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-55beb2530f51d83f0e84",
+                  "predicateId": "generation-world-59789974051696fa1215-lineage-identity",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-59a535842756af61394e",
+                  "predicateId": "generation-world-1c7e7bafa6604a341216-lineage-identity",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-5e6b462d43ff8d5a4a13",
+                  "predicateId": "generation-world-196811a99ea726ea85c5-lineage-identity",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-63cedbccd671e7f03571",
+                  "predicateId": "generation-world-019ca8e64673228cc096-lineage-identity",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-a651500322244ad7e7ce",
+                  "predicateId": "generation-world-439765df023e1e0a4e3a-lineage-identity",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-self-019ca8e64673228cc096",
+                  "predicateId": "world-019ca8e64673228cc096-identity-holds",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-self-196811a99ea726ea85c5",
+                  "predicateId": "world-196811a99ea726ea85c5-identity-holds",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-self-1c7e7bafa6604a341216",
+                  "predicateId": "world-1c7e7bafa6604a341216-identity-holds",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-self-2113a5f3500cbda8a844",
+                  "predicateId": "world-2113a5f3500cbda8a844-identity-holds",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-self-439765df023e1e0a4e3a",
+                  "predicateId": "world-439765df023e1e0a4e3a-identity-holds",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-self-59789974051696fa1215",
+                  "predicateId": "world-59789974051696fa1215-identity-holds",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-self-78d0dac8cb35375342a6",
+                  "predicateId": "world-78d0dac8cb35375342a6-identity-holds",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                }
+              ]
             }
           ],
           "selectedContinuationIds": [
@@ -17994,26 +18113,6 @@
                 ],
                 "effects": [
                   {
-                    "fieldId": "structure",
-                    "layer": "world-field",
-                    "operation": "add",
-                    "before": {
-                      "kind": "rational",
-                      "numerator": "0",
-                      "denominator": "1"
-                    },
-                    "operand": {
-                      "kind": "rational",
-                      "numerator": "2",
-                      "denominator": "1"
-                    },
-                    "after": {
-                      "kind": "rational",
-                      "numerator": "2",
-                      "denominator": "1"
-                    }
-                  },
-                  {
                     "fieldId": "condition",
                     "layer": "world-field",
                     "operation": "set",
@@ -18030,6 +18129,26 @@
                     "after": {
                       "kind": "rational",
                       "numerator": "0",
+                      "denominator": "1"
+                    }
+                  },
+                  {
+                    "fieldId": "structure",
+                    "layer": "world-field",
+                    "operation": "add",
+                    "before": {
+                      "kind": "rational",
+                      "numerator": "0",
+                      "denominator": "1"
+                    },
+                    "operand": {
+                      "kind": "rational",
+                      "numerator": "2",
+                      "denominator": "1"
+                    },
+                    "after": {
+                      "kind": "rational",
+                      "numerator": "2",
                       "denominator": "1"
                     }
                   }
@@ -18046,26 +18165,6 @@
                 ],
                 "effects": [
                   {
-                    "fieldId": "structure",
-                    "layer": "world-field",
-                    "operation": "add",
-                    "before": {
-                      "kind": "rational",
-                      "numerator": "0",
-                      "denominator": "1"
-                    },
-                    "operand": {
-                      "kind": "rational",
-                      "numerator": "2",
-                      "denominator": "1"
-                    },
-                    "after": {
-                      "kind": "rational",
-                      "numerator": "2",
-                      "denominator": "1"
-                    }
-                  },
-                  {
                     "fieldId": "condition",
                     "layer": "world-field",
                     "operation": "set",
@@ -18082,6 +18181,26 @@
                     "after": {
                       "kind": "rational",
                       "numerator": "0",
+                      "denominator": "1"
+                    }
+                  },
+                  {
+                    "fieldId": "structure",
+                    "layer": "world-field",
+                    "operation": "add",
+                    "before": {
+                      "kind": "rational",
+                      "numerator": "0",
+                      "denominator": "1"
+                    },
+                    "operand": {
+                      "kind": "rational",
+                      "numerator": "2",
+                      "denominator": "1"
+                    },
+                    "after": {
+                      "kind": "rational",
+                      "numerator": "2",
                       "denominator": "1"
                     }
                   }
@@ -18098,26 +18217,6 @@
                 ],
                 "effects": [
                   {
-                    "fieldId": "structure",
-                    "layer": "world-field",
-                    "operation": "add",
-                    "before": {
-                      "kind": "rational",
-                      "numerator": "0",
-                      "denominator": "1"
-                    },
-                    "operand": {
-                      "kind": "rational",
-                      "numerator": "2",
-                      "denominator": "1"
-                    },
-                    "after": {
-                      "kind": "rational",
-                      "numerator": "2",
-                      "denominator": "1"
-                    }
-                  },
-                  {
                     "fieldId": "condition",
                     "layer": "world-field",
                     "operation": "set",
@@ -18134,6 +18233,26 @@
                     "after": {
                       "kind": "rational",
                       "numerator": "0",
+                      "denominator": "1"
+                    }
+                  },
+                  {
+                    "fieldId": "structure",
+                    "layer": "world-field",
+                    "operation": "add",
+                    "before": {
+                      "kind": "rational",
+                      "numerator": "0",
+                      "denominator": "1"
+                    },
+                    "operand": {
+                      "kind": "rational",
+                      "numerator": "2",
+                      "denominator": "1"
+                    },
+                    "after": {
+                      "kind": "rational",
+                      "numerator": "2",
                       "denominator": "1"
                     }
                   }
@@ -18150,26 +18269,6 @@
                 ],
                 "effects": [
                   {
-                    "fieldId": "structure",
-                    "layer": "world-field",
-                    "operation": "add",
-                    "before": {
-                      "kind": "rational",
-                      "numerator": "0",
-                      "denominator": "1"
-                    },
-                    "operand": {
-                      "kind": "rational",
-                      "numerator": "3",
-                      "denominator": "1"
-                    },
-                    "after": {
-                      "kind": "rational",
-                      "numerator": "3",
-                      "denominator": "1"
-                    }
-                  },
-                  {
                     "fieldId": "condition",
                     "layer": "world-field",
                     "operation": "set",
@@ -18186,6 +18285,26 @@
                     "after": {
                       "kind": "rational",
                       "numerator": "0",
+                      "denominator": "1"
+                    }
+                  },
+                  {
+                    "fieldId": "structure",
+                    "layer": "world-field",
+                    "operation": "add",
+                    "before": {
+                      "kind": "rational",
+                      "numerator": "0",
+                      "denominator": "1"
+                    },
+                    "operand": {
+                      "kind": "rational",
+                      "numerator": "3",
+                      "denominator": "1"
+                    },
+                    "after": {
+                      "kind": "rational",
+                      "numerator": "3",
                       "denominator": "1"
                     }
                   }
@@ -18202,26 +18321,6 @@
                 ],
                 "effects": [
                   {
-                    "fieldId": "structure",
-                    "layer": "world-field",
-                    "operation": "add",
-                    "before": {
-                      "kind": "rational",
-                      "numerator": "0",
-                      "denominator": "1"
-                    },
-                    "operand": {
-                      "kind": "rational",
-                      "numerator": "1",
-                      "denominator": "1"
-                    },
-                    "after": {
-                      "kind": "rational",
-                      "numerator": "1",
-                      "denominator": "1"
-                    }
-                  },
-                  {
                     "fieldId": "condition",
                     "layer": "world-field",
                     "operation": "set",
@@ -18238,6 +18337,26 @@
                     "after": {
                       "kind": "rational",
                       "numerator": "0",
+                      "denominator": "1"
+                    }
+                  },
+                  {
+                    "fieldId": "structure",
+                    "layer": "world-field",
+                    "operation": "add",
+                    "before": {
+                      "kind": "rational",
+                      "numerator": "0",
+                      "denominator": "1"
+                    },
+                    "operand": {
+                      "kind": "rational",
+                      "numerator": "1",
+                      "denominator": "1"
+                    },
+                    "after": {
+                      "kind": "rational",
+                      "numerator": "1",
                       "denominator": "1"
                     }
                   }
@@ -18254,26 +18373,6 @@
                 ],
                 "effects": [
                   {
-                    "fieldId": "structure",
-                    "layer": "world-field",
-                    "operation": "add",
-                    "before": {
-                      "kind": "rational",
-                      "numerator": "0",
-                      "denominator": "1"
-                    },
-                    "operand": {
-                      "kind": "rational",
-                      "numerator": "3",
-                      "denominator": "1"
-                    },
-                    "after": {
-                      "kind": "rational",
-                      "numerator": "3",
-                      "denominator": "1"
-                    }
-                  },
-                  {
                     "fieldId": "condition",
                     "layer": "world-field",
                     "operation": "set",
@@ -18290,6 +18389,26 @@
                     "after": {
                       "kind": "rational",
                       "numerator": "0",
+                      "denominator": "1"
+                    }
+                  },
+                  {
+                    "fieldId": "structure",
+                    "layer": "world-field",
+                    "operation": "add",
+                    "before": {
+                      "kind": "rational",
+                      "numerator": "0",
+                      "denominator": "1"
+                    },
+                    "operand": {
+                      "kind": "rational",
+                      "numerator": "3",
+                      "denominator": "1"
+                    },
+                    "after": {
+                      "kind": "rational",
+                      "numerator": "3",
                       "denominator": "1"
                     }
                   }
@@ -18304,26 +18423,6 @@
                 "causes": [],
                 "effects": [
                   {
-                    "fieldId": "structure",
-                    "layer": "world-field",
-                    "operation": "add",
-                    "before": {
-                      "kind": "rational",
-                      "numerator": "0",
-                      "denominator": "1"
-                    },
-                    "operand": {
-                      "kind": "rational",
-                      "numerator": "1",
-                      "denominator": "1"
-                    },
-                    "after": {
-                      "kind": "rational",
-                      "numerator": "1",
-                      "denominator": "1"
-                    }
-                  },
-                  {
                     "fieldId": "condition",
                     "layer": "world-field",
                     "operation": "set",
@@ -18340,6 +18439,26 @@
                     "after": {
                       "kind": "rational",
                       "numerator": "0",
+                      "denominator": "1"
+                    }
+                  },
+                  {
+                    "fieldId": "structure",
+                    "layer": "world-field",
+                    "operation": "add",
+                    "before": {
+                      "kind": "rational",
+                      "numerator": "0",
+                      "denominator": "1"
+                    },
+                    "operand": {
+                      "kind": "rational",
+                      "numerator": "1",
+                      "denominator": "1"
+                    },
+                    "after": {
+                      "kind": "rational",
+                      "numerator": "1",
                       "denominator": "1"
                     }
                   }
@@ -19474,7 +19593,126 @@
                 "law:world-78d0dac8cb35375342a6-condense"
               ],
               "createsHistoryArrow": true
-            }
+            },
+            "anchorIdentity": [
+              {
+                "anchorId": "anchor-208e7368ac1b8e6be1bf",
+                "predicateId": "generation-world-2113a5f3500cbda8a844-lineage-identity",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-55beb2530f51d83f0e84",
+                "predicateId": "generation-world-59789974051696fa1215-lineage-identity",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-59a535842756af61394e",
+                "predicateId": "generation-world-1c7e7bafa6604a341216-lineage-identity",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-5e6b462d43ff8d5a4a13",
+                "predicateId": "generation-world-196811a99ea726ea85c5-lineage-identity",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-63cedbccd671e7f03571",
+                "predicateId": "generation-world-019ca8e64673228cc096-lineage-identity",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-a651500322244ad7e7ce",
+                "predicateId": "generation-world-439765df023e1e0a4e3a-lineage-identity",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-self-019ca8e64673228cc096",
+                "predicateId": "world-019ca8e64673228cc096-identity-holds",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-self-196811a99ea726ea85c5",
+                "predicateId": "world-196811a99ea726ea85c5-identity-holds",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-self-1c7e7bafa6604a341216",
+                "predicateId": "world-1c7e7bafa6604a341216-identity-holds",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-self-2113a5f3500cbda8a844",
+                "predicateId": "world-2113a5f3500cbda8a844-identity-holds",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-self-439765df023e1e0a4e3a",
+                "predicateId": "world-439765df023e1e0a4e3a-identity-holds",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-self-59789974051696fa1215",
+                "predicateId": "world-59789974051696fa1215-identity-holds",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-self-78d0dac8cb35375342a6",
+                "predicateId": "world-78d0dac8cb35375342a6-identity-holds",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              }
+            ]
           },
           "baselineScore": {
             "kind": "rational",
@@ -26733,7 +26971,126 @@
                 "reversibleEventIds": [],
                 "irreversibleEventIds": [],
                 "createsHistoryArrow": false
-              }
+              },
+              "anchorIdentity": [
+                {
+                  "anchorId": "anchor-208e7368ac1b8e6be1bf",
+                  "predicateId": "generation-world-2113a5f3500cbda8a844-lineage-identity",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-55beb2530f51d83f0e84",
+                  "predicateId": "generation-world-59789974051696fa1215-lineage-identity",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-59a535842756af61394e",
+                  "predicateId": "generation-world-1c7e7bafa6604a341216-lineage-identity",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-5e6b462d43ff8d5a4a13",
+                  "predicateId": "generation-world-196811a99ea726ea85c5-lineage-identity",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-63cedbccd671e7f03571",
+                  "predicateId": "generation-world-019ca8e64673228cc096-lineage-identity",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-a651500322244ad7e7ce",
+                  "predicateId": "generation-world-439765df023e1e0a4e3a-lineage-identity",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-self-019ca8e64673228cc096",
+                  "predicateId": "world-019ca8e64673228cc096-identity-holds",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-self-196811a99ea726ea85c5",
+                  "predicateId": "world-196811a99ea726ea85c5-identity-holds",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-self-1c7e7bafa6604a341216",
+                  "predicateId": "world-1c7e7bafa6604a341216-identity-holds",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-self-2113a5f3500cbda8a844",
+                  "predicateId": "world-2113a5f3500cbda8a844-identity-holds",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-self-439765df023e1e0a4e3a",
+                  "predicateId": "world-439765df023e1e0a4e3a-identity-holds",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-self-59789974051696fa1215",
+                  "predicateId": "world-59789974051696fa1215-identity-holds",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                },
+                {
+                  "anchorId": "anchor-self-78d0dac8cb35375342a6",
+                  "predicateId": "world-78d0dac8cb35375342a6-identity-holds",
+                  "status": "resolved",
+                  "value": {
+                    "kind": "boolean",
+                    "value": true
+                  }
+                }
+              ]
             }
           ],
           "selectedContinuationIds": [
@@ -29724,7 +30081,126 @@
               "reversibleEventIds": [],
               "irreversibleEventIds": [],
               "createsHistoryArrow": false
-            }
+            },
+            "anchorIdentity": [
+              {
+                "anchorId": "anchor-208e7368ac1b8e6be1bf",
+                "predicateId": "generation-world-2113a5f3500cbda8a844-lineage-identity",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-55beb2530f51d83f0e84",
+                "predicateId": "generation-world-59789974051696fa1215-lineage-identity",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-59a535842756af61394e",
+                "predicateId": "generation-world-1c7e7bafa6604a341216-lineage-identity",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-5e6b462d43ff8d5a4a13",
+                "predicateId": "generation-world-196811a99ea726ea85c5-lineage-identity",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-63cedbccd671e7f03571",
+                "predicateId": "generation-world-019ca8e64673228cc096-lineage-identity",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-a651500322244ad7e7ce",
+                "predicateId": "generation-world-439765df023e1e0a4e3a-lineage-identity",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-self-019ca8e64673228cc096",
+                "predicateId": "world-019ca8e64673228cc096-identity-holds",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-self-196811a99ea726ea85c5",
+                "predicateId": "world-196811a99ea726ea85c5-identity-holds",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-self-1c7e7bafa6604a341216",
+                "predicateId": "world-1c7e7bafa6604a341216-identity-holds",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-self-2113a5f3500cbda8a844",
+                "predicateId": "world-2113a5f3500cbda8a844-identity-holds",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-self-439765df023e1e0a4e3a",
+                "predicateId": "world-439765df023e1e0a4e3a-identity-holds",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-self-59789974051696fa1215",
+                "predicateId": "world-59789974051696fa1215-identity-holds",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              },
+              {
+                "anchorId": "anchor-self-78d0dac8cb35375342a6",
+                "predicateId": "world-78d0dac8cb35375342a6-identity-holds",
+                "status": "resolved",
+                "value": {
+                  "kind": "boolean",
+                  "value": true
+                }
+              }
+            ]
           },
           "baselineScore": {
             "kind": "rational",

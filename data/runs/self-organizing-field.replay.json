@@ -1530,7 +1530,7 @@
             "causes": [],
             "effects": [
               {
-                "fieldId": "density",
+                "fieldId": "coherence",
                 "layer": "world-field",
                 "operation": "add",
                 "before": {
@@ -1550,7 +1550,7 @@
                 }
               },
               {
-                "fieldId": "coherence",
+                "fieldId": "density",
                 "layer": "world-field",
                 "operation": "add",
                 "before": {
@@ -1674,22 +1674,22 @@
             ],
             "effects": [
               {
-                "fieldId": "density",
-                "layer": "world-field",
-                "operation": "derive",
-                "after": {
-                  "kind": "rational",
-                  "numerator": "1",
-                  "denominator": "1"
-                }
-              },
-              {
                 "fieldId": "coherence",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
                   "kind": "rational",
                   "numerator": "2",
+                  "denominator": "1"
+                }
+              },
+              {
+                "fieldId": "density",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
                   "denominator": "1"
                 }
               }
@@ -1828,7 +1828,18 @@
             "law:self-organize"
           ],
           "createsHistoryArrow": true
-        }
+        },
+        "anchorIdentity": [
+          {
+            "anchorId": "field-anchor",
+            "predicateId": "field-anchor-remains-itself",
+            "status": "resolved",
+            "value": {
+              "kind": "boolean",
+              "value": true
+            }
+          }
+        ]
       },
       {
         "id": "continuation:alter-boundary-condition",
@@ -2041,7 +2052,7 @@
             "causes": [],
             "effects": [
               {
-                "fieldId": "density",
+                "fieldId": "coherence",
                 "layer": "world-field",
                 "operation": "add",
                 "before": {
@@ -2061,7 +2072,7 @@
                 }
               },
               {
-                "fieldId": "coherence",
+                "fieldId": "density",
                 "layer": "world-field",
                 "operation": "add",
                 "before": {
@@ -2185,22 +2196,22 @@
             ],
             "effects": [
               {
-                "fieldId": "density",
-                "layer": "world-field",
-                "operation": "derive",
-                "after": {
-                  "kind": "rational",
-                  "numerator": "1",
-                  "denominator": "1"
-                }
-              },
-              {
                 "fieldId": "coherence",
                 "layer": "world-field",
                 "operation": "derive",
                 "after": {
                   "kind": "rational",
                   "numerator": "2",
+                  "denominator": "1"
+                }
+              },
+              {
+                "fieldId": "density",
+                "layer": "world-field",
+                "operation": "derive",
+                "after": {
+                  "kind": "rational",
+                  "numerator": "1",
                   "denominator": "1"
                 }
               }
@@ -2747,7 +2758,7 @@
           "causes": [],
           "effects": [
             {
-              "fieldId": "density",
+              "fieldId": "coherence",
               "layer": "world-field",
               "operation": "add",
               "before": {
@@ -2767,7 +2778,7 @@
               }
             },
             {
-              "fieldId": "coherence",
+              "fieldId": "density",
               "layer": "world-field",
               "operation": "add",
               "before": {
@@ -2891,22 +2902,22 @@
           ],
           "effects": [
             {
-              "fieldId": "density",
-              "layer": "world-field",
-              "operation": "derive",
-              "after": {
-                "kind": "rational",
-                "numerator": "1",
-                "denominator": "1"
-              }
-            },
-            {
               "fieldId": "coherence",
               "layer": "world-field",
               "operation": "derive",
               "after": {
                 "kind": "rational",
                 "numerator": "2",
+                "denominator": "1"
+              }
+            },
+            {
+              "fieldId": "density",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
                 "denominator": "1"
               }
             }
@@ -3045,7 +3056,18 @@
           "law:self-organize"
         ],
         "createsHistoryArrow": true
-      }
+      },
+      "anchorIdentity": [
+        {
+          "anchorId": "field-anchor",
+          "predicateId": "field-anchor-remains-itself",
+          "status": "resolved",
+          "value": {
+            "kind": "boolean",
+            "value": true
+          }
+        }
+      ]
     },
     "baselineScore": {
       "kind": "rational",
@@ -3053,5 +3075,5 @@
       "denominator": "1"
     }
   },
-  "recordedDigest": "2cd3c8bd5832cb416775f2ecd003b1397a72b1d5dda0da8dbdbe24360cba2d85"
+  "recordedDigest": "2f900e7088791b9ad6dab3ebdd4c5d8945ecb11caa9d6354387c07563ad9ab7d"
 }

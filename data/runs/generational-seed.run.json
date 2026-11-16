@@ -1024,7 +1024,7 @@
           ],
           "effects": [
             {
-              "fieldId": "structure",
+              "fieldId": "boundary",
               "layer": "world-field",
               "operation": "set",
               "before": {
@@ -1044,7 +1044,7 @@
               }
             },
             {
-              "fieldId": "boundary",
+              "fieldId": "structure",
               "layer": "world-field",
               "operation": "set",
               "before": {
@@ -1147,7 +1147,7 @@
           ],
           "effects": [
             {
-              "fieldId": "structure",
+              "fieldId": "boundary",
               "layer": "world-field",
               "operation": "derive",
               "after": {
@@ -1157,7 +1157,7 @@
               }
             },
             {
-              "fieldId": "boundary",
+              "fieldId": "structure",
               "layer": "world-field",
               "operation": "derive",
               "after": {
@@ -1324,7 +1324,23 @@
           "history-commit",
           "world-lifecycle"
         ]
-      }
+      },
+      "anchorIdentity": [
+        {
+          "anchorId": "descendant-seed-anchor",
+          "predicateId": "identity-descendant-seed-anchor",
+          "status": "resolved",
+          "value": {
+            "kind": "boolean",
+            "value": true
+          }
+        },
+        {
+          "anchorId": "origin-seed-anchor",
+          "predicateId": "identity-origin-seed-anchor",
+          "status": "not-evaluated"
+        }
+      ]
     }
   ],
   "selectedContinuationIds": [
@@ -1844,7 +1860,7 @@
         ],
         "effects": [
           {
-            "fieldId": "structure",
+            "fieldId": "boundary",
             "layer": "world-field",
             "operation": "set",
             "before": {
@@ -1864,7 +1880,7 @@
             }
           },
           {
-            "fieldId": "boundary",
+            "fieldId": "structure",
             "layer": "world-field",
             "operation": "set",
             "before": {
@@ -1967,7 +1983,7 @@
         ],
         "effects": [
           {
-            "fieldId": "structure",
+            "fieldId": "boundary",
             "layer": "world-field",
             "operation": "derive",
             "after": {
@@ -1977,7 +1993,7 @@
             }
           },
           {
-            "fieldId": "boundary",
+            "fieldId": "structure",
             "layer": "world-field",
             "operation": "derive",
             "after": {
@@ -2144,7 +2160,23 @@
         "history-commit",
         "world-lifecycle"
       ]
-    }
+    },
+    "anchorIdentity": [
+      {
+        "anchorId": "descendant-seed-anchor",
+        "predicateId": "identity-descendant-seed-anchor",
+        "status": "resolved",
+        "value": {
+          "kind": "boolean",
+          "value": true
+        }
+      },
+      {
+        "anchorId": "origin-seed-anchor",
+        "predicateId": "identity-origin-seed-anchor",
+        "status": "not-evaluated"
+      }
+    ]
   },
   "baselineScore": {
     "kind": "rational",

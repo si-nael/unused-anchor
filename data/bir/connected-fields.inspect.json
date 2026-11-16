@@ -1,0 +1,39 @@
+{
+  "mode": "bubble-bir-inspection.v1",
+  "source": "data/bir/connected-fields.bir",
+  "byteLength": 6241,
+  "formatVersion": {
+    "major": 1,
+    "minor": 0
+  },
+  "identity": {
+    "semanticDigest": "fc463f900c345bbdb2287dcf9bb5f9d948b731c70318dc25c33a93de310e5b18",
+    "storageDigest": "20bc17948851d2fc0219e04cf4d887fcd6128c18ff08e671f24f614da788c629",
+    "backendProgramDigest": "932083576c45fed3bb02bb5a0afeb260660fbf298c69e98539b46124ce521650"
+  },
+  "sections": [
+    {
+      "name": "core.causal-program",
+      "critical": true,
+      "byteLength": 6175
+    }
+  ],
+  "executable": true,
+  "unknownCriticalSections": [],
+  "preservedExtensionSections": [],
+  "lift": {
+    "status": "lifted",
+    "diagnostics": []
+  },
+  "program": {
+    "worldCount": 2,
+    "fieldCount": 9,
+    "familyCount": 12,
+    "anchorCount": 1,
+    "anchorTransferCount": 1,
+    "internalLawCount": 2,
+    "emergenceCriterionCount": 0,
+    "interventionCount": 0,
+    "universalClock": false
+  }
+}

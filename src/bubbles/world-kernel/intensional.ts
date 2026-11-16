@@ -1,3 +1,5 @@
+import { compareCanonicalStrings } from "./canonical-order";
+import { countHostCost, noteRationalConstruction } from "./host-cost";
 export type ExactValue =
     | { kind: "rational"; numerator: string; denominator: string }
     | { kind: "boolean"; value: boolean }
@@ -163,10 +165,13 @@ function rational(numerator: bigint, denominator = 1n): RationalValue {
     }
     const sign = denominator < 0n ? -1n : 1n;
     const divisor = greatestCommonDivisor(numerator, denominator);
+    const reducedNumerator = (sign * numerator) / divisor;
+    const reducedDenominator = (sign * denominator) / divisor;
+    noteRationalConstruction(reducedNumerator, reducedDenominator);
     return {
         kind: "rational",
-        numerator: (sign * numerator) / divisor,
-        denominator: (sign * denominator) / divisor,
+        numerator: reducedNumerator,
+        denominator: reducedDenominator,
     };
 }
 
@@ -635,14 +640,14 @@ function applyBinary(operator: IntensionalBinaryOperator, left: RuntimeValue, ri
 
 function serializeCoordinate(coordinate: Record<string, bigint>): Record<string, string> {
     return Object.fromEntries(
-        Object.entries(coordinate).sort(([left], [right]) => left.localeCompare(right))
+        Object.entries(coordinate).sort(([left], [right]) => compareCanonicalStrings(left, right))
             .map(([name, value]) => [name, value.toString()]),
     );
 }
 
 function serializeParameters(parameters: Record<string, RuntimeValue>): Record<string, ExactValue> {
     return Object.fromEntries(
-        Object.entries(parameters).sort(([left], [right]) => left.localeCompare(right))
+        Object.entries(parameters).sort(([left], [right]) => compareCanonicalStrings(left, right))
             .map(([name, value]) => [name, serializeValue(value)]),
     );
 }
@@ -652,9 +657,9 @@ function coordinateKey(
     coordinate: Record<string, bigint>,
     parameters: Record<string, RuntimeValue>,
 ): string {
-    const coordinatePart = Object.entries(coordinate).sort(([left], [right]) => left.localeCompare(right))
+    const coordinatePart = Object.entries(coordinate).sort(([left], [right]) => compareCanonicalStrings(left, right))
         .map(([name, value]) => `${name}=${value.toString()}`).join(",");
-    const parameterPart = Object.entries(parameters).sort(([left], [right]) => left.localeCompare(right))
+    const parameterPart = Object.entries(parameters).sort(([left], [right]) => compareCanonicalStrings(left, right))
         .map(([name, value]) => `${name}=${JSON.stringify(serializeValue(value))}`).join(",");
     return `${familyId}[${coordinatePart}](${parameterPart})`;
 }
@@ -745,7 +750,9 @@ function evaluateTerm(
         return failure("contradicted", coordinateValidation.reason ?? "referenced coordinate is outside its domain", combineDependencies(...dependencyGroups));
     }
     const parameters: Record<string, RuntimeValue> = {};
-    for (const declaration of target.parameters) {
+    // Parameters are named, not positional; their evaluation (and budget use) follows canonical name order.
+    const declarations = [...target.parameters].sort((left, right) => compareCanonicalStrings(left.name, right.name));
+    for (const declaration of declarations) {
         const parameterOutcome = evaluateTerm(term.parameters[declaration.name], environment, context);
         dependencyGroups.push(parameterOutcome.dependencies);
         if (parameterOutcome.status !== "resolved") {
@@ -859,6 +866,8 @@ export function evaluateIntensionalCoordinate(
     };
     const outcome = evaluateFamily(family, coordinate.parsed, parameters.parsed, context);
     const consumed = context.budgetLimit - context.remainingBudget;
+    countHostCost("intensionalQueries");
+    countHostCost("materializedIntensionalCoordinates", context.proof.length);
     return {
         ...base,
         status: outcome.status,

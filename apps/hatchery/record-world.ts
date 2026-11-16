@@ -1,10 +1,10 @@
 import { recordAnchoredCausalReplay } from "../../src/bubbles/world-kernel";
-import { emitCausalJson, parseCausalExecutionArgs, readCausalProgram } from "./causal-cli";
+import { emitCausalJson, parseCausalExecutionArgs, readCausalInput } from "./causal-cli";
 
 async function main(): Promise<void> {
-    const { inputPath, outputPath, options } = parseCausalExecutionArgs(process.argv.slice(2));
+    const { inputPath, outputPath, options: cliOptions, explicitOptionCount } = parseCausalExecutionArgs(process.argv.slice(2));
     if (!inputPath) throw new Error("Usage: tsx apps/hatchery/record-world.ts <program.json|causal.bubble> [output.json] [causal options]");
-    const program = await readCausalProgram(inputPath);
+    const { program, options } = await readCausalInput(inputPath, cliOptions, explicitOptionCount);
     await emitCausalJson(recordAnchoredCausalReplay(program, options), outputPath);
     if (outputPath) process.stdout.write(`Recorded anchored causal world ${inputPath} -> ${outputPath}\n`);
 }
