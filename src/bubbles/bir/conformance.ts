@@ -70,13 +70,15 @@ export interface CausalConformanceResult {
     detail?: string;
 }
 
-const hostCostSchema = bir.record(Object.fromEntries([
+/** Schema of the informational `conformance.host-cost` payload (one record node). */
+export const hostCostSchema = bir.record(Object.fromEntries([
     "exactRationalConstructions", "maxRationalBits", "intensionalQueries", "materializedIntensionalCoordinates",
     "predicateEvaluations", "lawApplications", "branchFrontierCandidates", "realizationCopies", "valueCopies",
     "digestsComputed", "bytesHashed", "birNodesDecoded", "birBytesRead",
 ].map((key) => [key, bir.safeInteger])));
 
-const labelSchema = bir.record({ name: bir.text, description: bir.text });
+/** Schema of the `conformance.label` payload (one record node). */
+export const labelSchema = bir.record({ name: bir.text, description: bir.text });
 
 export function causalOutcomeDigest(outcomePayload: Uint8Array): string {
     return createHash("sha256").update(concatBytes([OUTCOME_IDENTITY_DOMAIN, outcomePayload])).digest("hex");

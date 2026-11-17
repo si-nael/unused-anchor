@@ -20,6 +20,7 @@ For the consolidated language reference, see `docs/reference/bubble-language-ref
 - `connected-fields.causal.bubble`: completed bounded `v0.5.7` membrane fixture; one source-world internal law crosses a typed two-world anchor, leaves exact negative-sea residue and positive-sea placement, and only then enables the receiving world's own structural law with World Will disabled
 - `endogenous-connected-universe.bubble`: canonical completed bounded `v0.5.8` source fixture; strict typed intensional families, complete schema graph, recursive constructor, relation identity, two sea channels, exact transport, inherited schema morphism, clockless closure, inspection, and replay lower to the existing connected-universe kernel without host code or host selection
 - `endogenous-connected-universe.world.json`: retained typed JSON projection of the same canonical program; compiler tests require structural identity with the `.bubble` source so JSON cannot become a separate semantic dialect
+- `residue-commons.causal.bubble`: canonical bounded `v0.5.10` sea-medium fixture; worlds placed in two adjacent regions of one closed shared sea, where a retiring elder releases residue that diffuses to the far region, seeps only into the world whose boundary is open, and erodes it through its own law while its anchor still holds, with an exact balance certificate and no host or World-Will selection
 
 Run the examples through the existing CLI scripts:
 

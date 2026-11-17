@@ -89,7 +89,7 @@ test("every decision and research question remains inside the tracked record str
     }
 });
 
-test("completed bounded v0.5.9 preserves prior kernels, the original philosophy, and every open research branch", () => {
+test("completed bounded v0.5.10 preserves prior kernels, the original philosophy, and every open research branch", () => {
     const packageManifest = JSON.parse(readRepositoryFile("package.json")) as { version: string };
     const packageLock = JSON.parse(readRepositoryFile("package-lock.json")) as {
         version: string;
@@ -112,9 +112,11 @@ test("completed bounded v0.5.9 preserves prior kernels, the original philosophy,
     const endogenousCandidate = readRepositoryFile("docs/architecture/v0.5.8-endogenous-connected-universe.md");
     const manifest = JSON.parse(readRepositoryFile("package.json")) as { scripts: Record<string, string> };
 
-    assert.equal(packageManifest.version, "0.5.9");
-    assert.equal(packageLock.version, "0.5.9");
-    assert.equal(packageLock.packages[""]?.version, "0.5.9");
+    assert.equal(packageManifest.version, "0.5.10");
+    assert.equal(packageLock.version, "0.5.10");
+    assert.equal(packageLock.packages[""]?.version, "0.5.10");
+    assert.ok(projectMemory.includes("Completed bounded `v0.5.10` makes the positive and negative seas"));
+    assert.ok(readRepositoryFile("docs/architecture/v0.5.10-multiversal-sea-medium.md").includes("Status: completed bounded `v0.5.10` multiversal sea medium release"));
     assert.ok(projectMemory.includes("Completed bounded `v0.5.9` makes the executable causal kernel portable"));
     assert.ok(projectMemory.includes("Completed bounded `v0.5.8` denotes a recursive connected world family"));
     assert.ok(projectMemory.includes("then selected `v0.5.8` at its recorded scope"));

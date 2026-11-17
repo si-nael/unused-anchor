@@ -60,6 +60,35 @@ const fieldEffect = bir.record({ fieldId: bir.text, operation: bir.text, value: 
 
 const transferEndpoint = bir.record({ worldId: bir.text, portId: bir.text, fieldId: bir.text });
 
+// Multiversal sea medium (v0.5.10). Regions, placements, adjacency, and exchange laws are keyed by id or by
+// their content, so they are sets. An adjacency is undirected, so its pair of region ids is a set as well; a
+// set also rejects a repeated region, matching the two-distinct-regions rule. A world endpoint names the world
+// only; the exchanged quantity selects its local sea field.
+const seaEndpoint = bir.variant("kind", {
+    region: { regionId: bir.text },
+    world: { worldId: bir.text },
+});
+
+const seaMedium = bir.record({
+    id: bir.text,
+    closure: bir.text,
+    regions: bir.set(bir.record({ id: bir.text, negative: bir.exact, positive: bir.exact })),
+    placements: bir.set(bir.record({ worldId: bir.text, regionId: bir.text })),
+    adjacency: bir.set(bir.record({ id: bir.text, regionIds: bir.set(bir.text) })),
+    exchangeLaws: bir.set(bir.record({
+        id: bir.text,
+        quantity: bir.text,
+        from: seaEndpoint,
+        to: seaEndpoint,
+        amount: bir.exact,
+        guard: bir.record({
+            ...statePredicateFields,
+            regionParameters: bir.set(bir.record({ parameterName: bir.text, regionId: bir.text, quantity: bir.text })),
+        }),
+        application: bir.text,
+    })),
+});
+
 const worldSystem = bir.record({
     mode: bir.literal("bubble-anchored-causal-world.v2"),
     formal: intensionalSystem,
@@ -91,6 +120,7 @@ const worldSystem = bir.record({
         sourceNegativeSeaResidue: bir.exact,
         targetPositiveSeaPlacement: bir.exact,
     }))),
+    seaMedium: bir.optional(seaMedium),
     worldWill: bir.record({
         id: bir.text,
         objectives: bir.set(bir.record({

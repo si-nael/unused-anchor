@@ -1,16 +1,23 @@
 import {
+    compareExactRationals,
     exact,
+    exactValuesEqual,
     normalizeExactValue,
     validateExecutableCausalProgram,
     type CausalAnchorTransferDefinition,
     type CausalFieldEffect,
     type CausalFieldRole,
     type CausalInterventionKind,
+    type CausalSeaEndpoint,
+    type CausalSeaExchangeLaw,
+    type CausalSeaMedium,
+    type CausalSeaQuantity,
     type CausalWorldLifecycleEffect,
     type ExactValue,
     type ExecutableAnchoredCausalProgram,
     type IntensionalBinaryOperator,
     type IntensionalFamilyDefinition,
+    type IntensionalTerm,
 } from "../world-kernel";
 import { BubbleCompilerError, createDiagnostic, throwDiagnostic, type Diagnostic } from "./diagnostics";
 
@@ -114,6 +121,81 @@ interface LawTransferDeclaration {
     line: number;
 }
 
+interface SeaMediumDeclaration {
+    id: string;
+    closure: CausalSeaMedium["closure"];
+    line: number;
+}
+
+interface SeaRegionDeclaration {
+    id: string;
+    negative: ExactValue;
+    positive: ExactValue;
+    line: number;
+}
+
+interface SeaPlacementDeclaration {
+    worldId: string;
+    regionId: string;
+    line: number;
+}
+
+interface SeaAdjacencyDeclaration {
+    id: string;
+    regionIds: [string, string];
+    line: number;
+}
+
+interface SeaExchangeDeclaration {
+    id: string;
+    quantity: CausalSeaQuantity;
+    amount: ExactValue;
+    from: CausalSeaEndpoint;
+    to: CausalSeaEndpoint;
+    line: number;
+}
+
+type SeaExchangeGuardDeclaration =
+    | {
+        exchangeId: string;
+        kind: "field";
+        worldId: string;
+        fieldId: string;
+        operator: IntensionalBinaryOperator;
+        value: ExactValue;
+        line: number;
+    }
+    | {
+        exchangeId: string;
+        kind: "region";
+        regionId: string;
+        quantity: CausalSeaQuantity;
+        operator: IntensionalBinaryOperator;
+        value: ExactValue;
+        line: number;
+    };
+
+interface SeaMediumSource {
+    medium: SeaMediumDeclaration | undefined;
+    regions: SeaRegionDeclaration[];
+    placements: SeaPlacementDeclaration[];
+    adjacency: SeaAdjacencyDeclaration[];
+    exchanges: SeaExchangeDeclaration[];
+    guards: SeaExchangeGuardDeclaration[];
+}
+
+interface SeaMediumContext {
+    worlds: WorldDeclaration[];
+    worldIds: Set<string>;
+    fieldByKey: Map<string, FieldDeclaration>;
+    seas: SeaDeclaration[];
+    lawById: Map<string, LawDeclaration>;
+    lawEffects: LawEffectDeclaration[];
+    lawInverses: LawInverseDeclaration[];
+    transfers: TransferDeclaration[];
+    sourcePath: string | null;
+}
+
 const IDENTIFIER = "[A-Za-z_][A-Za-z0-9_.-]*";
 const EXACT_TOKEN = '(?:"(?:[^"\\\\]|\\\\.)*"|[^\\s]+)';
 const HEADER = new RegExp(`^causal\\s+bubble\\s+(${IDENTIFIER})\\s*\\{$`);
@@ -145,6 +227,25 @@ const LAW_LIFECYCLE = new RegExp(`^law-lifecycle\\s+(${IDENTIFIER})\\s+(?:spawn\
 const LAW_COMMIT = new RegExp(`^law-commit\\s+(${IDENTIFIER})\\s+(.+)$`);
 const LAW_TRANSFER = new RegExp("^law-transfer" + SOURCE_SPACE + "(" + IDENTIFIER + ")"
     + SOURCE_SPACE + "(" + IDENTIFIER + ")$");
+const SOURCE_COMPARISON = "[ \\t]*(=|!=|>=|<=|>|<)[ \\t]*";
+const SEA_MEDIUM = new RegExp("^sea-medium" + SOURCE_SPACE + "(" + IDENTIFIER + ")" + SOURCE_SPACE + "(closed|open)$");
+const SEA_REGION = new RegExp("^sea-region" + SOURCE_SPACE + "(" + IDENTIFIER + ")"
+    + SOURCE_SPACE + "negative" + SOURCE_SPACE + "(" + EXACT_TOKEN + ")"
+    + SOURCE_SPACE + "positive" + SOURCE_SPACE + "(" + EXACT_TOKEN + ")$");
+const SEA_PLACE = new RegExp("^place" + SOURCE_SPACE + "(" + IDENTIFIER + ")" + SOURCE_SPACE + "in" + SOURCE_SPACE + "(" + IDENTIFIER + ")$");
+const SEA_ADJACENT = new RegExp("^adjacent" + SOURCE_SPACE + "(" + IDENTIFIER + ")"
+    + SOURCE_SPACE + "(" + IDENTIFIER + ")" + SOURCE_SPACE + "(" + IDENTIFIER + ")$");
+const SEA_ENDPOINT = "(region|world)" + SOURCE_SPACE + "(" + IDENTIFIER + ")";
+const SEA_EXCHANGE = new RegExp("^exchange" + SOURCE_SPACE + "(" + IDENTIFIER + ")"
+    + SOURCE_SPACE + "(negative|positive)" + SOURCE_SPACE + "(" + EXACT_TOKEN + ")"
+    + SOURCE_SPACE + "from" + SOURCE_SPACE + SEA_ENDPOINT
+    + SOURCE_SPACE + "to" + SOURCE_SPACE + SEA_ENDPOINT + "$");
+const SEA_EXCHANGE_REGION_GUARD = new RegExp("^exchange-when" + SOURCE_SPACE + "(" + IDENTIFIER + ")"
+    + SOURCE_SPACE + "region" + SOURCE_SPACE + "(" + IDENTIFIER + ")" + SOURCE_SPACE + "(negative|positive)"
+    + SOURCE_COMPARISON + "(" + EXACT_TOKEN + ")$");
+const SEA_EXCHANGE_FIELD_GUARD = new RegExp("^exchange-when" + SOURCE_SPACE + "(" + IDENTIFIER + ")"
+    + SOURCE_SPACE + "(" + IDENTIFIER + ")[.](" + IDENTIFIER + ")"
+    + SOURCE_COMPARISON + "(" + EXACT_TOKEN + ")$");
 const FIELD_ROLES = new Set<CausalFieldRole>([
     "world-state", "world-condition", "structural-state", "identity-state", "memory-state",
     "boundary-state", "positive-sea", "negative-sea", "viability",
@@ -181,6 +282,7 @@ export function compileCausalBubbleSource(
     const lawLifecycles: LawLifecycleDeclaration[] = [];
     const lawCommits: LawCommitDeclaration[] = [];
     const lawTransfers: LawTransferDeclaration[] = [];
+    const sea: SeaMediumSource = { medium: undefined, regions: [], placements: [], adjacency: [], exchanges: [], guards: [] };
     let worldWillId: string | undefined;
     let decisionMode: "deterministic" | "plural" | undefined;
     let internalConflictMode: "underdetermined" | "maximal-commuting-branches" | undefined;
@@ -344,6 +446,7 @@ export function compileCausalBubbleSource(
             lawTransfers.push({ lawId: match[1]!, transferId: match[2]!, line: line.number });
             continue;
         }
+        if (parseSeaMediumLine(line, sea, sourcePath)) continue;
         fail("CBL008", `Could not parse causal declaration '${line.text}'.`, sourcePath, line.number);
     }
 
@@ -433,6 +536,10 @@ export function compileCausalBubbleSource(
         guardFamilyIds.set(law.id, familyId);
         families.push(predicateFamily(familyId, law.guardOperator, law.guardValue));
     }
+    const seaMedium = lowerSeaMedium(sea, {
+        worlds, worldIds, fieldByKey, seas, lawById, lawEffects, lawInverses, transfers, sourcePath,
+    });
+    if (seaMedium) families.push(...seaMedium.families);
 
     const program: ExecutableAnchoredCausalProgram = {
         mode: "bubble-anchored-causal-program.v2",
@@ -466,6 +573,7 @@ export function compileCausalBubbleSource(
             ...(transfers.length > 0 ? {
                 anchorTransfers: transfers.map(({ line: _line, ...transfer }) => transfer),
             } : {}),
+            ...(seaMedium ? { seaMedium: seaMedium.medium } : {}),
             worldWill: {
                 id: worldWillId,
                 objectives: objectives.map((objective) => ({
@@ -595,6 +703,275 @@ function predicateFamily(id: string, operator: IntensionalBinaryOperator, value:
     };
 }
 
+function parseSeaMediumLine(line: SourceLine, sea: SeaMediumSource, sourcePath: string | null): boolean {
+    let match = line.text.match(SEA_MEDIUM);
+    if (match) {
+        if (sea.medium) {
+            fail("CBL024", `Sea medium is declared more than once (first declared on line ${sea.medium.line}).`, sourcePath, line.number);
+        }
+        sea.medium = { id: match[1]!, closure: match[2] as SeaMediumDeclaration["closure"], line: line.number };
+        return true;
+    }
+    match = line.text.match(SEA_REGION);
+    if (match) {
+        sea.regions.push({
+            id: match[1]!,
+            negative: seaRegionQuantity(match[1]!, "negative", match[2]!, sourcePath, line.number),
+            positive: seaRegionQuantity(match[1]!, "positive", match[3]!, sourcePath, line.number),
+            line: line.number,
+        });
+        return true;
+    }
+    match = line.text.match(SEA_PLACE);
+    if (match) {
+        sea.placements.push({ worldId: match[1]!, regionId: match[2]!, line: line.number });
+        return true;
+    }
+    match = line.text.match(SEA_ADJACENT);
+    if (match) {
+        sea.adjacency.push({ id: match[1]!, regionIds: [match[2]!, match[3]!], line: line.number });
+        return true;
+    }
+    match = line.text.match(SEA_EXCHANGE);
+    if (match) {
+        const amount = parseExact(match[3]!, sourcePath, line.number, true);
+        if (compareExactRationals(amount, exact.integer(0)) !== 1) {
+            fail("CBL028", `Sea exchange '${match[1]}' must move a positive exact rational amount; received '${match[3]}'.`, sourcePath, line.number);
+        }
+        sea.exchanges.push({
+            id: match[1]!,
+            quantity: match[2] as CausalSeaQuantity,
+            amount,
+            from: seaEndpoint(match[4]!, match[5]!),
+            to: seaEndpoint(match[6]!, match[7]!),
+            line: line.number,
+        });
+        return true;
+    }
+    match = line.text.match(SEA_EXCHANGE_REGION_GUARD);
+    if (match) {
+        sea.guards.push({
+            exchangeId: match[1]!,
+            kind: "region",
+            regionId: match[2]!,
+            quantity: match[3] as CausalSeaQuantity,
+            operator: comparisonOperator(match[4]!),
+            value: parseExact(match[5]!, sourcePath, line.number, true),
+            line: line.number,
+        });
+        return true;
+    }
+    match = line.text.match(SEA_EXCHANGE_FIELD_GUARD);
+    if (match) {
+        sea.guards.push({
+            exchangeId: match[1]!,
+            kind: "field",
+            worldId: match[2]!,
+            fieldId: match[3]!,
+            operator: comparisonOperator(match[4]!),
+            value: parseExact(match[5]!, sourcePath, line.number),
+            line: line.number,
+        });
+        return true;
+    }
+    return false;
+}
+
+function seaRegionQuantity(
+    regionId: string,
+    quantity: CausalSeaQuantity,
+    raw: string,
+    sourcePath: string | null,
+    line: number,
+): ExactValue {
+    const value = parseExact(raw, sourcePath, line, true);
+    if ((compareExactRationals(value, exact.integer(0)) ?? -1) < 0) {
+        fail("CBL027", `Sea region '${regionId}' needs a non-negative exact rational ${quantity} quantity; received '${raw}'.`, sourcePath, line);
+    }
+    return value;
+}
+
+function seaEndpoint(kind: string, id: string): CausalSeaEndpoint {
+    return kind === "world" ? { kind: "world", worldId: id } : { kind: "region", regionId: id };
+}
+
+function describeSeaEndpoint(endpoint: CausalSeaEndpoint): string {
+    return endpoint.kind === "world" ? `world '${endpoint.worldId}'` : `region '${endpoint.regionId}'`;
+}
+
+function adjacencyKey(left: string, right: string): string {
+    return left < right ? `${left},${right}` : `${right},${left}`;
+}
+
+function lowerSeaMedium(
+    sea: SeaMediumSource,
+    context: SeaMediumContext,
+): { medium: CausalSeaMedium; families: IntensionalFamilyDefinition[] } | undefined {
+    const { sourcePath } = context;
+    const medium = sea.medium;
+    if (!medium) {
+        const statementLines = [...sea.regions, ...sea.placements, ...sea.adjacency, ...sea.exchanges, ...sea.guards]
+            .map((entry) => entry.line);
+        if (statementLines.length > 0) {
+            fail("CBL025", "Sea medium statements need one 'sea-medium <medium-id> closed|open' declaration.", sourcePath, Math.min(...statementLines));
+        }
+        return undefined;
+    }
+
+    requireUnique(sea.regions, "sea region", sourcePath);
+    requireUnique(sea.placements, "world placement", sourcePath, (entry) => entry.worldId);
+    requireUnique(sea.adjacency, "sea adjacency", sourcePath);
+    requireUnique(sea.exchanges, "sea exchange", sourcePath);
+
+    const regionIds = new Set(sea.regions.map((entry) => entry.id));
+    for (const placement of sea.placements) {
+        requireWorld(context.worldIds, placement.worldId, sourcePath, placement.line);
+        requireRegion(regionIds, placement.regionId, sourcePath, placement.line);
+    }
+    const placementByWorld = new Map(sea.placements.map((entry) => [entry.worldId, entry.regionId]));
+    for (const world of context.worlds) {
+        if (!placementByWorld.has(world.id)) {
+            fail("CBL029", `World '${world.id}' needs one explicit placement in a region of sea medium '${medium.id}'.`, sourcePath, world.line);
+        }
+    }
+    for (const edge of sea.adjacency) {
+        for (const regionId of edge.regionIds) requireRegion(regionIds, regionId, sourcePath, edge.line);
+        if (edge.regionIds[0] === edge.regionIds[1]) {
+            fail("CBL030", `Adjacency '${edge.id}' must join two distinct regions.`, sourcePath, edge.line);
+        }
+    }
+    requireUnique(sea.adjacency, "sea adjacency between regions", sourcePath, (entry) => adjacencyKey(...entry.regionIds));
+    const adjacencyKeys = new Set(sea.adjacency.map((entry) => adjacencyKey(...entry.regionIds)));
+
+    for (const exchange of sea.exchanges) {
+        for (const endpoint of [exchange.from, exchange.to]) {
+            if (endpoint.kind === "world") requireWorld(context.worldIds, endpoint.worldId, sourcePath, exchange.line);
+            else requireRegion(regionIds, endpoint.regionId, sourcePath, exchange.line);
+        }
+        const { from, to } = exchange;
+        if (from.kind === "world" && to.kind === "world") {
+            fail("CBL031", `Sea exchange '${exchange.id}' cannot move sea quantity from world to world; worlds exchange content only through anchors.`, sourcePath, exchange.line);
+        }
+        if (from.kind === "region" && to.kind === "region") {
+            if (!adjacencyKeys.has(adjacencyKey(from.regionId, to.regionId))) {
+                fail("CBL032", `Sea exchange '${exchange.id}' from ${describeSeaEndpoint(from)} to ${describeSeaEndpoint(to)} needs a declared adjacency between two distinct regions.`, sourcePath, exchange.line);
+            }
+            continue;
+        }
+        const worldEndpoint = from.kind === "world" ? from : to;
+        const regionEndpoint = from.kind === "region" ? from : to;
+        if (worldEndpoint.kind === "world" && regionEndpoint.kind === "region"
+            && placementByWorld.get(worldEndpoint.worldId) !== regionEndpoint.regionId) {
+            fail("CBL033", `Sea exchange '${exchange.id}' links world '${worldEndpoint.worldId}' with region '${regionEndpoint.regionId}', but that world is placed in region '${placementByWorld.get(worldEndpoint.worldId)}'.`, sourcePath, exchange.line);
+        }
+    }
+
+    const exchangeById = new Map(sea.exchanges.map((entry) => [entry.id, entry]));
+    for (const guard of sea.guards) {
+        const exchange = exchangeById.get(guard.exchangeId);
+        if (!exchange) fail("CBL035", `Unknown sea exchange '${guard.exchangeId}'.`, sourcePath, guard.line);
+        const endpoints = [exchange.from, exchange.to];
+        if (guard.kind === "field") {
+            requireField(context.fieldByKey, guard.worldId, guard.fieldId, sourcePath, guard.line);
+            if (!endpoints.some((endpoint) => endpoint.kind === "world" && endpoint.worldId === guard.worldId)) {
+                fail("CBL034", `Sea exchange '${exchange.id}' guard may read only its endpoint worlds and regions; world '${guard.worldId}' is not an endpoint.`, sourcePath, guard.line);
+            }
+            const field = context.fieldByKey.get(`${guard.worldId}.${guard.fieldId}`)!;
+            if (field.initialValue.kind !== guard.value.kind) {
+                fail("CBL015", `Sea exchange '${exchange.id}' compares '${guard.worldId}.${guard.fieldId}' with a different exact value kind.`, sourcePath, guard.line);
+            }
+            if (guard.value.kind !== "rational" && !["equal", "not-equal"].includes(guard.operator)) {
+                fail("CBL021", `Sea exchange '${exchange.id}' can only order exact rational values; boolean and symbol guards support equality or inequality.`, sourcePath, guard.line);
+            }
+        } else {
+            requireRegion(regionIds, guard.regionId, sourcePath, guard.line);
+            if (!endpoints.some((endpoint) => endpoint.kind === "region" && endpoint.regionId === guard.regionId)) {
+                fail("CBL034", `Sea exchange '${exchange.id}' guard may read only its endpoint worlds and regions; region '${guard.regionId}' is not an endpoint.`, sourcePath, guard.line);
+            }
+        }
+    }
+
+    if (medium.closure === "closed") {
+        const seaFieldKeys = new Set(context.seas.flatMap((entry) => [
+            `${entry.worldId}.${entry.positiveFieldId}`,
+            `${entry.worldId}.${entry.negativeFieldId}`,
+        ]));
+        for (const entry of [...context.lawEffects, ...context.lawInverses]) {
+            const law = context.lawById.get(entry.lawId)!;
+            const key = `${law.worldId}.${entry.effect.fieldId}`;
+            if (seaFieldKeys.has(key)) {
+                fail("CBL036", `Closed sea medium '${medium.id}' is the only source and sink of sea quantity; law '${law.id}' cannot write world sea field '${key}'.`, sourcePath, entry.line);
+            }
+        }
+        const zero = exact.integer(0);
+        for (const transfer of context.transfers) {
+            if (!exactValuesEqual(transfer.sourceNegativeSeaResidue, zero) || !exactValuesEqual(transfer.targetPositiveSeaPlacement, zero)) {
+                fail("CBL036", `Closed sea medium '${medium.id}' is the only source and sink of sea quantity; transfer '${transfer.id}' cannot write negative-sea residue or positive-sea placement.`, sourcePath, transfer.line);
+            }
+        }
+    }
+
+    const families: IntensionalFamilyDefinition[] = [];
+    const exchangeLaws: CausalSeaExchangeLaw[] = sea.exchanges.map((exchange) => {
+        const clauses = sea.guards.filter((guard) => guard.exchangeId === exchange.id)
+            .map((guard, index) => ({ guard, parameterName: `value-${index}` }));
+        const familyId = `sea-guard-${exchange.id}`;
+        families.push(conjunctionFamily(familyId, clauses.map(({ guard, parameterName }) => ({
+            parameterName, operator: guard.operator, value: guard.value,
+        }))));
+        return {
+            id: exchange.id,
+            quantity: exchange.quantity,
+            from: exchange.from,
+            to: exchange.to,
+            amount: exchange.amount,
+            guard: {
+                id: `sea-predicate-${exchange.id}`,
+                query: { familyId, at: { coordinate: "0" }, parameters: {} },
+                fieldParameters: clauses.flatMap(({ guard, parameterName }) => (
+                    guard.kind === "field" ? [{ parameterName, worldId: guard.worldId, fieldId: guard.fieldId }] : []
+                )),
+                regionParameters: clauses.flatMap(({ guard, parameterName }) => (
+                    guard.kind === "region" ? [{ parameterName, regionId: guard.regionId, quantity: guard.quantity }] : []
+                )),
+            },
+            application: "once-per-realization",
+        };
+    });
+    return {
+        medium: {
+            id: medium.id,
+            closure: medium.closure,
+            regions: sea.regions.map((region) => ({ id: region.id, negative: region.negative, positive: region.positive })),
+            placements: sea.placements.map((placement) => ({ worldId: placement.worldId, regionId: placement.regionId })),
+            adjacency: sea.adjacency.map((edge) => ({ id: edge.id, regionIds: [...edge.regionIds] })),
+            exchangeLaws,
+        },
+        families,
+    };
+}
+
+/** One exchange guard family: the conjunction of its clauses, or constant true when it has none. */
+function conjunctionFamily(
+    id: string,
+    clauses: Array<{ parameterName: string; operator: IntensionalBinaryOperator; value: ExactValue }>,
+): IntensionalFamilyDefinition {
+    if (clauses.length === 0) return constantFamily(id, exact.boolean(true));
+    const comparisons = clauses.map((clause): IntensionalTerm => ({
+        kind: "binary",
+        operator: clause.operator,
+        left: { kind: "parameter", name: clause.parameterName },
+        right: { kind: "value", value: clause.value },
+    }));
+    return {
+        id,
+        domain: { axes: [{ name: "coordinate", kind: "natural" }] },
+        valueKind: "boolean",
+        parameters: clauses.map((clause) => ({ name: clause.parameterName, valueKind: clause.value.kind })),
+        body: comparisons.reduce((left, right): IntensionalTerm => ({ kind: "binary", operator: "and", left, right })),
+    };
+}
+
 function commaList(raw: string, sourcePath: string | null, line: number): string[] {
     const values = raw.split(",").map((entry) => entry.trim()).filter(Boolean);
     if (values.length === 0 || values.some((entry) => !new RegExp(`^${IDENTIFIER}$`).test(entry))) {
@@ -620,6 +997,10 @@ function requireUnique<T extends { id?: string; line: number }>(
 
 function requireWorld(worldIds: Set<string>, worldId: string, sourcePath: string | null, line: number): void {
     if (!worldIds.has(worldId)) fail("CBL019", `Unknown world '${worldId}'.`, sourcePath, line);
+}
+
+function requireRegion(regionIds: Set<string>, regionId: string, sourcePath: string | null, line: number): void {
+    if (!regionIds.has(regionId)) fail("CBL026", `Unknown sea region '${regionId}'.`, sourcePath, line);
 }
 
 function requireField(

@@ -1,15 +1,15 @@
 {
   "mode": "bubble-author-idea-obligations.v1",
   "recordedDate": "2026-07-15",
-  "lastReconciledDate": "2026-11-16",
-  "workingRelease": "0.5.9",
+  "lastReconciledDate": "2026-11-17",
+  "workingRelease": "0.5.10",
   "activeCandidate": null,
   "sourceDocument": "docs/research/author-idea-corpus.md",
   "nonClosureRule": "A bounded implementation may advance status but must not delete source text, erase remaining obligations, or claim the whole idea from a proxy.",
   "obligations": [
     {
       "id": "OB-001",
-      "sourceIds": ["AI-20260715-001", "AI-20261116-001"],
+      "sourceIds": ["AI-20260715-001", "AI-20261116-001", "AI-20261116-002"],
       "concept": "whole-universe completion",
       "invariant": "No release or proxy may be called the complete Bubble universe while a recorded reasonable consequence remains unrealizable.",
       "dependencies": ["OB-003", "OB-004", "OB-005", "OB-006", "OB-007", "OB-008", "OB-011", "OB-012", "OB-013", "OB-014"],
@@ -88,7 +88,7 @@
       "status": "partial",
       "implementationEvidence": ["src/bubbles/runtime/ontology.ts", "src/bubbles/world-kernel/causal-runtime.ts", "src/bubbles/world-kernel/endogenous.ts", "src/bubbles/world-kernel/endogenous-runtime.ts", "src/bubbles/world-kernel/persistent-runtime.ts", "examples/connected-fields.causal.bubble", "examples/endogenous-connected-universe.world.json", "docs/architecture/sea-anchor-model.md", "docs/architecture/v0.5.3-persistent-causal-structure.md", "docs/architecture/v0.5.6-endogenous-world-lifecycle.md", "docs/architecture/typed-cross-world-membrane-candidate.md", "docs/architecture/v0.5.8-endogenous-connected-universe.md"],
       "acceptanceTests": ["tests/unit/materialize-bubble.test.ts", "tests/unit/anchored-causal-runtime.test.ts", "tests/unit/causal-world-lifecycle.test.ts", "tests/unit/causal-anchor-transfer.test.ts", "tests/unit/endogenous-connected-universe.test.ts", "tests/unit/persistent-causal-runtime.test.ts"],
-      "remainingLimits": ["Exact local negative-sea admission causes erosion and restoration, cessation retains residue, membrane crossings leave material accounting, and bounded v0.5.8 preserves multiple named positive/negative sea channels whose sibling relation actions add commutatively. The legacy causal adapter still projects those channels into one scalar viability coordinate. Global structural sea operators, conservation, continuous membrane dynamics, and general placement/growth remain open."],
+      "remainingLimits": ["Exact local negative-sea admission causes erosion and restoration, cessation retains residue, membrane crossings leave material accounting, and bounded v0.5.8 preserves multiple named positive/negative sea channels whose sibling relation actions add commutatively. Bounded v0.5.10 adds a shared conserved medium: regions, placement of every world including generated ones, adjacency, the medium's own local exchange laws, release of retired residue into the sea, non-negative world sea, scarcity conflicts, an exact closed/open balance certificate, and continuation across persistent and generated-universe closures. The legacy causal adapter still projects those channels into one scalar viability coordinate. Global structural sea operators, conservation, continuous membrane dynamics, and general placement/growth remain open."],
       "reopenCondition": "Reopen from the first concrete global transport, cross-world membrane, or positive-sea placement law."
     },
     {

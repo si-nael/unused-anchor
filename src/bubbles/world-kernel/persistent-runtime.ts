@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import {
     compareExactRationals,
+    exact,
     exactValuesEqual,
     normalizeExactValue,
     type ExactValue,
@@ -23,13 +24,33 @@ import {
     type DerivedCausalComponent,
     type PersistentCausalProgram,
 } from "./persistent";
-import type { CausalDiagnostic, CausalFieldRole, CausalInternalLaw } from "./causal";
+import {
+    CAUSAL_SEA_QUANTITIES,
+    type CausalDiagnostic,
+    type CausalFieldRole,
+    type CausalInternalLaw,
+    type CausalSeaQuantity,
+} from "./causal";
 import { compareCanonicalStrings } from "./canonical-order";
 
 export interface PersistentCausalExecutionOptions {
     maxClosures?: number;
     maxPaths?: number;
     causalOptions?: CausalExecutionOptions;
+}
+
+/**
+ * The shared sea medium at one closure cut (v0.5.10). Region quantities are part of the causal configuration, so
+ * they are carried into the next closure and enter its configuration digest; region causes are provenance only.
+ */
+export interface PersistentSeaMediumConfiguration {
+    /** Exact region quantities in canonical region order. */
+    regions: Array<{ id: string; negative: ExactValue; positive: ExactValue }>;
+    /**
+     * The events that last changed each region quantity, keyed `<regionId>#<quantity>`. An event realized by an
+     * earlier closure is named `<eventId>@<closureId>`, so per-realization event ids never alias across closures.
+     */
+    regionCauses: Record<string, string[]>;
 }
 
 export interface PersistentCausalClosure {
@@ -40,6 +61,10 @@ export interface PersistentCausalClosure {
     outputConfigurationDigest: string;
     inputWorldStates: CausalWorldState[];
     outputWorldStates: CausalWorldState[];
+    /** Present when the program declares a sea medium. */
+    inputSeaMedium?: PersistentSeaMediumConfiguration;
+    /** Present when the program declares a sea medium; it is the next closure's `inputSeaMedium`. */
+    outputSeaMedium?: PersistentSeaMediumConfiguration;
     historyExtension: CausalHistoryCommit[];
     historyExtensionDigest: string;
     selectedContinuationId: string;
@@ -81,6 +106,8 @@ export interface CounterfactualContinuationDifference {
     continuationId: string;
     changedFieldKeys: string[];
     changedLifecycleWorldIds?: string[];
+    /** Present when a shared sea region quantity (`<regionId>#<quantity>`) differs. */
+    changedSeaRegionKeys?: string[];
     externallyChangedFieldKeys: string[];
     changedTraceLawIds: string[];
     historyChanged: boolean;
@@ -231,6 +258,7 @@ interface MutablePath {
     historyEntryCounts: number[];
     nextOverrides?: Record<string, ExactValue>;
     nextLifecycleOverrides?: Record<string, CausalWorldLifecycleState>;
+    nextSeaMedium?: PersistentSeaMediumConfiguration;
 }
 
 const REQUIRED_ROLES: CausalFieldRole[] = ["structural-state", "identity-state", "memory-state", "boundary-state"];
@@ -289,10 +317,141 @@ function statesToOverrides(program: PersistentCausalProgram, states: CausalWorld
     return overrides;
 }
 
-function statesToLifecycleOverrides(states: CausalWorldState[]): Record<string, CausalWorldLifecycleState> {
+export function statesToLifecycleOverrides(states: CausalWorldState[]): Record<string, CausalWorldLifecycleState> {
     return Object.fromEntries(states
         .filter((state): state is CausalWorldState & { lifecycle: CausalWorldLifecycleState } => !!state.lifecycle)
         .map((state) => [state.worldId, cloneValue(state.lifecycle)]));
+}
+
+// ---- Sea medium continuation (v0.5.10; docs/architecture/v0.5.10-multiversal-sea-medium.md) ----
+
+function regionQuantityKey(regionId: string, quantity: CausalSeaQuantity): string {
+    return `${regionId}#${quantity}`;
+}
+
+function sortedUniqueCanonical(values: Iterable<string>): string[] {
+    return [...new Set(values)].sort(compareCanonicalStrings);
+}
+
+function canonicalSeaRegions(
+    regions: Array<{ id: string; negative: ExactValue; positive: ExactValue }>,
+): PersistentSeaMediumConfiguration["regions"] {
+    return [...regions].sort((left, right) => compareCanonicalStrings(left.id, right.id)).map((region) => ({
+        id: region.id,
+        negative: cloneValue(normalizeExactValue(region.negative) ?? region.negative),
+        positive: cloneValue(normalizeExactValue(region.positive) ?? region.positive),
+    }));
+}
+
+function canonicalRegionCauses(causes: Iterable<[string, string[]]>): Record<string, string[]> {
+    return Object.fromEntries([...causes]
+        .filter(([, entries]) => entries.length > 0)
+        .sort(([left], [right]) => compareCanonicalStrings(left, right))
+        .map(([key, entries]) => [key, sortedUniqueCanonical(entries)]));
+}
+
+/** The medium a closure started from: the run's initial regions and the region causes it was given. */
+function closureInputSeaMedium(run: AnchoredCausalRun): PersistentSeaMediumConfiguration | undefined {
+    if (!run.initialSeaMedium) return undefined;
+    return {
+        regions: canonicalSeaRegions(run.initialSeaMedium),
+        regionCauses: canonicalRegionCauses(Object.entries(run.options.seaRegionOverrideCauses ?? {})),
+    };
+}
+
+/**
+ * The medium a continuation leaves for the next closure. Region quantities are the continuation's final regions.
+ * Region causes follow the kernel rule (the events of the last synchronous frontier that changed a quantity,
+ * merged with retirement releases of the lifecycle frontier that frontier triggered; an unchanged quantity keeps
+ * its input causes), reconstructed from the recorded exchange events, lifecycle residues, and frontiers.
+ */
+function closureOutputSeaMedium(
+    continuation: CausalContinuation,
+    input: PersistentSeaMediumConfiguration | undefined,
+    closureId: string,
+): PersistentSeaMediumConfiguration | undefined {
+    if (!input || !continuation.seaMedium) return undefined;
+    const qualified = (eventId: string): string => `${eventId}@${closureId}`;
+    const causes = new Map(Object.entries(input.regionCauses).map(([key, entries]) => [key, [...entries]]));
+    const exchanges = new Map((continuation.seaExchangeEvents ?? []).map((event) => [event.id, event]));
+    const releases = new Map((continuation.lifecycleEvents ?? [])
+        .filter((event) => event.kind === "world-retirement" && event.residue?.seaRelease)
+        .map((event) => [event.id, event.residue!.seaRelease!]));
+    const lawEventIds = new Set(continuation.trace
+        .filter((entry) => (entry.kind === "internal-law" || entry.kind === "sea-medium") && entry.eventId)
+        .map((entry) => entry.eventId!));
+    const append = (changes: Map<string, string[]>, key: string, eventId: string): void => {
+        changes.set(key, [...changes.get(key) ?? [], eventId]);
+    };
+    let lawFrontierChanges = new Map<string, string[]>();
+    for (const frontier of continuation.order.evaluationFrontiers) {
+        const exchangeChanges = new Map<string, string[]>();
+        const releaseChanges = new Map<string, string[]>();
+        for (const eventId of sortedUniqueCanonical(frontier)) {
+            const exchange = exchanges.get(eventId);
+            for (const side of exchange ? [exchange.from, exchange.to] : []) {
+                if (side.kind === "region") append(exchangeChanges, regionQuantityKey(side.regionId, exchange!.quantity), eventId);
+            }
+            const release = releases.get(eventId);
+            for (const quantity of release ? CAUSAL_SEA_QUANTITIES : []) {
+                if (!exactValuesEqual(release![quantity], exact.integer(0))) {
+                    append(releaseChanges, regionQuantityKey(release!.regionId, quantity), eventId);
+                }
+            }
+        }
+        if (frontier.some((eventId) => lawEventIds.has(eventId))) {
+            lawFrontierChanges = exchangeChanges;
+            for (const [key, eventIds] of exchangeChanges) causes.set(key, eventIds.map(qualified));
+        }
+        for (const [key, eventIds] of releaseChanges) {
+            causes.set(key, [...lawFrontierChanges.get(key) ?? [], ...eventIds].map(qualified));
+        }
+    }
+    return {
+        regions: canonicalSeaRegions(continuation.seaMedium.regions),
+        regionCauses: canonicalRegionCauses(causes),
+    };
+}
+
+/**
+ * Execution options that start a realization from a recorded medium cut, exactly as field overrides start it from
+ * recorded world fields. Every factual and counterfactual re-execution of a closure uses them; without a medium
+ * they are empty, so programs without one execute unchanged.
+ */
+export function persistentSeaMediumContinuationOptions(
+    seaMedium: PersistentSeaMediumConfiguration | undefined,
+): Pick<CausalExecutionOptions, "seaRegionOverrides" | "seaRegionOverrideCauses"> {
+    if (!seaMedium) return {};
+    return {
+        seaRegionOverrides: Object.fromEntries(canonicalSeaRegions(seaMedium.regions)
+            .map((region) => [region.id, { negative: region.negative, positive: region.positive }])),
+        seaRegionOverrideCauses: canonicalRegionCauses(Object.entries(seaMedium.regionCauses)),
+    };
+}
+
+/**
+ * The exact causal configuration at a closure cut. Without a medium it is the world-state product, unchanged since
+ * v0.5.3; with one it also contains every region quantity, so a world whose fields repeat while the shared sea
+ * drifts does not recur. Region causes, like field causes and anchored history, are not configuration.
+ */
+function configurationDigest(states: CausalWorldState[], seaMedium: PersistentSeaMediumConfiguration | undefined): string {
+    return seaMedium ? digest({ worldStates: states, seaRegions: seaMedium.regions }) : digest(states);
+}
+
+function changedSeaRegionKeys(baseline: CausalContinuation, counterfactual: CausalContinuation): string[] {
+    if (!baseline.seaMedium && !counterfactual.seaMedium) return [];
+    const quantities = (continuation: CausalContinuation): Map<string, ExactValue> => new Map(
+        (continuation.seaMedium?.regions ?? []).flatMap((region) => CAUSAL_SEA_QUANTITIES.map((quantity) => (
+            [regionQuantityKey(region.id, quantity), region[quantity]] as const
+        ))),
+    );
+    const left = quantities(baseline);
+    const right = quantities(counterfactual);
+    return sortedUniqueCanonical([...left.keys(), ...right.keys()]).filter((key) => {
+        const leftValue = left.get(key);
+        const rightValue = right.get(key);
+        return !leftValue || !rightValue || !exactValuesEqual(leftValue, rightValue);
+    });
 }
 
 function changedLifecycleWorldIds(left: CausalWorldState[], right: CausalWorldState[]): string[] {
@@ -327,9 +486,10 @@ function symmetricDifference(left: string[], right: string[]): string[] {
     return [...new Set([...left, ...right])].filter((value) => leftSet.has(value) !== rightSet.has(value)).sort();
 }
 
+/** Realized internal laws and, under a medium, realized medium exchange laws (their ids are disjoint, CKW217). */
 function traceLawIds(continuation: CausalContinuation): string[] {
     return [...new Set(continuation.trace
-        .filter((entry) => entry.kind === "internal-law" && entry.lawId)
+        .filter((entry) => (entry.kind === "internal-law" || entry.kind === "sea-medium") && entry.lawId)
         .map((entry) => entry.lawId!))].sort();
 }
 
@@ -340,16 +500,19 @@ function continuationDifference(
 ): CounterfactualContinuationDifference {
     const changed = changedFieldKeys(baseline.worldStates, counterfactual.worldStates);
     const changedLifecycle = changedLifecycleWorldIds(baseline.worldStates, counterfactual.worldStates);
+    const changedRegions = changedSeaRegionKeys(baseline, counterfactual);
     const changedTraceLawIds = symmetricDifference(traceLawIds(baseline), traceLawIds(counterfactual));
     const historyChanged = stableStringify(baseline.historyCommits) !== stableStringify(counterfactual.historyCommits);
     return {
         continuationId: counterfactual.id,
         changedFieldKeys: changed,
         ...(changedLifecycle.length > 0 ? { changedLifecycleWorldIds: changedLifecycle } : {}),
+        ...(changedRegions.length > 0 ? { changedSeaRegionKeys: changedRegions } : {}),
         externallyChangedFieldKeys: changed.filter((key) => !memberSet.has(key)),
         changedTraceLawIds,
         historyChanged,
-        effective: changed.length > 0 || changedLifecycle.length > 0 || changedTraceLawIds.length > 0 || historyChanged,
+        effective: changed.length > 0 || changedLifecycle.length > 0 || changedRegions.length > 0
+            || changedTraceLawIds.length > 0 || historyChanged,
     };
 }
 
@@ -433,6 +596,7 @@ function memoryEvidence(
                 ...statesToOverrides(program, last.inputWorldStates),
                 [key]: cloneValue(erasedToValue),
             },
+            ...persistentSeaMediumContinuationOptions(last.inputSeaMedium),
         });
         const continuations = selectedContinuations(counterfactual);
         if (continuations.length === 0 || ["underdetermined", "contradicted"].includes(counterfactual.status)) {
@@ -685,6 +849,7 @@ function boundaryEvidence(
                 ...statesToOverrides(program, closure.inputWorldStates),
                 ...cloneValue(boundaryOverrides),
             },
+            ...persistentSeaMediumContinuationOptions(closure.inputSeaMedium),
         });
         counterfactualRuns.push({ factualClosureId: closure.id, status: counterfactual.status });
         const continuations = selectedContinuations(counterfactual);
@@ -868,8 +1033,11 @@ export function realizePersistentCausalWorld(
             ...(current.nextLifecycleOverrides
                 ? { worldLifecycleOverrides: current.nextLifecycleOverrides }
                 : {}),
+            // The shared sea continues from the region quantities the previous closure left; it never resets.
+            ...persistentSeaMediumContinuationOptions(current.nextSeaMedium),
         });
         closureExecutions += 1;
+        const inputSeaMedium = closureInputSeaMedium(run);
         const selected = selectedContinuations(run);
         if (selected.length === 0) {
             paths.push({
@@ -885,8 +1053,9 @@ export function realizePersistentCausalWorld(
         for (const continuation of selected) {
             const closureNumber = current.closures.length + 1;
             const closureId = `${current.id}:closure:${closureNumber}:${continuation.id}`;
-            const inputDigest = digest(run.initialWorldStates);
-            const outputDigest = digest(continuation.worldStates);
+            const outputSeaMedium = closureOutputSeaMedium(continuation, inputSeaMedium, closureId);
+            const inputDigest = configurationDigest(run.initialWorldStates, inputSeaMedium);
+            const outputDigest = configurationDigest(continuation.worldStates, outputSeaMedium);
             const closure: PersistentCausalClosure = {
                 id: closureId,
                 cause: current.closures.length === 0 ? "initial-configuration" : "configuration-continuation",
@@ -895,6 +1064,8 @@ export function realizePersistentCausalWorld(
                 outputConfigurationDigest: outputDigest,
                 inputWorldStates: cloneValue(run.initialWorldStates),
                 outputWorldStates: cloneValue(continuation.worldStates),
+                ...(inputSeaMedium ? { inputSeaMedium: cloneValue(inputSeaMedium) } : {}),
+                ...(outputSeaMedium ? { outputSeaMedium: cloneValue(outputSeaMedium) } : {}),
                 historyExtension: cloneValue(continuation.historyCommits),
                 historyExtensionDigest: digest(continuation.historyCommits),
                 selectedContinuationId: continuation.id,
@@ -981,6 +1152,7 @@ export function realizePersistentCausalWorld(
                 historyEntryCounts,
                 nextOverrides: statesToOverrides(program, continuation.worldStates),
                 nextLifecycleOverrides: statesToLifecycleOverrides(continuation.worldStates),
+                ...(outputSeaMedium ? { nextSeaMedium: outputSeaMedium } : {}),
             });
         }
     }

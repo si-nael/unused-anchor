@@ -126,6 +126,93 @@ Evaluation is deterministic and `selectsBranch: false`. A complete plural family
 
 `selfComplementation.steps` forms a predecessor-digest chain over every causal-generation closure. Each step records input frontier and dormant-admission counts, realized events, newly generated events, derived branches, fixed, persistent-recurrence, and open outcomes, and whether realized state reactivated dormant generation. The ledger is monotone as evidence. The certificate explicitly sets `worldStateMonotonicityClaim`, `convergenceGuaranteed`, and `wholeUniverseCompletionClaim` to false.
 
+## Multiversal Sea Medium Placement (bounded v0.5.10)
+
+An `EndogenousUniverseProgram` may declare `seaMedium`, which places every generated world of the one universe in the shared medium of [v0.5.10-multiversal-sea-medium.md](../architecture/v0.5.10-multiversal-sea-medium.md). If `seaMedium` is absent, the program digest, materialization, compiled causal program, causal options, closures, inspection, and replay are byte-identical to the surface described above.
+
+```ts
+seaMedium: {
+  id, closure: "closed" | "open",
+  rootRegions: [{ rootId, negative, positive }],
+  childRegionInitial: { negative, positive },
+  exchangeTemplates: [{ id, quantity, from, to, amount, guard }],
+}
+```
+
+The declaration is read as a set. `digestEndogenousProgram` digests a medium-free program exactly as before. With a medium, it digests the declaration in canonical order: root regions by root, templates by id, and guard bindings by parameter name. Reordering any of these gives the same program and the same run.
+
+**Placement follows lineage.**
+
+- Every materialized world gets its own region, `region-<suffix of its world id>`. A root's region starts from its `rootRegions` entry, and every root needs exactly one such entry.
+- A generated world's region starts from `childRegionInitial` and is joined to its parent's region by the adjacency `adjacency-<suffix of the child id>`.
+- The materialization carries this state as `seaMedium`: regions with quantities and closure-qualified causes, placements with each world's signed `exchanged` sea, and adjacency. Every branch-indexed universe carries its own copy in its materialization.
+
+**Exchange templates** are the medium's own laws, instantiated once per materialized world with the law id `<worldId>-<templateId>`. Instantiation iterates worlds and templates in canonical order. Endpoints are:
+
+- `self`, the world's medium-coupled sea field for the quantity;
+- `own-region`;
+- `parent-region`, which exists only for generated worlds. Roots skip every template that moves or reads a parent region.
+
+`self` exchanges only with `own-region`, and `own-region` exchanges with `parent-region` across the lineage adjacency. The `amount` is an exact positive rational.
+
+The guard is an ordinary typed query template. Its sources are resolved per world exactly as for internal-law guards, so it has no parent snapshot. It can also bind:
+
+- `fieldParameters`, the world's own schema fields, and only when `self` is an endpoint;
+- `regionParameters`, quantities of endpoint regions only.
+
+Validation (`EGU200` to `EGU211`) closes each template against every schema revision any world can carry. It rejects:
+
+- locality violations;
+- unknown roots;
+- a template id that equals an internal-law id, because the instantiated ids would collide.
+
+**Medium-coupled sea field.** The kernel's world endpoint is the world's `seaCoupling` field, which this compiler realizes as the causal projection coordinates `projection.negative` and `projection.positive` (`ENDOGENOUS_MEDIUM_SEA_FIELD_IDS`). Under a medium, the compiled value of each is the channel projection plus the world's `exchanged` amount. After each realization, `exchanged` grows by exactly the realized change of the coupled field, because only the medium writes that field.
+
+Inside a medium, a world's own internal-law guards, emergence predicates, and `self` exchange guards may bind these two field ids. A world's local law can therefore respond to residue that entered through its boundary. Self-identity, admission, and relation predicates cannot bind them, and without a medium they remain unknown fields.
+
+**Closure.**
+
+- `closed`: no sea quantity is created outside the medium. Validation rejects:
+  - a non-zero constructor `parentNegativeResidue` or `childPositivePlacement` (`EGU205`);
+  - a non-zero `childRegionInitial` (`EGU204`);
+  - any internal law, replacement-graph law, or upserted law that writes a positive-sea or negative-sea field (`EGU206`).
+
+  Materialization also contradicts if a generated world would begin with a non-zero sea field. Roots may begin with sea; together with the root regions, that is the universe's initial endowment.
+- `open`: constructor sea actions, child-region endowments, and sea-channel writes are admitted exactly as before.
+
+**Compilation.** `compileEndogenousUniverse` emits `world.seaMedium` with:
+
+- every region, declared at its endowment;
+- one placement per world in its own region;
+- the lineage adjacency;
+- the instantiated exchange laws.
+
+`seaRegionOverrides` and `seaRegionOverrideCauses` carry the realized region quantities and causes, as field overrides carry world fields, and `causalOptionsForEndogenousCompilation` passes them to the kernel.
+
+**Closures.**
+
+- After each causal continuation, the runtime hands every region's realized quantities to `continueEndogenousUniverseFromState` through `seaRegions`.
+- A quantity changed in that realization gets the events of the last frontier that changed it, qualified as `<closureId>:<eventId>`, so that a law of the same id in a later realization is a distinct event. An unchanged quantity keeps its previous causes.
+- A continuation of a medium program without the realized state of exactly every region contradicts.
+- Region quantities, placements with `exchanged`, and adjacency are part of the generation configuration digest, so neither a fixpoint nor a recurrence is claimed while any of them changes. Region causes are provenance and stay out of that digest, as world-field causes do.
+
+**Conservation.** The kernel's balance certifies each realization. Every closure of a medium program also records `seaMedium`:
+
+- each quantity's `inputTotal`;
+- the predecessor continuation's `predecessorFinalTotal` on the same branch;
+- their difference `interClosureProduction`, with `interClosureConserved`.
+
+Sea that enters between realizations is recorded here and not in the kernel balance: constructor sea actions, new region and world endowments, and sea-channel writes that a later channel projection reads. It enters through materialization, not through a kernel event. A closed medium must show zero, and a non-zero closed ledger contradicts the branch.
+
+Inspection exposes the medium as `topology.seaMedium`. Record and replay bind it through the stored run digest, so tampering with a region quantity fails integrity.
+
+Not claimed:
+
+- strict `endogenous bubble` source syntax for the medium, which remains typed-program only;
+- an exchange that names a schema sea channel, because the kernel medium is single-channel and endogenous channels still project;
+- routing anchor-transfer residue through the medium;
+- any of the boundaries listed under Current Boundary.
+
 ## Inspection And Replay
 
 - `inspectEndogenousConnectedUniverseRun` exposes the common topology, schema-revision transformation events, complete generated-universe branch family, frontiers, relation transports, sea channels, world-local continuation evidence, generated-recurrence certificates, finite realization certificate, and causal inspection.

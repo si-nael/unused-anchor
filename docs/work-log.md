@@ -1,5 +1,11 @@
 # Work Log
 
+## 2026-11-17
+
+- Built the v0.5.10 multiversal sea medium candidate in parallel: a written contract and shared types first, then owned-file agents for kernel validation and execution, BIR and outcome schemas, strict source syntax, a clean-room reader from the specifications alone, completion of the normative references with a generated schema appendix, persistent continuity, endogenous placement, and the canonical `residue-commons` world with fixtures and its evidence cycle (D-141, D-142). Added region continuation options, inspection counts, a residue digest taken after release, and a balance stated from the realization's starting regions.
+- Ran four parallel audits plus a clean-room re-verification and corrected B-063 to B-067 (D-143): non-negative world sea, transfer-endpoint conflicts, closed-medium writes to any sea-role field, unforgeable sufficiency subjects, teleonomic lifecycle continuity, a truthful endogenous projection certificate, discarded caller overrides, null-medium rejection, and the remaining specification gaps. The clean-room reader produces every payload of the 21-fixture corpus from the documents alone. Extended the corpus with sea-medium fixtures and three specification probes; the fifteen earlier fixtures kept identical identities.
+- Prepared bounded `v0.5.10` confirmation at the author-selected scope (D-144): bumped package and lock identity to `0.5.10` and reconciled every record from candidate to release. A re-audit of the D-143 corrections found and corrected two more gaps: the exchange-transfer conflict now follows the fields the identity certificate reads (B-068), and every non-declaration medium is a diagnostic (B-069). No fixture outcome changed, so the corpus was not regenerated.
+
 ## 2026-11-16
 
 - Prepared bounded `v0.5.9` confirmation at the author-selected Gate C and Gate D scope (D-140). Bumped package and lock identity to `0.5.9` and reconciled the architecture, both references, Q-027/Q-028, H-029/H-030, the implementation map, README, process summary, transition boundary, obligation ledger, project memory, and record verification from candidate to bounded release.

@@ -6,6 +6,7 @@ import {
     exact,
     exactValuesEqual,
     normalizeExactValue,
+    subtractExactRationals,
     validateIntensionalSystem,
     type ExactValue,
     type IntensionalCoordinateQuery,
@@ -21,6 +22,10 @@ import type {
     CausalFieldEffect,
     CausalFieldRole,
     CausalInternalLaw,
+    CausalSeaEndpoint,
+    CausalSeaExchangeLaw,
+    CausalSeaMedium,
+    CausalSeaQuantity,
     CausalStatePredicate,
     CausalWorldDefinition,
     CausalWorldWillObjective,
@@ -186,12 +191,74 @@ export interface EndogenousWorldConstructor {
     schemaTransformation?: EndogenousSchemaTransformation;
 }
 
+// ---- Multiversal sea medium placement (v0.5.10; see docs/architecture/v0.5.10-multiversal-sea-medium.md) ----
+
+/**
+ * Under a sea medium, the world's local sea fields that the medium exchanges with: the kernel's `seaCoupling`
+ * fields, which the endogenous compiler realizes as the causal projection coordinates. Internal-law guards,
+ * emergence predicates, and exchange guards may bind them; nothing else may write them.
+ */
+export const ENDOGENOUS_MEDIUM_SEA_FIELD_IDS: Readonly<Record<CausalSeaQuantity, string>> = {
+    negative: "projection.negative",
+    positive: "projection.positive",
+};
+
+export interface EndogenousSeaQuantities {
+    negative: ExactValue;
+    positive: ExactValue;
+}
+
+export interface EndogenousSeaRootRegion extends EndogenousSeaQuantities {
+    rootId: string;
+}
+
+/**
+ * `self` is the instantiating world's medium-coupled sea field for the exchanged quantity, `own-region` its own
+ * placement region, and `parent-region` its parent's placement region (generated worlds only).
+ */
+export type EndogenousSeaEndpointTemplate = "self" | "own-region" | "parent-region";
+
+export interface EndogenousSeaRegionBindingTemplate {
+    parameterName: string;
+    region: "own-region" | "parent-region";
+    quantity: CausalSeaQuantity;
+}
+
+/** A total typed query over the world's own fields (when `self` is an endpoint) and the endpoint regions. */
+export interface EndogenousSeaExchangeGuardTemplate extends EndogenousPredicateTemplate {
+    regionParameters: EndogenousSeaRegionBindingTemplate[];
+}
+
+export interface EndogenousSeaExchangeTemplate {
+    id: string;
+    quantity: CausalSeaQuantity;
+    from: EndogenousSeaEndpointTemplate;
+    to: EndogenousSeaEndpointTemplate;
+    amount: ExactValue;
+    guard: EndogenousSeaExchangeGuardTemplate;
+}
+
+/**
+ * The shared medium every materialized world of the universe is placed in. Placement follows lineage: every
+ * world has its own region, and a generated world's region is adjacent to its parent's region. Every
+ * collection is read as a set, so declaration order never changes identity or instantiation.
+ */
+export interface EndogenousSeaMediumDeclaration {
+    id: string;
+    closure: "closed" | "open";
+    rootRegions: EndogenousSeaRootRegion[];
+    childRegionInitial: EndogenousSeaQuantities;
+    exchangeTemplates: EndogenousSeaExchangeTemplate[];
+}
+
 export interface EndogenousUniverseProgram {
     mode: "bubble-endogenous-connected-universe-program.v1";
     formal: IntensionalSystem;
     schemas: EndogenousWorldSchema[];
     roots: EndogenousRootSeed[];
     constructors: EndogenousWorldConstructor[];
+    /** Absent means local seas only, exactly as before the medium. */
+    seaMedium?: EndogenousSeaMediumDeclaration;
     order: {
         kind: "causal-partial-order";
         universalClock: false;
@@ -361,6 +428,40 @@ export interface EndogenousDiagnostic {
     message: string;
 }
 
+export interface EndogenousSeaRegionState extends EndogenousSeaQuantities {
+    id: string;
+    /** The world this region was created for; its id is derived from that world's id. */
+    worldId: string;
+    /** Events, qualified by their causal-generation closure, that last changed each quantity. */
+    causes: Record<CausalSeaQuantity, string[]>;
+}
+
+export interface EndogenousSeaPlacementState {
+    worldId: string;
+    regionId: string;
+    /**
+     * Signed net quantity this world's medium-coupled sea fields have exchanged with the medium. The coupled
+     * field is the world's channel projection plus this amount.
+     */
+    exchanged: EndogenousSeaQuantities;
+}
+
+export interface EndogenousSeaAdjacencyState {
+    id: string;
+    parentWorldId: string;
+    childWorldId: string;
+    regionIds: string[];
+}
+
+/** The medium state a demanded slice (and every branch-indexed universe) carries. */
+export interface EndogenousSeaMediumMaterialization {
+    id: string;
+    closure: "closed" | "open";
+    regions: EndogenousSeaRegionState[];
+    placements: EndogenousSeaPlacementState[];
+    adjacency: EndogenousSeaAdjacencyState[];
+}
+
 export interface EndogenousUniverseMaterialization {
     mode: "bubble-endogenous-connected-universe-materialization.v1";
     programDigest: string;
@@ -372,6 +473,8 @@ export interface EndogenousUniverseMaterialization {
     anchors: EndogenousGeneratedAnchor[];
     generationEvents: EndogenousGenerationEvent[];
     schemaTransformationEvents: EndogenousSchemaTransformationEvent[];
+    /** Present only when the program declares a sea medium. */
+    seaMedium?: EndogenousSeaMediumMaterialization;
     frontiers: EndogenousGenerationFrontier[];
     formalProof: IntensionalProofStep[];
     coverage: {
@@ -392,6 +495,9 @@ export interface CompiledEndogenousUniverse {
     program: ExecutableAnchoredCausalProgram;
     fieldOverrides: Record<string, ExactValue>;
     fieldOverrideCauses: Record<string, string[]>;
+    /** Present only under a sea medium: the region quantities and causes this realization continues from. */
+    seaRegionOverrides?: Record<string, EndogenousSeaQuantities>;
+    seaRegionOverrideCauses?: Record<string, string[]>;
 }
 
 export interface EndogenousUniverseContinuationInput {
@@ -399,6 +505,15 @@ export interface EndogenousUniverseContinuationInput {
     worldStates: Array<{
         worldId: string;
         fields: Record<string, ExactValue>;
+    }>;
+    /**
+     * Required under a sea medium: the realized quantity of every existing region and, for each quantity a
+     * realization changed, the (closure-qualified) events that last changed it. An omitted cause list keeps
+     * the region's previous causes.
+     */
+    seaRegions?: Array<EndogenousSeaQuantities & {
+        id: string;
+        causes?: Partial<Record<CausalSeaQuantity, string[]>>;
     }>;
 }
 
@@ -413,6 +528,55 @@ function stableStringify(value: unknown): string {
 
 export function digestEndogenousValue(value: unknown): string {
     return createHash("sha256").update(stableStringify(value)).digest("hex");
+}
+
+const SEA_QUANTITIES: readonly CausalSeaQuantity[] = ["negative", "positive"];
+
+function byParameterName<T extends { parameterName: string }>(left: T, right: T): number {
+    return compareCanonicalStrings(left.parameterName, right.parameterName);
+}
+
+/**
+ * The medium declaration read as sets: every collection in canonical order. Malformed collections are left
+ * as declared, so a program can be digested before validation reports them.
+ */
+function normalizeSeaMediumDeclaration(medium: EndogenousSeaMediumDeclaration): EndogenousSeaMediumDeclaration {
+    const sortedBindings = <T extends { parameterName: string }>(bindings: T[]): T[] => (
+        Array.isArray(bindings) ? [...bindings].sort(byParameterName) : bindings
+    );
+    return {
+        id: medium.id,
+        closure: medium.closure,
+        rootRegions: Array.isArray(medium.rootRegions)
+            ? structuredClone(medium.rootRegions).sort((left, right) => compareCanonicalStrings(String(left.rootId), String(right.rootId)))
+            : structuredClone(medium.rootRegions),
+        childRegionInitial: structuredClone(medium.childRegionInitial),
+        exchangeTemplates: Array.isArray(medium.exchangeTemplates)
+            ? structuredClone(medium.exchangeTemplates)
+                .map((template) => (template?.guard && typeof template.guard === "object" ? {
+                    ...template,
+                    guard: {
+                        ...template.guard,
+                        fieldParameters: sortedBindings(template.guard.fieldParameters),
+                        regionParameters: sortedBindings(template.guard.regionParameters),
+                    },
+                } : template))
+                .sort((left, right) => compareCanonicalStrings(String(left?.id), String(right?.id)))
+            : structuredClone(medium.exchangeTemplates),
+    };
+}
+
+/**
+ * The identity of an endogenous program. A program without a sea medium digests exactly as before; a medium
+ * declaration contributes in canonical set order, so reordering its regions or templates is the same program.
+ */
+export function digestEndogenousProgram(program: EndogenousUniverseProgram): string {
+    const { seaMedium, ...rest } = program;
+    // Only an absent medium digests like a medium-free program; any other value, even null, keeps its identity.
+    if (seaMedium === undefined) return digestEndogenousValue(rest);
+    return digestEndogenousValue(seaMedium && typeof seaMedium === "object"
+        ? { ...rest, seaMedium: normalizeSeaMediumDeclaration(seaMedium) }
+        : program);
 }
 
 function issue(code: string, path: string, message: string): EndogenousDiagnostic {
@@ -587,6 +751,15 @@ function validateQueryTemplate(
     return family;
 }
 
+/** Under a sea medium, a world with a causal projection exposes its medium-coupled sea fields to its own guards. */
+function mediumSeaFieldsReadable(program: EndogenousUniverseProgram, schema: EndogenousSchemaGraph): boolean {
+    return !!program.seaMedium && !!schema.causalProjection;
+}
+
+function isMediumSeaFieldId(fieldId: string): boolean {
+    return SEA_QUANTITIES.some((quantity) => ENDOGENOUS_MEDIUM_SEA_FIELD_IDS[quantity] === fieldId);
+}
+
 function validatePredicateTemplate(
     predicate: EndogenousPredicateTemplate,
     path: string,
@@ -595,12 +768,17 @@ function validatePredicateTemplate(
     diagnostics: EndogenousDiagnostic[],
     reachableRoots: EndogenousRootSeed[],
     parentSchemas?: EndogenousWorldSchema[],
+    mediumSeaFields = false,
 ): void {
     if (!IDENTIFIER.test(predicate.id)) diagnostics.push(issue("EGU020", `${path}.id`, "predicate id must be stable"));
     const families = new Map(program.formal.families.map((family) => [family.id, family]));
+    const mediumField = (fieldId: string): boolean => mediumSeaFields && isMediumSeaFieldId(fieldId);
     const boundParameterKinds = new Map<string, IntensionalValueKind | undefined>();
     for (const binding of predicate.fieldParameters) {
-        boundParameterKinds.set(binding.parameterName, fieldValueKind(schema, binding.fieldId, families));
+        boundParameterKinds.set(
+            binding.parameterName,
+            mediumField(binding.fieldId) ? "rational" : fieldValueKind(schema, binding.fieldId, families),
+        );
     }
     const family = validateQueryTemplate(predicate.query, `${path}.query`, program, {
         boundParameterKinds,
@@ -612,7 +790,9 @@ function validatePredicateTemplate(
         issue("EGU022", `${path}.fieldParameters`, `duplicate field parameter '${name}'`),
     ));
     for (const binding of predicate.fieldParameters) {
-        if (!fieldById(schema, binding.fieldId)) diagnostics.push(issue("EGU023", `${path}.fieldParameters`, `unknown local field '${binding.fieldId}'`));
+        if (!fieldById(schema, binding.fieldId) && !mediumField(binding.fieldId)) {
+            diagnostics.push(issue("EGU023", `${path}.fieldParameters`, `unknown local field '${binding.fieldId}'`));
+        }
     }
 }
 
@@ -671,7 +851,16 @@ function validateInternalLawTemplate(
         || (law.reversibility !== "reversible" && law.reversibility !== "irreversible")) {
         diagnostics.push(issue("EGU063", path, "internal law needs a stable id, supported application, and explicit reversibility"));
     }
-    validatePredicateTemplate(law.guard, `${path}.guard`, schema, program, diagnostics, reachableRoots);
+    validatePredicateTemplate(
+        law.guard,
+        `${path}.guard`,
+        schema,
+        program,
+        diagnostics,
+        reachableRoots,
+        undefined,
+        mediumSeaFieldsReadable(program, schema),
+    );
     validateInternalLawEffects(law.effects, `${path}.effects`, schema, families, diagnostics, true);
     if (law.reversibility === "reversible") {
         if (!law.inverseEffects || law.inverseEffects.length !== law.effects.length) {
@@ -765,7 +954,16 @@ function validateSchemaGraphDefinition(
     for (const [criterionIndex, criterion] of schema.emergenceCriteria.entries()) {
         const criterionPath = `${path}.emergenceCriteria[${criterionIndex}]`;
         if (!IDENTIFIER.test(criterion.id)) diagnostics.push(issue("EGU071", `${criterionPath}.id`, "emergence criterion id must be stable"));
-        validatePredicateTemplate(criterion.predicate, `${criterionPath}.predicate`, schema, program, diagnostics, reachableRoots);
+        validatePredicateTemplate(
+            criterion.predicate,
+            `${criterionPath}.predicate`,
+            schema,
+            program,
+            diagnostics,
+            reachableRoots,
+            undefined,
+            mediumSeaFieldsReadable(program, schema),
+        );
         duplicates(criterion.witnessFieldIds).forEach((fieldId) => diagnostics.push(
             issue("EGU072", `${criterionPath}.witnessFieldIds`, `duplicate emergence witness '${fieldId}'`),
         ));
@@ -1125,7 +1323,222 @@ export function validateEndogenousUniverseProgram(program: EndogenousUniversePro
             }
         }
     }
+    validateSeaMediumDeclaration(program, revisionCandidates, families, diagnostics);
     return diagnostics;
+}
+
+const SEA_FIELD_ROLES: ReadonlySet<CausalFieldRole> = new Set<CausalFieldRole>(["positive-sea", "negative-sea"]);
+const SEA_ENDPOINT_TEMPLATES: readonly EndogenousSeaEndpointTemplate[] = ["self", "own-region", "parent-region"];
+
+function isZeroRational(value: ExactValue): boolean {
+    const normalized = normalizeExactValue(value);
+    return normalized?.kind === "rational" && exactValuesEqual(normalized, exact.integer(0));
+}
+
+/**
+ * Validates the endogenous medium declaration (EGU2xx). Every collection is read as a set keyed by identity,
+ * and every rule mirrors the kernel's medium contract so that no instantiated medium can fail it.
+ */
+function validateSeaMediumDeclaration(
+    program: EndogenousUniverseProgram,
+    revisionCandidates: (schemaId: string) => EndogenousWorldSchema[],
+    families: Map<string, IntensionalFamilyDefinition>,
+    diagnostics: EndogenousDiagnostic[],
+): void {
+    const medium = program.seaMedium;
+    if (medium === undefined) return;
+    const shape = medium as unknown as Record<string, unknown> | null;
+    if (shape === null || typeof shape !== "object" || Array.isArray(shape)
+        || typeof shape.id !== "string" || typeof shape.closure !== "string"
+        || !Array.isArray(shape.rootRegions) || !Array.isArray(shape.exchangeTemplates)
+        || shape.childRegionInitial === null || typeof shape.childRegionInitial !== "object") {
+        diagnostics.push(issue("EGU212", "seaMedium", "a sea medium must be a declaration with id, closure, rootRegions, childRegionInitial, and exchangeTemplates, or absent"));
+        return;
+    }
+    if (!IDENTIFIER.test(medium.id) || medium.id.startsWith("world-") || medium.id.startsWith("region-")) {
+        diagnostics.push(issue("EGU200", "seaMedium.id", "sea medium id must be stable and outside the generated world and region namespaces"));
+    }
+    if (medium.closure !== "closed" && medium.closure !== "open") {
+        diagnostics.push(issue("EGU201", "seaMedium.closure", "sea medium closure must be closed or open"));
+    }
+    const closed = medium.closure === "closed";
+
+    const rootRegions = Array.isArray(medium.rootRegions) ? medium.rootRegions : [];
+    if (!Array.isArray(medium.rootRegions)) diagnostics.push(issue("EGU202", "seaMedium.rootRegions", "root regions are declared as a list"));
+    duplicates(rootRegions.map((region) => region.rootId)).forEach((rootId) => diagnostics.push(
+        issue("EGU202", "seaMedium.rootRegions", `root '${rootId}' has more than one root region`),
+    ));
+    const rootIds = new Set(program.roots.map((root) => root.id));
+    for (const [index, region] of rootRegions.entries()) {
+        const regionPath = `seaMedium.rootRegions[${index}]`;
+        if (!rootIds.has(region.rootId)) diagnostics.push(issue("EGU202", `${regionPath}.rootId`, `unknown root '${region.rootId}'`));
+        for (const quantity of SEA_QUANTITIES) {
+            if (!nonNegativeRational(region[quantity])) {
+                diagnostics.push(issue("EGU203", `${regionPath}.${quantity}`, `root region ${quantity} quantity must be a non-negative exact rational`));
+            }
+        }
+    }
+    for (const root of program.roots) {
+        if (!rootRegions.some((region) => region.rootId === root.id)) {
+            diagnostics.push(issue("EGU202", "seaMedium.rootRegions", `root '${root.id}' has no root region`));
+        }
+    }
+    for (const quantity of SEA_QUANTITIES) {
+        const value = medium.childRegionInitial?.[quantity];
+        if (!value || !nonNegativeRational(value)) {
+            diagnostics.push(issue("EGU203", `seaMedium.childRegionInitial.${quantity}`, `child region ${quantity} quantity must be a non-negative exact rational`));
+        } else if (closed && !isZeroRational(value)) {
+            diagnostics.push(issue(
+                "EGU204",
+                `seaMedium.childRegionInitial.${quantity}`,
+                "closed sea medium: a generated region cannot begin with sea quantity created outside the medium",
+            ));
+        }
+    }
+
+    if (closed) {
+        // A closed medium is the only source and sink: constructor actions and local laws cannot create sea.
+        for (const [constructorIndex, constructor] of program.constructors.entries()) {
+            for (const [actionIndex, action] of constructor.seaActions.entries()) {
+                if (!isZeroRational(action.parentNegativeResidue) || !isZeroRational(action.childPositivePlacement)) {
+                    diagnostics.push(issue(
+                        "EGU205",
+                        `constructors[${constructorIndex}].seaActions[${actionIndex}]`,
+                        `closed sea medium: constructor '${constructor.id}' cannot create parent residue or child placement outside the medium`,
+                    ));
+                }
+            }
+        }
+        const lawWritesSea = (
+            law: EndogenousInternalLawTemplate,
+            graphs: EndogenousSchemaGraph[],
+            lawPath: string,
+        ): void => {
+            for (const [name, effects] of [["effects", law.effects], ["inverseEffects", law.inverseEffects ?? []]] as const) {
+                for (const [effectIndex, effect] of effects.entries()) {
+                    if (graphs.some((graph) => SEA_FIELD_ROLES.has(fieldById(graph, effect.fieldId)?.role as CausalFieldRole))) {
+                        diagnostics.push(issue(
+                            "EGU206",
+                            `${lawPath}.${name}[${effectIndex}]`,
+                            `closed sea medium: internal law '${law.id}' cannot write sea field '${effect.fieldId}'`,
+                        ));
+                    }
+                }
+            }
+        };
+        for (const [schemaIndex, schema] of program.schemas.entries()) {
+            for (const [lawIndex, law] of schema.internalLaws.entries()) {
+                lawWritesSea(law, [schema], `schemas[${schemaIndex}].internalLaws[${lawIndex}]`);
+            }
+        }
+        for (const [constructorIndex, constructor] of program.constructors.entries()) {
+            const transformation = constructor.schemaTransformation;
+            const transformationPath = `constructors[${constructorIndex}].schemaTransformation`;
+            for (const [lawIndex, law] of (transformation?.replaceGraph?.internalLaws ?? []).entries()) {
+                lawWritesSea(law, [transformation!.replaceGraph!], `${transformationPath}.replaceGraph.internalLaws[${lawIndex}]`);
+            }
+            for (const [lawIndex, law] of (transformation?.upsertLaws ?? []).entries()) {
+                lawWritesSea(law, revisionCandidates(constructor.childSchemaId), `${transformationPath}.upsertLaws[${lawIndex}]`);
+            }
+        }
+    }
+
+    // Exchange templates are instantiated for every materialized world, so each closes against every revision
+    // any world can carry, and its instantiated law id `<worldId>-<templateId>` must not meet an internal law id.
+    const candidates = program.schemas.flatMap((schema) => revisionCandidates(schema.id));
+    const internalLawIds = new Set([
+        ...candidates.flatMap((candidate) => candidate.internalLaws.map((law) => law.id)),
+        ...program.constructors.flatMap((constructor) => (constructor.schemaTransformation?.upsertLaws ?? []).map((law) => law.id)),
+    ]);
+    const templates = Array.isArray(medium.exchangeTemplates) ? medium.exchangeTemplates : [];
+    if (!Array.isArray(medium.exchangeTemplates)) {
+        diagnostics.push(issue("EGU207", "seaMedium.exchangeTemplates", "exchange templates are declared as a list"));
+    }
+    duplicates(templates.map((template) => template.id)).forEach((id) => diagnostics.push(
+        issue("EGU207", "seaMedium.exchangeTemplates", `duplicate sea exchange template '${id}'`),
+    ));
+    for (const [index, template] of templates.entries()) {
+        const templatePath = `seaMedium.exchangeTemplates[${index}]`;
+        if (!IDENTIFIER.test(template.id)) diagnostics.push(issue("EGU207", `${templatePath}.id`, "sea exchange template id must be stable"));
+        if (internalLawIds.has(template.id)) {
+            diagnostics.push(issue(
+                "EGU211",
+                `${templatePath}.id`,
+                `sea exchange template '${template.id}' shares its id with an internal law; instantiated law ids would collide`,
+            ));
+        }
+        if (!SEA_QUANTITIES.includes(template.quantity)) {
+            diagnostics.push(issue("EGU208", `${templatePath}.quantity`, `unknown sea quantity '${String(template.quantity)}'`));
+        }
+        if (!positiveRational(template.amount)) {
+            diagnostics.push(issue("EGU208", `${templatePath}.amount`, "a sea exchange moves an exact positive rational amount"));
+        }
+        const endpoints = [template.from, template.to];
+        if (endpoints.some((endpoint) => !SEA_ENDPOINT_TEMPLATES.includes(endpoint))) {
+            diagnostics.push(issue("EGU209", templatePath, "sea exchange endpoints are self, own-region, or parent-region"));
+        } else if (template.from === template.to) {
+            diagnostics.push(issue("EGU209", templatePath, "a sea exchange must move quantity between two distinct endpoints"));
+        } else if (endpoints.includes("self") && endpoints.includes("parent-region")) {
+            diagnostics.push(issue(
+                "EGU209",
+                templatePath,
+                "a world exchanges only with its own placement region; its parent's region is reached through region adjacency",
+            ));
+        }
+
+        const guard = template.guard;
+        const guardPath = `${templatePath}.guard`;
+        if (!guard || typeof guard !== "object") {
+            diagnostics.push(issue("EGU210", guardPath, "a sea exchange template needs a typed guard"));
+            continue;
+        }
+        if (!IDENTIFIER.test(guard.id)) diagnostics.push(issue("EGU210", `${guardPath}.id`, "sea exchange guard id must be stable"));
+        const fieldParameters = Array.isArray(guard.fieldParameters) ? guard.fieldParameters : [];
+        const regionParameters = Array.isArray(guard.regionParameters) ? guard.regionParameters : [];
+        if (!Array.isArray(guard.fieldParameters) || !Array.isArray(guard.regionParameters)) {
+            diagnostics.push(issue("EGU210", guardPath, "a sea exchange guard declares its field and region bindings as lists"));
+        }
+        duplicates([...fieldParameters, ...regionParameters].map((binding) => binding.parameterName)).forEach((name) => diagnostics.push(
+            issue("EGU210", guardPath, `parameter '${name}' is bound more than once`),
+        ));
+        const selfIsEndpoint = endpoints.includes("self");
+        const boundParameterKinds = new Map<string, IntensionalValueKind | undefined>();
+        for (const [bindingIndex, binding] of fieldParameters.entries()) {
+            const bindingPath = `${guardPath}.fieldParameters[${bindingIndex}]`;
+            if (!selfIsEndpoint) {
+                diagnostics.push(issue(
+                    "EGU210",
+                    bindingPath,
+                    "a sea exchange guard may read the world's own fields only when the world itself is an endpoint",
+                ));
+            }
+            const kinds = candidates.map((candidate) => (
+                isMediumSeaFieldId(binding.fieldId) && candidate.causalProjection
+                    ? "rational" as const
+                    : fieldValueKind(candidate, binding.fieldId, families)
+            ));
+            if (kinds.some((kind) => kind === undefined)) {
+                diagnostics.push(issue("EGU210", bindingPath, `field '${binding.fieldId}' is not available on every schema revision a world can carry`));
+            }
+            boundParameterKinds.set(binding.parameterName, kinds.every((kind) => kind === kinds[0]) ? kinds[0] : undefined);
+        }
+        for (const [bindingIndex, binding] of regionParameters.entries()) {
+            const bindingPath = `${guardPath}.regionParameters[${bindingIndex}]`;
+            if ((binding.region !== "own-region" && binding.region !== "parent-region") || !SEA_QUANTITIES.includes(binding.quantity)) {
+                diagnostics.push(issue("EGU210", bindingPath, "a region binding names own-region or parent-region and a sea quantity"));
+            } else if (!endpoints.includes(binding.region)) {
+                diagnostics.push(issue("EGU210", bindingPath, `a sea exchange guard may read only its endpoint regions, not '${binding.region}'`));
+            }
+            boundParameterKinds.set(binding.parameterName, "rational");
+        }
+        const family = validateQueryTemplate(guard.query, `${guardPath}.query`, program, {
+            boundParameterKinds,
+            reachableRoots: program.roots,
+        }, diagnostics);
+        if (family && family.valueKind !== "boolean") {
+            diagnostics.push(issue("EGU210", `${guardPath}.query.familyId`, "sea exchange guard family must be boolean"));
+        }
+    }
 }
 
 function resolveOptions(options: EndogenousUniverseOptions): ResolvedEndogenousUniverseOptions {
@@ -1199,6 +1612,28 @@ function selfAnchorId(world: EndogenousGeneratedWorld): string {
 
 function relationAnchorId(eventId: string): string {
     return `anchor-${digestEndogenousValue(eventId).slice(0, 20)}`;
+}
+
+/** A world's own placement region, derived from its lineage-addressed world id. */
+function seaRegionId(worldIdValue: string): string {
+    return `region-${worldIdValue.slice("world-".length)}`;
+}
+
+/** The lineage adjacency between a generated world's region and its parent's region. */
+function seaAdjacencyId(childWorldId: string): string {
+    return `adjacency-${childWorldId.slice("world-".length)}`;
+}
+
+/** The world's medium-coupled sea field: its channel projection plus what it exchanged with the medium. */
+function mediumCoupledSea(
+    world: EndogenousGeneratedWorld,
+    projection: EndogenousCausalProjection,
+    placement: EndogenousSeaPlacementState | undefined,
+    quantity: CausalSeaQuantity,
+): ExactValue | undefined {
+    const projected = sumWeightedChannels(world, world.schemaRevision, projection, quantity);
+    if (!projected || !placement) return projected;
+    return addExactRationals(projected, placement.exchanged[quantity]);
 }
 
 function normalizeSchemaGraph(schema: EndogenousSchemaGraph): EndogenousSchemaGraph {
@@ -1497,7 +1932,7 @@ function deriveEndogenousUniverse(
 ): EndogenousUniverseMaterialization {
     const options = resolveOptions(requestedOptions);
     const diagnostics = validateEndogenousUniverseProgram(program);
-    const programDigest = digestEndogenousValue(program);
+    const programDigest = digestEndogenousProgram(program);
     if (continuation && continuation.materialization.programDigest !== programDigest) {
         diagnostics.push(issue("EGU046", "continuation.materialization.programDigest", "continued generation must use the same endogenous universe program"));
     }
@@ -1514,6 +1949,40 @@ function deriveEndogenousUniverse(
     const frontiers: EndogenousGenerationFrontier[] = [];
     const formalProof: IntensionalProofStep[] = structuredClone(continuation?.materialization.formalProof ?? []);
     let formalEvaluationSteps = continuation?.materialization.resourceUse.formalEvaluationSteps ?? 0;
+    // The shared medium: every world gets its own region, adjacent to its parent's region.
+    const medium = program.seaMedium ? normalizeSeaMediumDeclaration(program.seaMedium) : undefined;
+    const priorMedium = continuation?.materialization.seaMedium;
+    const seaRegions = new Map((priorMedium?.regions ?? []).map((region) => [region.id, structuredClone(region)]));
+    const seaPlacements = new Map((priorMedium?.placements ?? []).map((placement) => [placement.worldId, structuredClone(placement)]));
+    const seaAdjacency = new Map((priorMedium?.adjacency ?? []).map((edge) => [edge.id, structuredClone(edge)]));
+    const placeWorld = (
+        world: EndogenousGeneratedWorld,
+        initial: EndogenousSeaQuantities,
+        parent?: EndogenousGeneratedWorld,
+    ): void => {
+        const regionId = seaRegionId(world.id);
+        seaRegions.set(regionId, {
+            id: regionId,
+            worldId: world.id,
+            negative: normalizeExactValue(initial.negative)!,
+            positive: normalizeExactValue(initial.positive)!,
+            causes: { negative: [], positive: [] },
+        });
+        seaPlacements.set(world.id, {
+            worldId: world.id,
+            regionId,
+            exchanged: { negative: exact.integer(0), positive: exact.integer(0) },
+        });
+        if (parent) {
+            const adjacencyId = seaAdjacencyId(world.id);
+            seaAdjacency.set(adjacencyId, {
+                id: adjacencyId,
+                parentWorldId: parent.id,
+                childWorldId: world.id,
+                regionIds: [seaRegionId(parent.id), regionId].sort(compareCanonicalStrings),
+            });
+        }
+    };
     let status: EndogenousUniverseMaterialization["status"] = "resolved";
     let reason = continuation
         ? "the connected-universe slice was continued from realized world state"
@@ -1530,6 +1999,15 @@ function deriveEndogenousUniverse(
         anchors: [...anchors].sort((left, right) => compareCanonicalStrings(left.id, right.id)),
         generationEvents: [...generationEvents].sort((left, right) => compareCanonicalStrings(left.id, right.id)),
         schemaTransformationEvents: [...schemaTransformationEvents].sort((left, right) => compareCanonicalStrings(left.id, right.id)),
+        ...(medium ? {
+            seaMedium: {
+                id: medium.id,
+                closure: medium.closure,
+                regions: [...seaRegions.values()].sort((left, right) => compareCanonicalStrings(left.id, right.id)),
+                placements: [...seaPlacements.values()].sort((left, right) => compareCanonicalStrings(left.worldId, right.worldId)),
+                adjacency: [...seaAdjacency.values()].sort((left, right) => compareCanonicalStrings(left.id, right.id)),
+            },
+        } : {}),
         frontiers: [...frontiers].sort((left, right) => compareCanonicalStrings(stableStringify(left), stableStringify(right))),
         formalProof,
         coverage: {
@@ -1562,6 +2040,36 @@ function deriveEndogenousUniverse(
             return finish();
         }
         const stateByWorld = new Map(continuation.worldStates.map((state) => [state.worldId, state]));
+        if (medium) {
+            // Region quantities and their causes continue exactly as world fields do.
+            const regionStates = new Map((continuation.seaRegions ?? []).map((region) => [region.id, region]));
+            const unknownRegionIds = [...regionStates.keys()].filter((regionId) => !seaRegions.has(regionId));
+            const missingRegionIds = [...seaRegions.keys()].filter((regionId) => !regionStates.has(regionId));
+            if (!priorMedium || unknownRegionIds.length > 0 || missingRegionIds.length > 0
+                || seaPlacements.size !== worlds.length || worlds.some((world) => !seaPlacements.has(world.id))) {
+                status = "contradicted";
+                demandedSliceComplete = false;
+                reason = "continued generation needs the realized state of exactly every sea region its predecessor placed worlds in";
+                return finish();
+            }
+            for (const region of seaRegions.values()) {
+                const state = regionStates.get(region.id)!;
+                for (const quantity of SEA_QUANTITIES) {
+                    const value = state[quantity] ? normalizeExactValue(state[quantity]) : undefined;
+                    const causes = state.causes?.[quantity];
+                    if (!value || !nonNegativeRational(value)
+                        || (causes !== undefined && (!Array.isArray(causes)
+                            || causes.some((cause) => typeof cause !== "string" || cause.length === 0)))) {
+                        status = "contradicted";
+                        demandedSliceComplete = false;
+                        reason = `continued generation received an invalid realized ${quantity} quantity for sea region '${region.id}'`;
+                        return finish();
+                    }
+                    region[quantity] = value;
+                    if (causes !== undefined) region.causes[quantity] = [...new Set(causes)].sort(compareCanonicalStrings);
+                }
+            }
+        }
         for (const world of worlds) {
             const state = stateByWorld.get(world.id);
             if (!state) {
@@ -1569,6 +2077,26 @@ function deriveEndogenousUniverse(
                 demandedSliceComplete = false;
                 reason = `continued generation is missing realized state for '${world.id}'`;
                 return finish();
+            }
+            const placement = medium ? seaPlacements.get(world.id) : undefined;
+            const projection = world.schemaRevision.causalProjection;
+            if (placement && projection) {
+                // The coupled field is the channel projection plus what the medium exchanged with this world. Only
+                // the medium writes the coupled field during a realization, so its realized change is exchange.
+                for (const quantity of SEA_QUANTITIES) {
+                    const before = mediumCoupledSea(world, projection, placement, quantity);
+                    const realizedValue = state.fields[ENDOGENOUS_MEDIUM_SEA_FIELD_IDS[quantity]];
+                    const realized = realizedValue ? normalizeExactValue(realizedValue) : undefined;
+                    const change = before && realized?.kind === "rational" ? subtractExactRationals(realized, before) : undefined;
+                    const exchanged = change ? addExactRationals(placement.exchanged[quantity], change) : undefined;
+                    if (!exchanged) {
+                        status = "contradicted";
+                        demandedSliceComplete = false;
+                        reason = `continued generation is missing the realized medium-coupled ${quantity} sea field of '${world.id}'`;
+                        return finish();
+                    }
+                    placement.exchanged[quantity] = exchanged;
+                }
             }
             for (const field of world.schemaRevision.fields) {
                 const value = normalizeExactValue(state.fields[field.id]!);
@@ -1616,6 +2144,7 @@ function deriveEndogenousUniverse(
             worlds.push(created.world);
             existingWorldIds.add(created.world.id);
             queue.push(created.world);
+            if (medium) placeWorld(created.world, medium.rootRegions.find((region) => region.rootId === root.id)!);
             const identityAnchor = selfAnchor(created.world, root);
             if (!identityAnchor) {
                 status = "contradicted";
@@ -1913,6 +2442,20 @@ function deriveEndogenousUniverse(
             refreshSeaChannels(child);
         }
         if (status === "contradicted") return;
+        if (medium?.closure === "closed") {
+            // A closed medium is the only source of sea quantity: a generated world begins with none of its own.
+            for (const { child } of prepared) {
+                const seaField = child.schemaRevision.fields.find((field) => (
+                    SEA_FIELD_ROLES.has(field.role) && !isZeroRational(child.fields[field.id]!)
+                ));
+                if (seaField) {
+                    status = "contradicted";
+                    demandedSliceComplete = false;
+                    reason = `closed sea medium: generated world '${child.id}' would begin with sea quantity in '${seaField.id}' created outside the medium`;
+                    return;
+                }
+            }
+        }
         parent.fields = nextParentFields;
         refreshSeaChannels(parent);
         for (const entry of prepared) {
@@ -1920,6 +2463,7 @@ function deriveEndogenousUniverse(
             worlds.push(child);
             existingWorldIds.add(child.id);
             queue.push(child);
+            if (medium) placeWorld(child, medium.childRegionInitial, parent);
             generationEvents.push({
                 id: eventId,
                 constructorId: proposal.constructor.id,
@@ -2067,6 +2611,10 @@ export function compileEndogenousUniverse(
 ): CompiledEndogenousUniverse | undefined {
     if (materialization.status !== "resolved" || !materialization.coverage.demandedSliceComplete) return undefined;
     if (materialization.worlds.some((world) => !world.schemaRevision.causalProjection)) return undefined;
+    // A declared medium must have been carried by the materialization, and only then.
+    if (!!source.seaMedium !== !!materialization.seaMedium) return undefined;
+    const mediumState = materialization.seaMedium;
+    const placements = new Map((mediumState?.placements ?? []).map((placement) => [placement.worldId, placement]));
     const projectionFamilyId = `generated_projection_zero_${materialization.programDigest.slice(0, 10)}`;
     const formal: IntensionalSystem = {
         mode: "bubble-intensional-system.v1",
@@ -2099,8 +2647,10 @@ export function compileEndogenousUniverse(
     for (const world of materialization.worlds) {
         const schema = world.schemaRevision;
         const projection = schema.causalProjection!;
-        const positive = sumWeightedChannels(world, schema, projection, "positive");
-        const negative = sumWeightedChannels(world, schema, projection, "negative");
+        const placement = placements.get(world.id);
+        if (mediumState && !placement) return undefined;
+        const positive = mediumCoupledSea(world, projection, placement, "positive");
+        const negative = mediumCoupledSea(world, projection, placement, "negative");
         if (!positive || !negative) return undefined;
         const projectionFields: CausalFieldBinding[] = [
             { id: "projection.positive", familyId: projectionFamilyId, role: "positive-sea" },
@@ -2186,6 +2736,10 @@ export function compileEndogenousUniverse(
     const anchorIdentity: CausalAnchorIdentityQuery[] = materialization.anchors.flatMap((anchor) => (
         anchor.identityPredicates.map((predicate) => ({ ...structuredClone(predicate), anchorId: anchor.id }))
     ));
+    const seaMedium = source.seaMedium && mediumState
+        ? compileSeaMedium(normalizeSeaMediumDeclaration(source.seaMedium), mediumState, materialization, roots)
+        : undefined;
+    if (source.seaMedium && !seaMedium) return undefined;
     const program: ExecutableAnchoredCausalProgram = {
         mode: "bubble-anchored-causal-program.v2",
         world: {
@@ -2193,6 +2747,7 @@ export function compileEndogenousUniverse(
             formal,
             worlds,
             anchors,
+            ...(seaMedium ? { seaMedium: seaMedium.medium } : {}),
             worldWill: {
                 id: `generated-world-will-${materialization.programDigest.slice(0, 10)}`,
                 objectives,
@@ -2213,17 +2768,146 @@ export function compileEndogenousUniverse(
             interventionCosts: [],
         },
     };
-    return { program, fieldOverrides, fieldOverrideCauses };
+    return {
+        program,
+        fieldOverrides,
+        fieldOverrideCauses,
+        ...(seaMedium ? {
+            seaRegionOverrides: seaMedium.regionOverrides,
+            seaRegionOverrideCauses: seaMedium.regionOverrideCauses,
+        } : {}),
+    };
+}
+
+/**
+ * Lowers the carried medium state to the kernel's `world.seaMedium`: one region per world, one placement per
+ * world in its own region, one lineage adjacency per generated world, and every exchange template instantiated
+ * once per world as `<worldId>-<templateId>`. Roots skip templates that read or move their (absent) parent region.
+ *
+ * Like field initializers, the declared regions carry their initial endowment (`rootRegions` for a root's region,
+ * `childRegionInitial` for a generated world's region); the carried quantities and their causes continue through
+ * `seaRegionOverrides`/`seaRegionOverrideCauses`, exactly as world fields continue through field overrides.
+ */
+function compileSeaMedium(
+    declaration: EndogenousSeaMediumDeclaration,
+    state: EndogenousSeaMediumMaterialization,
+    materialization: EndogenousUniverseMaterialization,
+    roots: Map<string, EndogenousRootSeed>,
+): {
+    medium: CausalSeaMedium;
+    regionOverrides: Record<string, EndogenousSeaQuantities>;
+    regionOverrideCauses: Record<string, string[]>;
+} | undefined {
+    const regions = [...state.regions].sort((left, right) => compareCanonicalStrings(left.id, right.id));
+    const regionOverrides: Record<string, EndogenousSeaQuantities> = {};
+    const regionOverrideCauses: Record<string, string[]> = {};
+    for (const region of regions) {
+        regionOverrides[region.id] = { negative: structuredClone(region.negative), positive: structuredClone(region.positive) };
+        for (const quantity of SEA_QUANTITIES) {
+            if (region.causes[quantity].length > 0) regionOverrideCauses[`${region.id}#${quantity}`] = [...region.causes[quantity]];
+        }
+    }
+    const exchangeLaws: CausalSeaExchangeLaw[] = [];
+    for (const world of [...materialization.worlds].sort((left, right) => compareCanonicalStrings(left.id, right.id))) {
+        const root = roots.get(world.address.rootId);
+        if (!root) return undefined;
+        const ownRegionId = seaRegionId(world.id);
+        const parentRegionId = world.parentWorldId ? seaRegionId(world.parentWorldId) : undefined;
+        const regionOf = (region: "own-region" | "parent-region"): string | undefined => (
+            region === "own-region" ? ownRegionId : parentRegionId
+        );
+        for (const template of declaration.exchangeTemplates) {
+            const readsParent = template.from === "parent-region" || template.to === "parent-region"
+                || template.guard.regionParameters.some((binding) => binding.region === "parent-region");
+            if (readsParent && !parentRegionId) continue;
+            const endpoint = (kind: EndogenousSeaEndpointTemplate): CausalSeaEndpoint => (
+                kind === "self" ? { kind: "world", worldId: world.id } : { kind: "region", regionId: regionOf(kind)! }
+            );
+            const query = resolveQuery(template.guard.query, world.address, root, undefined);
+            const amount = normalizeExactValue(template.amount);
+            if (!query || !amount) return undefined;
+            const id = `${world.id}-${template.id}`;
+            exchangeLaws.push({
+                id,
+                quantity: template.quantity,
+                from: endpoint(template.from),
+                to: endpoint(template.to),
+                amount,
+                guard: {
+                    id: `${id}-${template.guard.id}`,
+                    query,
+                    fieldParameters: template.guard.fieldParameters.map((binding) => ({
+                        parameterName: binding.parameterName,
+                        worldId: world.id,
+                        fieldId: binding.fieldId,
+                    })),
+                    regionParameters: template.guard.regionParameters.map((binding) => ({
+                        parameterName: binding.parameterName,
+                        regionId: regionOf(binding.region)!,
+                        quantity: binding.quantity,
+                    })),
+                },
+                application: "once-per-realization",
+            });
+        }
+    }
+    const worldsById = new Map(materialization.worlds.map((world) => [world.id, world]));
+    const endowments: Array<{ id: string } & EndogenousSeaQuantities> = [];
+    for (const region of regions) {
+        const world = worldsById.get(region.worldId);
+        const endowment = !world
+            ? undefined
+            : world.parentWorldId
+                ? declaration.childRegionInitial
+                : declaration.rootRegions.find((candidate) => candidate.rootId === world.address.rootId);
+        const negative = endowment ? normalizeExactValue(endowment.negative) : undefined;
+        const positive = endowment ? normalizeExactValue(endowment.positive) : undefined;
+        if (!negative || !positive) return undefined;
+        endowments.push({ id: region.id, negative, positive });
+    }
+    return {
+        medium: {
+            id: declaration.id,
+            closure: declaration.closure,
+            regions: endowments,
+            placements: [...state.placements]
+                .sort((left, right) => compareCanonicalStrings(left.worldId, right.worldId))
+                .map((placement) => ({ worldId: placement.worldId, regionId: placement.regionId })),
+            adjacency: [...state.adjacency]
+                .sort((left, right) => compareCanonicalStrings(left.id, right.id))
+                .map((edge) => ({ id: edge.id, regionIds: [...edge.regionIds] })),
+            exchangeLaws: exchangeLaws.sort((left, right) => compareCanonicalStrings(left.id, right.id)),
+        },
+        regionOverrides,
+        regionOverrideCauses,
+    };
 }
 
 export function causalOptionsForEndogenousCompilation(
     compiled: CompiledEndogenousUniverse,
-    requested: Omit<CausalExecutionOptions, "fieldOverrides" | "fieldOverrideCauses" | "worldLifecycleOverrides"> = {},
+    requested: Omit<
+        CausalExecutionOptions,
+        "fieldOverrides" | "fieldOverrideCauses" | "worldLifecycleOverrides" | "seaRegionOverrides" | "seaRegionOverrideCauses"
+    > = {},
 ): CausalExecutionOptions {
+    // Continuation state and its provenance come only from the generated universe, never from the caller: a
+    // caller-supplied override or cause would forge world or region history.
+    const {
+        fieldOverrides: _fieldOverrides,
+        fieldOverrideCauses: _fieldOverrideCauses,
+        worldLifecycleOverrides: _worldLifecycleOverrides,
+        seaRegionOverrides: _seaRegionOverrides,
+        seaRegionOverrideCauses: _seaRegionOverrideCauses,
+        ...ordinary
+    } = requested as CausalExecutionOptions;
     return {
-        ...requested,
+        ...ordinary,
         fieldOverrides: compiled.fieldOverrides,
         fieldOverrideCauses: compiled.fieldOverrideCauses,
+        ...(compiled.seaRegionOverrides ? { seaRegionOverrides: compiled.seaRegionOverrides } : {}),
+        ...(compiled.seaRegionOverrideCauses && Object.keys(compiled.seaRegionOverrideCauses).length > 0
+            ? { seaRegionOverrideCauses: compiled.seaRegionOverrideCauses }
+            : {}),
         worldWillEnabled: requested.worldWillEnabled ?? false,
     };
 }

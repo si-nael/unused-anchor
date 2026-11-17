@@ -15,6 +15,8 @@ import {
     type IntensionalValueKind,
 } from "./intensional";
 import {
+    CAUSAL_SEA_QUANTITIES,
+    causalSeaFieldId,
     validateAnchoredCausalWorld,
     type AnchoredCausalWorldSystem,
     type CausalAnchorTransferDefinition,
@@ -23,6 +25,10 @@ import {
     type CausalFieldBinding,
     type CausalFieldEffect,
     type CausalInternalLaw,
+    type CausalSeaEndpoint,
+    type CausalSeaExchangeLaw,
+    type CausalSeaPredicate,
+    type CausalSeaQuantity,
     type CausalStatePredicate,
     type CausalWorldDefinition,
     type CausalWorldLifecycleEffect,
@@ -72,6 +78,12 @@ export interface CausalExecutionOptions {
     fieldOverrides?: Record<string, ExactValue>;
     fieldOverrideCauses?: Record<string, string[]>;
     worldLifecycleOverrides?: Record<string, CausalWorldLifecycleState>;
+    /**
+     * Region quantities that continue a sea medium from an earlier realization (persistent closures, generated
+     * universes), and the events that last changed them, keyed by `<regionId>#<quantity>` (region ids cannot contain `#`).
+     */
+    seaRegionOverrides?: Record<string, { negative: ExactValue; positive: ExactValue }>;
+    seaRegionOverrideCauses?: Record<string, string[]>;
     counterfactualInternalEventAblationLawIds?: string[];
     evaluationBudgetPerQuery?: number;
     maxInterventionCombinations?: number;
@@ -82,7 +94,9 @@ export interface CausalExecutionOptions {
 export type ResolvedCausalExecutionOptions = Omit<
     Required<CausalExecutionOptions>,
     "counterfactualInternalEventAblationLawIds" | "fieldOverrideCauses" | "worldLifecycleOverrides"
-> & Pick<CausalExecutionOptions, "counterfactualInternalEventAblationLawIds" | "fieldOverrideCauses" | "worldLifecycleOverrides">;
+    | "seaRegionOverrides" | "seaRegionOverrideCauses"
+> & Pick<CausalExecutionOptions, "counterfactualInternalEventAblationLawIds" | "fieldOverrideCauses" | "worldLifecycleOverrides"
+    | "seaRegionOverrides" | "seaRegionOverrideCauses">;
 
 export interface CausalInternalEventAblation {
     id: string;
@@ -117,6 +131,35 @@ export interface CausalWorldRetirementResidue {
     finalStateDigest: string;
     localNegativeSea: ExactValue;
     retainedHistoryCommitIds: string[];
+    /** Under a sea medium, the retiring world's sea quantities entered its placement region. */
+    seaRelease?: { regionId: string; negative: ExactValue; positive: ExactValue };
+}
+
+/** One exchange performed by the sea medium's own law. */
+export interface CausalSeaExchangeEvent {
+    id: string;
+    lawId: string;
+    quantity: "negative" | "positive";
+    amount: ExactValue;
+    from: ({ kind: "region"; regionId: string } | { kind: "world"; worldId: string; fieldId: string }) & { before: ExactValue; after: ExactValue };
+    to: ({ kind: "region"; regionId: string } | { kind: "world"; worldId: string; fieldId: string }) & { before: ExactValue; after: ExactValue };
+    causes: string[];
+    hostSelection: false;
+}
+
+/** Exact accounting of one sea quantity over all regions and all worlds' sea fields. */
+export interface CausalSeaBalance {
+    quantity: "negative" | "positive";
+    initialTotal: ExactValue;
+    finalTotal: ExactValue;
+    /** Net change of world sea fields caused by events other than medium exchanges and retirement releases. */
+    production: ExactValue;
+    balanced: boolean;
+}
+
+export interface CausalSeaMediumState {
+    regions: Array<{ id: string; negative: ExactValue; positive: ExactValue }>;
+    balance: CausalSeaBalance[];
 }
 
 export interface CausalWorldLifecycleEvent {
@@ -171,7 +214,9 @@ export interface CausalFormalEvidence {
 export interface CausalTraceEffect {
     worldId?: string;
     fieldId: string;
-    layer: "world-field" | "intrinsic-viability";
+    layer: "world-field" | "intrinsic-viability" | "sea-region";
+    /** Present for `sea-region` effects; `fieldId` is then the quantity ("negative" or "positive"). */
+    regionId?: string;
     operation: "add" | "subtract" | "set" | "derive";
     before?: ExactValue;
     operand?: ExactValue;
@@ -181,7 +226,7 @@ export interface CausalTraceEffect {
 export interface CausalTraceEntry {
     id: string;
     kind: "initial-field" | "internal-law" | "sea-coupling" | "world-will-intervention" | "history-commit"
-        | "world-spawn" | "world-retirement" | "anchor-transfer";
+        | "world-spawn" | "world-retirement" | "anchor-transfer" | "sea-medium";
     worldId: string;
     eventId?: string;
     lawId?: string;
@@ -280,6 +325,9 @@ export interface CausalContinuation {
     internalEventAblations?: CausalInternalEventAblation[];
     /** Present for autonomous continuations whose program declares anchor-identity predicates. */
     anchorIdentity?: CausalAnchorIdentityVerdict[];
+    /** Present when the program declares a sea medium: final regions and the exact balance certificate. */
+    seaMedium?: CausalSeaMediumState;
+    seaExchangeEvents?: CausalSeaExchangeEvent[];
     emergenceAssessments: CausalEmergenceAssessment[];
     order: {
         kind: "causal-partial-order";
@@ -303,6 +351,8 @@ export interface AnchoredCausalRun {
     diagnostics: CausalDiagnostic[];
     formalEvidence: CausalFormalEvidence[];
     initialWorldStates: CausalWorldState[];
+    /** Present when the program declares a sea medium. */
+    initialSeaMedium?: Array<{ id: string; negative: ExactValue; positive: ExactValue }>;
     autonomousContinuation?: CausalContinuation;
     autonomousContinuations?: CausalContinuation[];
     interventionEligibility: CausalInterventionEligibility[];
@@ -346,6 +396,11 @@ export interface AnchoredCausalInspection {
         createsHistoryArrow: boolean;
         exhaustiveInterventionSearch: boolean;
         exhaustiveInternalBranching: boolean;
+        /** Present only for programs with a sea medium. */
+        seaRegionCount?: number;
+        seaExchangeCount?: number;
+        seaReleaseCount?: number;
+        seaBalanced?: boolean;
     };
     decision: {
         baselineScore?: ExactValue;
@@ -407,6 +462,23 @@ interface MutableRealization {
     evaluationOrder: string[];
     evaluationFrontiers: string[][];
     fieldCauses: Map<string, string[]>;
+    /** Present only when the program declares a sea medium. */
+    sea?: MutableSeaMedium;
+}
+
+interface MutableSeaRegion {
+    negative: ExactValue;
+    positive: ExactValue;
+}
+
+interface MutableSeaMedium {
+    /** Region quantities in portable canonical region order. */
+    regions: Map<string, MutableSeaRegion>;
+    /** The events that last changed each region quantity, keyed by `regionQuantityKey`. */
+    regionCauses: Map<string, string[]>;
+    /** Region quantities this realization started from (declared values or a predecessor's continued ones). */
+    initialRegions: Map<string, MutableSeaRegion>;
+    exchangeEvents: CausalSeaExchangeEvent[];
 }
 
 interface QueryEvaluation {
@@ -655,6 +727,21 @@ export function validateExecutableCausalProgram(program: ExecutableAnchoredCausa
                 `transfer '${transfer.id}' identity fields cannot change in the same closure under the first membrane contract: ${competingIdentityWriters.sort().join(", ")}`,
             ));
         }
+        // The same membrane contract holds for the sea medium: an exchange may not move a transfer's identity field.
+        const competingExchangeWriters = (program.world.seaMedium?.exchangeLaws ?? []).flatMap((law) => [law.from, law.to]
+            .flatMap((endpoint) => {
+                const world = endpoint.kind === "world" ? worlds.get(endpoint.worldId) : undefined;
+                return world ? [fieldKey(world.id, causalSeaFieldId(world, law.quantity))] : [];
+            })
+            .filter((key) => identityFields.has(key))
+            .map((key) => `${law.id}:${key}`));
+        if (competingExchangeWriters.length > 0) {
+            diagnostics.push(runtimeIssue(
+                "CKR200",
+                "execution.anchorIdentity",
+                `transfer '${transfer.id}' identity fields cannot be moved by the sea medium in the same closure: ${competingExchangeWriters.sort(compareCanonicalStrings).join(", ")}`,
+            ));
+        }
         if (anchorTransfers.length > 1) {
             const otherTransferWriters = anchorTransfers
                 .filter((candidate) => candidate.id !== transfer.id)
@@ -696,6 +783,12 @@ function normalizedOptions(options: CausalExecutionOptions): Required<CausalExec
                     ? { parentWorldIds: [...new Set(lifecycle.parentWorldIds)].sort() }
                     : {}),
             }])),
+        seaRegionOverrides: Object.fromEntries(Object.entries(options.seaRegionOverrides ?? {})
+            .sort(([left], [right]) => compareCanonicalStrings(left, right))
+            .map(([regionId, region]) => [regionId, { negative: cloneValue(region.negative), positive: cloneValue(region.positive) }])),
+        seaRegionOverrideCauses: Object.fromEntries(Object.entries(options.seaRegionOverrideCauses ?? {})
+            .sort(([left], [right]) => compareCanonicalStrings(left, right))
+            .map(([key, causes]) => [key, [...new Set(causes)].sort(compareCanonicalStrings)])),
         counterfactualInternalEventAblationLawIds: [...new Set(options.counterfactualInternalEventAblationLawIds ?? [])].sort(),
         evaluationBudgetPerQuery: options.evaluationBudgetPerQuery ?? 10_000,
         maxInterventionCombinations: options.maxInterventionCombinations ?? 1_024,
@@ -709,6 +802,8 @@ function recordedOptions(options: Required<CausalExecutionOptions>): ResolvedCau
         counterfactualInternalEventAblationLawIds,
         fieldOverrideCauses,
         worldLifecycleOverrides,
+        seaRegionOverrides,
+        seaRegionOverrideCauses,
         ...ordinary
     } = cloneValue(options);
     return {
@@ -716,6 +811,8 @@ function recordedOptions(options: Required<CausalExecutionOptions>): ResolvedCau
         ...(counterfactualInternalEventAblationLawIds.length > 0 ? { counterfactualInternalEventAblationLawIds } : {}),
         ...(Object.keys(fieldOverrideCauses).length > 0 ? { fieldOverrideCauses } : {}),
         ...(Object.keys(worldLifecycleOverrides).length > 0 ? { worldLifecycleOverrides } : {}),
+        ...(Object.keys(seaRegionOverrides).length > 0 ? { seaRegionOverrides } : {}),
+        ...(Object.keys(seaRegionOverrideCauses).length > 0 ? { seaRegionOverrideCauses } : {}),
     };
 }
 
@@ -828,7 +925,306 @@ function cloneRealization(source: MutableRealization): MutableRealization {
         evaluationOrder: [...source.evaluationOrder],
         evaluationFrontiers: cloneValue(source.evaluationFrontiers),
         fieldCauses: new Map([...source.fieldCauses].map(([key, causes]) => [key, [...causes]])),
+        ...(source.sea ? { sea: cloneSeaMedium(source.sea) } : {}),
     };
+}
+
+function cloneSeaMedium(source: MutableSeaMedium): MutableSeaMedium {
+    return {
+        regions: new Map([...source.regions].map(([regionId, region]) => [regionId, cloneValue(region)])),
+        regionCauses: new Map([...source.regionCauses].map(([key, causes]) => [key, [...causes]])),
+        initialRegions: new Map([...source.initialRegions].map(([regionId, region]) => [regionId, cloneValue(region)])),
+        exchangeEvents: cloneValue(source.exchangeEvents),
+    };
+}
+
+// ---- Multiversal sea medium helpers (v0.5.10) ----
+
+function regionQuantityKey(regionId: string, quantity: CausalSeaQuantity): string {
+    return `${regionId}#${quantity}`;
+}
+
+function sortedUniqueCanonical(values: Iterable<string>): string[] {
+    return [...new Set(values)].sort(compareCanonicalStrings);
+}
+
+function snapshotSeaRegions(sea: MutableSeaMedium): Map<string, MutableSeaRegion> {
+    return new Map([...sea.regions].map(([regionId, region]) => [regionId, { ...region }]));
+}
+
+function canonicalExchangeLaws(program: ExecutableAnchoredCausalProgram): CausalSeaExchangeLaw[] {
+    return [...program.world.seaMedium?.exchangeLaws ?? []].sort((left, right) => compareCanonicalStrings(left.id, right.id));
+}
+
+/** Exchange law ids are disjoint from internal law ids (CKW217), so one id names one law of either kind. */
+function exchangeLawIdSet(program: ExecutableAnchoredCausalProgram): Set<string> {
+    return new Set((program.world.seaMedium?.exchangeLaws ?? []).map((law) => law.id));
+}
+
+/** Unresolved alternatives name the event a law would have realized: `law:<id>` or `medium:<id>`. */
+function unresolvedLawEventIds(program: ExecutableAnchoredCausalProgram, lawIds: string[]): string[] {
+    const exchangeIds = exchangeLawIdSet(program);
+    return lawIds.map((id) => exchangeIds.has(id) ? `medium:${id}` : `law:${id}`).sort(compareCanonicalStrings);
+}
+
+function seaWorldDefinition(program: ExecutableAnchoredCausalProgram, worldId: string): CausalWorldDefinition | undefined {
+    return program.world.worlds.find((world) => world.id === worldId);
+}
+
+function exchangeWorldIds(law: CausalSeaExchangeLaw): string[] {
+    return sortedUniqueCanonical([law.from, law.to]
+        .filter((endpoint): endpoint is Extract<CausalSeaEndpoint, { kind: "world" }> => endpoint.kind === "world")
+        .map((endpoint) => endpoint.worldId));
+}
+
+/** The world sea field key of a world endpoint, or undefined for a region endpoint. */
+function seaEndpointFieldKey(
+    program: ExecutableAnchoredCausalProgram,
+    endpoint: CausalSeaEndpoint,
+    quantity: CausalSeaQuantity,
+): string | undefined {
+    if (endpoint.kind !== "world") return undefined;
+    const world = seaWorldDefinition(program, endpoint.worldId);
+    return world ? fieldKey(endpoint.worldId, causalSeaFieldId(world, quantity)) : undefined;
+}
+
+/** One key per scarce source quantity: a region quantity or a world sea field. */
+function seaSourceKey(program: ExecutableAnchoredCausalProgram, law: CausalSeaExchangeLaw): string {
+    return law.from.kind === "region"
+        ? `region:${regionQuantityKey(law.from.regionId, law.quantity)}`
+        : `world:${seaEndpointFieldKey(program, law.from, law.quantity) ?? law.from.worldId}`;
+}
+
+function seaEndpointValue(
+    program: ExecutableAnchoredCausalProgram,
+    mutable: MutableRealization,
+    endpoint: CausalSeaEndpoint,
+    quantity: CausalSeaQuantity,
+): { value?: ExactValue; label: string } {
+    if (endpoint.kind === "region") {
+        return {
+            value: mutable.sea?.regions.get(endpoint.regionId)?.[quantity],
+            label: `region '${endpoint.regionId}' ${quantity}`,
+        };
+    }
+    const world = seaWorldDefinition(program, endpoint.worldId);
+    const fieldId = world ? causalSeaFieldId(world, quantity) : quantity;
+    return {
+        value: mutable.states.get(endpoint.worldId)?.fields[fieldId],
+        label: `world sea field '${fieldKey(endpoint.worldId, fieldId)}'`,
+    };
+}
+
+function formatExact(value: ExactValue | undefined): string {
+    const normalized = value ? normalizeExactValue(value) : undefined;
+    if (normalized?.kind !== "rational") return "unavailable";
+    return normalized.denominator === "1" ? normalized.numerator : `${normalized.numerator}/${normalized.denominator}`;
+}
+
+function exchangeWorldsAreActive(law: CausalSeaExchangeLaw, states: Map<string, MutableState>): boolean {
+    return exchangeWorldIds(law).every((worldId) => worldPhase(states.get(worldId)) === "active")
+        && predicateWorldsAreActive(law.guard, states);
+}
+
+/**
+ * The runtime-added enabling condition of every exchange: its source holds at least the exchanged amount in the
+ * frontier state. It is decided exactly and recorded as evidence beside the authored guard.
+ */
+function assessExchangeSufficiency(
+    program: ExecutableAnchoredCausalProgram,
+    mutable: MutableRealization,
+    law: CausalSeaExchangeLaw,
+    subjectId: string,
+): { sufficient: boolean; evidence: CausalFormalEvidence } {
+    const source = seaEndpointValue(program, mutable, law.from, law.quantity);
+    const comparison = source.value ? compareExactRationals(source.value, law.amount) : undefined;
+    if (comparison === undefined) {
+        return {
+            sufficient: false,
+            evidence: {
+                subjectId,
+                purpose: "law-guard",
+                status: "contradicted",
+                reason: `sea exchange sufficiency: ${source.label} is unavailable or not an exact rational`,
+                proof: [],
+            },
+        };
+    }
+    const sufficient = comparison >= 0;
+    return {
+        sufficient,
+        evidence: {
+            subjectId,
+            purpose: "law-guard",
+            status: "resolved",
+            value: exact.boolean(sufficient),
+            reason: `sea exchange sufficiency (runtime-added): ${source.label} holds ${formatExact(source.value)}; amount ${formatExact(law.amount)}`,
+            proof: [],
+        },
+    };
+}
+
+/** Evaluates a sea guard on the frontier state; field and region bindings are read before any exchange applies. */
+function evaluateSeaPredicate(
+    program: ExecutableAnchoredCausalProgram,
+    predicate: CausalSeaPredicate,
+    mutable: MutableRealization,
+    budget: number,
+    subjectPrefix: string,
+): QueryEvaluation {
+    countHostCost("predicateEvaluations");
+    const parameters = { ...predicate.query.parameters };
+    const unavailable = (reason: string): QueryEvaluation => ({
+        evidence: { subjectId: `${subjectPrefix}${predicate.id}`, purpose: "law-guard", status: "contradicted", reason, proof: [] },
+        steps: 0,
+    });
+    for (const binding of [...predicate.fieldParameters].sort((left, right) => compareCanonicalStrings(left.parameterName, right.parameterName))) {
+        const value = mutable.states.get(binding.worldId)?.fields[binding.fieldId];
+        if (!value) return unavailable(`bound field '${fieldKey(binding.worldId, binding.fieldId)}' is unavailable`);
+        parameters[binding.parameterName] = value;
+    }
+    for (const binding of [...predicate.regionParameters ?? []].sort((left, right) => compareCanonicalStrings(left.parameterName, right.parameterName))) {
+        const value = mutable.sea?.regions.get(binding.regionId)?.[binding.quantity];
+        if (!value) return unavailable(`bound region quantity '${binding.regionId}.${binding.quantity}' is unavailable`);
+        parameters[binding.parameterName] = value;
+    }
+    return evaluateQuery(program, `${subjectPrefix}${predicate.id}`, "law-guard", { ...predicate.query, parameters }, budget);
+}
+
+/** Causes of an exchange: the causes of every bound world field and region quantity, guard and endpoints alike. */
+function exchangeCauses(
+    program: ExecutableAnchoredCausalProgram,
+    law: CausalSeaExchangeLaw,
+    mutable: MutableRealization,
+): string[] {
+    const causes: string[] = [...predicateCauses(law.guard, mutable)];
+    for (const binding of law.guard.regionParameters ?? []) {
+        causes.push(...mutable.sea?.regionCauses.get(regionQuantityKey(binding.regionId, binding.quantity)) ?? []);
+    }
+    for (const endpoint of [law.from, law.to]) {
+        if (endpoint.kind === "region") {
+            causes.push(...mutable.sea?.regionCauses.get(regionQuantityKey(endpoint.regionId, law.quantity)) ?? []);
+        } else {
+            const key = seaEndpointFieldKey(program, endpoint, law.quantity);
+            if (key) causes.push(...mutable.fieldCauses.get(key) ?? []);
+        }
+    }
+    return sortedUniqueCanonical(causes);
+}
+
+type FrontierEntry =
+    | { kind: "internal"; id: string; law: CausalInternalLaw }
+    | { kind: "exchange"; id: string; law: CausalSeaExchangeLaw };
+
+function frontierEntries(laws: CausalInternalLaw[], exchanges: CausalSeaExchangeLaw[]): FrontierEntry[] {
+    return [
+        ...laws.map((law): FrontierEntry => ({ kind: "internal", id: law.id, law })),
+        ...exchanges.map((law): FrontierEntry => ({ kind: "exchange", id: law.id, law })),
+    ].sort((left, right) => compareCanonicalStrings(left.id, right.id));
+}
+
+function isZeroExact(value: ExactValue): boolean {
+    return exactValuesEqual(value, exact.integer(0));
+}
+
+/** The world sea fields a frontier entry writes, for the medium's conflict rule. */
+function worldSeaWrites(program: ExecutableAnchoredCausalProgram, entry: FrontierEntry): Set<string> {
+    const writes = new Set<string>();
+    if (entry.kind === "exchange") {
+        for (const endpoint of [entry.law.from, entry.law.to]) {
+            const key = seaEndpointFieldKey(program, endpoint, entry.law.quantity);
+            if (key) writes.add(key);
+        }
+        return writes;
+    }
+    const law = entry.law;
+    const world = seaWorldDefinition(program, law.worldId);
+    const seaFields = new Set(world ? CAUSAL_SEA_QUANTITIES.map((quantity) => causalSeaFieldId(world, quantity)) : []);
+    for (const effect of law.effects) {
+        if (seaFields.has(effect.fieldId) && (effect.operation === "set" || !isZeroExact(effect.value))) {
+            writes.add(fieldKey(law.worldId, effect.fieldId));
+        }
+    }
+    for (const transferId of law.anchorTransferIds ?? []) {
+        const transfer = program.world.anchorTransfers?.find((candidate) => candidate.id === transferId);
+        if (!transfer) continue;
+        const sourceWorld = seaWorldDefinition(program, transfer.source.worldId);
+        const targetWorld = seaWorldDefinition(program, transfer.target.worldId);
+        if (sourceWorld && !isZeroExact(transfer.sourceNegativeSeaResidue)) {
+            writes.add(fieldKey(sourceWorld.id, sourceWorld.seaCoupling.negativeFieldId));
+        }
+        if (targetWorld && !isZeroExact(transfer.targetPositiveSeaPlacement)) {
+            writes.add(fieldKey(targetWorld.id, targetWorld.seaCoupling.positiveFieldId));
+        }
+    }
+    // Under a medium, retirement releases (and so writes) both of the retiring world's sea fields.
+    if (world && (law.lifecycleEffects ?? []).some((effect) => effect.kind === "retire-self")) {
+        seaFields.forEach((fieldId) => writes.add(fieldKey(law.worldId, fieldId)));
+    }
+    return writes;
+}
+
+/**
+ * The medium's conflict rule for two frontier entries, at least one an exchange: two exchanges drawing one source
+ * quantity conflict (one draw per scarce source per frontier), and an exchange conflicts with any other entry
+ * that writes one of its world sea fields.
+ */
+/** Field keys read by the identity certificates of the anchor transfers an internal law performs. */
+function transferIdentityReadKeys(program: ExecutableAnchoredCausalProgram, entry: FrontierEntry): Set<string> {
+    if (entry.kind !== "internal") return new Set();
+    const anchorIds = new Set((entry.law.anchorTransferIds ?? []).flatMap((transferId) => {
+        const transfer = program.world.anchorTransfers?.find((candidate) => candidate.id === transferId);
+        return transfer ? [transfer.anchorId] : [];
+    }));
+    return new Set(program.execution.anchorIdentity
+        .filter((predicate) => anchorIds.has(predicate.anchorId))
+        .flatMap((predicate) => predicate.fieldParameters.map((binding) => fieldKey(binding.worldId, binding.fieldId))));
+}
+
+/** World field keys an exchange changes: each world endpoint's sea field and its derived viability field. */
+function exchangeChangedFieldKeys(program: ExecutableAnchoredCausalProgram, law: CausalSeaExchangeLaw): string[] {
+    return exchangeWorldIds(law).flatMap((worldId) => {
+        const world = seaWorldDefinition(program, worldId);
+        return world ? [
+            fieldKey(worldId, causalSeaFieldId(world, law.quantity)),
+            fieldKey(worldId, world.seaCoupling.viabilityFieldId),
+        ] : [];
+    });
+}
+
+function seaEntriesConflict(program: ExecutableAnchoredCausalProgram, left: FrontierEntry, right: FrontierEntry): boolean {
+    if (left.kind !== "exchange" && right.kind !== "exchange") return false;
+    // A transfer's identity certificate is computed on the frontier state, so an exchange that changes any field
+    // that certificate reads (directly or through the sea-coupled viability) could falsify it in the same frontier.
+    for (const [exchange, other] of [[left, right], [right, left]] as const) {
+        if (exchange.kind === "exchange" && other.kind === "internal") {
+            const reads = transferIdentityReadKeys(program, other);
+            if (exchangeChangedFieldKeys(program, exchange.law).some((key) => reads.has(key))) return true;
+        }
+    }
+    if (left.kind === "exchange" && right.kind === "exchange" && seaSourceKey(program, left.law) === seaSourceKey(program, right.law)) {
+        return true;
+    }
+    const rightWrites = worldSeaWrites(program, right);
+    return [...worldSeaWrites(program, left)].some((key) => rightWrites.has(key));
+}
+
+function frontierPairConflict(program: ExecutableAnchoredCausalProgram, left: FrontierEntry, right: FrontierEntry): boolean {
+    if (left.kind === "internal" && right.kind === "internal") {
+        return effectSetsConflict([lawConflictEntry(program, left.law), lawConflictEntry(program, right.law)]);
+    }
+    return seaEntriesConflict(program, left, right);
+}
+
+function frontierConflict(program: ExecutableAnchoredCausalProgram, entries: FrontierEntry[]): "internal" | "sea" | undefined {
+    const internal = entries.flatMap((entry) => entry.kind === "internal" ? [lawConflictEntry(program, entry.law)] : []);
+    if (effectSetsConflict(internal)) return "internal";
+    for (let leftIndex = 0; leftIndex < entries.length; leftIndex += 1) {
+        for (let rightIndex = leftIndex + 1; rightIndex < entries.length; rightIndex += 1) {
+            if (seaEntriesConflict(program, entries[leftIndex]!, entries[rightIndex]!)) return "sea";
+        }
+    }
+    return undefined;
 }
 
 function recomputeSea(
@@ -845,6 +1241,10 @@ function recomputeSea(
     const positive = state.fields[world.seaCoupling.positiveFieldId];
     const negative = state.fields[world.seaCoupling.negativeFieldId];
     if (!positive || !negative) return `sea fields are unavailable for '${worldId}'`;
+    if (program.world.seaMedium && [positive, negative].some((value) => (compareExactRationals(value, exact.integer(0)) ?? -1) < 0)) {
+        // Sea held by a world is an amount of residue or support; a negative amount would let a release drain the medium.
+        return `under a sea medium, the sea quantities of '${worldId}' must stay non-negative`;
+    }
     const positiveContribution = multiplyExactRationals(positive, law.positiveWeight);
     const negativeContribution = multiplyExactRationals(negative, law.negativeWeight);
     const seaContribution = positiveContribution && negativeContribution
@@ -1182,18 +1582,15 @@ function lifecycleEffectsApplicable(law: CausalInternalLaw, states: Map<string, 
 
 function maximalCommutingLawFrontiers(
     program: ExecutableAnchoredCausalProgram,
-    laws: CausalInternalLaw[],
+    entries: FrontierEntry[],
     limit: number,
-): { frontiers: CausalInternalLaw[][]; exhaustive: boolean } {
-    const ordered = [...laws].sort((left, right) => compareCanonicalStrings(left.id, right.id));
-    const byId = new Map(ordered.map((law) => [law.id, law]));
-    const compatible = new Map(ordered.map((law) => [
-        law.id,
+): { frontiers: FrontierEntry[][]; exhaustive: boolean } {
+    const ordered = [...entries].sort((left, right) => compareCanonicalStrings(left.id, right.id));
+    const byId = new Map(ordered.map((entry) => [entry.id, entry]));
+    const compatible = new Map(ordered.map((entry) => [
+        entry.id,
         new Set(ordered
-            .filter((candidate) => candidate.id !== law.id && !effectSetsConflict([
-                lawConflictEntry(program, law),
-                lawConflictEntry(program, candidate),
-            ]))
+            .filter((candidate) => candidate.id !== entry.id && !frontierPairConflict(program, entry, candidate))
             .map((candidate) => candidate.id)),
     ]));
     const results: string[][] = [];
@@ -1227,7 +1624,7 @@ function maximalCommutingLawFrontiers(
             if (!exhaustive) return;
         }
     };
-    search([], ordered.map((law) => law.id), []);
+    search([], ordered.map((entry) => entry.id), []);
     countHostCost("branchFrontierCandidates", results.length);
     return {
         frontiers: results
@@ -1406,11 +1803,70 @@ function applyAnchorTransferFrontier(
     return undefined;
 }
 
+/**
+ * Release on retirement: the retiring world's whole local negative and positive sea quantities enter its placement
+ * region and its sea fields become zero. Region `before` values are the lifecycle sub-step's starting state, so
+ * simultaneous releases into one region do not depend on the order in which they are listed.
+ */
+function releaseRetiringWorldSea(
+    program: ExecutableAnchoredCausalProgram,
+    mutable: MutableRealization,
+    world: CausalWorldDefinition,
+    state: MutableState,
+    eventId: string,
+    regionSnapshot: Map<string, MutableSeaRegion>,
+    releaseRegionEvents: Map<string, string[]>,
+): { seaRelease?: NonNullable<CausalWorldRetirementResidue["seaRelease"]>; effects: CausalTraceEffect[]; reason?: string } {
+    const sea = mutable.sea!;
+    const regionId = program.world.seaMedium?.placements.find((placement) => placement.worldId === world.id)?.regionId;
+    const live = regionId ? sea.regions.get(regionId) : undefined;
+    const snapshot = regionId ? regionSnapshot.get(regionId) : undefined;
+    if (!regionId || !live || !snapshot) {
+        return { effects: [], reason: `retiring world '${world.id}' has no sea placement region` };
+    }
+    const zero = exact.integer(0);
+    const released: Partial<Record<CausalSeaQuantity, ExactValue>> = {};
+    const worldEffects: CausalTraceEffect[] = [];
+    const regionEffects: CausalTraceEffect[] = [];
+    for (const quantity of CAUSAL_SEA_QUANTITIES) {
+        const fieldId = causalSeaFieldId(world, quantity);
+        const amount = state.fields[fieldId];
+        const isolatedAfter = amount ? addExactRationals(snapshot[quantity], amount) : undefined;
+        const liveAfter = amount ? addExactRationals(live[quantity], amount) : undefined;
+        if (!amount || !isolatedAfter || !liveAfter) {
+            return { effects: [], reason: `retiring world '${world.id}' has no exact ${quantity} sea quantity to release` };
+        }
+        if ((compareExactRationals(isolatedAfter, zero) ?? -1) < 0 || (compareExactRationals(liveAfter, zero) ?? -1) < 0) {
+            return { effects: [], reason: `releasing '${world.id}' would leave sea region '${regionId}' ${quantity} negative` };
+        }
+        released[quantity] = amount;
+        state.fields[fieldId] = zero;
+        live[quantity] = liveAfter;
+        worldEffects.push({ worldId: world.id, fieldId, layer: "world-field", operation: "subtract", before: amount, operand: amount, after: zero });
+        regionEffects.push({ regionId, fieldId: quantity, layer: "sea-region", operation: "add", before: snapshot[quantity], operand: amount, after: isolatedAfter });
+        if (!isZeroExact(amount)) {
+            mutable.fieldCauses.set(fieldKey(world.id, fieldId), [eventId]);
+            const key = regionQuantityKey(regionId, quantity);
+            releaseRegionEvents.set(key, [...releaseRegionEvents.get(key) ?? [], eventId]);
+        }
+    }
+    return {
+        seaRelease: { regionId, negative: released.negative!, positive: released.positive! },
+        effects: [
+            ...worldEffects.sort((left, right) => compareCanonicalStrings(left.fieldId, right.fieldId)),
+            ...regionEffects,
+        ],
+    };
+}
+
 function applyLifecycleFrontier(
     program: ExecutableAnchoredCausalProgram,
     mutable: MutableRealization,
     lawEvents: Array<{ law: CausalInternalLaw; eventId: string }>,
+    frontierRegionEvents: Map<string, string[]> = new Map(),
 ): string | undefined {
+    const regionSnapshot = mutable.sea ? snapshotSeaRegions(mutable.sea) : undefined;
+    const releaseRegionEvents = new Map<string, string[]>();
     const transitions = new Map<string, {
         kind: CausalWorldLifecycleEffect["kind"];
         sourceWorldIds: Set<string>;
@@ -1506,6 +1962,13 @@ function applyLifecycleFrontier(
                 .filter((commit) => commit.worldId === targetWorldId)
                 .map((commit) => commit.eventId),
         };
+        let releaseEffects: CausalTraceEffect[] = [];
+        if (mutable.sea && regionSnapshot) {
+            const release = releaseRetiringWorldSea(program, mutable, world, state, eventId, regionSnapshot, releaseRegionEvents);
+            if (release.reason || !release.seaRelease) return release.reason ?? `retiring world '${targetWorldId}' could not release its sea`;
+            residue.seaRelease = release.seaRelease;
+            releaseEffects = release.effects;
+        }
         state.lifecycle = {
             ...(state.lifecycle ?? { phase: "active" as const }),
             phase: "retired",
@@ -1533,11 +1996,116 @@ function applyLifecycleFrontier(
             eventId,
             lifecycleEventId: eventId,
             causes: causedByLawEventIds,
-            effects: [],
+            effects: releaseEffects,
         });
+        if (mutable.sea) {
+            // The released world's sea fields changed, so its derived viability is recomputed as for any sea change.
+            const seaError = recomputeSea(program, mutable, targetWorldId, [eventId]);
+            if (seaError) return seaError;
+            // The retired world's final state is the state after its release, which is also what the portable outcome
+            // records, so the residue digest stays reproducible from the outcome alone.
+            residue.finalStateDigest = digest({
+                fields: state.fields,
+                intrinsicViability: state.intrinsicViability,
+                seaContribution: state.seaContribution,
+            });
+        }
         lifecycleEventIds.push(eventId);
     }
+    if (mutable.sea) {
+        // A region quantity changed by releases was last changed by those releases together with any exchange of
+        // the same synchronous frontier that also changed it.
+        for (const [key, releaseIds] of [...releaseRegionEvents].sort(([left], [right]) => compareCanonicalStrings(left, right))) {
+            mutable.sea.regionCauses.set(key, sortedUniqueCanonical([...frontierRegionEvents.get(key) ?? [], ...releaseIds]));
+        }
+    }
     if (lifecycleEventIds.length > 0) mutable.evaluationFrontiers.push(lifecycleEventIds);
+    return undefined;
+}
+
+/**
+ * Applies one exchange of a synchronous frontier. Every `before` is the frontier state: a world sea field an
+ * exchange touches is written by no other entry of the frontier (conflict rule), and region values are read from
+ * the frontier snapshot, so simultaneous exchanges never see each other's effects.
+ */
+function applySeaExchange(
+    program: ExecutableAnchoredCausalProgram,
+    mutable: MutableRealization,
+    law: CausalSeaExchangeLaw,
+    eventId: string,
+    causes: string[],
+    regionSnapshot: Map<string, MutableSeaRegion>,
+    changedFieldEvents: Map<string, string[]>,
+    changedRegionEvents: Map<string, string[]>,
+    changedWorlds: Map<string, string[]>,
+): string | undefined {
+    const sea = mutable.sea;
+    const medium = program.world.seaMedium;
+    const amount = normalizeExactValue(law.amount);
+    if (!sea || !medium || amount?.kind !== "rational") return `sea exchange '${law.id}' has no medium or exact amount`;
+    const zero = exact.integer(0);
+    const traceEffects: CausalTraceEffect[] = [];
+    const sides: Array<CausalSeaExchangeEvent["from"]> = [];
+    for (const [endpoint, operation] of [[law.from, "subtract"], [law.to, "add"]] as const) {
+        const apply = (value: ExactValue) => operation === "add"
+            ? addExactRationals(value, amount)
+            : subtractExactRationals(value, amount);
+        if (endpoint.kind === "world") {
+            const world = seaWorldDefinition(program, endpoint.worldId);
+            const state = mutable.states.get(endpoint.worldId);
+            const fieldId = world ? causalSeaFieldId(world, law.quantity) : undefined;
+            const before = fieldId ? state?.fields[fieldId] : undefined;
+            const after = before ? apply(before) : undefined;
+            if (!state || !fieldId || !before || !after) return `sea exchange '${law.id}' has an unavailable world endpoint`;
+            if ((compareExactRationals(after, zero) ?? -1) < 0 && operation === "subtract") {
+                return `sea exchange '${law.id}' would overdraw '${fieldKey(endpoint.worldId, fieldId)}'`;
+            }
+            state.fields[fieldId] = after;
+            traceEffects.push({ worldId: endpoint.worldId, fieldId, layer: "world-field", operation, before, operand: amount, after });
+            sides.push({ kind: "world", worldId: endpoint.worldId, fieldId, before, after });
+            const key = fieldKey(endpoint.worldId, fieldId);
+            changedFieldEvents.set(key, [...changedFieldEvents.get(key) ?? [], eventId]);
+            changedWorlds.set(endpoint.worldId, [...changedWorlds.get(endpoint.worldId) ?? [], eventId]);
+            continue;
+        }
+        const live = sea.regions.get(endpoint.regionId);
+        const before = regionSnapshot.get(endpoint.regionId)?.[law.quantity];
+        const after = before ? apply(before) : undefined;
+        const liveAfter = live ? apply(live[law.quantity]) : undefined;
+        if (!live || !before || !after || !liveAfter) return `sea exchange '${law.id}' has an unavailable region endpoint`;
+        if ((compareExactRationals(after, zero) ?? -1) < 0 || (compareExactRationals(liveAfter, zero) ?? -1) < 0) {
+            return `sea exchange '${law.id}' would overdraw region '${endpoint.regionId}' ${law.quantity}`;
+        }
+        live[law.quantity] = liveAfter;
+        traceEffects.push({ regionId: endpoint.regionId, fieldId: law.quantity, layer: "sea-region", operation, before, operand: amount, after });
+        sides.push({ kind: "region", regionId: endpoint.regionId, before, after });
+        const key = regionQuantityKey(endpoint.regionId, law.quantity);
+        changedRegionEvents.set(key, [...changedRegionEvents.get(key) ?? [], eventId]);
+    }
+    const [from, to] = sides as [CausalSeaExchangeEvent["from"], CausalSeaExchangeEvent["to"]];
+    mutable.appliedLawIds.add(law.id);
+    mutable.events.push({ id: eventId, causes, reversibility: "irreversible" });
+    mutable.evaluationOrder.push(eventId);
+    mutable.trace.push({
+        id: `trace:${mutable.trace.length + 1}:${eventId}`,
+        kind: "sea-medium",
+        // A world endpoint owns the entry; a region-to-region exchange belongs to the medium itself.
+        worldId: exchangeWorldIds(law)[0] ?? medium.id,
+        eventId,
+        lawId: law.id,
+        causes: [...causes],
+        effects: traceEffects,
+    });
+    sea.exchangeEvents.push({
+        id: eventId,
+        lawId: law.id,
+        quantity: law.quantity,
+        amount,
+        from,
+        to,
+        causes: [...causes],
+        hostSelection: false,
+    });
     return undefined;
 }
 
@@ -1545,8 +2113,9 @@ function applyLawFrontier(
     program: ExecutableAnchoredCausalProgram,
     mutable: MutableRealization,
     laws: CausalInternalLaw[],
+    exchanges: CausalSeaExchangeLaw[] = [],
 ): string | undefined {
-    countHostCost("lawApplications", laws.length);
+    countHostCost("lawApplications", laws.length + exchanges.length);
     const eventIds: string[] = [];
     const priorFieldCauses = new Map([...mutable.fieldCauses].map(([key, causes]) => [key, [...causes]]));
     const lawEvents = [...laws].sort((left, right) => compareCanonicalStrings(left.id, right.id)).map((law) => ({
@@ -1559,9 +2128,38 @@ function applyLawFrontier(
             )),
         ])].sort(),
     }));
+    // Exchange causes and region values are read from the frontier state before any entry of it applies.
+    const exchangeEvents = [...exchanges].sort((left, right) => compareCanonicalStrings(left.id, right.id)).map((law) => ({
+        law,
+        eventId: `medium:${law.id}`,
+        causes: exchangeCauses(program, law, mutable),
+    }));
+    const regionSnapshot = mutable.sea ? snapshotSeaRegions(mutable.sea) : new Map<string, MutableSeaRegion>();
+    const orderedEntries = [
+        ...lawEvents.map((entry) => ({ kind: "internal" as const, ...entry })),
+        ...exchangeEvents.map((entry) => ({ kind: "exchange" as const, ...entry })),
+    ].sort((left, right) => compareCanonicalStrings(left.law.id, right.law.id));
     const changedWorlds = new Map<string, string[]>();
     const changedFieldEvents = new Map<string, string[]>();
-    for (const { law, eventId, causes } of lawEvents) {
+    const changedRegionEvents = new Map<string, string[]>();
+    for (const entry of orderedEntries) {
+        if (entry.kind === "exchange") {
+            const exchangeError = applySeaExchange(
+                program,
+                mutable,
+                entry.law,
+                entry.eventId,
+                entry.causes,
+                regionSnapshot,
+                changedFieldEvents,
+                changedRegionEvents,
+                changedWorlds,
+            );
+            if (exchangeError) return exchangeError;
+            eventIds.push(entry.eventId);
+            continue;
+        }
+        const { law, eventId, causes } = entry;
         const state = mutable.states.get(law.worldId);
         if (!state) return `law '${law.id}' names missing world '${law.worldId}'`;
         const traceEffects: CausalTraceEffect[] = [];
@@ -1599,6 +2197,11 @@ function applyLawFrontier(
     for (const [key, causes] of changedFieldEvents) {
         mutable.fieldCauses.set(key, [...new Set(causes)].sort());
     }
+    if (mutable.sea) {
+        for (const [key, causes] of [...changedRegionEvents].sort(([left], [right]) => compareCanonicalStrings(left, right))) {
+            mutable.sea.regionCauses.set(key, sortedUniqueCanonical(causes));
+        }
+    }
     mutable.evaluationFrontiers.push([...eventIds]);
     for (const [worldId, causes] of changedWorlds) {
         const seaError = recomputeSea(program, mutable, worldId, causes);
@@ -1610,7 +2213,7 @@ function applyLawFrontier(
     }
     const transferError = applyAnchorTransferFrontier(program, mutable, lawEvents);
     if (transferError) return transferError;
-    const lifecycleError = applyLifecycleFrontier(program, mutable, lawEvents);
+    const lifecycleError = applyLifecycleFrontier(program, mutable, lawEvents, changedRegionEvents);
     if (lifecycleError) return lifecycleError;
     return undefined;
 }
@@ -1640,6 +2243,7 @@ function closeInternalLaws(
         const mutable = node.mutable;
         while (true) {
             const enabled: CausalInternalLaw[] = [];
+            const enabledExchanges: CausalSeaExchangeLaw[] = [];
             const unresolved: string[] = [];
             const branchSubject = mutable.branchLineage.length > 0
                 ? `branch:${mutable.branchLineage.map((step) => step.id).join("/")}:`
@@ -1706,10 +2310,54 @@ function closeInternalLaws(
                     }
                 }
             }
+            // The medium's own laws join the same synchronous frontier, read against the same frontier state.
+            for (const law of canonicalExchangeLaws(program)) {
+                if (mutable.appliedLawIds.has(law.id) || mutable.branchedAwayLawIds.has(law.id)) continue;
+                if (!exchangeWorldsAreActive(law, mutable.states)) continue;
+                const exchangePrefix = `${subjectPrefix}${branchSubject}frontier:${node.localFrontierCount}:medium:${law.id}:`;
+                const sufficiency = assessExchangeSufficiency(program, mutable, law, `${exchangePrefix}#sufficiency`);
+                formalEvidence.push(sufficiency.evidence);
+                if (sufficiency.evidence.status !== "resolved") {
+                    return {
+                        status: "contradicted",
+                        reason: `source of sea exchange '${law.id}' is not an exact rational quantity`,
+                        unresolvedLawIds: [law.id],
+                        realizations: partialRealizations(mutable),
+                        formalEvidence,
+                        formalSteps,
+                        frontierCount,
+                        branchCount,
+                        exhaustiveBranching: true,
+                    };
+                }
+                if (!sufficiency.sufficient) continue;
+                const evaluated = evaluateSeaPredicate(program, law.guard, mutable, options.evaluationBudgetPerQuery, exchangePrefix);
+                formalEvidence.push(evaluated.evidence);
+                formalSteps += evaluated.steps;
+                if (evaluated.evidence.status === "undetermined") {
+                    unresolved.push(law.id);
+                } else if (evaluated.evidence.status === "contradicted" || evaluated.evidence.value?.kind !== "boolean") {
+                    return {
+                        status: "contradicted",
+                        reason: `guard for sea exchange law '${law.id}' did not produce a boolean`,
+                        unresolvedLawIds: [law.id],
+                        realizations: partialRealizations(mutable),
+                        formalEvidence,
+                        formalSteps,
+                        frontierCount,
+                        branchCount,
+                        exhaustiveBranching: true,
+                    };
+                } else if (evaluated.evidence.value.value) {
+                    enabledExchanges.push(law);
+                }
+            }
             if (unresolved.length > 0) {
                 return {
                     status: "undetermined",
-                    reason: "one or more internal-law guards are unresolved",
+                    reason: unresolved.some((lawId) => exchangeLawIdSet(program).has(lawId))
+                        ? "one or more internal-law or sea-exchange guards are unresolved"
+                        : "one or more internal-law guards are unresolved",
                     unresolvedLawIds: unresolved.sort(),
                     realizations: partialRealizations(mutable),
                     formalEvidence,
@@ -1719,18 +2367,20 @@ function closeInternalLaws(
                     exhaustiveBranching: true,
                 };
             }
-            if (enabled.length === 0) {
+            if (enabled.length === 0 && enabledExchanges.length === 0) {
                 completed.push(mutable);
                 break;
             }
-            const conflict = effectSetsConflict(enabled.map((law) => ({
-                ...lawConflictEntry(program, law),
-            })));
+            const entries = frontierEntries(enabled, enabledExchanges);
+            const entryIds = entries.map((entry) => entry.id);
+            const conflict = frontierConflict(program, entries);
             if (conflict && program.execution.internalConflictMode !== "maximal-commuting-branches") {
                 return {
                     status: "undetermined",
-                    reason: "simultaneously enabled internal laws have non-commuting set effects",
-                    unresolvedLawIds: enabled.map((law) => law.id).sort(),
+                    reason: conflict === "internal"
+                        ? "simultaneously enabled internal laws have non-commuting set effects"
+                        : "simultaneously enabled sea exchanges draw one scarce source, write a world sea field another frontier entry writes, or change a field a simultaneous transfer's identity certificate reads",
+                    unresolvedLawIds: [...entryIds].sort(),
                     realizations: partialRealizations(mutable),
                     formalEvidence,
                     formalSteps,
@@ -1741,13 +2391,13 @@ function closeInternalLaws(
             }
             if (conflict) {
                 const remainingBranchBudget = options.maxInternalBranches - branchCount;
-                const alternatives = maximalCommutingLawFrontiers(program, enabled, Math.max(remainingBranchBudget, 0));
+                const alternatives = maximalCommutingLawFrontiers(program, entries, Math.max(remainingBranchBudget, 0));
                 if (!alternatives.exhaustive || alternatives.frontiers.length === 0
                     || branchCount + alternatives.frontiers.length > options.maxInternalBranches) {
                     return {
                         status: "undetermined",
                         reason: "endogenous internal-branch budget exhausted before every maximal commuting frontier was preserved",
-                        unresolvedLawIds: enabled.map((law) => law.id).sort(),
+                        unresolvedLawIds: [...entryIds].sort(),
                         realizations: partialRealizations(mutable),
                         formalEvidence,
                         formalSteps,
@@ -1760,7 +2410,7 @@ function closeInternalLaws(
                     return {
                         status: "undetermined",
                         reason: "internal causal-closure frontier budget cannot preserve every endogenous branch",
-                        unresolvedLawIds: enabled.map((law) => law.id).sort(),
+                        unresolvedLawIds: [...entryIds].sort(),
                         realizations: partialRealizations(mutable),
                         formalEvidence,
                         formalSteps,
@@ -1769,10 +2419,10 @@ function closeInternalLaws(
                         exhaustiveBranching: true,
                     };
                 }
-                const enabledLawIds = enabled.map((law) => law.id).sort(compareCanonicalStrings);
+                const enabledLawIds = [...entryIds].sort(compareCanonicalStrings);
                 for (const frontier of alternatives.frontiers) {
                     const child = cloneRealization(mutable);
-                    const realizedLawIds = frontier.map((law) => law.id).sort(compareCanonicalStrings);
+                    const realizedLawIds = frontier.map((entry) => entry.id).sort(compareCanonicalStrings);
                     const nonrealizedLawIds = enabledLawIds.filter((lawId) => !realizedLawIds.includes(lawId));
                     nonrealizedLawIds.forEach((lawId) => child.branchedAwayLawIds.add(lawId));
                     const step: CausalInternalBranchStep = {
@@ -1789,7 +2439,12 @@ function closeInternalLaws(
                         hostSelection: false,
                     };
                     child.branchLineage.push(step);
-                    const error = applyLawFrontier(program, child, frontier);
+                    const error = applyLawFrontier(
+                        program,
+                        child,
+                        frontier.flatMap((entry) => entry.kind === "internal" ? [entry.law] : []),
+                        frontier.flatMap((entry) => entry.kind === "exchange" ? [entry.law] : []),
+                    );
                     if (error) {
                         return {
                             status: "contradicted",
@@ -1813,7 +2468,7 @@ function closeInternalLaws(
                 return {
                     status: "undetermined",
                     reason: "internal causal-closure frontier budget exhausted",
-                    unresolvedLawIds: enabled.map((law) => law.id).sort(),
+                    unresolvedLawIds: [...entryIds].sort(),
                     realizations: partialRealizations(mutable),
                     formalEvidence,
                     formalSteps,
@@ -1822,12 +2477,12 @@ function closeInternalLaws(
                     exhaustiveBranching: true,
                 };
             }
-            const error = applyLawFrontier(program, mutable, enabled);
+            const error = applyLawFrontier(program, mutable, enabled, enabledExchanges);
             if (error) {
                 return {
                     status: "contradicted",
                     reason: error,
-                    unresolvedLawIds: enabled.map((law) => law.id),
+                    unresolvedLawIds: entryIds,
                     realizations: partialRealizations(mutable),
                     formalEvidence,
                     formalSteps,
@@ -2043,7 +2698,7 @@ function assessEmergence(
         const causedByEventIds = [...new Set(mutable.trace
             .filter((entry) => entry.worldId === criterion.worldId && entry.eventId && entry.kind !== "history-commit"
                 && ((entry.kind === "world-spawn" || entry.kind === "world-retirement")
-                    || entry.effects.some((effect) => relevantFields.has(effect.fieldId)
+                    || entry.effects.some((effect) => effect.layer !== "sea-region" && relevantFields.has(effect.fieldId)
                         && (!effect.before || !exactValuesEqual(effect.before, effect.after)))))
             .map((entry) => entry.eventId!))].sort();
         assessments.push({
@@ -2057,6 +2712,88 @@ function assessEmergence(
         });
     }
     return { assessments, evidence, formalSteps };
+}
+
+function sumExactRationals(values: ExactValue[]): ExactValue | undefined {
+    let total: ExactValue | undefined = exact.integer(0);
+    for (const value of values) {
+        total = total ? addExactRationals(total, value) : undefined;
+    }
+    return total;
+}
+
+function worldSeaTotal(
+    program: ExecutableAnchoredCausalProgram,
+    states: Array<Pick<CausalWorldState, "worldId" | "fields">>,
+    quantity: CausalSeaQuantity,
+): ExactValue[] {
+    const byWorld = new Map(states.map((state) => [state.worldId, state]));
+    return [...program.world.worlds]
+        .sort((left, right) => compareCanonicalStrings(left.id, right.id))
+        .map((world) => byWorld.get(world.id)?.fields[causalSeaFieldId(world, quantity)])
+        .filter((value): value is ExactValue => value !== undefined);
+}
+
+/**
+ * Sea production is read from the recorded trace, independently of the totals: the net change of world sea fields
+ * by every event other than medium exchanges and retirement releases (initial values are not production).
+ */
+function seaProduction(
+    program: ExecutableAnchoredCausalProgram,
+    trace: CausalTraceEntry[],
+    quantity: CausalSeaQuantity,
+): ExactValue | undefined {
+    const worlds = new Map(program.world.worlds.map((world) => [world.id, world]));
+    const deltas: ExactValue[] = [];
+    for (const entry of trace) {
+        if (entry.kind === "initial-field" || entry.kind === "sea-medium" || entry.kind === "world-retirement") continue;
+        for (const effect of entry.effects) {
+            if (effect.layer !== "world-field" || !effect.before) continue;
+            const world = worlds.get(effect.worldId ?? entry.worldId);
+            if (!world || effect.fieldId !== causalSeaFieldId(world, quantity)) continue;
+            const delta = subtractExactRationals(effect.after, effect.before);
+            if (!delta) return undefined;
+            deltas.push(delta);
+        }
+    }
+    return sumExactRationals(deltas);
+}
+
+/** Final regions and the exact balance certificate over all regions and every world's sea fields, latent included. */
+function seaMediumState(
+    program: ExecutableAnchoredCausalProgram,
+    mutable: MutableRealization,
+    initialStates: CausalWorldState[],
+): CausalSeaMediumState {
+    // The balance is stated from the regions this realization actually started from, which a continued
+    // realization takes from its predecessor rather than from the declared program values.
+    const initialRegions = [...mutable.sea!.initialRegions]
+        .sort(([left], [right]) => compareCanonicalStrings(left, right))
+        .map(([, region]) => region);
+    const regions = [...mutable.sea!.regions]
+        .sort(([left], [right]) => compareCanonicalStrings(left, right))
+        .map(([id, region]) => ({ id, negative: cloneValue(region.negative), positive: cloneValue(region.positive) }));
+    const finalStates = [...mutable.states.values()];
+    const balance = CAUSAL_SEA_QUANTITIES.map((quantity): CausalSeaBalance => {
+        const initialTotal = sumExactRationals([
+            ...initialRegions.map((region) => region[quantity]),
+            ...worldSeaTotal(program, initialStates, quantity),
+        ]);
+        const finalTotal = sumExactRationals([
+            ...regions.map((region) => region[quantity]),
+            ...worldSeaTotal(program, finalStates, quantity),
+        ]);
+        const production = seaProduction(program, mutable.trace, quantity);
+        const expected = initialTotal && production ? addExactRationals(initialTotal, production) : undefined;
+        return {
+            quantity,
+            initialTotal: initialTotal ?? exact.integer(0),
+            finalTotal: finalTotal ?? exact.integer(0),
+            production: production ?? exact.integer(0),
+            balanced: !!finalTotal && !!expected && exactValuesEqual(finalTotal, expected),
+        };
+    });
+    return { regions, balance };
 }
 
 function continuationFromRealization(
@@ -2101,6 +2838,10 @@ function continuationFromRealization(
             ...(mutable.internalEventAblations.length > 0
                 ? { internalEventAblations: cloneValue(mutable.internalEventAblations) }
                 : {}),
+            ...(mutable.sea ? {
+                seaMedium: seaMediumState(program, mutable, initialStates),
+                seaExchangeEvents: cloneValue(mutable.sea.exchangeEvents),
+            } : {}),
             emergenceAssessments: emergence.assessments,
             order: {
                 kind: "causal-partial-order",
@@ -2167,6 +2908,26 @@ function initializeRealization(
         evaluationOrder: [],
         evaluationFrontiers: [],
         fieldCauses: new Map(),
+        ...(program.world.seaMedium ? (() => {
+            // A continued realization starts from the region quantities its predecessor left.
+            const startingRegions = new Map([...program.world.seaMedium.regions]
+                .sort((left, right) => compareCanonicalStrings(left.id, right.id))
+                .map((region): [string, MutableSeaRegion] => {
+                    const override = options.seaRegionOverrides[region.id];
+                    return [region.id, {
+                        negative: normalizeExactValue(override?.negative ?? region.negative)!,
+                        positive: normalizeExactValue(override?.positive ?? region.positive)!,
+                    }];
+                }));
+            return {
+                sea: {
+                    regions: startingRegions,
+                    regionCauses: new Map(Object.entries(options.seaRegionOverrideCauses).map(([key, causes]) => [key, [...causes]])),
+                    initialRegions: new Map([...startingRegions].map(([regionId, region]) => [regionId, cloneValue(region)])),
+                    exchangeEvents: [],
+                },
+            };
+        })() : {}),
     };
     const evidence: CausalFormalEvidence[] = [];
     let formalSteps = 0;
@@ -2277,6 +3038,7 @@ export function realizeAnchoredCausalWorld(
     const lifecycleTransitionBound = program.world.worlds.reduce((total, world) => (
         total + (world.initialExistence === "latent" ? 2 : 1)
     ), 0);
+    let initialSeaMedium: AnchoredCausalRun["initialSeaMedium"];
     const emptyRun = (
         status: AnchoredCausalRun["status"],
         reason: string,
@@ -2290,6 +3052,7 @@ export function realizeAnchoredCausalWorld(
         diagnostics,
         formalEvidence,
         initialWorldStates: [],
+        ...(initialSeaMedium ? { initialSeaMedium } : {}),
         interventionEligibility: [],
         candidateAssessments: [],
         continuations: [],
@@ -2330,6 +3093,28 @@ export function realizeAnchoredCausalWorld(
         .map(([key]) => key);
     if (invalidOverrideCauseKeys.length > 0) {
         return emptyRun("contradicted", `invalid field override cause key(s): ${invalidOverrideCauseKeys.join(", ")}`);
+    }
+    const knownRegionIds = new Set((program.world.seaMedium?.regions ?? []).map((region) => region.id));
+    const invalidRegionOverrides = Object.entries(options.seaRegionOverrides).filter(([regionId, region]) => (
+        !knownRegionIds.has(regionId)
+        || [region.negative, region.positive].some((value) => {
+            const normalized = value ? normalizeExactValue(value) : undefined;
+            return normalized?.kind !== "rational" || (compareExactRationals(normalized, exact.integer(0)) ?? -1) < 0;
+        })
+    )).map(([regionId]) => regionId);
+    if (invalidRegionOverrides.length > 0) {
+        return emptyRun("contradicted", `invalid sea region override(s): ${invalidRegionOverrides.join(", ")}`);
+    }
+    const invalidRegionCauseKeys = Object.entries(options.seaRegionOverrideCauses).filter(([key, causes]) => {
+        const separator = key.lastIndexOf("#");
+        const regionId = key.slice(0, separator);
+        const quantity = key.slice(separator + 1);
+        return separator <= 0 || !knownRegionIds.has(regionId) || !["negative", "positive"].includes(quantity)
+            || options.seaRegionOverrides[regionId] === undefined
+            || causes.length === 0 || causes.some((cause) => typeof cause !== "string" || cause.trim().length === 0);
+    }).map(([key]) => key);
+    if (invalidRegionCauseKeys.length > 0) {
+        return emptyRun("contradicted", `invalid sea region override cause key(s): ${invalidRegionCauseKeys.join(", ")}`);
     }
     const knownWorldIds = new Set(program.world.worlds.map((world) => world.id));
     const unknownLifecycleWorldIds = Object.keys(options.worldLifecycleOverrides)
@@ -2393,6 +3178,13 @@ export function realizeAnchoredCausalWorld(
         return emptyRun(initialized.status ?? "contradicted", initialized.reason ?? "world initialization failed");
     }
     const initialWorldStates = serializeStates(initialized.mutable.states);
+    if (initialized.mutable.sea) {
+        initialSeaMedium = [...initialized.mutable.sea.regions].map(([id, region]) => ({
+            id,
+            negative: cloneValue(region.negative),
+            positive: cloneValue(region.positive),
+        }));
+    }
     const closure = closeInternalLaws(program, initialized.mutable, options, "autonomous:");
     formalEvidence.push(...closure.formalEvidence);
     formalSteps += closure.formalSteps;
@@ -2439,7 +3231,7 @@ export function realizeAnchoredCausalWorld(
             ...(autonomousBases.length > 1 ? { autonomousContinuations, baselineScores } : {}),
             continuations: autonomousContinuations,
             selectedContinuationIds: [],
-            unresolvedAlternativeIds: closure.unresolvedLawIds.map((id) => `law:${id}`),
+            unresolvedAlternativeIds: unresolvedLawEventIds(program, closure.unresolvedLawIds),
         });
     }
 
@@ -2816,6 +3608,15 @@ export function inspectAnchoredCausalRun(run: AnchoredCausalRun): AnchoredCausal
             createsHistoryArrow: relevantContinuations.some((continuation) => continuation.order.createsHistoryArrow),
             exhaustiveInterventionSearch: run.resourceUse.exhaustiveInterventionSearch,
             exhaustiveInternalBranching: run.resourceUse.exhaustiveInternalBranching,
+            ...(run.initialSeaMedium ? {
+                seaRegionCount: run.initialSeaMedium.length,
+                seaExchangeCount: relevantContinuations.reduce((total, continuation) => total + (continuation.seaExchangeEvents?.length ?? 0), 0),
+                seaReleaseCount: relevantContinuations.flatMap((continuation) => continuation.lifecycleEvents ?? [])
+                    .filter((event) => !!event.residue?.seaRelease).length,
+                seaBalanced: relevantContinuations.every((continuation) => (
+                    continuation.seaMedium?.balance.every((entry) => entry.balanced) ?? true
+                )),
+            } : {}),
         },
         decision: {
             ...(run.baselineScore ? { baselineScore: run.baselineScore } : {}),

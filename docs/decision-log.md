@@ -1411,3 +1411,45 @@ On 2026-11-16 the author selected preparation of v0.5.9 confirmation at the scop
 Consequence:
 
 Correct all of them before confirmation: raw-name section order with a specification-derived identity test, canonical evaluation and iteration at the affected set positions, mandatory criticality for `core.*` sections, document-owned execution options on every execution and re-encoding path, specified array order for every evidence-id record with outcome-only reconstruction tests, a total checker, a normative nesting bound of 1024, corrected cost documentation, and first-class anchor identity verdicts in the oracle and the outcome. These change the format and the outcome schema, so the frozen corpus was regenerated once under this decision, as D-137 requires; every regenerated release artifact differs from the previous commit only in listing order, trace numbering, digests, and the new `anchorIdentity` field. Confirm `v0.5.9` as the bounded portable-execution-authority release with package identity `0.5.9`. Its claim is the closed evidence of the v0.5.9 architecture record. It does not decide whether the 6.x Rust entry condition is met, select the next version, resolve B-053, or complete OB-013; committing remains the author's act.
+
+### D-141: Make the positive and negative seas one shared medium as the v0.5.10 candidate
+
+Reason:
+
+After bounded v0.5.9 the author asked for the next work toward one vast universe that has everything it needs (AI-20261116-002). Across OB-003, OB-007, and OB-011 the recurring open item is global sea structure. The canonical ontology and the observer-free baseline (Axioms O and S) define the negative sea as shared exterior pressure containing collapsed-world residue and leaks from other bubbles, and the positive sea as the larger structured field of placement and nearness. The kernel instead keeps both seas as two scalar fields inside each world: pressure appears from nothing, retired residue stays trapped, and worlds meet only at generation or through one anchor crossing. Without a shared medium, the worlds do not form one universe.
+
+Consequence:
+
+Open an unversioned v0.5.10 candidate that adds an opt-in shared sea medium to the executable causal kernel: regions with exact quantities, placement of every world, adjacency, the medium's own once-per-realization exchange laws with locality rules, scarcity conflicts handled by the existing conflict modes, release of retired residue into the sea, and an exact balance certificate with closed and open modes (docs/architecture/v0.5.10-multiversal-sea-medium.md). Implement it in parallel by owned files against one written contract, then integrate, audit, and confirm only by author judgment. This does not replace the scalar viability proxy, add continuous flow, settle B-053, or decide the 6.x entry condition.
+
+### D-142: Extend the frozen causal corpus with sea-medium fixtures and specification probes
+
+Reason:
+
+The v0.5.10 candidate adds the shared sea medium, which no fixture exercised, and an independent clean-room reader written from the specifications alone reported that the corpus never exercised several derivation rules: a BIR set order that differs from canonical string order, a branch lineage with more than one step, and a lineage chained through a spawned world. D-137 allows regenerating the corpus only by a recorded decision.
+
+Consequence:
+
+Regenerate `data/conformance/causal/` with six added cases: the canonical `residue-commons` world, sea-scarcity under the default and maximal-branch conflict modes, and the three specification probes. Before and after regeneration the fifteen existing fixtures keep identical input and outcome identities, so no earlier expectation changed; the reference oracle conforms to all twenty-one. Regenerate again within this candidate only if the confirmation audit changes the medium's semantics, and record that regeneration here.
+
+## 2026-11-17
+
+### D-143: Correct the v0.5.10 audit findings before confirmation
+
+Reason:
+
+Four parallel audits and the clean-room reader reproduced the gaps recorded as B-063 to B-067. Each contradicted a stated v0.5.10 or v0.5.9 claim.
+
+Consequence:
+
+Require non-negative world sea under a medium; make an exchange touching a transfer endpoint conflict with that transfer's law; forbid any sea-role write under a closed medium (CKW237); give runtime sufficiency evidence an unforgeable subject; carry lifecycles in teleonomic reruns; make the endogenous projection certificate truthful under a medium; discard caller continuation overrides in generated universes; reject a null medium (EGU212); and complete the conformance references. None of these changes any committed fixture outcome, so the corpus is not regenerated. Leave persistence dependency and self-maintenance under a medium, multi-channel exchange, the CKR026 internal-law route, and override self-causes open.
+
+### D-144: Confirm bounded v0.5.10 at the multiversal sea medium scope
+
+Reason:
+
+On 2026-11-17 the author selected confirmation of `v0.5.10` at its present scope. A re-audit of the D-143 corrections reproduced two more gaps (B-068, B-069), both contradicting stated claims.
+
+Consequence:
+
+Key the exchange-transfer conflict by the fields the transfer's identity certificate reads, and diagnose every non-declaration medium (CKW238, EGU212). Neither changes a committed fixture outcome, so the corpus is not regenerated. Bump package identity to `0.5.10` and reconcile the records from candidate to bounded release. The closed claim is the architecture record's sections 1 to 3 with its audit evidence; its section 5 stays open, and the next version's seam is not selected.

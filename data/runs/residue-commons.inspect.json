@@ -1,0 +1,2821 @@
+{
+  "mode": "bubble-anchored-causal-inspection.v2",
+  "summary": {
+    "status": "stable",
+    "worldCount": 4,
+    "activeWorldCount": 3,
+    "latentWorldCount": 0,
+    "retiredWorldCount": 1,
+    "spawnedWorldCount": 1,
+    "retirementCount": 1,
+    "admittedAnchorTransferCount": 0,
+    "blockedAnchorTransferCount": 0,
+    "continuationCount": 1,
+    "selectedContinuationCount": 1,
+    "unresolvedAlternativeCount": 0,
+    "emergedStructureCount": 0,
+    "dissolvedStructureCount": 0,
+    "createsHistoryArrow": true,
+    "exhaustiveInterventionSearch": true,
+    "exhaustiveInternalBranching": true,
+    "seaRegionCount": 2,
+    "seaExchangeCount": 3,
+    "seaReleaseCount": 1,
+    "seaBalanced": true
+  },
+  "decision": {
+    "baselineScore": {
+      "kind": "rational",
+      "numerator": "7",
+      "denominator": "1"
+    },
+    "interventionEligibility": [],
+    "candidates": []
+  },
+  "continuations": [
+    {
+      "id": "continuation:autonomous",
+      "selection": "baseline",
+      "interventionIds": [],
+      "score": {
+        "kind": "rational",
+        "numerator": "7",
+        "denominator": "1"
+      },
+      "worldStates": [
+        {
+          "worldId": "elder",
+          "fields": {
+            "condition": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "negative": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "positive": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "structure": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "viability": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "intrinsicViability": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "seaContribution": {
+            "kind": "rational",
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "lifecycle": {
+            "phase": "retired",
+            "retiredByEventId": "retire:elder:by:retire-elder"
+          }
+        },
+        {
+          "worldId": "exposed",
+          "fields": {
+            "boundary": {
+              "kind": "symbol",
+              "value": "open"
+            },
+            "integrity": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "negative": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "positive": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "viability": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          },
+          "intrinsicViability": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "seaContribution": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          }
+        },
+        {
+          "worldId": "heir",
+          "fields": {
+            "negative": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "positive": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "structure": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "viability": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          },
+          "intrinsicViability": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "seaContribution": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "lifecycle": {
+            "phase": "active",
+            "lineageId": "lineage:95e34056e51d748ac3cf",
+            "parentWorldIds": [
+              "elder"
+            ],
+            "spawnedByEventId": "spawn:heir:by:germinate-heir"
+          }
+        },
+        {
+          "worldId": "sheltered",
+          "fields": {
+            "boundary": {
+              "kind": "symbol",
+              "value": "closed"
+            },
+            "integrity": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "negative": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "positive": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "viability": {
+              "kind": "rational",
+              "numerator": "3",
+              "denominator": "1"
+            }
+          },
+          "intrinsicViability": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "seaContribution": {
+            "kind": "rational",
+            "numerator": "2",
+            "denominator": "1"
+          }
+        }
+      ],
+      "realizedEventIds": [
+        "law:germinate-heir",
+        "commit:law:germinate-heir",
+        "spawn:heir:by:germinate-heir",
+        "law:retire-elder",
+        "medium:support-heir",
+        "retire:elder:by:retire-elder",
+        "medium:diffuse-residue",
+        "law:form-heir",
+        "commit:law:form-heir",
+        "medium:seep-exposed",
+        "law:erode-exposed",
+        "commit:law:erode-exposed"
+      ],
+      "trace": [
+        {
+          "id": "trace:1:initial:elder.condition",
+          "kind": "initial-field",
+          "worldId": "elder",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "condition",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:2:initial:elder.negative",
+          "kind": "initial-field",
+          "worldId": "elder",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "negative",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:3:initial:elder.positive",
+          "kind": "initial-field",
+          "worldId": "elder",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "positive",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:4:initial:elder.structure",
+          "kind": "initial-field",
+          "worldId": "elder",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "structure",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:5:initial:elder.viability",
+          "kind": "initial-field",
+          "worldId": "elder",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:6:initial:exposed.boundary",
+          "kind": "initial-field",
+          "worldId": "exposed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "boundary",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "symbol",
+                "value": "open"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:7:initial:exposed.integrity",
+          "kind": "initial-field",
+          "worldId": "exposed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "integrity",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:8:initial:exposed.negative",
+          "kind": "initial-field",
+          "worldId": "exposed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "negative",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:9:initial:exposed.positive",
+          "kind": "initial-field",
+          "worldId": "exposed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "positive",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:10:initial:exposed.viability",
+          "kind": "initial-field",
+          "worldId": "exposed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:11:initial:heir.negative",
+          "kind": "initial-field",
+          "worldId": "heir",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "negative",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:12:initial:heir.positive",
+          "kind": "initial-field",
+          "worldId": "heir",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "positive",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:13:initial:heir.structure",
+          "kind": "initial-field",
+          "worldId": "heir",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "structure",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:14:initial:heir.viability",
+          "kind": "initial-field",
+          "worldId": "heir",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:15:initial:sheltered.boundary",
+          "kind": "initial-field",
+          "worldId": "sheltered",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "boundary",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "symbol",
+                "value": "closed"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:16:initial:sheltered.integrity",
+          "kind": "initial-field",
+          "worldId": "sheltered",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "integrity",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:17:initial:sheltered.negative",
+          "kind": "initial-field",
+          "worldId": "sheltered",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "negative",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:18:initial:sheltered.positive",
+          "kind": "initial-field",
+          "worldId": "sheltered",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "positive",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:19:initial:sheltered.viability",
+          "kind": "initial-field",
+          "worldId": "sheltered",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:20:sea:elder",
+          "kind": "sea-coupling",
+          "worldId": "elder",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "-1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:21:sea:exposed",
+          "kind": "sea-coupling",
+          "worldId": "exposed",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:22:sea:sheltered",
+          "kind": "sea-coupling",
+          "worldId": "sheltered",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:23:law:germinate-heir",
+          "kind": "internal-law",
+          "worldId": "elder",
+          "eventId": "law:germinate-heir",
+          "lawId": "germinate-heir",
+          "causes": [],
+          "effects": [
+            {
+              "fieldId": "condition",
+              "layer": "world-field",
+              "operation": "set",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:24:sea:elder",
+          "kind": "sea-coupling",
+          "worldId": "elder",
+          "causes": [
+            "law:germinate-heir"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "-1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:25:commit:law:germinate-heir",
+          "kind": "history-commit",
+          "worldId": "elder",
+          "eventId": "commit:law:germinate-heir",
+          "lawId": "germinate-heir",
+          "causes": [
+            "law:germinate-heir"
+          ],
+          "effects": [
+            {
+              "fieldId": "condition",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:26:spawn:heir:by:germinate-heir",
+          "kind": "world-spawn",
+          "worldId": "heir",
+          "eventId": "spawn:heir:by:germinate-heir",
+          "lifecycleEventId": "spawn:heir:by:germinate-heir",
+          "causes": [
+            "law:germinate-heir"
+          ],
+          "effects": []
+        },
+        {
+          "id": "trace:27:sea:heir",
+          "kind": "sea-coupling",
+          "worldId": "heir",
+          "causes": [
+            "spawn:heir:by:germinate-heir"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:28:law:retire-elder",
+          "kind": "internal-law",
+          "worldId": "elder",
+          "eventId": "law:retire-elder",
+          "lawId": "retire-elder",
+          "causes": [
+            "law:germinate-heir"
+          ],
+          "effects": []
+        },
+        {
+          "id": "trace:29:medium:support-heir",
+          "kind": "sea-medium",
+          "worldId": "heir",
+          "eventId": "medium:support-heir",
+          "lawId": "support-heir",
+          "causes": [
+            "spawn:heir:by:germinate-heir"
+          ],
+          "effects": [
+            {
+              "regionId": "near",
+              "fieldId": "positive",
+              "layer": "sea-region",
+              "operation": "subtract",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            },
+            {
+              "worldId": "heir",
+              "fieldId": "positive",
+              "layer": "world-field",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:30:sea:elder",
+          "kind": "sea-coupling",
+          "worldId": "elder",
+          "causes": [
+            "law:retire-elder"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "-1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:31:sea:heir",
+          "kind": "sea-coupling",
+          "worldId": "heir",
+          "causes": [
+            "medium:support-heir"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:32:retire:elder:by:retire-elder",
+          "kind": "world-retirement",
+          "worldId": "elder",
+          "eventId": "retire:elder:by:retire-elder",
+          "lifecycleEventId": "retire:elder:by:retire-elder",
+          "causes": [
+            "law:retire-elder"
+          ],
+          "effects": [
+            {
+              "worldId": "elder",
+              "fieldId": "negative",
+              "layer": "world-field",
+              "operation": "subtract",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            },
+            {
+              "worldId": "elder",
+              "fieldId": "positive",
+              "layer": "world-field",
+              "operation": "subtract",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            },
+            {
+              "regionId": "near",
+              "fieldId": "negative",
+              "layer": "sea-region",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            },
+            {
+              "regionId": "near",
+              "fieldId": "positive",
+              "layer": "sea-region",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:33:sea:elder",
+          "kind": "sea-coupling",
+          "worldId": "elder",
+          "causes": [
+            "retire:elder:by:retire-elder"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:34:medium:diffuse-residue",
+          "kind": "sea-medium",
+          "worldId": "commons",
+          "eventId": "medium:diffuse-residue",
+          "lawId": "diffuse-residue",
+          "causes": [
+            "retire:elder:by:retire-elder"
+          ],
+          "effects": [
+            {
+              "regionId": "near",
+              "fieldId": "negative",
+              "layer": "sea-region",
+              "operation": "subtract",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            },
+            {
+              "regionId": "far",
+              "fieldId": "negative",
+              "layer": "sea-region",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:35:law:form-heir",
+          "kind": "internal-law",
+          "worldId": "heir",
+          "eventId": "law:form-heir",
+          "lawId": "form-heir",
+          "causes": [
+            "medium:support-heir"
+          ],
+          "effects": [
+            {
+              "fieldId": "structure",
+              "layer": "world-field",
+              "operation": "set",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:36:sea:heir",
+          "kind": "sea-coupling",
+          "worldId": "heir",
+          "causes": [
+            "law:form-heir"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:37:commit:law:form-heir",
+          "kind": "history-commit",
+          "worldId": "heir",
+          "eventId": "commit:law:form-heir",
+          "lawId": "form-heir",
+          "causes": [
+            "law:form-heir"
+          ],
+          "effects": [
+            {
+              "fieldId": "structure",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:38:medium:seep-exposed",
+          "kind": "sea-medium",
+          "worldId": "exposed",
+          "eventId": "medium:seep-exposed",
+          "lawId": "seep-exposed",
+          "causes": [
+            "medium:diffuse-residue"
+          ],
+          "effects": [
+            {
+              "regionId": "far",
+              "fieldId": "negative",
+              "layer": "sea-region",
+              "operation": "subtract",
+              "before": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              }
+            },
+            {
+              "worldId": "exposed",
+              "fieldId": "negative",
+              "layer": "world-field",
+              "operation": "add",
+              "before": {
+                "kind": "rational",
+                "numerator": "0",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:39:sea:exposed",
+          "kind": "sea-coupling",
+          "worldId": "exposed",
+          "causes": [
+            "medium:seep-exposed"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "3",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:40:law:erode-exposed",
+          "kind": "internal-law",
+          "worldId": "exposed",
+          "eventId": "law:erode-exposed",
+          "lawId": "erode-exposed",
+          "causes": [
+            "medium:seep-exposed"
+          ],
+          "effects": [
+            {
+              "fieldId": "integrity",
+              "layer": "world-field",
+              "operation": "subtract",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:41:sea:exposed",
+          "kind": "sea-coupling",
+          "worldId": "exposed",
+          "causes": [
+            "law:erode-exposed"
+          ],
+          "effects": [
+            {
+              "fieldId": "viability",
+              "layer": "world-field",
+              "operation": "derive",
+              "before": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "operand": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              },
+              "after": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              }
+            }
+          ]
+        },
+        {
+          "id": "trace:42:commit:law:erode-exposed",
+          "kind": "history-commit",
+          "worldId": "exposed",
+          "eventId": "commit:law:erode-exposed",
+          "lawId": "erode-exposed",
+          "causes": [
+            "law:erode-exposed"
+          ],
+          "effects": [
+            {
+              "fieldId": "integrity",
+              "layer": "world-field",
+              "operation": "derive",
+              "after": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          ]
+        }
+      ],
+      "historyCommits": [
+        {
+          "eventId": "commit:law:germinate-heir",
+          "causedByEventId": "law:germinate-heir",
+          "worldId": "elder",
+          "affectedFields": {
+            "condition": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "stateDigest": "5a9268ecf8571e40c8f1580c2c89e57b1820f620a1d6d013c2e2a85dc1add57d"
+        },
+        {
+          "eventId": "commit:law:form-heir",
+          "causedByEventId": "law:form-heir",
+          "worldId": "heir",
+          "affectedFields": {
+            "structure": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "stateDigest": "0eb8b259ccdc39b246eab2519718465d2b1f25db8bafec98d839766f7e5d513c"
+        },
+        {
+          "eventId": "commit:law:erode-exposed",
+          "causedByEventId": "law:erode-exposed",
+          "worldId": "exposed",
+          "affectedFields": {
+            "integrity": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "stateDigest": "f43b89c3b957394c624201588f3df8502c53abe1b8e75c9d246da2b4f1d19879"
+        }
+      ],
+      "lifecycleEvents": [
+        {
+          "id": "spawn:heir:by:germinate-heir",
+          "kind": "world-spawn",
+          "sourceWorldIds": [
+            "elder"
+          ],
+          "targetWorldId": "heir",
+          "causedByLawEventIds": [
+            "law:germinate-heir"
+          ],
+          "beforePhase": "latent",
+          "afterPhase": "active",
+          "hostSelection": false,
+          "lineageId": "lineage:95e34056e51d748ac3cf"
+        },
+        {
+          "id": "retire:elder:by:retire-elder",
+          "kind": "world-retirement",
+          "sourceWorldIds": [
+            "elder"
+          ],
+          "targetWorldId": "elder",
+          "causedByLawEventIds": [
+            "law:retire-elder"
+          ],
+          "beforePhase": "active",
+          "afterPhase": "retired",
+          "hostSelection": false,
+          "residue": {
+            "finalStateDigest": "eabb8505ddd60b3a2c55e740283181f162b5b54493b9174997026480006acc5a",
+            "localNegativeSea": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "retainedHistoryCommitIds": [
+              "commit:law:germinate-heir"
+            ],
+            "seaRelease": {
+              "regionId": "near",
+              "negative": {
+                "kind": "rational",
+                "numerator": "2",
+                "denominator": "1"
+              },
+              "positive": {
+                "kind": "rational",
+                "numerator": "1",
+                "denominator": "1"
+              }
+            }
+          }
+        }
+      ],
+      "seaMedium": {
+        "regions": [
+          {
+            "id": "far",
+            "negative": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "positive": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          {
+            "id": "near",
+            "negative": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "positive": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          }
+        ],
+        "balance": [
+          {
+            "quantity": "negative",
+            "initialTotal": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "finalTotal": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "production": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "balanced": true
+          },
+          {
+            "quantity": "positive",
+            "initialTotal": {
+              "kind": "rational",
+              "numerator": "7",
+              "denominator": "1"
+            },
+            "finalTotal": {
+              "kind": "rational",
+              "numerator": "7",
+              "denominator": "1"
+            },
+            "production": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "balanced": true
+          }
+        ]
+      },
+      "seaExchangeEvents": [
+        {
+          "id": "medium:support-heir",
+          "lawId": "support-heir",
+          "quantity": "positive",
+          "amount": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "from": {
+            "kind": "region",
+            "regionId": "near",
+            "before": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "to": {
+            "kind": "world",
+            "worldId": "heir",
+            "fieldId": "positive",
+            "before": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "causes": [
+            "spawn:heir:by:germinate-heir"
+          ],
+          "hostSelection": false
+        },
+        {
+          "id": "medium:diffuse-residue",
+          "lawId": "diffuse-residue",
+          "quantity": "negative",
+          "amount": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "from": {
+            "kind": "region",
+            "regionId": "near",
+            "before": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "to": {
+            "kind": "region",
+            "regionId": "far",
+            "before": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "causes": [
+            "retire:elder:by:retire-elder"
+          ],
+          "hostSelection": false
+        },
+        {
+          "id": "medium:seep-exposed",
+          "lawId": "seep-exposed",
+          "quantity": "negative",
+          "amount": {
+            "kind": "rational",
+            "numerator": "1",
+            "denominator": "1"
+          },
+          "from": {
+            "kind": "region",
+            "regionId": "far",
+            "before": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "to": {
+            "kind": "world",
+            "worldId": "exposed",
+            "fieldId": "negative",
+            "before": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "after": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "causes": [
+            "medium:diffuse-residue"
+          ],
+          "hostSelection": false
+        }
+      ],
+      "emergenceAssessments": [],
+      "order": {
+        "kind": "causal-partial-order",
+        "universalClock": false,
+        "causalEdges": [
+          {
+            "cause": "law:erode-exposed",
+            "effect": "commit:law:erode-exposed"
+          },
+          {
+            "cause": "law:form-heir",
+            "effect": "commit:law:form-heir"
+          },
+          {
+            "cause": "law:germinate-heir",
+            "effect": "commit:law:germinate-heir"
+          },
+          {
+            "cause": "law:germinate-heir",
+            "effect": "law:retire-elder"
+          },
+          {
+            "cause": "law:germinate-heir",
+            "effect": "spawn:heir:by:germinate-heir"
+          },
+          {
+            "cause": "law:retire-elder",
+            "effect": "retire:elder:by:retire-elder"
+          },
+          {
+            "cause": "medium:diffuse-residue",
+            "effect": "medium:seep-exposed"
+          },
+          {
+            "cause": "medium:seep-exposed",
+            "effect": "law:erode-exposed"
+          },
+          {
+            "cause": "medium:support-heir",
+            "effect": "law:form-heir"
+          },
+          {
+            "cause": "retire:elder:by:retire-elder",
+            "effect": "medium:diffuse-residue"
+          },
+          {
+            "cause": "spawn:heir:by:germinate-heir",
+            "effect": "medium:support-heir"
+          }
+        ],
+        "evaluationOrder": [
+          "law:germinate-heir",
+          "commit:law:germinate-heir",
+          "spawn:heir:by:germinate-heir",
+          "law:retire-elder",
+          "medium:support-heir",
+          "retire:elder:by:retire-elder",
+          "medium:diffuse-residue",
+          "law:form-heir",
+          "commit:law:form-heir",
+          "medium:seep-exposed",
+          "law:erode-exposed",
+          "commit:law:erode-exposed"
+        ],
+        "evaluationFrontiers": [
+          [
+            "law:germinate-heir"
+          ],
+          [
+            "spawn:heir:by:germinate-heir"
+          ],
+          [
+            "law:retire-elder",
+            "medium:support-heir"
+          ],
+          [
+            "retire:elder:by:retire-elder"
+          ],
+          [
+            "medium:diffuse-residue",
+            "law:form-heir"
+          ],
+          [
+            "medium:seep-exposed"
+          ],
+          [
+            "law:erode-exposed"
+          ]
+        ],
+        "reversibleEventIds": [],
+        "irreversibleEventIds": [
+          "commit:law:erode-exposed",
+          "commit:law:form-heir",
+          "commit:law:germinate-heir",
+          "law:erode-exposed",
+          "law:form-heir",
+          "law:germinate-heir",
+          "law:retire-elder",
+          "medium:diffuse-residue",
+          "medium:seep-exposed",
+          "medium:support-heir",
+          "retire:elder:by:retire-elder",
+          "spawn:heir:by:germinate-heir"
+        ],
+        "createsHistoryArrow": true,
+        "historyArrowSources": [
+          "history-commit",
+          "world-lifecycle"
+        ]
+      },
+      "anchorIdentity": [
+        {
+          "anchorId": "elder-anchor",
+          "predicateId": "identity-elder-anchor",
+          "status": "not-evaluated"
+        },
+        {
+          "anchorId": "exposed-anchor",
+          "predicateId": "identity-exposed-anchor",
+          "status": "resolved",
+          "value": {
+            "kind": "boolean",
+            "value": true
+          }
+        },
+        {
+          "anchorId": "heir-anchor",
+          "predicateId": "identity-heir-anchor",
+          "status": "resolved",
+          "value": {
+            "kind": "boolean",
+            "value": true
+          }
+        },
+        {
+          "anchorId": "sheltered-anchor",
+          "predicateId": "identity-sheltered-anchor",
+          "status": "resolved",
+          "value": {
+            "kind": "boolean",
+            "value": true
+          }
+        }
+      ]
+    }
+  ],
+  "formalEvidence": [
+    {
+      "subjectId": "elder.condition",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "0",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-elder-condition",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "elder.negative",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "2",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-elder-negative",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "elder.positive",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-elder-positive",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "elder.structure",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-elder-structure",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "elder.viability",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-elder-viability",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "exposed.boundary",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "symbol",
+        "value": "open"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-exposed-boundary",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "exposed.integrity",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "2",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-exposed-integrity",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "exposed.negative",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "0",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-exposed-negative",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "exposed.positive",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "2",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-exposed-positive",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "exposed.viability",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-exposed-viability",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "heir.negative",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "0",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-heir-negative",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "heir.positive",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "0",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-heir-positive",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "heir.structure",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "0",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-heir-structure",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "heir.viability",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-heir-viability",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "sheltered.boundary",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "symbol",
+        "value": "closed"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-sheltered-boundary",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "sheltered.integrity",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "2",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-sheltered-integrity",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "sheltered.negative",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "0",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-sheltered-negative",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "sheltered.positive",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "2",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-sheltered-positive",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "sheltered.viability",
+      "purpose": "initial-field",
+      "status": "resolved",
+      "value": {
+        "kind": "rational",
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "initial-sheltered-viability",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:0:erode-exposed:predicate-erode-exposed",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "guard-erode-exposed",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:0:germinate-heir:predicate-germinate-heir",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "guard-germinate-heir",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:0:retire-elder:predicate-retire-elder",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "guard-retire-elder",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:0:medium:diffuse-residue:#sufficiency",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "reason": "sea exchange sufficiency (runtime-added): region 'near' negative holds 0; amount 1",
+      "proof": []
+    },
+    {
+      "subjectId": "autonomous:frontier:0:medium:seep-exposed:#sufficiency",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "reason": "sea exchange sufficiency (runtime-added): region 'far' negative holds 0; amount 1",
+      "proof": []
+    },
+    {
+      "subjectId": "autonomous:frontier:0:medium:seep-sheltered:#sufficiency",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "reason": "sea exchange sufficiency (runtime-added): region 'far' negative holds 0; amount 1",
+      "proof": []
+    },
+    {
+      "subjectId": "autonomous:frontier:1:erode-exposed:predicate-erode-exposed",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "guard-erode-exposed",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:1:form-heir:predicate-form-heir",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "guard-form-heir",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:1:retire-elder:predicate-retire-elder",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "guard-retire-elder",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:1:medium:diffuse-residue:#sufficiency",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "reason": "sea exchange sufficiency (runtime-added): region 'near' negative holds 0; amount 1",
+      "proof": []
+    },
+    {
+      "subjectId": "autonomous:frontier:1:medium:seep-exposed:#sufficiency",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "reason": "sea exchange sufficiency (runtime-added): region 'far' negative holds 0; amount 1",
+      "proof": []
+    },
+    {
+      "subjectId": "autonomous:frontier:1:medium:seep-sheltered:#sufficiency",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "reason": "sea exchange sufficiency (runtime-added): region 'far' negative holds 0; amount 1",
+      "proof": []
+    },
+    {
+      "subjectId": "autonomous:frontier:1:medium:support-heir:#sufficiency",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "reason": "sea exchange sufficiency (runtime-added): region 'near' positive holds 1; amount 1",
+      "proof": []
+    },
+    {
+      "subjectId": "autonomous:frontier:1:medium:support-heir:sea-predicate-support-heir",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "sea-guard-support-heir",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value-0": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:2:erode-exposed:predicate-erode-exposed",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "guard-erode-exposed",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:2:form-heir:predicate-form-heir",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "guard-form-heir",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:2:medium:diffuse-residue:#sufficiency",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "reason": "sea exchange sufficiency (runtime-added): region 'near' negative holds 2; amount 1",
+      "proof": []
+    },
+    {
+      "subjectId": "autonomous:frontier:2:medium:diffuse-residue:sea-predicate-diffuse-residue",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "sea-guard-diffuse-residue",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value-0": {
+              "kind": "rational",
+              "numerator": "2",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:2:medium:seep-exposed:#sufficiency",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "reason": "sea exchange sufficiency (runtime-added): region 'far' negative holds 0; amount 1",
+      "proof": []
+    },
+    {
+      "subjectId": "autonomous:frontier:2:medium:seep-sheltered:#sufficiency",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "reason": "sea exchange sufficiency (runtime-added): region 'far' negative holds 0; amount 1",
+      "proof": []
+    },
+    {
+      "subjectId": "autonomous:frontier:3:erode-exposed:predicate-erode-exposed",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "guard-erode-exposed",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value": {
+              "kind": "rational",
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:3:medium:seep-exposed:#sufficiency",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "reason": "sea exchange sufficiency (runtime-added): region 'far' negative holds 1; amount 1",
+      "proof": []
+    },
+    {
+      "subjectId": "autonomous:frontier:3:medium:seep-exposed:sea-predicate-seep-exposed",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "sea-guard-seep-exposed",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value-0": {
+              "kind": "symbol",
+              "value": "open"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:3:medium:seep-sheltered:#sufficiency",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "reason": "sea exchange sufficiency (runtime-added): region 'far' negative holds 1; amount 1",
+      "proof": []
+    },
+    {
+      "subjectId": "autonomous:frontier:3:medium:seep-sheltered:sea-predicate-seep-sheltered",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "sea-guard-seep-sheltered",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value-0": {
+              "kind": "symbol",
+              "value": "closed"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:4:erode-exposed:predicate-erode-exposed",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "guard-erode-exposed",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {
+            "value": {
+              "kind": "rational",
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "autonomous:frontier:4:medium:seep-sheltered:#sufficiency",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "reason": "sea exchange sufficiency (runtime-added): region 'far' negative holds 0; amount 1",
+      "proof": []
+    },
+    {
+      "subjectId": "autonomous:frontier:5:medium:seep-sheltered:#sufficiency",
+      "purpose": "law-guard",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": false
+      },
+      "reason": "sea exchange sufficiency (runtime-added): region 'far' negative holds 0; amount 1",
+      "proof": []
+    },
+    {
+      "subjectId": "anchor:continuation:autonomous:exposed-anchor:identity-exposed-anchor",
+      "purpose": "anchor-identity",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "causal-language-anchor-identity-true",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "anchor:continuation:autonomous:heir-anchor:identity-heir-anchor",
+      "purpose": "anchor-identity",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "causal-language-anchor-identity-true",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "subjectId": "anchor:continuation:autonomous:sheltered-anchor:identity-sheltered-anchor",
+      "purpose": "anchor-identity",
+      "status": "resolved",
+      "value": {
+        "kind": "boolean",
+        "value": true
+      },
+      "proof": [
+        {
+          "id": "coordinate-proof:1",
+          "familyId": "causal-language-anchor-identity-true",
+          "coordinate": {
+            "coordinate": "0"
+          },
+          "parameters": {},
+          "rule": "intensional-definition",
+          "status": "resolved",
+          "dependencies": []
+        }
+      ]
+    }
+  ]
+}

@@ -5,22 +5,35 @@ import {
     type AnchoredCausalRun,
     type CausalExecutionOptions,
 } from "./causal-runtime";
+import type { CausalSeaQuantity } from "./causal";
 import {
     causalOptionsForEndogenousCompilation,
     compileEndogenousUniverse,
     continueEndogenousUniverseFromState,
+    digestEndogenousProgram,
     digestEndogenousValue,
     materializeEndogenousUniverse,
+    type EndogenousSeaMediumMaterialization,
+    type EndogenousUniverseContinuationInput,
     type EndogenousUniverseMaterialization,
     type EndogenousUniverseOptions,
     type EndogenousUniverseProgram,
 } from "./endogenous";
-import { evaluateIntensionalCoordinate } from "./intensional";
+import {
+    evaluateIntensionalCoordinate,
+    exact,
+    exactValuesEqual,
+    subtractExactRationals,
+    type ExactValue,
+} from "./intensional";
 import { compareCanonicalStrings } from "./canonical-order";
 
 export interface EndogenousConnectedUniverseExecutionOptions {
     generation?: EndogenousUniverseOptions;
-    causal?: Omit<CausalExecutionOptions, "fieldOverrides" | "fieldOverrideCauses" | "worldLifecycleOverrides">;
+    causal?: Omit<
+        CausalExecutionOptions,
+        "fieldOverrides" | "fieldOverrideCauses" | "worldLifecycleOverrides" | "seaRegionOverrides" | "seaRegionOverrideCauses"
+    >;
     maxGenerationClosures?: number;
     maxGenerationBranches?: number;
 }
@@ -64,7 +77,31 @@ export interface EndogenousGenerationCausalClosure {
     generationEventIds: string[];
     newlyGeneratedEventIds: string[];
     outcomes: EndogenousGenerationBranchOutcome[];
+    /** Present only under a sea medium: the exact sea carried into this realization from its predecessor. */
+    seaMedium?: EndogenousSeaMediumClosureBalance;
     causalRun: AnchoredCausalRun;
+}
+
+/**
+ * The medium's conservation across realizations. The kernel's balance certifies one realization; this ledger
+ * links a realization's initial total to the final total its predecessor continuation left on the same branch.
+ * The difference is sea that entered between realizations: constructor sea actions, the initial quantities of
+ * newly generated worlds and regions, and sea-channel writes that a later channel projection reads. A closed
+ * medium admits none of them.
+ */
+export interface EndogenousSeaMediumClosureBalance {
+    mediumId: string;
+    closure: "closed" | "open";
+    quantities: Array<{
+        quantity: CausalSeaQuantity;
+        /** The realization's initial total over every region and every world's medium-coupled sea field. */
+        inputTotal: ExactValue;
+        /** The final total the predecessor continuation of this branch left; absent for the first closure. */
+        predecessorFinalTotal?: ExactValue;
+        /** `inputTotal - predecessorFinalTotal`, or zero for the first closure. */
+        interClosureProduction: ExactValue;
+    }>;
+    interClosureConserved: boolean;
 }
 
 export interface EndogenousGeneratedUniverseBranch {
@@ -258,8 +295,13 @@ export interface EndogenousConnectedUniverseRun {
     worldContinuations: EndogenousWorldContinuationEvidence[];
     generationCausalEdges: EndogenousGenerationCausalEdge[];
     scalarProjection: {
-        presentOnlyAtLegacyCausalBoundary: true;
-        ontologicalSeaChannelsRemainDistinct: true;
+        /**
+         * True without a sea medium. Under a medium the projection coordinates are also the worlds' medium
+         * endpoints, read by world laws and carried across closures, so the projection is no longer adapter-only.
+         */
+        presentOnlyAtLegacyCausalBoundary: boolean;
+        /** Under a medium the schema sea channels no longer carry the sea a world exchanged with the medium. */
+        ontologicalSeaChannelsRemainDistinct: boolean;
     };
 }
 
@@ -299,6 +341,8 @@ export interface EndogenousConnectedUniverseInspection {
         schemaTransformationEvents: EndogenousUniverseMaterialization["schemaTransformationEvents"];
         frontiers: EndogenousUniverseMaterialization["frontiers"];
         causalEdges: EndogenousGenerationCausalEdge[];
+        /** Present only when the program declares a sea medium. */
+        seaMedium?: EndogenousSeaMediumMaterialization;
     };
     worldContinuations: EndogenousWorldContinuationEvidence[];
     branches: EndogenousGeneratedUniverseBranch[];
@@ -409,6 +453,21 @@ function continuationEvidence(
     }).sort((left, right) => compareCanonicalStrings(left.worldId, right.worldId));
 }
 
+/**
+ * Under a medium, region quantities, placements, adjacency, and every world's exchanged sea are configuration
+ * state, so neither a fixpoint nor a recurrence can be claimed while any of them still changes. Region causes are
+ * provenance, not state: like world-field causes they stay out of the configuration identity.
+ */
+function seaMediumConfiguration(medium: EndogenousSeaMediumMaterialization): unknown {
+    return {
+        id: medium.id,
+        closure: medium.closure,
+        regions: medium.regions.map(({ id, worldId, negative, positive }) => ({ id, worldId, negative, positive })),
+        placements: medium.placements,
+        adjacency: medium.adjacency,
+    };
+}
+
 function generationConfigurationDigest(materialization: EndogenousUniverseMaterialization): string {
     return digestEndogenousValue({
         worlds: materialization.worlds,
@@ -416,7 +475,100 @@ function generationConfigurationDigest(materialization: EndogenousUniverseMateri
         generationEvents: materialization.generationEvents,
         schemaTransformationEvents: materialization.schemaTransformationEvents,
         frontiers: materialization.frontiers,
+        ...(materialization.seaMedium ? { seaMedium: seaMediumConfiguration(materialization.seaMedium) } : {}),
     });
+}
+
+/**
+ * The realized region state one causal continuation hands to the next generation step. A quantity changed in
+ * this realization carries the events of the last frontier that changed it (the kernel's own rule), qualified by
+ * the closure so that a law of the same id in a later realization is a different event; an unchanged quantity
+ * keeps its previous causes.
+ */
+function realizedSeaRegions(
+    closureId: string,
+    continuation: AnchoredCausalRun["continuations"][number],
+): EndogenousUniverseContinuationInput["seaRegions"] {
+    if (!continuation.seaMedium) return undefined;
+    const frontierOf = new Map(continuation.order.evaluationFrontiers.flatMap((frontier, index) => (
+        frontier.map((eventId) => [eventId, index] as const)
+    )));
+    const lastChanges = new Map<string, { frontier: number; eventIds: Set<string> }>();
+    for (const entry of continuation.trace) {
+        const eventId = entry.eventId ?? entry.lifecycleEventId;
+        if (!eventId) continue;
+        const frontier = frontierOf.get(eventId) ?? -1;
+        for (const effect of entry.effects) {
+            if (effect.layer !== "sea-region" || !effect.regionId) continue;
+            if (effect.before && exactValuesEqual(effect.before, effect.after)) continue;
+            const key = `${effect.regionId}#${effect.fieldId}`;
+            const known = lastChanges.get(key);
+            if (!known || frontier > known.frontier) {
+                lastChanges.set(key, { frontier, eventIds: new Set([eventId]) });
+            } else if (frontier === known.frontier) {
+                known.eventIds.add(eventId);
+            }
+        }
+    }
+    return continuation.seaMedium.regions.map((region) => {
+        const causes: Partial<Record<CausalSeaQuantity, string[]>> = {};
+        for (const quantity of ["negative", "positive"] as const) {
+            const changed = lastChanges.get(`${region.id}#${quantity}`);
+            if (changed) {
+                causes[quantity] = [...changed.eventIds]
+                    .map((eventId) => `${closureId}:${eventId}`)
+                    .sort(compareCanonicalStrings);
+            }
+        }
+        return {
+            id: region.id,
+            negative: structuredClone(region.negative),
+            positive: structuredClone(region.positive),
+            ...(Object.keys(causes).length > 0 ? { causes } : {}),
+        };
+    });
+}
+
+type SeaTotals = Record<CausalSeaQuantity, ExactValue>;
+
+function seaTotals(
+    continuation: AnchoredCausalRun["continuations"][number] | undefined,
+    field: "initialTotal" | "finalTotal",
+): SeaTotals | undefined {
+    const balance = continuation?.seaMedium?.balance;
+    const negative = balance?.find((entry) => entry.quantity === "negative")?.[field];
+    const positive = balance?.find((entry) => entry.quantity === "positive")?.[field];
+    return negative && positive ? { negative, positive } : undefined;
+}
+
+function seaMediumClosureBalance(
+    program: EndogenousUniverseProgram,
+    causalRun: AnchoredCausalRun,
+    predecessorFinalTotals: SeaTotals | undefined,
+): EndogenousSeaMediumClosureBalance | undefined {
+    const medium = program.seaMedium;
+    // Every continuation of one realization starts from the same initial state, so the first one carries it.
+    const inputTotals = seaTotals(causalRun.continuations[0], "initialTotal");
+    if (!medium || !inputTotals) return undefined;
+    const quantities = (["negative", "positive"] as const).map((quantity) => {
+        const predecessor = predecessorFinalTotals?.[quantity];
+        const production = predecessor ? subtractExactRationals(inputTotals[quantity], predecessor) : exact.integer(0);
+        return {
+            quantity,
+            inputTotal: structuredClone(inputTotals[quantity]),
+            ...(predecessor ? { predecessorFinalTotal: structuredClone(predecessor) } : {}),
+            interClosureProduction: production ?? exact.integer(0),
+            exactlyAccounted: !!production,
+        };
+    });
+    return {
+        mediumId: medium.id,
+        closure: medium.closure,
+        quantities: quantities.map(({ exactlyAccounted: _exactlyAccounted, ...entry }) => entry),
+        interClosureConserved: quantities.every((entry) => (
+            entry.exactlyAccounted && exactValuesEqual(entry.interClosureProduction, exact.integer(0))
+        )),
+    };
 }
 
 interface EndogenousIdentityCutAssessment {
@@ -861,7 +1013,7 @@ export function realizeEndogenousConnectedUniverse(
     options: EndogenousConnectedUniverseExecutionOptions = {},
 ): EndogenousConnectedUniverseRun {
     const initialMaterialization = materializeEndogenousUniverse(program, options.generation);
-    const programDigest = digestEndogenousValue(program);
+    const programDigest = digestEndogenousProgram(program);
     const closureLimit = options.maxGenerationClosures ?? 2;
     const branchLimit = options.maxGenerationBranches ?? 64;
     const closures: EndogenousGenerationCausalClosure[] = [];
@@ -880,6 +1032,8 @@ export function realizeEndogenousConnectedUniverse(
         seenConfigurations: Map<string, EndogenousSeenGenerationConfiguration>;
         historyEntries: EndogenousCausalGenerationHistoryEntry[];
         closureIds: string[];
+        /** Under a sea medium: the final sea totals the predecessor continuation of this branch left. */
+        seaFinalTotals?: SeaTotals;
         witnesses: Array<{
             causalRun: AnchoredCausalRun;
             continuationId?: string;
@@ -1020,8 +1174,8 @@ export function realizeEndogenousConnectedUniverse(
                 : continuationEvidence(program, materialization, commonWitnesses),
             generationCausalEdges: generationEdges(materialization),
             scalarProjection: {
-                presentOnlyAtLegacyCausalBoundary: true,
-                ontologicalSeaChannelsRemainDistinct: true,
+                presentOnlyAtLegacyCausalBoundary: !program.seaMedium,
+                ontologicalSeaChannelsRemainDistinct: !program.seaMedium,
             },
         };
         return {
@@ -1103,11 +1257,21 @@ export function realizeEndogenousConnectedUniverse(
                 outcomes: [],
                 causalRun,
             };
+            const seaBalance = seaMediumClosureBalance(program, causalRun, branch.seaFinalTotals);
+            if (seaBalance) closure.seaMedium = seaBalance;
             closures.push(closure);
             const branchWithClosure: RuntimeBranch = {
                 ...branch,
                 closureIds: [...branch.closureIds, closureId],
             };
+            if (seaBalance?.closure === "closed" && !seaBalance.interClosureConserved) {
+                terminalBranches.push(terminal(
+                    { ...branchWithClosure, witnesses: [...branch.witnesses, { causalRun, branchId: branch.id }] },
+                    "contradicted",
+                    "closed sea medium: sea quantity entered this realization outside the medium",
+                ));
+                continue;
+            }
             const causalStatus: EndogenousGeneratedUniverseBranch["status"] = causalRun.status === "contradicted"
                 ? "contradicted"
                 : causalRun.status === "underdetermined" || causalRun.status === "blocked"
@@ -1175,10 +1339,13 @@ export function realizeEndogenousConnectedUniverse(
             for (const continuation of entry.causalRun.continuations) {
                 const step = deriveBranchStep(entry.branch.id, closureIndex, continuation);
                 const branchId = deriveBranchId(entry.branch.id, step.id);
+                const seaRegions = realizedSeaRegions(entry.closure.id, continuation);
                 const continued = continueEndogenousUniverseFromState(program, {
                     materialization: entry.branch.materialization,
                     worldStates: continuation.worldStates,
+                    ...(seaRegions ? { seaRegions } : {}),
                 }, options.generation);
+                const seaFinalTotals = seaTotals(continuation, "finalTotal");
                 const newEventIds = continued.generationEvents
                     .map((event) => event.id)
                     .filter((eventId) => !knownAtInput.has(eventId))
@@ -1200,6 +1367,7 @@ export function realizeEndogenousConnectedUniverse(
                     seenConfigurations: seenWithInput,
                     historyEntries,
                     closureIds: [...entry.branch.closureIds],
+                    ...(seaFinalTotals ? { seaFinalTotals } : {}),
                     witnesses: [...entry.branch.witnesses, {
                         causalRun: entry.causalRun,
                         continuationId: continuation.id,
@@ -1337,6 +1505,7 @@ export function inspectEndogenousConnectedUniverseRun(
             schemaTransformationEvents: structuredClone(run.materialization.schemaTransformationEvents),
             frontiers: structuredClone(run.materialization.frontiers),
             causalEdges: structuredClone(run.generationCausalEdges),
+            ...(run.materialization.seaMedium ? { seaMedium: structuredClone(run.materialization.seaMedium) } : {}),
         },
         worldContinuations: structuredClone(run.worldContinuations),
         branches: structuredClone(run.branchUniverses),
@@ -1353,7 +1522,7 @@ export function recordEndogenousConnectedUniverse(
     const run = realizeEndogenousConnectedUniverse(program, options);
     return {
         mode: "bubble-endogenous-connected-universe-replay.v1",
-        programDigest: digestEndogenousValue(program),
+        programDigest: digestEndogenousProgram(program),
         runDigest: digestEndogenousValue(run),
         program: structuredClone(program),
         options: structuredClone(options),
@@ -1364,7 +1533,7 @@ export function recordEndogenousConnectedUniverse(
 export function replayEndogenousConnectedUniverse(
     record: EndogenousConnectedUniverseReplayRecord,
 ): EndogenousConnectedUniverseReplayResult {
-    const actualProgramDigest = digestEndogenousValue(record.program);
+    const actualProgramDigest = digestEndogenousProgram(record.program);
     const storedRunDigest = digestEndogenousValue(record.run);
     const base = {
         mode: "bubble-endogenous-connected-universe-replay-result.v1" as const,

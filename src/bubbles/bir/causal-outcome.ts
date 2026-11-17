@@ -3,11 +3,11 @@
 // The outcome is what the world did, not how the reference oracle computed it. It keeps statuses, the
 // selected and unresolved continuation sets, initial and final world states, the event ledger with causes
 // and field effects, the causal partial order and its synchronous frontier layering, commits, lifecycle and
-// anchor-transfer provenance, internal-event nonrealization, emergence, World-Will decision evidence, the
-// resource-boundary verdict, and diagnostic codes. It drops oracle-plan artifacts that an optimized backend
-// may legitimately compute differently: intensional proof traces, evaluation subject ids, the single
-// evaluation linearization, sequential trace numbering, prose reasons, derived sea-coupling trace entries,
-// resource counters, and the host program digest.
+// anchor-transfer provenance, sea-medium regions, exchanges, releases, and balance, internal-event
+// nonrealization, emergence, World-Will decision evidence, the resource-boundary verdict, and diagnostic
+// codes. It drops oracle-plan artifacts that an optimized backend may legitimately compute differently:
+// intensional proof traces, evaluation subject ids, the single evaluation linearization, sequential trace
+// numbering, prose reasons, derived sea-coupling trace entries, resource counters, and the host program digest.
 //
 // Evidence ids that carry world identity (branch steps, lineages, transfer frontiers, commit and retirement
 // state digests) are kept. They are lowercase-hex SHA-256 over the RFC 8785 JSON Canonicalization Scheme
@@ -53,6 +53,8 @@ const ledgerEntry = bir.record({
     causes: bir.set(text),
     effects: bir.set(bir.record({
         worldId: opt(text),
+        // A `sea-region` effect names its region; its `fieldId` is then the quantity.
+        regionId: opt(text),
         fieldId: text,
         layer: text,
         operation: text,
@@ -69,6 +71,35 @@ const branchStep = bir.record({
     realizedLawIds: bir.set(text),
     nonrealizedLawIds: bir.set(text),
     derivation: text,
+});
+
+// Multiversal sea medium (v0.5.10). Regions are keyed by id and the balance by quantity, so both are sets.
+const seaRegion = bir.record({ id: text, negative: exact, positive: exact });
+
+const seaMediumState = bir.record({
+    regions: bir.set(seaRegion),
+    balance: bir.set(bir.record({
+        quantity: text,
+        initialTotal: exact,
+        finalTotal: exact,
+        production: exact,
+        balanced: bir.bool,
+    })),
+});
+
+const seaExchangeEndpoint = bir.variant("kind", {
+    region: { regionId: text, before: exact, after: exact },
+    world: { worldId: text, fieldId: text, before: exact, after: exact },
+});
+
+const seaExchangeEvent = bir.record({
+    id: text,
+    lawId: text,
+    quantity: text,
+    amount: exact,
+    from: seaExchangeEndpoint,
+    to: seaExchangeEndpoint,
+    causes: bir.set(text),
 });
 
 const continuation = bir.record({
@@ -100,6 +131,7 @@ const continuation = bir.record({
             finalStateDigest: text,
             localNegativeSea: exact,
             retainedHistoryCommitIds: bir.set(text),
+            seaRelease: opt(bir.record({ regionId: text, negative: exact, positive: exact })),
         })),
     }))),
     anchorTransferEvents: opt(bir.set(bir.record({
@@ -146,6 +178,8 @@ const continuation = bir.record({
         status: text,
         value: opt(exact),
     }))),
+    seaMedium: opt(seaMediumState),
+    seaExchangeEvents: opt(bir.set(seaExchangeEvent)),
     order: bir.record({
         causalEdges: bir.set(bir.record({ cause: text, effect: text })),
         evaluationFrontiers: bir.seq(bir.set(text)),
@@ -163,6 +197,7 @@ export const causalOutcomeSchema: BirSchema = bir.record({
     status: text,
     diagnosticCodes: bir.set(text),
     initialWorldStates: bir.set(worldState),
+    initialSeaMedium: opt(bir.set(seaRegion)),
     autonomousContinuations: bir.set(continuation),
     interventionEligibility: bir.set(bir.record({
         interventionId: text,
@@ -202,6 +237,8 @@ export const causalOptionsSchema: BirSchema = bir.record({
     fieldOverrides: opt(bir.map(exact)),
     fieldOverrideCauses: opt(bir.map(bir.set(text))),
     worldLifecycleOverrides: opt(bir.map(lifecycleOverride)),
+    seaRegionOverrides: opt(bir.map(bir.record({ negative: exact, positive: exact }))),
+    seaRegionOverrideCauses: opt(bir.map(bir.set(text))),
     counterfactualInternalEventAblationLawIds: opt(bir.set(text)),
     evaluationBudgetPerQuery: opt(bir.safeInteger),
     maxInterventionCombinations: opt(bir.safeInteger),
@@ -233,6 +270,7 @@ export function projectCausalOutcome(run: AnchoredCausalRun): Record<string, unk
         status: run.status,
         diagnosticCodes: [...new Set(run.diagnostics.map((diagnostic) => diagnostic.code))],
         initialWorldStates: run.initialWorldStates,
+        initialSeaMedium: run.initialSeaMedium,
         autonomousContinuations: autonomous.map(projectContinuation),
         interventionEligibility: run.interventionEligibility,
         baselineScore: run.baselineScore,

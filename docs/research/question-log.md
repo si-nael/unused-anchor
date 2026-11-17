@@ -752,6 +752,8 @@ Non-claims:
 - emitting JavaScript, native code, or WebAssembly does not by itself prove same-world identity
 - the 5.x contract does not make Rust, TypeScript, or one machine architecture part of Bubble semantics
 
+Bounded v0.5.10 evidence (2026-11-17): an independent clean-room reader, written only from the references and the generated schema appendix, decodes, re-encodes, recomputes, and produces every payload of the 21-fixture corpus byte for byte (B-067).
+
 ### Q-028: How can Bubble execute efficiently without changing its worlds?
 
 Status: partial; deterministic host-cost profiles exist for the causal conformance corpus in bounded v0.5.9, while optimization and cross-backend cost contracts remain open

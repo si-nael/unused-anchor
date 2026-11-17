@@ -1,0 +1,90 @@
+causal bubble ResidueCommons {
+  decision deterministic
+  world-will residue-commons-will
+
+  # The elder world is active. Its own law spawns a latent heir, and a later law retires the elder.
+  # Under the medium, retirement releases the elder's whole local sea into its placement region.
+  world elder active
+  field elder.positive role positive-sea = 1
+  field elder.negative role negative-sea = 2
+  field elder.viability role viability = 1
+  field elder.structure role structural-state = 1
+  field elder.condition role world-condition = 0
+  protect elder.structure
+  sea elder positive positive negative negative viability viability weights 1 1
+  anchor elder-anchor world elder port elder-boundary identity true permit condition
+  objective preserve-elder world elder field viability direction maximize weight 1
+
+  world heir latent
+  field heir.positive role positive-sea = 0
+  field heir.negative role negative-sea = 0
+  field heir.viability role viability = 1
+  field heir.structure role structural-state = 0
+  protect heir.structure
+  sea heir positive positive negative negative viability viability weights 1 1
+  anchor heir-anchor world heir port heir-boundary identity true permit condition
+  objective preserve-heir world heir field viability direction maximize weight 1
+
+  # Two far worlds differ only in their boundary: one is open to the far sea, one is closed.
+  world exposed active
+  field exposed.positive role positive-sea = 2
+  field exposed.negative role negative-sea = 0
+  field exposed.viability role viability = 1
+  field exposed.integrity role structural-state = 2
+  field exposed.boundary role boundary-state = "open"
+  protect exposed.boundary
+  sea exposed positive positive negative negative viability viability weights 1 1
+  anchor exposed-anchor world exposed port exposed-boundary identity true permit condition
+  objective preserve-exposed world exposed field viability direction maximize weight 1
+
+  world sheltered active
+  field sheltered.positive role positive-sea = 2
+  field sheltered.negative role negative-sea = 0
+  field sheltered.viability role viability = 1
+  field sheltered.integrity role structural-state = 2
+  field sheltered.boundary role boundary-state = "closed"
+  protect sheltered.boundary
+  sea sheltered positive positive negative negative viability viability weights 1 1
+  anchor sheltered-anchor world sheltered port sheltered-boundary identity true permit condition
+  objective preserve-sheltered world sheltered field viability direction maximize weight 1
+
+  # World-local laws. None writes a sea field, so the medium can be closed.
+  law germinate-heir world elder when condition = 0 irreversible
+  law-effect germinate-heir set condition 1
+  law-lifecycle germinate-heir spawn heir
+  law-commit germinate-heir condition
+
+  law retire-elder world elder when condition = 1 irreversible
+  law-lifecycle retire-elder retire-self
+
+  law form-heir world heir when positive >= 1 irreversible
+  law-effect form-heir set structure 1
+  law-commit form-heir structure
+
+  law erode-exposed world exposed when negative >= 1 irreversible
+  law-effect erode-exposed subtract integrity 1
+  law-commit erode-exposed integrity
+
+  # One closed medium: the shared seas are the only source and sink of sea quantity.
+  sea-medium commons closed
+  sea-region near negative 0 positive 1
+  sea-region far negative 0 positive 1
+  place elder in near
+  place heir in near
+  place exposed in far
+  place sheltered in far
+  adjacent near-far near far
+
+  # The medium's own laws.
+  exchange support-heir positive 1 from region near to world heir
+  exchange-when support-heir heir.structure = 0
+
+  exchange diffuse-residue negative 1 from region near to region far
+  exchange-when diffuse-residue region near negative > 1
+
+  exchange seep-exposed negative 1 from region far to world exposed
+  exchange-when seep-exposed exposed.boundary = "open"
+
+  exchange seep-sheltered negative 1 from region far to world sheltered
+  exchange-when seep-sheltered sheltered.boundary = "open"
+}

@@ -9,6 +9,7 @@ import {
     type IntensionalSystem,
     type IntensionalValueKind,
 } from "./intensional";
+import { compareCanonicalStrings } from "./canonical-order";
 
 export type CausalFieldRole =
     | "world-state"
@@ -144,12 +145,74 @@ export interface CausalEmergenceCriterion {
     witnessFieldIds: string[];
 }
 
+// ---- Multiversal sea medium (v0.5.10 contract; see docs/architecture/v0.5.10-multiversal-sea-medium.md) ----
+
+export type CausalSeaQuantity = "negative" | "positive";
+
+/** A shared portion of the sea with exact non-negative quantities. */
+export interface CausalSeaRegion {
+    id: string;
+    negative: ExactValue;
+    positive: ExactValue;
+}
+
+/** Every declared world is placed in exactly one region. */
+export interface CausalSeaPlacement {
+    worldId: string;
+    regionId: string;
+}
+
+/** Undirected nearness between two distinct regions. */
+export interface CausalSeaAdjacency {
+    id: string;
+    regionIds: string[];
+}
+
+/** A region, or a world meaning that world's local sea field for the exchanged quantity. */
+export type CausalSeaEndpoint =
+    | { kind: "region"; regionId: string }
+    | { kind: "world"; worldId: string };
+
+export interface CausalSeaRegionParameterBinding {
+    parameterName: string;
+    regionId: string;
+    quantity: CausalSeaQuantity;
+}
+
+/** A state predicate that may also bind endpoint region quantities. */
+export interface CausalSeaPredicate extends CausalStatePredicate {
+    regionParameters: CausalSeaRegionParameterBinding[];
+}
+
+/** One law of the medium itself: move an exact positive amount of one quantity between endpoints. */
+export interface CausalSeaExchangeLaw {
+    id: string;
+    quantity: CausalSeaQuantity;
+    from: CausalSeaEndpoint;
+    to: CausalSeaEndpoint;
+    amount: ExactValue;
+    guard: CausalSeaPredicate;
+    application: "once-per-realization";
+}
+
+export interface CausalSeaMedium {
+    id: string;
+    /** closed: only the medium moves sea quantity; open: other writes are recorded as production. */
+    closure: "closed" | "open";
+    regions: CausalSeaRegion[];
+    placements: CausalSeaPlacement[];
+    adjacency: CausalSeaAdjacency[];
+    exchangeLaws: CausalSeaExchangeLaw[];
+}
+
 export interface AnchoredCausalWorldSystem {
     mode: "bubble-anchored-causal-world.v2";
     formal: IntensionalSystem;
     worlds: CausalWorldDefinition[];
     anchors: CausalAnchorDefinition[];
     anchorTransfers?: CausalAnchorTransferDefinition[];
+    /** Shared positive and negative seas in which every world is placed; absent means local seas only. */
+    seaMedium?: CausalSeaMedium;
     worldWill: CausalWorldWill;
     internalLaws: CausalInternalLaw[];
     emergenceCriteria: CausalEmergenceCriterion[];
@@ -164,6 +227,14 @@ export interface CausalDiagnostic {
     severity: "error";
     path: string;
     message: string;
+}
+
+/** The two quantities of the sea medium, in portable canonical order. */
+export const CAUSAL_SEA_QUANTITIES: readonly CausalSeaQuantity[] = ["negative", "positive"];
+
+/** A world endpoint of the medium means that world's local sea field for the exchanged quantity. */
+export function causalSeaFieldId(world: CausalWorldDefinition, quantity: CausalSeaQuantity): string {
+    return quantity === "negative" ? world.seaCoupling.negativeFieldId : world.seaCoupling.positiveFieldId;
 }
 
 const IDENTIFIER = /^[A-Za-z_][A-Za-z0-9_.-]*$/;
@@ -215,6 +286,7 @@ function validatePredicate(
     worlds: Map<string, CausalWorldDefinition>,
     fieldKinds: Map<string, IntensionalValueKind>,
     diagnostics: CausalDiagnostic[],
+    regionParameters: CausalSeaRegionParameterBinding[] = [],
 ): void {
     if (!IDENTIFIER.test(predicate.id)) {
         diagnostics.push(issue("CKW001", `${path}.id`, "predicate id must be a stable identifier"));
@@ -248,6 +320,24 @@ function validatePredicate(
         }
         if (fieldKinds.get(`${binding.worldId}.${binding.fieldId}`) !== expectedKind) {
             diagnostics.push(issue("CKW007", bindingPath, `bound field kind must match parameter '${binding.parameterName}'`));
+        }
+    }
+    // A sea-medium guard also supplies family parameters from region quantities, which are exact rationals.
+    // Field and region bindings together must supply every family parameter exactly once.
+    for (const [index, binding] of regionParameters.entries()) {
+        const bindingPath = `${path}.regionParameters[${index}]`;
+        if (supplied.has(binding.parameterName)) {
+            diagnostics.push(issue("CKW229", bindingPath, `parameter '${binding.parameterName}' is supplied more than once`));
+            continue;
+        }
+        const expectedKind = declared.get(binding.parameterName);
+        if (!expectedKind) {
+            diagnostics.push(issue("CKW230", bindingPath, `family '${family.id}' has no parameter '${binding.parameterName}'`));
+            continue;
+        }
+        supplied.add(binding.parameterName);
+        if (expectedKind !== "rational") {
+            diagnostics.push(issue("CKW231", bindingPath, `region quantity is an exact rational but parameter '${binding.parameterName}' is '${expectedKind}'`));
         }
     }
     for (const parameterName of declared.keys()) {
@@ -761,5 +851,284 @@ export function validateAnchoredCausalWorld(system: AnchoredCausalWorldSystem): 
         }
     }
 
+    validateSeaMedium(system, worlds, fieldKinds, diagnostics);
     return diagnostics;
+}
+
+function isZeroRational(value: ExactValue): boolean {
+    return exactValuesEqual(value, exact.integer(0));
+}
+
+/** Order-free identity of an undirected adjacency between two regions. */
+function unorderedRegionPair(left: string, right: string): string {
+    return [left, right].sort(compareCanonicalStrings).join(" ");
+}
+
+function seaEndpointLabel(endpoint: CausalSeaEndpoint): string {
+    return endpoint.kind === "region" ? `region '${endpoint.regionId}'` : `world '${endpoint.worldId}'`;
+}
+
+/**
+ * Validates the v0.5.10 multiversal sea medium (CKW2xx). Every collection is read as a set: the checks key
+ * regions, placements, adjacency, and exchange laws by identity, never by declaration position.
+ */
+function validateSeaMedium(
+    system: AnchoredCausalWorldSystem,
+    worlds: Map<string, CausalWorldDefinition>,
+    fieldKinds: Map<string, IntensionalValueKind>,
+    diagnostics: CausalDiagnostic[],
+): void {
+    const medium = system.seaMedium as unknown;
+    if (medium === undefined) return;
+    const record = medium as Record<string, unknown> | null;
+    if (record === null || typeof record !== "object" || Array.isArray(record)
+        || typeof record.id !== "string" || typeof record.closure !== "string"
+        || !["regions", "placements", "adjacency", "exchangeLaws"].every((key) => Array.isArray(record[key]))) {
+        diagnostics.push(issue("CKW238", "seaMedium", "a sea medium must be a declaration with id, closure, regions, placements, adjacency, and exchangeLaws"));
+        return;
+    }
+    validateSeaMediumShape(system as AnchoredCausalWorldSystem & { seaMedium: CausalSeaMedium }, worlds, fieldKinds, diagnostics);
+}
+
+function validateSeaMediumShape(
+    system: AnchoredCausalWorldSystem & { seaMedium: CausalSeaMedium },
+    worlds: Map<string, CausalWorldDefinition>,
+    fieldKinds: Map<string, IntensionalValueKind>,
+    diagnostics: CausalDiagnostic[],
+): void {
+    const medium = system.seaMedium;
+    if (!IDENTIFIER.test(medium.id)) diagnostics.push(issue("CKW200", "seaMedium.id", "sea medium id must be stable"));
+    if (worlds.has(medium.id)) {
+        diagnostics.push(issue("CKW201", "seaMedium.id", `sea medium id '${medium.id}' cannot also name a world`));
+    }
+    if (medium.closure !== "closed" && medium.closure !== "open") {
+        diagnostics.push(issue("CKW202", "seaMedium.closure", "sea medium closure must be closed or open"));
+    }
+    // A closed medium is the only source and sink of sea, so no law or intervention may write any sea-role field,
+    // including sea-role fields outside the coupling (they stay frozen and outside the medium's accounting).
+    if (medium.closure === "closed") {
+        const seaRole = (worldId: string, fieldId: string): boolean => {
+            const role = worlds.get(worldId)?.fields.find((field) => field.id === fieldId)?.role;
+            return role === "negative-sea" || role === "positive-sea";
+        };
+        const writers: Array<{ path: string; worldId: string; effects: Array<{ fieldId: string }> }> = [
+            ...system.internalLaws.flatMap((law, index) => [
+                { path: `internalLaws[${index}].effects`, worldId: law.worldId, effects: law.effects },
+                { path: `internalLaws[${index}].inverseEffects`, worldId: law.worldId, effects: law.inverseEffects ?? [] },
+            ]),
+            ...system.worldWill.interventions.map((intervention, index) => ({
+                path: `worldWill.interventions[${index}].effects`,
+                worldId: intervention.targetWorldId,
+                effects: intervention.effects,
+            })),
+        ];
+        for (const writer of writers) {
+            for (const effect of writer.effects) {
+                if (seaRole(writer.worldId, effect.fieldId)) {
+                    diagnostics.push(issue(
+                        "CKW237",
+                        writer.path,
+                        `a closed sea medium forbids writing the sea-role field '${writer.worldId}.${effect.fieldId}'`,
+                    ));
+                }
+            }
+        }
+    }
+
+    if (medium.regions.length === 0) diagnostics.push(issue("CKW203", "seaMedium.regions", "a sea medium needs at least one region"));
+    duplicates(medium.regions.map((region) => region.id)).forEach((id) => diagnostics.push(
+        issue("CKW205", "seaMedium.regions", `duplicate sea region id '${id}'`),
+    ));
+    const regions = new Map(medium.regions.map((region) => [region.id, region]));
+    for (const [index, region] of medium.regions.entries()) {
+        const path = `seaMedium.regions[${index}]`;
+        if (!IDENTIFIER.test(region.id)) diagnostics.push(issue("CKW204", `${path}.id`, "sea region id must be stable"));
+        for (const quantity of CAUSAL_SEA_QUANTITIES) {
+            if (!nonNegativeRational(region[quantity])) {
+                diagnostics.push(issue("CKW206", `${path}.${quantity}`, `sea region ${quantity} quantity must be a non-negative exact rational`));
+            }
+        }
+    }
+
+    const placementsByWorld = new Map<string, string[]>();
+    for (const [index, placement] of medium.placements.entries()) {
+        const path = `seaMedium.placements[${index}]`;
+        if (!worlds.has(placement.worldId)) {
+            diagnostics.push(issue("CKW207", `${path}.worldId`, `placement names unknown world '${placement.worldId}'`));
+        }
+        if (!regions.has(placement.regionId)) {
+            diagnostics.push(issue("CKW208", `${path}.regionId`, `placement names unknown sea region '${placement.regionId}'`));
+        }
+        placementsByWorld.set(placement.worldId, [...placementsByWorld.get(placement.worldId) ?? [], placement.regionId]);
+    }
+    for (const world of system.worlds) {
+        const placed = placementsByWorld.get(world.id) ?? [];
+        if (placed.length === 0) {
+            diagnostics.push(issue("CKW210", "seaMedium.placements", `world '${world.id}' is not placed in any sea region`));
+        } else if (placed.length > 1) {
+            diagnostics.push(issue("CKW209", "seaMedium.placements", `world '${world.id}' is placed more than once`));
+        }
+    }
+    const placementOf = new Map([...placementsByWorld]
+        .filter(([, placed]) => placed.length === 1)
+        .map(([worldId, placed]) => [worldId, placed[0]!]));
+
+    duplicates(medium.adjacency.map((edge) => edge.id)).forEach((id) => diagnostics.push(
+        issue("CKW212", "seaMedium.adjacency", `duplicate sea adjacency id '${id}'`),
+    ));
+    const adjacentPairs = new Set<string>();
+    for (const [index, edge] of medium.adjacency.entries()) {
+        const path = `seaMedium.adjacency[${index}]`;
+        if (!IDENTIFIER.test(edge.id)) diagnostics.push(issue("CKW211", `${path}.id`, "sea adjacency id must be stable"));
+        const regionIds = Array.isArray(edge.regionIds) ? edge.regionIds : [];
+        if (regionIds.length !== 2 || regionIds[0] === regionIds[1] || regionIds.some((regionId) => !regions.has(regionId))) {
+            diagnostics.push(issue("CKW213", `${path}.regionIds`, "a sea adjacency joins exactly two distinct declared regions"));
+            continue;
+        }
+        const pair = unorderedRegionPair(regionIds[0]!, regionIds[1]!);
+        if (adjacentPairs.has(pair)) {
+            diagnostics.push(issue("CKW214", `${path}.regionIds`, `regions '${regionIds.join("', '")}' are already adjacent`));
+        }
+        adjacentPairs.add(pair);
+    }
+
+    duplicates(medium.exchangeLaws.map((law) => law.id)).forEach((id) => diagnostics.push(
+        issue("CKW216", "seaMedium.exchangeLaws", `duplicate sea exchange law id '${id}'`),
+    ));
+    const internalLawIds = new Set(system.internalLaws.map((law) => law.id));
+    for (const [index, law] of medium.exchangeLaws.entries()) {
+        const path = `seaMedium.exchangeLaws[${index}]`;
+        if (!IDENTIFIER.test(law.id)) diagnostics.push(issue("CKW215", `${path}.id`, "sea exchange law id must be stable"));
+        if (internalLawIds.has(law.id)) {
+            diagnostics.push(issue("CKW217", `${path}.id`, `sea exchange law '${law.id}' shares its id with an internal law; frontier and branch records name laws by id`));
+        }
+        if (!CAUSAL_SEA_QUANTITIES.includes(law.quantity)) {
+            diagnostics.push(issue("CKW218", `${path}.quantity`, `unknown sea quantity '${String(law.quantity)}'`));
+        }
+        if (!positiveRational(law.amount)) {
+            diagnostics.push(issue("CKW219", `${path}.amount`, "a sea exchange moves an exact positive rational amount"));
+        }
+        if (law.application !== "once-per-realization") {
+            diagnostics.push(issue("CKW225", `${path}.application`, "unsupported sea exchange application mode"));
+        }
+        let endpointsKnown = true;
+        for (const [name, endpoint] of [["from", law.from], ["to", law.to]] as const) {
+            const known = endpoint?.kind === "region"
+                ? regions.has(endpoint.regionId)
+                : endpoint?.kind === "world"
+                    ? worlds.has(endpoint.worldId)
+                    : false;
+            if (!known) {
+                endpointsKnown = false;
+                diagnostics.push(issue("CKW220", `${path}.${name}`, "a sea exchange endpoint must name a declared region or world"));
+            }
+        }
+        const endpointWorldIds = new Set<string>();
+        const endpointRegionIds = new Set<string>();
+        for (const endpoint of [law.from, law.to]) {
+            if (endpoint?.kind === "world") endpointWorldIds.add(endpoint.worldId);
+            if (endpoint?.kind === "region") endpointRegionIds.add(endpoint.regionId);
+        }
+        if (endpointsKnown) {
+            const { from, to } = law;
+            if ((from.kind === "region" && to.kind === "region" && from.regionId === to.regionId)
+                || (from.kind === "world" && to.kind === "world" && from.worldId === to.worldId)) {
+                diagnostics.push(issue("CKW221", path, "a sea exchange must move quantity between two distinct endpoints"));
+            }
+            if (from.kind === "world" && to.kind === "world") {
+                diagnostics.push(issue("CKW222", path, "worlds exchange content only through anchors; a world-to-world sea exchange is forbidden"));
+            } else if (from.kind === "region" && to.kind === "region") {
+                if (from.regionId !== to.regionId && !adjacentPairs.has(unorderedRegionPair(from.regionId, to.regionId))) {
+                    diagnostics.push(issue("CKW223", path, `regions '${from.regionId}' and '${to.regionId}' are not adjacent`));
+                }
+            } else {
+                const worldEndpoint = from.kind === "world" ? from : to as Extract<CausalSeaEndpoint, { kind: "world" }>;
+                const regionEndpoint = from.kind === "region" ? from : to as Extract<CausalSeaEndpoint, { kind: "region" }>;
+                if (placementOf.get(worldEndpoint.worldId) !== regionEndpoint.regionId) {
+                    diagnostics.push(issue(
+                        "CKW224",
+                        path,
+                        `${seaEndpointLabel(worldEndpoint)} exchanges only with its own placement region, not ${seaEndpointLabel(regionEndpoint)}`,
+                    ));
+                }
+            }
+        }
+        const guardPath = `${path}.guard`;
+        let regionParameters = law.guard.regionParameters;
+        if (!Array.isArray(regionParameters)) {
+            diagnostics.push(issue("CKW226", `${guardPath}.regionParameters`, "a sea exchange guard declares its region bindings as a list"));
+            regionParameters = [];
+        }
+        validatePredicate(law.guard, guardPath, system, worlds, fieldKinds, diagnostics, regionParameters);
+        for (const [bindingIndex, binding] of law.guard.fieldParameters.entries()) {
+            if (!endpointWorldIds.has(binding.worldId)) {
+                diagnostics.push(issue(
+                    "CKW227",
+                    `${guardPath}.fieldParameters[${bindingIndex}]`,
+                    `a sea exchange guard may read only its endpoint worlds, not '${binding.worldId}'`,
+                ));
+            }
+        }
+        for (const [bindingIndex, binding] of regionParameters.entries()) {
+            const bindingPath = `${guardPath}.regionParameters[${bindingIndex}]`;
+            if (!regions.has(binding.regionId) || !CAUSAL_SEA_QUANTITIES.includes(binding.quantity)) {
+                diagnostics.push(issue("CKW232", bindingPath, `unknown region quantity '${binding.regionId}.${String(binding.quantity)}'`));
+            }
+            if (!endpointRegionIds.has(binding.regionId)) {
+                diagnostics.push(issue(
+                    "CKW228",
+                    bindingPath,
+                    `a sea exchange guard may read only its endpoint regions, not '${binding.regionId}'`,
+                ));
+            }
+        }
+    }
+
+    if (medium.closure !== "closed") return;
+    // A closed medium is the only source and sink of sea quantity.
+    const seaFieldIds = (world: CausalWorldDefinition | undefined): Set<string> => new Set(world
+        ? CAUSAL_SEA_QUANTITIES.map((quantity) => causalSeaFieldId(world, quantity))
+        : []);
+    for (const [index, law] of system.internalLaws.entries()) {
+        const seaFields = seaFieldIds(worlds.get(law.worldId));
+        for (const [effectIndex, effect] of law.effects.entries()) {
+            if (seaFields.has(effect.fieldId)) {
+                diagnostics.push(issue(
+                    "CKW233",
+                    `internalLaws[${index}].effects[${effectIndex}]`,
+                    `closed sea medium: internal law '${law.id}' cannot write world sea field '${law.worldId}.${effect.fieldId}'`,
+                ));
+            }
+        }
+        for (const [effectIndex, effect] of (law.inverseEffects ?? []).entries()) {
+            if (seaFields.has(effect.fieldId)) {
+                diagnostics.push(issue(
+                    "CKW234",
+                    `internalLaws[${index}].inverseEffects[${effectIndex}]`,
+                    `closed sea medium: inverse of internal law '${law.id}' cannot write world sea field '${law.worldId}.${effect.fieldId}'`,
+                ));
+            }
+        }
+    }
+    for (const [index, intervention] of system.worldWill.interventions.entries()) {
+        const seaFields = seaFieldIds(worlds.get(intervention.targetWorldId));
+        for (const [effectIndex, effect] of intervention.effects.entries()) {
+            if (seaFields.has(effect.fieldId)) {
+                diagnostics.push(issue(
+                    "CKW235",
+                    `worldWill.interventions[${index}].effects[${effectIndex}]`,
+                    `closed sea medium: World Will cannot write world sea field '${intervention.targetWorldId}.${effect.fieldId}'`,
+                ));
+            }
+        }
+    }
+    for (const [index, transfer] of (system.anchorTransfers ?? []).entries()) {
+        if (!isZeroRational(transfer.sourceNegativeSeaResidue) || !isZeroRational(transfer.targetPositiveSeaPlacement)) {
+            diagnostics.push(issue(
+                "CKW236",
+                `anchorTransfers[${index}]`,
+                `closed sea medium: anchor transfer '${transfer.id}' cannot create sea residue or placement outside the medium`,
+            ));
+        }
+    }
 }

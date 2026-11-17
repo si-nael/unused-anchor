@@ -239,3 +239,15 @@ The same release adds the first Gate D slice:
 - deterministic host-cost count profiles for the four Q-028 workload classes
 
 This advances OB-013, Q-027, and Q-028 only. An independent backend, outcome schemas and BIR sections for endogenous, persistent, and narrative programs, portable replay records, cost-justified representation choices, Rust, and every v0.5.8 open item remain open.
+
+Completed bounded `v0.5.10` adds the multiversal sea medium:
+
+- shared positive and negative sea regions with exact non-negative quantities, placement of every world, and adjacency as nearness
+- the medium's own once-per-realization exchange laws with endpoint locality, runtime sufficiency, and scarcity as a typed conflict
+- release of a retiring world's sea into its region, so collapsed-world residue enters the shared sea
+- an exact balance certificate with closed (medium-only) and open (recorded production) modes
+- continuation of region state across persistent and generated-universe closures, included in recurrence and fixpoint identity
+- lineage-adjacent placement and per-world exchange templates for every generated world
+- strict source syntax, BIR and outcome schemas, sea-medium conformance fixtures, and the canonical `residue-commons` world
+
+This advances OB-003, OB-004, OB-007, and OB-011. Persistence dependency and self-maintenance under a medium, multi-channel exchange, continuous flow, and endogenous medium source syntax remain open.

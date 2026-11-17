@@ -15,6 +15,8 @@ import {
 } from "./causal-runtime";
 import {
     inspectPersistentCausalRun,
+    persistentSeaMediumContinuationOptions,
+    statesToLifecycleOverrides,
     realizePersistentCausalWorld,
     type PersistentCausalExecutionOptions,
     type PersistentCausalPath,
@@ -450,6 +452,8 @@ function ablateResponseEvent(
         worldWillEnabled: false,
         cutAnchorIds: anchorIds,
         fieldOverrides: statesToOverrides(program, episode.closure.inputWorldStates),
+        worldLifecycleOverrides: statesToLifecycleOverrides(episode.closure.inputWorldStates),
+        ...persistentSeaMediumContinuationOptions(episode.closure.inputSeaMedium),
         counterfactualInternalEventAblationLawIds: [episode.lawId],
     });
     const continuations = selectedContinuations(counterfactual);
@@ -557,6 +561,8 @@ function responseMemoryDependence(
         worldWillEnabled: false,
         cutAnchorIds: anchorIds,
         fieldOverrides,
+        worldLifecycleOverrides: statesToLifecycleOverrides(episode.closure.inputWorldStates),
+        ...persistentSeaMediumContinuationOptions(episode.closure.inputSeaMedium),
     });
     const continuations = selectedContinuations(counterfactual);
     if (continuations.length === 0 || ["underdetermined", "contradicted"].includes(counterfactual.status)) {

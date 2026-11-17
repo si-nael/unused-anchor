@@ -860,3 +860,29 @@ Would be weakened or falsified by:
 Next check:
 
 Have a second implementation, ideally the first Rust slice, decode the corpus and reproduce every outcome from the two reference documents alone.
+
+### H-031 (recorded 2026-11-17): A shared conserved sea medium connects the worlds into one universe
+
+Status: supported for the causal kernel, persistent closures, and generated universes in bounded v0.5.10
+
+Claim:
+
+Placing every world in regions of one exact shared positive and negative sea, moved only by the medium's own local laws and by released residue, lets the worlds affect one another lawfully without host routing, while every unit of sea stays accounted for.
+
+Current supporting evidence:
+
+- in residue-commons a retiring world's residue enters its region, diffuses, seeps only into the open-boundary world, and erodes it by its own law while its anchor holds, with an exact closed balance
+- scarce shared residue is an honest typed conflict: unresolved by default, branched under maximal-commuting-branches
+- region state continues across persistent and generated-universe closures and is part of recurrence and fixpoint identity
+- every generated world is placed in a lineage-adjacent region
+- four audits found no surviving conservation route after B-063 to B-066
+
+Would be weakened or falsified by:
+
+- any route that changes a closed medium's total
+- an exchange result that depends on declaration order
+- a certified recurrence or fixpoint while the sea still changes
+
+Next check:
+
+Give persistence and multi-channel seas their own medium accounting.

@@ -8,6 +8,134 @@ The point is not to treat every compiler error as deep theory.
 
 The point is to keep visible the classes of failure that show where Bubble's own membranes, compatibility rules, or self-descriptive limits need to harden.
 
+## 2026-11-17
+
+### B-069: A sea medium that was not a declaration crashed validation
+
+Observed surface:
+
+After the null-medium fix, kernel validation still threw on `false`, `0`, `""`, a string, an array, a number, or `{}`, because only `undefined` was treated as absent and every other value was read as a declaration. The endogenous guard rejected `null` and non-objects but admitted arrays and objects missing required members.
+
+Boundary meaning:
+
+A membrane that crashes on malformed input has no verdict at all; a program must either be diagnosed or realized.
+
+Current handling:
+
+The kernel checks the declaration's shape before reading it (CKW238); the endogenous guard requires every declaration member (EGU212). A regression covers eight malformed values.
+
+Next check:
+
+Members of a well-shaped declaration are still validated field by field by the existing codes.
+
+### B-068: The transfer conflict was keyed by world, not by what the certificate reads
+
+Observed surface:
+
+The B-064 correction made an exchange conflict with a transfer law only when the exchange touched the transfer's source or target world. An anchor identity predicate may read a field of a third world, so an exchange into that world still shared the frontier and could falsify the certificate. Conversely, an exchange into an endpoint world whose identity certificate reads no exchanged field was refused for no reason.
+
+Boundary meaning:
+
+A conflict must follow the certificate's actual reads; a proxy by world is both unsound and over-broad.
+
+Current handling:
+
+The conflict compares the fields an exchange changes (each world endpoint's exchanged sea field and sea-coupled viability field) with the field parameters of the transferred anchor's identity predicates. Regressions cover both directions.
+
+Next check:
+
+The CKR026 internal-law route recorded in B-064 stays open.
+
+### B-067: The conformance references were still insufficient to produce outcomes
+
+Observed surface:
+
+An independent reader implemented only from the references decoded every fixture but could not produce outcome bytes: the outcome schema had no field names, the empty-versus-absent rule, nesting rule, minor-version bound, ledger kinds, and how to locate a branch step or spawn were unstated, and the corpus sections still described fifteen fixtures and no sea medium. Several derivation rules were never exercised by any fixture.
+
+Boundary meaning:
+
+A portable execution authority is complete only when an implementation can emit the expected bytes from the documents, not merely parse them.
+
+Current handling:
+
+A generated normative appendix (docs/reference/bir-schemas.md, checked against the code by a test) lists every field, presence rule, and collection kind; the references state the remaining rules; the corpus gained three probes. The clean-room reader now produces every payload byte for byte from the appendix alone.
+
+Next check:
+
+Corpus rows the appendix lists but no fixture exercises remain unit-tested only.
+
+### B-066: Medium continuation and certificates were incomplete in derived layers
+
+Observed surface:
+
+Teleonomic counterfactual reruns carried the sea medium but not the world lifecycles, so a retired world became active again and drew back its released residue. The endogenous run kept certifying the scalar projection as adapter-only although it had become every world's medium endpoint. A caller could inject region provenance into a generated universe's first closure, and a null medium declaration crashed validation and digested like a medium-free program.
+
+Boundary meaning:
+
+A layer that continues a world must continue all of it, and a certificate that stays fixed while its premise changes is a false surface.
+
+Current handling:
+
+Teleonomic reruns pass the carried lifecycles; the projection certificate is true only without a medium; caller-supplied continuation overrides and causes are discarded; a null medium is diagnostic EGU212 and keeps its own identity.
+
+Next check:
+
+Any new derived layer must carry fields, lifecycles, and the medium together.
+
+### B-065: A closed medium did not cover every sea-role field
+
+Observed surface:
+
+The closed-medium rules covered only each world's coupled sea fields. A world could declare another `negative-sea` field, write five units into it from nothing, and still report a balanced closed medium. Separately, the runtime-added sufficiency evidence of an exchange used the subject `...:sufficiency`, which an authored guard predicate named `sufficiency` duplicated.
+
+Boundary meaning:
+
+"The medium is the only source and sink" must hold for every field whose role is sea, or the conservation certificate certifies a subset of the sea.
+
+Current handling:
+
+Under a closed medium any write to any sea-role field is rejected (CKW237); extra sea-role fields stay frozen outside the medium's accounting. Sufficiency evidence uses `...:#sufficiency`, which no authored id can contain.
+
+Next check:
+
+Multi-channel seas need their own accounting before channels can exchange with the medium.
+
+### B-064: A transfer could be admitted on a certificate a same-frontier exchange falsified
+
+Observed surface:
+
+An anchor transfer's identity certificate is computed on the frontier state, and transfers apply after the frontier's exchanges. An exchange that changed the transfer's source world in the same frontier was not a conflict, so the transfer was admitted with a post-identity verdict of true while the realized source viability made it false. An internal law writing the coupled positive field reproduces the same class through CKR026.
+
+Boundary meaning:
+
+An identity certificate is evidence about the state the crossing actually leaves; any simultaneous change to an endpoint invalidates it.
+
+Current handling:
+
+An exchange touching an endpoint world of a transfer conflicts with that transfer's law in one frontier; under the default mode the pair is `underdetermined`. The internal-law route through CKR026 predates the medium and stays recorded as open.
+
+Next check:
+
+Extend CKR026 to sea-coupled viability writers.
+
+### B-063: Negative world sea let a release drain the shared sea
+
+Observed surface:
+
+Nothing required a world's coupled sea fields to be non-negative. A world holding negative sea -2 retired into a region holding 5 and left 3, a balanced closed medium. In the same frontier, an exchange drawing from that region made the run `contradicted` in both conflict modes instead of a typed conflict.
+
+Boundary meaning:
+
+Sea is an amount of residue or support. A negative amount is not exterior pressure, and a release that removes sea from the medium inverts the ontology.
+
+Current handling:
+
+Under a medium a world sea quantity that becomes negative contradicts the realization, so releases only deposit and the scarcity rules cover every draw.
+
+Next check:
+
+None beyond the continuous-flow work that is already open.
+
 ## 2026-11-16
 
 ### B-062: Anchor identity verdicts were invisible to conformance

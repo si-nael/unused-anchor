@@ -438,6 +438,180 @@
         "birNodesDecoded": 429,
         "birBytesRead": 6069
       }
+    },
+    {
+      "name": "residue-commons",
+      "description": "closed sea medium: elder retirement releases residue that diffuses to a far region and seeps only through an open boundary",
+      "file": "residue-commons.bir",
+      "byteLength": 38772,
+      "inputSemanticDigest": "221c85d9ae2aead761911bfd29dbe49895a335961335a8b4afefb9020cf792a7",
+      "storageDigest": "98f072994598226ac96f57ef730bcaaea883fb7fb855b73398ecd209ec15b14c",
+      "outcomeDigest": "6b2a622301d4ebedf324096a9e2093e6ae570de5f9f65caf5b5fca359f5707ec",
+      "status": "stable",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 1394,
+        "maxRationalBits": 3,
+        "intensionalQueries": 36,
+        "materializedIntensionalCoordinates": 36,
+        "predicateEvaluations": 17,
+        "lawApplications": 7,
+        "branchFrontierCandidates": 0,
+        "realizationCopies": 0,
+        "valueCopies": 25,
+        "digestsComputed": 8,
+        "bytesHashed": 36140,
+        "birNodesDecoded": 1046,
+        "birBytesRead": 14705
+      }
+    },
+    {
+      "name": "sea-scarcity-underdetermined",
+      "description": "two seep exchanges draw one scarce far-region residue under the default conflict mode and stay unresolved",
+      "file": "sea-scarcity-underdetermined.bir",
+      "byteLength": 34854,
+      "inputSemanticDigest": "aba3bedb0491571ee358aea719bcb035caa07f11ff0b62f1b278ad5ec61961a1",
+      "storageDigest": "786fc314537ab6a4e1daa543ba0e5f992549b3d5f5e485a4dadb6f64a4052883",
+      "outcomeDigest": "d3fbf6ca7963ac4b4d34cce8cf63192a261e5a2d02316843d63dd2b0ca2d74ad",
+      "status": "underdetermined",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 1240,
+        "maxRationalBits": 4,
+        "intensionalQueries": 32,
+        "materializedIntensionalCoordinates": 32,
+        "predicateEvaluations": 13,
+        "lawApplications": 5,
+        "branchFrontierCandidates": 0,
+        "realizationCopies": 0,
+        "valueCopies": 25,
+        "digestsComputed": 7,
+        "bytesHashed": 35829,
+        "birNodesDecoded": 1046,
+        "birBytesRead": 14703
+      }
+    },
+    {
+      "name": "sea-scarcity-branches",
+      "description": "two seep exchanges draw one scarce far-region residue and each maximal commuting draw becomes its own branch",
+      "file": "sea-scarcity-branches.bir",
+      "byteLength": 60839,
+      "inputSemanticDigest": "fe97eb76f14d3329e57c06a8132b43b4d14319243177c7c40737147d635ab683",
+      "storageDigest": "ae4443a77f4c0d1618baac1814a38818882805328ee2998d47d2e68df9fb4790",
+      "outcomeDigest": "77264c08661e213ac1c73f0bcb5c45a276313576215d2bd39a09c361d1ea6eff",
+      "status": "plural",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 1610,
+        "maxRationalBits": 3,
+        "intensionalQueries": 40,
+        "materializedIntensionalCoordinates": 40,
+        "predicateEvaluations": 21,
+        "lawApplications": 8,
+        "branchFrontierCandidates": 2,
+        "realizationCopies": 2,
+        "valueCopies": 98,
+        "digestsComputed": 10,
+        "bytesHashed": 36369,
+        "birNodesDecoded": 1047,
+        "birBytesRead": 14752
+      }
+    },
+    {
+      "name": "branch-set-order",
+      "description": "a co-realized law id makes BIR set order of realizedLawIds differ from canonical string order",
+      "file": "branch-set-order.bir",
+      "byteLength": 31225,
+      "inputSemanticDigest": "68bac8e21a70f29eb664b9b7c9d9c638ccdb3fa3ac9b7633d077dd9b686b3554",
+      "storageDigest": "58b8b27289fd7e55c12c6a4221ed84d253ae5adb7fa1850f180fde583fde3158",
+      "outcomeDigest": "02a31fdee2e1a0972417e3d56394f06f69e0190c1f83e4a1dee6ac5dac138faf",
+      "status": "plural",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 380,
+        "maxRationalBits": 3,
+        "intensionalQueries": 24,
+        "materializedIntensionalCoordinates": 24,
+        "predicateEvaluations": 17,
+        "lawApplications": 4,
+        "branchFrontierCandidates": 2,
+        "realizationCopies": 4,
+        "valueCopies": 69,
+        "digestsComputed": 6,
+        "bytesHashed": 13561,
+        "birNodesDecoded": 376,
+        "birBytesRead": 5401
+      }
+    },
+    {
+      "name": "nested-branch-lineage",
+      "description": "a branch inside a branch gives every continuation a two-step lineage whose second step has a parent",
+      "file": "nested-branch-lineage.bir",
+      "byteLength": 75033,
+      "inputSemanticDigest": "837c58d4cfd2ef370cabba489046883bf03c8922271a5a1ba5021109abd27e8f",
+      "storageDigest": "37839b7317a28e959426c6772642ebc2f0ddf51b3ac4728547864bce29b4ab41",
+      "outcomeDigest": "9b0ce1a751c423bd52e1ca217f93cded5c8c32dd068acfefd2e3b34538574319",
+      "status": "plural",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 702,
+        "maxRationalBits": 3,
+        "intensionalQueries": 44,
+        "materializedIntensionalCoordinates": 44,
+        "predicateEvaluations": 37,
+        "lawApplications": 8,
+        "branchFrontierCandidates": 6,
+        "realizationCopies": 10,
+        "valueCopies": 161,
+        "digestsComputed": 14,
+        "bytesHashed": 17643,
+        "birNodesDecoded": 424,
+        "birBytesRead": 6223
+      }
+    },
+    {
+      "name": "chained-lineage",
+      "description": "a spawned world spawns a grandchild whose lineage record names a non-initial parent lineage",
+      "file": "chained-lineage.bir",
+      "byteLength": 33336,
+      "inputSemanticDigest": "55ef650e8b29cdd9245303a85f633a0f31eafd332df290bca17b9cd4eb74ef12",
+      "storageDigest": "1a6331aeb4b51ff8ff205456a45f89a0a2726c19479ff86ad1931f90ceed732b",
+      "outcomeDigest": "b2b41cce2777e49ea43901ce1bd46d13a3ebf374851b5e8cca32d1038dfafd6e",
+      "status": "stable",
+      "resourceVerdict": {
+        "exhaustiveInterventionSearch": true,
+        "exhaustiveInternalBranching": true
+      },
+      "hostCost": {
+        "exactRationalConstructions": 729,
+        "maxRationalBits": 2,
+        "intensionalQueries": 24,
+        "materializedIntensionalCoordinates": 24,
+        "predicateEvaluations": 8,
+        "lawApplications": 4,
+        "branchFrontierCandidates": 0,
+        "realizationCopies": 0,
+        "valueCopies": 16,
+        "digestsComputed": 8,
+        "bytesHashed": 27973,
+        "birNodesDecoded": 734,
+        "birBytesRead": 11319
+      }
     }
   ]
 }
